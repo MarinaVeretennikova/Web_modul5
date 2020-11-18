@@ -1,0 +1,326 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0040)http://greentown.h1.ru/apache/apache.htm -->
+<HTML><HEAD><TITLE>Установка и настройка Apache</TITLE>
+<META content="text/html; charset=windows-1251" http-equiv=Content-Type><LINK 
+href="Установка и настройка Apache.files/style.css" rel=stylesheet 
+type=text/css>
+<META content="MSHTML 5.00.3700.6699" name=GENERATOR></HEAD>
+<BODY><!--HOSTING BANNER NUMBER 1 INSERTED-->
+<SCRIPT language=JavaScript> var loc = ''; </SCRIPT>
+
+<SCRIPT language=JavaScript1.4>try{ var loc = escape(top.location.href); }catch(e){;}</SCRIPT>
+
+<SCRIPT language=JavaScript>
+// <!--
+document.write('<center>');
+document.write('<font size=-3><img src="http://register.h1.ru/g/cw.gif?greento6" height=1 width=1% border="0" name="CheckWidth" hspace=0 vspace=0>');
+document.write('<img src="http://register.h1.ru/g/ch.gif?greento6" height=1% width=1 border="0" name="CheckHeight" hspace=0 vspace=0><br clear=all></font>');
+if((self.parent==self||((self.length==0)&&(document.images.CheckWidth.width>4)&&document.images.CheckHeight.height>2)))
+{
+var etbn_login = "freehosting_dflt";
+var etbn_options = "";
+var etbn_random = Math.round(Math.random() * 100000);
+document.write('<iframe src="http://ad.ent.tbn.ru/cgi-bin/iframe/'+etbn_login+'?'+etbn_random +'&'+etbn_options+'" width=468 height=60 marginwidth=0 marginheight=0 scrolling=no frameborder=0><a href="http://ad.ent.tbn.ru/cgi-bin/href/'+etbn_login+'?'+etbn_random +'" target="_blank"><img src="http://ad.ent.tbn.ru/cgi-bin/banner/'+etbn_login+'?'+etbn_random +'&'+etbn_options+'" alt="TBN Entertainment" width=468 height=60 border=0 ismap></a></iframe>');
+
+document.write('<br>');
+var ttbn_login = "freehosting_h1";
+var ttbn_options = "";
+var ttbn_random = Math.round(Math.random() * 100000);
+document.write('<a href="http://ad.text.tbn.ru/cgi-bin/href/'+ttbn_login+'?'+ttbn_random +'" target="_blank"><img src="http://ad.text.tbn.ru/cgi-bin/banner/'+ttbn_login+'?'+ttbn_random +'&'+ttbn_options+'" alt="TBN Text" width=468 height=15 border=0 ismap></a>');
+
+}
+document.write('</center>');
+// -->
+</SCRIPT>
+<NOSCRIPT>
+<CENTER><IMG border=0 height=0 hspace=0 
+src="http://register.h1.ru/g/ch.gif?greento6" width=0> <IFRAME frameBorder=0 
+height=60 marginHeight=0 marginWidth=0 scrolling=no 
+src="Установка и настройка Apache.files/freehosting_dflt.htm" 
+width=468><a href="http://ad.ent.tbn.ru/cgi-bin/href/freehosting_dflt" target="_blank"><img src="http://ad.ent.tbn.ru/cgi-bin/banner/freehosting_dflt" alt="TBN Entertainment" width=468 height=60 border=0 ismap></a></iframe></IFRAME><BR><A 
+href="http://ad.text.tbn.ru/cgi-bin/href/freehosting_h1" target=_blank><IMG 
+alt="TBN Text" border=0 height=15 isMap 
+src="http://ad.text.tbn.ru/cgi-bin/banner/freehosting_h1" width=468></A> 
+</CENTER></NOSCRIPT>
+<SCRIPT>
+var dtbn_name = 'freehosting_dflt';
+var dtbn_random = Math.round(Math.random() * 999111);
+document.write("<script src='"+'http://register.h1.ru/cgi-bin/agban-get.cgi?bn='+escape(dtbn_name)+'&amp;ne=ent&amp;random='+dtbn_random+"'><\/script>");
+</SCRIPT>
+<!--LiveInternet counter-->
+<SCRIPT type=text/javascript>
+<!--
+document.write('<img src="http://counter.yadro.ru/hit;holm?r'+
+escape(document.referrer)+((typeof(screen)=='undefined')?'':
+';s'+screen.width+'*'+screen.height+'*'+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+';u'+escape(document.URL)+
+';'+Math.random()+
+'" width=1 height=1 alt="">');
+//-->
+</SCRIPT>
+<!--/LiveInternet--><!--HOSTING BANNER NUMBER 1 INSERT FINISHED--><!-- главная форматирующая таблица -->
+<TABLE align=center bgColor=#425294 border=0 cellPadding=2 cellSpacing=1 
+width=750>
+  <TBODY>
+  <TR>
+    <TD bgColor=#425294 height=60 width=200><IMG alt=вебмастеру height=60 
+      src="../pics/logo1.gif"></TD>
+    <TD align=middle bgColor=#425294 height=60 width=550><IMG alt=баннер 
+      src="../pics/banner.gif"></TD></TR>
+  <TR bgColor=#000000>
+    <TD><!-- навигация по сайту -->
+      <TABLE align=left bgColor=#425294 border=0 borderColor=#000000 
+      cellPadding=0 cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD><A href="javascript:history.back()"><IMG alt=назад border=0 
+            height=15 src="../pics/nav1.gif" width=20></A></TD>
+          <TD><A href="http://greentown.h1.ru/index.html"><IMG alt=начало 
+            border=0 height=15 src="../pics/nav2.gif" width=20></A></TD>
+          <TD><A href="mailto:valery@ropnet.ru"><IMG alt="написать автору" 
+            border=0 height=15 src="../pics/nav3.gif" width=20></A></TD>
+          <TD><IMG height=15 src="../pics/nav.gif" 
+      width=140></TD></TR></TBODY></TABLE></TD>
+    <TD></TD></TR>
+  <TR>
+    <TD bgColor=#425294 rowSpan=2 vAlign=top width=200><!-- главное меню -->
+      <TABLE align=center bgColor=#000000 border=0 cellPadding=2 cellSpacing=1 
+      class=mainmnu width="100%">
+        <TBODY>
+        <TR bgColor=#425294>
+          <TD height=24>
+            <DIV align=center><B><A 
+            href="http://greentown.h1.ru/index.htm">Главная 
+            страница</A></B></DIV></TD></TR>
+        <TR bgColor=#425280>
+          <TD height=24>
+            <DIV align=center><FONT 
+          color=#000000><B>Web-мастеру</B></FONT></DIV></TD></TR>
+        <DIV align=left></DIV>
+        <TR bgColor=#425294>
+          <TD height=24><B><A href="http://greentown.h1.ru/begin.htm">С самого 
+            начала</A></B></TD></TR>
+        <TR bgColor=#425294>
+          <TD height=24><FONT color=#ff1177><B>Домашний 
+          WEB-сервер</B></FONT></TD></TR>
+        <TR bgColor=#425294>
+          <TD height=24><B><A 
+            href="http://greentown.h1.ru/html/basehtml.htm">Справочник по 
+            HTML</A></B></TD></TR>
+        <TR bgColor=#425294>
+          <TD height=24><B><A 
+            href="http://greentown.h1.ru/lessons/lesson1.htm" target=new>Уроки 
+            HTML</A></B></TD></TR>
+        <TR bgColor=#425294>
+          <TD height=24><B><A 
+            href="http://greentown.h1.ru/metatags/metatags.htm">META-тэги</A></B></TD></TR>
+        <TR bgColor=#425294>
+          <TD height=24><B><A 
+            href="http://greentown.h1.ru/styles/styles.htm">Таблицы 
+            стилей</A></B></TD></TR>
+        <TR bgColor=#425294>
+          <TD height=24><B><A 
+            href="http://greentown.h1.ru/soft/soft.htm">Софт</A></B></TD></TR>
+        <DIV></DIV>
+        <TR bgColor=#425280>
+          <TD align=middle height=24><FONT color=#000000><B>Как заработать в 
+            сети?</B></FONT></TD></TR>
+        <TR bgColor=#425294>
+          <TD align=left height=24><A 
+            href="http://greentown.h1.ru/sponsors/sponsors.htm"><B>Спонсоры</B></A></TD></TR></TBODY></TABLE>
+      <TABLE bgColor=#000000 border=0 cellPadding=2 cellSpacing=1 class=mainmnu 
+      width="100%">
+        <TBODY>
+        <TR bgColor=#425280>
+          <TD height=24>
+            <DIV align=center><FONT 
+        color=#000000><B>Ссылки</B></FONT></DIV></TD></TR>
+        <TR bgColor=#425294>
+          <TD height=24>
+            <DIV align=left><A href="http://greentown.h1.ru/active/docs.htm" 
+            target=NEW><B>Документация</B></A></DIV></TD></TR>
+        <TR bgColor=#425294>
+          <TD height=24>
+            <DIV align=left><A href="http://greentown.h1.ru/active/work.htm" 
+            target=NEW><B>Заработок</B></A></DIV></TD></TR></TBODY></TABLE></TD>
+    <TD bgColor=#425294 class=maintxt rowSpan=2 vAlign=top width=550><!-- ************основной текст******************************************************* -->
+      <CENTER>
+      <H5><FONT color=#000000>Зачем нужен домашний Web 
+      сервер?</FONT></H5></CENTER>
+      <P>Web сервер - программа, которая позволяет не подключаясь к сети, 
+      увидеть как будет выглядеть и работать ваша страничка в реальном 
+      интернете. Установив Web сервер, а к нему Perl, PHP3 и MySQL, вы получаете 
+      практически полный арсенал инструментов для профессиональной работы в 
+      Web.</P>
+      <CENTER>
+      <H5><FONT color=#000000>Какой сервер выбрать?</FONT></H5></CENTER>
+      <P>Из всего многообразия серверов, я советую выбрать Apache. Во первых он 
+      бесплатный. Во вторых, Apache позволяет работать с технологиями PHP и 
+      CGI-скриптами. И в третьих правильно настроенный Apache даже в Windows 
+      работает как часы.
+      <P>
+      <CENTER>
+      <H5><FONT color=#000000>Где взять Apache?</FONT></H5></CENTER>
+      <P>Скачать Apache можно <A 
+      href="http://httpd.apache.org/dist/binaries/win32/apache_1_3_14_win32_r2.exe">отсюда 
+      </A></P>
+      <CENTER>
+      <H5><FONT color=#000000>Установка и настройка</FONT></H5></CENTER>
+      <P>Итак, дистрибутив скачан, можно приступить к настройке сервера.</P>
+      <LI>Подготовка к установке 
+      <P>Для начала определим путь, куда будем установлен сервер.<BR>Советую 
+      максимально приблизится к структуре каталогов реального web сервера вашего 
+      провайдера.<BR>Предположим, вы выбрали диск D: (лучше физический а не 
+      виртуальный).<BR>Создайте на нем каталог:<BR><I>D:\usr\local\apache</I> - 
+      здесь будет размещаться файлы нашего сервера.<BR><BR>Если вы выбрали 
+      другой диск, будьте внимательны заменяя пути на ваши собственные при 
+      редактировании файлов конфигурации.</P>
+      <LI>Установка Apache 
+      <P>Запустите скачанный файл<BR>После лицензионного соглашения вам будет 
+      предложено выбрать папку для установки, где укажите путь к только что 
+      созданному каталогу:<BR><B><I>D:\usr\local\apache</I></B>.<BR>Затем 
+      выберите метод установки Custom и исключите установку Web Server Source 
+      Code (если не собираетесь в них покопаться). Этим вы сэкономите около 10 
+      Мб дискового пространства.<BR>Нажмите Next и через несколько секунд сервер 
+      будет установлен.<BR>Теперь осталось дело за малым - настроить его.</P>
+      <LI>Настройка Apache 
+      <P>В папке:<BR><I>D:\usr\local\apache\conf</I> находятся файлы 
+      конфигурации сервера.<BR>Нам для настройки нужны два из них: 
+      <BR>mime.types.conf и httpd.conf.<BR>Это обычные текстовые файлы и для их 
+      редактирования достаточно обычного блокнота Windows.<BR>Откроем сначала 
+      файл mime.types.conf и найдем в нем строку<BR><BR><FONT 
+      color=#000000>text/html&nbsp;&nbsp;html htm</FONT><BR><BR>В ней 
+      указывается, какие расширения можно использовать для индексного файла 
+      вашей страницы.<BR>Изменим ее на <BR><BR><FONT 
+      color=#f868a6>text/html&nbsp;&nbsp;html htm shtml shtm 
+      sht</FONT><BR><BR>Здесь все.<BR>Сохраним полученные изменения и откроем 
+      файл httpd.conf.<BR>Найдем строку<BR><BR><FONT 
+      color=#000000>ServerAdmin&nbsp;&nbsp;...</FONT><BR><BR>и укажем там EMail, 
+      который будет отображаться в сообщениях об ошибке.<BR><BR><FONT 
+      color=#f868a6>ServerAdmin my_email@homenet.ru</FONT><BR><BR>В 
+      строке<BR><BR><FONT 
+      color=#000000>ServerName&nbsp;&nbsp;...</FONT><BR><BR>дадим имя серверу 
+      (убрав знак комментария перед строкой)<BR><BR><FONT 
+      color=#f868a6>ServerName&nbsp;&nbsp; 
+      любое_имя_латинскими_буквами.</FONT><BR><BR>Затем создадим 
+      каталог:<BR><I>d:\www</I>, в котором будут располагаться ваши html 
+      документы. и пропишем его в строке<BR><BR><FONT color=#f868a6>DocumentRoot 
+      &nbsp;&nbsp;"d:/www"</FONT><BR><BR>Зададим установки всех папок по 
+      умолчанию. Это делается в блоке операторов, начинающемся строкой<FONT 
+      color=#000000>&lt;Directory /&gt;</FONT> и заканчивающемся строкой <FONT 
+      color=#000000>&lt;/Directory&gt;</FONT><BR><BR><FONT 
+      color=#f868a6>&lt;Directory /&gt;<BR>Options Indexes 
+      Includes<BR>AllowOverride All<BR>&lt;/Directory&gt;</FONT><BR><BR>Теперь 
+      зададим свойства папки, в которой будут хранится ваши html документы. 
+      Найдем строку<BR><BR><FONT color=#000000>&lt;Directory 
+      "d:/usr/local/apache/htdocs"</FONT>&gt;<BR><BR>и изменим ее 
+      на<BR><BR><FONT color=#f868a6>&lt;Directory 
+      "d:/www"&gt;</FONT><BR><BR>После блока комментариев найдем и изменим 
+      строку<BR><BR><FONT color=#000000>Options Indexes 
+      FollowSymLinks</FONT><BR><BR>на<BR><BR><FONT color=#f868a6>Options Indexes 
+      Includes</FONT><BR><BR>Затем строку<BR><BR><FONT 
+      color=#000000>AllowOverride None</FONT><BR><BR>на строку<BR><BR><FONT 
+      color=#f868a6>AllowOverride All</FONT><BR><BR>Создадим 
+      каталог:<BR><I>d:\www</I> где будут находится виртуальные серверы и 
+      пропишем его в конфигурации. Для этого найдем строку<BR><BR><FONT 
+      color=#000000>UserDir "d:/usr/local/apache/users/"</FONT><BR><BR>и изменим 
+      ее на<BR><BR><FONT color=#f868a6>UserDir "d:/home/"</FONT><BR><BR>Зададим 
+      расширения индексных файлов<BR><BR><FONT color=#f868a6>DirectoryIndex 
+      index.html index.htm</FONT><BR><BR>Теперь создадим папку, в которой будут 
+      лежать CGI-скрипты, например <B>d:\cgi-bin</B><BR>и пропишем ее в 
+      конфигурации<BR><BR><FONT color=#f868a6>ScriptAlias /cgi-bin/ 
+      "d:/cgi-bin/"</FONT><BR><BR>Зададим для нее свойства<BR><BR><FONT 
+      color=#f868a6>&lt;Directory "d:/cgi-bin"&gt;<BR>AllowOverride 
+      All<BR>Options ExecCGI<BR>&lt;/Directory&gt;</FONT><BR><BR>Теперь укажем, 
+      файлы с каким расширением надо трактовать как CGI-скрипты<BR><BR><FONT 
+      color=#f868a6>AddHandler cgi-script .cgi .bat .exe</FONT><BR><BR>Затем 
+      раскомментируем и изменим следующие строки<BR><BR><FONT 
+      color=#f868a6>AddHandler server-parsed .shtml .shtm .sht .html 
+      .htm</FONT></P>
+      <LI>Создание виртуальных серверов 
+      <P>Создадим теперь парочку виртуальных серверов. Это очень полезная штука, 
+      особенно если у вас несколько домашних страниц.<BR>Создадим для них 
+      следующую структуру папок</P>
+      <P>Для первого сервера:<BR><B>d:\home\you_page1\www</B>-здесь будут лежать 
+      файлы сервера you_page1<BR><B>d:\home\you_page1\cgi</B>-здесь будут лежать 
+      скрипты сервера you_page1</P>
+      <P>Для второго сервера:<BR><B>d:\home\you_page2\www</B>-здесь будут лежать 
+      файлы сервера you_page2<BR><B>d:\home\you_page2\cgi</B>-здесь будут лежать 
+      скрипты сервера you_page2</P>В Windows есть IP-адрес (127.0.0.1), которому 
+      разработчики установили соответствие с именем localhost.<BR>Нашим 
+      виртуальным серверам тоже понадобятся IP-адреса. Для этого зайдем в 
+      директорию, где находится ваша Windows и найдем там файл под именем 
+      <I>hosts</I> (без расширения).<BR>Если таковой отсутствует, создадим его. 
+      В нем пропишем две строки в которых зададим соответствие между IP-адресами 
+      и именами наших виртуальных серверов.<BR><B><I>127.0.0.2 
+      you_page1<BR>127.0.0.3 you_page2</I></B><BR>В конце второй строки нажмем 
+      &lt;Enter&gt; и сохраним все изменения.<BR>Теперь пропишем виртуальные 
+      сервера в конфигурации.<BR><BR>В конце файла <B>httpd.conf</B> есть блок 
+      настроек относящийся к виртуальным серверам.<BR>Он начинается 
+      строкой<BR><BR><FONT color=#000000>#&lt;VirtualHost 
+      ip.address.of.host.some_domain.com&gt;</FONT><BR><BR>и заканчивается 
+      строкой<BR><BR><FONT 
+      color=#000000>#&lt;/VirtualHost&gt;</FONT><BR><BR>Раскомментируйте и 
+      измените этот блок на следующий:
+      <P></P>
+      <P>Для первого виртуального сервера<BR><FONT 
+      color=#f868a6><B>&lt;VirtualHost 127.0.0.2&gt;</B></FONT><BR>Адрес 
+      администратора этого сервера<BR><FONT color=#f868a6><B>ServerAdmin 
+      email@you_page1.ru</B></FONT><BR>Имя сервера<BR><FONT 
+      color=#f868a6><B>ServerName you_page1</B></FONT><BR>Каталог, где находятся 
+      файлы для этого сервера<BR><FONT color=#f868a6><B>DocumentRoot 
+      "f:/home/you_page1/www"</B></FONT><BR>Каталог, где находятся скрипты для 
+      этого сервера<BR><FONT color=#f868a6><B>ScriptAlias /cgi/ 
+      "f:/home/you_page1/cgi/"</B></FONT><BR>Имя и путь для log файлов этого 
+      сервера<BR><FONT color=#f868a6><B>ErrorLog 
+      f:/home/you_page1/error.log</B></FONT><BR><FONT color=#f868a6><B>CustomLog 
+      f:/home/you_page1/access.log common</B></FONT><BR><FONT 
+      color=#f868a6><B>&lt;/VirtualHost&gt;</B></FONT></P>
+      <P>По аналогии для второго виртуального сервера.<BR><FONT 
+      color=#f868a6><B>&lt;VirtualHost 127.0.0.3&gt;<BR>ServerAdmin 
+      email@you_page2.ru<BR>ServerName you_page2<BR>DocumentRoot 
+      "f:/home/you_page2/www"<BR>ScriptAlias /cgi/ 
+      "f:/home/you_page2/cgi/"<BR>ErrorLog 
+      f:/home/you_page2/error.log<BR>CustomLog f:/home/you_page2/access.log 
+      common<BR>&lt;/VirtualHost&gt;</B></FONT></P>
+      <P>Теперь сохраняем все изменения и запускаем Apache.<BR>Появится обычное 
+      окно MSDOS приложения, в котором будет сообщено что Apache запущен 
+      (Apache/x.x.x (Win32) running...). Если этого не произошло, и окно 
+      развернувшись сразу свернулось, значит вы где-то ошиблись на предыдущих 
+      шагах.<BR>Проверьте еще раз правильность конфигурации (может где-то слэш 
+      не поставили или путь не верный). Можно просмотреть log файлы ошибок, 
+      которые ведет сервер Apache.<BR>Они находятся в 
+      d:/usr/local/apache/logs.<BR></P>
+      <CENTER>
+      <H5><FONT color=#000000>Проверка работы Apache.</FONT></H5></CENTER>
+      <LI>Проверка работы главной страницы 
+      <P>Скопируйте файл <B>index.htm</B> из папки 
+      <B>d:/usr/local/apache/htdocs</B> или создайте свой.<BR>Затем откройте 
+      браузер и введите http://localhost или просто localhost<BR>Страничка 
+      index.htm загрузится в браузер.</P>
+      <CENTER>
+      <LI><B>Проверка работы виртуальных серверов</B></CENTER>
+      <P>Скопируйте файл index.htm в 
+      папки:<BR>d:/home/you_page1/www<BR>и<BR>d:/home/you_page2/www<BR>В окне 
+      браузера введите http://you_page1<BR>Загрузится страничка первого 
+      виртуального сервера<BR>Затем http://you_page2<BR>Загрузится страничка 
+      второго виртуального сервера</P>
+      <LI>Проверка работы CGI 
+      <P>Скопируйте в папку <B>d:/cgi-bin</B> какой-нибудь исполняемый файл, 
+      например, калькулятор <B>calc.exe</B> из папки с Windows.<BR>Теперь в окне 
+      браузера введите http://localhost/cgi-bin/calc.exe<BR>Запустится 
+      калькулятор.</P>
+      <LI>Проверка SSI 
+      <P>Добавьте в файл d:/www/index.htm следующую строку:<BR>&lt;!--#exec 
+      cgi="/cgi-bin/calc.exe"--&gt;<BR>Введите в окне 
+      браузера<BR>http://localhost<BR>Опять запустится калькулятор.</P>
+      <CENTER><FONT color=#ff0000><B>&lt;Продолжение 
+      следует&gt;</B></FONT></CENTER><!-- ************конец основного текста************************************************** --></LI></TD></TR></TBODY></TABLE>
+<TABLE align=center bgColor=#000000 border=0 cellPadding=2 cellSpacing=1 
+width=750>
+  <TBODY>
+  <TR>
+    <TD align=left bgColor=#000000 colSpan=2><IMG height=15 
+      src="../pics/nav.gif" width=200></TD>
+    <TD></TD></TR></TBODY></TABLE>
+<DIV align=center></DIV></BODY></HTML>

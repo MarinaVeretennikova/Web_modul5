@@ -1,0 +1,939 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE></TITLE>
+<META content="TEXT/HTML; CHARSET=WINDOWS-1251" http-equiv=CONTENT-TYPE>
+<META content="Microsoft FrontPage 4.0" name=GENERATOR>
+<STYLE></STYLE>
+</HEAD>
+<body background=../fon.jpg>
+<ul>
+
+  <li><a href="#a"><font face="Times New Roman" size=3>Глава 15. JavaScript
+    и COM</font></a> </li>
+  <ul>
+    <li><a href="#b"><font size="3" face="Times New Roman">JavaScript</font></a>
+      <ul>
+        <li><a href="#c"><font size="3" face="Times New Roman">Проверка
+          поддержки JavaScript</font></a></li>
+        <li><a href="#d"><font size="3" face="Times New Roman">Динамическое
+          создание временных окон</font></a></li>
+      </ul>
+    </li>
+    <li><a href="#e"><font size="3" face="Times New Roman">COM</font></a>
+      <ul>
+        <li><a href="#f"><font size="3" face="Times New Roman">Поддержка
+          COM в PHP</font></a></li>
+        <li><a href="#g"><font size="3" face="Times New Roman">Запись
+          информации в документ Microsoft Word</font></a></li>
+        <li><a href="#h"><font size="3" face="Times New Roman">Дополнительная
+          информация</font></a></li>
+      </ul>
+    </li>
+    <li><a href="#i"><font size="3" face="Times New Roman">Итоги</font></a></li>
+  </ul>
+</ul>
+<p>&nbsp;</p>
+<p><A NAME="a"></A><font color="#000000" face="Times New Roman" size="5">ГЛАВА 15</font></p>
+<p><font color="#000000" face="Times New Roman" size="5">JavaScript и COM</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как
+неоднократно упоминалось в книге, одной из
+самых замечательных особенностей РНР
+является простота его интеграции с другими
+технологиями. Примеры такой интеграции уже
+встречались при описании работы с базами
+данных, ODBC и XML. В этой главе будет показано,
+как просто организуется работа РНР в
+комбинации с JavaScript и приложениями на базе
+СОМ. Ниже приводятся общие сведения о JavaScript
+и СОМ, подкрепленные примерами их
+использования в РНР. К концу главы вы
+узнаете немало полезного об этих
+замечательных технологиях и о том, как они
+применяются в РНР.</font></p>
+<b>
+<p><A NAME="b"></A><font color="#000000" face="Times New Roman" size="4">JavaScript</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Сценарный
+язык JavaScript обладает чрезвычайно богатыми
+возможностями для разработки Интернет-приложений,
+работающих как на клиентской, так и на
+серверной стороне. У этого языка есть
+немало интересных особенностей, и одна из
+них — возможность обработки не только
+данных, но и событий. Событие определяется
+как некоторое действие, выполненное в
+контексте браузера, — например, щелчок
+мышью или загрузка страницы.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Любой
+программист с опытом работы на РНР, Pascal или
+C++ освоит JavaScript без особого труда. Если вы не
+программировали на этих языках, не
+огорчайтесь — JavaScript изучается легко.
+Разработчики JavaScript (как, впрочем, и
+разработчики РНР) в первую очередь
+ориентировались на решение реальных,
+практических задач.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если вы
+хотите воспользоваться средствами
+обработки,событий JavaScript, сохранив при этом
+многочисленные преимущества РНР, могу вас
+обрадовать — РНР интегрируется с JavaScript так
+же легко, как и с HTML. В сущности, JavaScript
+неплохо дополняет РНР — на нем удобно
+делать то, что неудобно делать в РНР, и
+наоборот.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Но прежде
+чем интегрировать РНР с JavaScript, следует
+учесть, что некоторые пользователи
+отключают поддержку JavaScript в своих
+браузерах или работают в браузерах, вообще
+не поддерживающих JavaScript (представьте, такое
+тоже бывает!). В РНР предусмотрены простые
+средства для распознавания таких ситуаций.</font></p>
+<p><A NAME="c"></A><font color="#000000" face="Times New Roman" size="4">Проверка
+поддержки JavaScript</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Правильное
+определение возможностей браузера избавит
+пользователей от неприятностей при
+посещении вашего сайта. Ничто так не
+действует на нервы, как град раздражающих
+сообщений «JavaScript Error» или недоступность
+каких-то средств сайта из-за того, что
+использованные вами технологии не
+поддерживаются браузером. К счастью, в РНР
+предусмотрено простое средство для
+проверки возможностей браузера —
+стандартная функция get_browser( ).</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">get_browser( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+get_browser( ) возвращает информацию о
+возможностях браузера в виде объекта.
+Синтаксис: </font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">object get_browser([string </font></font><font size="3" face="Courier New"><font COLOR="#000000">агент])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Необязательный
+параметр агент используется для получения
+характеристик конкретного браузера. Как
+правило, функция get_browser( ) вызывается без
+параметров, поскольку по умолчанию она
+использует глобальную переменную РНР
+$HTTP_USER_AGENT.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Стандартный
+список возможностей браузера хранится в
+файле browcap, путь к которому определяется
+параметром browcap в файле php.ini. По умолчанию
+эта строка выглядит следующим образом:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">;browcap
+= extra/browcap.ini</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Файл browser.ini
+был разработан компанией cyScape, Inc. Последняя
+версия этого файла находится по адресу <a href="http://www.cyscape.com/browcap">http://www.cyscape.com/browcap</a>.
+Загрузите и распакуйте этот файл в каталог
+на сервере. Запомните имя каталога, оно
+понадобится вам для обновления параметра
+browcap в файле php.ini.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В принципе,
+после загрузки browcap.ini и редактирования
+файла php.ini вы можете включать в свои
+программы проверку возможностей браузера.
+Впрочем, я рекомендую сначала открыть файл
+browser.ini и ознакомиться с его структурой, а
+затем просмотреть листинги 15.1 и 15.2. В
+листинге 15.1 приведен очень простой пример
+отображения всех возможностей браузера в
+самом браузере. Листинг 15.2 ограничивается
+лишь одной возможностью — поддержкой JavaScript.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг </font></font></i></b><font size="3" face="Times New Roman"><font COLOR="#000000"><i>15.1.
+</i></font></font><i><font size="3" face="Times New Roman"><font COLOR="#000000">Отображение
+всех атрибутов браузера</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Получить
+информацию о браузере</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$browser = get_browser();</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Преобразовать $browser в массив</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Sbrowser = (array) Sbrowser;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while (list ($key,
+$value) = each ($browser)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Присвоить
+нули пустым элементам массива</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ($value ==
+&quot;&quot;) : $value = 0;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;$key :
+$value &lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Для браузера
+Microsoft Internet Explorer 5.0 листинг 15.1 выводит
+следующий результат:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">browser_name_pattern :
+Mozilla/4\.0 (compatible; MSIE 5\..*)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">parent IE 5.0</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">browser : 5.0</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">version :
+15</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">majorver : #5</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">minorver : #5</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">frames : 1</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">tables : 1</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">cookies : 1</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">backgroundsounds : 1</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">vbscript : 1</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">javascript : 1</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">javaapplets : 1</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">activexcontrols : 1</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">win16 : 0</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">beta :
+0</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">ak : 0</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">sk : 0</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">aol : 0</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">crawler : 0</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">cdf : 1</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В листинге
+15.2 приведен простой, но эффективный
+сценарий, который при помощи файла browcap.ini
+определяет, включена ли поддержка JavaScript в
+браузере.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+15.2. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Проверка
+поддержки JavaScript</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$browser = get_browser(
+);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Преобразовать $browser в массив $browser = (array) $browser;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ($browser[&quot;javascript&quot;]
+== 1) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Javascript
+enabled!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;No
+javascript allowed!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Листинг 15.2
+проверяет, присутствует ли ключ javascript для
+заданного браузера. Если ключ присутствует
+и равен 1, в браузере выводится сообщение о
+поддержке JavaScript. В противном случае
+выводится сообщение об ошибке. Конечно, в
+реальной программе вместо выдачи сообщения
+следует выполнить какие-нибудь полезные
+действия.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Следующие
+два примера показывают, как легко РНР,интегрируется
+с JavaScript. Листинг 15.3 определяет параметры
+экрана (разрешение и цветовую глубину)
+средствами JavaScript и затем выводит их
+средствами РНР. Листинг 15.4 (см. следующий
+раздел) показывает, как при помощи шаблона
+РНР во временном (pop-up) окне, вызванном из
+кода JavaScript, выводится информация о ссылке,
+на которой щелкнул пользователь.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+15.3. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Определение
+цветовой глубины и разрешения экрана</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;Browser
+Information&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;script language=&quot;Javascriptl.2&quot;&gt;</font></p>
+<p><font size="3" face="Courier New">&lt;!--//</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">document.write('&lt;form
+method=POST action =&quot;&lt;? echo $PHP_SELF; ?&gt;&quot;&gt;');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">document.write('&lt;input
+type=hidden name=version value=' + navigator.appVersion + '&gt;');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">document.write('&lt;input
+type=hidden name=type value=' + navigator.appName + '&gt;');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">document.write('&lt;input
+type=hidden name-screenWidth value=' + screen.width +'&gt;');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">document.write('&lt;input
+type=hidden name=screenHeight value=' + screen.height + '&gt;'};</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">document.write('&lt;input
+type=hidden name=browserHeight value=' + window.innerWidth + '&gt;');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">document.write('&lt;input
+type=hidden name=browserWidth value=' + window.innerHeight + '&gt;');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//--&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/script&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=&quot;submit&quot;
+value=&quot;Get browser information&quot;&gt;&lt;p&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/form&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">echo &quot;&lt;b&gt;Browser:&lt;/b&gt;
+$type Version: $version&lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">echo &quot;&lt;b&gt;Screen
+Resolution:&lt;/b&gt; $screenWidth x $screenHeight pixels.&lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ($browserWidth != 0)
+:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">echo &quot;&lt;b&gt;Browser
+resolution:&lt;/b&gt; $browserWidth x $browserHeight pixels.&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">echo &quot;No
+javascript browser resolution support for Internet Explorer&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<p><A NAME="d"></A><font color="#000000" face="Times New Roman" size="4">Динамическое
+создание временных окон</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В JavaScript
+предусмотрены простые и удобные средства
+для работы с окнами браузера. В частности,
+JavaScript позволяет отображать временные окна
+с вспомогательной информацией, не
+оправдывающей создания и загрузки
+отдельной страницы. Напрашивается
+очевидная идея — построить универсальный
+шаблон, который будет использоваться для
+всех временных окон. Все, что для этого
+потребуется, — РНР. В листинге 15.4 показано,
+как файл РНР window.php вызывается из JavaScript. В
+этом файле реализован очень простой шаблон
+с директивой INCLUDE для включения файла,
+идентификатор которого передается window.php
+при вызове из JavaScript.</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Для
+читателей, не имеющих опыта
+программирования на JavaScript, я включил в
+программу подробные комментарии. Значение
+переменной winld, передаваемой сценарию РНР
+window.php, задается внутри </font><i><font COLOR="#000000">ссылки
+</font></i><font COLOR="#000000">в основном коде HTML. Когда
+пользователь щелкает на ссылке, вызывается
+функция newWindow( ), определенная в JavaScript. Чтобы
+вы лучше поняли, как это происходит,
+рассмотрим следующую ссылку:</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;а href=&quot;#&quot;
+onClick=&quot;newWindow(1):&quot;&gt;Contact us&lt;/a&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как видите, я
+просто включаю в href значение &quot;#&quot;,
+поскольку ссылка генерируется
+обработчиком события onClick в JavaScript.
+Установка обработчика приводит к тому, что
+при щелчке на ссылке вызывается функция
+newWindow( ). Обратите внимание на параметр,
+передаваемый при вызове этой функции (в
+приведенном примере — 1). Содержащийся в нем
+идентификатор используется сценарием РНР
+для выбора отображаемой информации. Вы
+можете передать любое число — при условии,
+что оно соответствует имени файла,
+отображаемого в сценарии РНР. Внимательно
+просмотрите листинг 15.4. Чтобы вам было
+легче ориентироваться, я создал три простых
+файла *.inc, соответствующих ссылкам в этом
+листинге.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+15.4.</font></font></i></b><font COLOR="#000000" size="3" face="Times New Roman"><i>
+</i></font><i><font size="3" face="Times New Roman"><font COLOR="#000000">Динамическое
+построение временных окон</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;Listing
+15-4&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;SCRIPT language=&quot;Javascript&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Объявить
+переменную Javascript</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">var popWindow;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Объявить
+функцию newWindow</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function newWindow(winID)</font></p>
+<p><font color="#000000" face="Courier New" size="3">{</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Объявить
+переменную winURL. Присвоить ей</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// имя файла
+РНР с последующими данными.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">var winURL =
+&quot;Listingl5-5.php?winID=&quot; + winID;</font></p>
+<p><font color="#000000" size="3" face="Courier New">// Если
+временное окно не существует или закрыто.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// открыть
+его.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (! popWindow |
+popWindow.closed) {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Открыть
+новое окно шириной 200 пикселов и высотой</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// 300 пикселов,
+расположенное на расстоянии 150 пикселов</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// от левого
+края и 100 пикселов от верхнего края</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// основного
+окна.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">popWindow = window.open(winURL.
+'popWindow',</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">dependent.width=200.height=300.left=150
+,top=100');</font></p>
+<p><font color="#000000" face="Courier New" size="3">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Если
+временное окно уже открыто.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+активизировать его и обновить содержимое</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+в соответствии с winURL.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">popWindow.focus();</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">popWindow.location = winURL;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//--&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/SCRIPT&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=&quot;#ffffff&quot;
+text=&quot;#000000&quot; link=&quot;#808040&quot;'vlink=&quot;#808040&quot;
+alink=&quot;#808040&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;#&quot;
+onClick=&quot;newWindow(1);&quot;&gt;Contact Us&lt;/a&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;#&quot;
+onClick=&quot;newWindow(2):&quot;&gt;Driving Directions&lt;/a&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;#&quot;
+onClick=&quot;newWindow(3);&quot;&gt;Weather Report&lt;/a&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Когда
+пользователь щелкает на одной из ссылок в
+листинге 15.4, программа создает временное
+окно и загружает в него содержимое,
+полученное в результате вызова window.php.
+Сценарию window.php передается переменная winID,
+по которой определяется файл, включаемый в
+сценарий РНР. Сценарий window.php приведен в
+листинге 15.5.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+15.5. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Сценарий
+window.php</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;Popup Window Fun&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=&quot;#ffffff&quot;
+text=&quot;#000000&quot; link=&quot;black&quot; vlink=&quot;gray&quot; alink=&quot;#808040&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;table width=&quot;100%&quot;
+border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Включить
+файл, имя которого определяется</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// переданным
+параметром.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">INCLUDE(&quot;$winID.inc&quot;);</font></p>
+<p><font color="#000000" face="Courier New" size="3">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;</font></p>
+<p><font face="Courier New" size="3">&lt;/tr&gt;</font></p>
+<p><font face="Courier New" size="3">&lt;tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;#&quot;
+onClick=&quot;parent.self.closet);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&quot;&gt;close window&lt;/a&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/table&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Остается
+лишь создать файлы для ссылок в листинге 15.4.
+Поскольку в ссылках передаются три
+уникальных идентификатора (1, 2 и 3), мы должны
+создать три файла. Первый файл, содержащий
+контактную информацию, сохраняется с
+именем Line:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;h4&gt;Contact Us&lt;/h4&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;table&gt; &lt;tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;li&gt;email: &lt;a
+href=&quot;mailto:wj@wjgilmore.com&quot;&gt;wj@wjgilmore.com&lt;/a&gt; &lt;li&gt;phone:
+(555) 867 5309 &lt;li&gt;mobile: (555) 555 5555 &lt;/ul&gt; &lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/tr&gt; &lt;/table&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Следующий
+файл (местонахождение) сохраняется с именем
+2.inс.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;table&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;h4&gt;Driving
+Directions&lt;/h4&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;ol&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;li&gt;Turn left on
+1st avenue.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;li&gt;Enter the old
+Grant building.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;li&gt;Take elevator
+to 4th floor.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;li&gt;We're in room
+444.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/table&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Последний
+файл (сводка погоды) сохраняется с именем
+3.inc. Обратите внимание на вызов функции РНР,
+возвращающей текущую дату, — этот пример
+наглядно показывает, как легко РНР
+интегрируется с JavaScript: ,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;table&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;h4&gt;Weather
+Report &lt;?=date(&quot;m-d-Y&quot;);?&gt;&lt;/h4&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;Today:&lt;/b&gt;
+Birr... Brisk, with blowing and drifting snow.&lt;br&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;Tonight:&lt;/b&gt;
+Winter Weather Advisory. 7-10 inches snow expected.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/table&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">На рис. 15.1
+показано, как выглядит временное окно,
+открываемое по третьей ссылке.</font></p>
+<p><font size="3" face="Times New Roman">&nbsp;<img border="0" src="15.1.jpg" width="205" height="219"></font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Рис. 15.1. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Сводка
+погоды во временном окне</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Наше
+короткое знакомство с интеграцией PHP/JavaScript
+подходит к концу. Мы рассмотрели несколько
+простых, но вполне реальных примеров,
+которые при желании легко адаптируются для
+более сложных целей. При объединении РНР с
+JavaScript или любой другой технологией,
+ориентированной на работу на стороне
+сервера, необходимо правильно определить
+возможности браузера, чтобы предотвратить
+случайные ошибки. Всегда полезно
+поэкспериментировать с другими
+технологиями, интегрируемыми с кодом РНР;
+только проследите за тем, чтобы не
+отпугнуть пользователей от сайта
+недоступными возможностями или
+содержанием, которое невозможно
+просмотреть.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Следующий
+раздел посвящен СОМ — еще одной технологии,
+с которой легко работать средствами РНР.</font></p>
+<b>
+<p><A NAME="e"></A><font color="#000000" face="Times New Roman" size="4">СОМ</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Технология
+СОМ (сокращение от «Component Object Model», то есть «модель
+составного объекта») обеспечивает
+взаимодействие между приложениями,
+работающими на разных языках и платформах.
+Такое взаимодействие в значительной мере
+способствует идее построения многократно
+используемых, легко сопровождаемых и
+адаптируемых программных компонентов (в
+последнее время к этим трем принципам
+проявляется повышенное внимание в области
+компьютерных технологий).
+Хотя СОМ обычно рассматривается как
+спецификация, ориентированная в первую
+очередь на продукты Microsoft, поддержка СОМ уже
+реализована во многих языках (например, в
+РНР, Java, C++ и Delphi) и существует на многих
+платформах, включая Windows, Linux и Macintosh.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Что же вам
+даст объединение СОМ с РНР? Во-первых,
+средства СОМ позволяют напрямую
+взаимодействовать со многими приложениями
+Microsoft. Ниже рассмотрен интересный пример —
+форматирование и вывод в Microsoft Word записей
+базы данных, полученных из Web. В следующем
+разделе вы увидите, как легко решается эта
+задача.</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="prim.gif" align=left width="36" height="35">На
+нескольких страницах, посвященных
+технологии СОМ, эту огромную тему нельзя
+осветить даже поверхностно. Ситуация
+осложняется тем, что возможности
+использования СОМ в языке РНР почти не
+документируются. За дополнительной
+информацией о механизме работы СОМ
+обращайтесь к ресурсам, перечисленным в
+конце этой главы.</font></p>
+</i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">РНР
+содержит несколько стандартных функций для
+работы с СОМ. Учтите, эти функции
+поддерживаются </font><i><font COLOR="#000000">только </font></i><font COLOR="#000000">в
+версии РНР для Windows! Прежде чем переходить к
+примерам, мы рассмотрим все эти функции.</font></font></p>
+<p><A NAME="f"></A><font color="#000000" face="Times New Roman" size="4">Поддержка
+СОМ в РНР</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Стандартные
+функции РНР, предназначенные для работы с
+СОМ, создают объекты СОМ и используют их
+свойства и методы. Пожалуйста, не забывайте
+о том, что эта поддержка присутствует
+только в версии РНР для Windows. Следующие
+примеры были протестированы для Microsoft Word 2000.
+За информацией об объектах, методах и
+событиях, используемых в программе,
+обращайтесь на web-сайт MSDN (http://msdn.microsoft.com/library/officedev/off2000/
+wotocobjectmodelapplication.htm).</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Создание
+экземпляров объектов СОМ</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Экземпляры
+объектов СОМ создаются вызовом new, как при
+обычном объектно-ориентированном
+программировании. Синтаксис:</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000">object </font><font size="3"><font COLOR="#000000">new СОМ(&quot;обьекг.класс&quot;
+[, string удаленный_адрес])</font></font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Параметр
+объект.класс определяет модуль СОМ,
+присутствующий на сервере. Необязательный
+параметр удаленный_адрес используется в
+том случае, если объект СОМ создается на
+удаленном компьютере. Допустим, вы хотите
+создать экземпляр объекта для приложения MS
+Word. При этом приложение Microsoft Word запускается
+так, словно вы запустили его вручную (разумеется,
+для этого MS Word должен быть установлен на
+компьютере). Команда имеет следующий
+синтаксис:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$word=new COM(&quot;word.application&quot;)
+or die(&quot;Couldn't start Word!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">После того
+как экземпляр объекта СОМ будет создан,
+можно приступать к работе с различными
+методами и свойствами этого объекта.
+Допустим, вы захотели активизировать окно
+Word. Следующая команда изменяет атрибут
+видимости объекта, в результате чего
+графический интерфейс приложения
+отображается на экране:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$word-&gt;visible = 1:</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">He
+огорчайтесь, если эта команда выглядит
+непонятной. Вызов методов объектов СОМ
+рассматривается в следующем разделе.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Вызов
+методов объекта СОМ</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Методы
+объектов СОМ вызываются в типичном для ООП
+формате, с использованием ссылки из
+объектной переменной. Синтаксис:</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">объект-&gt;имя_метода([значение,
+...])
+</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Объект
+соответствует экземпляру объекта СОМ,
+созданному описанным выше способом.
+Параметр имя_метода определяет имя метода,
+определенного в классе объект.
+Необязательный параметр значение
+позволяет передавать параметры при вызове
+методов, допускающих (или требующих)
+дополнительных данных. Как и при вызове
+обычных функций, параметры разделяются
+запятыми. Если после создания экземпляра
+объекта СОМ, представляющего MS Word, вы
+захотите создать в приложении новый
+документ, просто вызовите соответствующий
+метод. Задача решается методом add( )
+субкласса Documents экземпляра $word:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$word-&gt;Documents-&gt;Add( );</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Обратите
+внимание: для вызова методов используется
+очень логичный синтаксис в стиле ООП. В
+результате выполнения этой команды в окне
+приложения MS Word открывается новый документ.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">com_get( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция com_get(
+) возвращает значение свойства объектов СОМ.
+Синтаксис:</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">mixed </font></font><font COLOR="#000000" size="3" face="Times New Roman">com_get(resource
+</font><font size="3" face="Courier New"><font COLOR="#000000">объект,
+string свойство)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Первый
+параметр определяет экземпляр объекта СОМ,
+а второй — атрибут класса,</font> <font COLOR="#000000" size="3" face="Times New Roman">к которому
+относится данный экземпляр.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Создать
+экземпляр объекта для приложения MS Word</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$word=new COM(&quot;word.application&quot;)
+or die(&quot;Couldn't start Word!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Режим CapsLock
+либо включен (свойство CapsLock = 0),</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// либо
+выключен (свойство CapsLock = 1).</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$flag = com_get(Sword-&gt;Application.CapsLock)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Преобразовать значение Sflag (0 или 1) в
+логическое значение</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ($flag == 1) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$flag = &quot;YES&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$flag = &quot;NO&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вывести сообщение</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;CAPS Lock
+activated: $flag&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$word-&gt;Quit();</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Существует и
+другое решение — значение атрибута CapsLock
+можно получить при помощи стандартного для
+ООП синтаксиса обращения к атрибутам. В
+предыдущем примере для этого следует
+заменить строку</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$flag = com_get($word-&gt;Application,CapsLock)</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">следующей
+строкой:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$flag = $word-&gt;Application-&gt;CapsLock:</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Атрибуты
+объекта позволяют получать разнообразную
+информацию о характеристиках приложения.
+Более того, многим атрибутам можно
+присваивать новые значения. Это делается
+при помощи функции com_set( ).</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">com_set( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+com_set( ) присваивает атрибуту объекта новое
+значение:</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">void com_set(resource
+</font></font><font size="3" face="Courier New"><font COLOR="#000000">объект,
+string свойство, mixed значение)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Первый
+параметр определяет экземпляр объекта СОМ,
+а второй — атрибут класса, к которому
+относится данный экземпляр. Третий
+параметр определяет новое значение
+свойства.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Следующая
+программа (листинг 15.6) запускает Microsoft Word и
+активизирует окно приложения. Затем она
+создает новый документ, добавляет в него
+строку текста и выбирает режим сохранения
+документа (атрибут DefaultSaveFormat) в текстовом
+формате. Результат виден при открытии окна
+Сохранить как (Save As) — в списке Тип файла (Save
+As Type) автоматически выбирается строка
+Только текст (Text Only). После сохранения
+документа приложение Microsoft Word закрывается.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+15.6. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Выбор
+типа документа по умолчанию</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Создать
+экземпляр объекта для приложения MS Word</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$word-new
+COMC'word.application&quot;) or die(&quot;Couldn't start Word!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Активизировать окно MS Word $word-&gt;visible = 1;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Создать
+новый документ $word-&gt;Documents-&gt;Add();</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вставить в
+документ фрагмент текста</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$word-&gt;Selection-&gt;Typetext(&quot;php's
+com functionality is cool\n&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Выбрать
+текстовый режим сохранения</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$ok = com_set($word-&gt;Application,
+DefaultSaveFormat, &quot;Text&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Запросить
+у пользователя имя и сохранить документ.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Обратите внимание: по умолчанию документ
+сохраняется</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// в текстовом формате! $word-&gt;Documents[l]-&gt;Save;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Выйти из MS
+Word</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$word-&gt;Quit();</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Существует и
+другое решение — новое значение атрибута
+DefaultSaveFormat можно присвоить непосредственно,
+как обычной переменной. В листинге 15.6 для
+этого следует заменить строку</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$ok = com_set($word-&gt;Application,
+DefaultSaveFormat, &quot;Text&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">следующей строкой:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$word-&gt;Application-&gt;DefaultSaveFormat
+= &quot;Text&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Итак, вы
+получили общее представление об управлении
+приложениями Windows через поддержку СОМ в РНР.
+Мы переходим к занимательному примеру, кото-</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">рый наглядно
+показывает, каких полезных и впечатляющих
+результатов можно добиться при помощи СОМ.</font></p>
+<p><A NAME="g"></A><font color="#000000" face="Times New Roman" size="4">Запись
+информации в документ Microsoft Word</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Допустим,
+вам потребовалось отформатировать
+информацию, загруженную из базы данных, в
+документе Word для построения отчета. Весь
+процесс автоматизируется всего в
+нескольких строках кода РНР. Для
+демонстрационных целей я воспользуюсь
+таблицей addressbook из проекта адресной книги,
+приведенного в конце главы 12. Алгоритм
+работы сценария выглядит следующим образом:</font></p>
+<ol>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Подключиться к серверу MySQL и выбрать нужную
+базу данных.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Выбрать
+все данные из таблицы с сортировкой по
+фамилиям.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Открыть
+приложение Microsoft Word и создать новый
+документ.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Отформатировать и вывести все записи в
+документе.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Запросить
+у пользователя имя для сохранения
+документа.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Закрыть
+Microsoft Word.</font></li>
+</ol>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Программный
+код приведен в листинге 15.7.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+15.7. </font></font></i></b><font size="3" face="Times New Roman"><i><font COLOR="#000000">Запись
+информации в документ Microsoft Word </font></i><font COLOR="#000000">&lt;?</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Создать
+соединение с сервером MySQL</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$host = &quot;localhost&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$user = &quot;root&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$pswd = &quot;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$db = &quot;book&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$address_table = &quot;addressbook&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">mysql_connect($host. $user,
+$pswd)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Couldn't
+connect to MySQL server!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">mysql_select_db($db) or die(&quot;Couldn't
+select database!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Выбрать из
+базы данных все записи</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;SELECT *
+FROM $address_table ORDER BY lastjiame&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Sresult = mysql_query($query):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Создать
+новый объект COM для приложения MS Word</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$word=new COM(&quot;word.application&quot;)
+or die(&quot;Couldn't start Word!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Активизировать окно MS Word $word-&gt;visible = 1;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Открыть
+пустой документ. $word-&gt;Documents-&gt;Add( );</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Перебрать
+записи из таблицы адресов</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while($row = mysql_fetch_array($result));</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$last_name = $row[&quot;last_name&quot;];</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$first_name = $row[&quot;first_name&quot;];</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$tel = $row[&quot;tel&quot;];</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$email = $row[&quot;email&quot;];</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вывести
+данные таблицы в открытый документ Word.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$word-&gt;Selection-&gt;Typetext(&quot;$last_name.
+$first_name\n&quot;); $word-&gt;Selection-&gt;Typetext(&quot;tel. $tel\n&quot;):
+$word-&gt;Selection-&gt;Typetext(&quot;email. $email:\n&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Запросить
+у пользователя имя документа.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$word-&gt;Documents[l]-&gt;Save;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Выйти из MS
+Word</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$word-&gt;Quit();</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">При всей
+простоте рассмотренный пример наглядно
+показывает, как писать приложения РНР для
+пересылки содержимого базы данных в
+приложения Windows. Можно написать и более
+сложное приложение, обеспечивающее
+синхронизацию данных, полученных из Web, из
+Microsoft Outlook. Все, что для этого нужно —
+получить ссылку на объекты, свойства и
+методы Outlook, после чего можно переходить к
+экспериментам (обзор объектной модели всех
+приложений семейства Office приведен по
+адресу <a href="http://www.microsoft.com/officedev/articles/Opg/toc/PGTOC.htm"> http://www.microsoft.com/officedev/articles/Opg/toc/PGTOC.htm</a>).</font></p>
+<p><A NAME="h"></A><font color="#000000" face="Times New Roman" size="4">Дополнительная
+информация</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Ниже
+перечислены ссылки на некоторые полезные
+ресурсы, посвященные СОМ и найденные мной в
+Интернете:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://msdn.microsoft.com/Library/techart/msdn_comppr.htm">http://msdn.microsoft.com/Library/techart/msdn_comppr.htm</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.microsoft.com/com/nets/drgui.asp">http://www.microsoft.com/com/nets/drgui.asp</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.microsoft.com/com/default.asp">http://www.microsoft.com/com/default.asp</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.comdeveloper.com">http://www.comdeveloper.com</a>.</font></li>
+</ul>
+<b>
+<p><A NAME="i"></A><font color="#000000" face="Times New Roman" size="4">Итоги</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Эта глава в
+очередной раз показала, как легко РНР
+интегрируется с внешними технологиями — а
+именно, JavaScript и COM (Component Object Model). В частности,
+были рассмотрены следующие темы:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">общие
+сведения о JavaScript;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">проверка
+поддержки JavaScript в браузерах;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">получение
+информации о возможностях браузера;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">использование
+временных окон в сочетании с РНР;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">общие
+сведения о технологии СОМ;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">стандартные
+средства РНР для работы с СОМ;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">использование
+поддержки СОМ в РНР для передачи информации
+из базы данных в Microsoft Word.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Интеграция
+этих технологий с РНР способна расширить
+функциональные возможности ваших
+приложений по нескольким направлениям.
+JavaScript позволяет выполнять на стороне
+клиента различные операции с окном и
+браузером, а также производит проверку
+данных при заполнении форм. При помощи СОМ
+можно создавать программы, напрямую
+работающие с многими распространенными
+приложениями (например, из семейства Office),
+благодаря чему ваши программы становятся
+более удобными и обретают новые
+возможности. Последняя глава посвящена
+теме, постоянно занимающей умы многих
+программистов и администраторов, —
+безопасности. В этой главе будут
+представлены ключевые проблемы из области
+безопасности — защита сценариев,
+шифрование и коммерческие средства
+проверки данных.</font></p>
+</BODY></HTML>

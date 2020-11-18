@@ -1,0 +1,51 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>sesam_field_array</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="sesam-fetch-row.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="sesam-field-name.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>    
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.sesam-field-array">sesam_field_array</A></H1><A NAME="AEN72915"></A><P>(только PHP 3 CVS)</P>
+<p>sesam_field_array - возвращает метаинформацию об отдельных столбцах результата.<A NAME="AEN72918"></A></p>
+<H2>Описание</H2><p>array <B>sesam_field_array</B> (string result_id)</p>
+<P><TT><I>result_id</I></TT> это правильный идентификатор результата, возвращённый функцией
+<A HREF="sesam-query.html"><B>sesam_query()</B></A>.</P><P>Возвращает смешанный ассоциативно-индексированный массив meta-информации
+(имя столбца, тип, точность, ...) об отдельных столбцах результата выполнения запроса, ассоциированного с
+<TT><I>result_id</I></TT>.<A NAME="AEN72932"></A></P><h6>Таблица 1. Смешанный результирующий набор, возвращаемый функцией <B>sesam_field_array()</B></h6>
+<TABLE BORDER="1"><TR><TH>Элемент Массива</TH><TH>Содержимое</TH></TR><TBODY><TR><TD>int $arr["count"]</TD>
+<TD>общее количество столбцов в результирующем наборе (или нуль, если это был "immediate" запрос/query). SESAM "multiple fields" являются
+"inlined" и рассматриваются как соответствующее количество столбцов.</TD></TR><TR><TD>string $arr[col]["name"]</TD>
+<TD>имя столбца column(<TT>col</TT>), где <TT>col</TT> в диапазоне от 0 до <TT>$arr["count"]-1</TT>. Возвращаемое значение может быть пустой строкой (для динамически 
+обсчитываемых столбцов).  SESAM "multiple fields" являются "inlined" и рассматриваются как соответствующее количество столбцов, 
+каждый с тем же именем столбца.</TD></TR><TR><TD>string $arr[col]["count"]</TD><TD>атрибут "count" описывает фактор повторения, когда столбец объявлен как "multiple field". 
+Обычно атрибут "count" равен 1. Первый столбец "multiple field"-столбца, однако, содержит количество повторений
+(второй и последующий столбцы "multiple field" содержат атрибут "count", равный 1). Это можно использовать для 
+определения "multiple fields" в результирующем наборе. См. пример в описании <A HREF="sesam-query.html"><B>sesam_query()</B></A> - использование атрибута "count".</TD>
+</TR><TR><TD>string $arr[col]["type"]</TD><TD>тип php-переменной данных для column(<TT>col</TT>), где <TT>col</TT> в диапазоне от 0 до
+<TT>$arr["count"]-1</TT>. Возвращается одно из следующих значений:<UL>
+<LI><P><A HREF="../types.integer.html"><B>integer</B></A></P></LI><LI><P><A HREF="../types.float.html"><B>float</B></A></P></LI>
+<LI><P><A HREF="../types.string.html"><B>string</B></A></P></LI></UL>
+<p>в зависимости от SQL-типа результата.  SESAM &quot;multiple fields&quot; являются &quot;inlined&quot; и рассматриваются как соответствующее количество столбцов, 
+каждый с тем же РНР-типом.</TD></TR><TR><TD>string $arr[col]["sqltype"]</TD><TD>SQL-тип переменной данных столбца для
+column(<TT>col</TT>), где <TT>col</TT> в диапазоне от 0 до <TT>$arr["count"]-1</TT>. Возвращается одно из следующих значений:<UL>
+<LI><P>"CHARACTER"</P></LI><LI><P>"VARCHAR"</P></LI><LI><P>"NUMERIC"</P></LI><LI><P>"DECIMAL"</P></LI>
+<LI><P>"INTEGER"</P></LI><LI><P>"SMALLINT"</P></LI><LI><P>"FLOAT"</P></LI><LI><P>"REAL"</P></LI><LI><P>"DOUBLE"</P></LI>
+<LI><P>"DATE"</P></LI><LI><P>"TIME"</P></LI><LI><P>"TIMESTAMP"</P></LI></UL>
+<p>описывая SQL-тип результата. SESAM &quot;multiple fields&quot; являются &quot;inlined&quot; и рассматриваются как соответствующее количество столбцов, каждый того 
+же SQL-типа.</TD></TR><TR><TD>string $arr[col]["length"]</TD><TD>SQL-атрибут "length" SQL-переменной в
+column(<TT>col</TT>), где <TT>col</TT> в диапазоне от 0 до <TT>$arr["count"]-1</TT>. Атрибут
+"length" используется с SQL-типами "CHARACTER" и "VARCHAR" для специфицирования (максимальной) длины строковой переменной.  SESAM &quot;multiple 
+fields&quot; являются &quot;inlined&quot; и рассматриваются как соответствующее количество столбцов, каждый с тем же атрибутом
+length.</TD></TR><TR><TD>string $arr[col]["precision"]</TD><TD>атрибут "precision" SQL-переменной в
+column(<TT>col</TT>), где <TT>col</TT> в диапазоне от 0 до <TT>$arr["count"]-1</TT>. Атрибут
+"precision" используется с числовыми и время-дата типами.  SESAM &quot;multiple 
+fields&quot; являются &quot;inlined&quot; и рассматриваются как соответствующее количество столбцов, каждый с тем же атрибутом
+precision.</TD></TR><TR><TD>string $arr[col]["scale"]</TD><TD>атрибут "scale" SQL-переменной в column(<TT>col</TT>), где
+<TT>col</TT> в диапазоне от 0 до <TT>$arr["count"]-1</TT>. Атрибут "scale" используется с числовыми типами данных.  SESAM &quot;multiple fields&quot; 
+являются &quot;inlined&quot; и рассматриваются как соответствующее количество 
+столбцов, каждый с тем же атрибутом scale.</TD></TR></TBODY></TABLE>
+<P>См. в <A HREF="sesam-query.html"><B>sesam_query()</B></A> пример использования <B>sesam_field_array()</B>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="sesam-fetch-row.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="sesam-field-name.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">sesam_fetch_row</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.sesam.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">sesam_field_name</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

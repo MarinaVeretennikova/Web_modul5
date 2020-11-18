@@ -1,0 +1,40 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>is_uploaded_file</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="is-readable.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="is-writable.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.is-uploaded-file">is_uploaded_file</A></H1><A NAME="AEN24403"></A><P>(PHP 3&#62;= 3.0.17, PHP 4 &#62;= 4.0.3)</P>
+<p>is_uploaded_file - сообщает, был ли файл загружен через HTTP POST.<A NAME="AEN24406"></A></p><H2>Описание</H2>
+<p>bool <B>is_uploaded_file</B> (string filename)</p><P>Возвращает <TT><B>TRUE</B></TT>, если файл <TT>filename</TT> был загружен через HTTP POST. Это помогает убедиться, что злонамеренный 
+пользователь не пытался заставить скрипт работать с файлами, с которыми он работать не должен, например,
+<TT>/etc/passwd</TT>.</P><P>Этот вид проверки особенно важен, когда есть вероятность того, что 
+некоторые действия с загруженными файлами могут дать доступ к их содержимому 
+пользователю или даже другим пользователям&nbsp; той же системы.</P>
+<P><B>is_uploaded_file()</B> доступна только в версиях PHP 3 после PHP 3.0.16 и в версиях PHP 4
+после 4.0.2. Если вы продолжаете использовать ранние версии, вы можете 
+использовать следующую функцию, которая поможет вам защититься:<BLOCKQUOTE><P><B>Примечание: </B>
+следующий пример <i>не</i> будет работать в версиях PHP 4 после 4.0.2. Это зависит от внутренней функциональности PHP, которая была изменена после 
+указанной версии.</P></BLOCKQUOTE><TABLE BORDER="0" BGCOLOR="#E0E0E0"CELLPADDING="5"><TR><TD><PRE>&#60;?php
+/* Проверка загруженного файла. */
+function is_uploaded_file($filename) {
+    if (!$tmp_file = get_cfg_var('upload_tmp_dir')) {
+        $tmp_file = dirname(tempnam('', ''));
+    }
+    $tmp_file .= '/' . basename($filename);
+    /* User might have trailing slash in php.ini... */
+    return (ereg_replace('/+', '/', $tmp_file) == $filename);
+}
+
+/* Вот как использовать её, поскольку вы также не имеете
+ * move_uploaded_file() в этих старых версиях: */
+if (is_uploaded_file($HTTP_POST_FILES['userfile'])) {
+    copy($HTTP_POST_FILES['userfile'], "/place/to/put/uploaded/file");
+} else {
+    echo "Possible file upload attack: filename '$HTTP_POST_FILES[userfile]'.";
+}
+?&#62;</PRE></TD></TR></TABLE><P>См. также в <A HREF="move-uploaded-file.html"><B>move_uploaded_file()</B></A> и в разделе <a href="../file-upload.html">Обработка загрузки файлов</a> 
+пример простого использования.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="is-readable.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="is-writable.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">is_readable</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.filesystem.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right"VALIGN="top">is_writable</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

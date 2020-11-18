@@ -1,0 +1,75 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>ovrimos_result_all</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ovrimos-prepare.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ovrimos-result.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="ovrimos-result-all">ovrimos_result_all</A></H1><A NAME="AEN60692"></A><P>(PHP 4 &#62;= 4.0.3)</P>
+<p>ovrimos_result_all - печатает весь результирующий набор как HTML-таблицу.<A NAME="AEN60695"></A></p>
+<H2>Описание</H2><p>bool <B>ovrimos_result_all</B> (int result_id [, string format])</p>
+<P><B>ovrimos_result_all()</B> печатает весь результирующий набор как HTML-таблицу. Возвращает <TT><B>TRUE</B></TT> или 
+<TT><B>FALSE</B></TT>.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN60713"></A>
+<h5>Пример 1. Подготовка, выполнение оператора и просмотр результата</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$conn = ovrimos_connect ("db_host", "8001", "admin", "password");
+if ($conn != 0) {
+    echo "Connection ok!";
+    $res = ovrimos_prepare ($conn, "select table_id, table_name 
+                                    from sys.tables where table_id = 7");
+    if ($res != 0) {
+        echo "Prepare ok!";
+        if (ovrimos_execute ($res, array(3))) {
+            echo "Execute ok!\n";
+            ovrimos_result_all ($res);
+        } else {
+            echo "Execute not ok!";
+        }
+        ovrimos_free_result ($res);
+    } else {
+        echo "Prepare not ok!\n";
+    }
+    ovrimos_close($conn);
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN60717"></A><h5>Пример 2. Ovrimos_result_all с метаинформацией</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$conn = ovrimos_connect ("db_host", "8001", "admin", "password");
+if ($conn != 0) {
+    echo "Connection ok!";
+    $res = ovrimos_exec ($conn, "select table_id, table_name 
+                                 from sys.tables where table_id = 1")
+    if ($res != 0) {
+        echo "Statement ok! cursor=".ovrimos_cursor ($res)."\n";
+        $colnb = ovrimos_num_fields ($res);
+        echo "Output columns=".$colnb."\n";
+        for ($i=1; $i &#60;= $colnb; $i++) {
+            $name = ovrimos_field_name ($res, $i);
+            $type = ovrimos_field_type ($res, $i);
+            $len = ovrimos_field_len ($res, $i);  
+            echo "Column ".$i." name=".$name." type=".$type." len=".$len."\n";
+        }
+        ovrimos_result_all ($res);
+        ovrimos_free_result ($res);
+    }
+    ovrimos_close($conn);
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN60721"></A><h5>Пример 3. ovrimos_result_all</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+$conn = ovrimos_connect ("db_host", "8001", "admin", "password");
+if ($conn != 0) {
+    echo "Connection ok!";
+    $res = ovrimos_exec ($conn, "update test set i=5");
+    if ($res != 0) {
+        echo "Statement ok!";
+        echo ovrimos_num_rows ($res)." rows affected\n";
+        ovrimos_free_result ($res);
+    }
+    ovrimos_close($conn);
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ovrimos-prepare.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ovrimos-result.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ovrimos_prepare</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.ovrimos.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ovrimos_result</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

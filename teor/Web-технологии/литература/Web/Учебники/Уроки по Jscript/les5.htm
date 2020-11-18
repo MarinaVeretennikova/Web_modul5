@@ -1,0 +1,251 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0030)http://jsp.newmail.ru/les5.htm -->
+<HTML><HEAD><TITLE>Урок 5. Еще несколько обработчиков событий</TITLE>
+<META content="text/html; charset=windows-1251" http-equiv=Content-Type>
+<META 
+content="Самое тлковое руководство по основам javascript на русском языке. Обработчики событий." 
+name=Description>
+<SCRIPT language=javascript>
+<!--
+if (document.images) {
+ar_r = new Image(33,33); ar_r.src = "i/ar_r.gif"; 
+ar_r1 = new Image(33,33); ar_r1.src = "i/ar_r1.gif"; 
+none = new Image(79,35); none.src = "i/none.gif"; 
+next = new Image(79,35); next.src = "i/next.gif"; 
+prev = new Image(79,35); prev.src = "i/prev.gif";
+ar_l = new Image(33,33); ar_l.src = "i/ar_l.gif";
+ar_l1 = new Image(79,35); ar_l1.src = "i/ar_l1.gif";
+}
+function swap(imgName,imgObjName) {
+if (document.images) {
+  document.images[imgName].src = eval(imgObjName + ".src");
+}}
+function toc() {
+OpenWindow=window.open('toc.html', 'toc', config='width=300,scrollbars=1,resizable=1,status=1')
+self.name="one"
+}
+//-->
+</SCRIPT>
+<LINK href="les5.files/blue.css" rel=STYLESHEET type=text/css>
+<META content="MSHTML 5.00.2614.3500" name=GENERATOR></HEAD>
+<BODY background=les5.files/Life_blue.gif bgColor=#334775 text=#334775>
+<DIV 
+style="HEIGHT: 35px; LEFT: 10px; POSITION: absolute; TOP: 10px; WIDTH: 160px"><A 
+href="http://jsp.newmail.ru/les4.htm" 
+onmouseout="swap('left','ar_l');swap('none','none')" 
+onmouseover="swap('left','ar_l1');swap('none','prev')"><IMG border=0 height=33 
+name=left src="les5.files/ar_l.gif" width=33></A>&nbsp;<A href="" 
+onmouseout="swap('left','ar_l');swap('right','ar_r')" 
+onmouseover="swap('left','ar_l1');swap('right','ar_r1')"><IMG border=0 height=35 
+name=none src="les5.files/none.gif" width=79></A>&nbsp;<A 
+href="http://jsp.newmail.ru/les6.htm" 
+onmouseout="swap('right','ar_r');swap('none','none')" 
+onmouseover="swap('right','ar_r1');swap('none','next')"><IMG border=0 height=33 
+name=right src="les5.files/ar_r.gif" width=33></A> </DIV>
+<H1 align=right>Урок 5<BR>Еще несколько обработчиков событий</H1>
+<P align=right><B><FONT color=#fb4462>красным цветом даны примечания 
+переводчика</FONT></B><BR><A 
+href="http://jsp.newmail.ru/les5.htm#concept">Концепция</A>&nbsp;-&nbsp;<A 
+href="http://jsp.newmail.ru/les5.htm#script">Команды и 
+эффекты</A>&nbsp;-&nbsp;<A 
+href="http://jsp.newmail.ru/les5.htm#assig">Задание</A></P>
+<P align=right><A href="http://jsp.newmail.ru/les5.htm#" 
+onclick=toc()>Оглавление (в новом окне)</A></P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="50%"><IMG height=13 
+      src="les5.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="30%">
+      <P align=right><IMG height=13 src="les5.files/b_t_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%">
+      <H2><A name=concept>Концепция</A></H2>
+      <P align=justify><B>C</B>ейчас вы уже представляете себе, что такое 
+      некоторые события и команды, которые ими управляют. Давайте рассмотрим, 
+      как действуют другие. Все они работают по одной схеме. Так что если вам не 
+      чужда логика, вы легко сможете поместить их на свои страницы.</P>
+      <H2><A name=script>Команды и эффекты</A> </H2>
+      <P><B>Команда onClick</B><FONT color=red> (на щелчок)</FONT></P>
+      <P align=justify>Вы уже знаете, что <B>onMouseOver</B> запускает событие, 
+      если навести курсор на ссылку. Следовательно, щелкнув по ссылке, можно с 
+      таким же успехом запустить событие через <B>onClick</B>.<BR>Чтобы 
+      продемонстрировать действие команды, я воспользуюсь методом alert. Если вы 
+      сделали задание к прошлому уроку, то знаете, что это такое. Вот еще раз 
+      его схема:</P>
+      <P align=center>alert('текст, который появится в окне')</P>
+      <P>Таким образом, получаем:</P>
+      <P class=cou>&lt;a href="http://www.jsp.newmail.ru" onClick="alert('Уже 
+      уходите!');"&gt;<BR>Жмите сюда&lt;/a&gt;</P>
+      <P align=justify>И вот что это нам дает (<I>когда вы нажмете на ссылку, 
+      она сработает</I>):</P>
+      <P align=center><A href="http://www.jsp.newmail.ru/" id=l 
+      onclick="alert('Уже уходите!');">Жмите сюда</A></P>
+      <P>Помните, что внутри одинарных кавычек нельзя употреблять слова с 
+      апострофами ', иначе браузер поймет их, как окончание текста, а это не 
+      входит в ваши намерения. Ошибка.</P>
+      <P><B>Команда onFocus </B><FONT color=red>(на фокус)</FONT></P>
+      <P align=justify>Это замечательная команда, которая вызывает действие, 
+      когда пользователь «фокусируется» на элементе страницы. Это годится для 
+      форм: флажков (checkbox) и текстовых полей (textbox).<BR>Вот пример:</P>
+      <P class=cou>&lt;form&gt;<BR>&lt;input type="text" size="30" 
+      <BR>onFocus="window.status='Текст в строке 
+      состояния';"&gt;<BR>&lt;/form&gt;</P>
+      <P>Вот что вы получаете <I>(щелкните в поле ввода и посмотрите на строку 
+      состояния)</I>: </P>
+      <FORM>
+      <P><INPUT onfocus="window.status='Текст в строке состояния';" size=30> 
+      </P></FORM>
+      <P><B>Команда onBlur</B><FONT color=red> (на потерю фокуса)</FONT></P>
+      <P align=justify>Если можно сосредоточиться на объекте, значит, можно и 
+      «потерять фокус». оnBlur позволяет сообщить пользователю о том, что он 
+      изменил свой ответ. Этот обработчик не так часто используется, но вот вам 
+      пример. Внизу у меня строка для ввода текста, в которой уже что-то 
+      написано. Измените текст и уведите курсор, как если бы вы перешли к 
+      следующему предмету в списке. </P>
+      <FORM>
+      <P><INPUT 
+      onblur="alert('Вы изменили ответ — уверены, что он правильный?');" size=50 
+      value="Впишите свое имя и щелкните по другой строке"> </P></FORM>
+      <P align=justify>Здорово, а? Вы можете и сами догадаться, как это 
+      делается, но все равно вот вам код:</P>
+      <P class=cou>&lt;form&gt;<BR>&lt;input type="text" size="45" 
+      value="Впишите свое имя и щелкните по другой строке"<BR>onBlur="alert('Вы 
+      изменили ответ — уверены, что он правильный?');"&gt;<BR>&lt;/form&gt;</P>
+      <P><B>Команда onChange </B><FONT color=red>(на изменение)</FONT></P>
+      <P align=justify>Действие этой команды очень похоже на действие 
+      предыдущей, onBlur. Ее главная задача — проверка. Когда мы ближе 
+      познакомимся с формами, это станет понятнее. Этот обработчик события 
+      проверяет, сделал ли пользователь то, что вы от него просили. Пример очень 
+      похож на предыдущий, но действует все-таки по-другому.</P>
+      <P class=cou>&lt;form&gt;<BR>&lt;input TYPE="text" size="45" 
+      <BR>value="Измените текст и щелкните по другой строке" 
+      <BR>onChange="window.status='Текст был изменен';"&gt;<BR>&lt;/form&gt;</P>
+      <P>Это дает вам следующее...</P>
+      <FORM>
+      <P><INPUT onchange="window.status='Текст был изменен';" size=47 
+      value="Измените текст и щелкните по другой строке"> </P></FORM>
+      <P><B>Команда onSelect </B><FONT color=red>(на выделение)</FONT></P>
+      <P align=justify>Эта команда работает так же, как и три предыдущие, 
+      отмечая, что в поле ввода произошли изменения, — в данном случае был 
+      выделен текст.</P>
+      <P><B>Команда onSubmit </B><FONT color=red>(на отправку)</FONT></P>
+      <P align=justify>Это очень популярная команда. Она позволяет вызвать 
+      какое-либо действие, когда вы нажимаете кнопку Submit <FONT 
+      color=red>(отослать, отправить)</FONT>. Многим очень хочется, чтобы после 
+      того, как пользователь нажимает на кнопку, у него на экране появлялась 
+      страница с надписью: «Спасибо, что вы нам написали».</P>
+      <P>Формат такой:</P>
+      <P class=cou>&lt;form&gt;<BR>&lt;input 
+      TYPE="submit"<BR>onSubmit="parent.location='thanksalot.html'";&gt;<BR>&lt;/form&gt;</P>
+      <P>Вот что у вас выходит (<I>щелкайте по кнопке</I>):</P>
+      <FORM>
+      <P><INPUT onclick="parent.location='thanksalot.htm'" type=button value="Отправить данные" ;></P></FORM>
+      <P align=justify>Поглядите, у нас новая команда. Схема как будто знакомая, 
+      но какая-то странная.<BR><B>parent.location</B> — это стандартная схема 
+      ссылки на другую страницу. Можно подумать, что <I>parent</I> <FONT 
+      color=red>(источник)</FONT> — это объект, а <I>location</I> <FONT 
+      color=red>(местонахождение) </FONT>— метод. Неверно. В данном случае 
+      <I>parent</I> является свойством окна браузера, а <I>location</I> — 
+      объектом, который появится в этом окне. То есть для ясности просто имейте 
+      в виду, что parent.location='' означает ссылку.</P>
+      <P><B>Команды onLoad и onUnload </B><FONT color=red>(на вход и 
+      выход)</FONT></P>
+      <P align=justify>Пока я не привожу примера на эти команды, так как им 
+      отведен отдельный урок, однако я счел необходимым их упомянуть.<BR>Обе они 
+      помещаются внутри строки HTML &lt;BODY&gt;. Они вызывают событие, когда 
+      страница открывается или закрывается, то есть когда вы уходите со 
+      страницы. Эти команды потребуются вам, когда мы возьмемся за 
+    функции.</P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd vAlign=bottom width="50%"><IMG height=13 
+      src="les5.files/b_b_l.gif" width=12></TD>
+    <TD bgColor=#cef3fd vAlign=bottom width="30%">
+      <P align=right><IMG height=13 src="les5.files/b_b_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR></TBODY></TABLE>
+<DIV align=right>
+<P>.</P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="85%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=30 vAlign=top width="50%"><IMG height=13 
+      src="les5.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd vAlign=top width="50%">
+      <P align=right><IMG height=13 src="les5.files/b_t_r.gif" 
+  width=13></P></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%"><A 
+      name=assig>
+      <H2>Ваше задание</H2></A>
+      <P align=justify><B>Н</B>а этот раз я предлагаю вам создать форму, которая 
+      будет взаимодействовать с пользователем.<BR>Форма должна иметь три 
+      элемента:
+      <UL>
+        <LI>поле ввода с просьбой ввести имя; 
+        <LI>два поля для флажков с вопросом о том, что больше нравится 
+        пользователю, мороженое или шоколад; 
+        <LI>кнопку отправки данных. </LI></UL>
+      <P>С каждым элементом должно произойти следующее:
+      <UL>
+        <LI>При вводе имени в строке состояния должны появиться слова: «Впишите 
+        сюда свое имя». 
+        <LI>Два поля с флажками должны отослать в строку состояния слова: «Вы 
+        выбрали...» и выбор пользователя. 
+        <LI>При нажатии на кнопку должно выскочить окно предупреждения, 
+        благодарящее пользователя за участие в опросе.</LI></UL>
+      <P>Возможный ответ <A href="http://jsp.newmail.ru/assig5.htm" 
+      id=l>здесь</A></P></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%"><IMG height=13 
+      src="les5.files/b_b_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%">
+      <P align=right><IMG height=13 src="les5.files/b_b_r.gif" 
+  width=13></P></TD></TR></TBODY></TABLE></DIV>
+<P><A href="http://jsp.newmail.ru/les5.htm#concept">Концепция</A>&nbsp;-&nbsp;<A 
+href="http://jsp.newmail.ru/les5.htm#script">Команды и 
+эффекты</A>&nbsp;-&nbsp;<A 
+href="http://jsp.newmail.ru/les5.htm#assig">Задание</A> </P>
+<P><FONT size=5><A href="http://jsp.newmail.ru/les6.htm">Вперед, на Урок 
+6</A></FONT></P>
+<TABLE width="75%">
+  <TBODY>
+  <TR>
+    <TD><FONT color=#cef3fd>
+      <P align=justify class=small>авторы <A 
+      href="http://www.htmlgoodies.com/primers/jsp/me.html">Джо Бернс</A> и 
+      Эндри Грауни. <A href="http://www.htmlgoodies.com/">Оригинал и многое 
+      другое на английском языке</A> © <A 
+      href="http://www.earthweb.com/">EarthWeb Inc.</A> <BR>Перевод, оформление 
+      и верстка © Татьяна.</FONT></P></TD></TR></TBODY></TABLE><!-- HotLog -->
+<SCRIPT language=javascript>
+hotlog_js="1.0";hotlog_d=document; hotlog_n=navigator;hotlog_rn=Math.random();
+hotlog_n_n=(hotlog_n.appName.substring(0,3)=="Mic")?0:1;
+hotlog_r=""+hotlog_rn+"&s=15862&r="+escape(hotlog_d.referrer)+"&pg="+
+escape(window.location.href);
+hotlog_d.cookie="hotlog=1"; hotlog_r+="&c="+(hotlog_d.cookie?"Y":"N");
+hotlog_d.cookie="hotlog=1; expires=Thu, 01-Jan-70 00:00:01 GMT"</SCRIPT>
+
+<SCRIPT language=javascript1.1>
+hotlog_js="1.1";hotlog_r+="&j="+(navigator.javaEnabled()?"Y":"N")</SCRIPT>
+
+<SCRIPT language=javascript1.2>
+hotlog_js="1.2";hotlog_s=screen;
+hotlog_r+="&wh="+hotlog_s.width+'x'+hotlog_s.height+"&px="+((hotlog_n_n==0)?
+hotlog_s.colorDepth:hotlog_s.pixelDepth)</SCRIPT>
+
+<SCRIPT language=javascript1.3>hotlog_js="1.3"</SCRIPT>
+
+<SCRIPT language=javascript>hotlog_r+="&js="+hotlog_js;
+hotlog_d.write("<img src=\"http://hit2.hotlog.ru/cgi-bin/hotlog/count?"+
+hotlog_r+"&\" border=0 width=1 height=1>")</SCRIPT>
+<NOSCRIPT><IMG border=0 height=1 src="les5.files/count" width=1></NOSCRIPT> <!-- /HotLog --><!--webbot bot="HTMLMarkup" startspan ALT="Site Meter" -->
+<SCRIPT>var site="sm2jsp"</SCRIPT>
+
+<SCRIPT language=JavaScript1.2 src="les5.files/counter.js">
+</SCRIPT>
+<!-- Copyright (c) 1999-2000 Site Meter --><!--webbot
+bot="HTMLMarkup" endspan --></BODY></HTML>

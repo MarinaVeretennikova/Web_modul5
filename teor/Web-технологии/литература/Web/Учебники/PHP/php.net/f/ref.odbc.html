@@ -1,0 +1,119 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Unified ODBC</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="notes-version.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="odbc-autocommit.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.odbc"></A>LXIX. Функции Unified ODBC</h1><A NAME="AEN56276"></A>
+<P>Помимо нормальной поддержки ODBC, унифицированные функции ODBC в
+PHP дают доступ к различным БД, который заимствуют семантику ODBC API для 
+реализации своего собственного API.  Вместо работы с несколькими драйверами 
+БД, которые почти идентичны, эти драйверы были объединены в отдельный набор ODBC-функций.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>ODBC при соединении с вышеуказанными БД отсутствует. Функции, которые вы 
+используете, просто совместно используют те же имена и синтаксис, что и ODBC-функции.  
+Исключением является iODBC.  Построение PHP с поддержкой iODBC даёт вам 
+возможность использовать любые ODBC-совместимые драйверы с вашими PHP-приложениями.  iODBC 
+обслуживается <A HREF="http://www.openlinksw.com/" TARGET="_top">OpenLink Software</A>.  Дополнительная информация о iODBC, а также
+HOWTO, находятся на <A HREF="http://www.iodbc.org/" TARGET="_top">www.iodbc.org</A></P></BLOCKQUOTE>
+<H1><A NAME="odbc.requirements">Требования</A></H1><P>Следующие БД поддерживаются функциями Unified ODBC:
+<A HREF="http://www.software-ag.com/adabasd/" TARGET="_top">Adabas D</A>,
+<A HREF="http://www.ibm.com/db2/" TARGET="_top">IBM DB2</A>,
+<A HREF="http://www.iodbc.org/" TARGET="_top">iODBC</A>, <A HREF="http://www.solidtech.com/" TARGET="_top">Solid</A> и
+<A HREF="http://www.sybase.com/" TARGET="_top">Sybase SQL Anywhere</A>. Для доступа к этим БД у вас должны быть установлены необходимые библиотеки.</P>
+<H1><A NAME="odbc.installation">Установка</A></H1><P>См. главу <A HREF="../configure.html#install.configure.options.databases">Установка на Unix-системах</A> о конфигурировании PHP с этими БД.</P>
+<H1><a name="odbc.configuration">Конфигурация</a></H1>
+<P>На поведение ODBC-функций влияют установки в глобальном
+<a href="../configuration.html#configuration.file">файле конфигурации</a> <TT>php.ini</TT>.<A NAME="AEN56299"></A>
+<h6>Таблица 1. Опции конфигурации Unified ODBC</h6><TABLE BORDER="1"><TR><TH>Имя</TH><TH>По умолчанию</TH>
+<TH>Изменяемая</TH></TR><TBODY><TR><TD>odbc.default_db *</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>odbc.default_user *</TD>
+<TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>odbc.default_pw *</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>odbc.allow_persistent</TD><TD>"1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>odbc.check_persistent</TD>
+<TD>"1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>odbc.max_persistent</TD><TD>"-1"</TD><TD>PHP_INI_SYSTEM</TD></TR>
+<TR><TD>odbc.max_links</TD><TD>"-1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>odbc.defaultlrl</TD><TD>"4096"</TD>
+<TD>PHP_INI_ALL</TD></TR><TR><TD>odbc.defaultbinmode</TD><TD>"1"</TD><TD>PHP_INI_ALL</TD></TR></TBODY></TABLE>
+<BLOCKQUOTE><P><B>Примечание: </B>вхождения, помеченные *, ещё не реализованы.</P></BLOCKQUOTE>
+<p>Детали и определения констант PHP_INI_* см. в <A HREF="ini-set.html"><B>ini_set()</B></A>.
+<P>Далее дано краткое описание директив конфигурации.
+<DL><DT><A NAME="ini.uodbc.default-db"><TT><I>odbc.default_db</I></TT><A HREF="../types.string.html">
+<B>string</B></A></A></DT><DD><P>ODBC-источник данных, если не специфицирован в
+<A HREF="odbc-connect.html"><B>odbc_connect()</B></A> или в <A HREF="odbc-pconnect.html"><B>odbc_pconnect()</B></A>.</P>
+</DD><DT><A NAME="ini.uodbc.default-user"><TT><I>odbc.default_user</I></TT>
+<A HREF="../types.string.html"><B>string</B></A></A></DT><DD>
+<P>Имя пользователя, если не специфицировано в <A HREF="odbc-connect.html"><B>odbc_connect()</B></A> или в
+<A HREF="odbc-pconnect.html"><B>odbc_pconnect()</B></A>.</P></DD><DT>
+<A NAME="ini.uodbc.default-pw"><TT><I>odbc.default_pw</I></TT>
+<A HREF="../types.string.html"><B>string</B></A></A></DT><DD><P>Пароль, если не специфицирован в
+<A HREF="odbc-connect.html"><B>odbc_connect()</B></A> или в
+<A HREF="odbc-pconnect.html"><B>odbc_pconnect()</B></A>.</P></DD><DT>
+<A NAME="ini.uodbc.allow-persistent"><TT><I>odbc.allow_persistent</I></TT>
+<A HREF="../types.boolean.html"><B>boolean</B></A></A></DT><DD>
+<P>Разрешены ли постоянные ODBC-соединения.</P></DD><DT><A NAME="ini.uodbc.check-persistent"><TT><I>odbc.check_persistent</I>
+</TT><A HREF="../types.boolean.html"><B>boolean</B></A></A></DT><DD>
+<P>Проверяет, что соединение действует, перед повторным использованием.</P></DD>
+<DT><A NAME="ini.uodbc.max-persistent"><TT><I>odbc.max_persistent</I></TT>
+<A HREF="../types.integer.html"><B>integer</B></A></A></DT><DD>
+<P>Максимальное количество постоянных ODBC-соединений на процесс.</P></DD><DT><A NAME="ini.uodbc.max-links"><TT><I>odbc.max_links</I></TT>
+<A HREF="../types.integer.html"><B>integer</B></A></A></DT><DD>
+<P>Максимальное количество ODBC-соединений на процесс, включая постоянные соединения.</P></DD>
+<DT><A NAME="ini.uodbc.defaultlrl"><TT><I>odbc.defaultlrl</I></TT>
+<A HREF="../types.integer.html"><B>integer</B></A></A></DT><DD><P>Обработка полей LONG. Специфицирует количество байт, возвращаемых
+переменными.</P></DD><DT><A NAME="ini.uodbc.defaultbinmode"><TT><I>odbc.defaultbinmode</I></TT>
+<A HREF="../types.integer.html"><B>integer</B></A></A></DT><DD><P>Обработка двоичных данных.</P>
+</DD></DL><H1><A NAME="odbc.resources">Типы ресурсов</A></H1><P>Это расширение не определяет никакие типы ресурсов.</P>
+<H1><A NAME="odbc.constants">Предопределённые константы</A></H1><P>Это расширение не определяет никаких констант.</P>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="odbc-autocommit.html">odbc_autocommit</A> - включает/отключает autocommit</DT>
+<DT><A HREF="odbc-binmode.html">odbc_binmode</A> - обработка бинарных данных столбцов</DT>
+<DT><A HREF="odbc-close-all.html">odbc_close_all</A> - закрывает все ODBC-сеодинения</DT>
+<DT><A HREF="odbc-close.html">odbc_close</A> - закрывает ODBC-соединение</DT>
+<DT><A HREF="odbc-columnprivileges.html">odbc_columnprivileges</A> - возвращает result-идентификатор, который может использоваться для извлечения списка столбцов и ассоциированных привилегий</DT>
+<DT><A HREF="odbc-columns.html">odbc_columns</A> - список имён столбцов в специфицированных таблицах. 
+Возвращает 
+результирующий идентификатор, содержащий эту информацию</DT>
+<DT><A HREF="odbc-commit.html">odbc_commit</A> - подтверждает ODBC-транзакцию</DT>
+<DT><A HREF="odbc-connect.html">odbc_connect</A> - соединяет с источником данных/datasource</DT>
+<DT><A HREF="odbc-cursor.html">odbc_cursor</A> - получает cursorname</DT>
+<DT><A HREF="odbc-do.html">odbc_do</A> - синоним <A HREF="odbc-exec.html"><B>odbc_exec()</B></A></DT>
+<DT><A HREF="odbc-error.html">odbc_error</A> - получает код последней ошибки</DT>
+<DT><A HREF="odbc-errormsg.html">odbc_errormsg</A> - получает последнее сообщение об ошибке</DT>
+<DT><A HREF="odbc-exec.html">odbc_exec</A> - подготавливает и выполняет SQL-оператор</DT>
+<DT><A HREF="odbc-execute.html">odbc_execute</A> - выполняет подготовленный оператор</DT>
+<DT><A HREF="odbc-fetch-array.html">odbc_fetch_array</A> -  извлекает результирующий ряд как ассоциативный массив</DT>
+<DT><A HREF="odbc-fetch-into.html">odbc_fetch_into</A> - извлекает один результирующий ряд в массив</DT>
+<DT><A HREF="odbc-fetch-object.html">odbc_fetch_object</A> - извлекает результирующий ряд как объект</DT>
+<DT><A HREF="odbc-fetch-row.html">odbc_fetch_row</A> - извлекает ряд</DT>
+<DT><A HREF="odbc-field-len.html">odbc_field_len</A> - получает длину (точность) поля</DT>
+<DT><A HREF="odbc-field-name.html">odbc_field_name</A> - получает columnname</DT>
+<DT><A HREF="odbc-field-num.html">odbc_field_num</A> - возвращает номер столбца</DT>
+<DT><A HREF="odbc-field-precision.html">odbc_field_precision</A> - синоним <A HREF="odbc-field-len.html"><B>odbc_field_len()</B></A></DT>
+<DT><A HREF="odbc-field-scale.html">odbc_field_scale</A> - получает масштаб поля</DT>
+<DT><A HREF="odbc-field-type.html">odbc_field_type</A> - Datatype поля</DT>
+<DT><A HREF="odbc-foreignkeys.html">odbc_foreignkeys</A> - возвращает список foreign-ключей в специфицированной таблице или список foreign-ключей
+в других таблицах, которые ссылаются на primary key в специфицированной таблице</DT>
+<DT><A HREF="odbc-free-result.html">odbc_free_result</A> - освобождает ресурсы, ассоциированные с результатом</DT>
+<DT><A HREF="odbc-gettypeinfo.html">odbc_gettypeinfo</A> - возвращает result-идентификатор, содержащий информацию о типах данных, поддерживаемых этим источником данных</DT>
+<DT><A HREF="odbc-longreadlen.html">odbc_longreadlen</A> - обработка LONG-столбцов</DT>
+<DT><A HREF="odbc-next-result.html">odbc_next_result</A> - проверяет, допустимы ли множественные результаты</DT>
+<DT><A HREF="odbc-num-fields.html">odbc_num_fields</A> - количество столбцов в результате</DT>
+<DT><A HREF="odbc-num-rows.html">odbc_num_rows</A> - количество рядов в результате</DT>
+<DT><A HREF="odbc-pconnect.html">odbc_pconnect</A> - открывает постоянное соединение с БД</DT>
+<DT><A HREF="odbc-prepare.html">odbc_prepare</A> - готовит оператор для выполнения</DT>
+<DT><A HREF="odbc-primarykeys.html">odbc_primarykeys</A> - возвращает result-идентификатор, который может быть использован для извлечения имён столбцов, образующих primary key/первичный ключ таблицы</DT>
+<DT><A HREF="odbc-procedurecolumns.html">odbc_procedurecolumns</A> - запрашивает информацию о параметрах процедур</DT>
+<DT><A HREF="odbc-procedures.html">odbc_procedures</A> - 
+получает список процедур, хранимых в специфицированном источнике данных. 
+Возвращает result-идентификатор, содержащий эту информацию</DT>
+<DT><A HREF="odbc-result-all.html">odbc_result_all</A> - печатает результат как HTML-таблицу</DT>
+<DT><A HREF="odbc-result.html">odbc_result</A> - получает результирующие данные</DT>
+<DT><A HREF="odbc-rollback.html">odbc_rollback</A> - откатывает транзакцию</DT>
+<DT><A HREF="odbc-setoption.html">odbc_setoption</A> - настраивает ODBC-установки. Возвращает <TT><B>FALSE</B></TT>, если возникает ошибка, иначе
+<TT><B>TRUE</B></TT></DT><DT><A HREF="odbc-specialcolumns.html">odbc_specialcolumns</A> - возвращает оптимальный набор столбцов, уникально идентифицирующий ряд 
+таблицы, или столбцы, которые автоматически обновляются, когда транзакция обновляет любое значение в ряду</DT>
+<DT><A HREF="odbc-statistics.html">odbc_statistics</A> - запрашивает статистику таблицы</DT>
+<DT><A HREF="odbc-tableprivileges.html">odbc_tableprivileges</A> - список таблиц и привилегий, ассоциированных с каждой таблицей</DT>
+<DT><A HREF="odbc-tables.html">odbc_tables</A> - получает имён таблиц, хранимых в специфическом источнике данных. Возвращает result-идентификатор, 
+содержащий эту информацию</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%"  BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="notes-version.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="odbc-autocommit.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">notes_version</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="funcref.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">odbc_autocommit</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

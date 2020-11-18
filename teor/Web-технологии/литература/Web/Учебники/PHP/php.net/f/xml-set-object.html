@@ -1,0 +1,53 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>xml_set_object</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="xml-set-notation-decl-handler.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="xml-set-processing-instruction-handler.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="xml-set-object">xml_set_object</A></H1><A NAME="AEN82673"></A><P>(PHP 4)</P>
+<p>xml_set_object - использует XML Parser внутри объекта.<A NAME="AEN82676"></A></p><H2>Описание</H2>
+<p>void <B>xml_set_object</B> (resource parser, object &#38;object)</p>
+<P>Эта функция позволяет использовать <TT><I>parser</I></TT> внутри <TT><I>object</I></TT>. Все callback-функции должны быть установлены с помощью
+<A HREF="xml-set-element-handler.html"><B>xml_set_element_handler()</B></A> etc и принимаются как методы объекта
+<TT><I>object</I></TT>.</P><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+class xml  {
+    var $parser;
+
+    function xml()
+    {
+        $this-&#62;parser = xml_parser_create();
+
+        xml_set_object($this-&#62;parser, &#38;$this);
+        xml_set_element_handler($this-&#62;parser, "tag_open", "tag_close");
+        xml_set_character_data_handler($this-&#62;parser, "cdata");
+    }
+
+    function parse($data)
+    { 
+        xml_parse($this-&#62;parser, $data);
+    }
+
+    function tag_open($parser, $tag, $attributes)
+    { 
+        var_dump($parser, $tag, $attributes); 
+    }
+
+    function cdata($parser, $cdata)
+    {
+        var_dump($parser, $cdata);
+    }
+
+    function tag_close($parser, $tag)
+    {
+        var_dump($parser, $tag);
+    }
+
+} // конец class xml
+
+$xml_parser = new xml();
+$xml_parser-&#62;parse("&#60;A ID='hallo'&#62;PHP&#60;/A&#62;");
+?&#62;</PRE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="xml-set-notation-decl-handler.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="xml-set-processing-instruction-handler.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">xml_set_notation_decl_handler</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.xml.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">xml_set_processing_instruction_handler</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

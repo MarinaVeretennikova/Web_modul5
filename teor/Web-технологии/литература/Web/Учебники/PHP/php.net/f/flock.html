@@ -1,0 +1,37 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>flock</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0"  WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="filetype.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="fopen.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.flock">flock</A></H1><A NAME="AEN23828"></A><P>(PHP 3&#62;= 3.0.7, PHP 4)</P>
+<p>flock - переносимое &quot;совещательное/advisory&quot; блокирование файлов.<A NAME="AEN23831"></A></p>
+<H2>Описание</H2><p>bool <B>flock</B> (int fp, int operation [, int &#38;wouldblock])</p>
+<P>PHP поддерживает перенос блокированных файлов advisory-способом (что означает, что все программы, выполняющие доступ, 
+должны использовать тот же способ блокирования, или блокировка работать не будет).</P>
+<P><B>flock()</B> работает с <TT><I>fp</I></TT>, который обязан быть открытым указателем на файл.<br>
+<TT><I>operation</I></TT> имеет одно из следующих значений:</P>
+<UL><LI><P>Для получения shared-блокировки (reader) установите в <TT><I>operation</I></TT> значение LOCK_SH (установите 1 в версиях до
+PHP 4.0.1).</P></LI><LI><P>Для получения исключительной/exclusive блокировки (writer) установите в
+<TT><I>operation</I></TT> значение LOCK_EX (установите 2 в версиях до PHP 4.0.1).</P></LI>
+<LI><P>Для освобождения блокировки (shared или exclusive) установите в
+<TT><I>operation</I></TT> значение LOCK_UN (3 в версиях до PHP 4.0.1).</P></LI>
+<LI><P>Если вы не хотите, чтобы <B>flock()</B> блокировала, добавьте LOCK_NB (4 в версиях до PHP 4.0.1) в
+<TT><I>operation</I></TT>.</P></LI></UL><P><B>flock()</B> позволяет реализовать простую модель
+reader/writer, которая может использоваться на практически любой платформе
+(включая большинство клонов Unix и даже Windows).  Необязательный третий 
+аргумент устанавливается в <TT><B>TRUE</B></TT>, если блокировка возможна (EWOULDBLOCK errno condition).</P>
+<P><B>flock()</B> возвращает <TT><B>TRUE</B></TT> при успехе и <TT><B>FALSE</B></TT> при ошибке (например, когда блокировка не может быть получена).</P>
+<BLOCKQUOTE><P><B>Примечание: </B>поскольку <B>flock()</B> требует указателя на файл, вам может понадобиться использовать специальную 
+блокировку файла для предотвращения доступа к файлу, который вы намереваетесь усечь в режиме write (с аргументом "w" или "w+" для
+<A HREF="fopen.html"><B>fopen()</B></A>).</P></BLOCKQUOTE><TABLE CLASS="warning" BORDER="1" WIDTH="100%">
+<TR><th><B>Предупреждение!</B></th></TR><TR><TD><P><B>flock()</B> не будет работать в NFS и многих других сетевых файловых системах. См. в вашей 
+документации по ОС детальную информацию.</P><P>В некоторых ОС <B>flock()</B> реализуется на уровне процесса. При использовании API многопоточного сервера 
+типа ISAPI вы не сможете рассчитывать на <B>flock()</B> для защиты файлов относительно других PHP-скриптов, запущенных в параллельных 
+потоках в том же самом экземпляре сервера!</P><P><B>flock()</B> не поддерживается на старинных файловых системах вроде
+<TT>FAT</TT> и их клонах и, следовательно, всегда возвращает <TT><B>FALSE</B></TT> в такой среде (это также верно для пользователей
+Windows 98).</P></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0"  WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="filetype.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="fopen.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">filetype</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.filesystem.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">fopen</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

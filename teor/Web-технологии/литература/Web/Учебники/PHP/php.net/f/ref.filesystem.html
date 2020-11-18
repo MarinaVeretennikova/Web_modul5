@@ -1,0 +1,97 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Файловой Системы</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="filepro.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="basename.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.filesystem"></A>XXX. Функции файловой системы</h1><A NAME="AEN23001"></A>
+<H1><a name="filesystem.intro">Введение</a></H1><H1><a name="filesystem.requirenments">Требования</a></H1>
+<P>Эти функции доступны как часть стандартного модуля, который всегда доступен.</P>
+<H1><a name="filesystem.installation">Инсталяция</a></H1>
+<P>Для использования этих функций не нужно никакой специальной установки, они являются частью ядра PHP.</P>
+<H1><a name="filesystem.configuration">Конфигурация времени выполнения</a></H1>
+<P>Это расширение не определяет никаких директив конфигурации.</P>
+<H1><a name="filesystem.resources">Типы ресурсов</a></H1><br><H1><a name="filesystem.constants">Предопределённые константы</a></H1>
+<P>Это расширение не определяет никаких констант.</P><H1><a name="filesystem.seealso">См. также</a></H1>
+<P>разделы <a href="ref.dir.html">Директория</a> и <a href="ref.exec.html"> Выполнение программы</a>.</P>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="basename.html">basename</A> — возвращает компонент filename пути</DT>
+<DT><A HREF="chgrp.html">chgrp</A> - изменяет file group</DT>
+<DT><A HREF="chmod.html">chmod</A> - изменяет file mode</DT>
+<DT><A HREF="chown.html">chown</A> - изменяет file owner</DT>
+<DT><A HREF="clearstatcache.html">clearstatcache</A> - очищает stat-кэш файла</DT>
+<DT><A HREF="copy.html">copy</A> - копирует файл</DT>
+<DT><A HREF="delete.html">delete</A> - (здесь заглушка статьи учебника)</DT>
+<DT><A HREF="dirname.html">dirname</A> — возвращает компонент directory name пути</DT>
+<DT><A HREF="disk-free-space.html">disk_free_space</A> — возвращает доступное пространство в директории</DT>
+<DT><A HREF="disk-total-space.html">disk_total_space</A> — возвращает общий размер директории</DT>
+<DT><A HREF="diskfreespace.html">diskfreespace</A> - псевдоним <A HREF="disk-free-space.html"><B>disk_free_space()</B></A></DT>
+<DT><A HREF="fclose.html">fclose</A> - закрывает указатель открытого файла</DT>
+<DT><A HREF="feof.html">feof</A> - проверяет, находится ли указатель файла в точке end-of-file</DT>
+<DT><A HREF="fflush.html">fflush</A> - очищает вывод в файл</DT>
+<DT><A HREF="fgetc.html">fgetc</A> - получает символ от указателя файла</DT>
+<DT><A HREF="fgetcsv.html">fgetcsv</A> - получает строку от указателя файла и разбирает CSV-поля</DT>
+<DT><A HREF="fgets.html">fgets</A> - получает строку от указателя файла</DT>
+<DT><A HREF="fgetss.html">fgetss</A> - получает строку от указателя файла и вырезает тэги HTML</DT>
+<DT><A HREF="file-exists.html">file_exists</A> - проверяет, существует ли файл</DT>
+<DT><A HREF="file-get-contents.html">file_get_contents</A> - читает весь файл в строку</DT>
+<DT><A HREF="file_get_wrapper_data.html">file_get_wrapper_data</A> - запрашивает header/meta-данные из указателей "обёрнутых" файлов</DT>
+<DT><A HREF="file-register-wrapper.html">file_register_wrapper</A> - регистрирует URL-оболочку/wrapper, реализованную как PHP-класс</DT>
+<DT><A HREF="file.html">file</A> - читает весь файл в массив</DT>
+<DT><A HREF="fileatime.html">fileatime</A> - получает время последнего доступа к файлу</DT>
+<DT><A HREF="filectime.html">filectime</A> - получает inode время изменения файла</DT>
+<DT><A HREF="filegroup.html">filegroup</A> - получает file group</DT>
+<DT><A HREF="fileinode.html">fileinode</A> - получает file inode</DT>
+<DT><A HREF="filemtime.html">filemtime</A> - получает время последнего изменения файла</DT>
+<DT><A HREF="fileowner.html">fileowner</A> - получает file owner</DT>
+<DT><A HREF="fileperms.html">fileperms</A> - получает file permissions</DT>
+<DT><A HREF="filesize.html">filesize</A> - получает размер файла</DT>
+<DT><A HREF="filetype.html">filetype</A> - получает тип файла</DT>
+<DT><A HREF="flock.html">flock</A> - переносимая информирующая блокировка файла</DT>
+<DT><A HREF="fopen.html">fopen</A> - открывает файл или URL</DT>
+<DT><A HREF="fpassthru.html">fpassthru</A> - выводит все оставшиеся в указателе файла данные</DT>
+<DT><A HREF="fputs.html">fputs</A> - записывает в указатель файла</DT>
+<DT><A HREF="fread.html">fread</A> - Binary-safe/безопасное в двоичном режиме чтение файла</DT>
+<DT><A HREF="fscanf.html">fscanf</A> - разбирает ввод из файла в соответствии с форматом</DT>
+<DT><A HREF="fseek.html">fseek</A> - ищет в указателе файла</DT>
+<DT><A HREF="fstat.html">fstat</A> - получает информацию о файле с использованием указателя открытого файла</DT>
+<DT><A HREF="ftell.html">ftell</A> - сообщает позицию чтения/записи указателя файла</DT>
+<DT><A HREF="ftruncate.html">ftruncate</A> - усекает файл до заданного размера</DT>
+<DT><A HREF="fwrite.html">fwrite</A> - Binary-safe запись в файл</DT>
+<DT><A HREF="glob.html">glob</A> - находит pathnames, совпадающие с патэрном</DT>
+<DT><A HREF="is-dir.html">is_dir</A> - сообщает, является ли filename директорией</DT>
+<DT><A HREF="is-executable.html">is_executable</A> - сообщает, является ли filename исполняемым</DT>
+<DT><A HREF="is-file.html">is_file</A> - сообщает, является ли filename регулярным файлом</DT>
+<DT><A HREF="is-link.html">is_link</A> - сообщает, является ли filename символической ссылкой</DT>
+<DT><A HREF="is-readable.html">is_readable</A> - сообщает, является ли filename читаемым</DT>
+<DT><A HREF="is-uploaded-file.html">is_uploaded_file</A> - сообщает, был ли файл загружен через HTTP POST</DT>
+<DT><A HREF="is-writable.html">is_writable</A> - сообщает, можно ли записывать в filename</DT>
+<DT><A HREF="is-writeable.html">is_writeable</A> - сообщает, можно ли записывать в filename</DT>
+<DT><A HREF="link.html">link</A> - создаёт жёсткую ссылку</DT>
+<DT><A HREF="linkinfo.html">linkinfo</A> - получает информацию о ссылке</DT>
+<DT><A HREF="lstat.html">lstat</A> - выдаёт информацию о файле или символической ссылке</DT>
+<DT><A HREF="mkdir.html">mkdir</A> - создаёт директорию</DT>
+<DT><A HREF="move-uploaded-file.html">move_uploaded_file</A> - перемещает загруженный файл в новое место</DT>
+<DT><A HREF="parse-ini-file.html">parse_ini_file</A> - разбирает файл конфигурации</DT>
+<DT><A HREF="pathinfo.html">pathinfo</A> — возвращает информацию о пути файла</DT>
+<DT><A HREF="pclose.html">pclose</A> - закрывает process file pointer/указатель процесса файла</DT>
+<DT><A HREF="popen.html">popen</A> - открывает process file pointer</DT>
+<DT><A HREF="readfile.html">readfile</A> - выводит файл</DT>
+<DT><A HREF="readlink.html">readlink</A> — возвращает цель/target символической ссылки</DT>
+<DT><A HREF="realpath.html">realpath</A> — возвращает канонизированный абсолютный pathname</DT>
+<DT><A HREF="rename.html">rename</A> - переименовывает файл</DT>
+<DT><A HREF="rewind.html">rewind</A> - возвращает в начало указатель файла</DT>
+<DT><A HREF="rmdir.html">rmdir</A> - удаляет директорию</DT>
+<DT><A HREF="set-file-buffer.html">set_file_buffer</A> - устанавливает буферизацию файла на данном указателе файла</DT>
+<DT><A HREF="stat.html">stat</A> - выдаёт информацию о файле</DT>
+<DT><A HREF="symlink.html">symlink</A> - создаёт символическую ссылку</DT>
+<DT><A HREF="tempnam.html">tempnam</A> - создаёт файл с уникальным именем</DT>
+<DT><A HREF="tmpfile.html">tmpfile</A> - создаёт временный файл</DT>
+<DT><A HREF="touch.html">touch</A> - устанавливает время доступа и изменения файла</DT>
+<DT><A HREF="umask.html">umask</A> - изменяет текущую umask</DT>
+<DT><A HREF="unlink.html">unlink</A> - удаляет файл</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="filepro.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="basename.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">filepro</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">basename</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

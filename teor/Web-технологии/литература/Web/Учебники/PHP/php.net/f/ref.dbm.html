@@ -1,0 +1,52 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции DBM</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="dbase-replace-record.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="dblist.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.dbm"></A>XX. Функции DBM</h1><A NAME="AEN16362"></A>
+<H1><A NAME="dbm.intro">Введение</A></H1><P>Эти функции позволяют сохранять записи в БД dbm-стиля. Этот тип БД (поддерживаемый 
+Berkeley DB, <A HREF="ftp://ftp.gnu.org/pub/gnu/gdbm/" TARGET="_top">GDBM</A> и некоторыми системными библиотеками,
+а также встроенной библиотекой flatfile) хранит пары key/value
+(в отличие от полноценных записей реляционных БД).</P><BLOCKQUOTE><P><B>Примечание: </B>
+  однако поддержка dbm не рекомендуется для дальнейшего использования, и мы 
+советуем использовать вместо этого <A HREF="ref.dba.html">Функции абстрактного слоя БД (dbm-стиль)</A>.</P></BLOCKQUOTE>
+<H1><A NAME="dbm.required">Требования</A></H1><P>Для использования этих функций вы должны скомпилировать РНР с поддержкой 
+соответствующих БД. См. <a href="ref.dba.html#dba.requirements">список</a> поддерживаемых БД.</P>
+<H1><A NAME="dbm.installation">Установка</A></H1><P>Чтобы использовать эти функции, вы обязаны скомпилировать РНР с поддержкой dbm, 
+использовав опцию <TT>--with-db</TT>. Кроме того, вы обязаны гарантировать <a href="ref.dba.html#dba.installation">
+поддержку</a> соответствующей БД или можете использовать некоторые системные библиотеки.</P>
+<H1><a name="dbm.runtime">Конфигурация</a></H1><P>Это расширение не определяет никаких директив конфигурации.</P>
+<H1><A NAME="dbm.resources">Типы ресурсов</A></H1><P>Функция <A HREF="dbmopen.html">
+<B>dbmopen()</B></A> возвращает идентификатор БД, который используется другими dbm-функциями.</P>
+<H1><A NAME="dbm.constants">Предопределённые константы</A></H1><P>Это расширение не определяет никаких констант.</P>
+<H1><A NAME="dbm.examples">Примеры</A></H1><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN16392"></A><h5>Пример 1. DBM</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$dbm = dbmopen ("lastseen", "w");
+if (dbmexists ($dbm, $userid)) {
+    $last_seen = dbmfetch ($dbm, $userid);
+} else {
+    dbminsert ($dbm, $userid, time());
+}
+do_stuff();
+dbmreplace ($dbm, $userid, time());
+dbmclose ($dbm);</PRE></TD></TR></TABLE></TD></TR></TABLE><DL><DT><B>Содержание</B></DT>
+<DT><A HREF="dblist.html">dblist</A> - описывает используемую DBM-совместимую библиотеку</DT>
+<DT><A HREF="dbmclose.html">dbmclose</A> - закрывает dbm-БД</DT>
+<DT><A HREF="dbmdelete.html">dbmdelete</A> - удаляет значение данного ключа из DBM-БД</DT>
+<DT><A HREF="dbmexists.html">dbmexists</A> - сообщает, существует ли значение для ключа в DBM-БД</DT>
+<DT><A HREF="dbmfetch.html">dbmfetch</A> - извлекает значение ключа из DBM-БД</DT>
+<DT><A HREF="dbmfirstkey.html">dbmfirstkey</A> - запрашивает первый ключ из DBM-БД</DT>
+<DT><A HREF="dbminsert.html">dbminsert</A> - вставляет значение ключа в DBM-БД</DT>
+<DT><A HREF="dbmnextkey.html">dbmnextkey</A> - запрашивает следующий ключ из DBM-БД</DT>
+<DT><A HREF="dbmopen.html">dbmopen</A> - открывает DBM-БД</DT>
+<DT><A HREF="dbmreplace.html">dbmreplace</A> - заменяет значений ключа в DBM-БД</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="dbase-replace-record.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="dblist.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">dbase_replace_record</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">dblist</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

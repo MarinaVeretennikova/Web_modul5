@@ -1,0 +1,47 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>fbsql_query</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="fbsql-pconnect.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="fbsql-read-blob.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.fbsql-query">fbsql_query</A></H1><A NAME="AEN22530"></A><P>(PHP 4 &#62;= 4.0.6)</P>
+<p>fbsql_query - отправляет FrontBase -запрос/query.<A NAME="AEN22533"></A></p><H2>Описание</H2>
+<p>resource <B>fbsql_query</B> (string query [, resource link_identifier])</p>
+<P><B>fbsql_query()</B> отправляет запрос текущей активной БД на сервере, которая идентифицирована со 
+специфицированным идентификатором ссылки/link identifier. Если <TT><I>link_identifier</I></TT> не специфицирован, принимается последняя открытая ссылка.  Если ни одной 
+открытой ссылки нет, функция пытается установить ссылку, как если бы была вызвана
+<A HREF="fbsql-connect.html"><B>fbsql_connect()</B></A> без аргументов, и использует её.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>строка запроса всегда заканчивается точкой с запятой.</P></BLOCKQUOTE>
+<P><B>fbsql_query()</B> возвращает <TT><B>TRUE</B></TT> (ненулевое значение) или <TT><B>FALSE</B></TT>,
+указывая, нормально ли прошёл запрос. <TT><B>TRUE</B></TT> означает, что запрос правильный и может быть выполнен сервером.  Ничего не 
+сообщается о количестве задействованных или возвращаемых рядов. Запрос может 
+выполняться, но без влияния на ряды или без возвращения рядов.</P>
+<P>Следующий запрос синтаксически неверен, поэтому <B>fbsql_query()</B> терпит неудачу и возвращает
+<TT><B>FALSE</B></TT>:<TABLE WIDTH="100%" BORDER="0"><TR><TD><Aт NAME="AEN22558"></A>
+<h5>Пример 1. fbsql_query()</h5><TABLE  BORDER="0"BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$result = fbsql_query ("SELECT * WHERE 1=1")
+    or die ("Invalid query");
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Следующий запрос неверен семантически, если
+<TT>my_col</TT> это не столбец в в таблице <TT>my_tbl</TT>, поэтому <B>fbsql_query()</B> терпит неудачу и возвращает
+<TT><B>FALSE</B></TT>:<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN22567"></A>
+  <h5>Пример 2. fbsql_query()
+</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$result = fbsql_query ("SELECT my_col FROM my_tbl")
+    or die ("Invalid query");
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P><B>fbsql_query()</B> также потерпит неудачу и возвратит
+<TT><B>FALSE</B></TT>, если у вас нет права доступа к таблице(таблицам), на которую имеется ссылка в запросе.</P>
+<P>Если запрос прошёл, вы можете вызвать <A HREF="fbsql-num-rows.html"><B>fbsql_num_rows()</B></A> для определения того, сколько рядов были возвращены для оператора SELECT, или
+<A HREF="fbsql-affected-rows.html"><B>fbsql_affected_rows()</B></A> для определения того, сколько рядов были задействованы оператором DELETE, INSERT, REPLACE 
+или UPDATE.</P><P>Для операторов SELECT <B>fbsql_query()</B> возвращает новый результирующий идентификатор, который вы можете передать в
+<A HREF="fbsql-result.html"><B>fbsql_result()</B></A>. Когда вы закончите работу с результирующим набором, вы можете освободить ресурсы,
+ассоциированные с ним, через вызов <A HREF="fbsql-free-result.html"><B>fbsql_free_result()</B></A>.
+В то же время, память будет автоматически освобождаться в конце выполнения скрипта.</P>
+<P>См. также <A HREF="fbsql-affected-rows.html"><B>fbsql_affected_rows()</B></A>,
+<A HREF="fbsql-db-query.html"><B>fbsql_db_query()</B></A>,
+<A HREF="fbsql-free-result.html"><B>fbsql_free_result()</B></A>,
+<A HREF="fbsql-result.html"><B>fbsql_result()</B></A>,
+<A HREF="fbsql-select-db.html"><B>fbsql_select_db()</B></A> и
+<A HREF="fbsql-connect.html"><B>fbsql_connect()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="fbsql-pconnect.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="fbsql-read-blob.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">fbsql_pconnect</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.fbsql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">fbsql_read_blob</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

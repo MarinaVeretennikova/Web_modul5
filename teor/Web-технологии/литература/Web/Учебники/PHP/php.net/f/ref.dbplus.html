@@ -1,0 +1,175 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции DB++</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="dbx-sort.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="dbplus-add.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.dbplus"></A>XXII. Функции DB++</h1><A NAME="AEN17063"></A><TABLE CLASS="warning" BORDER="1" WIDTH="100%">
+<TR><th><B>Предупреждение!</B></th></TR><TR><TD><P>Это <i>ЭКСПЕРИМЕНТАЛЬНОЕ </i>расширение. Поведение этого расширения и имена его 
+функций, а также всё иное, задокументированное для данного расширения, 
+может измениться в будущих релизах РНР без уведомления.  Вы предупреждены 
+и можете использовать это расширение, под вашу ответственность.</P></TD></TR></TABLE>
+<H1><A NAME="dbplus.intro">Введение</A></H1><P>db++, создавалась немецкой компанией
+<A HREF="http://www.concept-asa.de/" TARGET="_top">Concept asa</A> как система реляционных БД с высокой производительностью и низким расходом 
+памяти и дискового пространства. Предоставляя SQL как дополнительный язык 
+интерфейса, она в действительности не является SQL-БД, а предоставляет свой 
+собственный язык запросов AQL, который больше использует реляционную алгебру, чем SQL.</P>
+<P>Concept asa всегда интересовалась поддержкой языков открытых ресурсов, db++ 
+имела интерфейсы вызова для Perl и Tcl уже несколько лет назад и использует Tcl 
+как язык своих внутренних хранимых процедур.</P><H1><A NAME="dbplus.requirenments">Требования</A></H1>
+<P>Это расширение основано на внешних клиентских библиотеках, поэтому вы 
+должны иметь клиент db++, установленный на системе, где вы намереваетесь 
+использовать данное расширение.</P><P><A HREF="http://www.concept-asa.de/" TARGET="_top">Concept asa</A>
+предоставляет <A HREF="http://www.concept-asa.de/down-eng.html" TARGET="_top">db++ демо-версии</A> и <a href="http://www.concept-asa.de/downloads/doc-eng.tar.gz">документацию</a> 
+для Linux, некоторых других вариантов UNIX. Имеется также версия db++ для Windows, 
+но данное расширение его не поддерживает (пока).</P><H1><A NAME="dbplus.installation">Установка</A></H1>
+<P>Чтобы построить это расширение самостоятельно, вам необходимо иметь 
+клиентские библиотеки db++ и header-файлы, установленные в вашей системе 
+(они включены по умолчанию в архивы инсталяции db++). Вы должны запустить <B>configure</B> с опцией
+<TT>--with-dbplus</TT>, чтобы построить это расширение.</P><P><B>configure</B> ищет клиентские библиотеки и
+header-файлы ниже путей по умолчанию <TT>/usr/dbplus</TT>, <TT>/usr/local/dbplus</TT> и
+<TT>/opt/dblus</TT>. Если вы должны установить db++ в другом месте, необходимо добавить путь 
+установки в опции <B>configure</B> примерно так:
+<TT>--with-dbplus=/your/installation/path</TT></P><H1>
+<a name="dbplus.configuration">Конфигурация</a></H1>
+<P>Это расширение не определяет никаких директив конфигурации.</P><H1><A NAME="dbplus.resources">Типы ресурсов</A></H1>
+<H2><A NAME="dbplus.resources.relation">dbplus_relation</A></H2><P>Большинство функций db++ работают с или возвращают ресурсы
+<TT><I>dbplus_relation</I></TT>.<br><TT><I>dbplus_relation</I></TT> это дескриптор для хранимой реляции или для реляции, генерируемой как 
+результат запроса.</P><H1><A NAME="dbplus.constants">Предопределённые константы</A></H1><P>Эти константы определены данным расширением и будут доступны только в том случае, если либо вкомпилированы в РНР, либо динамически загружены на этапе прогона.</P>
+<H2>Коды ошибок <A NAME="dbplus.errorcodes">db++</A><A NAME="AEN17107"></A></H2><h6>Таблица 1. Коды ошибок DB++</h6>
+<TABLE BORDER="1" width="749"><TR><TH width="238">PHP-константа</TH><TH width="144">db++ константа</TH>
+<TH width="345">Значение</TH></TR><TBODY><TR><TD width="238"><TT><B>DBPLUS_ERR_NOERR</B></TT>
+(<A HREF="../types.integer.html">integer</A>)</TD><TD width="144">ERR_NOERR</TD><TD width="345">Отсутствие ошибки</TD>
+</TR><TR><TD width="238"><TT><B>DBPLUS_ERR_DUPLICATE</B></TT>
+(<A HREF="../types.integer.html">integer</A>)</TD><TD width="144">ERR_DUPLICATE</TD>
+<TD width="345">Попытка вставить дублирующую пару/tuple</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_EOSCAN</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_EOSCAN</TD><TD width="345">Конец сканирования от rget()</TD></TR><TR>
+<TD width="238"><TT><B>DBPLUS_ERR_EMPTY</B></TT> (<A HREF="../types.integer.html">integer</A>)
+</TD><TD width="144">ERR_EMPTY</TD><TD width="345">Пустая реляция (server)</TD></TR><TR>
+<TD width="238"><TT><B>DBPLUS_ERR_CLOSE</B></TT> (<A HREF="../types.integer.html">integer</A>)
+</TD><TD width="144">ERR_CLOSE</TD><TD width="345">Сервер не может закрыть</TD></TR><TR>
+<TD width="238"><TT><B>DBPLUS_ERR_WLOCKED</B></TT>
+(<A HREF="../types.integer.html">integer</A>)</TD><TD width="144">ERR_WLOCKED</TD>
+<TD width="345">Запись/record блокирована от записи</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_LOCKED</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_LOCKED</TD><TD width="345">Реляция уже была блокирована</TD></TR><TR>
+<TD width="238"><TT><B>DBPLUS_ERR_NOLOCK</B></TT> (<A HREF="../types.integer.html">integer</A>)
+</TD><TD width="144">ERR_NOLOCK</TD><TD width="345">Реляция не может быть блокирована</TD></TR>
+<TR><TD width="238"><TT><B>DBPLUS_ERR_READ</B></TT> (<A HREF="../types.integer.html">integer</A>)
+</TD><TD width="144">ERR_READ</TD><TD width="345">Ошибка при чтении реляции</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_WRITE</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_WRITE</TD><TD width="345">Ошибка записи в реляцию</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_CREATE</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_CREATE</TD><TD width="345">Неудача системного вызова Create()</TD></TR><TR>
+<TD width="238"><TT><B>DBPLUS_ERR_LSEEK</B></TT> (<A HREF="../types.integer.html">integer</A>)
+</TD><TD width="144">ERR_LSEEK</TD><TD width="345">Неудача системного вызова Lseek()</TD></TR><TR>
+<TD width="238"><TT><B>DBPLUS_ERR_LENGTH</B></TT> (<A HREF="../types.integer.html">integer</A>)
+</TD><TD width="144">ERR_LENGTH</TD><TD width="345">Пара/Tuple превзошла максимальную длину</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_OPEN</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_OPEN</TD><TD width="345">Неудача системного вызова Open()</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_WOPEN</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_WOPEN</TD><TD width="345">Реляция уже открыта для записи</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_MAGIC</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_MAGIC</TD><TD width="345">Файл не является реляцией</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_VERSION</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_VERSION</TD><TD width="345">Файл является самой старой реляцией</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_PGSIZE</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_PGSIZE</TD><TD width="345">Реляция использует другой размер страниц</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_CRC</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_CRC</TD><TD width="345">Неверный crc в суперстранице/superpage</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_PIPE</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_PIPE</TD><TD width="345">Реляция по каналу требует lseek()</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_NIDX</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_NIDX</TD><TD width="345">Слишком много вторичных индексов</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_MALLOC</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_MALLOC</TD><TD width="345">Неудача вызова Malloc()</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_NUSERS</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_NUSERS</TD><TD width="345">Ошибка использования max users</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_PREEXIT</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_PREEXIT</TD><TD width="345">Вызвана неверным использованием</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_ONTRAP</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_ONTRAP</TD><TD width="345">Вызвана по сигналу</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_PREPROC</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_PREPROC</TD><TD width="345">Ошибка препроцессора</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_DBPARSE</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_DBPARSE</TD><TD width="345">Ошибка разборщика</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_DBRUNERR</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_DBRUNERR</TD><TD width="345">Ошибка выполнения в db</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_DBPREEXIT</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_DBPREEXIT</TD><TD width="345">условие выхода вызвано процедурой prexit() *</TD></TR><TR>
+<TD width="238"><TT><B>DBPLUS_ERR_WAIT</B></TT> (<A HREF="../types.integer.html">integer</A>)
+</TD><TD width="144">ERR_WAIT</TD><TD width="345">Немного подождите (только Simple)</TD></TR><TR>
+<TD width="238"><TT><B>DBPLUS_ERR_CORRUPT_TUPLE</B></TT> (<A HREF="../types.integer.html">integer</A>)
+</TD><TD width="144">ERR_CORRUPT_TUPLE</TD><TD width="345">Клиент выслал нарушенную пару</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_WARNING0</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_WARNING0</TD><TD width="345">Утилиты Simple вычислили нефатальную ошибку, которая была исправлена</TD></TR>
+<TR><TD width="238"><TT><B>DBPLUS_ERR_PANIC</B></TT> (<A HREF="../types.integer.html">integer</A>)
+</TD><TD width="144">ERR_PANIC</TD><TD width="345">
+Сервер не может die (закончить выполнение), но после ошибки высылает ERR_PANIC всем клиентам</TD></TR><TR>
+<TD width="238"><TT><B>DBPLUS_ERR_FIFO</B></TT> (<A HREF="../types.integer.html">integer</A>)
+</TD><TD width="144">ERR_FIFO</TD><TD width="345">Не может создать fifo</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_PERM</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_PERM</TD><TD width="345">Доступ запрещён</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_TCL</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_TCL</TD><TD width="345">TCL_error</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_RESTRICTED</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_RESTRICTED</TD><TD width="345">Только два пользователя</TD></TR><TR><TD width="238">
+<TT><B>DBPLUS_ERR_USER</B></TT> (<A HREF="../types.integer.html">integer</A>)</TD>
+<TD width="144">ERR_USER</TD><TD width="345">Ошибка при использовании библиотеки программистом приложения</TD></TR><TR>
+<TD width="238"><TT><B>DBPLUS_ERR_UNKNOWN</B></TT> (<A HREF="../types.integer.html">integer</A>)
+</TD><TD width="144">ERR_UNKNOWN</TD><TD width="345">&nbsp;</TD></TR></TBODY></TABLE>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="dbplus-add.html">dbplus_add</A> - добавляет пару/tuple в реляцию</DT>
+<DT><A HREF="dbplus-aql.html">dbplus_aql</A> - выполняет AQL-запрос/query</DT>
+<DT><A HREF="dbplus-chdir.html">dbplus_chdir</A> - получает/устанавливает виртуальную текущую директорию базы данных</DT>
+<DT><A HREF="dbplus-close.html">dbplus_close</A> - закрывает реляцию</DT>
+<DT><A HREF="dbplus-curr.html">dbplus_curr</A> - получает текущую пару из реляции</DT>
+<DT><A HREF="dbplus-errcode.html">dbplus_errcode</A> - получает строку ошибки для данного errorcode или последней ошибки</DT>
+<DT><A HREF="dbplus-errno.html">dbplus_errno</A> - получает код ошибки последней операции</DT>
+<DT><A HREF="dbplus-find.html">dbplus_find</A> - устанавливает ограничение/constraint в реляции</DT>
+<DT><A HREF="dbplus-first.html">dbplus_first</A> - получает первую пару из реляции</DT>
+<DT><A HREF="dbplus-flush.html">dbplus_flush</A> - зачищает все изменения, сделанные в реляции</DT>
+<DT><A HREF="dbplus-freealllocks.html">dbplus_freealllocks</A> - освобождает все блокировки, удерживаемые данным клиентом</DT>
+<DT><A HREF="dbplus-freelock.html">dbplus_freelock</A> - освобождает блокировку от записи пары</DT>
+<DT><A HREF="dbplus-freerlocks.html">dbplus_freerlocks</A> - освобождает все блокировки пар в данной реляции</DT>
+<DT><A HREF="dbplus-getlock.html">dbplus_getlock</A> - получает блокировку от записи для пары</DT>
+<DT><A HREF="dbplus-getunique.html">dbplus_getunique</A> - получает уникальный номер id для реляции</DT>
+<DT><A HREF="dbplus-info.html">dbplus_info</A> - ???</DT>
+<DT><A HREF="dbplus-last.html">dbplus_last</A> - получает последнюю пару из реляции</DT>
+<DT><A HREF="dbplus-lockrel.html">dbplus_lockrel</A> - запрашивает блокировку от записи в реляции</DT>
+<DT><A HREF="dbplus-next.html">dbplus_next</A> - получает следующую пару реляции</DT>
+<DT><A HREF="dbplus-open.html">dbplus_open</A> - открывает реляционный файл</DT>
+<DT><A HREF="dbplus-prev.html">dbplus_prev</A> - получает предыдущую пару реляции</DT>
+<DT><A HREF="dbplus-rchperm.html">dbplus_rchperm</A> - изменяет права доступа к реляции</DT>
+<DT><A HREF="dbplus-rcreate.html">dbplus_rcreate</A> - создаёт новую реляцию DB++</DT>
+<DT><A HREF="dbplus-rcrtexact.html">dbplus_rcrtexact</A> - создаёт точную, но пустую копию реляции, включая индексы</DT>
+<DT><A HREF="dbplus-rcrtlike.html">dbplus_rcrtlike</A> - создаёт пустую копию реляции с индексами по умолчанию</DT>
+<DT><A HREF="dbplus-resolve.html">dbplus_resolve</A> - разрешает host-информацию для реляции</DT>
+<DT><A HREF="dbplus-restorepos.html">dbplus_restorepos</A> - ???</DT>
+<DT><A HREF="dbplus-rkeys.html">dbplus_rkeys</A> - специфицирует новый первичный ключ/primary key реляции</DT>
+<DT><A HREF="dbplus-ropen.html">dbplus_ropen</A> - открывает локально реляционный файл</DT>
+<DT><A HREF="dbplus-rquery.html">dbplus_rquery</A> - выполняет локальный (сырой/raw) AQL-запрос</DT>
+<DT><A HREF="dbplus-rrename.html">dbplus_rrename</A> - переименовывает реляцию</DT>
+<DT><A HREF="dbplus-rsecindex.html">dbplus_rsecindex</A> - создаёт в реляции новый вторичный индекс</DT>
+<DT><A HREF="dbplus-runlink.html">dbplus_runlink</A> - удаляет реляцию из файловой системы</DT>
+<DT><A HREF="dbplus-rzap.html">dbplus_rzap</A> - удаляет все пары из реляции</DT>
+<DT><A HREF="dbplus-savepos.html">dbplus_savepos</A> - ???</DT>
+<DT><A HREF="dbplus-setindex.html">dbplus_setindex</A> - ???</DT>
+<DT><A HREF="dbplus-setindexbynumber.html">dbplus_setindexbynumber</A> - ???</DT>
+<DT><A HREF="dbplus-sql.html">dbplus_sql</A> - выполняет SQL query</DT>
+<DT><A HREF="dbplus-tcl.html">dbplus_tcl</A> - выполняет TCL-код на стороне сервера</DT>
+<DT><A HREF="dbplus-tremove.html">dbplus_tremove</A> - удаляет пару и возвращает новую текущую пару</DT>
+<DT><A HREF="dbplus-undo.html">dbplus_undo</A> - ???</DT>
+<DT><A HREF="dbplus-undoprepare.html">dbplus_undoprepare</A> - ???</DT>
+<DT><A HREF="dbplus-unlockrel.html">dbplus_unlockrel</A> - снимает блокировку с реляции</DT>
+<DT><A HREF="dbplus-unselect.html">dbplus_unselect</A> - удаляет ограничение с реляции</DT>
+<DT><A HREF="dbplus-update.html">dbplus_update</A> - обновляет специфицированную пару реляции</DT>
+<DT><A HREF="dbplus-xlockrel.html">dbplus_xlockrel</A> - запрашивает исключительную блокировку для реляции</DT>
+<DT><A HREF="dbplus-xunlockrel.html">dbplus_xunlockrel</A> - освобождает исключительную блокировку в реляции</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="dbx-sort.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="dbplus-add.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">dbx_sort</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">dbplus_add</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

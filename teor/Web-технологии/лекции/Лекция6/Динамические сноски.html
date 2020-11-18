@@ -1,0 +1,46 @@
+<HTML>
+         <HEAD>
+               <TITLE>Динамические сноски</TITLE>
+                <STYLE type="text/css">
+                     SPAN  {display:none}
+                     SUP.redhand  {color:red;font-size:10pt;cursor:hand}
+
+                 </STYLE>
+         <SCRIPT language ="JavaScript">
+		 function createNotes () {
+		 var arrspan=document.all.tags ("SPAN");
+		 for (var i=0; i<arrspan.length; i++) {
+		 var elem=arrspan[i];
+		 if ("note"==elem.className) {
+		 elem.insertAdjacentHTML ("beforeBegin", "<SUP CLASS=redhand"+(i+1)+"</SUP>");
+		 document.all[elem.sourceIndex-1].connect=elem
+		 }
+		 }
+		 }
+		 function alertNote() {
+		 if ("redhand"==event.srcElement.className)
+		 if (null!=event.scrElement.connect);
+		 alert(event.srcElement.connect.innerText);
+		 }
+               window.onload=createNotes;
+			   document.onclick=alertNote;
+           </SCRIPT>
+         </HEAD>
+         <BODY>
+         <H3>З.Косидовский. «Когда солнце было богом»
+         <SPAN class="note">
+         Отрывок из книги, в котором речь идет об экспедиции Наполеона в Египет в 1798-1801 гг.            
+         </SPAN></H3>
+         <P> . . . Нельсону
+         <SPAN class="note"> Г.Нельсон – английский флотоводец,
+         вице-адмирал </SPAN>
+         не повезло: французский флот незамеченным пересек море и 2 июля высадился в Египте
+         <SPAN class="note">Дело в том, что воды Средиземного моря контролировал в конце 18 в. Флот Великобритании под командованием Нельсона</SPAN>
+. У пирамид произошла решающая битва с египтянами. Армии Наполеона давала отпор 10-тысячная кавалерия бея 
+         <SPAN class="note">Бей – титул феодальной знати</SPAN>
+ Египта Мурада.
+Мамлюки<SPAN class="note">Мамлюки – воины-рабы</SPAN>,
+Дворцовая квардия бея, на резвых арабских скакунах выглядели очень браво и воинствнно; казалось, что они кривыми саблями изрубят французских пехотинцев.
+          </P></CENTER>
+</BODY>
+</HTML>

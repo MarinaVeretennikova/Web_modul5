@@ -1,0 +1,180 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Проблемы Построения РНР</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH>
+</TR><TR><TD WIDTH="10%"><A HREF="installation.html">Назад</A>
+</TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="using.html">Вперёд</A></TD></TR></TABLE></TD></TR>
+<TR BGCOLOR="#333366"><TD><IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR>
+</TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD>
+<TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%"><H1><A NAME="faq.build">Глава 49. Проблемы построения 
+РНР</A></H1><P>В этом разделе собраны типичные ошибки, возникающие во время построения/build 
+РНР.</P><DL><DT>1. <A HREF="#faq.build.configure">У меня последняя версия PHP, использующая службу анонимного CVS, 
+но нет скрипта конфигурации!</A>
+</DT><DT>2. <A HREF="#faq.build.configuring">У меня проблемы с конфигурирование PHP для работы с Apache. Он говорит, 
+что не может найти <TT>httpd.h</TT>, но это файл находится там, где я ему указал!</A></DT>
+<DT>3. <a href="#faq.build.not-found">Когда я запускаю configure, он говорит, что 
+не может найти include-файлы или библиотеки для GD, gdbm или ещё какого-нибудь пакета!</a></DT>
+<DT>4. <A HREF="#faq.build.yytname">При компиляции файла
+<TT>language-parser.tab.c</TT>&nbsp; он выдаёт мне ошибки, где говорится, что <TT>yytname undeclared</TT>.</A>
+</DT><DT>5. <A HREF="#faq.build.link">Когда я запускаю <B>make</B>, всё вроде идёт нормально,
+но затем - облом при попытке компоновки окончательного приложения, и он жалуется, что не
+может найти некоторые файлы.</A></DT><DT>6. <A HREF="#faq.build.undefined">При компоновке/linking PHP
+он жалуется на наличие undefined-ссылок.</A></DT><DT>7. <A HREF="#faq.build.Apache">Я не могу выяснить,
+как построить build PHP с Apache 1.3.</A></DT><DT>8. <A HREF="#faq.build.not-running">Я выполнил
+все шаги по установке Apache-модуля версии для 
+UNIX, а мои PHP-скрипты выводятся в браузере, или мне задаётся вопрос, сохранить ли файл.</A></DT>
+<DT>9. <A HREF="#faq.build.activate-module">Сказано использовать <TT>--activate-module=src/modules/php4/libphp4.a</TT>,
+но этот файл не существует, поэтому я вместо него сделал <TT>--activate-module=src/modules/php4/libmodphp4.a</TT>,
+а он не работает!? В чём причина?</A></DT><DT>10. <A HREF="#faq.build.ansi">Когда я пытаюсь построить
+Apache с PHP как static-модулем путём использования  <TT>--activate-module=src/modules/php4/libphp4.a</TT>,
+он мне говорит, что мой компилятор несовместим с ANSI.</A></DT>
+<DT>11. <A HREF="#faq.build.apxs">Когда я пытаюсь построить PHP с использованием <TT>--with-apxs</TT>,
+я получаю странные сообщения об ошибках.</A></DT><DT>12. <A HREF="#faq.build.microtime">В процессе
+<B>make</B> я получаю ошибки в microtime и много <TT>RUSAGE_</TT>.</A></DT>
+<DT>13. <A HREF="#faq.build.upgrade">Я хочу обновить мой PHP. Где я могу найти строку
+<B>./configure</B>, которая использовалась для построения установки моей текущей версии PHP?</A></DT></DL>
+<B><P><A NAME="faq.build.configure"></A><B>1. </B>У меня последняя версия PHP, использующая службу
+анонимного CVS, но нет скрипта конфигурации!</P></B>
+<P>Вам необходимо иметь установленный пакет GNU autoconf, чтобы вы могли 
+генерировать скрипт конфигурации из <TT>configure.in</TT>. Просто запустите <B>./buildconf</B> в
+директории верхнего уровня после получения исходников с CVS-сервера. (Также, 
+если вы не запустили configure с опцией <TT>--enable-maintainer-mode</TT>, скрипт
+configure не будет автоматически перестроен/rebuilt, когда файл <TT>configure.in</TT> обновляется,
+поэтому вы обязательно должны сделать это вручную, если configure.in изменяется. 
+Один из симптомов этого - если вы находите что-нибудь вроде @VARIABLE@ 
+в вашем Makefile после конфигурирования или если <TT>config.status</TT> работает.)</P>
+<B><P><A NAME="faq.build.configuring"></A><B>2. </B>У меня проблемы с конфигурирование PHP для работы с
+Apache. Он говорит, что не может найти <TT>httpd.h</TT>, но это файл находится там, где я ему указал!</P>
+</B><P>Вы должны сообщить configure/setup-скрипту расположение верхнего уровня вашего 
+дерева исходников Apache. Это означает, что вы должны специфицировать
+<TT>--with-apache=/path/to/apache</TT>, а <i>не</i> <TT>--with-apache=/path/to/apache/src</TT>.</P>
+<B><P><A NAME="faq.build.not-found"></A><B>3. </B>Когда я запускаю configure, он говорит, что не может найти 
+include-файлы или библиотеки для GD, gdbm или ещё какого-нибудь пакета!</P></B>
+<P>Вы можете сделать так, чтобы configure-скрипт искал header-файлы и библиотеки в 
+нестандартном месте, специфицировав дополнительные флаги для передачи их 
+препроцессору C и компоновщику/linker таким образом:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>CPPFLAGS=-I/path/to/include LDFLAGS=-L/path/to/library ./configure</PRE></TD></TR></TABLE>
+<p>Если вы используете csh-вариант для вашей оболочки логина (почему?), это может быть:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>env CPPFLAGS=-I/path/to/include LDFLAGS=-L/path/to/library ./configure</PRE></TD></TR></TABLE>
+<B><P><A NAME="faq.build.yytname"></A><B>4. </B>При компиляции файла <TT>language-parser.tab.c</TT>&nbsp;
+он выдаёт мне ошибки, где говорится, что <TT>yytname undeclared</TT>.</P>
+</B><P>Вам необходимо обновить вашу версию Bison. Вы можете найти последнюю версию по 
+адресу <A HREF="ftp://ftp.gnu.org/pub/gnu/bison/" TARGET="_top">ftp://ftp.gnu.org/pub/gnu/bison/</A></P>
+<B><P><A NAME="faq.build.link"></A><B>5. </B>Когда я запускаю <B>make</B>, всё вроде идёт нормально,
+но затем - облом при попытке компоновки  окончательного приложения, и он жалуется, что не
+может найти некоторые файлы.</P></B><P>Некоторые старые версии make некорректно помещают откомпилированные
+версии файлов в functions-директории в ту же самую директорию. Попытайтесь запустить
+<B>cp *.o functions</B>, а затем перезапустить <B>make</B> и посмотреть, поможет ли это. Если
+помогло, вам действительно необходимо обновить до последней версии GNU make.</P>
+<B><P><A NAME="faq.build.undefined"></A><B>6. </B>При компоновке/linking PHP он жалуется на наличие
+undefined-ссылок.</P></B><P>Посмотрите на строку компоновки и убедитесь, что все необходимые библиотеки 
+подключены в конце. Обычно упускают '-ldl' и любые библиотеки, необходимые для поддержки баз данных,
+которую вы включили.</P><P>Если вы компоновали с Apache 1.2.x, не забыли ли вы добавить нужную 
+информацию в строку EXTRA_LIBS Configuration-файла и перезапустить Configure-скрипт 
+Apache'а? См. <A HREF="http://cvs.php.net/co.php/php4/INSTALL" TARGET="_top">INSTALL</A>-файл, который
+поставляется с дистрибутивом.</P><P>Многие также сообщают, что они добавили '-ldl' сразу после
+<TT>libphp4.a</TT> при компоновке с Apache.</P><B><P><A NAME="faq.build.Apache"></A>
+<B>7. </B>Я не могу выяснить, как построить build PHP с Apache 1.3.</P></B>
+<P>Это в действительности довольно легко. Внимательно выполните следующие шаги:
+<UL><LI><P>Получите последний дистрибутив Apache 1.3 с <A HREF="http://www.apache.org/dist/" TARGET="_top">http://www.apache.org/dist/</A>.</P>
+</LI><LI><P>Ungzip и untar его где-нибудь, например, в <TT>/usr/local/src/apache-1.3</TT>.</P></LI>
+<LI><P>Скомпилируйте PHP, запустив сначала <B>./configure --with-apache=/&#60;path&#62;/apache-1.3</B>
+(замените &#60;path&#62; не реальный путь к вашей директории apache-1.3.</P></LI>
+<LI><P>Введите <B>make</B> и затем <B>make install</B> для построения/build PHP и скопируйте
+нужные файлы в дерево дистрибутива Apache.</P></LI><LI><P>Измените директории на вашу директорию
+<TT>/&#60;path&#62;/apache-1.3/src</TT> и отредактируйте файл <TT>Configuration</TT>. 
+Добавьте в этот файл: <TT>AddModule modules/php4/libphp4.a</TT>.</P></LI><LI>
+<P>Введите: <B>./Configure</B> с последующим <TT>make</TT>.</P></LI><LI>
+<P>Вы не должны иметь httpd binary с включённым PHP!</P></LI></UL><blockquote>
+<i><b>Примечание</b>:</i> вы можете также использовать новый Apache <TT>./configure</TT>-скрипт.
+См инструкции в файле <TT>README.configure</TT>, который является частью вашего дистрибутива Apache.
+Просмотрите также файл <TT>INSTALL</TT> в дистрибутиве PHP.</blockquote><B>
+<P><A NAME="faq.build.not-running"></A><B>8. </B>Я выполнил все шаги по установке Apache-модуля версии для 
+UNIX, а мои PHP-скрипты выводятся в браузере, или мне задаётся вопрос, сохранить ли файл.</P></B>
+<P>Это означает, что PHP-модуль не вызывается по какой-то причине.<br>
+Проверьте три вещи, прежде чем запросить дальнейшей помощи:<UL><LI>
+<P>Убедитесь, что httpd binary, запущенный у вас, действительно является 
+новым httpd-экзешником, только что построенным вами. Для этого попытайтесь запустить: 
+<TT>/path/to/binary/httpd -l</TT></P><P>Если вы не видите <TT>mod_php4.c</TT>, то у вас запущен
+не тот binary. Найдите и установите корректный binary.</P></LI>
+<LI><P>Убедитесь, что вы добавили корректный Mime Type в один из <TT>.conf</TT>-файлов Apache. Это
+должен быть: <TT>AddType application/x-httpd-php3 .php3</TT> (для PHP 3)</P>
+<P>или <TT>AddType application/x-httpd-php .php</TT> (для PHP 4)</P>
+<P>Также убедитесь, что эта строка AddType не спрятана внутри блока
+&#60;Virtualhost&#62; или &#60;Directory&gt;, что предотвращает его применение к местоположению вашего тестового скрипта.</P>
+</LI><LI><P>Наконец, размещение фалов конфигурации Apache изменилось для версии Apache 1.3.  
+  Вы должны убедиться, что файл конфигурации, в который вы добавили строку AddType, действительно читается. 
+Вы можете намеренно поместить синтаксическую ошибку в файл httpd.conf 
+или сделать какое-нибудь иное очевидное изменение, которое поможет понять, читается ли этот файл корректно.</P>
+</LI></UL><B><P><A NAME="faq.build.activate-module"></A><B>9. </B>Сказано использовать
+<TT>--activate-module=src/modules/php4/libphp4.a</TT>, но этот файл не существует, поэтому я вместо
+него сделал <TT>--activate-module=src/modules/php4/libmodphp4.a</TT>, а он не работает!? В чём причина?</P>
+</B><P>Обратите внимание, что существование файла <TT>libphp4.a</TT> не поддерживается. 
+Процесс Аpache создаст его!</P><B><P><A NAME="faq.build.ansi"></A><B>10. </B>Когда я пытаюсь построить
+Apache с PHP как static-модулем путём использования <TT>--activate-module=src/modules/php4/libphp4.a</TT>,
+он мне говорит, что мой компилятор несовместим с ANSI.</P></B>
+<P>Это вводящее в заблуждение сообщение об ошибке от Apache, которое устранено в последующих версиях.</P>
+<B><P><A NAME="faq.build.apxs"></A><B>11. </B>Когда я пытаюсь построить PHP с использованием
+<TT>--with-apxs</TT>, я получаю странные сообщения об ошибках.</P></B>
+<P>Здесь нужно проверить три вещи.  Во-первых, когда, по некоторым причинам, Apache 
+строит Perl-скрипт apxs, он иногда заканчивает построение без нужных переменных компилятора и флагов.
+Найдите ваш скрипт apxs (попробуйте команду <B>which apxs</B>, она может найти его в
+<TT>/usr/local/apache/bin/apxs</TT> или в <TT>/usr/sbin/apxs</TT>).
+Откройте его и проверьте строки наподобие этих:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>my $CFG_CFLAGS_SHLIB  = ' ';          # заменено через Makefile.tmpl
+my $CFG_LD_SHLIB      = ' ';          # заменено через Makefile.tmpl
+my $CFG_LDFLAGS_SHLIB = ' ';          # заменено через Makefile.tmpl</PRE></TD></TR></TABLE>
+<p>Если вы видите это, вы нашли проблему.  В строках могут содержаться 
+пробелы или другие некорректные значения, такие как 'q()'. Измените эти строки так:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>my $CFG_CFLAGS_SHLIB  = '-fpic -DSHARED_MODULE'; # заменено через Makefile.tmpl
+my $CFG_LD_SHLIB      = 'gcc';                   # заменено через Makefile.tmpl
+my $CFG_LDFLAGS_SHLIB = q(-shared);              # заменено через Makefile.tmpl</PRE></TD></TR></TABLE>
+<p>Вторая проблема может появиться только в Red Hat 6.1
+и 6.2.  Скрипт apxs, поставляемый в Red Hat, нарушен.  Найдите такую строку:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>my $CFG_LIBEXECDIR    = 'modules';         # заменено через APACI install</PRE></TD></TR></TABLE>
+<p>Если нашли, измените её так:</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>my $CFG_LIBEXECDIR    = '/usr/lib/apache'; # заменено через APACI install</PRE></TD></TR></TABLE>
+<p>Наконец, если вы реконфигурировали/реинсталировали Apache, добавьте <B>make clean</B> в процесс после
+<B>./configure</B> и перед <B>make</B>.<B><P><A NAME="faq.build.microtime"></A><B>12. </B>
+В процессе <B>make</B> я получаю ошибки в microtime и много <TT>RUSAGE_</TT>.</P></B>
+<P>В ходе выполнения части <B>make</B> процесса инсталяции, если вы обнаружите проблемы, которые выглядят
+примерно так:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>microtime.c: In function `php_if_getrusage':
+microtime.c:94: storage size of `usg' isn't known
+microtime.c:97: `RUSAGE_SELF' undeclared (first use in this function)
+microtime.c:97: (Each undeclared identifier is reported only once
+microtime.c:97: for each function it appears in.)
+microtime.c:103: `RUSAGE_CHILDREN' undeclared (first use in this function)
+make[3]: *** [microtime.lo] Error 1
+make[3]: Leaving directory `/home/master/php-4.0.1/ext/standard'
+make[2]: *** [all-recursive] Error 1
+make[2]: Leaving directory `/home/master/php-4.0.1/ext/standard'
+make[1]: *** [all-recursive] Error 1
+make[1]: Leaving directory `/home/master/php-4.0.1/ext'
+make: *** [all-recursive] Error 1</PRE></TD></TR></TABLE></P>
+<P>это будет означать, что ваша система нарушена.  Вам нужно исправить ваши файлы
+<TT>/usr/include</TT>, установив пакет glibc-devel, соответствующий вашей glibc.  В РНР ничего здесь 
+исправлять не надо. Чтобы самостоятельно проверить это, сделайте простой тест:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$ cat &#62;test.c &#60;&#60;X
+#include &#60;sys/resource.h&#62;
+X
+$ gcc -E test.c &#62;/dev/null</PRE></TD></TR></TABLE>
+<p>Если вам накидает ошибок, вы будете знать, что это неприятности из ваших include-файлов.
+<B><P><A NAME="faq.build.upgrade"></A><B>13. </B>Я хочу обновить мой PHP. Где я могу найти строку
+<B>./configure</B>, которая использовалась для построения установки моей текущей версии PHP?</P>
+</B><P>Просмотрите файл config.nice в исходном дереве вашей текущей инсталяции PHP
+или, если это невозможно, просто выполните скрипт:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php phpinfo(); ?&#62;</PRE></TD></TR></TABLE>
+В верхней части вывода будет показана строка <B>./configure</B>, которая была использована для
+построения данной инсталяции PHP.</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR>
+<TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="installation.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="using.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Инсталяция</TD>
+<th WIDTH="34%" VALIGN="top"><a href="faq.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+Использование PHP</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

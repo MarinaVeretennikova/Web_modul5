@@ -1,0 +1,120 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Создание Расширений</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="zend.build.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="zend.using.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="zend.creating">Глава 29. Создание расширений</A></H1><DL><DT><B>Содержание</B></DT>
+<DT><a href="#zend.creating.compiling">Компиляция модулей</a></DT></DL>
+<P>Мы начнём с создания очень простого расширения, которое первоначально реализует 
+функцию, возвращающую целое число, принятое ей в качестве параметра. В Листинге 9.3 дан исходник.</P>
+<h5>
+<A NAME="AEN85382"></A>Рисунок 29-1. Листинг 9.3. Простое расширение.</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>/* включить/include стандартный header */
+#include "php.h"
+
+/* объявление экспортируемой функции */
+ZEND_FUNCTION(first_module);
+
+/* скомпилированный список функций, так что Zend знает, что находится в этом модуле */
+zend_function_entry firstmod_functions[] =
+{
+    ZEND_FE(first_module, NULL)
+    {NULL, NULL, NULL}
+};
+
+/* скомпилированная информация модуля */
+zend_module_entry firstmod_module_entry =
+{
+    STANDARD_MODULE_HEADER,
+    "First Module",
+    firstmod_functions,
+    NULL, NULL, NULL, NULL, NULL,
+    NO_VERSION_YET,
+    STANDARD_MODULE_PROPERTIES
+};
+
+/* реализуется стандартная "заглушка/stub" для введения в Zend */
+#if COMPILE_DL_FIRST_MODULE
+ZEND_GET_MODULE(firstmod)
+#endif
+
+/* реализуется функция, которая должна стать доступной для PHP */
+ZEND_FUNCTION(first_module)
+{
+    long parameter;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "l", &#38;parameter) == FAILURE) {
+        return;
+    }
+
+    RETURN_LONG(parmeter);
+}</PRE></TD></TR></TABLE>
+<P>В этом коде содержится завершённый PHP-модуль. Мы коротко разъясним исходный 
+код в деталях, но сначала необходимо обсудить процесс построения/build. (Это 
+даст возможность самым нетерпеливым поэкспериментировать, прежде чем мы углубимся в дискуссию об API.)</P>
+<H1><a name="zend.creating.compiling">Компиляция модулей</a></H1>
+<P>Существуют три основных способа компиляции модулей:<UL>
+<LI><P>Использовать предоставляемый "make"-механизм в директории <TT>dl</TT>.</P></LI>
+<LI><P>Использовать предоставляемый "make"-механизм в директории <TT>ext</TT>, что
+позволяет также строить динамически загружаемые модули.</P></LI>
+<LI><P>Компилировать исходник вручную.</P></LI></UL>
+<p>Предпочтителен второй метод, так как в PHP 4.0 он стал стандартизованным 
+сложным процессом построения. Такое усложнение имеет также, к сожалению, и 
+недостатки, - в нём трудно разобраться. Для этого далее в этой главе будет 
+дано развёрнутое объяснение, но пока поработаем с файлами по умолчанию.
+<P>Процесс make, содержащийся в директории <TT>dl</TT>, это не очень чистый вариант, планируемый на удаление из исходного дерева. 
+Откровенно говоря, намного проще использовать построение динамических 
+расширений, но, поскольку здесь нет возможностей директории <TT>ext</TT> и она в любом случае намечена к удалению, использование директории
+<TT>dl</TT> не рекомендуется.</P>
+<P>Третий метод хорош для тех, кто (по некоторым причинам) не имеет полного 
+исходного дерева PHP, не имеет доступа ко всем файлам или просто любит 
+поработать с клавиатурой. Эти случаи должны быть чрезвычайно редкими, но мы 
+обязаны рассмотреть также и этот метод.</P>
+<P><B>Компиляция с использованием Make. </B>Для компилирования исходников с использованием стандартного механизма 
+скопируйте всех субдиректории в директорию <TT>ext</TT> вашего исходного дерева PHP. Затем запустите
+<TT>buildconf</TT>, который создаст новый скрипт <TT>configure</TT>, содержащий необходимые опции. По умолчанию все сэмплы исходников отключены/disabled, 
+поэтому вы можете не бояться прерывания вашего процесса построения.</P>
+<P>После запуска <TT>buildconf</TT>, <TT>configure --help</TT> покажет следующие дополнительные модули:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>  --enable-array_experiments   BOOK: Enables array experiments
+  --enable-call_userland       BOOK: Enables userland module
+  --enable-cross_conversion    BOOK: Enables cross-conversion module
+  --enable-first_module        BOOK: Enables first module
+  --enable-infoprint           BOOK: Enables infoprint module
+  --enable-reference_test      BOOK: Enables reference test module
+  --enable-resource_test       BOOK: Enables resource test module
+  --enable-variable_creation   BOOK: Enables variable-creation module</PRE></TD></TR></TABLE>
+<p>Модуль, показанный ранее в Листинге 9.3, может быть включён с помощью <TT>--enable-first_module</TT>
+или <TT>--enable-first_module=yes</TT>.</p>
+<P><B>Компилирование вручную. </B>Чтобы скомпилировать ваши модули вручную, вам нужно выполнить следующие команды:<A NAME="AEN85418"></A><TABLE BORDER="1"><TR><th WIDTH="20%">Акция</th><th WIDTH="80%">Команда</th></TR>
+<TR><TD WIDTH="20%">Компиляция</TD><TD WIDTH="80%">cc -fpic -DCOMPILE_DL=1 -I/usr/local/include -I.
+-I.. -I../Zend -c -o <TT>&#60;your_object_file&#62;</TT> <TT>&#60;your_c_file&#62;</TT></TD></TR><TR>
+<TD WIDTH="20%">Компоновка/Linking</TD><TD WIDTH="80%">cc -shared -L/usr/local/lib -rdynamic -o
+<TT>&#60;your_module_file&#62;</TT> <TT>&#60;your_object_file(s)&#62;</TT></TD></TR></TABLE>
+<p>Команда компиляции модуля просто инструктирует компилятор: генерировать 
+позиционно независимый код (<TT>-fpic</TT> нельзя опускать), и дополнительно определяет константу
+<TT>COMPILE_DL</TT>, чтобы сообщить коду модуля, что он компилируется как динамически загружаемый 
+модуль (вышеприведённый тестовый модуль проверяет это; мы обсудим это 
+кратко). После этого специфицируется несколько стандартных include-путей, 
+которые должны использоваться как минимальный набор при компиляции исходников.
+<dl><dd><b>Примечание:</b> все include-пути в примере являются относительными к директории
+<TT>ext</TT>. Если вы компилируете из другой директории, измените пути соответствующим 
+образом. Необходимые элементы находятся в директории PHP, директории <TT>Zend</TT>
+и (если необходимо) в директории , в которой находятся модули.</dd></dl>
+<P>Команда link (компоновки) это также обычная команда, выполняющая компоновку динамического модуля.</P>
+<P>Вы можете включить в команду компоновки опции оптимизации, отсутствующие в 
+нашем примере (но некоторые из них включены в makefile-шаблон, описанный в предыдущем разделе).</P>
+<dl><dd><b>Примечание:</b> компиляция и компоновка вручную статичного модуля в 
+бинарный PHP требует длинных инструкций и не рассматривается здесь. (Не 
+очень эффективно вводить все эти команды вручную.)</dd></dl>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="zend.build.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="zend.using.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">Система автоматического построения РНР</TD><th WIDTH="34%" VALIGN="top">
+<a href="zend.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Использование расширений</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

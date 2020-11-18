@@ -1,0 +1,55 @@
+<HTML>
+<HEAD>
+<TITLE>Проверка полноты данных</TITLE>
+<STYLE type="text/сss">
+.oblig {background:orange}
+DIV {font-family:"ms sans serif, sans-serif"}
+</STYLE>
+<SCRIPT language="JavaScript">
+//Функция проверки, не является ли элемент пустым
+function isEmpty(inText) {
+    for (var i=0; i<inText.length;i++) 
+           if (""!=inText.charAt(i))
+                return false;
+    return true;
+}
+//Функция просмотра всех полей 
+function fullData(x) { 
+     for (var i=0; i<x.elements.length; i++)
+           if ("oblig"==x.elements(i).className) {
+           alert("Необходимо заполнить все цветные поля");
+           return false;
+           } 
+}
+//Функция определения класса элемента 
+function detClass(x) { 
+   x.className=isEmpty(x.value)?"oblig":"";
+}
+//Функция проверки, не является ли 
+//введенный символ пробелом (код 32) 
+function checkGap(x) {
+   if (32!=event.keyCode)
+   x.className="";
+}
+</SCRIPT> 
+</HEAD> 
+<BODY>
+<H2>Проверка формы при отправке</H2>
+<FORM name="fUser" onsubmit="return fullData(this)"> 
+  <DIV>Имя пользователя:</DIV> 
+    <INPUT type=text class="oblig" onkeypress="checkGap(this)" onchange="detClass(this)">
+	<BR> 
+  <DIV>
+E-mail:</DIV>
+   <INPUT type=text class="oblig" onkeypress="checkGap(this)" onchange="detClass(this)"> 
+<DIV>
+Домашний адрес:</DIV> 
+<INPUT type=text size=45>
+<BR>
+<DIV>
+Возраст:</DIV>
+<INPUT type=text size=3><BR><BR>
+<INPUT type=submit value="Отправить">
+</FORM>
+</BODY>
+</HTML>

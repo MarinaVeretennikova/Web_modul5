@@ -1,0 +1,64 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>strftime</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="mktime.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="strtotime.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>    
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.strftime">strftime</A></H1><A NAME="AEN15954"></A><P>(PHP 3, PHP 4)</P>
+<p>strftime - форматирует локальные дату/время в соответствии с локальными установками.<A NAME="AEN15957"></A></p>
+<H2>Описание</H2><p>string <B>strftime</B> (string format [, int timestamp])</p>
+<P>Возвращает строку, отформатированную в соответствии с заданной строкой формата с использованием <TT><I>timestamp</I></TT> или текущего локального времени, если timestamp не задан.  Имена month и weekday 
+и другие зависимые от языка строки соотносятся с текущей локализацией через <A HREF="setlocale.html"><B>setlocale()</B></A>.</P>
+<P>В строке формата распознаются следующие спецификаторы конвертации:<UL><LI><P>%a - сокращённое имя weekday в соответствии с текущей locale</P></LI>
+<LI><P>%A - полное имя weekday в соответствии с текущей locale</P></LI>
+<LI><P>%b - сокращённое имя month в соответствии с текущей locale</P></LI>
+<LI><P>%B - полное имя month в соответствии с текущей locale</P></LI>
+<LI><P>%c - предпочтительное представление даты и времени для текущей locale</P></LI>
+<LI><P>%C - число столетий (год, разделённый на 100 и усечённый до integer, в диапазоне 00 - 99)</P></LI>
+<LI><P>%d - число месяца как 10-ричное число (диапазон 01 - 31)</P></LI><LI><P>%D - то же , что %m/%d/%y</P></LI>
+<LI><P>%e - число месяца как 10-ричное число, одиночная цифра имеет перед собой пробел (диапазон '1' - '31')</P></LI>
+<LI><P>%g - как %G, но без столетия</P></LI><LI><P>%G - год из 4 цифр, соответствующий ISO-номеру недели (см. %V).
+Имеет тот же формат и значение, что и %Y, но, если ISO week number принадлежит предыдущему или следующему году, используется тот год.</P></LI>
+<LI><P>%h - то же, что и %b</P></LI><LI><P>%H - часы как 10-ричное число (диапазон 00 - 23)</P></LI>
+<LI><P>%I - часы как 10-ричное число с использованием 12-часового циферблата (диапазон 01 - 12)</P></LI>
+<LI><P>%j - день года как 10-ричное число (диапазон 001 - 366)</P></LI>
+<LI><P>%m - month как 10-ричное число (диапазон 01 - 12)</P></LI>
+<LI><P>%M - минуты как 10-ричное число</P></LI><LI><P>%n - символ newline</P></LI>
+<LI><P>%p - 'am' или 'pm' в соответствии с заданным значением времени, либо соответствующие строки для текущей locale</P></LI>
+<LI><P>%r - время в нотации a.m. и p.m.</P></LI><LI><P>%R - время в 24-часовой нотации</P></LI>
+<LI><P>%S - секунды как 10-ричное число</P></LI><LI><P>%t - символ tab</P></LI>
+<LI><P>%T - текущее время, равное %H:%M:%S</P></LI><LI><P>%u - день недели как 10-ричное число [1,7], где 1 это Monday</LI></P></ul>
+<p><TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>Sun Solaris начинает неделю с Sunday как 1, хотя ISO 9889:1999 (текущий 
+стандарт C) ясно указывает, что это должен быть Monday.</P></TD></TR></TABLE>
+<ul><LI><P>%U - номер недели текущего года как 10-ричное число, начиная с Sunday как первого дня первой недели</P></LI>
+<LI><P>%V -  ISO 8601:1988 номер недели текущего года как 10-ричное число, диапазон 01 
+- 53, где week 1 это первая неделя, имеющая как минимум 4 дня в текущем году, а
+Monday это первый день недели. (Используйте %G или %g для компонента year,  соответствующие номеру недели для специфицированного .)</P></LI>
+<LI><P>%W - номер недели текущего года как 10-ричное число, начиная с Monday как первого дня первой недели</P></LI>
+<LI><P>%w - день недели как 10-ричное число, Sunday как 0</P></LI>
+<LI><P>%x - предпочтительное представление даты для текущей locale без времени</P></LI>
+<LI><P>%X - предпочтительное представление времени для текущей locale без даты</P></LI>
+<LI><P>%y - год как 10-ричное число без столетий (диапазон 00 - 99)</P></LI>
+<LI><P>%Y - год как 10-ричное число, включая столетия</P></LI>
+<LI><P>%Z - часовой пояс, имя или аббревиатура</P></LI><LI><P>%% -литеральный символ '%'</P></LI></UL>
+<BLOCKQUOTE><P><B>Примечание: </B>не все виды специфицированной конвертации могут поддерживаться вашей 
+библиотекой C, и в этом случае они не будут поддерживаться РНР-функцией <B>strftime()</B>. Это означает, что %T и %D не будут работать в Windows.</P>
+</BLOCKQUOTE><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN16048"></A><h5>Пример 1. strftime()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>setlocale (LC_TIME, "C");
+print (strftime ("%A in Finnish is "));
+setlocale (LC_TIME, "fi_FI");
+print (strftime ("%A, in French "));
+setlocale (LC_TIME, "fr_FR");
+print (strftime ("%A and in German "));
+setlocale (LC_TIME, "de_DE");
+print (strftime ("%A.\n"));</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Этот пример работает, если вы имеете соответствующие локализации/locales, установленные в вашей системе.</p>
+<P>См. также <A HREF="setlocale.html"><B>setlocale()</B></A>, <A HREF="mktime.html"><B>mktime()</B></A>
+и <A HREF="http://www.opengroup.org/onlinepubs/7908799/xsh/strftime.html" TARGET="_top">Open Group-спецификацию
+<B>strftime()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="mktime.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="strtotime.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">mktime</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.datetime.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">strtotime</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

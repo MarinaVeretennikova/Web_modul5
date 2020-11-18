@@ -1,0 +1,30 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>imap_set_quota</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="imap-search.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="imap-setacl.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.imap-set-quota">imap_set_quota</A></H1><A NAME="AEN35634"></A><P>(PHP 4 &#62;= 4.0.5)</P>
+<p>imap_set_quota - устанавливает квоту для данного mailbox'а.<A NAME="AEN35637"></A></p><H2>Описание</H2>
+<p>int <B>imap_set_quota</B> (int imap_stream, string quota_root, int quota_limit)</p>
+<P>Устанавливает верхний предел квоты на mailboxЭта функция требует, чтобы <TT><I>imap_stream</I></TT> был открыт как бюджет администратора почты. Она не будет работать, если он 
+открыт как любой другой пользователь.</P><P>Эта функция в настоящее время доступна только для пользователей библиотеки c-client2000.</P>
+<P><TT><I>imap_stream</I></TT> это указатель потока, возвращаемый из <A HREF="imap-open.html"><B>imap_open()</B></A>. Этот поток обязан быть открыт как mail administrator, иначе функция потерпит
+неудачу.<TT><I><br>quota_root</I></TT> это mailbox для установки квоты. Этот параметр должен следовать стандарту IMAP 
+для mailbox'а, 'user.name'.<br><TT><I>quota_limit</I></TT> это максимальный размер (в KB) для <TT><I>quota_root</I></TT>.</P>
+<P>Возвращает <TT><B>TRUE</B></TT> при успехе, <TT><B>FALSE</B></TT> при ошибке.</P><TABLE WIDTH="100%" BORDER="0"><TR>
+<TD><A NAME="AEN35664"></A><h5>Пример 1. imap_set_quota()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$mbox = imap_open ("{your.imap.host:143}", "mailadmin", "password");
+
+if(!imap_set_quota($mbox, "user.kalowsky", 3000)) {
+    print "Error in setting quota\n";
+    return;
+}
+
+imap_close($mbox);</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="imap-open.html"><B>imap_open()</B></A>,
+<B>imap_set_quota()</B>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="imap-search.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="imap-setacl.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">imap_search</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.imap.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">imap_setacl</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

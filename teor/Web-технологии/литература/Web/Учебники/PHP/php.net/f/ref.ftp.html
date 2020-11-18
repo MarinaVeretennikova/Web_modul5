@@ -1,0 +1,85 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"
+><TITLE>Функции FTP</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="fribidi-log2vis.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="ftp-cdup.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.ftp"></A>XXXIII. Функции FTP</h1><A NAME="AEN25803"></A>
+<H1><A NAME="ftp.intro">Введение</A></H1><P>Функции этого расширения реализуют клиентский доступ к файловым серверам, 
+называемый File Transfer Protocol FTP, как определено в 
+<A HREF="http://www.faqs.org/rfcs/rfc959.html" TARGET="_top">http://www.faqs.org/rfcs/rfc959.html</A>.</P>
+<H1><A NAME="ftp.requirements">Требования</A></H1><P>Эти функции всегда доступны как часть стандартного модуля.</P>
+<H1><A NAME="ftp.installation">Установка</A></H1><P>Чтобы использовать FTP-функции с вашей конфигурацией PHP, вы должны
+добавить опцию<br><TT><A HREF="../configure.html#install.configure.enable-ftp">--enable-ftp</A></TT>
+при установке PHP 4, и <A HREF="../configure.html#install.configure.with-ftp">
+<TT>--with-ftp</TT></A> при использовании PHP 3.</P><H1><A NAME="ftp.configuration">Установка</A></H1>
+<P>Это расширение не определяет никаких директив конфигурации.</P>
+<H1><A NAME="ftp.resources">Типы ресурсов</A></H1><P>Это расширение использует один тип ресурсов, который является 
+ссылкой-идентификатором ftp-соединения.</P><H1><A NAME="ftp.constants">Предопределённые константы</A></H1><P>Эти константы определены данным расширением и будут доступны только в том случае, если либо вкомпилированы в РНР, либо динамически загружены на этапе прогона.</P>
+<DL><DT><TT><B>FTP_ASCII</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FTP_TEXT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FTP_BINARY</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FTP_IMAGE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FTP_TIMEOUT_SEC</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT></DL>
+<H1><A NAME="ftp.examples">Примеры</A></H1><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN25861"></A>
+<h5>Пример 1. FTP</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+// установить базовое соединение
+$conn_id = ftp_connect($ftp_server); 
+
+// login с username и password
+$login_result = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass); 
+
+// проверить соединение
+if ((!$conn_id) || (!$login_result)) { 
+        echo "FTP connection has failed!";
+        echo "Attempted to connect to $ftp_server for user $ftp_user_name"; 
+        die; 
+    } else {
+        echo "Connected to $ftp_server, for user $ftp_user_name";
+    }
+
+// загрузить файл
+$upload = ftp_put($conn_id, $destination_file, $source_file, FTP_BINARY); 
+
+// проверить статус загрузки
+if (!$upload) { 
+        echo "FTP upload has failed!";
+    } else {
+        echo "Uploaded $source_file to $ftp_server as $destination_file";
+    }
+
+// закрыть поток FTP
+ftp_close($conn_id); 
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><DL><DT><B>Содержание</B></DT>
+<DT><A HREF="ftp-cdup.html">ftp_cdup</A> - переходит в родительскую директорию</DT>
+<DT><A HREF="ftp-chdir.html">ftp_chdir</A> - переходит по директориям на FTP-сервере</DT>
+<DT><A HREF="ftp-close.html">ftp_close</A> - закрывает FTP-соединение</DT>
+<DT><A HREF="ftp-connect.html">ftp_connect</A> - открывает FTP-соединение</DT>
+<DT><A HREF="ftp-delete.html">ftp_delete</A> - удаляет файлы на FTP-сервере</DT>
+<DT><A HREF="ftp-exec.html">ftp_exec</A> - запрашивает выполнение программы на FTP-сервере</DT>
+<DT><A HREF="ftp-fget.html">ftp_fget</A> - загружает файл с FTP-сервера и сохраняет в открытом файле</DT>
+<DT><A HREF="ftp-fput.html">ftp_fput</A> - загружает открытый файл на FTP-сервер</DT>
+<DT><A HREF="ftp-get-option.html">ftp_get_option</A> - запрашивает поведение текущего потока FTP</DT>
+<DT><A HREF="ftp-get.html">ftp_get</A> - загружает файл с FTP-сервера</DT>
+<DT><A HREF="ftp-login.html">ftp_login</A> - входит в FTP-соединение</DT>
+<DT><A HREF="ftp-mdtm.html">ftp_mdtm</A> - возвращает время последнего изменения данного файла</DT>
+<DT><A HREF="ftp-mkdir.html">ftp_mkdir</A> - создаёт директорию</DT>
+<DT><A HREF="ftp-nlist.html">ftp_nlist</A> - возвращает список файлов в данной директории</DT>
+<DT><A HREF="ftp-pasv.html">ftp_pasv</A> - включает/выключает режим passive</DT>
+<DT><A HREF="ftp-put.html">ftp_put</A> - выгружает файл на FTP-сервер</DT>
+<DT><A HREF="ftp-pwd.html">ftp_pwd</A> - возвращает имя текущей директории</DT>
+<DT><A HREF="ftp-quit.html">ftp_quit</A> - закрывает FTP-соединение</DT>
+<DT><A HREF="ftp-rawlist.html">ftp_rawlist</A> - возвращает детальный список файлов в данной директории</DT>
+<DT><A HREF="ftp-rename.html">ftp_rename</A> - переименовывает файл на FTP-сервере</DT>
+<DT><A HREF="ftp-rmdir.html">ftp_rmdir</A> - удаляет директорию</DT>
+<DT><A HREF="ftp-set-option.html">ftp_set_option</A> - устанавливает различные опции работы FTP</DT>
+<DT><A HREF="ftp-site.html">ftp_site</A> - отправляет команду SITE на сервер</DT>
+<DT><A HREF="ftp-size.html">ftp_size</A> - возвращает размер данного файла</DT>
+<DT><A HREF="ftp-systype.html">ftp_systype</A> - возвращает системный идентификатор типа удалённого FTP-сервера</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="fribidi-log2vis.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ftp-cdup.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">fribidi_log2vis</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">ftp_cdup</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

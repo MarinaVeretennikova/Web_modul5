@@ -1,0 +1,70 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Использование Удалённых/Remote Файлов</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="file-upload.put-method.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="connection-handling.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="features.remote-files">Глава 20. Использование удалённых/remote файлов</A></H1>
+<P>Если поддержка "URL fopen-оболочки/wrapper" включена при конфигурировании PHP (если 
+вы только не передали явным образом флаг <TT>--disable-url-fopen-wrapper</TT> для конфигурирования (для версий, новее 4.0.3) или не установили
+<TT><I>allow_url_fopen</I></TT> в off в файле <TT>php.ini</TT> (для более новых версий)),
+вы можете использовать HTTP и FTP- URL'ы с большинством функций, которые принимают
+filename/имя файла в качестве параметра, в том числе - операторы
+<A HREF="f/require.html"><B>require()</B></A> и <A HREF="include.html">
+<B>include()</B></A>.</P><BLOCKQUOTE><P><B>Примечание: </B>Windows-версия <TT>PHP</TT>
+в настоящее время не поддерживает удалённый доступ к файлам для следующих функций:
+<A HREF="include.html"><B>include()</B></A>, <A HREF="include-once.html">
+<B>include_once()</B></A>, <A HREF="f/require.html"><B>require()</B></A>
+<A HREF="f/require-once.html"><B>require_once()</B></A>.</P></BLOCKQUOTE>
+<P>Например, вы можете использовать это для того, чтобы открыть файл на удалённом web-сервере,
+разобрать вывод данных, а затем использовать эти данные в запросе к БД или 
+просто вывести их в стиле вашего web-сайта.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+  <h5><A NAME="AEN6008"></A>
+  Пример 20-1. Получение названия/title удалённой страницы</h5>
+  <TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+$file = fopen ("http://www.example.com/", "r");
+if (!$file) {
+    echo "&#60;p&#62;Unable to open remote file.\n";
+    exit;
+}
+while (!feof ($file)) {
+    $line = fgets ($file, 1024);
+    /* Это будет работать, только если title и его тэги расположены в одной строчке */
+    if (eregi ("&#60;title&#62;(.*)&#60;/title&#62;", $line, $out)) {
+        $title = $out[1];
+        break;
+    }
+}
+fclose($file);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Вы можете также записывать в файлы по FTP, если соединены как пользователь с 
+корректными правами доступа и если файл ещё не существует.
+Для соединения как любой пользователь, кроме 'anonymous', вам необходимо 
+специфицировать username (и, возможно, password) в URL, как, например:
+'ftp://user:password@ftp.example.com/path/to/file'. (Вы можете использовать 
+тот же синтаксис для доступа к файлам по HTTP, если необходима Basic-аутентификация.)</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+  <h5><A NAME="AEN6013"></A>Пример 20-2. Сохранение данных на удалённом сервере</h5>
+  <TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$file = fopen ("ftp://ftp.example.com/incoming/outputfile", "w");
+if (!$file) {
+    echo "&#60;p&#62;Unable to open remote file for writing.\n";
+    exit;
+}
+/* Здесь записываются данные. */
+fputs ($file, $_SERVER['HTTP_USER_AGENT'] . "\n");
+fclose ($file);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<BLOCKQUOTE><P><B>Примечание: </B>из этого примера у вас может возникнуть идея использовать эту технику для 
+записи в удалённый log, но, как указано выше, вы можете записывать только в новый файл с использованием оболочек URL fopen(). Для выполнения 
+распределённого логинга, вроде этого, вы должны просмотреть<A HREF="f/syslog.html"><B>syslog()</B></A>.</P></BLOCKQUOTE>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="file-upload.put-method.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="connection-handling.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Поддержка метода PUT</TD>
+<th WIDTH="34%" VALIGN="top"><a href="features.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Обслуживание соединений</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

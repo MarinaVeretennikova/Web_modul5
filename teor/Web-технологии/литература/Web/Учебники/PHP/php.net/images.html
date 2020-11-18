@@ -1,0 +1,38 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Создание Изображений и Манипуляции с Ними</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="error-handling.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="http-auth.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="features.images">Глава 16. Создание изображений и манипуляции с ними</A></H1>
+<P>В PHP нет ограничений на создание простого HTML-вывода. Он может также
+использоваться для создания изображений и манипуляций с файлами изображений 
+различных форматов, включая gif, png, jpg, wbmp и xpm. Что особенно удобно: PHP может выводить поток изображения непосредственно в браузер. Вам для этого необходимо скомпилировать PHP с библиотекой GD функций изображений. GD и PHP могут потребовать также наличия других библиотек, в зависимости от того, с каким форматом изображений вы работаете. GD перестал поддерживать Gif-изображения в версии 1.6.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+  <h5><A NAME="AEN5784"></A>Пример 16-1. Создание PNG в PHP</h5>
+  <TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+    Header("Content-type: image/png");
+    $string=implode($argv," ");
+    $im = ImageCreateFromPng("images/button1.png");
+    $orange = ImageColorAllocate($im, 220, 210, 60);
+    $px = (imagesx($im)-7.5*strlen($string))/2;
+    ImageString($im,3,$px,9,$string,$orange);
+    ImagePng($im);
+    ImageDestroy($im);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Этот пример вызывается со страницы тэгом вроде: &#60;img src="button.php?text"&#62;<br>
+Вышеприведённый скрипт button.php принимает затем эту строку &quot;text", 
+накладывает её поверх базового изображения, которое в нашем случае "images/button1.png", 
+и выводит результирующее изображение.  Это очень удобный способ исключить 
+необходимость новой прорисовки изображений кнопок каждый раз, когда вам нужно 
+изменить текст кнопки. С помощью этого метода они генерируются динамически.</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="error-handling.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="http-auth.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Обработка ошибок</TD>
+<th WIDTH="34%" VALIGN="top"><a href="features.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+HTTP-аутентификация в PHP</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

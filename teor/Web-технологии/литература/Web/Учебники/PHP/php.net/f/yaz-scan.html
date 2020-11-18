@@ -1,0 +1,50 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>yaz_scan</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="yaz-scan-result.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="yaz-search.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="yaz-scan">yaz_scan</A></H1><A NAME="AEN83801"></A><P>(PHP 4 &#62;= 4.0.5)</P>
+<p>yaz_scan - готовит к сканированию.<A NAME="AEN83804"></A></p><H2>Описание</H2>
+<p>int <B>yaz_scan</B> (int id, string type, string startterm [, array flags])</p>
+<P>Эта функция для Z39.50 Scan Request. Аргумент <TT><I>id</I></TT> специфицирует целевой ID. Точка стартового термина задана параметром
+<TT><I>startterm</I></TT>. Форма, в которой специфицирован starting term, задаётся параметром
+<TT><I>type</I></TT>. В настоящее время поддерживается type <TT>rpn</TT>. Необязательный <TT><I>flags</I></TT> специфицирует дополнительную информацию для управления поведением
+scan-запроса. В настоящее время из flags читаются три индекса: <TT>number</TT> (количество запрошенных терминов),
+<TT>position</TT> (предпочтительная позиция для term) и <TT>stepSize</TT> (предпочтительный размер шага/step).
+Для реального трансфера Scan Request в цель и получения Scan Response обязана вызываться функция
+<A HREF="yaz-wait.html"><B>yaz_wait()</B></A>. По завершении <A HREF="yaz-wait.html"><B>yaz_wait()</B></A> вызывайте
+<A HREF="yaz-error.html"><B>yaz_error()</B></A> и <A HREF="yaz-scan-result.html"><B>yaz_scan_result()</B></A> для обработки ответа.</P>
+<P>Синтаксис <TT><I>startterm</I></TT> аналогичен RPN query, как описано в <A HREF="yaz-search.html"><B>yaz_search()</B></A>. Параметр
+startterm состоит из нуль или более спецификаций  <TT>@attr</TT>-операции, с последующей единственной лексемой/token.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN83839"></A><h5>Пример 1. PHP-функция, сканирующая заголовки</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>function scan_titles($id, $starterm) {
+        yaz_scan($id,"rpn", "@attr 1=4 " . $starterm);
+        yaz_wait();
+        $errno = yaz_errno($id);
+        if ($errno == 0) {
+          $ar = yaz_scan_result($id,&#38;$options);
+          echo 'Scan ok; ';
+          $ar = yaz_scan_result($id, &#38;$options);
+          while(list($key,$val)=each($options)) {
+             echo "$key = $val &#38;nbsp;";
+          }
+          echo '&#60;br&#62;&#60;table&#62;&#60;tr&#62;&#60;td&#62;';
+          while(list($key,list($k, $term, $tcount))=each($ar)) {
+            if (empty($k)) continue;
+            echo "&#60;tr&#62;&#60;td&#62;$term&#60;/td&#62;&#60;td&#62;";
+            echo $tcount;
+            echo "&#60;/td&#62;&#60;/tr&#62;";
+          }
+          echo '&#60;/table&#62;';
+        } else {
+          echo "Scan failed. Error: " . yaz_error($id) . "&#60;br&#62;";
+        }
+      }</PRE></TD></TR></TABLE></TD></TR></TABLE>
+</TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="yaz-scan-result.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="yaz-search.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">yaz_scan_result</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.yaz.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">yaz_search</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

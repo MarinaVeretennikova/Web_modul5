@@ -1,0 +1,147 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Шифровки Mcrypt</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="mcal-week-of-year.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="mcrypt-cbc.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.mcrypt"></A>LV. Функции шифровки Mcrypt</h1><A NAME="AEN44096"></A>
+<P>Это интерфейс с библиотекой mcrypt, который поддерживает широкий набор 
+алгоритмов, таких как DES, TripleDES, Blowfish
+(по умолчанию), 3-WAY, SAFER-SK64, SAFER-SK128, TWOFISH, TEA, RC2 и режимов шифровки
+GOST в CBC, OFB, CFB и ECB. Дополнительно он поддерживает RC6 и IDEA, 
+которые считаются "non-free".</P><P>Mcrypt можно использовать для шифровки и дешифровки вышеприведёнными 
+шифрами. Если вы связались с библиотекой libmcrypt-2.2.x, четыре важные команды mcrypt
+(<A HREF="mcrypt-cfb.html"><B>mcrypt_cfb()</B></A>, <A HREF="mcrypt-cbc.html"><B>mcrypt_cbc()</B></A>,
+<A HREF="mcrypt-ecb.html"><B>mcrypt_ecb()</B></A> и <A HREF="mcrypt-ofb.html"><B>mcrypt_ofb()</B></A>) могут оперировать в двух режимах, которые называются MCRYPT_ENCRYPT и MCRYPT_DECRYPT, 
+соответственно.<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN44103"></A>
+  <h5>
+Пример 1. Шифровка input-значения шифром TripleDES под 2.2.x в режиме ECB</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$key = "this is a very secret key";
+$input = "Let us meet at 9 o'clock at the secret place.";
+
+$encrypted_data = mcrypt_ecb (MCRYPT_3DES, $key, $input, MCRYPT_ENCRYPT);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><p>Это пример даст данные, зашифрованные как строка в
+<TT>$encrypted_data</TT>.</p><P>Если связаны с библиотекой libmcrypt 2.4.x или 2.5.x, эти функции также 
+будут доступны, но рекомендуется использовать продвинутые функции.<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN44108"></A><h5>Пример 2. Шифровка input-значения шифром TripleDES под 2.4.x и выше в режиме ECB
+</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$key = "this is a very secret key";
+$input = "Let us meet at 9 o'clock at the secret place.";
+
+$td = mcrypt_module_open ('tripledes', '', 'ecb', '');
+$iv = mcrypt_create_iv (mcrypt_enc_get_iv_size ($td), MCRYPT_RAND);
+mcrypt_generic_init ($td, $key, $iv);
+$encrypted_data = mcrypt_generic ($td, $input);
+mcrypt_generic_end ($td);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Это пример даст данные, зашифрованные как строка в<TT>$encrypted_data</TT>. Полный пример см. в описании
+<A HREF="mcrypt-module-open.html"><B>mcrypt_module_open()</B></A>.</p>
+<H1><A NAME="mcrypt.requirements">Требования</A></H1><P>Эти функции работают с использованием
+<A HREF="http://mcrypt.hellug.gr/" TARGET="_top">mcrypt</A>.</P>
+<P>Если вы связаны с библиотекой libmcrypt 2.4.x или выше, поддерживаются 
+следующие дополнительные алгоритмы блока: CAST, LOKI97, RIJNDAEL, SAFERPLUS,
+SERPENT, и шифровальщики потока: ENIGMA (crypt), PANAMA, RC4 и
+WAKE. С библиотекой libmcrypt 2.4.x или выше доступен также режим шифровки nOFB.</P>
+<H1><A NAME="mcrypt.installation">Установка</A></H1><P>Загрузите libmcrypt-x.x.tar.gz <a href="http://mcrypt.hellug.gr/">отсюда</a> 
+и следуйте инструкциям по установке. Вам необходимо скомпилировать PHP с параметром <TT>--with-mcrypt</TT>, чтобы подключить данное расширение. Убедитесь, что вы компилируете libmcrypt
+с опцией <TT>--disable-posix-threads</TT>.</P><H1><A NAME="mcrypt.resources">Типы ресурсов</A></H1><P>Это расширение не определяет никакие типы ресурсов.</P>
+<H1><a name="mcrypt.constants">Предопределённые константы</a></H1><P>Mcrypt может работать с четырьмя режимами шифровки (CBC, OFB, CFB и
+ECB). Если связь имеется с библиотекой libmcrypt-2.4.x или выше, эти 
+функции могут также работать с блок-режимом шифровки nOFB и в режиме STREAM. 
+Ниже вы найдёте список всех поддерживаемых режимов шифровки с константами, 
+определёнными для данного режима.  Более полную справку и обсуждение вы 
+найдёте в Applied Cryptography by Schneier (ISBN 0-471-11709-9).<UL><LI><P>MCRYPT_MODE_ECB (electronic codebook/электронная кодовая книга) 
+подходит для произвольных данных, таких как шифрование других ключей. Поскольку данные здесь случайны и 
+кратки, недостатки ECB имеют положительный побочный эффект.</P></LI>
+<LI><P>MCRYPT_MODE_CBC (cipher block chaining) специально предназначен для 
+шифрования файлов; безопасность значительно выше, чем у ECB.</P></LI>
+<LI><P>MCRYPT_MODE_CFB (cipher feedback) - наилучший режим для шифровки 
+байтовых потоков, где должны шифроваться отдельные байты.</P></LI>
+<LI><P>MCRYPT_MODE_OFB (output feedback, в 8bit) сравним с CFB, но 
+используется в приложениях, где недопустима передача ошибок. Небезопасен (поскольку 
+работает в 8-битном режиме), поэтому использовать его не рекомендуется.</P></LI>
+<LI><P>MCRYPT_MODE_NOFB (output feedback, в nbit) сравним с OFB, но более 
+безопасен, поскольку оперирует с размером блоков по алгоритму.</P></LI>
+<LI><P>MCRYPT_MODE_STREAM - дополнительный режим для включения алгоритмов потока вроде WAKE или RC4.</P></LI></UL>
+<P>Вот список шифров, которые в настоящее время поддерживаются расширением mcrypt.  
+Полны список см. в определениях в конце файла <TT>mcrypt.h</TT>. Общее правило для
+mcrypt-2.2.x API таково: вы можете получить доступ к шифру из PHP с помощью MCRYPT_ciphername. 
+С libmcrypt-2.4.x и libmcrypt-2.5.x API эти константы также работают,
+но можно специфицировать имя шифра как строку с вызовом <A HREF="mcrypt-module-open.html"><B>mcrypt_module_open()</B></A>.
+<UL><LI><P>MCRYPT_3DES</P></LI><LI><P>MCRYPT_ARCFOUR_IV (только libmcrypt &#62; 2.4.x)</P></LI>
+<LI><P>MCRYPT_ARCFOUR (только libmcrypt &#62; 2.4.x)</P></LI><LI><P>MCRYPT_BLOWFISH</P></LI>
+<LI><P>MCRYPT_CAST_128</P></LI><LI><P>MCRYPT_CAST_256</P></LI><LI><P>MCRYPT_CRYPT</P></LI>
+<LI><P>MCRYPT_DES</P></LI><LI><P>MCRYPT_DES_COMPAT (только libmcrypt &gt; 2.2.x)</P></LI>
+<LI><P>MCRYPT_ENIGMA (только libmcrypt &gt; 2.4.x, псевдоним для MCRYPT_CRYPT)</P></LI>
+<LI><P>MCRYPT_GOST</P></LI><LI><P>MCRYPT_IDEA (non-free/не свободный ресурс)</P></LI>
+<LI><P>MCRYPT_LOKI97 (только libmcrypt &gt; 2.4.x)</P></LI><LI><P>MCRYPT_MARS (только libmcrypt &gt; 2.4.x, non-free)</P>
+</LI><LI><P>MCRYPT_PANAMA (только libmcrypt &gt; 2.4.x)</P></LI>
+<LI><P>MCRYPT_RIJNDAEL_128 (только libmcrypt &gt; 2.4.x)</P></LI>
+<LI><P>MCRYPT_RIJNDAEL_192 (только libmcrypt &gt; 2.4.x)</P></LI>
+<LI><P>MCRYPT_RIJNDAEL_256 (только libmcrypt &gt; 2.4.x)</P></LI>
+<LI><P>MCRYPT_RC2</P></LI><LI><P>MCRYPT_RC4 (только libmcrypt &gt; 2.2.x)</P></LI>
+<LI><P>MCRYPT_RC6 (только libmcrypt &gt; 2.4.x)</P></LI>
+<LI><P>MCRYPT_RC6_128 (только libmcrypt &gt; 2.2.x)</P></LI>
+<LI><P>MCRYPT_RC6_192 (только libmcrypt &gt; 2.2.x)</P></LI>
+<LI><P>MCRYPT_RC6_256 (только libmcrypt &gt; 2.2.x)</P></LI>
+<LI><P>MCRYPT_SAFER64</P></LI><LI><P>MCRYPT_SAFER128</P></LI><LI><P>MCRYPT_SAFERPLUS (только libmcrypt &gt; 2.4.x)</P></LI>
+<LI><P>MCRYPT_SERPENT(только libmcrypt &gt; 2.4.x)</P></LI><LI><P>MCRYPT_SERPENT_128 (только libmcrypt &gt; 2.2.x)</P></LI>
+<LI><P>MCRYPT_SERPENT_192 (только libmcrypt &gt; 2.2.x)</P></LI>
+<LI><P>MCRYPT_SERPENT_256 (только libmcrypt &gt; 2.2.x)</P></LI>
+<LI><P>MCRYPT_SKIPJACK (только libmcrypt &gt; 2.4.x)</P></LI>
+<LI><P>MCRYPT_TEAN (только libmcrypt &gt; 2.2.x)</P></LI>
+<LI><P>MCRYPT_THREEWAY</P></LI><LI><P>MCRYPT_TRIPLEDES (только libmcrypt &gt; 2.4.x)</P></LI>
+<LI><P>MCRYPT_TWOFISH (для старых версий mcrypt 2.x или для mcrypt &#62; 2.4.x )</P></LI>
+<LI><P>MCRYPT_TWOFISH128 (TWOFISHxxx доступны в новых версиях 2.x, но не в версиях 2.4.x)</P></LI>
+<LI><P>MCRYPT_TWOFISH192</P></LI><LI><P>MCRYPT_TWOFISH256</P></LI><LI><P>MCRYPT_WAKE (только libmcrypt &gt; 2.4.x)</P></LI>
+<LI><P>MCRYPT_XTEA (только libmcrypt &gt; 2.4.x)</P></LI></UL>
+<P>Вы обязаны (в режимах CFB и OFB) или можете (в режиме CBC) поддерживать 
+вектор инициализации /initialization vector (IV) для соответствующей функции шифровки. Этот
+IV обязан быть уникальным и обязан быть тем же самым при дешифровке/шифровке. 
+Для данных, которые хранятся в шифрованном виде, вы можете получить вывод 
+функции индекса, под которым данные хранятся (например, MD5-ключ имени файла).
+Альтернативно вы можете передать IV вместе с шифрованными данными (см. в 
+Главе 9.3 в Applied Cryptography by Schneier (ISBN 0-471-11709-9) обсуждение этого вопроса).</P>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="mcrypt-cbc.html">mcrypt_cbc</A> - шифрует/дешифрует данные в режиме CBC</DT>
+<DT><A HREF="mcrypt-cfb.html">mcrypt_cfb</A> - шифрует/дешифрует данные в режиме CFB</DT>
+<DT><A HREF="mcrypt-create-iv.html">mcrypt_create_iv</A> - создаёт вектор инициализации (IV) из произвольного ресурса</DT>
+<DT><A HREF="mcrypt-decrypt.html">mcrypt_decrypt</A> - дешифрует crypttext с заданными параметрами</DT>
+<DT><A HREF="mcrypt-ecb.html">mcrypt_ecb</A> - шифрует/дешифрует данные в режиме ECB mode</DT>
+<DT><A HREF="mcrypt-enc-get-algorithms-name.html">mcrypt_enc_get_algorithms_name</A> — возвращает имя открытого алгоритма</DT>
+<DT><A HREF="mcrypt-enc-get-block-size.html">mcrypt_enc_get_block_size</A> — возвращает размер блока открытого алгоритма</DT>
+<DT><A HREF="mcrypt-enc-get-iv-size.html">mcrypt_enc_get_iv_size</A> — возвращает размер IV открытого алгоритма</DT>
+<DT><A HREF="mcrypt-enc-get-key-size.html">mcrypt_enc_get_key_size</A> — возвращает максимальны поддерживаемый keysize/размер ключа открытого режима</DT>
+<DT><A HREF="mcrypt-enc-get-modes-name.html">mcrypt_enc_get_modes_name</A> — возвращает имя открытого режима</DT>
+<DT><A HREF="mcrypt-enc-get-supported-key-sizes.html">mcrypt_enc_get_supported_key_sizes</A> — возвращает массив с поддерживаемыми размерами ключей открытого алгоритма</DT>
+<DT><A HREF="mcrypt-enc-is-block-algorithm-mode.html">mcrypt_enc_is_block_algorithm_mode</A> - проверяет, работает ли шифровка открытого режима с блоками</DT>
+<DT><A HREF="mcrypt-enc-is-block-algorithm.html">mcrypt_enc_is_block_algorithm</A> - проверяет, является ли алгоритм открытого режима алгоритмом блока</DT>
+<DT><A HREF="mcrypt-enc-is-block-mode.html">mcrypt_enc_is_block_mode</A> - проверяет, выводит ли открытый режим блоки</DT>
+<DT><A HREF="mcrypt-enc-self-test.html">mcrypt_enc_self_test</A> — эта функция запускает самопроверку в открытом модуле</DT>
+<DT><A HREF="mcrypt-encrypt.html">mcrypt_encrypt</A> - шифрует обычный текст с заданными параметрами</DT>
+<DT><A HREF="mcrypt-generic-deinit.html">mcrypt_generic_deinit</A> — эта функция деинициализирует модуль шифровки</DT>
+<DT><A HREF="mcrypt-generic-end.html">mcrypt_generic_end</A> — эта функция прерывает шифровку</DT>
+<DT><A HREF="mcrypt-generic-init.html">mcrypt_generic_init</A> — эта функция инициализирует все буферы, необходимые для шифрования</DT>
+<DT><A HREF="mcrypt-generic.html">mcrypt_generic</A> — эта функция шифрует данные</DT>
+<DT><A HREF="mcrypt-get-block-size.html">mcrypt_get_block_size</A> - получает размер блока специфицированного шифра</DT>
+<DT><A HREF="mcrypt-get-cipher-name.html">mcrypt_get_cipher_name</A> - получает имя специфицированного шифра</DT>
+<DT><A HREF="mcrypt-get-iv-size.html">mcrypt_get_iv_size</A> — возвращает размер IV, принадлежащего специфицированной комбинации шифр/режим</DT>
+<DT><A HREF="mcrypt-get-key-size.html">mcrypt_get_key_size</A> - получает размер ключа специфицированного шифра</DT>
+<DT><A HREF="mcrypt-list-algorithms.html">mcrypt_list_algorithms</A> - получает массив всех поддерживаемых шифров</DT>
+<DT><A HREF="mcrypt-list-modes.html">mcrypt_list_modes</A> - получает массив всех поддерживаемых режимов</DT>
+<DT><A HREF="mcrypt-module-close.html">mcrypt_module_close</A> - закрывает mcrypt-модуль</DT>
+<DT><A HREF="mcrypt-module-get-algo-block-size.html">mcrypt_module_get_algo_block_size</A> — возвращает размер блока специфицированного алгоритма</DT>
+<DT><A HREF="mcrypt-module-get-algo-key-size.html">mcrypt_module_get_algo_key_size</A> — возвращает максимальный поддерживаемый keysize открытого режима</DT>
+<DT><A HREF="mcrypt-module-get-supported-key-sizes.html">mcrypt_module_get_supported_key_sizes</A> — возвращает массив с поддерживаемыми keysizes открытого алгоритма</DT>
+<DT><A HREF="mcrypt-module-is-block-algorithm-mode.html">mcrypt_module_is_block_algorithm_mode</A> - эта функция возвращает, является ли специфицированный модуль алгоритмом блока, или нет</DT>
+<DT><A HREF="mcrypt-module-is-block-algorithm.html">mcrypt_module_is_block_algorithm</A> — эта функция проверяет, является ли специфицированный алгоритм алгоритмом блока</DT>
+<DT><A HREF="mcrypt-module-is-block-mode.html">mcrypt_module_is_block_mode</A> - эта функция возвращает, выводит специфицированный режим блоки, или нет</DT>
+<DT><A HREF="mcrypt-module-open.html">mcrypt_module_open</A> — эта функция открывает модуль алгоритма и используемый режим</DT>
+<DT><A HREF="mcrypt-module-self-test.html">mcrypt_module_self_test</A> — эта функция запускает самопроверку в специфицированном модуле</DT>
+<DT><A HREF="mcrypt-ofb.html">mcrypt_ofb</A> - шифрует/дешифрует данные в режиме OFB</DT>
+<DT><A HREF="mdecrypt-generic.html">mdecrypt_generic</A> — эта функция дешифрует данные</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="mcal-week-of-year.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD  WIDTH="33%"ALIGN="right" VALIGN="top"><A HREF="mcrypt-cbc.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">mcal_week_of_year</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top">mcrypt_cbc</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

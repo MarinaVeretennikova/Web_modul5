@@ -1,0 +1,79 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>Переменные</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR>
+<TR><TD WIDTH="10%"><A HREF="types.type-juggling.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="variables.predefined.html">Вперёд</A></TD></TR></TABLE></TD></TR>
+<TR BGCOLOR="#333366"><TD><IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR>
+</TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD>
+<TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%"><H1><A NAME="language.variables">Глава 7. Переменные</A></H1>
+<DL><DT><B>Содержание</B></DT><DT><a href="#language.variables.basics">Основы</a></DT>
+<DT><a href="variables.predefined.html">Предопределённые переменные</a></DT>
+<DT><a href="variables.scope.html">Область видимости переменной</a></DT>
+<DT><a href="variables.variable.html">Переменные переменные</a></DT>
+<DT><A HREF="variables.external.html">Переменные вне PHP</A></DT></DL>
+<H1><a name="language.variables.basics">Основы</a></H1>
+<P>Переменные в PHP представлены знаком dollar с последующим именем переменной. 
+Имя переменной чувствительно к регистру символов.</P>
+<P>Имена переменных следуют тем же правилам, что и другие метки в PHP. 
+Правильное имя переменной начинается с буквы или символа подчёркивания, с 
+последующими (в любом количестве) буквами, числами или символами 
+подчёркивания. Это можно выразить в виде регулярного выражения:</P>
+<P>'[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*'</P>
+<BLOCKQUOTE><P><B>Примечание: </B>для наших целей здесь - буквы это a-z, A-Z и ASCII-символы от 127 до 255 (0x7f-0xff).</P></BLOCKQUOTE>
+<A NAME="AEN4051"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$var = "Bob";
+$Var = "Joe";
+echo "$var, $Var";      // выводит "Bob, Joe"
+
+$4site = 'not yet';     // неправильно; начинается с числа
+$_4site = 'not yet';    // правильно; начинается с символа подчёркивания/underscore
+$t&#228;yte = 'mansikka';    // правильно; '&#228;' это ASCII 228.</PRE></TD></TR></TABLE>
+<P>В PHP 3 переменные всегда присваиваются по значению. То есть, если вы 
+присваиваете выражение переменной, всё значение оригинального выражения 
+копируется в переменную назначения. Это означает, к примеру, что после 
+присвоения одной переменной другой переменной, изменение одной из этих 
+переменных не повлияет на другую. Дополнительно об этом виде присвоения см. 
+раздел <a href="expressions.html">Выражения</a>.</P>
+<P>PHP 4 предлагает другой способ присвоения значений переменным: <i>
+присвоение по ссылке</i>. Это означает, что новая переменная просто 
+ссылается на (иначе говоря, &quot;становится псевдонимом"
+или "указывает на") оригинальную переменную. Изменения в новой переменной 
+отражаются на оригинале, и наоборот. Это означает также, что никакого 
+копирования не происходит; таким образом, присвоение происходит быстрее. 
+Однако любое ускорение будет заметно только в длинных циклах или при 
+присвоении больших массивов или объектов.</P>
+<P>Для присвоения по ссылке просто присоедините амперсанд (&#38;) к началу 
+имени переменной (исходной переменной). Например, следующий фрагмент кода выводит 'My
+name is Bob' дважды:</p><A NAME="AEN4058"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+$foo = 'Bob';              // присваивается 'Bob' переменной $foo
+$bar = &#38;$foo;              // ссылка на $foo через $bar
+$bar = "My name is $bar";  // изменение $bar
+echo $bar;
+echo $foo;                 // $foo также изменилась
+?&#62;</PRE></TD></TR></TABLE>
+<P>Важно отметить, что по ссылке можно присвоить только именованные переменные.</p><A NAME="AEN4061"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$foo = 25;
+$bar = &#38;$foo;      // правильное присвоение
+$bar = &#38;(24 * 7);  // неверно; ссылка на неименованное выражение
+
+function test()
+{
+   return 25;
+}
+
+$bar = &#38;test();    // неправильно
+?&#62;</PRE></TD></TR></TABLE>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%"  VALIGN="top">
+<A HREF="types.type-juggling.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="variables.predefined.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">Трюки с типами</TD><th WIDTH="34%" VALIGN="top">
+<a href="langref.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Предопределённые переменные</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

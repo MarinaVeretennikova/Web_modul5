@@ -1,0 +1,350 @@
+<html>
+<title>Cookie: Идентификация пользователей</title>
+
+<body>
+
+<table align=center width=90%>
+<tr><td>
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c08_itcgi.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c08_itcgi.html">Библиотека ITCGI</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c08_pers.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c08_pers.html">Упражнение: Персонализация веб-сайта</a>
+</table>
+
+
+
+<h3>COOKIE: Идентификация пользователей</h3></a>
+<p align="justify">
+В данном параграфе мы рассмотрим использование COOKIE при разработке CGI-программ.
+См. также пятую главу, параграф COOKIE.
+Часто механизм COOKIE используется для идентификации пользователей. Мы напишем программу, которая
+выводит приветствие. Если в броузере пользователя уже установлено COOKIE, то
+выводится приветствие:
+<br>
+Hello, Василий Пупкин! 
+<br>
+Иначе, предложение ввести свое имя:
+
+<form method=post action="http://alice.stup.ac.ru/cgi-bin/setcookie"><input type=hidden name=name value=name><br>What is your name?  <input type=text name=value><br><input type=hidden name=seconds value=3600000><input type=submit></form>
+
+
+Далее вы видите эту программу в действии. Введите свое имя, нажмите кнопку и после перезагрузки
+страницы вы увидите приветствие. В данном случае cookie устанавливается на 60 секунд.
+Через одну минуту, если вы перезагрузите страницу, то этого приветствия не увидите.
+Здесь это сделанно специально, чтобы была возможность поиграть с cookie. Ниже будут рассмотрены
+программы, которые позволяют просматривать список всех установленных cookie и самому устанавливать
+параметры cookie.
+<br>
+[an error occurred while processing this directive]
+<br>
+
+Исходный код программы приветствия "hello" выглядит следующим образом.
+<table width="100%" bgcolor="#E5E5E5">
+<tr><td>
+<pre>
+//hello.c
+#include &lt;itcgi.h&gt;
+
+
+int main()
+{
+LString* value = CreateString();
+
+
+
+
+printf("Content-type: text/html\n\n");  
+
+
+if( GetCookieValueByName("name", value) )
+ printf("Hello, %s!\n", *value);        
+else
+printf("&lt;form method=post action=/cgi-bin/setcookie&gt;\
+&lt;input type=hidden name=name value=name&gt;&lt;br&gt;\
+What is your name?  &lt;input type=text name=value&gt;&lt;br&gt;\
+&lt;input type=hidden name=seconds value=60&gt;\
+&lt;input type=submit&gt;&lt;/form&gt;");
+
+
+DeleteString(value);
+return 0;
+}
+
+========Makefile=======
+all: hello 
+
+
+hello: hello.c itcgi.a
+        gcc hello.c -L/usr/local/lib/mysql -I/usr/local/include/mysql \
+        -L/usr/local/lib -I/usr/local/include \
+-o hello -lmysqlclient /usr/lib/itcgi.a -Wall -O3 
+        strip hello
+        cp hello /www/members/cgi-bin/hello
+
+</table>
+
+Как вы видите, текст программы предельно простой. Если удалось получить значение
+параметра cookie с именем "name", то выводим приветствие. Если нет, то выводим HTML-форму,
+где пользователь сможет указать свое имя. Рассмотрим эту HTML-форму более подробно
+
+<table width="100%" bgcolor="#E5E5E5">
+<tr><td>
+<pre>
+&lt;form method=post action=/cgi-bin/setcookie&gt;\
+&lt;input type=hidden name=name value=name&gt;&lt;br&gt;\
+What is your name?  &lt;input type=text name=value&gt;&lt;br&gt;\
+&lt;input type=hidden name=seconds value=60&gt;\
+&lt;input type=submit&gt;&lt;/form&gt;
+</table>
+
+Форма обрабатывается программой setcookie, которую мы рассмотрим чуть ниже.
+На вход этой программы приходит три параметра. Первый - имя параметра cookie,
+второй - значение и третий - это время в секундах, срок жизни этого cookie.
+В данном случае первый и третий параметры невидимы, т.к. демонстрируется программа
+приветствия, в которой нас интересует только второй параметр - ваше имя.
+
+<br>
+Исходный текст программы setcookie.
+<table width="100%" bgcolor="#E5E5E5">
+<tr><td>
+<pre>
+//setcookie.c
+#include &lt;itcgi.h&gt;
+
+
+
+
+
+int main()
+{
+LString* name = CreateString(); 
+LString* value = CreateString();
+LString* seconds = CreateString();
+
+//считываем три параметра
+GetParamByName("name", name);
+GetParamByName("value", value);
+GetParamByName("seconds", seconds);
+
+//устанавливаем cookie
+SetCookieForNSeconds(*name, *value, atoi(*seconds), "/docs/web", 0, 0);
+
+//возвращаем пользователя на страницу, с которой была запущена 
+// данная программа
+printf("Location: %s\n\n", getenv("HTTP_REFERER"));
+
+DeleteString(name);
+DeleteString(value);
+DeleteString(seconds);
+return 0;
+}
+
+=====Makefile=====
+all: setcookie 
+
+
+setcookie: setcookie.c itcgi.a
+        gcc setcookie.c -L/usr/local/lib/mysql -I/usr/local/include/mysql \
+        -L/usr/local/lib -I/usr/local/include \
+-o setcookie -lmysqlclient /usr/lib/itcgi.a -Wall -O3 
+        strip setcookie
+        cp setcookie /www/members/cgi-bin/setcookie
+
+</table>
+Обратите внимание на четвертый параметр функции SetCookieForNSeconds - "/docs/web".
+Это путь на сайте, где лежит моя книга и все html-файлы, для которых будет действовать
+cookie. Также интерес представляет заголовок, который печатает данная программа.
+<br>
+printf("Location: %s\n\n", getenv("HTTP_REFERER"));
+<br>
+Переменная окружения HTTP_REFERER содержит URL страницы, с которой была запущена HTML-форма
+или вызывана данная программа. Заголовок Location: означает, что броузер пользователя
+должен будет открыть этот URL. Такой прием возврата на страницу используется довольно часто.
+Я бы, конечно, мог написать в явной форме
+<br>
+printf("Location: http://members.itsoft.ru/docs/web/chapter8.html\n\n");
+<br>
+но тогда, при переносе книги на другой сайт, что собственно и будет сделано
+после ее завершения, мне придется исправлять исходные коды программ и перекомпилировать их.
+А рассмотренный пример универсален - не зависит от сайта, на котором будет находится HTML-форма.
+<br><br>
+
+Далее мы рассмотрим программу listcookie - полный список cookie-параметров.
+Вот вы ее видите в действии.
+[an error occurred while processing this directive]
+Ниже, форма для установки параметров, которая обрабатывается выше рассмотренной программой
+setcookie. Установите новый параметр и вы увидите, как он добавится в список.
+<form method=post action="http://alice.stup.ac.ru/cgi-bin/setcookie">
+name <input type=text name=name><br>
+value  <input type=text name=value><br>
+seconds <input type=text name=seconds>
+<input type=submit>
+</form>
+
+Исходный текст listcookie 
+<table width="100%" bgcolor="#E5E5E5">
+<tr><td>
+<pre>
+// listcookie.c
+#include &lt;itcgi.h&gt;
+
+
+int main()
+{
+LString* name = CreateString();
+LString* value = CreateString();
+int i, count;
+
+count = GetCookieCount();         // получаем общее количество параметров
+
+printf("Content-type: text/html\n\n");
+
+// выводим HTML-код таблицы
+printf("&lt;table border=\"1\"&gt;&lt;caption&gt;Полный список\
+ COOKIE-параметров&lt;/caption&gt;&lt;tr&gt;&lt;td\
+ bgcolor=\"E5E5E5\"&gt;Индекс&lt;td bgcolor=\"E5E5E5\"&gt;Имя&lt;td\
+ bgcolor=\"E5E5E5\"&gt;Значение");
+ 
+ // в цикле проходим по всем параметрам
+for(i=0;i&lt;count;i++)
+{
+ GetCookieValueByIndex(i, value); // получаем значение параметра по его индексу
+ GetCookieNameByIndex(i, name);   // получаем имя параметра
+ printf("&lt;tr&gt;&lt;td&gt;%d &lt;td&gt; %s &lt;td&gt; %s\n", i, *name, *value);
+}
+printf("&lt;/table&gt;");
+DeleteString(name);          // освобождаем память
+DeleteString(value);
+return 0;
+}
+
+=====Makefile=====
+all: listcookie 
+
+
+listcookie: listcookie.c itcgi.a
+        gcc listcookie.c -L/usr/local/lib/mysql -I/usr/local/include/mysql \
+        -L/usr/local/lib -I/usr/local/include \
+-o listcookie -lmysqlclient /usr/lib/itcgi.a -Wall -O3 
+        strip listcookie
+        cp listcookie /www/members/cgi-bin/listcookie
+
+</table>
+
+Данная программа почти полностью аналогична программе listcgi. Отличие в названии 
+функций, работающих с CGI и COOKIE параметрами.
+
+
+
+
+
+</td></tr>
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #1 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=0-7978" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=0?7978" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=0'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69019-bn=0-7978" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=0?7978"
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #2 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=1?Rnd_Num" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=1'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=1?Rnd_Num" 
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="erle.cgi-51599-7978" tppabs="http://www.linkexchange.ru/cgi-bin/erle.cgi?51599?7978" frameborder=0 
+    vspace=0 hspace=0 width=468 height=60 marginwidth=0 marginheight=0 scrolling=no>
+    <a href="javascript:if(confirm('http://www.linkexchange.ru/users/goto.map  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://www.linkexchange.ru/users/goto.map'" tppabs="http://www.linkexchange.ru/users/goto.map" target=_top>
+    <img src="rle.cgi-51599-7978" tppabs="http://www.linkexchange.ru/cgi-bin/rle.cgi?51599?7978" alt="RLE Banner Network" border=0 height=60 width=468></a>
+    </iframe>
+
+<!-- Russian LinkExchange code START - BANNER #1 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=0-7978" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=0?7978"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=0'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69021-bn=0-7978" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=0?7978"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+<!-- Russian LinkExchange code START - BANNER #2 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=1-7978" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=1?7978"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=1'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69021-bn=1-7978" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=1?7978"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+</td></tr>
+</table>
+
+</body>
+</html>

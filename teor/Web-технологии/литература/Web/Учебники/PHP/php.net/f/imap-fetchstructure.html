@@ -1,0 +1,38 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>imap_fetchstructure</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0"  WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="imap-fetchheader.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="imap-get-quota.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="imap-fetchstructure">imap_fetchstructure</A></H1><A NAME="AEN34677"></A><P>(PHP 3, PHP 4)</P>
+<p>imap_fetchstructure - читает структуру определённого сообщения.<A NAME="AEN34680"></A></p>
+<H2>Описание</H2><p>object <B>imap_fetchstructure</B> (int imap_stream, int msg_number [, int flags])</p>
+<P>Эта функция извлекает всю структурную информацию данного сообщения. 
+Необязательный параметр <TT><I>flags</I></TT> имеет только одну опцию, <TT><I>FT_UID</I></TT>, которая говорит функции - рассматривать аргумент
+<TT><I>msg_number</I></TT> как <TT><I>UID</I></TT>. Возвращаемый объект содержит оболочку, внутренние данные, размер, флаги и 
+структуру тела вместе с похожим объектом для каждого mime-присоединения. 
+Структура возвращаемых объектов такова:<A NAME="AEN34700"></A></P><h6>Таблица 1. Возвращаемые объекты
+<B>imap_fetchstructure()</B></h6><TABLE BORDER="1"><TBODY><TR><TD>type</TD><TD>первичный тип тела/body</TD></TR>
+<TR><TD>encoding</TD><TD>кодировка трансфера тела</TD></TR><TR><TD>ifsubtype</TD><TD><TT><B>TRUE</B></TT>, если имеется строка subtype</TD>
+</TR><TR><TD>subtype</TD><TD>MIME-подтип</TD></TR><TR><TD>ifdescription</TD><TD><TT><B>TRUE</B></TT>, если если имеется строка description</TD>
+</TR><TR><TD>description</TD><TD>строка описания содержимого</TD></TR><TR><TD>ifid</TD><TD><TT><B>TRUE</B></TT>, если имеется строка id</TD>
+</TR><TR><TD>id</TD><TD>строка идентификации</TD></TR><TR><TD>lines</TD><TD>количество строк</TD></TR>
+<TR><TD>bytes</TD><TD>количество байтов</TD></TR><TR><TD>ifdisposition</TD><TD><TT><B>TRUE</B></TT>, если имеется строка disposition</TD>
+</TR><TR><TD>disposition</TD><TD>строка расположения</TD></TR><TR><TD>ifdparameters</TD><TD><TT><B>TRUE</B></TT>, если существует массив dparameters</TD>
+</TR><TR><TD>dparameters</TD><TD>массив объектов, где каждый объект имеет свойства "attribute" и
+"value", соответствующие параметрам Content-disposition MIME-header'а</TD></TR><TR><TD>ifparameters</TD>
+<TD><TT><B>TRUE</B></TT>, если массив parameters существует</TD></TR><TR><TD>parameters</TD><TD>массив объектов, где каждый объект имеет свойства "attribute" и
+"value"</TD></TR><TR><TD>parts</TD><TD>массив объектов, идентичный по структуре объекту верхнего уровня/top-level, 
+каждый из которых соответствует MIME-части body.</TD></TR></TBODY></TABLE><P><A NAME="AEN34766"></A>
+<h6 style="text-align: left">Таблица 2. Первичный тип тела</h6><TABLE BORDER="1"><TBODY><TR><TD>0</TD>
+<TD>text</TD></TR><TR><TD>1</TD><TD>multipart</TD></TR><TR><TD>2</TD><TD>message</TD></TR><TR><TD>3</TD>
+<TD>application</TD></TR><TR><TD>4</TD><TD>audio</TD></TR><TR><TD>5</TD><TD>image</TD></TR><TR><TD>6</TD>
+<TD>video</TD></TR><TR><TD>7</TD><TD>other</TD></TR></TBODY></TABLE>
+<P><A NAME="AEN34795"></A><h6 style="text-align: left">Таблица 3. Кодировки трансфера</h6>
+<TABLE BORDER="1"><TBODY><TR><TD>0</TD><TD>7BIT</TD></TR><TR><TD>1</TD><TD>8BIT</TD></TR><TR><TD>2</TD>
+<TD>BINARY</TD></TR><TR><TD>3</TD><TD>BASE64</TD></TR><TR><TD>4</TD><TD>QUOTED-PRINTABLE</TD></TR><TR><TD>5</TD>
+<TD>OTHER</TD></TR></TBODY></TABLE><P>См. также <A HREF="imap-fetchbody.html"><B>imap_fetchbody()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0"  WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="imap-fetchheader.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="imap-get-quota.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">imap_fetchheader</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.imap.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">imap_get_quota</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

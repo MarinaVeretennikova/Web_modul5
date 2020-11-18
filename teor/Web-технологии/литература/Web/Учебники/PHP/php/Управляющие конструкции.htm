@@ -1,0 +1,970 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.intuit.ru/department/pl/plphp/3/plphp_3.html -->
+<HTML><HEAD><TITLE>INTUIT.ru::Интернет-Университет Информационных Технологий</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251"><LINK 
+href="Управляющие конструкции.files/printable.css" type=text/css rel=stylesheet>
+<META content="MSHTML 6.00.2900.2180" name=GENERATOR></HEAD>
+<BODY leftMargin=0 topMargin=6 marginwidth="0" marginheight="6">
+<DIV align=left><SPAN style="FONT-WEIGHT: bold; COLOR: #000000">&nbsp;&nbsp; 
+<SPAN style="FONT-SIZE: 12pt">Интернет-Университет Информационных 
+Технологий</SPAN> </SPAN></DIV>&nbsp;&nbsp; <SPAN 
+style="COLOR: #330066; TEXT-DECORATION: underline" 
+align="rright">http://www.INTUIT.ru</SPAN> 
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD colSpan=3 height=8><IMG height=8 
+      src="Управляющие конструкции.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD class=orang colSpan=3 height=1><IMG height=1 
+      src="Управляющие конструкции.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD colSpan=3 height=8><IMG height=8 
+      src="Управляющие конструкции.files/empty.gif" width=1></TD></TR>
+  <TR vAlign=top>
+    <TD><IMG height=1 src="Управляющие конструкции.files/empty.gif" 
+width=8></TD>
+    <TD><!-- content -->
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=head>Язык программирования PHP</TD></TR>
+        <TR>
+          <TD height=4><IMG height=4 
+            src="Управляющие конструкции.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD class=orang height=1><IMG height=1 
+            src="Управляющие конструкции.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Управляющие конструкции.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD><SPAN class=headsub>3. Лекция: Управляющие конструкции: версия 
+            для печати и PDA</SPAN> <BR><SPAN class=rtxt>В лекции 
+            рассматриваются условные операторы (if, switch), работа с циклами 
+            (while, for, foreach) и использование функций include, require. 
+            Пример – универсализация письма в зависимости от ситуации и его 
+            отправка каждому из группы пользователей.</SPAN> </TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Управляющие конструкции.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD class=orang height=1><IMG height=1 
+            src="Управляющие конструкции.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Управляющие конструкции.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD>
+            <H3>Условные операторы</H3>
+            <H4>Оператор if</H4>
+            <P>Это один из самых важных операторов многих языков, включая PHP. 
+            Он позволяет выполнять фрагменты кода в зависимости от условия. 
+            Структуру оператора <SPAN class=texample><SPAN 
+            class=keyword>if</SPAN></SPAN> можно представить следующим 
+            образом:</P>
+            <DIV class=example><PRE>if (выражение) блок_выполнения
+</PRE></DIV>
+            <P>Здесь выражение есть любое правильное PHP-выражение (т.е. все, 
+            что имеет значение). В процессе обработки скрипта выражение 
+            преобразуется к логическому типу. Если в результате преобразования 
+            значение выражения истинно (<SPAN class=texample>True</SPAN>), то 
+            выполняется <SPAN class=texample>блок_выполнения</SPAN>. В противном 
+            случае <SPAN class=texample>блок_выполнения</SPAN> игнорируется. 
+            Если <SPAN class=texample>блок_выполнения</SPAN> содержит несколько 
+            команд, то он должен быть заключен в фигурные скобки <SPAN 
+            class=texample>{ }</SPAN>.</P>
+            <P>Правила преобразования выражения к логическому типу:</P>
+            <OL>
+              <LI>В <SPAN class=texample>FALSE</SPAN> преобразуются следующие 
+              значения: 
+              <UL>
+                <LI>логическое <SPAN class=texample>False</SPAN>
+                <LI>целый ноль (<SPAN class=texample>0</SPAN>)
+                <LI>действительный ноль (<SPAN class=texample>0.0</SPAN>)
+                <LI>пустая строка и строка <SPAN class=texample>"0"</SPAN>
+                <LI>массив без элементов
+                <LI>объект без переменных (подробно об объектах будет рассказано 
+                в одной из следующих лекций)
+                <LI>специальный тип <SPAN class=texample>NULL</SPAN></LI></UL>
+              <LI>Все остальные значения преобразуются в <SPAN 
+              class=texample>TRUE</SPAN>.</LI></OL><A name=example.3.1></A>
+            <DIV class=example><PRE>&lt;?
+$names = array("Иван","Петр","Семен"); 
+if ($names[0]=="Иван") { 
+    echo "Привет, Ваня!";
+    $num = 1;
+    $account = 2000;
+}
+if ($num) echo "Иван первый в списке!";
+$bax = 30;
+if ($account &gt; 100*$bax+3) 
+    echo "Эта строчка не появится 
+    на экране, так как условие не выполнено";
+?&gt;
+</PRE><SPAN class=objectName>Пример 3.1. Условный оператор 
+            if</SPAN></DIV>
+            <H4>Оператор else</H4>
+            <P>Мы рассмотрели только одну, основную часть оператора <SPAN 
+            class=texample><SPAN class=keyword>if</SPAN></SPAN>. Существует 
+            несколько расширений этого оператора. Оператор <SPAN 
+            class=texample><SPAN class=keyword>else</SPAN></SPAN> расширяет 
+            <SPAN class=texample><SPAN class=keyword>if</SPAN></SPAN> на случай, 
+            если проверяемое в <SPAN class=texample><SPAN 
+            class=keyword>if</SPAN></SPAN> выражение является неверным, и 
+            позволяет выполнить какие-либо действия при таких условиях.</P>
+            <P>Структуру оператора <SPAN class=texample><SPAN 
+            class=keyword>if</SPAN></SPAN>, расширенного с помощью оператора 
+            <SPAN class=texample><SPAN class=keyword>else</SPAN></SPAN>, можно 
+            представить следующим образом:</P>
+            <DIV class=example><PRE>if (выражение) блок_выполнения
+else блок_выполнения1
+</PRE></DIV>
+            <P>Эту конструкцию <SPAN class=texample>if...else</SPAN> можно 
+            интерпретировать примерно так: если выполнено условие (т.е. <SPAN 
+            class=texample>выражение=true</SPAN>), то выполняем действия из 
+            <SPAN class=texample>блока_выполнения</SPAN>, иначе – действия из 
+            <SPAN class=texample>блока_выполнения1</SPAN>. Использовать оператор 
+            <SPAN class=texample><SPAN class=keyword>else</SPAN></SPAN> не 
+            обязательно.</P>
+            <P>Посмотрим, как можно изменить предыдущий пример, учитывая 
+            необходимость совершения действий и в случае невыполнения 
+            условия.</P><A name=example.3.2></A>
+            <DIV class=example><PRE>&lt;?
+$names = array("Иван","Петр","Семен"); 
+if ($names[0]=="Иван") { 
+    echo "Привет, Ваня!";
+    $num = 1;
+    $account = 2000;
+} else {
+    echo "Привет, $names[0]. 
+   А мы ждали Ваню :(";
+}
+if ($num) echo "Иван первый в списке!";
+else echo "Иван НЕ первый в списке?!";
+$bax = 30;
+if ($account &gt; 100*$bax+3) 
+    echo "Эта строка не появится на экране,
+    так как условие не выполнено"; 
+    else echo "Зато появится эта строка!";
+?&gt;
+</PRE><SPAN class=objectName>Пример 3.2. Оператор else</SPAN></DIV>
+            <H4>Оператор elseif</H4>
+            <P>Еще один способ расширения <SPAN class=keyword>условного 
+            оператора</SPAN> <SPAN class=texample><SPAN 
+            class=keyword>if</SPAN></SPAN> – использование оператора <SPAN 
+            class=texample><SPAN class=keyword>elseif</SPAN></SPAN>. <SPAN 
+            class=texample><SPAN class=keyword>elseif</SPAN></SPAN> – это 
+            комбинация <SPAN class=texample><SPAN 
+            class=keyword>else</SPAN></SPAN> и <SPAN class=texample><SPAN 
+            class=keyword>if</SPAN></SPAN>. Как и <SPAN class=texample><SPAN 
+            class=keyword>else</SPAN></SPAN>, он расширяет <SPAN 
+            class=texample><SPAN class=keyword>if</SPAN></SPAN> для выполнения 
+            различных действий в том случае, если условие, проверяемое в <SPAN 
+            class=texample><SPAN class=keyword>if</SPAN></SPAN>, неверно. Но в 
+            отличие от <SPAN class=texample><SPAN 
+            class=keyword>else</SPAN></SPAN>, альтернативные действия будут 
+            выполнены, только если elseif-условие является верным. Структуру 
+            оператора <SPAN class=texample><SPAN class=keyword>if</SPAN></SPAN>, 
+            расширенного с помощью операторов <SPAN class=texample><SPAN 
+            class=keyword>else</SPAN></SPAN> и <SPAN class=texample><SPAN 
+            class=keyword>elseif</SPAN></SPAN>, можно представить следующим 
+            образом:</P>
+            <DIV class=example><PRE>if (выражение) блок_выполнения
+elseif(выражение1) блок_выполнения1
+...
+else блок_выполненияN
+</PRE></DIV>
+            <P>Операторов <SPAN class=texample><SPAN 
+            class=keyword>elseif</SPAN></SPAN> может быть сразу несколько в 
+            одном if-блоке. Elseif-утверждение будет выполнено, только если 
+            предшествующее if-условие является <SPAN 
+            class=texample>False</SPAN>, все предшествующие elseif-условия 
+            являются <SPAN class=texample>False</SPAN>, а данное elseif-условие 
+            – <SPAN class=texample>True</SPAN>.</P><A name=example.3.3></A>
+            <DIV class=example><PRE>&lt;?
+$names = array("Иван","Петр","Семен"); 
+if ($names[0]=="Иван") {    
+    // если первое имя в массиве Иван
+    echo "Привет, Ваня!";
+}elseif ($names[0] == "Петр"){  
+    // если первое имя 
+    // не Иван, а Петр
+    echo "Привет, Петя!";
+}elseif ($names[0] == "Семен"){     
+    // если первое имя не 
+    // Иван, не Петр, а Семен
+    echo "Привет, Сеня!";
+}else { 
+    // если первое имя не Иван, 
+    // не Петр и не Семен
+    echo "Привет, $names[0]. А ты кто такой?";
+}
+?&gt;
+</PRE><SPAN class=objectName>Пример 3.3. Оператор 
+elseif</SPAN></DIV>
+            <H4>Альтернативный синтаксис</H4>
+            <P>PHP предлагает <SPAN class=keyword>альтернативный 
+            синтаксис</SPAN> для некоторых своих управляющих структур, а именно 
+            для <SPAN class=texample><SPAN class=keyword>if</SPAN></SPAN>, <SPAN 
+            class=texample><SPAN class=keyword>while</SPAN></SPAN>, <SPAN 
+            class=texample><SPAN class=keyword>for</SPAN></SPAN>, <SPAN 
+            class=texample><SPAN class=keyword>foreach</SPAN></SPAN> и <SPAN 
+            class=texample><SPAN class=keyword>switch</SPAN></SPAN>. В каждом 
+            случае открывающую скобку нужно заменить на двоеточие (<SPAN 
+            class=texample>:</SPAN>), а закрывающую – на <SPAN 
+            class=texample>endif;</SPAN>, <SPAN class=texample>endwhile;</SPAN> 
+            и т.д. соответственно.</P>
+            <P>Например, синтаксис оператора <SPAN class=texample><SPAN 
+            class=keyword>if</SPAN></SPAN> можно записать таким образом:</P>
+            <DIV class=example><PRE>if(выражение): блок_выполнения endif;
+</PRE></DIV>
+            <P>Смысл остается тем же: если условие, записанное в круглых скобках 
+            оператора <SPAN class=texample><SPAN class=keyword>if</SPAN></SPAN>, 
+            оказалось истиной, будет выполняться весь код, от двоеточия «<SPAN 
+            class=texample>:</SPAN>» до команды <SPAN 
+            class=texample>endif;</SPAN>. Использование такого синтаксиса 
+            полезно при встраивании php в html-код.</P><A name=example.3.4></A>
+            <DIV class=example><PRE>&lt;?php
+$names = array("Иван","Петр","Семен"); 
+if ($names[0]=="Иван"): 
+?&gt;
+Привет, Ваня!
+&lt;?php endif ?&gt;
+</PRE><SPAN class=objectName>Пример 3.4. Использование 
+            альтернативного синтаксиса </SPAN></DIV>
+            <P>Если используются конструкции <SPAN class=texample><SPAN 
+            class=keyword>else</SPAN></SPAN> и <SPAN class=texample><SPAN 
+            class=keyword>elseif</SPAN></SPAN>, то также можно задействовать 
+            <SPAN class=keyword>альтернативный синтаксис</SPAN>:</P>
+            <DIV class=example><PRE>&lt;?php
+if ($a == 5):
+    print "a равно 5";
+    print "...";
+elseif ($a == 6):
+    print "a равно 6";
+    print "!!!";
+else:
+    print "a не равно ни 5, ни 6";
+endif;
+?&gt;
+</PRE></DIV>
+            <H4>Оператор switch</H4>
+            <P>Еще одна конструкция, позволяющая проверять условие и выполнять в 
+            зависимости от этого различные действия, – это <SPAN 
+            class=texample><SPAN class=keyword>switch</SPAN></SPAN>. На русский 
+            язык название данного оператора можно перевести как «переключатель». 
+            И смысл у него именно такой. В зависимости от того, какое значение 
+            имеет переменная, он переключается между различными блоками 
+            действия. <SPAN class=texample><SPAN 
+            class=keyword>switch</SPAN></SPAN> очень похож на оператор <SPAN 
+            class=texample>if...elseif...else</SPAN> или набор операторов <SPAN 
+            class=texample><SPAN class=keyword>if</SPAN></SPAN>. Структуру <SPAN 
+            class=texample><SPAN class=keyword>switch</SPAN></SPAN> можно 
+            записать следующим образом:</P>
+            <DIV class=example><PRE>switch (выражение или переменная){
+case значение1:
+    блок_действий1
+break;
+case значение2:
+    блок_действий2
+break;
+...
+default:
+    блок_действий_по_умолчанию
+}
+</PRE></DIV>
+            <P>В отличие от <SPAN class=texample><SPAN 
+            class=keyword>if</SPAN></SPAN>, здесь значение выражения не 
+            приводится к логическому типу, а просто сравнивается со значениями, 
+            перечисленными после ключевых слов <SPAN class=texample><SPAN 
+            class=keyword>case</SPAN></SPAN> (<SPAN 
+            class=texample>значение1</SPAN>, <SPAN class=texample>значение 
+            2</SPAN> и т.д.). Если значение выражения совпало с каким-то 
+            вариантом, то выполняется соответствующий блок_действий – от 
+            двоеточия после совпавшего значения до конца <SPAN 
+            class=texample><SPAN class=keyword>switch</SPAN></SPAN> или до 
+            первого оператора <SPAN class=texample><SPAN 
+            class=keyword>break</SPAN></SPAN>, если таковой найдется. Если 
+            значение выражения не совпало ни с одним из вариантов, то 
+            выполняются действия по умолчанию (<SPAN 
+            class=texample>блок_действий_по_умолчанию</SPAN>), находящиеся после 
+            ключевого слова <SPAN class=texample>default</SPAN>. Выражение в 
+            <SPAN class=texample><SPAN class=keyword>switch</SPAN></SPAN> 
+            вычисляется только один раз, а в операторе <SPAN 
+            class=texample><SPAN class=keyword>elseif</SPAN></SPAN> – каждый 
+            раз, поэтому, если выражение достаточно сложное, то <SPAN 
+            class=texample><SPAN class=keyword>switch</SPAN></SPAN> работает 
+            быстрее.</P>
+            <P>Пример <A 
+            href="http://www.intuit.ru/department/pl/plphp/3/1.html#example.3.3">3.3</A> 
+            можно переписать с использованием <SPAN class=texample><SPAN 
+            class=keyword>switch</SPAN></SPAN> следующим образом:</P>
+            <DIV class=example><PRE>&lt;?
+$names = array("Иван","Петр","Семен"); 
+switch ($names[0]){
+case "Иван": 
+    echo "Привет, Ваня!";
+break;
+case "Петр":
+    echo "Привет, Петя!";
+break;
+case "Семен":
+    echo "Привет, Сеня!";
+break;
+default:
+    echo "Привет, $names[0]. 
+   А как Вас зовут?";
+}
+?&gt;
+</PRE></DIV>
+            <P>Если в этом примере опустить оператор <SPAN class=texample><SPAN 
+            class=keyword>break</SPAN></SPAN>, например, в <SPAN 
+            class=texample><SPAN class=keyword>case</SPAN></SPAN> <SPAN 
+            class=texample>"Петр"</SPAN>:, то, если переменная окажется равной 
+            строке <SPAN class=texample>"Петр"</SPAN>, после вывода на экран 
+            сообщения <SPAN class=texample>"Привет, Петя!"</SPAN> программа 
+            пойдет дальше и выведет также сообщение <SPAN 
+            class=texample>"Привет, Сеня!"</SPAN> и только потом, встретив <SPAN 
+            class=texample><SPAN class=keyword>break</SPAN></SPAN>, продолжит 
+            свое выполнение за пределами <SPAN class=texample><SPAN 
+            class=keyword>switch</SPAN></SPAN>.</P>
+            <P>Для конструкции <SPAN class=texample><SPAN 
+            class=keyword>switch</SPAN></SPAN>, как и для <SPAN 
+            class=texample><SPAN class=keyword>if</SPAN></SPAN>, возможен <SPAN 
+            class=keyword>альтернативный синтаксис</SPAN>, где открывающая <SPAN 
+            class=texample><SPAN class=keyword>switch</SPAN></SPAN> фигурная 
+            скобка заменяется двоеточием, а закрывающая – <SPAN 
+            class=texample>endswitch;</SPAN> соответственно.</P>
+            <H3>Циклы</H3>
+            <P>В PHP существует несколько конструкций, позволяющих выполнять 
+            повторяющиеся действия в зависимости от условия. Это циклы <SPAN 
+            class=texample><SPAN class=keyword>while</SPAN></SPAN>, <SPAN 
+            class=texample><SPAN class=keyword>do..while</SPAN></SPAN>, <SPAN 
+            class=texample><SPAN class=keyword>foreach</SPAN></SPAN> и <SPAN 
+            class=texample><SPAN class=keyword>for</SPAN></SPAN>. Рассмотрим их 
+            более подробно.</P>
+            <H4>while</H4>
+            <P>Структура:</P>
+            <DIV class=example><PRE>while (выражение) { блок_выполнения }
+</PRE></DIV>
+            <P>либо</P>
+            <DIV class=example><PRE>while (выражение): блок_выполнения endwhile; 
+</PRE></DIV>
+            <P><SPAN class=texample><SPAN class=keyword>while</SPAN></SPAN> – 
+            простой цикл. Он предписывает PHP выполнять команды блока_выполнения 
+            до тех пор, пока выражение вычисляется как <SPAN 
+            class=texample>True</SPAN> (здесь, как и в <SPAN 
+            class=texample><SPAN class=keyword>if</SPAN></SPAN>, происходит 
+            приведение выражения к логическому типу). Значение выражения 
+            проверяется каждый раз в начале цикла, так что, даже если его 
+            значение изменилось в процессе выполнения <SPAN 
+            class=texample>блока_выполнения</SPAN>, цикл не будет остановлен до 
+            конца итерации (т.е. пока все команды <SPAN 
+            class=texample>блока_выполнения</SPAN> не будут исполнены).</P><A 
+            name=example.3.5></A>
+            <DIV class=example><PRE>&lt;?
+//эта программа напечатает все четные цифры
+    $i = 1;
+    while ($i &lt; 10) {
+        if ($i % 2 == 0) print $i;  
+    // печатаем цифру, если она четная 
+        $i++;   
+    // и увеличиваем $i на единицу
+    }
+?&gt;
+</PRE><SPAN class=objectName>Пример 3.5. Оператор while</SPAN></DIV>
+            <H4>do... while</H4>
+            <P>Циклы <SPAN class=texample><SPAN 
+            class=keyword>do..while</SPAN></SPAN> очень похожи на циклы <SPAN 
+            class=texample><SPAN class=keyword>while</SPAN></SPAN>, с той лишь 
+            разницей, что истинность выражения проверяется в конце цикла, а не в 
+            начале. Благодаря этому <SPAN class=texample>блок_выполнения</SPAN> 
+            цикл <SPAN class=texample>do...while</SPAN> гарантированно 
+            выполняется хотя бы один раз.</P>
+            <P>Структура:</P>
+            <DIV class=example><PRE>do {блок_выполнения} while (выражение);
+
+</PRE></DIV><A name=example.3.6></A>
+            <DIV class=example><PRE>&lt;?
+// эта программа напечатает число 12, несмотря на то 
+// что условие цикла не выполнено
+$i = 12;
+    do{
+        if ($i % 2 == 0) print $i;  
+    // если число четное, то печатаем его
+        $i++;   
+    // увеличиваем число на единицу
+    }while ($i&lt;10)
+?&gt;
+</PRE><SPAN class=objectName>Пример 3.6. Оператор 
+            do..while</SPAN></DIV>
+            <H4>for</H4>
+            <P>Это самые сложные циклы в PHP. Они напоминают соответствующие 
+            циклы C.</P>
+            <P>Структура:</P>
+            <DIV class=example><PRE>for (выражение1; выражение2; выражение3) {блок_выполнения}
+</PRE></DIV>
+            <P>либо</P>
+            <DIV class=example><PRE>for (выражение1; выражение2; выражение3): блок_выполнения endfor;
+</PRE></DIV>
+            <P>Здесь, как мы видим, условие состоит сразу из трех выражений. 
+            Первое выражение <SPAN class=texample>выражение1</SPAN> вычисляется 
+            безусловно один раз в начале цикла. В начале каждой итерации 
+            вычисляется <SPAN class=texample>выражение2</SPAN>. Если оно 
+            является <SPAN class=texample>True</SPAN>, то цикл продолжается и 
+            выполняются все команды <SPAN 
+            class=texample>блока_выполнения</SPAN>. Если <SPAN 
+            class=texample>выражение2</SPAN> вычисляется как <SPAN 
+            class=texample>False</SPAN>, то исполнение цикла останавливается. В 
+            конце каждой итерации (т.е. после выполнения всех команд <SPAN 
+            class=texample>блока_выполнения</SPAN>) вычисляется <SPAN 
+            class=texample>выражение3</SPAN>.</P>
+            <P>Каждое из выражений 1, 2, 3 может быть пустым. Если <SPAN 
+            class=texample>выражение2</SPAN> является пустым, то это значит, что 
+            цикл должен выполняться неопределенное время (в этом случае PHP 
+            считает это выражение всегда истинным). Это не так бесполезно, как 
+            кажется, ведь цикл можно останавливать, используя оператор <SPAN 
+            class=texample><SPAN class=keyword>break</SPAN></SPAN>.</P>
+            <P>Например, все четные цифры можно вывести с использованием цикла 
+            <SPAN class=texample><SPAN class=keyword>for</SPAN></SPAN> таким 
+            образом:</P>
+            <DIV class=example><PRE>&lt;?php
+for ($i=0; $i&lt;10; $i++){
+    if ($i % 2 == 0) print $i;  
+    // печатаем четные числа
+}
+?&gt;
+</PRE></DIV>
+            <P>Если опустить второе выражение (условие <SPAN 
+            class=texample>$i&lt;10</SPAN>), то такую же задачу можно решить, 
+            останавливая цикл оператором <SPAN class=texample><SPAN 
+            class=keyword>break</SPAN></SPAN>.</P>
+            <DIV class=example><PRE>&lt;?php
+for ($i=0; ; $i++){
+    if ($i&gt;=10) break;  
+      // если $i больше или равно 10,
+      // то прекращаем работу цикла
+    if ($i % 2 == 0) print $i;  
+     // если число четное, 
+      // то печатаем его
+}
+?&gt;
+</PRE></DIV>
+            <P>Можно опустить все три выражения. В этом случае просто не будет 
+            задано начальное значение счетчика <SPAN class=texample>$i</SPAN> и 
+            оно не будет изменяться каждый раз в конце цикла. Все эти действия 
+            можно записать в виде отдельных команд либо в <SPAN 
+            class=texample>блоке_выполнения</SPAN>, либо перед циклом:</P>
+            <DIV class=example><PRE>&lt;?php
+$i=0; // задаем начальное значение счетчика
+for ( ; ; ){
+    if ($i&gt;=10) break;  
+     // если $i больше или равно 10, 
+      // то прекращаем работу цикла
+    if ($i % 2 == 0) print $i;  
+     // если число четное, 
+      // то печатаем его
+$i++; // увеличиваем счетчик на единицу
+}
+?&gt;
+</PRE></DIV>
+            <P>В третье выражение конструкции <SPAN class=texample><SPAN 
+            class=keyword>for</SPAN></SPAN> можно записывать через запятую сразу 
+            несколько простейших команд. Например, если мы хотим просто вывести 
+            все цифры, то программу можно записать совсем просто:</P>
+            <DIV class=example><PRE>&lt;?php
+for ($i=0; $i&lt;10; print $i, $i++) 
+/* Если блок_выполнения не содержит команд 
+или содержит только одну команду, 
+фигурные скобки, в которые он заключен, 
+можно опускать*/
+?&gt;
+</PRE></DIV>
+            <H4>foreach</H4>
+            <P>Еще одна полезная конструкция. Она появилась только в PHP4 и 
+            предназначена исключительно для работы с массивами.</P>
+            <P>Синтаксис:</P>
+            <DIV class=example><PRE>foreach ($array as $value) {блок_выполнения}
+</PRE></DIV>
+            <P>либо</P>
+            <DIV class=example><PRE>foreach ($array as $key =&gt; $value)
+   {блок_выполнения} 
+</PRE></DIV>
+            <P>В первом случае формируется цикл по всем элементам массива, 
+            заданного переменной <SPAN class=texample>$array</SPAN>. На каждом 
+            шаге цикла значение текущего элемента массива записывается в 
+            переменную <SPAN class=texample>$value</SPAN>, и внутренний счетчик 
+            массива передвигается на единицу (так что на следующем шаге будет 
+            виден следующий элемент массива). Внутри <SPAN 
+            class=texample>блока_выполнения</SPAN> значение текущего элемента 
+            массива может быть получено с помощью переменной <SPAN 
+            class=texample>$value</SPAN>. Выполнение <SPAN 
+            class=texample>блока_выполнения</SPAN> происходит столько раз, 
+            сколько элементов в массиве <SPAN class=texample>$array</SPAN>.</P>
+            <P>Вторая форма записи в дополнение к перечисленному выше на каждом 
+            шаге цикла записывает ключ текущего элемента массива в переменную 
+            <SPAN class=texample>$key</SPAN>, которую тоже можно использовать в 
+            <SPAN class=texample>блоке_выполнения</SPAN>.</P>
+            <P>Когда <SPAN class=texample><SPAN 
+            class=keyword>foreach</SPAN></SPAN> начинает исполнение, внутренний 
+            указатель массива автоматически устанавливается на первый 
+            элемент.</P><A name=example.3.7></A>
+            <DIV class=example><PRE>&lt;?php
+$names = array("Иван","Петр","Семен"); 
+foreach ($names as $val) {
+    echo "Привет, $val &lt;br&gt;";   
+    // выведет всем приветствие 
+}
+foreach ($names as $k =&gt; $val) { 
+    // кроме приветствия, 
+    // выведем номера в списке, т.е. ключи
+    echo "Привет, $val ! 
+     Ты в списке под номером $k &lt;br&gt;"; 
+}
+?&gt;
+</PRE><SPAN class=objectName>Пример 3.7. Оператор 
+            foreach</SPAN></DIV>
+            <H3>Операторы передачи управления</H3>
+            <P>Иногда в случае особых обстоятельств требуется немедленно 
+            завершить работу цикла и передать управление первой инструкции 
+            программы, расположенной за последней инструкцией цикла. Для этого 
+            используют операторы <SPAN class=texample><SPAN 
+            class=keyword>break</SPAN></SPAN> и <SPAN class=texample><SPAN 
+            class=keyword>continue</SPAN></SPAN>.</P>
+            <H4>Break</H4>
+            <P>Оператор <SPAN class=texample><SPAN 
+            class=keyword>break</SPAN></SPAN> заканчивает выполнение текущего 
+            цикла, будь то <SPAN class=texample><SPAN 
+            class=keyword>for</SPAN></SPAN>, <SPAN class=texample><SPAN 
+            class=keyword>foreach</SPAN></SPAN>, <SPAN class=texample><SPAN 
+            class=keyword>while</SPAN></SPAN>, <SPAN class=texample><SPAN 
+            class=keyword>do..while</SPAN></SPAN> или <SPAN class=texample><SPAN 
+            class=keyword>switch</SPAN></SPAN>. <SPAN class=texample><SPAN 
+            class=keyword>break</SPAN></SPAN> может использоваться с числовым 
+            аргументом, который говорит, работу скольких управляющих структур, 
+            содержащих его, нужно завершить.</P><A name=example.3.8></A>
+            <DIV class=example><PRE>&lt;?php
+$i=1;
+while ($i) {
+    $n = rand(1,10);    
+    // генерируем произвольное число 
+    // от 1 до 10
+    echo "$i:$n ";      
+    // выводим номер итерации и 
+    // сгенерированное число
+    if ($n==5) break; 
+/* Если было сгенерировано число 5, 
+то прекращаем работу цикла. В этом случае 
+все, что находится после этой строчки 
+внутри цикла, не будет выполнено */
+    echo "Цикл работает &lt;br&gt;";
+    $i++;
+}
+echo "&lt;br&gt;Число итераций цикла $i ";
+?&gt;
+</PRE><SPAN class=objectName>Пример 3.8. Оператор break</SPAN></DIV>
+            <P>Результатом работы этого скрипта будет примерно следующее:</P>
+            <DIV class=example><PRE>1:7 Цикл работает 
+2:2 Цикл работает 
+3:5 
+Число итераций цикла 3 
+</PRE></DIV>
+            <P>Если после оператора <SPAN class=texample><SPAN 
+            class=keyword>break</SPAN></SPAN> указать число, то прервется именно 
+            такое количество содержащих этот оператор циклов. В приведенном выше 
+            примере это неактуально, поскольку вложенных циклов нет. Немного 
+            изменим наш скрипт:</P>
+            <DIV class=example><PRE>&lt;?php
+$i=1;
+while ($i) {
+  $n = rand(1,10);    
+  // генерируем произвольное число 
+  // от 1 до 10
+  switch ($n){
+    case 5:
+      echo "&lt;font color=blue&gt;
+        Выход из switch (n=$n)&lt;/font&gt;";
+    break 1;    
+   // прекращаем работу switch 
+    // (первого содержащего break цикла)
+    case 10:
+      echo "&lt;font color=red&gt;
+       Выход из switch и 
+      while (n=$n)&lt;/font&gt;";
+    break 2;    
+   // прекращаем работу switch и while 
+    // (двух содержащих break циклов)
+    default:
+      echo "switch работает (n=$n), ";
+}
+echo " while работает – шаг $i &lt;br&gt;";
+$i++;
+}
+echo "&lt;br&gt;Число итераций цикла $i ";
+?&gt;
+</PRE></DIV>
+            <H4>continue</H4>
+            <P>Иногда нужно не полностью прекратить работу цикла, а только 
+            начать его новую итерацию. Оператор <SPAN class=texample><SPAN 
+            class=keyword>continue</SPAN></SPAN> позволяет пропустить дальнейшие 
+            инструкции из <SPAN class=texample>блока_выполнения</SPAN> любого 
+            цикла и продолжить выполнение с нового круга. <SPAN 
+            class=texample><SPAN class=keyword>continue</SPAN></SPAN> можно 
+            использовать с числовым аргументом, который указывает, сколько 
+            содержащих его управляющих конструкций должны завершить работу.</P>
+            <P>Заменим в примере предыдущего параграфа оператор <SPAN 
+            class=texample><SPAN class=keyword>break</SPAN></SPAN> на <SPAN 
+            class=texample><SPAN class=keyword>continue</SPAN></SPAN>. Кроме 
+            того, ограничим число шагов цикла четырьмя.</P>
+            <DIV class=example><PRE>&lt;?php
+$i=1;
+while ($i&lt;4) {
+    $n = rand(1,10); 
+   // генерируем произвольное число 
+   // от 1 до 10
+    echo "$i:$n ";  
+   // выводим номер итерации и 
+    // сгенерированное число
+    if ($n==5) {
+        echo "Новая итерация ";
+        continue; 
+
+/* Если было сгенерировано число 5, 
+то начинаем новую итерацию цикла, 
+$i не увеличивается */
+    }
+    echo "Цикл работает &lt;br&gt;";
+    $i++;
+}
+echo "&lt;br&gt;Число итераций цикла $i ";
+?&gt;
+</PRE></DIV>
+            <P>Результатом работы этого скрипта будет</P>
+            <DIV class=example><PRE>1:10 Цикл работает 
+2:5 Новая итерация 2:1 Цикл работает 
+3:1 Цикл работает 
+Число итераций цикла 4 
+</PRE></DIV>
+            <P>Заметим, что после выполнения оператора <SPAN 
+            class=texample><SPAN class=keyword>continue</SPAN></SPAN> работа 
+            цикла не заканчивается. В примере счетчик цикла не меняется в случае 
+            получения числа <SPAN class=texample>5</SPAN>, поскольку он 
+            находится после оператора <SPAN class=texample><SPAN 
+            class=keyword>continue</SPAN></SPAN>. Фактически с помощью <SPAN 
+            class=texample><SPAN class=keyword>continue</SPAN></SPAN> мы 
+            пытаемся избежать ситуации, когда будет сгенерировано число <SPAN 
+            class=texample>5</SPAN>. Поэтому можно было просто написать, заменив 
+            оператор <SPAN class=texample><SPAN 
+            class=keyword>continue</SPAN></SPAN> на проверку истинности 
+            выражения:</P>
+            <DIV class=example><PRE>&lt;?php
+$i=1;
+while ($i&lt;4) {
+    $n = rand(1,10);    
+   // генерируем произвольное число 
+    // от 1 до 10
+    if ($n!==5) {
+        echo "$i:$n &lt;br&gt;";  
+   // выводим номер итерации 
+    // и сгенерированное число
+    $i++;
+    }
+}
+?&gt;
+</PRE></DIV>
+            <P>В PHP существует одна особенность использования оператора <SPAN 
+            class=texample><SPAN class=keyword>continue</SPAN></SPAN> – в 
+            конструкциях <SPAN class=texample><SPAN 
+            class=keyword>switch</SPAN></SPAN> он работает так же, как и <SPAN 
+            class=texample><SPAN class=keyword>break</SPAN></SPAN>. Если <SPAN 
+            class=texample><SPAN class=keyword>switch</SPAN></SPAN> находится 
+            внутри цикла и нужно начать новую итерацию цикла, следует 
+            использовать <SPAN class=texample>continue 2</SPAN>.</P>
+            <H3>Операторы включения</H3>
+            <H4>include</H4>
+            <P>Оператор <SPAN class=texample><SPAN 
+            class=keyword>include</SPAN></SPAN> позволяет включать код, 
+            содержащийся в указанном файле, и выполнять его столько раз, сколько 
+            программа встречает этот <SPAN class=keyword>оператор</SPAN>. 
+            Включение может производиться любым из перечисленных способов:</P>
+            <DIV class=example><PRE>include 'имя_файла';
+include $file_name;
+include ("имя_файла");
+
+</PRE></DIV>
+            <P><B>Пример 3.9.</B> Пусть в файле <SPAN 
+            class=texample>params.inc</SPAN> у нас хранится набор каких-то 
+            параметров и функций. Каждый раз, когда нам нужно будет использовать 
+            эти параметры (функции), мы будем вставлять в текст нашей основной 
+            программы команду <SPAN class=texample>include 
+            'params.inc'</SPAN>.</P><A name=example.3.9></A>
+            <DIV class=example><PRE>params.inc
+&lt;?php
+$user = "Вася";
+$today = date("d.m.y"); 
+/* функция date() возвращает дату 
+и время (здесь – дату в формате 
+день.месяц.год) */
+?&gt;
+
+include.php
+&lt;?php
+include ("params.inc"); 
+/* переменные $user и $today заданы в файле
+params.inc. Здесь мы тоже можем ими 
+пользоваться благодаря команде 
+include("params.inc") */
+
+echo "Привет, $user!&lt;br&gt;";  
+    // выведет "Привет, Вася!"
+echo "Сегодня $today";      
+    // выведет, например, "Сегодня 7.07.05"
+?&gt;
+</PRE><SPAN class=objectName>Пример 3.9. Использование оператора 
+            включения include</SPAN></DIV>
+            <P>Заметим, что использование оператора <SPAN class=texample><SPAN 
+            class=keyword>include</SPAN></SPAN> эквивалентно простой вставке 
+            содержательной части файла <SPAN class=texample>params.inc</SPAN> в 
+            код программы <SPAN class=texample>include.php</SPAN>. Может быть, 
+            тогда можно было в <SPAN class=texample>params.inc</SPAN> записать 
+            простой текст без всяких тегов, указывающих на то, что это php-код? 
+            Нельзя! Дело в том, что в момент вставки файла происходит 
+            переключение из режима обработки PHP в режим HTML. Поэтому код 
+            внутри включаемого файла, который нужно обработать как PHP-скрипт, 
+            должен быть заключен в соответствующие теги.</P>
+            <P>Поиск файла для вставки происходит по следующим правилам.</P>
+            <OL>
+              <LI>Сначала ведется поиск файла в <SPAN class=texample><SPAN 
+              class=keyword>include_path</SPAN></SPAN> относительно текущей 
+              рабочей директории.
+              <LI>Если файл не найден, то поиск производится в <SPAN 
+              class=texample><SPAN class=keyword>include_path</SPAN></SPAN> 
+              относительно директории текущего скрипта.
+              <LI>Параметр <SPAN class=texample><SPAN 
+              class=keyword>include_path</SPAN></SPAN>, определяемый в файле 
+              настроек PHP, задает имена директорий, в которых нужно искать 
+              включаемые файлы.</LI></OL>
+            <P>Например, ваш <SPAN class=texample><SPAN 
+            class=keyword>include_path</SPAN></SPAN> это <SPAN 
+            class=texample>.</SPAN> (то есть текущая директория), текущая 
+            рабочая директория это <SPAN class=texample>/www/</SPAN>. В основной 
+            файл <SPAN class=texample>include.php</SPAN> вы включаете файл <SPAN 
+            class=texample>my_dir/a.php</SPAN>, который в свою очередь включает 
+            <SPAN class=texample>b.php</SPAN>. Тогда парсер первым делом ищет 
+            файл <SPAN class=texample>b.php</SPAN> в директории <SPAN 
+            class=texample>/www/</SPAN>, и если такового нет, то в директории 
+            <SPAN class=texample>/www/my_dir/</SPAN>.</P>
+            <P>Если файл включен с помощью <SPAN class=texample><SPAN 
+            class=keyword>include</SPAN></SPAN>, то содержащийся в нем код 
+            наследует область видимости переменных строки, где появился <SPAN 
+            class=texample><SPAN class=keyword>include</SPAN></SPAN>. Любые 
+            переменные вызванного файла будут доступны в вызывающем файле с этой 
+            строки и далее. Соответственно, если <SPAN class=texample><SPAN 
+            class=keyword>include</SPAN></SPAN> появляется внутри функции 
+            вызывающего файла, то код, содержащийся в вызываемом файле, будет 
+            вести себя так, как будто он был определен внутри функции. Таким 
+            образом, он унаследует область видимости этой функции. Хотя мы и не 
+            знакомились еще с понятием функции, все же приводим здесь эти 
+            сведения в расчете на интуитивное его понимание.</P>
+            <P><B>Пример 3.10</B>. Пусть файл для вставки <SPAN 
+            class=texample>params.inc</SPAN> останется таким же, а <SPAN 
+            class=texample>include.php</SPAN> будет следующим:</P><A 
+            name=example.3.10></A>
+            <DIV class=example><PRE>&lt;?php
+function Footer(){ 
+    // объявляем функцию с именем Footer
+    include ("params.inc"); 
+/* включаем файл params.inc. 
+   Теперь его переменными можно пользоваться,
+   но только внутри функции */
+    $str = "Сегодня: $today &lt;br&gt;";
+    $str .= "&lt;a 
+     href='mailto:help@intuit.ru'&gt;Страницу
+      создал $user&lt;/a&gt;";
+    echo "$str";    
+}
+Footer();   
+    // вызываем функцию Footer(). Получим:
+//Сегодня: 08.07.05 
+//Страницу создал Вася
+
+echo "$user, $today";   
+    // выведет запятую, так как 
+    // эти переменные видны только 
+   // внутри функции
+?&gt;
+</PRE><SPAN class=objectName>Пример 3.10. Область видимости при 
+            использовани include</SPAN></DIV>
+            <P>Кроме локальных файлов, с помощью <SPAN class=texample><SPAN 
+            class=keyword>include</SPAN></SPAN> можно включать и внешние файлы, 
+            указывая их url-адреса. Данная возможность контролируется директивой 
+            <SPAN class=texample>url_fopen_wrappers</SPAN> в файле настроек PHP 
+            и по умолчанию, как правило, включена. Но в версиях PHP для Windows 
+            до PHP 4.3.0 эта возможность не поддерживается совсем, вне 
+            зависимости от <SPAN class=texample>url_fopen_wrappers</SPAN>.</P>
+            <P><SPAN class=texample>include()</SPAN> – это специальная языковая 
+            конструкция, поэтому при использовании внутри условных блоков ее 
+            нужно заключать в фигурные скобки.</P><A name=example.3.11></A>
+            <DIV class=example><PRE>&lt;?php
+/*  Это неверная запись. Получим ошибку.
+    Мы же вставляем не одну команду, 
+   а несколько, они только записаны 
+   в другом файле */
+if ($condition) include("first.php");
+else include("second.php");
+// А вот так правильно. 
+if ($condition){ include("first.php"); }
+else { include("second.php"); }
+?&gt;
+</PRE><SPAN class=objectName>Пример 3.11. Использование 
+            include()</SPAN></DIV>
+            <P>При использовании <SPAN class=texample><SPAN 
+            class=keyword>include</SPAN></SPAN> возможны два вида ошибок – 
+            ошибка вставки (например, нельзя найти указанный файл, неверно 
+            написана сама команда вставки и т.п.) или ошибка исполнения (если 
+            ошибка содержится во вставляемом файле). В любом случае при ошибке в 
+            команде <SPAN class=texample><SPAN 
+            class=keyword>include</SPAN></SPAN> исполнение скрипта не 
+            завершается.</P>
+            <H4>require</H4>
+            <P>Этот оператор действует примерно так же, как и <SPAN 
+            class=texample>#include</SPAN> в C++. Все, что мы говорили о <SPAN 
+            class=texample><SPAN class=keyword>include</SPAN></SPAN>, лишь за 
+            некоторыми исключениями, справедливо и для <SPAN 
+            class=texample><SPAN class=keyword>require</SPAN></SPAN>. <SPAN 
+            class=texample><SPAN class=keyword>Require</SPAN></SPAN> также 
+            позволяет включать в программу и исполнять какой-либо файл. Основное 
+            отличие <SPAN class=texample><SPAN 
+            class=keyword>require</SPAN></SPAN> и <SPAN class=texample><SPAN 
+            class=keyword>include</SPAN></SPAN> заключается в том, как они 
+            реагируют на возникновение ошибки. Как уже говорилось, <SPAN 
+            class=texample><SPAN class=keyword>include</SPAN></SPAN> выдает 
+            предупреждение, и работа скрипта продолжается. Ошибка в <SPAN 
+            class=texample><SPAN class=keyword>require</SPAN></SPAN> вызывает 
+            фатальную ошибку работы скрипта и прекращает его выполнение.</P>
+            <P><SPAN class=keyword>Условные операторы</SPAN> на <SPAN 
+            class=texample>require()</SPAN> не влияют. Хотя, если строка, в 
+            которой появляется этот оператор, не исполняется, то ни одна строка 
+            кода из вставляемого файла тоже не исполняется. Циклы также не 
+            влияют на <SPAN class=texample>require()</SPAN>. Хотя код, 
+            содержащийся во вставляемом файле, является объектом цикла, но 
+            вставка сама по себе происходит только однажды.</P>
+            <P>В реализациях PHP до версии 4.0.2 использование <SPAN 
+            class=texample>require()</SPAN> означало, что интерпретатор 
+            обязательно попытается прочесть вставляемый файл.</P>
+            <P><SPAN class=texample><SPAN class=keyword>require</SPAN></SPAN>, 
+            как и <SPAN class=texample><SPAN 
+            class=keyword>include</SPAN></SPAN>, при использовании внутри 
+            условных блоков нужно заключать в фигурные скобки.</P>
+            <H3>Решение задачи</H3>
+            <P>И наконец, вернемся к задаче, сформулированной в начале лекции. 
+            Мы хотим создать программу, которую можно было бы использовать для 
+            отправки писем (или просто для их генерации) с приглашениями на 
+            различные мероприятия множеству пользователей. В предыдущей лекции 
+            уже рассматривался подобный случай. Сейчас мы вынесем всю информацию 
+            о людях и событиях в отдельный файл <SPAN 
+            class=texample>data.php</SPAN> и напишем программу, не зависящую 
+            (ну, может, совсем чуть-чуть зависящую) от этой информации и ее 
+            структуры. В этом случае для того, чтобы, например, расширить список 
+            адресатов, не нужно будет изменять скрипт, генерирующий приглашения. 
+            Кроме того, можно будет использовать информацию о людях и событиях в 
+            других скриптах. В самом скрипте, генерирующем приглашения <SPAN 
+            class=texample>letters.php</SPAN>, мы использовали <SPAN 
+            class=keyword>условные операторы</SPAN>, циклы, <SPAN 
+            class=texample><SPAN class=keyword>require</SPAN></SPAN> и другие 
+            изученные ранее конструкции.</P><A name=example.3.12></A>
+            <DIV class=example><PRE>&lt;?php
+define("SIGN","С уважением, Вася"); 
+// пусть наша подпись 
+// будет константой
+
+// информация о событиях
+$events = array(
+    "f" =&gt; "день открытых дверей",
+    "o" =&gt; "открытие выставки", 
+    "p" =&gt; "бал выпускников");
+// имеющаяся информация о людях 
+// (имя и электронный адрес)
+$people = array(
+    "ivan" =&gt; array(
+       "name" =&gt; "Иван Иванович",
+        "email"=&gt;"user_ivan@intuit.ru"),
+    "pit" =&gt; array(
+       "name" =&gt; "Петр Петрович",
+        "email" =&gt; "user_petr@intuit.ru"),
+    "semen" =&gt; array(
+       "name" =&gt; "Семен Семенович"));
+// кто куда приглашается
+$who_where["ivan"] = "o" ;  
+    // Иван – на выставку
+$who_where["pit"] = "p";        
+    // Петр – на бал
+?&gt;
+</PRE><SPAN class=objectName>Листинг 3.12. data.php</SPAN></DIV><A 
+            name=example.3.13></A>
+            <DIV class=example><PRE>&lt;?php
+require("data.php");    
+    // включаем файл с данными о событиях
+foreach($people as $key =&gt; $man_info){ 
+    // для каждого человека делаем следующее:
+$event_key = $who_where[$key]; 
+    // получаем событие, 
+   // на которое он приглашается
+if ($event_key&lt;&gt;""){
+    foreach($man_info as $key1 =&gt; $info){
+    // получаем имя и email 
+   // конкретного человека
+    if ($key1=="name") 
+      $str = "Уважаемый (ая), $info";
+    if ($key1=="email") $email = $info;
+     }
+    // составляем приглашение
+    $str .= "&lt;br&gt;Приглашаем Вас на ". 
+       $events[$event_key];
+    switch ($event_key){ 
+   // в зависимости от события 
+    // добавляем какую-нибудь строчку
+        case "f":
+        $str .= "&lt;br&gt;Подтвердите Ваше 
+          участие по телефону!";
+        break;
+        case "o":
+        $str .= "&lt;br&gt;Приходите за 15 
+          минут до открытия!";
+        break;
+        case "p":
+        $str .= "&lt;br&gt;Не забудьте подарок :-)";
+        break;
+    }
+    $str .= "&lt;br&gt;" . SIGN . "&lt;hr&gt;"; 
+   // добавляем подпись
+    
+   echo $str; // вводим приглашение на экран 
+
+/* если у вас настроена отправка почты с 
+помощью PHP, то письмо можно отправить 
+командой mail($email,"Letter",$str); */
+    }
+}
+?&gt;
+</PRE><SPAN class=objectName>Листинг 3.13. letters.php</SPAN></DIV>
+            <H3>Заключение</H3>
+            <P>Итак, мы завершили изучение управляющих конструкций языка PHP. Мы 
+            старались привести самое основное и не углубляться в различные 
+            нюансы тех или иных конструкций. Подробную информацию можно найти в 
+            руководстве по PHP.</P></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Управляющие конструкции.files/empty.gif" 
+      width=1></TD></TR></TBODY></TABLE><!-- /content --></TD>
+    <TD><IMG height=1 src="Управляющие конструкции.files/empty.gif" 
+  width=8></TD></TR></TBODY></TABLE><!-- /bottom -->
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD class=orang height=1><IMG height=1 
+      src="Управляющие конструкции.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD class=ltxt align=middle>© 2003-2005 INTUIT.ru. Все права 
+  защищены.</TD></TR></TBODY></TABLE><!-- /bottom --></BODY></HTML>

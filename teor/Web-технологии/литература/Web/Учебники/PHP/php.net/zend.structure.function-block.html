@@ -1,0 +1,77 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Объявление Блока Zend-Функций</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="zend.structure.exporting-functions.html">Назад</A></TD>
+<th WIDTH="80%">Глава 32. Исходные Ресурсы. Обсуждение.</th><TD WIDTH="10%" ALIGN="right">
+<A HREF="zend.structure.module-block.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="zend.structure.function-block">Объявление блока Zend-функций</A></H1>
+<P>Теперь, после объявления экспортируемых функций, вы должны также ввести их в Zend. 
+Введение списка функций выполняется через использование массива <TT>zend_function_entry</TT>. Этот массив последовательно содержит все функции, которые делаются доступными 
+внешне, с именем функции, как оно должно появляться в PHP, и именем, как оно 
+определено в C-исходнике. Внутренне <TT>zend_function_entry</TT> определяется так, как показано в Листинге 9.5.</P>
+<A NAME="AEN85564"></A><h5>Рисунок 32-2. Листинг 9.5. Внутреннее объявление <TT>zend_function_entry</TT>.</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>typedef struct _zend_function_entry {
+    char *fname;
+    void (*handler)(INTERNAL_FUNCTION_PARAMETERS);
+    unsigned char *func_arg_types;
+} zend_function_entry;</PRE></TD></TR></TABLE><br><A NAME="AEN85568"></A><TABLE BORDER="1"><TR>
+<th WIDTH="35%">Вхождение</th><th WIDTH="65%">Описание</th></TR><TR><TD WIDTH="35%"><TT>fname</TT></TD>
+<TD WIDTH="65%">Обозначает имя функции, как оно видно в PHP (например, <TT>fopen</TT>,
+<TT>mysql_connect</TT>, или, в нашем примере, <TT>first_module</TT>).</TD></TR><TR>
+<TD WIDTH="35%"><TT>handler</TT></TD><TD WIDTH="65%">Указатель на C-функцию, отвечающую за обработку вызовов данной функции. Например, 
+см. стандартный макрос <TT>INTERNAL_FUNCTION_PARAMETERS</TT>, рассмотренный ранее.</TD></TR><TR>
+<TD WIDTH="35%"><TT>func_arg_types</TT></TD><TD WIDTH="65%">Даёт вам возможность работать с определёнными параметрами, которые форсируются 
+для передачи по ссылке. обычно вы должны установить здесь NULL.</TD></TR></TABLE>
+<p>В предыдущем примере объявление выглядит так:</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>zend_function_entry firstmod_functions[] =
+{
+    ZEND_FE(first_module, NULL)
+    {NULL, NULL, NULL}
+};</PRE></TD></TR></TABLE><p>Видно, что последнее вхождение списка всегда должно быть
+<TT>{NULL, NULL, NULL}</TT>. Этот маркёр должен быть установлен, чтобы Zend знала, когда будет достигнут 
+конец списка экспортируемых функций.</p>
+<dl><dd><b>Примечание:</b> вы <i>не можете</i> использовать предопределённые 
+макросы как маркёр конца, так как они будут пытаться обратиться к функции по имени "NULL"!</dd></dl>
+<P>Макрос <TT>ZEND_FE</TT> просто расширяется во вхождение структуры в <TT>zend_function_entry</TT>. Заметьте, что эти макросы вводят специальную схему именования в ваши функции - 
+ваши C-функции получат префикс <TT>zif_</TT>, что означает, что <TT>ZEND_FE(first_module)</TT> будет ссылаться на C-функцию
+<B>zif_first_module()</B>. Если вы хотите совместить использование макроса с кодированными вручную 
+вхождениями (это не очень хорошо), запомните это.</P>
+<P><b>Подсказка:</b> ошибки компиляции, которые ссылаются на функции с именами <B>zif_*()</B>, относятся к
+функциям, определённым с помощью <TT>ZEND_FE</TT>.</P>
+<P>В Таблице 9.2 дан список всех макросов, которые вы можете использовать для определения функций.</P>
+<A NAME="AEN85607"></A><h6>Рисунок 32-3. Таблица 9.2. Макросы для определения функций</h6>
+<A NAME="AEN85609"></A><TABLE BORDER="1"><TR><th WIDTH="48%">Имя Макроса</th>
+<th WIDTH="52%">Описание</th></TR><TR><TD WIDTH="48%"><TT>ZEND_FE(name, arg_types)</TT></TD>
+<TD WIDTH="52%">Определяет вхождение функции с именем <TT>name</TT> в<TT>zend_function_entry</TT>.
+Требует соответствующей C-функции.<TT><br>arg_types</TT> должно быть <TT>NULL</TT>.<br>
+Эта функция использует автоматическую генерацию имени C-функции 
+путём установления префикса <TT>zif_</TT> в имени PHP-функции. Например, <TT>ZEND_FE("first_module", NULL)</TT>
+вводит функцию <B>first_module()</B> в PHP и связывает её с C-функцией <B>zif_first_module()</B>.
+Используется в сочетании с <TT>ZEND_FUNCTION</TT>.</TD></TR><TR><TD WIDTH="48%">
+<TT>ZEND_NAMED_FE(php_name, name, arg_types)</TT></TD><TD WIDTH="52%">Определяет функцию, которая будет доступна для PHP по имени
+<TT>php_name</TT>, и связывает её с соответствующим <TT>name</TT> C-функции.<br><TT>arg_types</TT> должно быть <TT>NULL</TT>.<br>
+используйте эту функцию, если вам не нужна автоматическая установка префиксов имён, вводимая <TT>ZEND_FE</TT>.
+Используется в сочетании с <TT>ZEND_NAMED_FUNCTION</TT>.</TD></TR><TR><TD WIDTH="48%">
+<TT>ZEND_FALIAS(name, alias, arg_types)</TT></TD><TD WIDTH="52%">Определяет псевдоним <TT>alias</TT> для
+<TT>name</TT>.<TT><br>arg_types</TT> должно быть <TT>NULL</TT>.
+Не требует соответствующей C-функции; вместо неё ссылается на цель псевдонима.</TD></TR><TR>
+<TD WIDTH="48%"><TT>PHP_FE(name, arg_types)</TT></TD><TD WIDTH="52%">Эквивалент старого PHP API для
+<TT>ZEND_FE</TT>.</TD></TR><TR><TD WIDTH="48%"><TT>PHP_NAMED_FE(runtime_name, name, arg_types)</TT></TD>
+<TD WIDTH="52%">Эквивалент старого PHP API для <TT>ZEND_NAMED_FE</TT>.</TD></TR></TABLE>
+<dl><dd><b>Примечание:</b> вы не можете использовать <TT>ZEND_FE</TT> в сочетании с <TT>PHP_FUNCTION</TT>,
+либо <TT>PHP_FE</TT> в сочетании с <TT>ZEND_FUNCTION</TT>. Однако абсолютно допустимо смешивать
+<TT>ZEND_FE</TT> и <TT>ZEND_FUNCTION</TT> с<TT>PHP_FE</TT> и <TT>PHP_FUNCTION</TT> при наличии того же набора макросов для каждой объявляемой функции. Но 
+смешивание <i>не рекомендуется</i>; вместо этого советуем использовать только макросы <TT>ZEND_*</TT>.</dd></dl>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="zend.structure.exporting-functions.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="zend.structure.module-block.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Объявление экспортируемых функций</TD>
+<th WIDTH="34%" VALIGN="top"><a href="zend.structure.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Объявление блока Zend-модуля</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

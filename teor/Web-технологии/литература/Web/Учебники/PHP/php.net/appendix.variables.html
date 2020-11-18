@@ -1,0 +1,38 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Обработка Глобальных Переменных</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR>
+<TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%"><A HREF="migr.cookies.html">Назад</A></TD>
+<th WIDTH="80%">Приложение B. Переход от PHP 3 к PHP 4</th><TD WIDTH="10%" ALIGN="right">
+<A HREF="appendix.migration.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="migration4.variables">Обработка глобальных переменных</a></H1>
+<P>При обработке глобальных переменных в
+PHP 3 и в раннем РНР 4 внимание было сконцентрировано на обеспечении простоты работы, 
+но теперь на первый план вышла задача обеспечения безопасности. В PHP 3 
+следующий пример работает прекрасно, но в PHP 4 он должен быть таким: unset($GLOBALS["id"]);. 
+Это единственный вопрос при рассмотрении обработки глобальных переменных. В 
+большинстве случаев вы всегда должны использовать $GLOBALS с более новыми версиями PHP 4.
+Читайте об этом также в разделе <A HREF="references.spot.html#references.global">
+<TT>global</TT>-ссылки</A>.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD><h5><A NAME="AEN88573"></A>
+Пример B-1. Перенос глобальных переменных</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$id = 1;
+function test()
+{
+    global $id;
+    unset($id);
+}
+test();
+echo($id); // В РНР 4 будет напечатано 1
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1">
+</TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="migr.cookies.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="appendix.migration.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Куки</TD>
+<th WIDTH="34%" VALIGN="top"><a href="appendix.migration4.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+Переход от PHP/FI 2 к PHP 3</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

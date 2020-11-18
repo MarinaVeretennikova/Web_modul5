@@ -1,0 +1,46 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>ldap_set_option</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ldap-search.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ldap-set-rebind-proc.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.ldap-set-option">ldap_set_option</A></H1><A NAME="AEN39746"></A><P>(PHP 4 &#62;= 4.0.4)</P>
+<p>ldap_set_option - устанавливает значение данной опции.<A NAME="AEN39749"></A><H2>Описание</H2>
+<p>bool <B>ldap_set_option</B> (resource link_identifier, int option, mixed newval)
+<P>Устанавливает значение специфицированной опции - <TT><I>newval</I></TT>. Возвращает <TT><B>TRUE</B></TT> при успехе, <TT><B>FALSE</B></TT> при неудаче.</P>
+<P>Параметр <TT><I>option</I></TT> может быть одним из:
+LDAP_OPT_DEREF, LDAP_OPT_SIZELIMIT, LDAP_OPT_TIMELIMIT,
+LDAP_OPT_PROTOCOL_VERSION, LDAP_OPT_ERROR_NUMBER, LDAP_OPT_REFERRALS, LDAP_OPT_RESTART, LDAP_OPT_HOST_NAME, LDAP_OPT_ERROR_STRING,
+LDAP_OPT_MATCHED_DN, LDAP_OPT_SERVER_CONTROLS, LDAP_OPT_CLIENT_CONTROLS. Здесь дано краткое описание, детали см. в
+<A HREF="http://www.openldap.org/devel/cvsweb.cgi/~checkout~/doc/drafts/draft-ietf-ldapext-ldap-c-api-xx.txt" TARGET="_top">draft-ietf-ldapext-ldap-c-api-xx.txt</A>.</P>
+<P>Опции LDAP_OPT_DEREF, LDAP_OPT_SIZELIMIT, LDAP_OPT_TIMELIMIT,
+LDAP_OPT_PROTOCOL_VERSION и LDAP_OPT_ERROR_NUMBER имеют integer-значение, LDAP_OPT_REFERRALS 
+и LDAP_OPT_RESTART имеют boolean-значение, а опции LDAP_OPT_HOST_NAME, LDAP_OPT_ERROR_STRING 
+и LDAP_OPT_MATCHED_DN имеют string-значение. Первый пример иллюстрирует их использование. Опции
+LDAP_OPT_SERVER_CONTROLS и LDAP_OPT_CLIENT_CONTROLS требуют списка controls, этот значит, что значение обязано быть массивом из controls. 
+Элемент/control состоит из списка <I>oid</I>, идентифицирующих элемент, необязательного <I>value</I> и необязательного флага/flag
+<I>criticality\критичности</I>. В PHP элемент задаётся массивом, содержащим элемент с ключом <I>oid</I> и строковым значением и два необязательных элемента. Необязательные элементы 
+это ключ <I>value</I> со строковым значением и ключ <I>iscritical</I> с булевым значением.
+<I>iscritical</I> по умолчанию <I><TT><B>FALSE</B></TT></I>, если не предоставлен. См. также второй пример.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>эта функция доступна только при использовании OpenLDAP 2.x.x OR Netscape Directory SDK x.x и была введена в PHP 4.0.4.</P>
+</BLOCKQUOTE><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN39783"></A><h5>Пример 1. Установка версии протокола</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>// $ds этот правильный идентификатор ссылки для сервера директорий
+if (ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3))
+    echo "Using LDAPv3";
+else
+    echo "Failed to set protocol version to 3";</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN39786"></A><h5>Пример 2. Установка серверных элементов управления/controls</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>// $ds этот правильный идентификатор ссылки для сервера директорий
+// элемент управления без значения
+$ctrl1 = array("oid" =&#62; "1.2.752.58.10.1", "iscritical" =&#62; TRUE);
+// iscritical по умолчанию FALSE
+$ctrl2 = array("oid" =&#62; "1.2.752.58.1.10", "value" =&#62; "magic");
+// попытка установить оба элемента управления
+if (!ldap_set_option($ds, LDAP_OPT_SERVER_CONTROLS, array($ctrl1, $ctrl2)))
+    echo "Failed to set server controls";</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>См. также <A HREF="ldap-get-option.html"><B>ldap_get_option()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ldap-search.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ldap-set-rebind-proc.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ldap_search</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.ldap.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ldap_set_rebind_proc</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

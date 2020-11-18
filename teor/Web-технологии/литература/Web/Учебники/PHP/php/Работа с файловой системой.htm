@@ -1,0 +1,848 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.intuit.ru/department/pl/plphp/9/plphp_9.html -->
+<HTML><HEAD><TITLE>INTUIT.ru::Интернет-Университет Информационных Технологий</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251"><LINK 
+href="Работа с файловой системой.files/printable.css" type=text/css 
+rel=stylesheet>
+<META content="MSHTML 6.00.2900.2180" name=GENERATOR></HEAD>
+<BODY leftMargin=0 topMargin=6 marginwidth="0" marginheight="6">
+<DIV align=left><SPAN style="FONT-WEIGHT: bold; COLOR: #000000">&nbsp;&nbsp; 
+<SPAN style="FONT-SIZE: 12pt">Интернет-Университет Информационных 
+Технологий</SPAN> </SPAN></DIV>&nbsp;&nbsp; <SPAN 
+style="COLOR: #330066; TEXT-DECORATION: underline" 
+align="rright">http://www.INTUIT.ru</SPAN> 
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD colSpan=3 height=8><IMG height=8 
+      src="Работа с файловой системой.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD class=orang colSpan=3 height=1><IMG height=1 
+      src="Работа с файловой системой.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD colSpan=3 height=8><IMG height=8 
+      src="Работа с файловой системой.files/empty.gif" width=1></TD></TR>
+  <TR vAlign=top>
+    <TD><IMG height=1 src="Работа с файловой системой.files/empty.gif" 
+    width=8></TD>
+    <TD><!-- content -->
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=head>Язык программирования PHP</TD></TR>
+        <TR>
+          <TD height=4><IMG height=4 
+            src="Работа с файловой системой.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD class=orang height=1><IMG height=1 
+            src="Работа с файловой системой.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Работа с файловой системой.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD><SPAN class=headsub>9. Лекция: Работа с файловой системой: 
+            версия для печати и PDA</SPAN> <BR><SPAN class=rtxt>В лекции 
+            обсуждаются вопросы, связанные с созданием файлов, чтением данных из 
+            файла, удаление файла, а также проверка наличия файла на сервере. 
+            (Функции fopen, fwrite, fclose , file, fget, unlink, file_exists.) 
+            Пример – загрузка файла на сервер с помощью web-интерфейса.</SPAN> 
+          </TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Работа с файловой системой.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD class=orang height=1><IMG height=1 
+            src="Работа с файловой системой.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Работа с файловой системой.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD>
+            <H3>Создание файла</H3>
+            <H4>Функция fopen</H4>
+            <P>Вообще говоря, в PHP не существует функции, предназначенной 
+            именно для <SPAN class=keyword>создания файлов</SPAN> . Большинство 
+            функций работают с уже существующими файлами в файловой системе 
+            сервера. Есть несколько функций, которые позволяют создавать 
+            временные файлы, или, что то же самое, файлы с уникальным для 
+            текущей директории именем. А вот для того, чтобы создать самый 
+            обычный файл, нужно воспользоваться функцией, которая открывает 
+            локальный или удаленный файл. Называется эта функция <SPAN 
+            class=texample>fopen()</SPAN>. Что значит «открывает файл»? Это 
+            значит, что <SPAN class=keyword>fopen</SPAN> связывает данный файл с 
+            потоком управления программы. Причем связывание бывает различным в 
+            зависимости от того, что мы хотим делать с этим файлом: читать его, 
+            <SPAN class=keyword>записывать</SPAN> в него данные или делать и то 
+            и другое. Синтаксис этой функции такой:</P>
+            <DIV class=example><PRE>resource fopen ( имя_файла, тип_доступа 
+    [, use_include_path])
+</PRE></DIV>
+            <P>В результате работы эта функция возвращает указатель (типа 
+            ресурс) на открытый ею файл. В качестве параметров этой функции 
+            передаются: имя файла, который нужно открыть, <SPAN 
+            class=keyword>тип доступа к файлу</SPAN> (определяется тем, что мы 
+            собираемся делать с ним) и, возможно, параметр, определяющий, искать 
+            ли указанный файл в <SPAN class=texample>include_path</SPAN>. Есть 
+            еще один опциональный параметр, но о нем мы говорить не будем, дабы 
+            не усложнять изложение. Обсудим подробнее каждый из этих трех 
+            параметров.</P>
+            <P>Параметр <SPAN class=texample>имя_файла</SPAN> должен быть 
+            строкой, содержащей правильное локальное имя файла или URL-адрес 
+            файла в сети. Если имя файла начинается с указания протокола доступа 
+            (например, http://... или ftp://...), то интерпретатор считает это 
+            имя адресом URL и ищет обработчик указанного в URL протокола. Если 
+            обработчик найден, то PHP проверяет, разрешено ли работать с 
+            объектами URL как с обычными файлами (директива <SPAN 
+            class=texample>allow_url_fopen</SPAN> ). Если <SPAN 
+            class=texample>allow_url_fopen=off</SPAN>, то функция <SPAN 
+            class=keyword>fopen</SPAN> вызывает ошибку и генерируется 
+            предупреждение. Если имя файла не начинается с протокола, то 
+            считается, что указано имя локального файла. Чтобы открыть локальный 
+            файл, нужно, чтобы PHP имел соответствующие права доступа к этому 
+            файлу.</P>
+            <P>Параметр <SPAN class=texample>use_include_path</SPAN>, 
+            установленный в значение 1 или TRUE, заставляет интерпретатор искать 
+            указанный в <SPAN class=texample>fopen()</SPAN> файл в <SPAN 
+            class=texample>include_path</SPAN>. Напомним, что <SPAN 
+            class=texample>include_path</SPAN> – это директива из файла настроек 
+            PHP, задающая список директорий, в которых могут находиться файлы 
+            для включения. Кроме функции <SPAN class=texample>fopen()</SPAN> она 
+            используется функциями <SPAN class=texample>include()</SPAN> и <SPAN 
+            class=texample>require()</SPAN>. </P>
+            <P>Параметр <SPAN class=texample>тип_доступа</SPAN> может принимать 
+            одно из следующих значений (см. <A 
+            href="http://www.intuit.ru/department/pl/plphp/9/plphp_9.html#table.9.1">таб. 
+            9.1</A>).</P>
+            <P>Итак, чтобы создать файл, нужно, как бы нелепо это ни звучало, 
+            открыть несуществующий файл на запись. </P><A name=example.9.1></A>
+            <DIV class=example><PRE>&lt;?php
+$h = fopen(“my_file.html”,”w”); 
+/* открывает на запись файл my_file.html,
+если он существует, или создает пустой 
+файл с таким именем, если его еще нет */
+$h = fopen(“dir/another_file.txt”,”w+”); 
+/* открывает на запись и чтение или создает
+файл another_file.txt в директории dir */
+$h = fopen(
+  “http://www.server.ru/dir/file.php”,”r”);
+/* открывает на чтение файл, находящийся по 
+указанному адресу*/
+?&gt;</PRE><SPAN class=objectName>Пример 9.1. Использование функции 
+            fopen()</SPAN></DIV>
+            <P>Создавая файл, нужно учитывать, под какой операционной системой 
+            вы работаете, и под какой ОС предположительно этот файл будет 
+            читаться. Дело в том, что разные операционные системы по-разному 
+            отмечают конец строки. В Unix-подобных ОС конец строки обозначается 
+            <SPAN class=texample>\n</SPAN>, в системах типа Windows – <SPAN 
+            class=texample>\r\n</SPAN>. Windows предлагает специальный флаг 
+            <SPAN class=texample>t</SPAN> для перевода символов конца строки 
+            систем типа Unix в свои символы конца строки. В противоположность 
+            этому существует флаг <SPAN class=texample>b</SPAN>, используемый 
+            чаще всего для бинарных файлов, благодаря которому такой трансляции 
+            не происходит. Использовать эти флаги можно, просто дописав их после 
+            последнего символа выбранного <SPAN class=keyword>типа доступа к 
+            файлу</SPAN> . Например, открывая файл на чтение, вместо <SPAN 
+            class=texample>r</SPAN> следует использовать <SPAN 
+            class=texample>rt</SPAN>, чтобы перекодировать все символы конца 
+            строки в <SPAN class=texample>\r\n</SPAN>. Если не использовать флаг 
+            <SPAN class=texample>b</SPAN> при открытии бинарных файлов, то могут 
+            появляться ошибки, связанные с изменением содержимого файла. Из 
+            соображений переносимости программы на различные платформы 
+            рекомендуется всегда использовать флаг <SPAN class=texample>b</SPAN> 
+            при открытии файлов с помощью <SPAN 
+            class=texample>fopen()</SPAN>.</P>
+            <DIV class=xml_table_env><A name=table.9.1></A>
+            <TABLE class=xml_table cellSpacing=1 cellPadding=2 border=0>
+              <CAPTION>Таблица 9.1. Значения принимаемые параметром тип доступа 
+              </CAPTION>
+              <TBODY>
+              <TR>
+                <TH bgColor=#d8d8d8>Тип доступа</TH>
+                <TH bgColor=#d8d8d8>Описание</TH></TR>
+              <TR>
+                <TD vAlign=top bgColor=#eaeaea>r</TD>
+                <TD vAlign=top bgColor=#eaeaea>Открывает файл только для 
+                  чтения; устанавливает указатель позиции в файле на начало 
+                  файла.</TD></TR>
+              <TR>
+                <TD vAlign=top bgColor=#eaeaea>r+</TD>
+                <TD vAlign=top bgColor=#eaeaea>Открывает файл для чтения и 
+                  записи; устанавливает указатель файла на его начало.</TD></TR>
+              <TR>
+                <TD vAlign=top bgColor=#eaeaea>w</TD>
+                <TD vAlign=top bgColor=#eaeaea>Открывает файл только для 
+                  записи; устанавливает указатель файла на его начало и усекает 
+                  файл до нулевой длины. Если файл не существует, то пытается 
+                  создать его.</TD></TR>
+              <TR>
+                <TD vAlign=top bgColor=#eaeaea>w+</TD>
+                <TD vAlign=top bgColor=#eaeaea>Открывает файл для записи и для 
+                  чтения; устанавливает указатель файла на его начало и усекает 
+                  файл до нулевой длины. Если файл не существует, то пытается 
+                  создать его.</TD></TR>
+              <TR>
+                <TD vAlign=top bgColor=#eaeaea>a</TD>
+                <TD vAlign=top bgColor=#eaeaea>Открывает файл только для 
+                  записи; устанавливает указатель файла в его конец. Если файл 
+                  не существует, то пытается создать его.</TD></TR>
+              <TR>
+                <TD vAlign=top bgColor=#eaeaea>a+</TD>
+                <TD vAlign=top bgColor=#eaeaea>Открывает файл для записи и для 
+                  чтения; устанавливает указатель файла в его конец. Если файл 
+                  не существует, то пытается создать его.</TD></TR>
+              <TR>
+                <TD vAlign=top bgColor=#eaeaea>x</TD>
+                <TD vAlign=top bgColor=#eaeaea>Создает и открывает файл только 
+                  для записи; помещает указатель файла на его начало. Если файл 
+                  уже существует, то <SPAN class=texample>fopen()</SPAN> 
+                  возвращает <SPAN class=texample>false</SPAN> и генерируется 
+                  предупреждение. Если файл не существует, то делается попытка 
+                  создать его. Этот тип доступа поддерживается начиная с версии 
+                  PHP 4.3.2 и работает только с локальными файлами.</TD></TR>
+              <TR>
+                <TD vAlign=top bgColor=#eaeaea>x+</TD>
+                <TD vAlign=top bgColor=#eaeaea>Создает и открывает файл для 
+                  записи и для чтения; помещает указатель файла на его начало. 
+                  Если файл уже существует, то <SPAN 
+                  class=texample>fopen()</SPAN> возвращает <SPAN 
+                  class=texample>false</SPAN> и генерируется предупреждение. 
+                  Если файл не существует, то делается попытка создать его. Этот 
+                  тип доступа поддерживается, начиная с версии PHP 4.3.2, и 
+                  работает только с локальными 
+файлами.</TD></TR></TBODY></TABLE></DIV>
+            <P>Что происходит, если открыть или создать файл с помощью <SPAN 
+            class=texample>fopen</SPAN> не удается? В этом случае PHP генерирует 
+            предупреждение, а функция <SPAN class=texample>fopen</SPAN> 
+            возвращает как результат своей работы значение <SPAN 
+            class=texample>false</SPAN>. Такого рода предупреждения можно 
+            «подавить» (запретить) с помощью символа <SPAN class=texample><SPAN 
+            class=keyword>@</SPAN></SPAN> . </P>
+            <P>Например, такая команда не выведет предупреждения, даже если 
+            открыть файл не удалось: </P>
+            <DIV class=example><PRE>$h = @fopen(“dir/another_file.txt”,”w+”);</PRE></DIV>
+            <P>Таким образом, функция <SPAN class=texample>fopen()</SPAN> 
+            позволяет создать только лишь пустой файл и сделать его <SPAN 
+            class=keyword>доступным для записи</SPAN>. Как же <SPAN 
+            class=keyword>записать данные</SPAN> в этот файл? Как прочитать 
+            данные из уже существующего файла?</P>
+            <P>Прежде чем ответить на эти вопросы, рассмотрим, как <SPAN 
+            class=keyword>закрыть</SPAN> установленное с помощью <SPAN 
+            class=texample>fopen()</SPAN> соединение. </P>
+            <H3>Закрытие соединения с файлом</H3>
+            <P>После выполнения необходимых действий с файлом, будь то <SPAN 
+            class=keyword>чтение</SPAN> или <SPAN class=keyword>запись 
+            данных</SPAN> или что-либо другое, соединение, установленное с этим 
+            файлом функцией <SPAN class=texample>fopen()</SPAN>, нужно <SPAN 
+            class=keyword>закрыть</SPAN> . Для этого используют функцию <SPAN 
+            class=texample>fclose()</SPAN>. Синтаксис у нее следующий:</P>
+            <DIV class=example><PRE>fclose (указатель на файл)</PRE></DIV>
+            <P>Эта функция возвращает <SPAN class=texample>TRUE</SPAN>, если 
+            соединение успешно <SPAN class=keyword>закрыто</SPAN>, и <SPAN 
+            class=texample>FALSE</SPAN> – в противном случае. Параметр этой 
+            функции должен указывать на файл, успешно открытый, например, с 
+            помощью функции <SPAN class=texample>fopen()</SPAN>.</P><A 
+            name=example.9.2></A>
+            <DIV class=example><PRE>&lt;?php
+$h = fopen("my_file.html","w");
+fclose($h);
+?&gt;</PRE><SPAN class=objectName>Пример 9.2. Использование функции 
+            fclose()</SPAN></DIV>
+            <P>Конечно, если не закрывать соединение с файлом, никаких ошибок 
+            выполнения скрипта не произойдет. Но в целом для сервера это может 
+            иметь серьезные последствия. Например, хакер может воспользоваться 
+            открытым соединением и записать в файл вирус, не говоря уже о лишней 
+            трате ресурсов сервера. Так что советуем всегда закрывать соединение 
+            с файлом после выполнения необходимых действий. </P>
+            <H3>Запись данных в файл</H3>
+            <H4>Функция fwrite</H4>
+            <P>Для того чтобы <SPAN class=keyword>записать данные в файл</SPAN>, 
+            доступ к которому открыт функцией <SPAN 
+            class=texample>fopen()</SPAN>, можно использовать функцию <SPAN 
+            class=texample>fwrite()</SPAN>. Синтаксис у нее следующий:</P>
+            <DIV class=example><PRE>int fwrite ( указатель на файл, 
+             строка [, длина])
+</PRE></DIV>
+            <P>Эта функция записывает содержимое строки строка в файл, на 
+            который указывает указатель на файл. Если указан дополнительный 
+            аргумент длина, то запись заканчивается после того, как записано 
+            количество символов, равное значению этого аргумента, или когда 
+            будет достигнут конец строки. </P>
+            <P>В результате своей работы функция <SPAN 
+            class=texample>fwrite()</SPAN> возвращает число записанных байтов 
+            или <SPAN class=texample>false</SPAN>, в случае ошибки.</P>
+            <P><B>Пример 9.3.</B> Пусть в нашей рабочей директории нет файла 
+            <SPAN class=texample>my_file.html</SPAN>. Создадим его и запишем в 
+            него строку текста:</P><A name=example.9.3></A>
+            <DIV class=example><PRE>&lt;?php
+$h = fopen("my_file.html","w");
+$text = "Этот текст запишем в файл.";
+if (fwrite($h,$text)) 
+  echo "Запись прошла успешно";
+else 
+  echo "Произошла ошибка при записи данных";
+fclose($h);
+?&gt;</PRE><SPAN class=objectName>Пример 9.3. Использование функции 
+            fwrite()</SPAN></DIV>
+            <P>В результате работы этого скрипта в браузере мы увидим сообщение 
+            о том, что запись прошла успешно, а в файле <SPAN 
+            class=texample>my_file.html</SPAN> появится строка <SPAN 
+            class=texample>“Этот текст запишем в файл.”</SPAN>. Если бы этот 
+            <SPAN class=keyword>файл существовал</SPAN> до того, как мы 
+            выполнили этот скрипт, все находящиеся в нем данные были бы 
+            удалены.</P>
+            <P>Если же мы напишем такой скрипт:</P>
+            <DIV class=example><PRE>&lt;?php
+$h = fopen("my_file.html","a"); 
+$add_text = "Добавим текст в файл.";
+if(fwrite($h,$add_text,7)) 
+  echo "Добавление текста прошло 
+    успешно&lt;br&gt;";
+else echo "Произошла ошибка при 
+   добавлении данных&lt;br&gt;";
+fclose($h);
+?&gt;</PRE></DIV>
+            <P>то к строке, уже существующей в файле <SPAN 
+            class=texample>my_file.html</SPAN>, добавится еще семь символов из 
+            строки, содержащейся в переменной <SPAN 
+            class=texample>$add_text</SPAN>, т.е. слово «Добавим» </P>
+            <P>Функция <SPAN class=texample>fwrite()</SPAN> имеет псевдоним 
+            <SPAN class=texample>fputs()</SPAN>, используемый таким же образом, 
+            что и сама функция. </P>
+            <P>Далее мы рассмотрим, какие методы <SPAN class=keyword>чтения 
+            данных из файла</SPAN> предлагает язык PHP.</P>
+            <H3>Чтение данных из файла</H3>
+            <P>Если мы хотим прочитать данные из существующего файла, одной 
+            функции <SPAN class=texample>fopen()</SPAN>, как и в случае с <SPAN 
+            class=keyword>записью данных</SPAN>, недостаточно. Она лишь 
+            возвращает указатель на открытый файл, но не <SPAN 
+            class=keyword>считывает</SPAN> ни одной строки из этого файла. 
+            Поэтому для того, чтобы прочитать данные из файла, нужно 
+            воспользоваться одной из специальных функций: <SPAN 
+            class=texample>file, <SPAN class=keyword>readfile</SPAN>, <SPAN 
+            class=keyword>file_get_contents</SPAN>,<SPAN class=keyword> 
+            fread</SPAN>, fgets</SPAN> и т.п. </P>
+            <H4>Функция fread</H4>
+            <P>Эта функция осуществляет <SPAN class=keyword>чтение данных из 
+            файла</SPAN>. Ее можно использовать и для <SPAN class=keyword>чтения 
+            данных</SPAN> из бинарных файлов, не опасаясь их повреждения. 
+            Синтаксис <SPAN class=texample>fread()</SPAN> такой:</P>
+            <DIV class=example><PRE>string fread (указатель на файл, длина)</PRE></DIV>
+            <P>При вызове этой функции происходит <SPAN class=keyword>чтение 
+            данных</SPAN> длины (в байтах), определенной параметром длина, из 
+            файла, на который указывает указатель на файл. Параметр указатель на 
+            файл должен быть реально существующей переменной типа ресурс, 
+            содержащей в себе связь с файлом, открытую, например, с помощью 
+            функции <SPAN class=texample>fopen()</SPAN>. Чтение данных 
+            происходит до тех пор, пока не встретится конец файла или пока не 
+            будет прочитано указанное параметром длина число байтов. </P>
+            <P>В результате работы функция <SPAN class=texample>fread()</SPAN> 
+            возвращает строку со <SPAN class=keyword>считанной</SPAN> из файла 
+            информацией.</P>
+            <P>Как вы заметили, в этой функции параметр длина – обязательный. 
+            Следовательно, если мы хотим <SPAN class=keyword>считать</SPAN> весь 
+            файл в строку, нужно знать его длину. PHP может самостоятельно 
+            вычислить длину указанного файла. Для этого нужно воспользоваться 
+            функцией <SPAN class=texample>filesize(имя файла)</SPAN>. В случае 
+            ошибки эта функция вернет <SPAN class=texample>false</SPAN>. К 
+            сожалению, ее можно использовать только для получения <SPAN 
+            class=keyword>размера локальных файлов</SPAN>.</P>
+            <P><B>Пример 9.4.</B> Прочитаем содержимое файла <SPAN 
+            class=texample>my_file.html</SPAN></P><A name=example.9.4></A>
+            <DIV class=example><PRE>&lt;?php
+$h = fopen("my_file.html","r+");    
+// отрываем файл на запись и чтение
+$content = fread($h, 
+     filesize(“my_file.html”));
+// считываем содержимое файла в строку
+fclose($h); // закрываем соединение с файлом
+echo $content; 
+// выводим содержимое файла 
+// на экран браузера
+?&gt;</PRE><SPAN class=objectName>Пример 9.4. Использование функции 
+            fread()</SPAN></DIV>
+            <P>Для того чтобы <SPAN class=keyword>считать</SPAN> содержимое 
+            бинарного файла, например изображения, в таких системах, как 
+            Windows, рекомендуется открывать файл с помощью флага <SPAN 
+            class=texample>rb</SPAN> или ему подобных, содержащих символ <SPAN 
+            class=texample>b</SPAN> в конце.</P>
+            <P>Функция <SPAN class=texample>filesize()</SPAN> кэширует 
+            результаты своей работы. Если изменить содержимое файла <SPAN 
+            class=texample>my_file.html</SPAN> и снова запустить приведенный 
+            выше скрипт, то результат его работы не изменится. Более того, если 
+            запустить скрипт, считывающий данные из этого файла с помощью другой 
+            функции (например, <SPAN class=texample>fgetss</SPAN>), то результат 
+            может оказаться таким, как если бы файл не изменился. Чтобы этого 
+            избежать, нужно очистить статический кэш, добавив в код программы 
+            команду <SPAN class=texample>clearstatcache()</SPAN>; </P>
+            <H4>Функция fgets</H4>
+            <P>С помощью функции <SPAN class=texample>fgets()</SPAN> можно <SPAN 
+            class=keyword>считать из файла строку</SPAN> текста. Синтаксис этой 
+            функции практически такой же, как и у <SPAN 
+            class=texample>fread()</SPAN>, за исключением того, что длину <SPAN 
+            class=keyword>считываемой строки</SPAN> указывать необязательно:</P>
+            <DIV class=example><PRE>string fgets ( указатель на файл [, длина])</PRE></DIV>
+            <P>В результате работы функция <SPAN class=texample>fgets()</SPAN> 
+            возвращает строку длиной (<SPAN class=texample>длина–1</SPAN>) байт 
+            из файла, на который указывает <SPAN class=texample>указатель на 
+            файл</SPAN>. Чтение заканчивается, если прочитано (<SPAN 
+            class=texample>длина–1</SPAN>) символов и встретился символ перевода 
+            строки или конец файла. Напомним, что в PHP один символ – это один 
+            байт. Если длина <SPAN class=keyword>считываемой строки</SPAN> не 
+            указана (данная возможность появилась начиная с PHP 4.2.0), то 
+            считывается 1 Кбайт (1024 байт) текста или, что то же самое, 1024 
+            символа. Начиная с версии PHP 4.3, если параметр длина не задан, 
+            <SPAN class=keyword>считывается строка</SPAN> целиком. В случае 
+            ошибки функция <SPAN class=texample>fgets()</SPAN> возвращает <SPAN 
+            class=texample>false</SPAN>. Для версий PHP начиная с 4.3 эта 
+            функция безопасна для двоичных файлов.</P><A name=example.9.5></A>
+            <DIV class=example><PRE>&lt;?php
+$h = fopen("my_file.html","r+"); 
+$content = fgets($h,2); 
+// считает первый символ из 
+// первой строки файла my_file.html
+fclose($h);
+echo $content;
+?&gt;
+</PRE><SPAN class=objectName>Пример 9.5. Использование функции 
+            fgets()</SPAN></DIV>
+            <P>Обе функции, <SPAN class=texample>fread()</SPAN> и <SPAN 
+            class=texample>fgets()</SPAN>, прекращают считывание данных из 
+            файла, если встречают конец файла. В PHP есть специальная функция, 
+            проверяющая, смотрит ли указатель позиции файла на конец файла. Это 
+            булева функция <SPAN class=texample>feof()</SPAN>, в качестве 
+            параметра которой передается указатель на соединение с файлом.</P>
+            <P>Например, вот так можно <SPAN class=keyword>считать</SPAN> все 
+            строки файла <SPAN class=texample>my_file.html</SPAN>:</P>
+            <DIV class=example><PRE>&lt;?php
+$h = fopen("my_file.html","r"); 
+while (!feof ($h)) {
+    $content = fgets($h);
+    echo $content,"&lt;br&gt;";
+}
+fclose($h);
+?&gt;</PRE></DIV>
+            <H4>Функция fgetss</H4>
+            <P>Существует разновидность функции <SPAN 
+            class=texample>fgets()</SPAN> – функция <SPAN 
+            class=texample>fgetss()</SPAN>. Она тоже позволяет <SPAN 
+            class=keyword>считывать</SPAN> строку из указанного файла, но при 
+            этом удаляет из него все встретившиеся html-теги, за исключением, 
+            быть может, некоторых. Синтаксис <SPAN 
+            class=texample>fgetss()</SPAN> такой:</P>
+            <DIV class=example><PRE>string fgetss(указатель на файл, 
+   длина [, допустимые теги])
+</PRE></DIV>
+            <P>Обратите внимание, что здесь аргумент длина обязательный.</P>
+            <P><B>Пример 9.6.</B> Пусть у нас имеется файл <SPAN 
+            class=texample>my_file.html</SPAN> следующего содержания:</P>
+            <DIV class=example><PRE>&lt;h1&gt;Без труда не вынешь и рыбку из пруда.&lt;/h1&gt;
+&lt;b&gt;Тише едешь – дальше будешь&lt;/b&gt;
+У семи нянек&lt;i&gt; дитя без глазу&lt;/i&gt;.</PRE></DIV>
+            <P>Выведем на экран все строки файла <SPAN 
+            class=texample>my_file.html</SPAN>, удалив из них все теги, кроме 
+            &lt;b&gt; и &lt;i&gt;:</P><A name=example.9.6></A>
+            <DIV class=example><PRE>&lt;?php
+$h = fopen("my_file.html","r");
+while (!feof ($h)) {
+    $content = fgetss($h,1024,'&lt;b&gt;&lt;i&gt;');
+   echo $content,"&lt;br&gt;";
+}
+fclose($h);
+?&gt;</PRE><SPAN class=objectName>Пример 9.6. Использование функции 
+            fgetss()</SPAN></DIV>
+            <P>В результате работы этого скрипта получим:</P>
+            <P><B>Тише едешь – дальше будешь </B></P>
+            <DIV class=example><PRE>Без труда не вынешь и рыбку из пруда.
+У семи нянек дитя без глазу.</PRE></DIV>
+            <H4>Функция fgetc</H4>
+            <P>Естественно, если можно считывать информацию из файла построчно, 
+            то можно <SPAN class=keyword>считывать</SPAN> ее и посимвольно. Для 
+            этого предназначена функция <SPAN class=texample>fgetc()</SPAN>. 
+            Легко догадаться, что синтаксис у нее следующий:</P>
+            <DIV class=example><PRE>string fgetc ( указатель на файл )</PRE></DIV>
+            <P>Эта функция возвращает символ из файла, на который ссылается 
+            указатель на файл, и значение, вычисляемое как <SPAN 
+            class=texample>FALSE</SPAN>, если встречен конец строки. </P>
+            <P>Вот так, например, можно <SPAN class=keyword>считать</SPAN> файл 
+            по одному символу:</P>
+            <DIV class=example><PRE>&lt;?php
+$h = fopen("my_file.html","r"); 
+while (!feof ($h)) {
+    $content = fgetc($h);
+    echo $content,"&lt;br&gt;";
+}
+fclose($h);
+?&gt;</PRE></DIV>
+            <P>На самом деле для того чтобы прочитать содержимое файла, 
+            открывать соединение с ним посредством функции <SPAN 
+            class=texample>fopen()</SPAN> совсем не обязательно. В PHP есть 
+            функции, которые позволяют делать это, используя лишь имя файла. Это 
+            функции <SPAN class=texample>readfile( ), file( )</SPAN> и <SPAN 
+            class=texample>file_get_contents( )</SPAN>. Рассмотрим каждую их них 
+            подробнее.</P>
+            <H4>Функция readfile</H4>
+            <P>Синтаксис:</P>
+            <DIV class=example><PRE>int readfile ( имя_файла 
+    [, use_include_path])
+</PRE></DIV>
+            <P>Функция <SPAN class=texample>readfile()</SPAN> считывает файл, 
+            имя которого передано ей в качестве параметра имя_файла, и выводит 
+            его содержимое на экран. Если дополнительный аргумент <SPAN 
+            class=texample>use_include_path</SPAN> имеет значение <SPAN 
+            class=texample>TRUE</SPAN>, то поиск файла с заданным именем 
+            производится и по директориям, входящим в <SPAN 
+            class=texample>include_path</SPAN>. </P>
+            <P>В программу эта функция возвращает число <SPAN 
+            class=keyword>считанных</SPAN> байтов (символов) файла, а в случае 
+            ошибки – <SPAN class=texample>FALSE</SPAN>. Сообщения об ошибке в 
+            этой функции можно подавить оператором <SPAN class=texample><SPAN 
+            class=keyword>@</SPAN></SPAN> .</P>
+            <P><B>Пример 9.7.</B> Следующий скрипт выведет на экран содержимое 
+            файла <SPAN class=texample>my_file1.html</SPAN> и <SPAN 
+            class=keyword>размер этого файла</SPAN>, если он существует. В 
+            противном случае выведется наше сообщение об ошибке – строка <SPAN 
+            class=texample>"Error in readfile"</SPAN>.</P><A 
+            name=example.9.7></A>
+            <DIV class=example><PRE>&lt;?php
+$n = @readfile ("my_file1.html"); 
+/* выводит на экран содержимое файла и 
+записывает его размер в переменную $n */
+if (!$n) echo "Error in readfile"; 
+/* если функция readfile() выполнилась 
+с ошибкой, то $n=false и выводим 
+сообщение об ошибке */
+else echo $n;   
+  // если ошибки не было, то выводим число
+  // считанных символов
+?&gt;</PRE><SPAN class=objectName>Пример 9.7. Использование функции 
+            readfile()</SPAN></DIV>
+            <P>С помощью функции <SPAN class=texample>readfile()</SPAN> можно 
+            читать содержимое удаленных файлов, указывая их URL-адрес в качестве 
+            имени файла, если эта опция не отключена в настройках сервера.</P>
+            <P>Сразу же выводить содержимое файла на экран не всегда удобно. 
+            Порой нужно записать информацию из файла в переменную, чтобы в 
+            дальнейшем произвести с ней какие-либо действия. Для этого можно 
+            использовать функцию <SPAN class=texample>file()</SPAN> или <SPAN 
+            class=texample>file_get_contents()</SPAN>.</P>
+            <H4>Функция file</H4>
+            <P>Функция <SPAN class=texample><SPAN 
+            class=keyword>file()</SPAN></SPAN> предназначена для считывания 
+            информации из файла в переменную типа <SPAN 
+            class=keyword>массив</SPAN>. Синтаксис у нее такой же, как и у 
+            функции <SPAN class=texample>readfile()</SPAN>, за исключением того, 
+            что в результате работы она возвращает массив:</P>
+            <DIV class=example><PRE>array file ( имя_файла 
+    [, use_include_path])
+</PRE></DIV>
+            <P>Что за массив возвращает эта функция? Каждый элемент данного 
+            массива является строкой в файле, информацию из которого мы 
+            считываем (его имя задано аргументом <SPAN 
+            class=texample>имя_файла</SPAN>). Символ новой строки тоже 
+            включается в каждый из элементов массива. В случае ошибки функция 
+            <SPAN class=texample><SPAN class=keyword>file()</SPAN></SPAN>, как и 
+            все уже рассмотренные, возвращает <SPAN class=texample>false</SPAN>. 
+            Дополнительный аргумент <SPAN class=texample>use_include_path</SPAN> 
+            опять же определяет, искать или нет данный файл в директориях <SPAN 
+            class=texample>include_path</SPAN>. Открывать удаленные файлы с 
+            помощью этой функции тоже можно, если не запрещено сервером. Начиная 
+            с PHP 4.3 работа с бинарными файлами посредством этой функции стала 
+            безопасной. </P>
+            <P>Например, у нас имеется файл <SPAN 
+            class=texample>my_file.html</SPAN> следующего содержания:</P>
+            <DIV class=example><PRE>&lt;h1&gt;Без труда не вынешь 
+    и рыбку из пруда.&lt;/h1&gt;
+&lt;b&gt;Тише едешь – дальше будешь&lt;/b&gt;</PRE></DIV>
+            <P>Прочитаем его содержимое с помощью функции <SPAN 
+            class=texample>file()</SPAN>:</P>
+            <DIV class=example><PRE>&lt;?php
+$arr = file ("my_file.html"); 
+foreach($arr as $i =&gt; $a) echo $i,": ", 
+    htmlspecialchars($a), "&lt;br&gt;";
+?&gt;</PRE></DIV>
+            <P>В результате на экран будет выведено следующее сообщение:</P>
+            <DIV class=example><PRE>0: &lt;h1&gt;Без труда не вынешь 
+    и рыбку из пруда.&lt;/h1&gt;
+1: &lt;b&gt;Тише едешь – дальше будешь&lt;/b&gt;</PRE></DIV>
+            <H4>Функция file_get_contents</H4>
+            <P>В версиях PHP начиная с 4.3 появилась возможность считывать 
+            содержимое файла в строку. Делается это с помощью функции <SPAN 
+            class=texample>file_get_contents()</SPAN>. Как и две предыдущие 
+            функции, в качестве параметров она принимает значение имени файла и, 
+            возможно, указание искать его в директориях <SPAN 
+            class=texample>include_path</SPAN>. Для порядка все равно приведем 
+            ее синтаксис:</P>
+            <DIV class=example><PRE>string file_get_contents ( 
+    имя_файла [, use_include_path])
+</PRE></DIV>
+            <P>Эта функция абсолютно идентична функции <SPAN 
+            class=texample>file()</SPAN>, только возвращает она содержимое файла 
+            в виде строки. Кроме того, она безопасна для обработки бинарных 
+            данных и может считывать информацию из удаленных файлов, если это не 
+            запрещено настройками сервера.</P>
+            <H3>Проверка существования файла</H3>
+            <P>Итак, создавать файл мы научились, записывать данные в него – 
+            научились, считывать данные из файла – тоже научились. Но вот 
+            вопрос: а что если файла, с которым мы пытаемся проделать все эти 
+            операции, не существует? Или он недоступен для чтения или записи? 
+            Очевидно, что в таком случае ни одна из изученных нами функций 
+            работать не будет и PHP выдаст сообщение об ошибке. Чтобы 
+            отслеживать такого рода ошибки, можно использовать функции <SPAN 
+            class=texample>file_exists()</SPAN>, &nbsp; <SPAN 
+            class=texample>is_writable()</SPAN>, &nbsp;<SPAN 
+            class=texample>is_readable()</SPAN>.&nbsp; </P>
+            <H4>Функция file_exists</H4>
+            <P>Синтаксис: </P>
+            <DIV class=example><PRE>bool file_exists (имя файла или директории)
+</PRE></DIV>
+            <P>Функция <SPAN class=texample>file_exist()</SPAN> проверяет, 
+            существует ли файл или директория, имя которой передано ей в 
+            качестве аргумента. Если директория или файл в файловой системе 
+            сервера существует, то функция возвращает <SPAN 
+            class=texample>TRUE</SPAN>, в противном случае – <SPAN 
+            class=texample>FALSE</SPAN>. Результат работы этой функции 
+            кэшируется. Соответственно очистить кэш можно, как уже отмечалось, с 
+            помощью функции <SPAN class=texample>clearstatcache()</SPAN>. Для 
+            нелокальных файлов использовать функцию <SPAN 
+            class=texample>file_exists()</SPAN> нельзя.</P><A 
+            name=example.9.8></A>
+            <DIV class=example><PRE>&lt;?php
+$filename = 'c:/users/files/my_file.html';
+if (file_exists($filename)) {
+  print "Файл &lt;b&gt;$filename&lt;/b&gt; существует";
+} else {
+  print "Файл &lt;b&gt;$filename&lt;/b&gt; 
+        НЕ существует";
+}
+?&gt;</PRE><SPAN class=objectName>Пример 9.8. Использование функции 
+            file_exist()</SPAN></DIV>
+            <H4>Функция is_writable </H4>
+            <P>Если кроме проверки <SPAN class=keyword>существования 
+            файла</SPAN> нужно узнать еще, разрешено ли записывать информацию в 
+            этот файл, следует использовать функцию <SPAN 
+            class=texample>is_writable()</SPAN> или ее псевдоним – функцию <SPAN 
+            class=texample>is_writeable()</SPAN>.</P>
+            <P>Синтаксис: </P>
+            <DIV class=example><PRE>bool is_writable (имя файла или директории)
+</PRE></DIV>
+            <P>Эта функция возвращает <SPAN class=texample>TRUE</SPAN>, если 
+            файл (или директория) существует и <SPAN class=keyword>доступен для 
+            записи</SPAN>. Доступ к файлу осуществляется под той учетной записью 
+            пользователя, под которой работает сервер (чаще всего это 
+            пользователь nobody или www). Результаты работы функции <SPAN 
+            class=texample>is_writable</SPAN> кэшируются. </P>
+            <H4>Функция is_readable</H4>
+            <P>Если кроме проверки <SPAN class=keyword>существования 
+            файла</SPAN> нужно узнать еще, разрешено ли читать информацию из 
+            него, нужно использовать функцию <SPAN 
+            class=texample>is_readable()</SPAN>.</P>
+            <P>Синтаксис:</P>
+            <DIV class=example><PRE>bool is_readable (имя файла)
+</PRE></DIV>
+            <P>Эта функция работает подобно функции <SPAN 
+            class=texample>is_writable()</SPAN>.</P><A name=example.9.9></A>
+            <DIV class=example><PRE>&lt;?php
+$filename = 'c:/users/files/my_file.html';
+if (is_readable($filename)) {
+  print "Файл &lt;b&gt;$filename&lt;/b&gt; существует
+     и доступен для чтения";
+} else {
+  print "Файл &lt;b&gt;$filename&lt;/b&gt; 
+     НЕ существует или 
+     НЕ доступен для чтения";
+}
+?&gt; </PRE><SPAN class=objectName>Пример 9.9. Использование функции 
+            is_readable()</SPAN></DIV>
+            <H3>Удаление файла</H3>
+            <P>Последнее, что мы хотим изучить из действий над файлами, – это 
+            <SPAN class=keyword>удаление файлов</SPAN>. Для того чтобы удалить 
+            файл с помощью языка PHP, нужно воспользоваться функцией <SPAN 
+            class=texample>unlink()</SPAN>. Синтаксис этой функции можно описать 
+            следующим образом:</P>
+            <DIV class=example><PRE>bool unlink ( имя_файла)</PRE></DIV>
+            <P>Данная функция удаляет файл, имеющий имя <SPAN 
+            class=texample>имя_файла</SPAN>, возвращает <SPAN 
+            class=texample>TRUE</SPAN> в случае успеха этой операции и <SPAN 
+            class=texample>FALSE</SPAN> – в случае ошибки. Чтобы удалить файл, 
+            нужно тоже иметь соответствующие права доступа к нему (например, 
+            <SPAN class=keyword>доступа только на чтение</SPAN> для <SPAN 
+            class=keyword>удаления файла</SPAN> недостаточно).</P><A 
+            name=example.9.10></A>
+            <DIV class=example><PRE>&lt;?php
+$filename = 'c:/users/files/my_file.html';
+unlink($filename);  
+  // удаляем файл с именем 
+  // c:/users/files/my_file.html
+?&gt;</PRE><SPAN class=objectName>Пример 9.10. Использование функции 
+            unlink()</SPAN></DIV>
+            <H3>Загрузка файла на сервер</H3>
+            <P>Теперь решим более сложную и часто возникающую на практике задачу 
+            <SPAN class=keyword>загрузки файла на сервер</SPAN>. Первое, что 
+            нужно сделать, чтобы загрузить файл на сервер, это создать 
+            html-форму. Для того чтобы с помощью этой формы можно было загружать 
+            файлы, она должна содержать атрибут <SPAN 
+            class=texample>enctype</SPAN> в теге <SPAN 
+            class=texample>form</SPAN> со значением <SPAN 
+            class=texample>multipart/form-data</SPAN>, а также элемент <SPAN 
+            class=texample>input</SPAN> типа <SPAN class=texample>file</SPAN>. 
+            </P>
+            <P><B>Пример 9.11.</B></P><A name=example.9.11></A>
+            <DIV class=example><PRE>&lt;form enctype="multipart/form-data" 
+    action="parse.php" method="post"&gt;
+  &lt;input type="hidden" name="MAX_FILE_SIZE"
+    value="30000" /&gt;
+  Загрузить файл: &lt;input type="file" 
+    name="myfile" /&gt;&lt;br&gt;
+  &lt;input type="submit" 
+    value="Отправить файл" /&gt;
+&lt;/form&gt;</PRE><SPAN class=objectName>Пример 9.11. Форма для 
+            загрузки файла на сервер</SPAN></DIV>
+            <P>Заметим, что мы добавили в форме скрытое поле, которое содержит в 
+            себе максимальный допустимый <SPAN class=keyword>размер</SPAN> 
+            загружаемого файла в байтах. При попытке загрузить файл, <SPAN 
+            class=keyword>размер</SPAN> которого больше указанного в этом поле 
+            значения, будет зафиксирована ошибка. В браузере созданная нами 
+            форма будет выглядеть как строка для ввода текста с дополнительной 
+            кнопкой для выбора файла с локального диска (<A 
+            href="http://www.intuit.ru/department/pl/plphp/9/plphp_9.html#image.9.1">рис 
+            9.1</A>).</P>
+            <P align=center><A name=image.9.1></A><IMG height=68 
+            alt="Пример формы для загрузки файла на сервер" 
+            src="Работа с файловой системой.files/image9.1.jpg" 
+            width=291><BR><B>Рис. 9.1.</B>&nbsp; Пример формы для загрузки файла 
+            на сервер</P>
+            <P>Теперь нужно написать скрипт, который будет обрабатывать 
+            полученный файл. </P>
+            <P>Вся информация о загруженном на сервер файле содержится в 
+            глобальном массиве <SPAN class=texample>$_FILES</SPAN>. Этот массив 
+            появился начиная с PHP 4.1.0. Если включена директива <SPAN 
+            class=texample>register_globals</SPAN>, то значения переданных 
+            переменных доступны просто по их именам. </P>
+            <P>Если мы загрузили с компьютера-клиента файл с именем <SPAN 
+            class=texample>critics.htm</SPAN>&nbsp; <SPAN 
+            class=keyword>размером</SPAN> 15136 байт, то скрипт с единственной 
+            командой <SPAN class=texample>print_r($_FILES)</SPAN>; выведет на 
+            экран следующее:</P>
+            <DIV class=example><PRE>Array ( [myfile] =&gt; 
+  Array ( [name] =&gt; critics.htm 
+    [type] =&gt; text/html 
+    [tmp_name] =&gt; C:\WINDOWS\TEMP\php49F.tmp
+    [error] =&gt; 0 
+    [size] =&gt; 15136 
+    )
+) </PRE></DIV>
+            <P>Вообще говоря, массив <SPAN class=texample>$_FILES</SPAN> всегда 
+            имеет следующие элементы:</P>
+            <UL>
+              <LI><SPAN class=texample>$_FILES['myfile']['name']</SPAN> – имя, 
+              которое имел файл на машине клиента.
+              <LI><SPAN class=texample>$_FILES['myfile']['type']</SPAN> – 
+              mime-тип отправленного файла, если браузер предоставил эту 
+              информацию. В нашем примере это text/html.
+              <LI><SPAN class=texample>$_FILES['myfile']['size']</SPAN> – <SPAN 
+              class=keyword>размер</SPAN> загруженного файла в байтах.
+              <LI><SPAN class=texample>$_FILES['myfile']['tmp_name']</SPAN> – 
+              временное имя файла, под которым он был сохранен на сервере.
+              <LI><SPAN class=texample>$_FILES['myfile']['error']</SPAN> – код 
+              ошибки, появившейся при загрузке.</LI></UL>
+            <P>Здесь <SPAN class=texample>'myfile'</SPAN> – это имя элемента 
+            формы, с помощью которого была произведена <SPAN 
+            class=keyword>загрузка файла на сервер</SPAN>. То есть оно может 
+            быть другим, если элемент формы назвать иначе. Но вот другие ключи 
+            (<SPAN class=texample>name</SPAN>, <SPAN class=texample>type</SPAN> 
+            и т. д.) остаются неизменными для любой формы.</P>
+            <P>Если <SPAN class=texample>register_globals=On</SPAN>, то доступны 
+            также дополнительные переменные, такие как <SPAN 
+            class=texample>$myfile_name</SPAN>, которая эквивалентна <SPAN 
+            class=texample>$_FILES['myfile']['name']</SPAN>, и т.п.</P>
+            <P>&nbsp;<SPAN class=keyword>Ошибок при загрузке</SPAN> в PHP 
+            выделяют пять типов и соответственно <SPAN 
+            class=texample>$_FILES['myfile']['error']</SPAN> может иметь пять 
+            значений:</P>
+            <P>0 – ошибки не произошло, файл загружен успешно</P>
+            <P>1 – загружаемый файл превышает <SPAN class=keyword>размер</SPAN>, 
+            установленный директивой <SPAN 
+            class=texample>upload_max_filesize</SPAN> в файле настроек <SPAN 
+            class=texample>php.ini</SPAN> </P>
+            <P>2 – загружаемый файл превышает <SPAN class=keyword>размер</SPAN>, 
+            установленный элементом <SPAN class=texample>MAX_FILE_SIZE</SPAN> 
+            формы html</P>
+            <P>3 – файл был загружен частично</P>
+            <P>4 – файл загружен не был</P>
+            <P>По умолчанию загруженные файлы сохраняются во временной 
+            директории сервера, если другая директория не указана с помощью 
+            опции <SPAN class=texample>upload_tmp_dir</SPAN> в файле настроек 
+            <SPAN class=texample>php.ini</SPAN>. Переместить загруженный файл в 
+            нужную директорию можно с помощью функции <SPAN 
+            class=texample>move_uploaded_file()</SPAN>. </P>
+            <P>Функция <SPAN class=texample>move_uploaded_file()</SPAN> имеет 
+            следующий синтаксис:</P>
+            <DIV class=example><PRE>bool move_uploaded_file (временное_имя_файла,
+                         место_назначения )
+</PRE></DIV>
+            <P>Эта функция проверяет, действительно ли файл, обозначенный 
+            строкой <SPAN class=texample>временное_имя_файла</SPAN>, был 
+            загружен через механизм загрузки HTTP методом POST. Если это так, то 
+            файл перемещается в файл, заданный параметром <SPAN 
+            class=texample>место_назначения</SPAN> (этот параметр содержит как 
+            путь к новой директории для хранения, так и новое имя файла). </P>
+            <P>Если <SPAN class=texample>временное_имя_файла</SPAN> задает 
+            неправильный загруженный файл, то никаких действий произведено не 
+            будет, и <SPAN class=texample>move_uploaded_file()</SPAN> вернет 
+            <SPAN class=texample>FALSE</SPAN>. То же самое произойдет, если файл 
+            по каким-то причинам не может быть перемещен. В этом случае 
+            интерпретатор выведет соответствующее предупреждение. Если файл, 
+            заданный параметром <SPAN class=texample>место_назначения</SPAN>, 
+            существует, то функция <SPAN 
+            class=texample>move_uploaded_file()</SPAN> перезапишет его.</P><A 
+            name=example.9.12></A>
+            <DIV class=example><PRE>&lt;?
+/* В версиях PHP, более ранних, 
+чем 4.1.0, вместо массива 
+$_FILES нужно использовать 
+массив $HTTP_POST_FILES */
+
+$uploaddir = 'c:/uploads/';     
+    // будем сохранять загружаемые 
+    // файлы в эту директорию
+$destination = $uploaddir . 
+     $_FILES['myfile']['name'];
+    // имя файла оставим неизменным
+print "&lt;pre&gt;";
+if (move_uploaded_file(
+    $_FILES['myfile']['tmp_name'], 
+    $destination)) { 
+/* перемещаем файл из временной папки 
+в выбранную директорию для хранения */
+
+    print "Файл успешно загружен &lt;br&gt;";
+} else {
+  echo "Произошла ошибка при загрузке файла.
+    Некоторая отладочная информация:&lt;br&gt;";
+    print_r($_FILES);
+}
+print "&lt;/pre&gt;"; 
+?&gt;</PRE><SPAN class=objectName>Пример 9.12. Программа загрузки 
+            файла на сервер</SPAN></DIV>
+            <H3>Заключение</H3>
+            <P>Подведем итоги. В этой лекции мы изучили, как создавать файлы с 
+            помощью языка PHP, как <SPAN class=keyword>записывать данные в 
+            файлы</SPAN> посредством PHP, как считывать из них информацию 
+            различными способами, как проверять <SPAN 
+            class=keyword>существование</SPAN> и <SPAN class=keyword>доступность 
+            файла для записи</SPAN> и чтения. Кроме того, мы рассмотрели задачу 
+            <SPAN class=keyword>загрузки файла на сервер</SPAN> и обсудили 
+            основные связанные с ней переменные и функции языка PHP. </P></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Работа с файловой системой.files/empty.gif" 
+        width=1></TD></TR></TBODY></TABLE><!-- /content --></TD>
+    <TD><IMG height=1 src="Работа с файловой системой.files/empty.gif" 
+    width=8></TD></TR></TBODY></TABLE><!-- /bottom -->
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD class=orang height=1><IMG height=1 
+      src="Работа с файловой системой.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD class=ltxt align=middle>© 2003-2005 INTUIT.ru. Все права 
+  защищены.</TD></TR></TBODY></TABLE><!-- /bottom --></BODY></HTML>

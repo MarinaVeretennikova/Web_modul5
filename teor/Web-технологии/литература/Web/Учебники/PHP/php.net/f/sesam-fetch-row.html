@@ -1,0 +1,68 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>sesam_fetch_row</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="sesam-fetch-result.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="sesam-field-array.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="sesam-fetch-row">sesam_fetch_row</A></H1><A NAME="AEN72815"></A><P>(только PHP 3 CVS)</P>
+<p>sesam_fetch_row - извлекает один ряд как массив.<A NAME="AEN72818"></A></p><H2>Описание</H2><p>array <B>sesam_fetch_row</B> (string result_id [, int whence [, int offset]])</p>
+<P>Возвращает массив, соответствующий извлечённому ряду, или <TT><B>FALSE</B></TT>, если рядов больше нет.</P>
+<P>Количество столбцов в результирующем наборе возвращается в элементе ассоциативного массива $array["count"]. Поскольку результирующие столбцы могут 
+быть пустыми, функция <A HREF="count.html"><B>count()</B></A> не может использоваться с результирующим рядом, возвращённым функцией
+<B>sesam_fetch_row()</B>.</P><P><TT><I>result_id</I></TT> это правильный result id, возвращённый функцией
+<A HREF="sesam-query.html"><B>sesam_query()</B></A> (только запросы select!).</P><P><TT><I>whence</I></TT> это необязательный параметр для операции извлечения в "scrollable/прокручиваемых" 
+курсорах, который может иметь в качестве значения одну из предопределённых констант:<A NAME="AEN72842"></A>
+<h6>Таблица 1. Правильные значения параметра <TT><I>"whence"</I></TT></h6><TABLE BORDER="1"><TR>
+<TH>Значение</TH><TH>Константа</TH><TH>Смысл</TH></TR><TBODY><TR><TD>0</TD><TD><TT>SESAM_SEEK_NEXT</TT></TD>
+<TD>читать последовательно (после извлечения по умолчанию устанавливается <TT>SESAM_SEEK_NEXT</TT>)</TD></TR>
+<TR><TD>1</TD><TD><TT>SESAM_SEEK_PRIOR</TT></TD><TD>читать последовательно в обратном направлении (после извлечения по 
+умолчанию устанавливается <TT>SESAM_SEEK_PRIOR</TT>)</TD></TR><TR><TD>2</TD><TD><TT>SESAM_SEEK_FIRST</TT></TD>
+<TD>вернуться к первому ряду (после извлечения по умолчанию устанавливается	<TT>SESAM_SEEK_NEXT</TT>)</TD></TR>
+<TR><TD>3</TD><TD><TT>SESAM_SEEK_LAST</TT></TD><TD>найти последний ряд (после извлечения по умолчанию устанавливается
+<TT>SESAM_SEEK_PRIOR</TT>)</TD></TR><TR><TD>4</TD><TD><TT>SESAM_SEEK_ABSOLUTE</TT></TD>
+<TD>найти абсолютный номер ряда, заданного как <TT><I>offset</I></TT> (С базой 0. После извлечения по умолчанию устанавливается
+<TT>SESAM_SEEK_ABSOLUTE</TT>, а внутреннее значение смещения увеличивается на 1)</TD></TR><TR><TD>5</TD>
+<TD><TT>SESAM_SEEK_RELATIVE</TT></TD><TD>искать относительно текущей позиции курсора, где <TT><I>offset</I></TT> может быть положительным или отрицательным значением смещения.</TD>
+</TR></TBODY></TABLE><p>Этот параметр верен только для "scrollable" курсоров.</p><P>При использовании "scrollable" курсоров, курсор можно свободно
+позиционировать в результирующем наборе. Если параметр <TT><I>whence</I></TT> опущен, используются глобальные значения по умолчанию  типа прокрутки
+(инициализируется в <TT>SESAM_SEEK_NEXT</TT>, а устанавливается функцией <A HREF="sesam-seek-row.html"><B>sesam_seek_row()</B></A>).
+Если <TT><I>whence</I></TT> предоставлен, его значение замещает глобальное значение по умолчанию.</P>
+<P><TT><I>offset</I></TT> это необязательный параметр, который вычисляется (и требуется), только если
+<TT><I>whence</I></TT> это <TT>SESAM_SEEK_RELATIVE</TT> или <TT>SESAM_SEEK_ABSOLUTE</TT>. Этот параметр верен только для "scrollable" курсоров.</P>
+<P><B>sesam_fetch_row()</B> извлекает один ряд данных из результата, ассоциированного со специфицированным 
+идентификатором результата. Ряд возвращается как массив (индексированный значениями в диапазоне от
+<TT>0</TT> до <TT>$array["count"]-1</TT>). Поля могут быть пустыми, поэтому вы обязаны проверять существование поля 
+РНР-функцией <A HREF="isset.html"><B>isset()</B></A>. Тип возвращаемых полей зависит от соответствующего SQL-типа, объявленного для
+столбца (см. в разделе <A HREF="ref.sesam.html">SESAM. Обзор.</A> о применяемых соглашениях). SESAM "multiple
+fields/множественные поля" являются "inlined/инлайновыми" и рассматриваются как последовательность столбцов.</P>
+<P>Последующие вызовы <B>sesam_fetch_row()</B> должны возвращать следующий ряд (или предыдущий, или n'ный 
+следующий/предыдущий, в зависимости от атрибутов прокрутки) результирующего набора или <TT><B>FALSE</B></TT>, если рядов больше нет.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN72908"></A><h5>Пример 1. SESAM. Извлечение рядов.</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$result = sesam_query ("SELECT * FROM phone\n".
+                       "  WHERE LASTNAME='".strtoupper($name)."'\n".
+                       "  ORDER BY FIRSTNAME", 1);
+if (!$result) {
+    ... error ...
+}
+// print the table in backward order
+print "&#60;TABLE BORDER&#62;\n";
+$row = sesam_fetch_row ($result, SESAM_SEEK_LAST);
+while (is_array ($row)) {
+    print " &#60;TR&#62;\n";
+    for ($col = 0; $col &#60; $row["count"]; ++$col) {
+        print "  &#60;TD&#62;".htmlspecialchars ($row[$col])."&#60;/TD&#62;\n";
+    }
+    print " &#60;/TR&#62;\n";
+    // use implied SESAM_SEEK_PRIOR
+    $row = sesam_fetch_row ($result);
+}
+print "&#60;/TABLE&#62;\n";
+sesam_free_result ($result);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="sesam-fetch-array.html"><B>sesam_fetch_array()</B></A>, которая возвращает ассоциативный массив, и
+<A HREF="sesam-fetch-result.html"><B>sesam_fetch_result()</B></A>, которая возвращает много рядов за один вызов.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="sesam-fetch-result.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="sesam-field-array.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">sesam_fetch_result</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.sesam.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">sesam_field_array</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,903 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="ru">
+
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=Win-1251">
+<TITLE>Ссылки в документах HTML</TITLE>
+<LINK rel="previous" href="tables.html" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html">
+<LINK rel="next" href="objects.html" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html">
+<LINK rel="contents" href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">
+<LINK rel="STYLESHEET" href="tppmsgs/msgs0.htm#18" tppabs="http://www.citforum.ru/internet/html40/style/default.css" type="text/css">
+</HEAD>
+<BODY>
+<div class="navbar">
+<center>&nbsp;<a href="tables.html" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html">назад</a> &nbsp; <a href="objects.html" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center><hr>
+</div>
+
+<H1 align="center"><a name="h-12">12</a> Ссылки</H1>
+<div class="subtoc"><p><strong>Содержание</strong>
+<ol>
+<li><a href="#h-12.1">Введение в ссылки и якоря
+</a>
+<ol>
+<li><a href="#h-12.1.1">Переход к ресурсу, на который указывает ссылка</a>
+<li><a href="#h-12.1.2"><span class="index-inst" title="link::used to define relationship">
+Другие отношения ссылок</span></a>
+<li><a href="#h-12.1.3">Задание якорей и ссылок</a>
+<li><a href="#h-12.1.4">
+<span class="index-inst" title="link::title of">
+Заголовки ссылок</span></a>
+<li><a href="#h-12.1.5">
+<span class="index-inst" title="link::and character encoding|character
+encoding::of links">Интернационализация и ссылки</span></a>
+</ol>
+<li><a href="#h-12.2">Элемент <samp class="einst2">A</SAMP>
+</a>
+<ol>
+<li><a href="#h-12.2.1">
+<span class="index-inst" title="anchor::syntax of name">
+Синтаксис имен якорей</span></a>
+<li><a href="#h-12.2.2">
+<span class="index-inst" title="link::nesting illegal">
+Вложенные ссылки недопустимы</span></a>
+<li><a href="#h-12.2.3">
+<span class="index-inst" title="anchor::creation with id attribute">
+Якоря с атрибутом <SAMP>id</SAMP></span></a>
+<li><a href="#h-12.2.4">
+<span class="index-inst" title="error::unavailable resource">
+Недоступные и неопределяемые ресурсы</span></a>
+</ol>
+<li><a href="#h-12.3">Отношения документов: элемент <samp class="einst2">LINK</SAMP></a>
+<ol>
+<li><a href="#h-12.3.1">
+<span class="index-inst" title="link::forward and reverse">
+Прямые и обратные ссылки</span></a>
+<li><a href="#h-12.3.2">
+<span class="index-inst" title="link::and external style sheets|style
+sheet::external through links">Ссылки и внешние таблицы стилей</span></a>
+<li><a href="#h-12.3.3">
+<span class="index-inst" title="search engine::and links">
+Ссылки и поисковые машины</span></a>
+</ol>
+<li><a href="#h-12.4">Информация о пути: элемент <samp class="einst2">
+BASE</SAMP></a>
+<ol>
+<li><a href="#h-12.4.1">
+<span class="index-def" title="URI::resolution of relative|resolution 
+of relative URI">Разрешение относительных URI</span></a>
+</ol>
+</ol>
+</div>
+
+<H2><a name="h-12.1">12.1</a> <A name="links">Введение в ссылки</A> и <A name="anchors">якоря</A>
+</H2>
+
+<P>HTML предлагает множество условных оборотов для текстовых и структурированных
+документов, но что отличает его от большинства других языков разметки - 
+его возможности разметки гипертекста и интерактивных документов. В этом
+разделе вводится понятие <em>ссылки</em> (или гиперссылки или ссылки Web),
+основной гипертекстовой конструкции. Ссылки связывают один ресурс
+Web с другим. Несмотря на простоту, ссылки стали основным залогом успеха Web.
+
+<P>
+<span class="index-def" title="link::definition
+of"><a name="didx-link"><dfn>Ссылка</dfn></a></span> имеет два конца - называемых <span
+class="index-def" title="anchor"><a name="didx-anchor"><dfn>anchors</dfn></a></span> -- и направление.
+Ссылка начинается в "исходном" anchor (источнике) и указывает на
+"целевой" anchor, который может быть любым ресурсом Web (например, изображением,
+видеоклипом, звуковым файлом, программой, документом HTML, элементом в
+документе HTML и т.д.).
+
+<H3><a name="h-12.1.1">12.1.1</a> Переход к ресурсу, на который указывает ссылка</H3> 
+
+<P><span class="index-inst" title="link::used to retrieve resource"><a name="idx-link-1">
+По умолчанию со ссылкой связана загрузка другого ресурса
+Web.</a></span> Это поведение достигается обычно путем выбора
+ссылки (например, с помощью щелчка мыши, ввода с клавиатуры
+и т.д.).
+
+<div class="example"><P>
+В следующем HTML-фрагменте содержится <a name="two-links">две ссылки</a>, у
+одной целевым anchor является документ HTML с именем "chapter2.html", а
+у второй целевой anchor - изображение в формате GIF, расположенное в файле "forest.gif":
+
+<PRE>
+&lt;BODY&gt;
+<em>...какой-то текст...</em>
+&lt;P&gt;Подробнее см. в &lt;A href="chapter2.html"&gt;главе два&lt;/A&gt;. 
+См. также &lt;A href="../images/forest.gif"&gt;карту леса.&lt;/A&gt;
+&lt;/BODY&gt;
+</PRE>
+</div>
+
+<P>Путем активизации этих ссылок (с помощью щелчка мыши, ввода с
+клавиатуры, голосовых команд и т.д.) пользователи могут перейти к этим
+ресурсам.  Обратите внимание, что атрибут <a href="links.html#adef-href" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-href" class="noxref"><samp class="ainst">href</samp></a> в каждом исходном
+anchor указывает адрес целевого anchor с использованием URI.
+
+<P>Целевой anchor ссылки может быть элементом в документе HTML.
+Целевому anchor должно даваться имя и адрес URI, адресующий этот anchor,
+Должен содержать это имя в качестве <span class="index-inst" title="fragment identifier">
+<a name="idx-fragment_identifier" href="intro.html#fragment-uri" tppabs="http://www.citforum.ru/internet/html40/intro/intro.html#fragment-uri">идентификатора фрагмента</a></span>.
+
+<P>Целевые anchors в документах HTML могут указываться с помощью
+элемента <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a> (именующего его с помощью атрибута <a href="links.html#adef-name-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-name-A" class="noxref"><samp
+class="ainst-A">name</samp></a>) или с помощью любого другого элемента (именующего
+с помощью атрибута <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>).
+
+<div class="example"><P>
+Таким образом, например, автор может создавать оглавление, элементы
+Которого являются ссылками на элементы заголовков <a href="global.html#edef-H2" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-H2" class="noxref"><samp class="einst">H2</samp></a>, <a href="global.html#edef-H3" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-H3" class="noxref"><samp
+class="einst">H3</samp></a> и т.д. в том же документе. Используя элемент <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp
+class="einst">A</samp></a> для создания целевых anchors, можно записать:</P>
+
+<PRE>
+&lt;H1&gt;Содержание;/H1&gt;
+&lt;P&gt;&lt;A href="#section1"&gt;Введение&lt;/A&gt;&lt;BR&gt;
+&lt;A href="#section2"&gt;Предыстория&lt;/A&gt;&lt;BR&gt;
+&lt;A href="#section2.1"&gt;Более конкретные заметки&lt;/A&gt;&lt;BR&gt;
+<em>...продолжение содержания...</em>
+<em>...тело документа...</em>
+&lt;H2&gt;&lt;A name="section1"&gt;Введение&lt;/A&gt;&lt;/H2&gt;
+<em>...раздел 1...</em>
+&lt;H2&gt;&lt;A name="section2"&gt;Предыстория&lt;/A&gt;&lt;/H2&gt;
+<em>...раздел 2...</em>
+&lt;H3&gt;&lt;A name="section2.1"&gt;Более конкретные заметки&lt;/A&gt;&lt;/H3&gt;
+<em>...раздел 2.1...</em>
+</PRE>
+
+<P>Этого же эффекта можно достигнуть, сделав якорями сами элементы заголовка:</P>
+
+<PRE>
+&lt;H1&gt;Содержание&lt;/H1&gt;
+&lt;P&gt;&lt;A href="#section1"&gt;Введение&lt;/A&gt;&lt;BR&gt;
+&lt;A href="#section2"&gt;Предыстория&lt;/A&gt;&lt;BR&gt;
+&lt;A href="#section2.1"&gt;Более конкретные заметки&lt;/A&gt;&lt;BR&gt;
+<em>...продолжение содержания...</em>
+<em>...тело документа...</em>
+&lt;H2 id="section1"&gt;Введение&lt;/H2&gt;
+<em>... раздел 1...</em>
+&lt;H2 id="section2"&gt;Предыстория&lt;/H2&gt;
+<em>... раздел  2...</em>
+&lt;H3 id="section2.1"&gt;Более конкретные заметки&lt;/H3&gt;
+<em>...раздел 2.1...</em>
+</PRE>
+</div>
+
+<H3><a name="h-12.1.2">12.1.2</a> <span class="index-inst" title="link::used to define relationship"><a name="idx-link-2">
+Другие отношения ссылок</a></span></H3>
+
+<P>Наиболее часто сейчас ссылки <EM>используются</EM> для загрузки других ресурсов Web, как показано в предыдущих примерах.
+Однако авторы могут помещать в свои документы ссылки, выражающие иные отношения между ресурсами, чем просто "использование ссылки для
+Просмотра связанного ресурса". Для ссылок, выражающих другие типы отношений,
+В исходном якоре указываются один или более <a href="types.html#type-links" tppabs="http://www.citforum.ru/internet/html40/types.html#type-links">типов
+ссылок</a>.
+
+<P><EM>Роли</EM> ссылок, определяемых элементом <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><SAMP
+class="einst">A</samp></a> или <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a> указываются с
+помощью атрибутов <a href="links.html#adef-rel" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-rel" class="noxref"><SAMP class="ainst">rel</SAMP></a> и <a href="links.html#adef-rev" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-rev" class="noxref"><SAMP
+class="ainst">rev</SAMP></a>. </p>
+
+<div class="example"><P>
+<P>Например, ссылки, определяемые элементом <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a>,
+могут описывать положение документа в последовательности документов. В следующем примере ссылка в документе "Глава 5" указывает на предыдущую и последующую главы:
+
+<PRE>
+&lt;HEAD&gt;
+<em>...другая заголовочная информация...</em>
+&lt;TITLE&gt;Глава 5&lt;/TITLE&gt;
+&lt;LINK rel="prev" href="chapter4.html"&gt;
+&lt;LINK rel="next" href="chapter6.html"&gt;
+&lt;/HEAD&gt;
+</PRE>
+
+<P>Тип первой ссылки - "prev", второй - "next" (два из ряда распознаваемых <a
+href="types.html#type-links" tppabs="http://www.citforum.ru/internet/html40/types.html#type-links">типов ссылок</a>). Ссылки, задаваемые элементов 
+<a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp lass="einst">LINK</samp></a>, <strong>не</strong> генерируются с содержимым документа, хотя агенты пользователей могут отображать их различными способами (например, в виде средств перехода).
+
+<P>Даже если они не используются для перехода, эти ссылки могут интерпретироваться интересными способами. Например, агент пользователя, выполняющий печать ряда документов в формате HTML в виде одного документа, может использовать эту информацию для формирования последовательного линейного документа. Дальнейшая информация об использовании <a href="#search">ссылок для поисковых систем</a> приведена ниже.</P>
+</div>
+
+<H3><a name="h-12.1.3">12.1.3</a> Задание якорей и ссылок</H3>
+
+<P>Хотя некоторые элементы и атрибуты языка HTML создают ссылки на другие ресурсы (например, элемент <a href="objects.html#edef-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-IMG" class="noxref"><samp class="einst">IMG</samp></a>, элемент <a href="forms.html#edef-FORM" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-FORM" class="noxref"><samp class="einst">FORM</samp></a> и т.д.), в этой главе обсуждаются ссылки и якоря, создаваемые элементами <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><SAMP class= "einst">LINK</SAMP></a> и <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><SAMP class="einst">A</SAMP></a>. Элемент <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a> может присутствовать только в заголовке документа. Элемент <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a> может присутствовать только в теле документа.
+
+<P>Если для элемента <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a> установлен атрибут <a href="links.html#adef-href" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-href" class="noxref"><samp class="ainst-A">href</samp></a>, этот элемент определяет исходный якорь для ссылки, которая может активизироваться пользователем для загрузки ресурса Web.  Исходный якорь - это местоположение экземпляра элемента <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a> и целевой якорь ресурса Web.
+
+<P>Загруженный ресурс может обрабатываться агентом пользователя различными способами: открытием нового документа HTML в том же окне агента, открытием нового документа HTML в другом окне, запуском новой программы для обработки ресурса и т.д. Поскольку элемент <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><SAMP class="einst">A</SAMP></a> имеет содержание (текст, изображения и т.д.), агенты пользователей могут генерировать это содержимое так, чтобы показать наличие ссылки (например, подчеркивая содержимое).
+
+<P>Если установлены атрибуты <a href="links.html#adef-name-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-name-A" class="noxref"><samp class="ainst-A">name</samp></a> или <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a> элемента <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a>, этот элемент определяет якорь, который может служить целью других ссылок. 
+
+<P>Авторы могут устанавливать атрибуты <a href="links.html#adef-name-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-name-A" class="noxref"><samp class="ainst-A">name</samp></a> и <a href="links.html#adef-href" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-href" class="noxref"><samp class="ainst-A">href</samp></a> одновременно в одном экземпляре элемента <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a>.
+
+<P>Элемент <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a> определяет отношение между текущим документом и другим ресурсом.  Хотя элемент <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><SAMP class="einst">LINK</SAMP></a> не имеет содержимого, определяемые им отношения могут отображаться некоторыми агентами пользователей.</P>
+
+<H3><a name="h-12.1.4">12.1.4</a> 
+<span class="index-inst" title="link::title of"><a name="idx-link-3">
+Заголовки ссылок</a></span></H3>
+
+<P>Атрибут <a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><SAMP class="ainst">title</SAMP></a> может устанавливаться как для элемента
+<a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a>, так и для элемента <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a>; в нем указывается информация о природе ссылки. Эта информация может проговариваться агентом пользователя, отображаться в виде подсказки, изменять вид курсора и т.д.
+
+<div class="example"><P>
+Таким образом можно augment <a href="#two-links">предыдущий пример</a>, указав для каждой ссылки заголовок:
+
+<PRE>
+&lt;BODY&gt;
+<em>...некоторый текст...</em>
+&lt;P&gt;Подробнее Вы можете узнать об этом в &lt;A href="chapter2.html"
+       title="Перейдите к главе 2"&gt;главе 2&lt;/A&gt;.
+&lt;A href="./chapter2.html"
+       title="Переход к главе 2."&gt;глава 2&lt;/A&gt;. 
+См. также &lt;A href="../images/forest.gif"
+       title="Изображение леса в формате GIF"&gt;карту леса.&lt;/A&gt;
+&lt;/BODY&gt;
+</PRE>
+</div>
+
+<H3><a name="h-12.1.5">12.1.5</a> 
+<span class="index-inst" title="link::and character encoding|character
+encoding::of links"><a name="idx-link-4">Интернационализация и ссылки</a></span></H3>
+
+<P>Поскольку ссылки могут указывать на документы, использующие другие <A href=
+"charset.html#doc-char-set" tppabs="http://www.citforum.ru/internet/html40/charset.html#doc-char-set">кодировки символов</A>, элементы <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><SAMP class="einst">A</SAMP></a> и <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><SAMP class="einst">LINK</SAMP></a> поддерживают атрибут <a href="links.html#adef-charset" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-charset" class="noxref"><SAMP class="ainst">charset</SAMP></a>. Этот атрибут позволяет авторам рекомендовать агентам пользователей кодировку данных в связанном документе.
+
+<P>
+<span class="index-inst" title="language::of linked resource">
+Атрибут <a name="idx-language" href="links.html#adef-hreflang" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-hreflang" class="noxref"><samp class="ainst">hreflang</samp></a></span> предоставляет агенту пользователя информацию о языке связанного ресурса, точно так же, как атрибут <a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a> предоставляет информацию о языке содержимого элемента или значениях атрибутов.
+
+<P>Имея дополнительные знания, агенты пользователей должны иметь возможность не представлять пользователю "мусор". Вместо этого они могут находить ресурсы, необходимые для корректного представления документа или, если они не могут найти эти ресурсы, по крайней мере уведомить пользователя о невозможности прочтения документа с указанием причины.</P>
+
+<H2><a name="h-12.2">12.2</a> Элемент <A name="edef-A"><SAMP class="edef">A</SAMP></A></H2>
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">
+&lt;!ELEMENT <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a> - - (<a href="dtd.html#inline" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#inline">%inline;</a>)* -(A)       -- якорь (точка ссылки) --&gt;
+&lt;!ATTLIST A
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  <a href="links.html#adef-charset" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-charset" class="noxref"><samp class="ainst-A">charset</samp></a>     <a href="dtd.html#Charset" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Charset">%Charset;</a>      #IMPLIED  -- кодировка символов связанного ресурса --
+  <a href="links.html#adef-type-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-type-A" class="noxref"><samp class="ainst-A">type</samp></a>        <a href="dtd.html#ContentType" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#ContentType">%ContentType;</a>  #IMPLIED  -- рекомендуемый тип содержимого --
+  <a href="links.html#adef-name-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-name-A" class="noxref"><samp class="ainst-A">name</samp></a>        <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata">CDATA</a>          #IMPLIED  -- конец именованной ссылки --
+  <a href="links.html#adef-href" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-href" class="noxref"><samp class="ainst-A">href</samp></a>        <a href="dtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#URI">%URI;</a>          #IMPLIED  -- URI связанного ресурса --
+  <a href="links.html#adef-hreflang" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-hreflang" class="noxref"><samp class="ainst-A">hreflang</samp></a>    <a href="dtd.html#LanguageCode" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#LanguageCode">%LanguageCode;</a> #IMPLIED  -- код языка --
+  <a href="links.html#adef-rel" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-rel" class="noxref"><samp class="ainst-A">rel</samp></a>         <a href="dtd.html#LinkTypes" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#LinkTypes">%LinkTypes;</a>    #IMPLIED  -- типы прямых ссылок --
+  <a href="links.html#adef-rev" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-rev" class="noxref"><samp class="ainst-A">rev</samp></a>         <a href="dtd.html#LinkTypes" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#LinkTypes">%LinkTypes;</a>    #IMPLIED  -- типы обратных ссылок --
+  <a href="forms.html#adef-accesskey" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-accesskey" class="noxref"><samp class="ainst-A">accesskey</samp></a>   <a href="dtd.html#Character" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Character">%Character;</a>    #IMPLIED  -- клавиша доступа --
+  <a href="objects.html#adef-shape" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-shape" class="noxref"><samp class="ainst-A">shape</samp></a>       <a href="dtd.html#Shape" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Shape">%Shape;</a>        rect      -- для использования с клиентскими навигационными картами --
+  <a href="objects.html#adef-coords" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-coords" class="noxref"><samp class="ainst-A">coords</samp></a>      <a href="dtd.html#Coords" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Coords">%Coords;</a>       #IMPLIED  -- для использования с клиентскими навигационными картами --
+  <a href="forms.html#adef-tabindex" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-tabindex" class="noxref"><samp class="ainst-A">tabindex</samp></a>    <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number">NUMBER</a>         #IMPLIED  -- положение в последовательности перехода --
+  <a href="scripts.html#adef-onfocus" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onfocus" class="noxref"><samp class="ainst-A">onfocus</samp></a>     <a href="dtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Script">%Script;</a>       #IMPLIED  -- фокус на элементе --
+  <a href="scripts.html#adef-onblur" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onblur" class="noxref"><samp class="ainst-A">onblur</samp></a>      <a href="dtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Script">%Script;</a>       #IMPLIED  -- фокус вне элемента --
+  &gt;
+</PRE>
+</div>
+<p><em>Начальный тэг: <strong>обязателен</strong>, Конечный тэг: <strong>обязателен</strong></em></p>
+
+<DIV class="adef-list">
+<P><EM>Определения атрибутов</EM></P>
+
+<DL>
+<DT><A name="adef-name-A"><SAMP class="adef">name</SAMP></A> = <A
+href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata"><EM>cdata</EM></A> 
+<a href="types.html#case-sensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-sensitive">[CS]</a>
+</DT>
+
+<DD>Этот атрибут дает якорю имя, так что он может служить целью другой ссылки. Значением этого атрибута должно быть уникальное имя. Область действия имени - текущий документ. Обратите внимание, что этот атрибут использует общее пространство имен с атрибутом <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><SAMP class="ainst">id</SAMP></a>. </DD>
+
+<DT><A name="adef-href"><SAMP class="adef">href</SAMP></A> = <A
+href="types.html#type-uri" tppabs="http://www.citforum.ru/internet/html40/types.html#type-uri"><EM>uri</EM></A> 
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+</DT>
+
+<DD>Этот атрибут определяет местоположение ресурса Web, определяя связь между текущим элементом (исходным якорем) и целевым якорем, определяемым этим атрибутом.</DD>
+
+<DT><a name="adef-hreflang"><samp class="adef">hreflang</samp></a>  = <a href="types.html#type-langcode" tppabs="http://www.citforum.ru/internet/html40/types.html#type-langcode"><em>langcode</em></a>
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<DD>Этот атрибут задает базовый язык ресурса, назначаемого атрибутом <a href="links.html#adef-href" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-href" class="noxref"><samp class="ainst">href</samp></a>, и может использоваться, только если указан атрибут <a href="links.html#adef-href" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-href" class="noxref"><samp class="ainst">href</samp></a>. 
+
+<DT><a name="adef-type-A"><samp class="adef">type</samp></a> =
+  <a href="types.html#type-content-type" tppabs="http://www.citforum.ru/internet/html40/types.html#type-content-type"><em>content-type</em></a>
+ <a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a> 
+</DT>
+
+<DD>Если этот атрибут задан, он определяет тип части содержимого, например, результат обратного действия ссылки на ресурс. Типы содержимого определены в разделе <a rel="biblioentry" href="references.html#ref-MIMETYPES" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-MIMETYPES" class="normref">[MIMETYPES]</a>.
+</DD>
+
+<DT><A name="adef-rel"><SAMP class="adef">rel</SAMP></A> = 
+<A href="types.html#type-links" tppabs="http://www.citforum.ru/internet/html40/types.html#type-links"><EM>link-types</EM></A> 
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+</DT>
+
+<DD>Этот атрибут описывает отношение из текущего документа к якорю, заданному атрибутом <a href="links.html#adef-href" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-href" class="noxref"><SAMP class="ainst">href</SAMP></a>. Значением этого атрибута является разделенный пробелами список типов ссылок.
+</DD>
+
+<DT><A name="adef-rev"><SAMP class="adef">rev</SAMP></A> = 
+<A href= "types.html#type-links" tppabs="http://www.citforum.ru/internet/html40/types.html#type-links"><EM>link-types</EM></A> 
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+</DT>
+
+<DD>Этот атрибут используется для описания <A href="#rev-link">
+обратной ссылки</A> из якоря, задаваемого атрибутом <a href="links.html#adef-href" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-href" class="noxref"><SAMP class="ainst">href</SAMP></a>, в текущий документ.
+Значением этого атрибута является разделенный пробелами список типов ссылок.
+</DD>
+
+<DT><A name="adef-charset"><SAMP class="adef">charset</SAMP></A> =
+<A href="types.html#type-charset" tppabs="http://www.citforum.ru/internet/html40/types.html#type-charset"><EM>charset</EM></A>
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+</DT>
+
+<DD>Этот атрибут задает кодировку символов назначаемого ссылкой ресурса. Подробнее см. в разделе о <a href="charset.html" tppabs="http://www.citforum.ru/internet/html40/charset.html">кодировках символов</a>.</DD>
+</DL>
+</DIV>
+
+<DIV class="aref-list">
+<P><EM>Атрибуты, определяемые в другом месте</EM></P>
+
+<UL>
+<LI><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><SAMP class="ainst">id</SAMP></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><SAMP class="ainst">class</SAMP></a>
+(<A href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</A>) </LI>
+
+<LI><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><SAMP class="ainst">lang</SAMP></a> (<A href=
+"dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">информация о языке</A>),
+<a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><SAMP class="ainst">dir</SAMP></a> (<A href=
+"dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</A>) </LI>
+
+<LI><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><SAMP class="ainst">title</SAMP></a> (<A href=
+"global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</A>) </LI>
+
+<LI><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><SAMP class="ainst">style</SAMP></a> (<A href=
+"styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</A>) </LI>
+
+<li><a href="objects.html#adef-shape" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-shape" class="noxref"><samp class="ainst">shape</samp></a> and <a href="objects.html#adef-coords" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-coords" class="noxref"><samp class="ainst">coords</samp></a>
+(<a href="objects.html#include-maps" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#include-maps">навигационные карты</a>)
+
+<LI><a href="scripts.html#adef-onfocus" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onfocus" class="noxref"><SAMP class="ainst">onfocus</SAMP></a>, <a href="scripts.html#adef-onblur" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onblur" class="noxref"><SAMP class="ainst">onblur</SAMP></a>,
+<a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><SAMP class="ainst">onclick</SAMP></a>, <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><SAMP class="ainst">ondblclick</SAMP></a>,
+<a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><SAMP class="ainst">onmousedown</SAMP></a>, <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><SAMP
+class="ainst">onmouseup</SAMP></a>, <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><SAMP class="ainst">onmouseover</SAMP></a>,
+<a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><SAMP class="ainst">onmousemove</SAMP></a>, <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><SAMP class=
+"ainst">onmouseout</SAMP></a>, <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><SAMP class="ainst">onkeypress</SAMP></a>, <a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><SAMP
+class="ainst">onkeydown</SAMP></a>, <a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><SAMP class="ainst">onkeyup</SAMP></a> (<A
+href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</A>) </LI>
+
+<LI><a href="frames.html#adef-target" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-target" class="noxref"><SAMP class="ainst">target</SAMP></a> (<A href=
+"frames.html#target-info" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#target-info">информация о целевом кадре</A>) 
+</LI>
+
+<LI><a href="forms.html#adef-tabindex" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-tabindex" class="noxref"><SAMP class="ainst">tabindex</SAMP></a> (<A href=
+"forms.html#tabbing-navigation" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#tabbing-navigation">последовательность перехода</A>)
+</LI>
+
+<LI><a href="forms.html#adef-accesskey" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-accesskey" class="noxref"><SAMP class="ainst">accesskey</SAMP></a> (<A href=
+"forms.html#access-keys" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#access-keys">клавиши доступа</A>)</LI>
+</UL>
+</DIV>
+
+<P>
+<span class="index-inst" title="anchor::creation of with A">
+Каждый элемент <a name="idx-anchor-1" href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><SAMP class="einst">A</SAMP></a> определяет якорь</span>
+
+<ol>
+<li>Содержимое элемента <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a> определяет положение якоря.
+
+<li>Атрибут <a href="links.html#adef-name-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-name-A" class="noxref"><samp class="ainst-A">name</samp></a> задает имя якоря, так что он может служить пунктом назначения любого числа ссылок (см. также <a href="#anchors-with-id">якоря с атрибутом <samp>id</samp></a>).
+
+<li>Атрибут <a href="links.html#adef-href" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-href" class="noxref"><samp class="ainst-A">href</samp></a> назначает якорь пунктом назначения ровно одной ссылки.
+</ol>
+
+<P>Авторы также могут создавать элемент <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a>, не определяющий ни одного якоря, и не указывающий <a href="links.html#adef-href" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-href" class="noxref"><samp
+class="ainst-A">href</samp></a>, <a href="links.html#adef-name-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-name-A" class="noxref"><samp class="ainst-A">name</samp></a> или <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>. Значения этих атрибутов могут устанавливаться позднее с помощью <span class="index-inst" title="anchor::set by script|script::used to set anchor"><a
+name="idx-anchor-2" href="scripts.html" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html">скриптов.</a></span>
+
+<DIV class="example">
+<P>В следующем примере элемент <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a> определяет ссылку. Исходным якорем является текст " Web-сайте W3C", а пунктом назначения - "http://www.w3.org/":
+
+<PRE>
+Подробнее о W3C Вы можете узнать на 
+&lt;A href="http://www.w3.org/"&gt; Web-сайте W3C&lt;/A&gt;. 
+</PRE>
+
+<P>Эта ссылка указывает на страницу World Wide Web Consortium. Если пользователь активизирует эту ссылку в своем агенте, агент загрузит ресурс, в данном случае - документ HTML.</P>
+
+<P>
+<span class="index-inst" title="link::rendering of"><a name="idx-link-5">
+Обычно агенты пользователей представляют ссылки </a></span> так, чтобы они были очевидны для пользователей (подчеркивание, обратное видео и т.д.). Конкретное представление зависит от агента пользователя. Представление может различаться в зависимости от того, посещал ли уже пользователь указанную ссылку. Возможное визуальное представлением предыдущей ссылки:</P>
+
+<PRE>
+Подробнее о W3C Вы можете узнать на Web-сайте W3C.
+                                    ~~~~~~~~~~~~~
+</PRE>
+
+<P>Чтобы дать агентам пользователей явное указание кодировки символов целевой страницы, установите атрибут <a href="links.html#adef-charset" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-charset" class="noxref"><SAMP class="ainst">charset</SAMP></a>:</P>
+
+<PRE>
+Подробнее о W3C Вы можете узнать на
+&lt;A href="http://www.w3.org/" charset="ISO-8859-1"&gt;Web-сайте W3C&lt;/A&gt; 
+</PRE>
+
+</DIV>
+
+<DIV class="example">
+<P>Предположим, мы определяем якорь с именем "anchor-one" в файле "one.html".</P>
+
+<PRE>
+<EM>...текст до якоря...</EM>
+&lt;A name="anchor-one"&gt;Это местоположение первого якоря.&lt;/A&gt;
+<EM>...текст после якоря...</EM>
+</PRE>
+
+<P>В данном фрагменте вокруг текста "Это местоположение первого якоря" создается якорь.  Обычно содержимое элемента <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><SAMP class="einst">A</SAMP></a> не представляется каким-либо особым образом, если элемент <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><SAMP class="einst">A</SAMP></a> определяет только якорь.</P>
+
+<P>Определив якорь, мы можем связать его с этим же или с другим документом. URI, назначающие якорь, включают символ "#", за которым следует имя якоря (<a
+href="intro.html#fragment-uri" tppabs="http://www.citforum.ru/internet/html40/intro/intro.html#fragment-uri">идентификатор фрагмента</a>). Вот несколько примеров таких URI:</P>
+
+<UL>
+<LI>Абсолютный URI: <TT>
+http://www.mycompany.com/one.html#anchor-one</TT> </LI>
+
+<LI>Относительный URI: <TT>./one.html#anchor-one</TT> или
+<TT>one.html#anchor-one</TT> </LI>
+
+<LI>Если ссылка определена в том же документе: <TT>#anchor-one
+</TT></LI>
+</UL>
+
+<P>Таким образом, ссылка, определенная в файле "two.html", который находится в одном каталоге с файлом "one.html", будет указывать на этот якорь следующим образом:</P>
+
+<PRE>
+<EM>...текст до ссылки...</EM>
+Подробнее см. &lt;A href="./one.html#anchor-one"&gt; первый якорь&lt;/A&gt;.
+<EM>...текст после ссылки...</EM>
+</PRE>
+
+</DIV>
+
+<DIV class="example">
+<P>Элемент <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><SAMP class="einst">A</SAMP></a> в следующем примере задает ссылку (с помощью атрибута <a href="links.html#adef-href" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-href" class="noxref"><samp class="ainst-A">href</samp></a>) и одновременно создает именованный якорь (с помощью атрибута <a href="links.html#adef-name-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-name-A" class="noxref"><samp class="ainst-A">name</samp></a>):</P>
+
+<PRE>
+Я только что вернулся из отпуска! Вот
+&lt;A name="anchor-two" 
+   href="http://www.somecompany.com/People/Ian/vacation/family.png"&gt;
+фотография моей семьи на озере.&lt;/A&gt;.
+</PRE>
+
+<P>В этом примере содержится ссылка на другой тип ресурса Web (изображение в формате PNG). Активизация ссылки должна привести к загрузке изображения из Web (и, возможно, его отображению, если система сконфигурирована соответствующим образом).</P>
+</DIV>
+
+<DIV class="note"><P>
+<EM><strong>Примечание.</strong>
+Агенты пользователей должны уметь находить якоря, созданные пустыми элементами <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a>, но некоторые агенты не могут этого делать. Например, некоторые агенты пользователей могут не найти "empty-anchor" в следующем фрагменте HTML:</EM></P>
+
+<PRE>
+&lt;A name="empty-anchor"&gt;&lt;/A&gt;
+&lt;EM&gt;...некоторые текст в формате HTML...&lt;/EM&gt;
+&lt;A href="#empty-anchor"&gt;Ссылка на пустой якорь&lt;/A&gt;
+</PRE>
+</DIV>
+
+<H3><a name="h-12.2.1">12.2.1</a> 
+<span class="index-inst" title="anchor::syntax of name"><a name="idx-anchor-3">
+Синтаксис имен якорей</a></span></H3>
+
+<P>Именем якоря является значение атрибута <a href="links.html#adef-name-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-name-A" class="noxref"><samp class="ainst-A">name</samp></a> или атрибута <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>,
+используемого в контексте якоря.  К именам якорей применяются следующие правила:</P>
+
+<UL>
+<LI>
+<span class="index-inst" title="anchor::uniqueness of name"><a name="idx-anchor-4">
+<STRONG>Уникальность:</STRONG></a></span> Имена якорей должны быть уникальны в пределах документа. Имена якорей в одном документе не могут отличаться только регистром. </LI>
+
+<LI>
+<span class="index-inst" title="anchor::case of name|case::of anchor name"><a name="idx-anchor-5">
+<STRONG>Соответствие строк:</STRONG></a></span> Сравнение между <a
+href="intro.html#fragment-uri" tppabs="http://www.citforum.ru/internet/html40/intro/intro.html#fragment-uri">идентификаторами фрагментов</a> и
+именами якорей должно проводиться на основе полного (с учетом регистра) совпадения.</LI>
+</UL>
+
+<DIV class="example">
+<P>Таким образом, следующий пример является корректным в смысле соответствия строк и должен рассматриваться агентами пользователей как совпадение:</P>
+
+<PRE>
+&lt;P&gt;&lt;A href="#xxx"&gt;...&lt;/A&gt;
+<EM>...некоторый текст...</EM>
+&lt;P&gt;&lt;A name="xxx"&gt;...&lt;/A&gt;
+</PRE>
+
+</DIV>
+
+<DIV class="illegal-example">
+<P><SPAN class="example-title">ПРИМЕР НЕДОПУСТИМОГО ИСПОЛЬЗОВАНИЯ:</SPAN><BR>
+Следующий пример не является корректным в смысле уникальности, поскольку два имени отличаются только регистром:</P>
+
+<PRE>
+&lt;P&gt;&lt;A name="xxx"&gt;...&lt;/A&gt;
+&lt;P&gt;&lt;A name="XXX"&gt;...&lt;/A&gt;
+</PRE>
+
+</DIV>
+
+<DIV class="example">
+<P>Хотя далее приводится допустимый код HTML, поведение агента пользователя в данном случае не определено; некоторые агенты пользователей могут (ошибочно) считать это совпадением, другие могут так не считать.</P>
+
+<PRE>
+&lt;P&gt;&lt;A href="#xxx"&gt;...&lt;/A&gt;
+<EM>...некоторый текст...</EM>
+&lt;P&gt;&lt;A name="XXX"&gt;...&lt;/A&gt;
+</PRE>
+
+</DIV>
+
+<P>
+<span class="index-inst" title="anchor::ASCII characters in
+name"><a name="idx-anchor-6">Имена якорей должны содержать только символы набора ASCII.</a></span> Подробнее см. в разделе <a href="notes.html#non-ascii-chars" tppabs="http://www.citforum.ru/internet/html40/appendix/notes.html#non-ascii-chars">об использовании символов, не входящих в набор ASCII, в значениях атрибутов URI</a>.
+
+<H3><a name="h-12.2.2">12.2.2</a> 
+<span class="index-inst" title="link::nesting illegal"><a name="idx-link-6">
+Вложенные ссылки недопустимы</a></span></H3>
+
+<P>Ссылки и якоря, определяемые элементом <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><SAMP class="einst">A</SAMP></a>, не могут быть вложенными; элемент <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a> не должен содержать других элементов <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a>.</P>
+
+<P>Поскольку DTD определяет элемент <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a> как пустой, элементы <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a> также не могут быть вложенными.</P>
+
+<H3><a name="h-12.2.3">12.2.3</a> 
+<span class="index-inst" title="anchor::creation with id attribute">
+<a name="anchors-with-id">Якоря с атрибутом <SAMP>id</SAMP></a></span></H3>
+
+<P>Атрибут <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><SAMP class="ainst">id</SAMP></a> может использоваться для создания якоря в начальном тэге любого элемента (включая элемент <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a>).</P>
+
+<DIV class="example">
+<P>В данном примере показано использование атрибута <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><SAMP class="ainst">id</SAMP></a> для размещения якоря в элементе <a href="global.html#edef-H2" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-H2" class="noxref"><SAMP class="einst">H2</SAMP></a>. Связь с якорем осуществляется с помощью элемента <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><SAMP class= "einst">A</SAMP></a>.</P>
+
+<PRE>
+Подробнее об этом Вы можете прочесть в &lt;A href="#section2"&gt;Разделе 2&lt;/A&gt;.
+<EM>...далее в документе</EM>
+&lt;H2 id="section2"&gt;Раздел 2&lt;/H2&gt;
+<EM>...далее в документе</EM>
+&lt;P&gt;Подробнее см. в &lt;A href="#section2"&gt;Разделе 2&lt;/A&gt; выше.
+</PRE>
+</DIV>
+
+<DIV class="example">
+<P>В следующем примере имя целевого якоря задается с помощью атрибута <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>:
+
+<PRE>
+Я только что вернулся из отпуска! Вот
+&lt;A id="anchor-two"&gt;фотография моей семьи на озере.&lt;/A&gt;.
+</PRE>
+</DIV>
+
+<P>Атрибуты <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><SAMP class="ainst">id</SAMP></a> и <a href="links.html#adef-name-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-name-A" class="noxref"><SAMP class="ainst-A">name</SAMP></a> используют одно и то же <span class="index-inst" title="anchor::name space of|id attribute::same
+name space as name attribute"><a name="idx-anchor-8"> пространство имен.</a></span> Это означает, что они не могут определять якорь с одним и тем же именем в одном и том же документе.
+
+<DIV class="illegal-example">
+<P><SPAN class="example-title">ПРИМЕР НЕДОПУСТИМОГО ИСПОЛЬЗОВАНИЯ:</SPAN><BR>
+Далее показан недопустимый фрагмент кода HTML, поскольку эти атрибут объявляют одно и то же имя дважды в пределах одного документа.</P>
+
+<PRE>
+&lt;A href="#a1"&gt;...&lt;/A&gt;
+...
+&lt;H1 id="a1"&gt;
+<EM>...страницы и страницы...</EM>
+&lt;A name="a1"&gt;&lt;/A&gt;
+</PRE>
+
+</DIV>
+
+<P>По спецификации в HTML DTD атрибут <a href="links.html#adef-name-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-name-A" class="noxref"><SAMP class="ainst-A">name</SAMP></a> может содержать <span class="index-inst" title="anchor::character references in name">
+<A name="idx-anchor-9" href= "charset.html#entities" tppabs="http://www.citforum.ru/internet/html40/charset.html#entities">ссылки на символы</A></span>. Таким образом, значение <TT> D&amp;#xfc;rst</TT> является допустимым для атрибута <a href="links.html#adef-name-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-name-A" class="noxref"><samp class="ainst-A">name</samp></a>, так же как <TT>D&amp;uuml;rst </TT>. Атрибут <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><SAMP class="ainst">id</SAMP></a> не может содержать ссылки на символы.</P>
+
+<div class="note"><P> <em><strong>Что использовать - <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a> или <a href="links.html#adef-name-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-name-A" class="noxref"><samp class="ainst-A">name</samp></a>?</strong> При <span class="index-inst" title="anchor::with
+A vs. id"><a name="idx-anchor-10"> выборе</a></span> элемента <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a> или <a href="links.html#adef-name-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-name-A" class="noxref"><samp class="ainst-A">name</samp></a> для указания имени якоря авторы должны иметь в виду следующее:</em>
+
+<ul>
+<li><em>Атрибут <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a> может быть не только именем якоря (а также селектором таблицы стилей, идентификатором обработки и т.д.).</em></li>
+<li><em>Некоторые агенты пользователей более старых версий не поддерживают якоря, созданные с помощью атрибута <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>.</em></li>
+<li><em>Атрибут <a href="links.html#adef-name-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-name-A" class="noxref"><samp class="ainst-A">name</samp></a> обеспечивает более разнообразные имена якорей (с использованием <A href="charset.html#entities" tppabs="http://www.citforum.ru/internet/html40/charset.html#entities">entities</A>).</em></li>
+</ul>
+</div>
+
+<H3><a name="h-12.2.4">12.2.4</a> 
+<span class="index-inst" title="error::unavailable resource"><a name="idx-error">Недоступные и неопределяемые ресурсы</a></span></H3>
+
+<P>Ссылка на недоступный или неопределяемый ресурс является ошибкой.  Хотя агенты пользователей могут по-разному обрабатывать такие ошибки, рекомендуется следующее поведение:
+
+<ul>
+<li>Если агент пользователя не может найти связанный ресурс, он должен уведомить об этом пользователя.
+
+<li>Если агент пользователя не может идентифицировать тип связанного ресурса, он должен попытаться обработать его. Он должен уведомить пользователя и позволить пользователю вмешаться и определить тип документа.
+</ul>
+
+<H2><a name="h-12.3">12.3</a> Отношения документов: элемент <A name="edef-LINK"><SAMP class="edef">LINK</SAMP></A></H2>
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">
+&lt;!ELEMENT <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a> - O EMPTY               -- независимая от устройства ссылка --&gt;
+&lt;!ATTLIST LINK
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  <a href="links.html#adef-charset" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-charset" class="noxref"><samp class="ainst-LINK">charset</samp></a>     <a href="dtd.html#Charset" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Charset">%Charset;</a>      #IMPLIED  -- кодировка символов связанного ресурса --
+  <a href="links.html#adef-href" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-href" class="noxref"><samp class="ainst-LINK">href</samp></a>        <a href="dtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#URI">%URI;</a>          #IMPLIED  -- URI связанного ресурса --
+  <a href="links.html#adef-hreflang" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-hreflang" class="noxref"><samp class="ainst-LINK">hreflang</samp></a>    <a href="dtd.html#LanguageCode" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#LanguageCode">%LanguageCode;</a> #IMPLIED  -- код языка --
+  <a href="links.html#adef-type-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-type-A" class="noxref"><samp class="ainst-A">type</samp></a>        <a href="dtd.html#ContentType" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#ContentType">%ContentType;</a>  #IMPLIED  -- рекомендуемый тип содержимого --
+  <a href="links.html#adef-rel" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-rel" class="noxref"><samp class="ainst-LINK">rel</samp></a>         <a href="dtd.html#LinkTypes" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#LinkTypes">%LinkTypes;</a>    #IMPLIED  -- тип прямой связи --
+  <a href="links.html#adef-rev" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-rev" class="noxref"><samp class="ainst-LINK">rev</samp></a>         <a href="dtd.html#LinkTypes" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#LinkTypes">%LinkTypes;</a>    #IMPLIED  -- тип обратной связи --
+  <a href="styles.html#adef-media" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-media" class="noxref"><samp class="ainst-LINK">media</samp></a>       <a href="dtd.html#MediaDesc" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#MediaDesc">%MediaDesc;</a>    #IMPLIED  -- для представления на этих устройствах --
+  &gt;
+</PRE>
+</div>
+<p><em>Начальный тэг: <strong>обязателен</strong>, Конечный тэг: <strong>запрещен</strong></em></p>
+
+<DIV class="aref-list">
+<P><EM>Атрибуты, определяемые в другом месте</EM></P>
+
+<UL>
+<LI><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><SAMP class="ainst">id</SAMP></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><SAMP class="ainst">class</SAMP></a>
+(<A href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в переделах документа</A>) </LI>
+
+<LI><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><SAMP class="ainst">lang</SAMP></a> (<A href=
+"dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">информация о языке</A>),
+<a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><SAMP class="ainst">dir</SAMP></a> (<A href=
+"dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</A>) </LI>
+
+<LI><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><SAMP class="ainst">title</SAMP></a> (<A href=
+"global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</A>) </LI>
+
+<LI><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><SAMP class="ainst">style</SAMP></a> (<A href=
+"styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле
+</A>) </LI>
+
+<LI><a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><SAMP class="ainst">onclick</SAMP></a>, <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><SAMP class="ainst">ondblclick</SAMP></a>, <a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><SAMP class="ainst">onmousedown</SAMP></a>, <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><SAMP
+class="ainst">onmouseup</SAMP></a>, <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><SAMP class="ainst">onmouseover</SAMP></a>,
+<a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><SAMP class="ainst">onmousemove</SAMP></a>, <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><SAMP class=
+"ainst">onmouseout</SAMP></a>, <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><SAMP class="ainst">onkeypress</SAMP></a>, <a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><SAMP
+class="ainst">onkeydown</SAMP></a>, <a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><SAMP class="ainst">onkeyup</SAMP></a> (<A
+href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</A>) </LI>
+
+<LI><a href="links.html#adef-href" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-href" class="noxref"><SAMP class="ainst">href</SAMP></a>, <a href="links.html#adef-hreflang" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-hreflang" class="noxref"><samp
+class="ainst">hreflang</samp></a>, 
+<a href="links.html#adef-type-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-type-A" class="noxref"><samp class="ainst-A">type</samp></a>,
+<a href="links.html#adef-rel" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-rel" class="noxref"><SAMP class="ainst">rel</SAMP></a>, <a href="links.html#adef-rev" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-rev" class="noxref"><SAMP
+class="ainst">rev</SAMP></a> (<A href="#links">ссылки и якоря</A>)
+</LI>
+
+<LI><a href="frames.html#adef-target" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-target" class="noxref"><SAMP class="ainst">target</SAMP></a> (<A href=
+"frames.html#target-info" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#target-info">информация о целевом фрейме</A>) 
+</LI>
+
+<LI><a href="styles.html#adef-media" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-media" class="noxref"><SAMP class="ainst">media</SAMP></a> (<A
+href="styles.html#style-group" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-group">информация о стиле заголовка</A>)
+</LI>
+
+<LI><a href="links.html#adef-charset" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-charset" class="noxref"><SAMP class="ainst">charset</SAMP></a> (<A href=
+"charset.html#doc-char-set" tppabs="http://www.citforum.ru/internet/html40/charset.html#doc-char-set">кодировки символов</A>)</LI>
+</UL>
+</DIV>
+
+<P>Этот элемент определяет связь. В отличие от элемента <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a>, 
+он может присутствовать только в разделе <a href="global.html#edef-HEAD" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HEAD" class="noxref"><SAMP class="einst">HEAD</SAMP></a> документа, хотя может присутствовать неограниченное число раз. Хотя элемент <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a> не имеет содержимого, он содержит информацию об отношениях, которая может представляться агентами пользователей различными способами (например, в виде панели с выпадающим списком ссылок).</P>
+
+<DIV class="example"><P>
+В данном примере показано, как несколько определений элемента <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><SAMP class="einst">LINK</SAMP></a> могут быть представлены в разделе <a href="global.html#edef-HEAD" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HEAD" class="noxref"><SAMP class="einst">HEAD</SAMP></a> документа. Текущим документом является "Chapter2.html". Атрибут <a href="links.html#adef-rel" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-rel" class="noxref"><samp class="ainst">rel</samp></a> указывает отношение связанного документа с текущим документом. Значения "Index", "Next" и "Prev" описаны в разделе, посвященном <A href= "types.html#type-links" tppabs="http://www.citforum.ru/internet/html40/types.html#type-links">типам ссылок</A>.</P>
+
+<PRE>
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+   "http://www.w3.org/TR/REC-html40/strict.dtd"&gt;
+&lt;HTML&gt;
+&lt;HEAD&gt;
+  &lt;TITLE&gt;Глава 2&lt;/TITLE&gt;
+  &lt;LINK rel="Index" href="../index.html"&gt;
+  &lt;LINK rel="Next"  href="Chapter3.html"&gt;
+  &lt;LINK rel="Prev"  href="Chapter1.html"&gt;
+&lt;/HEAD&gt;
+<EM>...продолжение документа...</EM>
+</PRE>
+
+</DIV>
+
+<H3><a name="h-12.3.1">12.3.1</a> 
+<span class="index-inst" title="link::forward and reverse">
+<A name="rev-link">Прямые и обратные ссылки</A></span></H3>
+
+<P>Атрибуты <a href="links.html#adef-rel" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-rel" class="noxref"><SAMP class="ainst">rel</SAMP></a> и <a href="links.html#adef-rev" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-rev" class="noxref"><SAMP class="ainst">rev</SAMP></a>
+играют дополнительные роли - атрибут <a href="links.html#adef-rel" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-rel" class="noxref"><SAMP class="ainst">rel</SAMP></a> задает прямую ссылку, а атрибут <a href="links.html#adef-rev" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-rev" class="noxref"><SAMP class="ainst">rev</SAMP></a> - обратную. 
+
+<P>Рассмотрим два документа - A и B.</P>
+
+<PRE>
+Документ A:       &lt;LINK href="docB" rel="foo"&gt;
+</PRE>
+
+<P>имеет точно то же значение, что и:</P>
+
+<PRE>
+Документ B:       &lt;LINK href="docA" rev="foo"&gt;
+</PRE>
+
+<P>Оба атрибута могут определяться одновременно.
+
+<H3><a name="h-12.3.2">12.3.2</a> 
+<span class="index-inst" title="link::and external style sheets|style
+sheet::external through links"><A name="linksandss">Ссылки и внешние таблицы стилей</A></span></H3>
+
+<P>Если элемент <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><SAMP class="einst">LINK</SAMP></a> ссылается на внешнюю таблицу стилей для документа, атрибут <a href="links.html#adef-type-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-type-A" class="noxref"><SAMP class="ainst-A">type</SAMP></a> указывает язык таблицы стилей, а атрибут <a href="styles.html#adef-media" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-media" class="noxref"><SAMP class="ainst">media</SAMP></a> - предполагаемое устройство или устройства для представления документа. Агенты пользователей могут сэкономить время, загружая из сети только те таблицы стилей, которые применяются к текущему устройству.</P>
+
+<P><A href="styles.html#media-types" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#media-types">Типы устройств</A> обсуждаются в разделе, посвященном таблицам стилей.</P>
+
+<H3><a name="h-12.3.3">12.3.3</a> 
+<span class="index-inst" title="search engine::and links">
+<a name="search">Ссылки и поисковые машины</a></span></H3>
+
+<P>Авторы могут использовать элемент <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><SAMP class="einst">LINK</SAMP></a> для указания различной информации для поисковых машин, включая:</P>
+
+<UL>
+<LI>Ссылки на альтернативные версии документа, написанные на других языках. </LI>
+
+<LI>Ссылки на альтернативные версии документа, разработанные для других устройств, например, на версии, предназначенные специально для печати. </LI>
+
+<LI>Ссылки на начальные страницы набора документов.</LI>
+</UL>
+
+<P>В примерах ниже показано, как информация о языке, типах устройств и типах ссылок может использоваться для улучшения обработки документа поисковыми машинами.</P>
+
+<DIV class="example">
+<P>В следующем примере мы используем атрибут <a href="links.html#adef-hreflang" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-hreflang" class="noxref"><samp class="ainst">hreflang</samp></a>, чтобы сообщить поисковым машинам, где находятся голландская, португальская и арабская версии документа. Обратите внимание на использование атрибутов <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> и <a href="links.html#adef-charset" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-charset" class="noxref"><samp class="ainst">charset</samp></a> для руководства на арабском языке, а также на использование атрибута <a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a> для указания того, что значением атрибута <a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a> для элемента <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a>, указывающего руководство на французском языке, задано по-французски.</P>
+
+<PRE>
+&lt;HEAD&gt;
+&lt;TITLE&gt;Руководство на английском языке&lt;/TITLE&gt;
+&lt;LINK title="Руководство на голландском языке"
+      type="text/html"
+      rel="alternate"
+      hreflang="nl" 
+      href="http://someplace.com/manual/dutch.html"&gt;
+&lt;LINK title="Руководство на португальском языке"
+      type="text/html"
+      rel="alternate"
+      hreflang="pt" 
+      href="http://someplace.com/manual/portuguese.html"&gt;
+&lt;LINK title="Руководство на арабском языке"
+      dir="rtl"
+      type="text/html"
+      rel="alternate"
+      charset="ISO-8859-6"
+      hreflang="ar" 
+      href="http://someplace.com/manual/arabic.html"&gt;
+&lt;LINK lang="fr" title="La documentation en Fran&amp;ccedil;ais"
+      type="text/html"
+      rel="alternate"
+      hreflang="fr"
+      href="http://someplace.com/manual/french.html"&gt;
+&lt;/HEAD&gt;
+</PRE>
+
+</DIV>
+
+<DIV class="example">
+<P>В следующем примере мы сообщаем поисковым машинам, где находится печатная версия руководства.</P>
+
+<PRE>
+&lt;HEAD&gt;
+&lt;TITLE&gt;Руководство&lt;/TITLE&gt;
+&lt;LINK media="print" title="Руководство в формате postscript"
+      type="application/postscript"
+      rel="alternate"
+      href="http://someplace.com/manual/postscript.ps"&gt;
+&lt;/HEAD&gt;
+</PRE>
+
+</DIV>
+
+<DIV class="example">
+<P>В следующем примере мы сообщаем поисковым машинам, где находится первая страница набора документов.</P>
+
+<PRE>
+&lt;HEAD&gt;
+&lt;TITLE&gt;Руководство - страница 5&lt;/TITLE&gt;
+&lt;LINK rel="Start" title="Первая страница руководства"
+      type="text/html"
+      href="http://someplace.com/manual/start.html"&gt;
+&lt;/HEAD&gt;
+</PRE>
+
+</DIV>
+
+<p>Дальнейшая информация приведена в замечаниях в приложении о том,
+<a href="notes.html#recs" tppabs="http://www.citforum.ru/internet/html40/appendix/notes.html#recs">как помочь поисковым машинам проиндексировать Ваш Web-сайт</a>.</p>
+
+<H2><a name="h-12.4">12.4</a> Информация о пути: элемент <A name="edef-BASE"><SAMP class="edef">BASE</SAMP></A></H2>
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">
+&lt;!ELEMENT <a href="links.html#edef-BASE" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-BASE" class="noxref"><samp class="einst">BASE</samp></a> - O EMPTY               -- базовый URI документа --&gt;
+&lt;!ATTLIST BASE
+  <a href="links.html#adef-href-BASE" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-href-BASE" class="noxref"><samp class="ainst-BASE">href</samp></a>        <a href="dtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#URI">%URI;</a>          #REQUIRED -- URI, служащий базовым --
+  &gt;
+</PRE>
+</div>
+<p><em>Начальный тэг: <strong>обязателен</strong>, Конечный тэг: <strong>запрещен</strong></em></p>
+
+<DIV class="adef-list">
+<P><EM>Определения атрибутов</EM></P>
+
+<DL>
+<DT><A name="adef-href-BASE"><SAMP class="adef">href</SAMP></A> =
+<A href="types.html#type-uri" tppabs="http://www.citforum.ru/internet/html40/types.html#type-uri"><EM>uri</EM></A> 
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+</DT>
+
+<DD>Этот атрибут задает абсолютный URI, служащий базовым URI для разрешения относительных URI.</DD>
+</DL>
+</DIV>
+
+<DIV class="aref-list">
+<P><EM>Атрибуты, определяемые в другом месте</EM></P>
+
+<UL>
+<LI><a href="frames.html#adef-target" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-target" class="noxref"><SAMP class="ainst">target</SAMP></a> (<A href=
+"frames.html#target-info" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#target-info">информация о целевом кадре</A>) 
+</LI>
+</UL>
+</DIV>
+
+<P>
+В HTML ссылки на внешние изображения, апплеты, программы для обработки форм, таблицы стилей и т.д. всегда задаются с помощью URI.  Относительные URI <a href="#resolving-relative-uris">разрешаются</a> в соответствии с базовым URI, который может определяться из различных источников.  Элемент <a href="links.html#edef-BASE" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-BASE" class="noxref"><SAMP class="einst">BASE</SAMP></a> позволяет авторам <span class="index-inst" title="base URI|URI::specifying base"><a name="idx-base_URI">явно указать базовый URI документа.</a></span>
+</P>
+
+<P>Если элемент <a href="links.html#edef-BASE" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-BASE" class="noxref"><SAMP class="einst">BASE</SAMP></a> указан, он должен присутствовать в разделе <a href="global.html#edef-HEAD" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HEAD" class="noxref"><SAMP class="einst">HEAD</SAMP></a> документа HTML, до элементов, ссылающихся на внешние ресурсы. Информация о пути, указанная в элементе <a href="links.html#edef-BASE" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-BASE" class="noxref"><SAMP class="einst">BASE</SAMP></a>, влияет только на URI в документе, в котором присутствует этот элемент.</P>
+
+<DIV class="example">
+<P>Например, даны следующее объявление <a href="links.html#edef-BASE" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-BASE" class="noxref"><SAMP class="einst">BASE</SAMP></a> и объявление <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><SAMP class="einst">A</SAMP></a>:</P>
+
+<PRE>
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+   "http://www.w3.org/TR/REC-html40/strict.dtd"&gt;
+&lt;HTML&gt;
+ &lt;HEAD&gt;
+   &lt;TITLE&gt;Наши продукты&lt;/TITLE&gt;
+   &lt;BASE href="http://www.aviary.com/products/intro.html"&gt;
+ &lt;/HEAD&gt;
+
+ &lt;BODY&gt;
+   &lt;P&gt;Вы видели наши &lt;A href="../cages/birds.gif"&gt;клетки для птиц&lt;/A&gt;?
+ &lt;/BODY&gt;
+&lt;/HTML&gt;
+</PRE>
+
+<P>относительный URI "../cages/birds.gif" будет разрешен в:</P>
+
+<PRE>
+http://www.aviary.com/cages/birds.gif
+</PRE>
+</DIV>
+
+<H3><a name="h-12.4.1">12.4.1</a> 
+<span class="index-def" title="URI::resolution of relative|resolution 
+of relative URI"><a name="resolving-relative-uris">Разрешение относительных 
+URI</a></span></H3>
+
+<P>Агенты пользователей должны вычислять базовый URI для разрешения относительных URI в соответствии с <a rel="biblioentry" href="references.html#ref-RFC1808" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC1808" class="normref">[RFC1808]</a>,
+раздел 3. Далее описано, как <a rel="biblioentry" href="references.html#ref-RFC1808" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC1808" class="normref">[RFC1808]</a>
+применяется именно к HTML.
+
+<P>Агенты пользователей должны вычислять базовый URI в соответствии со следующим приоритетом (от высшего приоритет к низшему):
+
+<ol>
+<li>Базовый URI, устанавливаемый элементом <a href="links.html#edef-BASE" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-BASE" class="noxref"><samp class="einst">BASE</samp></a>.
+
+<li>Базовый URI, задаваемый метаданными, обнаруженными в процессе работы по протоколу, такими как заголовок HTTP (см. <a rel="biblioentry"
+href="references.html#ref-RFC2068" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC2068" class="normref">[RFC2068]</a>).
+
+<li>По умолчанию базовым URI является URI текущего документа.  Не все документы 
+HTML имеют базовый URI (например, документ HTML может присутствовать в сообщении электронной почты и может не определяться никаким URI). Такие документы HTML считаются erroneous, если они содержат относительные URI и используют базовый URI по умолчанию.
+</ol>
+
+<P>Кроме того, элементы <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> и <a href="objects.html#edef-APPLET" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-APPLET" class="noxref"><samp class="einst">APPLET</samp></a> определяют атрибуты, имеющие преимущество над значением, установленным для элемента <a href="links.html#edef-BASE" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-BASE" class="noxref"><samp class="einst">BASE</samp></a>. Подробнее об относящихся к ним определениям URI см. в определениях этих элементов.
+
+<P>Ссылки, указанные в заголовках HTTP, обрабатываются в точности так, как элементы <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a>, явно установленные в документе.
+
+<div class="navbar">
+<hr><center><a href="tables.html" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html">назад</a> &nbsp; <a href="objects.html" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center></div>
+</BODY>
+</HTML>

@@ -1,0 +1,27 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>imap_mime_header_decode</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="imap-mailboxmsginfo.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="imap-msgno.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.imap-mime-header-decode">imap_mime_header_decode</A></H1><A NAME="AEN35217"></A><P>(PHP 3&#62;= 3.0.17, PHP 4)</P>
+<p>imap_mime_header_decode - декодирует элементы MIME-шапки.<A NAME="AEN35220"></A></p><H2>Описание</H2>
+<p>array <B>imap_mime_header_decode</B> (string text)</p>
+<P><B>imap_mime_header_decode()</B> декодирует расширения шапок MIME-сообщения, не являющиеся ASCII-текстом 
+(см. <A HREF="http://www.faqs.org/rfcs/rfc2047.html" TARGET="_top">RFC2047</A>). Декодированные элементы возвращаются в массиве объектов, 
+каждый из которых имеет два свойства: &quot;charset" и "text". Если элемент не кодирован и, иначе говоря, является обычным текстом US-ASCII; 
+свойство "charset" этого элемента получает значение "default".</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN35232" ></A><h5>Пример 1. imap_mime_header_decode()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>$text="=?ISO-8859-1?Q?Keld_J=F8rn_Simonsen?= &#60;keld@dkuug.dk&#62;";
+
+$elements=imap_mime_header_decode($text);
+for($i=0;$i&#60;count($elements);$i++) {
+    echo "Charset: {$elements[$i]-&#62;charset}\n";
+    echo "Text: {$elements[$i]-&#62;text}\n\n";
+}</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>В этом примере мы получим два элемента, где первый элемент был ранее кодирован в ISO-8859-1, а второй был обычным текстом US-ASCII.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="imap-mailboxmsginfo.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="imap-msgno.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">imap_mailboxmsginfo</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.imap.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">imap_msgno</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

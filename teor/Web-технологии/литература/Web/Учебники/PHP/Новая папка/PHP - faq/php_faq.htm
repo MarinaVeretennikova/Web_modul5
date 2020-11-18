@@ -1,0 +1,315 @@
+<html>
+
+<head>
+<title>FAQ по PHP</title>
+</head>
+
+<body>
+
+<TABLE cellSpacing=2 cellPadding=0 width="100%">
+  <TR>
+    <TD>
+      <B>Где взять РУССКУЮ ДОКУМЕНТАЦИЮ по PHP</B></TD>
+  </TR><TR>
+    <TD>1. Перевод для 3.07 лежит здесь <A target=_blank
+      href="http://www.webclub.ru/materials/php3/index.html">http://www.webclub.ru/materials/php3/index.html</A></TD>
+
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>Как я могу вызвать скрипт .php3 внутри другого скрипта и поместить туда
+      переменные? Что-то вроде<BR>&lt;? include (other.php3?variable=test);
+      ?&gt;</B></TD>
+  </TR><TR>
+    <TD>Если Вы вкладываете файл, существующие переменные остаются.. Вы просто
+      должны установить значение переменной перед вложением .<BR>&lt;?
+      $variable="test"; include ("other.php3"); // or require ("other.php3");
+      ?&gt;</TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>Переменная для имени файла. Что я делаю неправильно? $fname =
+      $time".html";</B></TD>
+  </TR><TR>
+    <TD>Вы должны указать: $fname = $time.".html"; или $fname = "$time.html";</TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>Какие команды мне надо использовать для доступа из PHP к базе MySQL. Я
+      новичок в SQL.</B></TD>
+  </TR><TR>
+    <TD>Насколько я понимаю, Вы уже научились подключаться к MySQL? Есть
+      несколько основных принципов работы с базой SQL:<BR>1) Подключение к
+      серверу MySQL( mysql_connect )<BR>$openConn2db = mysql_connect(
+      "$hostname:$port", "$username", "$password" );<BR>2) Выбор базы данных
+      (database) ( mysql_select_db )<BR>$dbSelected = mysql_select_db( $dbname,
+      $openConn2db );<BR>3) создать запрос(query) к базе данных ( mysql_query
+      )<BR>$queryResultID = mysql_query( $DBquery, $openConn2db );<BR><BR>4)
+      определение количества полей(number of fields) в результате запроса(
+      mysql_num_fields )<BR>$numFields = mysql_num_fields( $queryResultID
+      );<BR>5) определение количество строк возвращаемых запросом(number of
+      rows) ( mysql_num_rows )<BR>$numRows = mysql_num_rows( $queryResultID
+      );<BR>6) создание массива со строками результата( mysql_fetch_row
+      )<BR>$correspondingRowArray = mysql_fetch_row( $queryResultID );<BR>[
+      Выясните размер, если вы желаете использовать цикл для выборки результатов
+      запроса]<BR>$correspondingRowArraySize = sizeof( $correspondingRowArray
+      );<BR>7) выборка данных из первого элемента массива<BR>$content = current(
+      $correspondingRowArray ); echo "This is the first array element:
+      $contentn";<BR>8) выборка данных из следующего элемента массива [ done in
+      'for' loop ]<BR>$content = next( $correspondingRowArray ); echo "This is
+      the next array element: $contentn";<BR>6) закрытие соединения с сервером
+      MySQL( mysql_close )<BR>$closedConn2db = mysql_close( $connLinkID
+      );<BR>Это всего лишь элементарный пример работы с MySQL.</TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>Мне требуется считать строку из файла. Функции fgetc() fgets() fgetss()
+      не дали нужного мне результата. Что мне делать?</B></TD>
+  </TR><TR>
+    <TD>Используйте:<BR>$file = file($filename). Она читает $filename в
+      массив($file).</TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>Я уже нашел как экспортировать переменные Javascript в PHP (я использую
+      hidden input field в HTML форме), но я не знаю как импортировать
+      переменную PHP3 в функцию Javascript...</B></TD>
+  </TR><TR>
+    <TD>Конечно<BR>&lt;script language="JavaScript"&gt; var somejsvar =
+      &lt;?echo $somephpvar?&gt;; &lt;/script&gt;</TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>Как делать upload файла<BR>Форма передается, но вот файл не появляется
+      в моей директории "/tmp" .</B></TD>
+  </TR><TR>
+    <TD>Большинство проблем заключается в использовании:<BR>&lt;form
+      action="upload.php3" method="post"&gt;<BR>вместо:<BR>&lt;form
+      action="upload.php3" method="post"
+      enctype="multipart/form-data"&gt;<BR>Всегда требуется указывать параметр
+      ENCTYPE, если вы предполагаете upload файлов.</TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>Подскажите как я могу перенаправит пользователя на другой URL в php
+      скрипте? Я пробовал:<BR>echo "&lt;head&gt;";<BR>echo "&lt;meta
+      http-equiv="redirect" content='URL=www.somewhere.com'&gt;"; Не
+      сработало.</B></TD>
+  </TR><TR>
+    <TD>Необходимо воспользоваться функцией<BR><B>Header("Location:
+      $URL");</B><BR>и не выводить никаких данных перед этой строкой.</TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>I'm facing a rather strange problem with some webbrowsers (I tested
+      Netscape 3, IE 4 and IE 5). My PHP script create a href which contains two
+      variables, 'region' and 'parameter', i.e. &lt;a
+      ref="test.phtml?region=1234&para;meter=1234"&gt;Test&lt;/a&gt; But as I get the
+      page in NS3 or IE4 the &para;meter is translated to the 'paragraph sign'
+      followed by 'meter'. Then I tried to resolve it by putting the 'parameter'
+      before the region, but in that case the &reg;ion is translated by the browser
+      to 'registrated trademark' followed by 'ion'. IE5 works well.<BR>I don't
+      want to change the names of the fields, because they are actually used to
+      select in a MySQL database. How can this be solved?</B></TD>
+  </TR><TR>
+    <TD>&lt;a
+      href="test.phtml?region=1234&amp;%20parameter=1234"&gt;Test&lt;/a&gt;</TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>the two functions str_replace("\n", "&lt;br&gt;",event[$count]); and
+      nl2br($event[$count]); both give me the same result "blah blah blah
+      &lt;br&gt; blah blah blah"<BR>however I want the<BR>tagged on the end of
+      the first line like "blah blah blah&lt;br&gt; blah blah blah" How would I
+      accomplish this?</B></TD>
+  </TR><TR>
+    <TD>str_replace("\r\n","&lt;br&gt;",...);</TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>Как сделать, чтоб не выдавалось строка "Content Type" когда я запускаю
+      PHP из командной строки?</B></TD>
+  </TR><TR>
+    <TD><PRE>% php -h
+Использование: php [-q] [-h] [-s] [-v] [-i] [-f <FILE>
+] | {<FILE>
+ [args...]}
+  -q       Quiet-mode.  Подавление заголовка HTTP.
+  -s       Подсветка синтаксиса .
+  -f<FILE>
+ Parse <FILE>
+.  Implies `-q'
+  -v       Номер версии
+  -p       Pretokenize a script (creates a .php3p file)
+  -e       Execute a pretokenized (.php3p) script
+  -c&quot;PATH&quot;
+ Искать файл php3.ini в &quot;PATH&quot;
+
+  -i       информация information
+  -h       Эта справка
+</PRE></TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>Я использую следующий выбор в форме:: <PRE>&lt;select name="pets[]" multiple&gt;
+  &lt;option value=0&gt;Dogs
+  &lt;option value=1&gt;Cats
+  &lt;option value=2&gt;Birds
+  &lt;option value=3&gt;Frogs
+  &lt;option value=4&gt;Rocks
+  &lt;option value=5&gt;Other
+&lt;/select&gt;
+</PRE>форма посылает:
+      blah...&amp;eyecolor=1&amp;pets%5B%5D=2&amp;pets%5B%5D=3...blah<BR>Я
+      возвращаюсь опять и выбираю Birds и Frogs. count(pets[]); возвращает 1,
+      что не совпадает с выбранным мной...</B></TD>
+  </TR><TR>
+    <TD>Функция count($pets) возвращает правильный результат.</TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>Я хочу зашифровать пароли пользователей с помощью UNIX.</B></TD>
+  </TR><TR>
+    <TD>Вы можете использовать функцию Crypt(). Unix шифрование одностороннее
+      (вы не можете раскодировать, вы можете только сравнить два зашифрованных
+      пароля). Например:<BR><B>if (crypt($What_They_Typed) == $StoredPassword)
+      {echo "Correct Password";} else {echo "Doh!";}</B></TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>Когда я делаю запрос к таблице MySQL включающую поле BLOB больше 20k
+      ничего не возвращается. Все работает с маленькими полями blob, 4-10k, а
+      при больших происходит PHP таймаут.</B></TD>
+  </TR><TR>
+    <TD>Наберите: mysqladmin var<BR>И посмотрите на ограничения
+      пакетов(packet) или буферов(buffer). Вам надо их увеличить и перезагрузить
+      MySQL.</TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>Конфигурация:solaris 2.6, apache 1.3.6, php 3.0.8 Проблема: Оператор:
+      &lt;?php echo $PATH_INFO ?&gt; ничего не возвращает.</B></TD>
+  </TR><TR>
+    <TD>Вы неправильно используете $PATH_INFO. Для этого существуют
+      переменные: <PRE><B>
+   $PHP_SELF
+   $REQUEST_URI
+   $SCRIPT_NAME
+</B></PRE></TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>Я делаю запрос к MySQL, но запрос нечего не возвращает (пустой ответ).
+      Я проверяю количество возвращенных строк результата (example: if(
+      mysql_num_rows( $result ) &gt; 0 )) Получаю предупреждение: "Warning: 0 is
+      not a MySQL result index" . Что мне делать, как проверить
+результат?</B></TD>
+  </TR><TR>
+    <TD>Вы пробуете использовать указатель ответа=0(result identifier=0). Ноль
+      показывает, что Ваш запрос ошибочен по некоторым причинам. Вы должны
+      проверить ошибки после передачи запроса серверу и перед использованием
+      указателя ответа (result identifier). Правильное решение в следующем
+      коде:&quot;RB&quot; $result = mysql_query("select * from tables_priv"); if(!$result)
+      { echo mysql_error(); exit; }<BR>или: $result = mysql_query("select * from
+      tables_priv") or die("Bad query: ".mysql_error());</TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>Я использую MySQL и у меня поле longblob. При попытке поместить символы
+      " '( ) в поле, происходит ошибка.</B></TD>
+  </TR><TR>
+    <TD>Смотри функцию <B>addslashes</B>.</TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>Я использую функцию<BR>$erg = fputs($output, $data."n"); и я не могу
+      поместить символ перевода строки как r ...</B></TD>
+  </TR><TR>
+    <TD>Вы пробуете записать символ перевода строки, просмотрите файл $output
+      в текстовом редакторе или командой more. Если вы смотрите файл через
+      броузер, он не распознает символ n, используйте "&lt;br&gt;"; Также
+      попробуйте $data."n" без пробелов вокруг &quot;.&quot;</TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>Как узнать IP адрес клиента?</B></TD>
+  </TR><TR>
+    <TD>Функция:<BR>string getenv(string varname);<BR>Возвращает переменные
+      окружения, или false при ошибке.<BR><B>$ip = getenv("REMOTE_ADDR");</B> //
+      получает ip-адрес пользователя<BR>Текущая версия PHP автоматически
+      импортирует переменные окружения в переменные PHP, вы можете использовать
+      $REMOTE_ADDR.</TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>Я работаю на RedHat 5.2 c Apache 1.3.4. Хочу подключиться к серверу MS
+      SQL. У меня не получается.</B></TD>
+  </TR><TR>
+    <TD>Функции mssql_* доступны только с Windows NT. В Linux вы должны
+      использовать бтблиотеки Sybase (для SQL Server 6.5) или ODBC.</TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>Я не нашел в руководстве как добавлять комментарий в текст
+      программы.</B></TD>
+  </TR><TR>
+    <TD>Комментарий обозначается: <PRE>// comment
+/* comment */
+# comment
+</PRE></TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>Я имею страничку с формой. Как я могу вернуться к ней, после передачи
+      формы? Я пробовал использовать функцию "window.navigator", но она не
+      работает по некоторым причинам.</B></TD>
+  </TR><TR>
+    <TD>Есть выход из этой ситуации, когда "страница с формой" и "submitting
+      page" являются одной и той же. Тогда используется встроенная переменная
+      $PHP_SELF, например:<BR>&lt;form action="&lt;? echo $PHP_SELF; ?&gt;"
+      method=post&gt; После передачи форма перезагружается, с текущими данными.</TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>Я использую PHP3 в составе модуля Apache(UNIX). Я хочу защитить свои
+      настройки сервера (конфигурацию, лог-файлы ...), потому что функции (copy,
+      unlink, ...) могут их испортить. Как я могу сделать это?</B></TD>
+  </TR><TR>
+    <TD>Вы должны установить режим enable safe_mode в php.ini. Если safe_mode
+      включен то у выполняемого скрипта права как у пользователя выполняющего
+      скрипт.</TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>Я использую PHP_AUTH_USER и PHP_AUTH_PASSWORD для проверки
+      пользователей. Как мне сделать, чтобы пользователи могли выходить(logoff)
+      и входить(logon) под другим именем?</B></TD>
+  </TR><TR>
+    <TD>Вам необходимо передать клиенту HEADER-401, он очистит парольный кэш
+      броузера. Смотрите руководство в секции 'features' Вы можете создать
+      таблицу для проверки имя/пароль и использовать cookie.</TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>Я использую setcookie() на страничке и запрашиваю его значение на этой
+      же страничке. Ничего не происходит.</B></TD>
+  </TR><TR>
+    <TD>Вы не можете использовать cookie и читать его значение в одном
+      запросе. Вы можете сохранить значение cookie в переменной php.
+      Единственный способ получить значение сделать повторный запрос.</TD>
+  </TR><TR>
+    <TD>
+      <HR>
+      <B>Как создать каталог с поддиректориями</B></TD>
+  </TR><TR>
+    <TD>Скачайте файл <A
+      href="http://www.kosek.cz/php/ukazky.zip">http://www.kosek.cz/php/ukazky.zip</A>
+      Он содержит файлы odkazy.sql и odkazy.php. Первый из них создает таблицы в
+      базе (расчитано на MS SQL, легко исправить на MySQL) Файл odkazy.php -
+      скрипт для показа содержимого каталога и поиска по нему. Коментарии по-
+      чешски </TD></TR></TABLE>
+
+<P align=right>Источник - <A href="http://www.phpclub.unet.ru">www.phpclub.unet.ru</A> </P>
+
+</body>
+</html>

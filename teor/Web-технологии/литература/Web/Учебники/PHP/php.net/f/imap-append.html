@@ -1,0 +1,37 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>imap_append</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="imap-alerts.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="imap-base64.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="imap-append">imap_append</A></H1><A NAME="AEN34242"></A><P>(PHP 3, PHP 4)</P>
+<p>imap_append - присоединяет строковое сообщение к специфицированному mailbox.<A NAME="AEN34245"></A></p>
+<H2>Описание</H2><p>int <B>imap_append</B> (int imap_stream, string mbox, string message [, string flags])</p>
+<P>Возвращает <TT><B>TRUE</B></TT> при успехе, <TT><B>FALSE</B></TT> при ошибке.</P>
+<P><B>imap_append()</B> присоединяет строковое сообщение&nbsp; к специфицированному почтовому ящику <TT><I>mbox</I></TT>. Если необязательный параметр
+<TT><I>flags</I></TT> специфицирован, также записывает эти <TT><I>flags</I></TT> в этот mailbox.</P>
+<P>Если говорить от Cyrus IMAP-сервере, вы обязаны использовать "\r\n" в 
+качестве ограничителя строк вместо "\n", иначе операция потерпит неудачу.</P><TABLE WIDTH="100%" BORDER="0"><TR>
+<TD><A NAME="AEN34272"></A><h5>Пример 1. imap_append()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>$stream = imap_open("{your.imap.host}INBOX.Drafts","username", "password");
+
+$check = imap_check($stream);
+print "Msg Count before append: ". $check-&#62;Nmsgs."\n";
+
+imap_append($stream,"{your.imap.host}INBOX.Drafts"
+                   ,"From: me@my.host\r\n"
+                   ."To: you@your.host\r\n"
+                   ."Subject: test\r\n"
+                   ."\r\n"
+                   ."this is a test message, please ignore\r\n"
+                   );
+
+$check = imap_check($stream);
+print "Msg Count after append : ". $check-&#62;Nmsgs."\n";
+
+imap_close($stream);</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top" ><AHREF="imap-alerts.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="imap-base64.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">imap_alerts</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.imap.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">imap_base64</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

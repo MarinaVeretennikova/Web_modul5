@@ -1,0 +1,61 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Регулярных Выражений (POSIX Extended)</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%"  BORDER="0"CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="qdom-tree.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="ereg-replace.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.regex"></A>LXXXIX. Функции регулярных выражений<br>(POSIX Extended)</h1><A NAME="AEN71434"></A>
+<BLOCKQUOTE><P><B>Примечание: </B>PHP поддерживает также регулярные выражения в синтаксисе Perl через 
+использование <A HREF="ref.pcre.html">функций PCRE</A>. Эти функции поддерживают нежадное совпадение, утверждения, условные 
+субпатэрны и некоторые другие возможности, не поддерживаемые синтаксисом регулярных выражений POSIX-extended.</P></BLOCKQUOTE>
+<TABLE  CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>Эти функции регулярных выражений не являются binary-safe. Функции <A HREF="ref.pcre.html">PCRE </A>- являются.</P>
+</TD></TR></TABLE><P>Регулярные выражения используются для сложных манипуляций строками в
+PHP. Вот функции, поддерживающие регулярные выражения:<UL><LI><P><A HREF="ereg.html">
+<B>ereg()</B></A></P></LI><LI><P><A HREF="ereg-replace.html"><B>ereg_replace()</B></A></P></LI>
+<LI><P><A HREF="eregi.html"><B>eregi()</B></A></P></LI><LI><P>
+<A HREF="eregi-replace.html"><B>eregi_replace()</B></A></P></LI><LI><P>
+<A HREF="split.html"><B>split()</B></A></P></LI><LI><P>
+<A HREF="spliti.html"><B>spliti()</B></A></P></LI></UL>
+<p>Все эти функции принимают в качестве первого аргумента строку регулярного 
+выражения. PHP использует регулярные выражения расширенного POSIX, как 
+определено POSIX 1003.2. Полное описание регулярных выражений POSIX см. на regex man-страницах, 
+включённых в директорию regex дистрибутива PHP. Это формат manpage, поэтому 
+вам понадобится сделать что-нибудь ещё со строками <B>man /usr/local/src/regex/regex.7</B>, чтобы читать его.</p>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN71463"></A><h5>Пример 1. Регулярные выражения</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>ereg ("abc", $string);            
+/* Возвращает true, если "abc" найдено в строке $string. */
+
+ereg ("^abc", $string);
+/* Возвращает true, если "abc" найдено в начале $string. */
+
+ereg ("abc$", $string);
+/* Возвращает true, если "abc" найдено в конце $string. */
+
+eregi ("(ozilla.[23]|MSIE.3)", $HTTP_USER_AGENT);  
+/* Возвращает true, если клиентский браузер - это Netscape 2, 3 или MSIE 3. */
+
+ereg ("([[:alnum:]]+) ([[:alnum:]]+) ([[:alnum:]]+)", $string,$regs); 
+/* помещает три слова, разделённые пробелами
+   into $regs[1], $regs[2] and $regs[3]. */
+
+$string = ereg_replace ("^", "&#60;br /&#62;", $string); 
+/* помещает тэг &#60;br /&#62; в начале $string. */
+ 
+$string = ereg_replace ("$", "&#60;br /&#62;", $string); 
+/* помещает тэг&#60;br /&#62; в конце $string. */
+
+$string = ereg_replace ("\n", "", $string);
+/* Отбрасывает все символы newline в $string. */</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="ereg-replace.html">ereg_replace</A> - заменяет регулярное выражение</DT>
+<DT><A HREF="ereg.html">ereg</A> - поиск совпадений регулярного выражения</DT>
+<DT><A HREF="eregi-replace.html">eregi_replace</A> - заменяет регулярное выражение без учёта регистра символов</DT>
+<DT><A HREF="eregi.html">eregi</A> - поиск совпадений регулярного выражения без учёта регистра символов</DT>
+<DT><A HREF="split.html">split</A> - делит строку на массив с помощью регулярного выражения</DT>
+<DT><A HREF="spliti.html">spliti</A> - делит строку на массив с помощью регулярного выражения без учёта регистра символов</DT>
+<DT><A HREF="sql-regcase.html">sql_regcase</A> - делает регулярное выражение для поиск совпадений регулярного выражения без 
+учёта регистра символов</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="qdom-tree.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ereg-replace.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">qdom_tree</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ereg_replace</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

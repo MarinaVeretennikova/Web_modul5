@@ -1,0 +1,51 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Ingres II</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="ibase-trans.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="ingres-autocommit.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.ingres"></A>XLVI. Функции Ingres II</h1><A NAME="AEN37392"></A>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>Это расширение является ЭКСПЕРИМЕНТАЛЬНЫМ. Поведение этого расширения, имена его функций и всё, что задокументировано, может измениться в последующих релизах РНР без предупреждения. Вы предупреждены и можете использовать это расширение только под вашу ответственность.</P>
+</TD></TR></TABLE><P>Эти функции дают доступ к серверам баз данных Ingres II.</P>
+<P>Чтобы иметь возможность работать с этими функциями, вы обязаны скомпилировать РНР с поддержкой Ingres с помощью опции
+<TT>--with-ingres</TT>. Вам необходима библиотека Open API и включённые/include header-файлы для 
+работы с Ingres II. Если переменная окружения II_SYSTEM не установлена 
+корректно, вам может понадобиться использовать <TT>--with-ingres=DIR</TT> для специфицирования вашей директории установки Ingres.</P>
+<P>При использовании этого расширения с Apache, если Apache не стартует и 
+выдаёт ошибку "PHP Fatal error: Unable to start ingres_ii
+module in Unknown on line 0", то убедитесь, что переменная окружения II_SYSTEM установлена корректно. Добавление "export
+II_SYSTEM="/home/ingres/II" в стартовый скрипт Apache, сразу перед запуском httpd, должно помочь.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>если вы уже использовали PHP для доступа к другим серверам БД, обратите 
+внимание, что Ingres не допускает конкурирующих запросов и/или транзакций по 
+одному соединению, поэтому вы не найдёте в этом расширении дескрипторов 
+результата или транзакции. Результат запроса/query обязан рассматриваться до 
+отправления другого запроса, а транзакция обязана подтверждаться либо 
+откатываться до открытия другой транзакции (что делается автоматически при 
+отправке первого запроса).</P></BLOCKQUOTE><DL><DT><B>Содержание</B></DT><DT>
+<A HREF="ingres-autocommit.html">ingres_autocommit</A> - включает и выключает autocommit</DT>
+<DT><A HREF="ingres-close.html">ingres_close</A> - закрывает соединение с БД Ingres II</DT>
+<DT><A HREF="ingres-commit.html">ingres_commit</A> - подтверждает транзакцию</DT>
+<DT><A HREF="ingres-connect.html">ingres_connect</A> - открывает соединение с БД Ingres II</DT>
+<DT><A HREF="ingres-fetch-array.html">ingres_fetch_array</A> - извлекает ряд результата в массив</DT>
+<DT><A HREF="ingres-fetch-object.html">ingres_fetch_object</A> - извлекает ряд результата в объект</DT>
+<DT><A HREF="ingres-fetch-row.html">ingres_fetch_row</A> - извлекает ряд результата в перечислимый массив</DT>
+<DT><A HREF="ingres-field-length.html">ingres_field_length</A> - получает длину поля</DT>
+<DT><A HREF="ingres-field-name.html">ingres_field_name</A> - получает имя поля в результате выполнения запроса</DT>
+<DT><A HREF="ingres-field-nullable.html">ingres_field_nullable</A> - проверяет, является ли поле обнуляемым</DT>
+<DT><A HREF="ingres-field-precision.html">ingres_field_precision</A> - получает точность поля</DT>
+<DT><A HREF="ingres-field-scale.html">ingres_field_scale</A> - получает масштаб поля</DT>
+<DT><A HREF="ingres-field-type.html">ingres_field_type</A> - получает тип поля в результате выполнения запроса</DT>
+<DT><A HREF="ingres-num-fields.html">ingres_num_fields</A> - получает количество полей, возвращённых последним запросом</DT>
+<DT><A HREF="ingres-num-rows.html">ingres_num_rows</A> - получает количество рядов, задействованных в или возвращённых последним запросом</DT>
+<DT><A HREF="ingres-pconnect.html">ingres_pconnect</A> - открывает постоянное соединение с БД Ingres II</DT>
+<DT><A HREF="ingres-query.html">ingres_query</A> - отправляет SQL query на Ingres II</DT>
+<DT><A HREF="ingres-rollback.html">ingres_rollback</A> - откатывает транзакцию</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="ibase-trans.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="ingres-autocommit.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">ibase_trans</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="funcref.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ingres_autocommit</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

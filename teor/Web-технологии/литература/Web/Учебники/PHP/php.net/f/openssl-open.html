@@ -1,0 +1,39 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>openssl_open</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="openssl-get-publickey.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="openssl-pkcs7-decrypt.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.openssl-open">openssl_open</A></H1><A NAME="AEN59103"></A><P>(PHP 4 &#62;= 4.0.4)</P>
+<p>openssl_open - открывает пломбированные данные.<A NAME="AEN59106"></A></p><H2>Описание</H2><p>bool <B>openssl_open</B> (string sealed_data, string open_data, string env_key, mixed priv_key_id)</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD><P>Эта функция - ЭКСПЕРИМЕНТАЛЬНАЯ. Поведение, имя и всё остальное, что задокументировано для данной функции может быть изменено в будущих релизах РНР без предупреждения. Вы можете использовать эту функцию только на свой страх и риск.
+</P></TD></TR></TABLE><P>Возвращает <TT><B>TRUE</B></TT> при успехе, <TT><B>FALSE</B></TT> при неудаче. При успехе открытые данные возвращаются в
+<TT><I>open_data</I></TT>.</P><P><B>openssl_open()</B> открывает (дешифрует) <TT><I>sealed_data</I></TT> с использованием private ключа, ассоциированного с идентификатором ключа
+<TT><I>priv_key_id</I></TT>, и ключ конверта/envelope <TT><I>env_key</I></TT> и заполняет
+<TT><I>open_data</I></TT> дешифрованными данными. Ключ envelope генерируется, когда данные пломбированы и могут 
+использоваться только одним специфическим private ключом. См. дополнительно
+<A HREF="openssl-seal.html"><B>openssl_seal()</B></A>.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN59138"></A><h5>Пример 1. openssl_open()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>// предполагается, что $sealed и $env_key содержат пломбированные данные
+// и наш envelope ключ, данные нам пломбировщиком.
+
+// извлечь private ключ из файла и готовить его
+$fp = fopen("/src/openssl-0.9.6/demos/sign/key.pem", "r");
+$priv_key = fread($fp, 8192);
+fclose($fp);
+$pkeyid = openssl_get_privatekey($priv_key);
+
+// дешифровать данные и сохранить их в $open
+if (openssl_open($sealed, $open, $env_key, $pkeyid))
+    echo "here is the opened data: ", $open;
+else
+    echo "failed to open data";
+
+// освободить private ключ из памяти
+openssl_free_key($pkeyid);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>См. также <A HREF="openssl-seal.html"><B>openssl_seal()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="openssl-get-publickey.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="openssl-pkcs7-decrypt.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">openssl_get_publickey</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.openssl.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">openssl_pkcs7_decrypt</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

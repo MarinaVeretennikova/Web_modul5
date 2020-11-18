@@ -1,0 +1,55 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>imagegif</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="imagegd.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="imageinterlace.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.imagegif">imagegif</A></H1><A NAME="AEN32658"></A><P>(PHP 3, PHP 4)</P>
+<p>imagegif - выводит изображение в браузер или файл.<A NAME="AEN32661"></A></p><H2>Описание</H2><p>int <B>imagegif</B> (resource image [, string filename])</p>
+<P><B>imagegif()</B> создаёт GIF-файл filename из изображения <TT><I>image</I></TT>. Аргумент
+<TT><I>image</I></TT> возвращается из функции <A HREF="imagecreate.html"><B>imagecreate()</B></A>.</P>
+<P>Формат изображения будет GIF87a, если только изображение не было сделано прозрачным функцией
+<A HREF="imagecolortransparent.html"><B>imagecolortransparent()</B></A>, - тогда формат будет GIF89a.</P>
+<P>Аргумент filename является необязательным и, если опущен, сырой поток изображения будет выведен напрямую.  Отправляя image/gif
+content-type с помощью <A HREF="header.html"><B>header()</B></A>, вы можете создать PHP-скрипт, который выводит
+GIF-изображения напрямую.<BLOCKQUOTE><P><B>Примечание: </B>поскольку вся поддержка GIF была из
+GD-библиотеки версии 1.6, это функция не будет доступна, если вы используете эту версию GD-библиотеки.</P>
+<P>Следующий фрагмент кода позволяет создать более переносимые приложения PHP с помощью автоопределения типа поддерживаемой GD. Замените 
+последовательность <TT>header ("Content-type: image/gif"); imagegif ($im);</TT> более гибкой последовательностью:
+<A NAME="AEN32691"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+if (function_exists("imagegif")) {
+    header ("Content-type: image/gif");
+    imagegif ($im);
+}
+elseif (function_exists("imagejpeg")) {
+    header ("Content-type: image/jpeg");
+    imagejpeg ($im, "", 0.5);
+}
+elseif (function_exists("imagepng")) {
+    header ("Content-type: image/png");
+    imagepng ($im);
+}
+elseif (function_exists("imagewbmp")) {
+    header ("Content-type: image/vnd.wap.wbmp");
+    imagewbmp ($im);
+}
+else
+    die("No image support in this PHP server");
+?&#62;</PRE></TD></TR></TABLE></BLOCKQUOTE><BLOCKQUOTE><P><B>Примечание: </B>в версиях 3.0.18 и 4.0.2 вы можете использовать функцию
+<A HREF="imagetypes.html"><B>imagetypes()</B></A> вместо <A HREF="function-exists.html"><B>function_exists()</B></A>
+для проверки существования поддержки форматов изображений:<A NAME="AEN32697"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE
+
+>if (imagetypes() &#38; IMG_GIF) {
+    header ("Content-type: image/gif");
+    imagegif ($im);
+}
+elseif (imagetypes() &#38; IMG_JPG) {
+        ... etc.</PRE></TD></TR></TABLE></BLOCKQUOTE><P>См. также <A HREF="imagepng.html"><B>imagepng()</B></A>,
+<A HREF="imagewbmp.html"><B>imagewbmp()</B></A>, <A HREF="imagejpeg.html"><B>imagejpeg()</B></A>,
+<A HREF="imagetypes.html"><B>imagetypes()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="imagegd.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="imageinterlace.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">imagegd</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.image.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">imageinterlace</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

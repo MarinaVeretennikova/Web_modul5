@@ -1,0 +1,94 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>usort</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="uksort.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ref.aspell.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.usort">usort</A></H1><A NAME="AEN8909"></A><P>(PHP 3&#62;= 3.0.3, PHP 4)</P>
+<p>usort - сортирует массив по значениям, используя пользовательскую функцию сравнения.<A NAME="AEN8912"></A>
+</p><H2>Описание</H2><p>void <B>usort</B> (array array, string cmp_function)</p>
+<P>Эта функция отсортирует массив по значениям с помощью пользовательской функции сравнения. Если вам нужно нетривиально отсортировать массив, 
+используйте её.</P><P>Функция обязана возвращать integer, меньше, равное или больше нуля, если 
+первый аргумент рассматривается, соответственно, меньше, равным или больше 
+секунды. Если два члена сравниваются как равные, их порядок в отсортированном массиве не определён.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN8926"></A><h5>Пример 1. usort()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>function cmp ($a, $b) {
+    if ($a == $b) return 0;
+    return ($a &#62; $b) ? -1 : 1;
+}
+
+$a = array (3, 2, 5, 6, 1);
+
+usort ($a, "cmp");
+
+while (list ($key, $value) = each ($a)) {
+    echo "$key: $value\n";
+}</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Это пример выведет:</P><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>0: 6
+1: 5
+2: 3
+3: 2
+4: 1</PRE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+очевидно, что в этом тривиальном случае больше подходит <A HREF="rsort.html"><B>rsort()</B></A>.</P></BLOCKQUOTE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN8937"></A><h5>Пример 2. Использование usort() с многомерным массивом</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>function cmp ($a, $b) {
+    return strcmp($a["fruit"], $b["fruit"]);
+}
+
+$fruits[0]["fruit"] = "lemons";
+$fruits[1]["fruit"] = "apples";
+$fruits[2]["fruit"] = "grapes";
+
+usort($fruits, "cmp");
+
+while (list ($key, $value) = each ($fruits)) {
+    echo "\$fruits[$key]: " . $value["fruit"] . "\n";
+}</PRE></TD></TR></TABLE></TD></TR></TABLE><P>При сортировке многомерного массива $a и $b содержат ссылки на первый 
+индекс массива.</P><P>Этот пример выведет:</P><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$fruits[0]: apples
+$fruits[1]: grapes
+$fruits[2]: lemons</PRE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>вместо имени функции может быть предоставлен также массив, содержащий ссылку на 
+объект и имя метода.</P></BLOCKQUOTE><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN8948"></A>
+<h5>Пример 3. usort()-пример использования функции - члена объекта</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>class TestObj {
+    var $name;
+
+    function TestObj($name)
+    {
+        $this-&#62;name = $name;
+    }
+
+    /* Это static-функция сравнения: */
+    function cmp_obj($a, $b)
+    {
+        $al = strtolower($a-&#62;name);
+        $bl = strtolower($b-&#62;name);
+        if ($al == $bl) return 0;
+        return ($al &#62; $bl) ? +1 : -1;
+    }
+}
+
+$a[] = new TestObj("c");
+$a[] = new TestObj("b");
+$a[] = new TestObj("d");
+
+uasort($a, array ("TestObj", "cmp_obj"));
+
+foreach ($a as $item) {
+    print $item-&#62;name."\n";
+}</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Пример выведет:</P><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>b
+c
+d</PRE></TD></TR></TABLE><br><TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>Лежащая в основе функция быстрой сортировки в некоторых C-библиотеках (как в 
+системах Solaris) может вызвать облом PHP, если функция сравнения не возвращает подходящие значения.</P></TD>
+</TR></TABLE><P>См. также <A HREF="uasort.html"><B>uasort()</B></A>,
+<A HREF="uksort.html"><B>uksort()</B></A>, <A HREF="sort.html"><B>sort()</B></A>,
+<A HREF="asort.html"><B>asort()</B></A>, <A HREF="arsort.html"><B>arsort()</B></A>,
+<A HREF="ksort.html"><B>ksort()</B></A>, <A HREF="natsort.html"><B>natsort()</B></A>
+и <A HREF="rsort.html"><B>rsort()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="uksort.html" >Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ref.aspell.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">uksort</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.array.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Функции Aspell<br>[не рекомендуется применять]</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

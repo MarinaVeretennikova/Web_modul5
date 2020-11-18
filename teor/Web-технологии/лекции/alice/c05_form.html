@@ -1,0 +1,206 @@
+<html>
+<title>JavaScript и HTML-формы</title>
+<meta name=keywords content="script language JavaScript Cookie">
+
+
+<body>
+
+<table align=center width=90%>
+<tr><td>
+
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c05_nav.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c05_nav.html">Навигация по сайту</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c05_client.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c05_client.html">Информация о клиенте</a>
+</table>
+
+
+
+<h3>JavaScript и HTML-формы</h3>
+
+Начнем с самого простого - подтверждения отправки HTML-формы.
+Для совместного использования JavaScript и HTML-формы надо задать
+параметр name команды form, чтобы из JavaScript можно было обращаться к объектам
+HTML-формы.
+<pre>
+&lt;form method="POST" action="/cgi-bin/gb_show.exe" name="testform"&gt;
+...
+&lt;input type="button" value="Отправить данные формы" 
+onClick="if(confirm('Вы уверены?')){testform.submit();}"&gt;
+&lt;/form&gt;
+</pre>
+Обратите внимание, что кнопка "Отправить данные формы" задается посредством type=buttom,
+а не type=submit, т.к. отправка формы будет происходить не всегда, а в зависимости от подтверждения
+пользователя. Ниже можете нажать на кнопку и посмотреть результат действия HTML-скрипта.
+При ответе ДА, данные формы отправятся на сервер, при ответе НЕТ, ничего не произойдет.
+Такое подтверждение полезно при удалении или редактировании каких-либо данных. Мы использовали
+такие HTML-формы при создании администраторского доступа к форуму и гостевой книге, где имелась 
+возможность редактировать и удалять записи.
+
+<form method="POST" action="http://alice.stup.ac.ru/cgi-bin/gb_show.exe" name="testform">
+<input type="button" value="Отправить данные формы" 
+onClick="if(confirm('Вы уверены?')){testform.submit();}">
+<br>
+<br>
+Далее мы рассмотрим правильность ввода данных. Такие функции полезны
+для клиента, в случае ошибки ему не придется ждать отправки данных на сервер и получения 
+отрицательного результата.
+Для проверки ввода целого числа в диапазоне
+от -5 до 10 используйте следующий код.
+<pre>
+&lt;script language="JavaScript"&gt;
+&lt;!--
+function checkInt(form, input, min, max)
+{
+var i = eval(form + "." + input + ".value");
+
+ if(i&gt;=min && i&lt;=max && i.indexOf(".")==-1)
+  return true;
+ else
+  {
+   alert("Вы должны ввести целое число в диапазоне от " + min + " до " + max + " !");
+   eval(form + "." + input + ".select()");
+   eval(form + "." + input + ".focus()");
+   return false; 
+  } 
+}
+--&gt;
+&lt;/script&gt;
+
+Введите целое от -5 до 10 &lt;input type="text" name="int510" size=40 
+onBlur="checkInt('testform','int510',-5,10);"&gt;
+</pre>
+
+
+При попытке переключиться на другой элемент формы будет вызвана функция JavaScript
+checkInt. На вход этой функции передается четыре параметра: имя формы, имя объекта ввода данных,
+минимальное и максимальное значение.
+<br>
+<script language="JavaScript">
+<!--
+function checkInt(form, input, min, max)
+{
+var i = eval(form + "." + input + ".value");
+
+
+ if(i>=min && i<=max && i.indexOf(".")==-1)
+  return true;
+ else
+  {
+   alert("Вы должны ввести целое число в диапазоне от " + min + " до " + max + " !");
+   eval(form + "." + input + ".select()");
+   eval(form + "." + input + ".focus()");
+   return false; 
+  } 
+}
+-->
+</script>
+
+Введите целое от -5 до 10 <input type="text" name="int510" size=40 
+onBlur="checkInt('testform','int510',-5,10);"> 
+
+</form>
+
+Если вам понадобится функция checkFloat для проверки правильности ввода вещественных чисел, 
+то из условия if надо убрать следующую строчку "&& i.indexOf(".")==-1". Условие 
+i.indexOf(".")==-1 проверяет наличие точки.
+
+<pre>
+&lt;script language="JavaScript"&gt;
+&lt;!--
+function checkFloat(form, input, min, max)
+{
+var i = eval(form + "." + input + ".value");
+
+ if(i&gt;=min && i&lt;=max)
+  return true;
+ else
+  {
+   alert("Вы должны ввести вещественное число в диапазоне от " + min + " до " + max + " !");
+   eval(form + "." + input + ".select()");
+   eval(form + "." + input + ".focus()");
+   return false; 
+  } 
+}
+--&gt;
+&lt;/script&gt;
+</pre>
+
+
+
+
+</td></tr>
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?6909  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?6909'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?6909" target=_top>
+    <img src="itsoft-6909" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?6909" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?6909  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?6909'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?6909" target=_top>
+    <img src="itsoft-6909" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?6909" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="itsoft-6909-1" tppabs="http://rb1.rotabanner.com/cgi-bin/iframe/itsoft?6909"
+ width=468 height=60 marginwidth=0 marginheight=0 scrolling=no 
+ frameborder=0><a href="javascript:if(confirm('http://rb1.rotabanner.com/cgi-bin/href/itsoft?6909  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb1.rotabanner.com/cgi-bin/href/itsoft?6909'" tppabs="http://rb1.rotabanner.com/cgi-bin/href/itsoft?6909" 
+ target=_top><img src="itsoft-6909-2" tppabs="http://rb1.rotabanner.com/cgi-bin/banner/itsoft?6909" 
+ alt="RB1" width=468 height=60 border=0 ismap></a></iframe>
+
+</body>
+</html>

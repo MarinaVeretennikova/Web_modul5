@@ -1,0 +1,136 @@
+<html>
+<title>Разбиение на группы</title>
+<meta name=keywords content="СУБД реляционные базы данных SQL SELECT GROUP BY HAVING COUNT AVG SUM MIN MAX INSERT UPDATE DELETE">
+
+
+<body>
+<table align=center width=90%>
+<tr><td>
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c10_agr.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c10_agr.html">Агрегирующие функции</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c10_tbl.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c10_tbl.html">Выборка данных из нескольких таблиц</a>
+</table>
+
+<h3>Разбиение на группы</h3></a>
+<p align="justify">
+ Далее мы рассмотрим разбиение записей на группы и применение к группам агрегирующих функций.
+ Такого рода приемы используются для подсчета количества писем от каждого автора.
+ Запрос SELECT name from message ORDER BY name вернет нам всех авторов, каждый автор будет повторяться
+ столько раз, сколько писем он написал. Сгруппируем записи по авторам: 
+ SELECT name from message GROUP BY name ORDER BY name. Вы видите, что повторов теперь нет.
+ Записи разбиты на группы, и теперь, если автор повторялся несколько раз, эти несколько записей объединены
+ в одну группу. При использовании агрегирующих функций с GROUP BY они применяются не ко всем записям, а к каждой группе.
+ Например: SELECT name, COUNT(*) from message GROUP BY name ORDER BY name возвращает таблицу из
+ двух столбцов, в первом - имя автора, во втором - количество сообщений, которое он написал.
+ </p>
+ <center><img src="c11grp1.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/c11grp1.jpg"></center>
+ <p align="justify">
+ Группировать можно по нескольким полям. В предыдущем запросе мы получили информацию по всем сообщениям,
+ не различая их по гостевым книгам. Если мы хотим получить количество сообщений по каждому автору
+ в каждой гостевой книге, то запрос будет выглядеть так: SELECT  name, gb_id,  COUNT(*) from message GROUP BY  name, gb_id ORDER BY name.
+ Сначала происходит разбиение записей на группы (name, gb_id), затем по каждой группе подсчитывается количество записей в ней.
+ 
+ </p>
+ <center><img src="c11grp2.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/c11grp2.jpg"></center>
+ <p align="justify">
+ Если мы захотим получить рейтинг авторов по гостевым книгам, кто написал наибольшее количество
+ сообщений, то надо поставить сортировку по третьему столбцу в обратном порядке: SELECT  name, gb_id,  COUNT(*)  from message GROUP BY  name, gb_id ORDER BY 3 DESC.
+<br>
+ На записи, попадающие в группы, можно накладывать условия отбора. Делается это отдельным
+ оператором HAVING. Оператор WHERE нам не может помочь, т.к. он действует на все записи.
+ Сначала из таблицы выбираются записи, удовлетворяющие условию WHERE, затем происходит разбиение
+ на группы, вычисляются агрегирующие функции и выполняется оператор HAVING для каждой группы отдельно, который отсеивает лишние строки.
+ Оператор HAVING может обрабатывать те же условия, что и оператор WHERE, но в нем можно использовать 
+ агрегирующие функции, т.к. их значение при выполнении оператора HAVING уже известно. Рассмотрим еще раз пример
+ с авторами и количеством писем, которое они написали: SELECT name, COUNT(*) from message GROUP BY name ORDER BY name.
+  Как вы помните, большинство авторов написало
+ по одному письму. Допустим, такие авторы нас не интересуют, мы хотим посмотреть авторов, которые 
+ пишут в наши гостевые книги регулярно. Для этого модифицируем запрос следующим образом:
+ SELECT name, COUNT(*) from message GROUP BY name HAVING COUNT(*)>2 ORDER BY name.
+ 
+<center><img src="c11grp3.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/c11grp3.jpg"></center>
+ <h3>Упражнения</h3>
+ <ol>
+ <li> Получите количество сообщений для каждой гостевой книги. Должно получиться
+ <center><img src="c11grp3.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/c11grp3.jpg"></center>
+ <li> Получите количество сообщений для каждого поля http.
+ </ol>
+
+  
+  
+</td></tr>
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?527  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?527'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?527" target=_top>
+    <img src="itsoft-527" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?527" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?527  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?527'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?527" target=_top>
+    <img src="itsoft-527" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?527" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="itsoft-527-1" tppabs="http://rb1.rotabanner.com/cgi-bin/iframe/itsoft?527"
+ width=468 height=60 marginwidth=0 marginheight=0 scrolling=no 
+ frameborder=0><a href="javascript:if(confirm('http://rb1.rotabanner.com/cgi-bin/href/itsoft?527  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb1.rotabanner.com/cgi-bin/href/itsoft?527'" tppabs="http://rb1.rotabanner.com/cgi-bin/href/itsoft?527" 
+ target=_top><img src="itsoft-527-2" tppabs="http://rb1.rotabanner.com/cgi-bin/banner/itsoft?527" 
+ alt="RB1" width=468 height=60 border=0 ismap></a></iframe>
+
+</body>
+</html>

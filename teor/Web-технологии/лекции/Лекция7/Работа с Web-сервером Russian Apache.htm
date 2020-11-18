@@ -1,0 +1,1578 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0059)http://www.citforum.ru/internet/webservers/rus_apache.shtml -->
+<HTML><HEAD><TITLE>Работа с Web-сервером Russian Apache</TITLE>
+<META 
+content="Информационные технологии, Web-сервер, Russian,  Apache, установка, директивы, Настройка, перекодирование " 
+name=KeyWords>
+<META content=all name=Robots>
+<META content="http://www.citforum.ru, Работа с Web-сервером Russian Apache." 
+name=Description>
+<META content=Static name=Document-state><LINK 
+href="Работа с Web-сервером Russian Apache.files/citforum.css" rel=stylesheet>
+<STYLE>PRE {
+	BORDER-RIGHT: 1px solid; PADDING-RIGHT: 3px; BORDER-TOP: 1px solid; PADDING-LEFT: 3px; FONT-SIZE: 9pt; OVERFLOW-X: auto; PADDING-BOTTOM: 11pt; BORDER-LEFT: 1px solid; WIDTH: 468px; PADDING-TOP: 3px; BORDER-BOTTOM: 1px solid
+}
+</STYLE>
+
+<META http-equiv=content-type content="text/html; charset=Windows-1251">
+<META content="MSHTML 6.00.2800.1106" name=GENERATOR></HEAD>
+<BODY text=#000000 vLink=#003860 aLink=#800000 link=#006890 bgColor=#ffffff 
+topMargin=0 marginheight="0"><A name=top></A><!-- counters -->
+<TABLE cellSpacing=0 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD><!--TopList COUNTER-->
+      <SCRIPT language=JavaScript><!--
+d=document;js=10;a=';r='+escape(d.referrer)
+//--></SCRIPT>
+
+      <SCRIPT language=JavaScript1.1><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></SCRIPT>
+
+      <SCRIPT language=JavaScript1.2><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></SCRIPT>
+
+      <SCRIPT language=JavaScript1.3><!--
+js=13//--></SCRIPT>
+
+      <SCRIPT language=JavaScript><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=26978;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></SCRIPT>
+      <NOSCRIPT><IMG height=1 alt="" 
+      src="Работа с Web-сервером Russian Apache.files/counter.gif" 
+      width=1></NOSCRIPT>
+      <SCRIPT language=JavaScript><!--
+if(js>11)d.write('--'+'>')
+//--></SCRIPT>
+<!--TopList COUNTER--></TD>
+    <TD><!--LiveInternet counter-->
+      <SCRIPT language=JavaScript><!--
+document.write('<img src="http://counter.yadro.ru/hit?r'+
+escape(document.referrer)+((typeof(screen)=='undefined')?'':
+';s'+screen.width+'*'+screen.height+'*'+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+';u'+escape(document.URL)+
+';i'+escape('Жж'+document.title)+';'+Math.random()+
+'" width=1 height=1 alt="">')//--></SCRIPT>
+<!--/LiveInternet--></TD>
+    <TD><IMG height=1 alt="" 
+      src="Работа с Web-сервером Russian Apache.files/top100.gif" width=1 
+      border=0></TD></TR></TBODY></TABLE><!-- end of counters -->
+<TABLE cellSpacing=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle width="100%" height=60>
+      <TABLE height="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD align=middle><B><A href="http://citcity.ru/" target=_blank><FONT 
+            color=red size=+2>CitCity</FONT></A></B><BR><FONT color=darkblue 
+            size=+1><B>Новая&nbsp;деловая&nbsp;газета</B></FONT> 
+      </TD></TR></TBODY></TABLE></TD>
+    <TD align=right width=600 height=90>
+      <SCRIPT language=JavaScript 
+      src="Работа с Web-сервером Russian Apache.files/adx.js" 
+      type=text/javascript></SCRIPT>
+
+      <SCRIPT language=JavaScript type=text/javascript>
+<!--
+
+var haveFlash = (navigator.mimeTypes && navigator.mimeTypes["application/x-shockwave-flash"]) ? navigator.mimeTypes["application/x-shockwave-flash"].enabledPlugin : 0; 
+
+if( haveFlash ){
+	haveFlash = (parseInt(haveFlash.description.substring(haveFlash.description.indexOf(".")-1))>=5);
+} else if ( navigator.userAgent && navigator.userAgent.indexOf( "MSIE" ) >=0
+	&& ( parseFloat( navigator.appVersion )  >=4)
+	&& ( navigator.userAgent.indexOf( "Windows 95" ) >=0
+	|| navigator.userAgent.indexOf( "Windows NT" ) >=0
+	|| navigator.userAgent.indexOf( "Windows 98" ) >=0)
+	){
+	document.write('<SCR' + 'IPT LANGUAGE=VBScript\> \n');
+	document.write(' on error resume next \n');
+	document.write(' haveFlash = (IsObject(CreateObject("ShockwaveFlash.ShockwaveFlash.5")))\n');
+	document.write('</SCR' + 'IPT\> \n');
+}
+if (!document.phpAds_used) document.phpAds_used = ',';
+phpAds_random = new String (Math.random()); phpAds_random = phpAds_random.substring(2,11);
+document.write ("<" + "script language='JavaScript' type='text/javascript' src='");
+document.write ("http://a.citforum.ru/adjs.php?n=" + phpAds_random);
+if ( haveFlash ){
+	document.write ("&amp;what=zone:6&amp;target=_blank");
+} else {
+	document.write ("&amp;what=zone:7&amp;target=_blank");
+}
+document.write ("&amp;exclude=" + document.phpAds_used);
+if (document.referrer)
+	document.write ("&amp;referer=" + escape(document.referrer));
+document.write ("'><" + "/script>");
+//-->
+</SCRIPT>
+      <NOSCRIPT><A href="http://a.citforum.ru/adclick.php?n=a512a446" 
+      target=_blank><IMG alt="" 
+      src="Работа с Web-сервером Russian Apache.files/zbackup_600x90.gif" 
+      border=0></A></NOSCRIPT> </TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0><!--
+<tr>
+  <td colspan=3><img width=931 height=1><br></td>
+</tr>
+-->
+  <TBODY>
+  <TR vAlign=top>
+    <TD rowSpan=6><A href="http://www.citforum.ru/"><IMG height=44 alt=Logo 
+      src="Работа с Web-сервером Russian Apache.files/citlogo8.gif" width=140 
+      border=0></A></TD>
+    <TD rowSpan=6>&nbsp;&nbsp;&nbsp;</TD>
+    <TD bgColor=#008080><IMG height=1 alt="" 
+      src="Работа с Web-сервером Russian Apache.files/1x1.gif" width=1 
+    border=0></TD></TR>
+  <TR>
+    <TD bgColor=#daecd7><IMG height=3 alt="" 
+      src="Работа с Web-сервером Russian Apache.files/1x1.gif" width=1 
+    border=0></TD></TR>
+  <TR>
+    <TD bgColor=#008080>
+      <TABLE cellSpacing=1 cellPadding=1 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD align=middle bgColor=#f4f9f3><FONT size=-1><A class=head 
+            href="http://citcity.ru/">Шквал(!) новостей на 
+          CitCity.ru</A></FONT></TD>
+          <TD align=middle bgColor=#f4f9f3><FONT size=-1><A class=head 
+            href="http://citkit.ru/">Океан(!) софта на CITKIT.ru</A></FONT></TD>
+          <TD align=middle bgColor=#f4f9f3><A class=head 
+            href="http://forum.citforum.ru/">Форумы</A></TD>
+          <TD align=middle bgColor=#f4f9f3><A class=head 
+            href="http://www.citforum.ru/news.shtml">Поступления в 
+          библиотеку</A></TD>
+          <TD align=middle bgColor=#f4f9f3><A class=head 
+            href="http://www.citmgu.ru/">Учебный центр</A></TD>
+          <TD align=middle bgColor=#f4f9f3><A class=head 
+            href="http://kurilka.citforum.ru/">Курилка</A></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD><IMG height=3 alt="" 
+      src="Работа с Web-сервером Russian Apache.files/1x1.gif" width=1 
+    border=0></TD></TR>
+  <TR>
+    <TD width="100%">
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD align=left width=21><IMG height=21 alt=CitForum 
+            src="Работа с Web-сервером Russian Apache.files/cd1.gif" width=21 
+            border=0></TD>
+          <TD align=left><FONT size=2>&nbsp;&nbsp;&nbsp;<A 
+            href="http://www.citforum.ru/cdrom.shtml"><B><NOBR>CITForum на 
+            CD</NOBR></B></A></FONT></TD>
+          <TD align=middle><FONT size=2><NOBR><A 
+            href="http://www.citforum.ru/subscribe.shtml"><B>Подписка на новости 
+            портала</B></A></NOBR></FONT></TD>
+          <TD align=right><FONT size=2><B><NOBR>Море(!) аналитической 
+            информации!</NOBR></B> :: <A 
+            href="http://www.citforum.ru/">CITFORUM.RU</A></FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=1 cellPadding=0 width="100%" bgColor=#008284 border=0>
+  <TBODY>
+  <TR bgColor=#ffffff>
+    <TD class=earlink align=middle width="50%" height="100%">
+      <SCRIPT type=text/javascript><!--
+document.write('<table width=100% height=100% cellspacing=5 border=0><tr valign=center><td><a class=plain target=_blank href=http://ad.adriver.ru/cgi-bin/click.cgi?sid=1&ad=81894&bt=4&pid=128710&bid=220782&rnd=1815059613&bn=220782><img src=/a/amby.gif width=178 height=88 border=0></a></td><td align=center><a class=plain target=_blank href=http://ad.adriver.ru/cgi-bin/click.cgi?sid=1&ad=81894&bt=4&pid=128710&bid=220782&rnd=1815059613&bn=220782><b>CommuniGate Pro</b> - универсальный сервер корпоративной электронной почты, средств групповой работы и IP-телефонии (VoIP).</a></td></tr></table>');
+//--></SCRIPT>
+    </TD>
+    <TD class=earlink align=middle width="50%" height="100%">
+      <TABLE width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD align=middle><B><FONT size=-1>Генеральный спонсор</FONT></B> 
+            <BR><IMG height=13 
+            src="Работа с Web-сервером Russian Apache.files/microsoft_75x13.jpg" 
+            width=75> </TD>
+          <TD align=middle><FONT color=darkblue><B><A class=plain 
+            href="http://citforum.ru/seminars/cbd2006/" target=_blank>11-я 
+            техническая конференция<BR><FONT color=red>Корпоративные базы 
+            данных-2006</FONT></A></B></FONT> <BR><FONT color=darkblue 
+            size=-1><B>Москва, 11-12 апреля</B> </FONT></TD>
+          <TD align=middle><B><FONT size=-1>Спонсор</FONT></B> <BR><IMG 
+            height=22 
+            src="Работа с Web-сервером Russian Apache.files/intersystems_75x22.jpg" 
+            width=75> </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=5 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD bgColor=#008080><IMG height=1 alt="" 
+            src="Работа с Web-сервером Russian Apache.files/1x1.gif" width=931 
+            border=0></TD></TR>
+        <TR>
+          <TD bgColor=#daecd7><IMG height=3 alt="" 
+            src="Работа с Web-сервером Russian Apache.files/1x1.gif" width=1 
+            border=0></TD></TR>
+        <TR>
+          <TD bgColor=#008080>
+            <TABLE cellSpacing=1 cellPadding=3 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#f4f9f3><FONT size=-1><A class=head 
+                  href="http://www.citforum.ru/consulting/">IT-консалтинг</A></FONT></TD>
+                <TD align=middle bgColor=#f4f9f3><FONT size=-1><A class=head 
+                  href="http://www.citforum.ru/SE/">Software 
+                  Engineering</A></FONT></TD>
+                <TD align=middle bgColor=#f4f9f3><FONT size=-1><A class=head 
+                  href="http://www.citforum.ru/programming/">Программирование</A></FONT></TD>
+                <TD align=middle bgColor=#f4f9ea><FONT size=-1><A class=head 
+                  href="http://www.citforum.ru/open_source/">Open 
+                  Source</A></FONT></TD>
+                <TD align=middle bgColor=#f4f9f3><FONT size=-1><A class=head 
+                  href="http://www.citforum.ru/database/">СУБД</A></FONT></TD>
+                <TD align=middle bgColor=#f4f9f3><FONT size=-1><A class=head 
+                  href="http://www.citforum.ru/security/">Безопасность</A></FONT></TD>
+                <TD align=middle bgColor=#f4f9f3><FONT size=-1><A class=head 
+                  href="http://www.citforum.ru/internet/">Internet</A></FONT></TD>
+                <TD align=middle bgColor=#f4f9f3><FONT size=-1><A class=head 
+                  href="http://www.citforum.ru/nets/">Сети</A></FONT></TD>
+                <TD align=middle bgColor=#f4f9f3><FONT size=-1><A class=head 
+                  href="http://www.citforum.ru/operating_systems/">Операционные 
+                  системы</A></FONT></TD>
+                <TD align=middle bgColor=#f4f9f3><FONT size=-1><A class=head 
+                  href="http://www.citforum.ru/hardware/">Hardware</A></FONT></TD><!--
+<td bgcolor=#F4F9F3 align=center><font size=-1><a class=head href=/faq/>FAQ (ЧаВО)</a></font></td>
+<td bgcolor=#F4F9F3 align=center><font size=-1><a class=head href=/howto/>HOWTO</a></font></td>
+--></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD>
+      <TABLE cellSpacing=5 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR vAlign=top>
+          <TD vAlign=top width=200>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0><!--date-->
+              <TBODY>
+              <TR>
+                <TD bgColor=#008080><IMG height=1 alt="" 
+                  src="Работа с Web-сервером Russian Apache.files/1x1.gif" 
+                  width=1 border=0></TD></TR>
+              <TR>
+                <TD bgColor=#daecd7><IMG height=3 alt="" 
+                  src="Работа с Web-сервером Russian Apache.files/1x1.gif" 
+                  width=1 border=0></TD></TR>
+              <TR>
+                <TD bgColor=#008080>
+                  <TABLE cellSpacing=1 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=#f4f9f3>
+                        <P class=topic1 align=center><B>24.03.2006</B> 
+                    </P></TD></TR></TBODY></TABLE></TD></TR><!--/date-->
+              <TR>
+                <TD align=middle>
+                  <SCRIPT language=JavaScript>
+<!--
+var fver = 7;
+var d = document;
+var fappVer = parseFloat(navigator.appVersion);
+var targetie = (navigator.userAgent.indexOf("Windows 95")>=0 || navigator.userAgent.indexOf("Windows 98")>=0 || navigator.userAgent.indexOf("Windows NT")>=0)&&(navigator.userAgent.indexOf('Opera')==-1)&&(navigator.appName != 'Netscape')&&(navigator.userAgent.indexOf('MSIE') > -1)&&(fappVer >=4);
+var cache_rnd = Math.round(Math.random() * 1000000000);
+
+var ShockMode = 0;
+var plugin = (navigator.mimeTypes && navigator.mimeTypes["application/x-shockwave-flash"]) ? navigator.mimeTypes["application/x-shockwave-flash"].enabledPlugin : 0;
+ if (plugin && parseInt(plugin.description.substring(plugin.description.indexOf(".")-1)) >= fver)  {
+	 ShockMode = 1;
+ } else if (targetie) {
+	document.write('<SC'+'RIPT LANGUAGE=VBScript\> \n');
+	document.write('on error resume next \n');
+	document.write('ShockMode = (IsObject(CreateObject("ShockwaveFlash.ShockwaveFlash.'+fver+'")))\n');
+	document.write('<\/SC'+'RIPT\> \n');
+ }
+
+if (ShockMode == 1){
+	document.write('<sc'+'ript src="http://body.imho.ru/html.ng/impt=imp&place=citforum200x350flash&id=290905&transactionID='+cache_rnd+'"></sc'+'ript>');
+}else{
+	document.write('<a href="http://body.imho.ru/click.ng/impt=imp&place=citforum200x350gif&id=290905&transactionID='+cache_rnd+'" target=_blank><img src="http://body.imho.ru/image.ng/impt=imp&place=citforum200x350gif&id=290905&transactionID='+cache_rnd+'" border=0 width=200 height=350></a>');
+}
+//-->
+</SCRIPT>
+                  <NOSCRIPT><A 
+                  href="http://body.imho.ru/click.ng/impt=imp&amp;place=citforum200x350gif&amp;id=290905" 
+                  target=_blank><IMG height=350 
+                  src="Работа с Web-сервером Russian Apache.files/city_200x350.gif" 
+                  width=200 border=0></A> </NOSCRIPT></TD></TR>
+              <TR>
+                <TD bgColor=#008080><IMG height=1 alt="" 
+                  src="Работа с Web-сервером Russian Apache.files/1x1.gif" 
+                  width=1 border=0></TD></TR>
+              <TR>
+                <TD bgColor=#daecd7><IMG height=3 alt="" 
+                  src="Работа с Web-сервером Russian Apache.files/1x1.gif" 
+                  width=1 border=0></TD></TR>
+              <TR>
+                <TD bgColor=#008080>
+                  <TABLE cellSpacing=1 cellPadding=1 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD align=middle bgColor=#ffffff>
+                        <FORM action=http://www.google.ru/custom method=get>
+                        <TABLE cellSpacing=0 cellPadding=1 border=0>
+                          <TBODY>
+                          <TR vAlign=bottom>
+                            <TD><A href="http://www.google.ru/search"><IMG 
+                              height=32 alt=Google 
+                              src="Работа с Web-сервером Russian Apache.files/google_75x32.gif" 
+                              width=75 align=middle border=0></A></TD>
+                            <TD><INPUT type=submit value=Поиск name=sa></TD></TR>
+                          <TR>
+                            <TD colSpan=2><INPUT maxLength=255 size=25 
+                            name=q></TD></TR>
+                          <TR>
+                            <TD colSpan=2><INPUT type=radio value="" 
+                              name=sitesearch>WWW <INPUT type=radio CHECKED 
+                              value=citforum.ru name=sitesearch>CITForum.ru 
+                          </TD></TR></TBODY></TABLE><INPUT type=hidden 
+                        value=LW:140;ALC:#800000;L:http://www.citforum.ru/pictures/logos/citlogo8.gif;LC:#006890;LH:44;AH:left;VLC:#003860;S:http://www.citforum.ru/;AWFID:a524ad3720194500; 
+                        name=cof> <INPUT type=hidden value=citforum.ru 
+                        name=domains> </FORM></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD bgColor=#008080><IMG height=1 alt="" 
+                  src="Работа с Web-сервером Russian Apache.files/1x1.gif" 
+                  width=1 border=0></TD></TR>
+              <TR>
+                <TD bgColor=#daecd7><IMG height=3 alt="" 
+                  src="Работа с Web-сервером Russian Apache.files/1x1.gif" 
+                  width=1 border=0></TD></TR>
+              <TR>
+                <TD bgColor=#008080>
+                  <TABLE cellSpacing=1 cellPadding=8 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD align=middle bgColor=white>
+                        <TABLE class=go width="100%">
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <SCRIPT language=javascript><!--
+document.write('<a href=http://citf');document.write('orum.ru/go/click.php?bannerid=73&zoneid=42&source=&dest=http%3A%2F%2Fhosting.rbc.ru%2Fcounter%2Freferrer%3Frefgrp%3Ddomains1 target=_blank><div class=go-head>Акция «ДОМЕН ЗА ДОМЕН» </div><div class=go-body>Зарегистрируй один домен – получи второй Бесплатно! </div></a><div class=go-site>hosting.rbc.ru</div>');
+//--></SCRIPT>
+                            </TD></TR>
+                          <TR>
+                            <TD>
+                              <SCRIPT language=javascript><!--
+document.write('<a href=http://citf');document.write('orum.ru/go/click.php?bannerid=72&zoneid=43&source=&dest=http%3A%2F%2Fhosting.rbc.ru%2Fcounter%2Freferrer%3Frefgrp%3Ddomains1 target=_blank><div class=go-head>Два имени лучше чем одно! </div><div class=go-body>Второе доменное имя БЕСПЛАТНО!!! </div></a><div class=go-site>hosting.rbc.ru</div>');
+//--></SCRIPT>
+                            </TD></TR>
+                          <TR>
+                            <TD>
+                              <SCRIPT language=javascript><!--
+document.write('<a href=http://citf');document.write('orum.ru/go/click.php?bannerid=29&zoneid=44&source=&dest=http%3A%2F%2Fwww.rosterminal.com%2Findex.php%3Fid%3D95 target=_blank><div class=go-head>«Ростерминал» </div><div class=go-body>OLAP аналитика или Как повысить эффективность системы управления &gt;&gt; </div></a><div class=go-site>rosterminal.com</div>');
+//--></SCRIPT>
+                            </TD></TR></TBODY></TABLE></TD></TR>
+                    <TR>
+                      <TD bgColor=#ffffff><FONT size=2>
+                        <P><B>Новости мира IT:</B> 
+                        <UL class=column>
+                          <LI>20.03 - <A 
+                          href="http://citcity.ru/12012/">Опубликована программа 
+                          Одиннадцатой технической конференции "Корпоративные 
+                          базы данных-2006"</A> 
+                          <LI>20.03 - <A 
+                          href="http://citkit.ru/package/fedora_project/">Состоялся 
+                          релиз Fedora Core 5</A> 
+                          <HR>
+
+                          <LI>24.03 - <A href="http://citcity.ru/12063/">Сервис 
+                          вычислений по запросу Sun подвергся DoS-атаке</A>
+                          <LI>24.03 - <A href="http://citcity.ru/12062/">Новое 
+                          интегрированное решение Cisco® для российского 
+                          здравоохранения</A>
+                          <LI>24.03 - <A href="http://citcity.ru/12061/">В 
+                          Sendmail найден "серьезный дефект"</A>
+                          <LI>24.03 - <A 
+                          href="http://citcity.ru/12060/">Microsoft переведет 
+                          блог-сервис MSN Spaces на платформу Windows Live</A>
+                          <LI>24.03 - <A href="http://citcity.ru/12059/">Самый 
+                          совершенный троян последнего месяца атакует банковские 
+                          системы</A>
+                          <LI>24.03 - <A href="http://citcity.ru/12058/">У 
+                          сотовых телефонов могут появиться скручивающиеся 
+                          дисплеи</A>
+                          <LI>24.03 - <A href="http://citcity.ru/12057/">Яндекс 
+                          запустил новую версию поиска по блогам</A>
+                          <LI>24.03 - <A href="http://citcity.ru/12056/">В сети 
+                          "Мегафон-Москва" появился новый сервис: хранения 
+                          содержания сотовых телефонов на сервере</A>
+                          <LI>23.03 - <A 
+                          href="http://citcity.ru/12054/">Microsoft и Факультет 
+                          ВМК МГУ им. М.В.Ломоносова проводят конкурс по 
+                          разработке курсов для программистов</A>
+                          <LI>23.03 - <A 
+                          href="http://citcity.ru/12053/">Технологии Intel в 
+                          Оперном театре Сиднея</A>
+                          <LI>23.03 - <A href="http://citcity.ru/12052/">Dell 
+                          выпускает компьютер для геймеров за 10000 долларов</A>
+                          <LI>23.03 - <A href="http://citcity.ru/12051/">Линус 
+                          Торвальдс представил новую версию ядра Linux</A>
+                          <LI>23.03 - <A href="http://citcity.ru/12049/">Новый 
+                          троян: русские украли 35 тыс. паролей</A>
+                          <LI>23.03 - <A href="http://citcity.ru/12047/">В 
+                          Internet Explorer обнаружена новая уязвимость</A>
+                          <LI>23.03 - <A 
+                          href="http://citcity.ru/12045/">Стартовал конкурс по 
+                          запуску Vista на Macintosh с призовым фондом в 1 
+                          доллар</A>
+                          <LI>23.03 - <A 
+                          href="http://citcity.ru/12044/">Microsoft предоставит 
+                          разработчикам ПО неограниченную техническую 
+                          поддержку</A>
+                          <LI>23.03 - <A href="http://citcity.ru/12043/">МТТ и 
+                          China Telecom соединили сети</A>
+                          <LI>23.03 - <A href="http://citcity.ru/12042/">РИФ, 
+                          день первый: Медиареволюция в Рунете не за горами</A>
+                          <LI>22.03 - <A href="http://citcity.ru/12041/">Cray 
+                          готовит новую платформу для суперкомпьютеров</A>
+                          <LI>22.03 - <A 
+                          href="http://citcity.ru/12040/">Microsoft представила 
+                          новый инструмент веб-разработки, названный Atlas</A>
+                          <LI>22.03 - <A href="http://citcity.ru/12039/">Выход 
+                          "домашней" Windows Vista перенесли на 2007 год</A>
+                          <LI>22.03 - <A 
+                          href="http://citcity.ru/12038/">Состоялось открытие 
+                          Российского интернет-форума</A>
+                          <LI>22.03 - <A href="http://citcity.ru/12037/">Cisco 
+                          Carrier Ethernet лидирует на рынке цифрового видео, 
+                          IP-телевидения и услуг для бизнеса</A>
+                          <LI>22.03 - <A href="http://citcity.ru/12035/">Intel 
+                          создала новый класс мобильных вычислительных устройств 
+                          - Ultra Mobile PC</A>
+                          <LI>22.03 - <A href="http://citcity.ru/12034/">Google 
+                          Finance — еще один раздел на портале Google</A>
+                          <LI>22.03 - <A href="http://citcity.ru/12033/">Intel 
+                          лидирует на рынке полупроводниковой продукции</A>
+                          <LI>22.03 - <A 
+                          href="http://citcity.ru/12032/">Microsoft инвестирует 
+                          в разработку технологий рукописного ввода</A>
+                          <LI>22.03 - <A href="http://citcity.ru/12030/">Nvidia 
+                          представила решение для эмуляции физических 
+                          процессов</A>
+                          <LI>22.03 - <A 
+                          href="http://citcity.ru/12027/">Четвертая ежегодная 
+                          премия "IT-ЛИДЕР": экспертный совет объявляет 
+                          номинантов</A>
+                          <LI>21.03 - <A href="http://citcity.ru/12025/">В 
+                          челябинском лицее создан «Мобильный класс 
+                          будущего»</A> </LI></UL>
+                        <P><A href="http://citcity.ru/" target=_blank><B>Все 
+                        новости на CitCity.ru</B></A> </FONT>
+                        <P align=right><A 
+                        href="http://citcity.ru/rss/citforum.xml"><IMG height=14 
+                        src="Работа с Web-сервером Russian Apache.files/xml_rss.gif" 
+                        width=36 border=0></A> 
+              </P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD width="98%">
+            <CENTER>
+            <SCRIPT language=JavaScript 
+            src="Работа с Web-сервером Russian Apache.files/adx.js" 
+            type=text/javascript></SCRIPT>
+
+            <SCRIPT language=JavaScript type=text/javascript>
+<!--
+   if (!document.phpAds_used) document.phpAds_used = ',';
+   phpAds_random = new String (Math.random()); phpAds_random = phpAds_random.substring(2,11);
+   
+   document.write ("<" + "script language='JavaScript' type='text/javascript' src='");
+   document.write ("http://a.citforum.ru/adjs.php?n=" + phpAds_random);
+   document.write ("&amp;what=zone:4&amp;target=_blank");
+   document.write ("&amp;exclude=" + document.phpAds_used);
+   if (document.referrer)
+      document.write ("&amp;referer=" + escape(document.referrer));
+   document.write ("'><" + "/script>");
+//-->
+</SCRIPT>
+            <NOSCRIPT><A href="http://a.citforum.ru/adclick.php?n=a512a446" 
+            target=_blank><IMG alt="" 
+            src="Работа с Web-сервером Russian Apache.files/1_2.gif" 
+            border=0></A></NOSCRIPT> </CENTER>
+            <DIV align=right><I>2000 г</I></DIV><!-- start -->
+            <H3 align=center>Работа с Web-сервером Russian Apache.</H3>
+            <P align=center><I>Артем Подстрешный</I> 
+            <H4>Русский Apache</H4>
+            <P align=justify>Самый распространенный Web-сервер в мире - это 
+            Apache. По данным компании Netcraft (<A 
+            href="http://www.netcraft.com/Survey/"><I>http://www.netcraft.com/Survey/</I></A>) 
+            общее число Web-узлов, работающих под его управлением, к концу 1998 
+            г. достигло 2 млн. (55% общего числа узлов) и постоянно растет. Для 
+            сравнения: на долю серверов Microsoft приходится 25%, Netscape -7%. 
+            Будучи бесплатной открытой программой, предназначенной для 
+            бесплатных же Unix-систем (FreeBSD, Linux и др.), Apache по 
+            функциональным возможностям и надежности не уступает коммерческим 
+            серверам, а широкие возможности конфигурирования позволяют настроить 
+            его для работы практически с любой конкретной системой. Существуют 
+            локализации сервера для различных языков, в том числе и для 
+            русского. 
+            <P align=justify>Исторически сложилось так, что русские тексты в 
+            Internet могут быть представлены в разных кодировках, из которых 
+            наиболее распространены koi8-r (или просто koi8) и Windows-1251: с 
+            первой работает большинство серверов и рабочих станций под 
+            управлением Unix, вторая является стандартной для всех версий 
+            Windows. Поскольку кодировка Windows-1251, естественно, применяется 
+            на подавляющем большинстве клиентских машин, доля тех, кто 
+            путешествует по русской части WWW, используя koi8, не превышает 
+            сейчас 5%. Однако в этой кодировке хранятся документы на многих 
+            Unix-серверах, в ней чаще всего передаются почтовые сообщения и 
+            практически всегда - письма в телеконференции, с ней же работают 
+            многие русскоязычные каналы IRC (кстати, аббревиатура КОИ 
+            расшифровывается как "код обмена информацией"). Чтобы решить 
+            проблемы, возникающие при несовпадении кодировок текста на сервере и 
+            клиентской машине, и был создан русский модуль Apache-RUS для 
+            Web-сервера Apache. 
+            <P align=justify>В статье мы рассмотрим процесс установки и 
+            настройки как самого сервера, так и механизма перекодирования 
+            документов "на лету". 
+            <H4>Установка</H4>
+            <P align=justify>Свежую версию Apache-RUS можно получить по адресу 
+            ftp://apache.lexa.ru/pub/apache-rus/ ("старшая" часть номера версии, 
+            например 1.3.3, соответствует версии оригинального Apache, 
+            "младшая", например PL27.3, - так называемому patch level, т. е. 
+            версии русского модуля). Рекомендуется устанавливать те версии, 
+            которые зарекомендовали себя как "стабильные". Здесь настройка 
+            сервера описывается на примере Apache_1.3.3rusPL27.3. 
+            <P align=justify>Итак, первым делом мы переписываем на свою машину 
+            архив (менее 1,5 Мбайт) и распаковываем его: </P><PRE># ftp ftp://apache.lexa.ru/pub/apache-rus/ apache_1.3.3rusPL27.3.tar.gz
+# tar xvzf apache_1.3.3rusPL27.3.tar.gz</PRE>
+            <P align=justify>После этого входим в созданный при распаковке 
+            каталог apache_1.3.3rusPL27.3 и запускаем сценарий configure: </P><PRE># cd apache_1.3.3rusPL27.3
+# ./configure</PRE>
+            <P align=justify>При необходимости сценарию можно в явной форме 
+            указать аргументы (их список выдается по команде configure -help). 
+            Так, если требуется установить сервер в иной каталог, нежели 
+            стандартный, нужно выполнить "configure 
+            -prefix=&lt;path-to-apache&gt;". 
+            <P align=justify>Когда configure отработает, следует, как обычно, 
+            дать команды make и make install (эти действия выполняются 
+            пользователем root). </P><PRE># make
+# make install</PRE>
+            <P align=justify>Теперь сервер установлен в каталоге 
+            /usr/local/apache, но запускать его пока нельзя - сначала мы должны 
+            отредактировать файлы настройки httpd.conf, access.conf и srm.conf в 
+            каталоге /usr/local/apache/etc/ (начиная с версии 27.4 - 
+            /usr/local/apache/conf). 
+            <H4>Настройка</H4>
+            <P align=justify>Настройка конфигурационных файлов Web-сервера - 
+            самый ответственный шаг при его установке. Здесь мы рассмотрим 
+            только наиболее распространенные директивы и их параметры, поскольку 
+            полный перечень с описанием займет не один десяток страниц. Сервер 
+            перечитывает конфигурационные файлы при запуске, а также при 
+            получении сигнала -HUP (жесткий рестарт) или -uSR1 (мягкий рестарт). 
+            Если сервер находится в рабочем состоянии, то при изменении 
+            конфигурации его рекомендуется перезапустить командой </P><PRE># kill -USR1 `cat /usr/local/apache/logs/httpd.pid`</PRE>
+            <P align=justify>В этом случае имеющиеся соединения не закрываются 
+            принудительно и завершаются обычным образом, а следующие клиенты 
+            работают уже с новыми конфигурационными файлами. 
+            <H4>Файл access.conf</H4>
+            <P align=justify>В access.conf содержатся директивы, описывающие 
+            права доступа к каталогам и файлам Web-сервера. Прежде всего решите, 
+            в каком каталоге будут храниться документы. По умолчанию это 
+            /usr/local/apache/share/htdocs, однако многие администраторы 
+            предпочитают размещать документы начиная с каталога 
+            /www/&lt;имя_сервера&gt;/, поскольку при такой организации проще 
+            ориентироваться в структуре файлов. Пусть, например, мы создали 
+            каталоги: </P><PRE>/www/rmt.ru/
+/www/radio-msu.net/
+/www/people.radio-msu.net/</PRE>
+            <P align=justify>Они будут корневыми для соответствующих виртуальных 
+            серверов. 
+            <P align=justify>Файл access.conf может содержать секции Directory, 
+            Location и Files, которые ограничены одноименными директивами. В 
+            параметрах этих директив могут использоваться символы "?" и "*" , а 
+            также регулярные выражения, предваряемые тильдой, например 
+            &lt;Directory ~"^/www.+/a?server"&gt;. В секции Directory помещаются 
+            инструкции, относящиеся к определенному каталогу на диске, в секции 
+            Location - относящиеся к виртуальному пути, в секции Files - 
+            относящиеся к файлу или группе файлов. </P><PRE>&lt;Directory /www/rmt.ru&gt;
+# директивы, относящиеся ко всем документам, хранящимся в <BR>каталоге /www/rmt.ru и вложенных в него
+&lt;/Directory&gt;</PRE><PRE>&lt;Location /cgi-bin&gt;
+# директивы, относящиеся ко всем документам, доступным по <BR>адресу http://&lt;имя_сервера&gt;/cgi-bin/ &lt;путь_к_файлу&gt;
+&lt;/Location&gt;</PRE><PRE>&lt;Files /www/rmt.ru/form.html&gt;
+# директивы, относящиеся к файлу form.html из каталога<BR> /www/rmt.ru</PRE><PRE>&lt;/Files&gt;</PRE>
+            <P align=justify>Различие между секциями Directory и Location 
+            состоит в том, что первая относится к каталогам на диске, вторая - к 
+            виртуальному пути (URL), который браузер запрашивает у Web-сервера. 
+            И в той, и в другой могут присутствовать директивы order, allow и 
+            deny, которые позволяют ограничить доступ к каталогу или URL с 
+            различных машин. 
+            <P align=justify>Следующие две директивы относятся к секции 
+            &lt;Directory&gt;. 
+            <P align=justify><B>Options [options ...]</B> 
+            <P align=justify>Возможные значения параметров: 
+            <UL>
+              <LI>ExecCGI - разрешить выполнение CGI-сценариев в данном каталоге 
+              и его поддереве; 
+              <LI>FollowSymLinks - разрешить переходы по символическим ссылкам 
+              (создаваемым командой ln); 
+              <LI>Includes - разрешить SSI (Server Side Includes); 
+              <LI>Indexes - разрешить выдачу листинга каталога, если в нем нет 
+              файла index.html (или файла индекса, заданного директивой 
+              DirectoryIndex); 
+              <LI>MultiViews - разрешить поддержку многих языков; по умолчанию 
+              она отключена, и включать ее, как правило, не нужно; поддержка 
+              перекодирования "на лету" для русского языка устанавливается с 
+              помощью других директив, которые мы рассмотрим позже; 
+              <LI>All - установить сразу все перечисленные режимы кроме 
+              MultiViews. </LI></UL>
+            <P align=justify>При отсутствии специальных требований к 
+            безопасности вполне допустимо указать "Options All" в секции 
+            &lt;Directory /www&gt;; в противном случае нужно описать параметры 
+            каждого каталога отдельно. 
+            <P><B>AllowOverride [options ...]</B> 
+            <P align=justify>Большинство директив могут задаваться не только в 
+            конфигурационных файлах сервера, но и в файлах .htaccess в каталогах 
+            сервера. Директива AllowOverride определяет набор директив, 
+            допустимых в файлах .htaccess. Параметры могут быть указаны 
+            следующие: 
+            <P align=justify>AuthConfig - разрешить установку авторизации по 
+            имени пользователя и паролю; 
+            <P align=justify>FileInfo - разрешить директивы, отвечающие за типы 
+            документов; 
+            <P align=justify>Indexes - разрешить директивы, связанные с 
+            листингом каталогов; 
+            <P align=justify>Limit - разрешить команды allow и deny, которые 
+            ограничивают доступ к файлам в зависимости от адреса клиентского 
+            компьютера; 
+            <P align=justify>Options - разрешить описанную выше директиву 
+            Options. 
+            <P align=justify>Учтите, что при включении последнего режима 
+            пользователи получают возможность создавать собственные файлы 
+            .htaccess и разрешать в них выполнение CGI-сценариев. Поэтому если 
+            нужно контролировать CGI-сценарии пользователей, не следует 
+            распространять на пользовательские каталоги действие директивы 
+            AllowOverride Options. 
+            <P align=justify>Однако во многих случаях (в частности, когда права 
+            на изменение содержимого сервера есть только у администратора) файл 
+            access.conf может выглядеть так, как в <A 
+            href="http://www.citforum.ru/internet/webservers/rus_apache.shtml#01">листинге 
+            1</A>. 
+            <H4>Файл srm.conf</H4>
+            <P align=justify>Файл srm.conf содержит директивы, связанные с 
+            общими настройками структуры каталогов сервера. Как правило, в нем 
+            достаточно изменить лишь несколько строк. 
+            <P><B>DocumentRoot &lt;первый каталог сервера&gt;</B> 
+            <P align=justify>Путь к каталогу по умолчанию, индексный файл 
+            которого пользователь получит при обращении к серверу 
+            (http://&lt;имя_сервера&gt;/). Эту директиву следует задать и для 
+            каждого из виртуальных серверов (в секции &lt;VirtualHost&gt; файла 
+            httpd.conf). 
+            <P><B>UserDir &lt;имя пользовательского каталога&gt;</B> 
+            <P align=justify>Каталог, в котором пользователи должны размещать 
+            свои файлы, чтобы они были доступны по адресу 
+            http://&lt;имя_сервера&gt;/~&lt;имя_пользователя&gt;/. Стандартно 
+            public_html. Иногда, чтобы облегчить жизнь пользователям, 
+            администраторы дают директиву "UserDir www". 
+            <P align=justify><B>DirectoryIndex &lt;список файлов индекса&gt;</B> 
+
+            <P align=justify>Файл индекса - это тот файл, который будет передан 
+            клиенту при обращении к каталогу. Если указать несколько имен, 
+            сервер будет искать подходящий файл "слева направо". По умолчанию 
+            список содержит всего одно имя - index.html, но принято добавлять в 
+            него и другие распространенные имена индексных файлов. Например, 
+            директива может иметь вид: DirectoryIndex .index.html index.html 
+            index.htm index.cgi index.shtml home.html home.htm default htm 
+            default html 
+            <P align=justify>Чтобы включить на сервере поддержку CGI-сценариев, 
+            следует убрать знак комментария перед директивами ScriptAlias и 
+            AddHandler cgi-script .cgi. Первая задает каталог на диске, в 
+            котором будут храниться исполняемые программы, а вторая определяет, 
+            что все файлы с расширением .cgi должны обрабатываться как сценарии. 
+
+            <P align=justify>Директива ErrorDocument позволяет заменять 
+            стандартные сообщения сервера об ошибках на свои. Например, в случае 
+            самой распространенной ошибки - 404 (файл не найден) - считается 
+            хорошим тоном выдавать пользователю страницу с предложением 
+            продолжить свой путь по серверу или форму для поиска по узлу. 
+            Реализуется это достаточно просто: в настройках сервера мы убираем 
+            знак комментария со строки </P><PRE>ErrorDocument 404 /missing.html</PRE>
+            <P align=justify>B корневом каталоге каждого виртуального сервера 
+            создаем файл missing.html. Рекомендуется дать в нем ссылки на 
+            основные разделы сервера - и для удобства пользователей, и для того, 
+            чтобы предоставить необходимую информацию поисковым роботам, 
+            индексирующим серверы. 
+            <H4>Файл httpd.conf</H4>
+            <P align=justify>Конфигурационный файл httpd.conf является основным 
+            и содержит настройки, связанные с работой Web-сервера, виртуальных 
+            серверов, а также всех его программных модулей. Кроме того, именно в 
+            нем настраивается перекодирование русских букв при передаче от 
+            сервера к клиенту и обратно. 
+            <P align=justify>Директива Port, помещенная в самом начале файла, 
+            определяет номер порта для http-сервера; по умолчанию это 80. При 
+            необходимости можно приписать серверу другой порт или несколько 
+            портов, для чего служит директива Listen. 
+            <P align=justify>Директива HostnameLookups с параметром on или off 
+            включает или, соответственно, отключает преобразование численных 
+            IP-адресов клиентов, получивших документы с сервера, в доменные 
+            имена. Такое преобразование несколько замедляет работу сервера, но 
+            при числе посещений менее 10 000 в сутки это, как правило, 
+            практически не заметно. 
+            <P align=justify>Директивы User и Group задают пользователя, который 
+            будет администрировать сервер. С точки зрения безопасности 
+            нежелательно указывать здесь существующего пользователя, имеющего 
+            доступ к каким-либо другим ресурсам или файлам. Лучше создать 
+            отдельного пользователя и группу специально для http-сервера, 
+            например: </P><PRE>User www
+Group www</PRE>
+            <P align=justify>Директивы ServerRoot, ErrorLog, CustomLog 
+            определяют соответственно корневой каталог http-сервера, путь к 
+            журналу регистрации ошибок (error_log) и путь к общему журналу 
+            обращений к серверу (access_log). 
+            <P align=justify>Директива CacheNegotiatedDocs разрешает кэширование 
+            документов, полученных с сервера. По умолчанию этот режим отключен, 
+            но, поскольку пропускная способность отечественных Internet-каналов 
+            еще долго будет оставлять желать лучшего, хорошо бы его включить: 
+            тогда пользователю не придется ждать загрузки картинок при каждом 
+            обращении к вашей странице. 
+            <H4>Настройка виртуальных серверов в файле httpd.conf</H4>
+            <P align=justify>В большинстве случаев один http-сервер способен 
+            обрабатывать запросы, поступающие на различные, так называемые 
+            виртуальные, Web-серверы. Виртуальные серверы могут иметь как один и 
+            тот же IP-адрес, но разные доменные имена, так и разные IP-адреса. С 
+            точки зрения пользователя второй вариант чуть более предпочтителен, 
+            поскольку запрос к серверу, отличающемуся от основного только 
+            доменным именем, должен содержать его имя, а некоторые старые 
+            браузеры, не поддерживающие протокол HTTP/1.1 (например, Microsoft 
+            Internet Explorer 2.0), не включают в запрос эту информацию. Однако 
+            такие браузеры выходят из употребления (сейчас их уже менее 0,5% 
+            общего числа); с другой стороны, выделение собственного IP-адреса 
+            каждому виртуальному серверу может быть неоправданной растратой 
+            адресного пространства компании. 
+            <P align=justify>Для описания адресов и доменных имен виртуальных 
+            серверов служат директивы ServerName, ServerAlias, NameVirtualHost и 
+            VirtualHost. Они необходимы, только если вам нужно установить более 
+            одного виртуального сервера. 
+            <P align=justify>В <A 
+            href="http://www.citforum.ru/internet/webservers/rus_apache.shtml#02">листинге 
+            2</A> приведен фрагмент конфигурационного файла для случая 
+            виртуальных серверов с различными IP-адресами, в <A 
+            href="http://www.citforum.ru/internet/webservers/rus_apache.shtml#03">листинге 
+            3</A> - аналогичный фрагмент для случая, когда серверы различаются 
+            только доменным именем. 
+            <P align=justify>Директива ServerName, находящаяся вне секций 
+            VirtualHost, определяет имя основного сервера, т. е. сервера, 
+            корневой каталог которого задан директивой DocumentRoot в файле 
+            srm.conf. Виртуальные серверы наследуют настройки основного; при 
+            необходимости специальной настройки соответствующие директивы 
+            помещаются в секции VirtualHost, относящейся к данному серверу. 
+            Допустимы любые директивы, которые могут встретиться в файлах 
+            httpd.conf и srm.conf, например DocumentRoot, ErrorLog, CustomLog, 
+            Location, ServerAdmin. 
+            <P align=justify>Из <A 
+            href="http://www.citforum.ru/internet/webservers/rus_apache.shtml#03">листинга 
+            3</A> видно, как используется директива ServerAlias, если необходимо 
+            создать несколько виртуальных серверов с одинаковым содержанием. 
+            После того как вы занесете в конфигурационные файлы информацию об 
+            имеющихся на диске виртуальных серверах (разумеется, они должны быть 
+            описаны и в конфигурационных файлах DNS), можно приступить к 
+            последнему шагу настройки Apache-RUS. 
+            <H4>Настройка перекодирования русскоязычных документов</H4>
+            <P align=justify>Модуль поддержки русских кодировок был разработан в 
+            1996 г. Дмитрием Крюковым (<I><A 
+            href="mailto:dvk@stack.net">dvk@stack.net</A></I>), а с февраля 1997 
+            г. поддерживается рабочей группой Apache-RUS Team во главе с 
+            Алексеем Тутубалиным (<I><A 
+            href="mailto:lexa@lexa.ru">lexa@lexa.ru</A></I>). За время своего 
+            развития модуль претерпел множество изменений и теперь обладает 
+            практически неограниченными возможностями настройки для любой 
+            конкретной конфигурации. 
+            <P align=justify>Инструкции, отвечающие за перекодирование, 
+            разделяются естественным образом на три группы. К первой относятся 
+            две директивы, указывающие, в какой кодировке хранятся файлы на 
+            диске: CharsetSourceEnc &lt;кодировка&gt; и CharsetByExtension 
+            &lt;кодировка&gt; &lt;расширение1&gt; &lt;расширение2&gt;... 
+            <P align=justify>Например, файл httpd.conf может содержать строки: 
+            </P><PRE>CharsetSourceEnc koi8-r
+CharsetByExtension windows-1251 .txt</PRE>
+            <P align=justify>Такая запись означает, что все файлы хранятся на 
+            диске в кодировке koi8-r; исключение составляют текстовые файлы с 
+            расширением txt, для которых используется Windows-1251. 
+            <P align=justify>Если кодировок более одной и документы в каждой 
+            кодировке хранятся в своем каталоге, директивы CharsetSourceEnc 
+            помещаются в соответствующие секции &lt;Location&gt; либо в файлы 
+            .htaccsess внутри каталогов. 
+            <P align=justify>Вторую группу составляют директивы CharsetDecl, 
+            CharsetAlias CharsetRecodeTable и CharsetWideRecode Table, которые 
+            определяют названия кодировок, их синонимы и таблицы 
+            перекодирования. Все они размещаются в секции &lt;IfModule 
+            mod_charset.c&gt; - &lt;/IfModule&gt; и в большинстве случаев не 
+            нуждаются в изменении. 
+            <P align=justify>В третью, самую многочисленную группу входят 
+            директивы, задающие порядок перекодирования символов от сервера 
+            клиенту и обратно. 
+            <P align=justify>Принято, чтобы при попадании на русскоязычный 
+            сервер пользователь получал страницу в "своей" кодировке, 
+            определяемой автоматически на основе той информации об операционной 
+            системе, которую передает серверу браузер: например, установив, что 
+            пользователь работает в Windows, сервер выдает ему страницу в 
+            кодировке Windows-1251, а установив, что он работает в Unix, выдает 
+            страницу в koi8. Если выбранная таким образом страница не подходит, 
+            клиент может сменить кодировку вручную. Основных схем выбора три: по 
+            префиксу каталога, по имени виртуального сервера и по номеру порта. 
+            У каждой из них есть свои преимущества и свои недостатки. </P><PRE>1) http://www.rmt.ru/koi/document.html
+http://www.rmt.ru/win/document.html - выбор кодировки по префиксу каталога,
+2) http://koi.www.rmt.ru/document.html
+http://win.www.rmt.ru/document.html - выбор кодировки по имени сервера,
+3) http://www.rmt.ru:8000/document.html
+http://www.rmt.ru:8001/document.html - выбор кодировки по порту.</PRE>
+            <P align=justify>Для организации выбора кодировки по префиксу 
+            каталога нужно либо внести в секцию VirtualHost строку вида </P><PRE>Alias /koi /www/rmt</PRE>
+            <P align=justify>либо создать в соответствующем каталоге 
+            символическую ссылку на себя: </P><PRE># cd /www/rmt
+# ln -s . koi</PRE>
+            <P align=justify>Усилия, затрачиваемые на первоначальное 
+            конфигурирование, невелики, но для крупных серверов с разветвленной 
+            структурой такая схема не очень подходит: вряд ли удастся 
+            проконтролировать корректность ссылок на разные страницы узла с 
+            внешних серверов, да и за внутренними ссылками проследить не так-то 
+            просто (в большинстве случаев они должны быть относительными). 
+            <P align=justify>При выборе кодировки по имени сервера необходимо, 
+            чтобы информация о соответствующих именах была задана в настройках 
+            DNS-сервера, обслуживающего данный домен, а в файл httpd.conf в 
+            секцию VirtualHost вносятся строки: </P><PRE>&lt;VirtualHost 193.124.134.3&gt;
+ServerName www.rmt.ru
+ServerAlias *.www.rmt.ru
+...
+&lt;/VirtualHost&gt;</PRE>
+            <P align=justify>Если в качестве имени поддомена выступает один из 
+            синонимов названия кодировки (CharsetAlias), то эта кодировка 
+            считается кодировкой клиента. При таком подходе ссылки внутри 
+            сервера могут быть любыми, и единственный недостаток данной схемы в 
+            том, что перекодирование не выполняется для браузеров, не 
+            указывающих в запросе имя сервера, - впрочем, их, как уже 
+            говорилось, осталось крайне мало. Если же совместимость со старыми 
+            браузерами категорически необходима, можно назначить каждому 
+            поддомену свой IP-адрес. 
+            <P align=justify>Чтобы применить выбор по номеру порта, необходимо в 
+            файле httpd.conf удалить директиву Port и снять комментарии со строк 
+            </P><PRE>Listen 80
+Listen 8100
+Listen 8101
+Listen 8102
+Listen 8103
+CharsetByPort koi8-r 8100
+CharsetByPort windows-1251 8101
+CharsetByPort ibm866 8102
+CharsetByPort iso-8859-5 8103</PRE>
+            <P align=justify>Номера портов не очень важны. В стандартной 
+            настройке Apache-RUS нумерация, как видим, начинается с 8100, но 
+            чаще ее начинают с 8000 или 8080. 
+            <P align=justify>Данная схема не требует внесения дополнительных 
+            записей в DNS и позволяет работать с виртуальными серверами даже 
+            клиентам, которые не поддерживают протокол HTTP/1.1, - ведь 
+            кодировка выбирается исходя из числа, указывающего на номер порта 
+            Web-сервера (по умолчанию это 80). Однако сетевые брандмауэры иногда 
+            запрещают работу с определенными портами, и если таким брандмауэром 
+            защищена сеть клиента, он не сможет установить соединение с вашим 
+            сервером. К сожалению, подобная ситуация возникает чаще, чем 
+            хотелось бы. 
+            <P align=justify>Схема выбора кодировки задается директивой 
+            CharsetSelectionOrder. Ее параметры определяют порядок применения 
+            правил выбора. Так, выбору по префиксу каталога соответствует строка 
+            </P><PRE>CharsetSelectionOrder Dirprefix Useragent Portnumber Hostname UriHostname</PRE>
+            <P align=justify>Выбору по имени домена - строка </P><PRE>CharsetSelectionOrder Hostname UriHostname Useragent Portnumber Dirprefix</PRE>
+            <P align=justify>Для выбора по номеру порта следует записать </P><PRE>CharsetSelectionOrder Portnumber Useragent Hostname UriHostname Dirprefix</PRE>
+            <H4>Замечания</H4>
+            <P align=justify>Чтобы документы, кодировка которых была выбрана 
+            автоматически, не оседали в кэшах прокси-серверов, Apache-RUS дает 
+            им специальный HTTP-заголовок, запрещающий кэширование. В результате 
+            при возврате на страницу (например, по кнопке Back) она считывается 
+            с сервера заново, что, во-первых, замедляет работу, а во-вторых (и 
+            это более серьезная проблема) очищает все текстовые формы, которые 
+            были на странице (то же происходит при использовании JavaScript). 
+            Разрешить кэширование позволяет директива 
+            CharsetDisableForcedExpires On, которая задается в секции 
+            &lt;Location&gt; для данного виртуального пути или в соответствующем 
+            файле .htaccess, но тогда возникает риск, что пользователи иногда 
+            будут получать страницы в "чужой" кодировке. Существуют и 
+            промежуточные варианты: например, можно установить 
+            CharsetDisableForcedExpires On (в секции &lt;Files&gt;) только для 
+            тех документов, которые содержат формы, окна или 
+            JavaScript-сценарии. 
+            <P align=justify>Для полного отключения перекодирования в каталоге 
+            или на виртуальном сервере служит директива Charset Disable On. 
+            <P align=justify>При выборе кодировки по имени сервера или по 
+            префиксу каталога хорошим тоном является использование для 
+            графических файлов абсолютных ссылок с указанием имени сервера 
+            (например, &lt;img src="http://images.rmt.ru/ picture.jpg"&gt;). 
+            Тогда при переходе клиента от основного сервера к выбранной 
+            кодировке изображения будут браться из локального кэша браузера, а 
+            не перечитываться заново. Это особенно актуально при большом объеме 
+            графической информации на сервере. 
+            <H4>Запуск сервера</H4>
+            <P align=justify>По окончании процедуры настройки следует запустить 
+            httpd-сервер. Для этого нужно войти в систему с привилегиями 
+            пользователя root и дать команду </P><PRE># /usr/local/apache/sbin/apachectl start
+(начиная с версии 27.4 - # /usr/local/apache/bin/apachectl start)</PRE>
+            <P align=justify>Если в конфигурационных файлах есть серьезные 
+            ошибки, сервер не запустится, а на экран будет выведено 
+            соответствующее сообщение. В любом случае после запуска сервера 
+            имеет смысл просмотреть файлы error_log и access_log, которые 
+            находятся в каталоге logs. Для проверки работоспособности сервера 
+            достаточно создать в его корневом каталоге файл index.html и 
+            обратиться из браузера по адресу сервера. Правильную установку 
+            режимов перекодирования следует проверять с помощью браузеров для 
+            различных операционных систем. Не забудьте добавить Apache в список 
+            программ, запускаемых при старте системы. Успехов вам в пополнении 
+            русского Web-пространства! 
+            <H4>Об авторе</H4>
+            <P align=justify><I><B>Артем Подстрешный</B> - программист, работает 
+            в компании "Радио-МГУ". В "Мире ПК" опубликована его статья "Имена 
+            Internet". E-mail: <A 
+            href="mailto:art@radio-msu.net">art@radio-msu.net</A>; <A 
+            href="http://www.radio-msu.net/">http://www.radio-msu.net/</A></I> 
+            <HR>
+
+            <H4>Ссылки</H4>
+            <P align=justify><A 
+            href="http://www.apache.org/"><I>http://www.apache.org/</I></A> - 
+            официальный сервер разработчиков Apache <BR><A 
+            href="http://apache.lexa.ru/"><I>http://apache.lexa.ru/</I></A> - 
+            сервер группы разработчиков русского модуля Apache 
+            <HR>
+            <A name=01></A>
+            <H4>ЛИСТИНГ 1 Фрагмент простого файла access.conf</H4><PRE>## access.conf - Apache HTTP server configuration file
+##
+# access.conf: Global access configuration
+# Online docs at http://www.apache.org/
+
+&lt;Directory /&gt;
+Options FollowSymLinks
+AllowOverride None
+&lt;/Directory&gt;
+
+&lt;Directory /www&gt;
+Options All
+AllowOverride All
+order allow,deny
+allow from all
+&lt;/Directory&gt;
+
+# You may place any other directories or locations you wish
+to have access information for after this one.</PRE><A name=02></A>
+            <H4>ЛИСТИНГ 2 Описание виртуальных серверов с различными 
+            IP-адресами</H4><PRE>...
+ServerName www.radio-msu.net
+
+&lt;VirtualHost 193.124.134.2&gt;
+DocumentRoot /www/radio-msu.net
+ServerName www.radio-msu.net
+ErrorLog /var/log/error_log.radio-msu.net
+CustomLog /var/log/access_log.radio-msu.net combined
+...
+&lt;/VirtualHost&gt;
+
+&lt;VirtualHost 193.124.134.3&gt;
+DocumentRoot /www/rmt.ru
+ServerName www.rmt.ru
+ErrorLog /var/log/error_log.radio-msu.net
+CustomLog /var/log/access_log.radio-msu.net combined
+...
+&lt;/VirtualHost&gt;</PRE><A name=03></A>
+            <H4>ЛИСТИНГ 3 Описание виртуальных серверов, различающихся только 
+            доменным именем</H4><PRE>...
+ServerName www.radio-msu.net
+NameVirtualHost 193.124.134.2
+
+&lt;VirtualHost 193.124.134.2&gt;
+DocumentRoot /www/radio-msu.net
+ServerName www.radio-msu.net
+ErrorLog /var/log/error_log.radio-msu.net
+CustomLog /var/log/access_log.radio-msu.net combined
+...
+&lt;/VirtualHost&gt;
+
+&lt;VirtualHost 193.124.134.2&gt;
+DocumentRoot /www/people.radio-msu.net
+ServerName people.radio-msu.net
+ServerAlias *.people.radio-msu.net
+ErrorLog /var/log/error_log.people.radio-msu.net
+CustomLog /var/log/access_log.people.radio-msu.net combined
+...
+&lt;/VirtualHost&gt;
+</PRE>
+            <P align=justify>&nbsp; <!-- end -->
+            <P> 
+            <HR>
+
+            <SCRIPT language=javascript><!--
+document.write('<p class=go-line>Полный комплект инструментов управления компанией. Управление делами, товарный и финасовый учет, CRM, документооборот. <a href=http://citf');document.write('orum.ru/go/click.php?bannerid=62&zoneid=6&source=&dest=http%3A%2F%2Fwww.flydoc.ru%2F target=_blank>Информационная система FlyDoc</a>.');
+//--></SCRIPT>
+
+            <HR>
+
+            <SCRIPT language=javascript><!--
+document.write('<p class=go-line>Полный спектр услуг от компании <b>Best-Hosting.Ru</b>: <a target=_blank href="http://www.best-hosting.ru/"> виртуальный платный хостинг</a>, <a target=_blank href="http://www.best-hosting.ru/dedicated_server.asp">аренда сервера</a>, <a href="http://www.best-hosting.ru/managed_dedicated_server.asp">администрирование серверов</a>, <a target=_blank href="http://www.best-hosting.ru/colocation.asp">colocation</a>, <a target=_blank href="http://www.best-hosting.ru/domain.asp">регистрация доменов</a>, <a target=_blank href="http://www.best-hosting.ru/virtual_private_servers.asp">VDS</a> ');
+//--></SCRIPT>
+
+            <HR>
+
+            <SCRIPT language=javascript><!--
+document.write('<p class=go-line><a href=http://citf');document.write('orum.ru/go/click.php?bannerid=76&zoneid=8&source=&dest=http%3A%2F%2Fhosting.rbc.ru%2Fcounter%2Freferrer%3Frefgrp%3Ddomains1 target=_blank>Зарегистрируй один домен – получи второй БЕСПЛАТНО! В самых популярных зонах .ru, .com, .net, .org. С уважением Хостинг-Центр РБК.</a>');
+//--></SCRIPT>
+
+            <HR>
+
+            <SCRIPT language=javascript><!--
+document.write('<p class=go-line>Простое и эффективное решение проблемы использования несанкционированных USB- устройств в корпоративной сети. <a href=http://citf');document.write('orum.ru/go/click.php?bannerid=84&zoneid=9&source=&dest=http%3A%2F%2Fwww.securit.ru%2Fproducts%2Finfo%2Fzlock%2Fpurpose%2F target=_blank>Система защиты от внутренних угроз Zlock.</a>');
+//--></SCRIPT>
+
+            <HR>
+          </TD>
+          <TD>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%" align=right 
+border=0>
+              <TBODY>
+              <TR>
+                <TD bgColor=#008080><IMG height=1 
+                  src="Работа с Web-сервером Russian Apache.files/1x1.gif" 
+                  width=1 border=0></TD>
+                <TD bgColor=#daecd7><IMG height=1 
+                  src="Работа с Web-сервером Russian Apache.files/1x1.gif" 
+                  width=2 border=0></TD>
+                <TD>
+                  <TABLE cellSpacing=0 cellPadding=0 width=240 border=0>
+                    <TBODY>
+                    <TR>
+                      <TD align=middle>
+                        <SCRIPT language=JavaScript> 
+<!-- 
+
+var haveFlash08332404000 = false;
+
+function CAWBrowser(){
+
+	var ua = navigator.userAgent;
+	this.msie = (ua && ( parseFloat( navigator.appVersion )  >=4 ) && ( ua.indexOf("Opera") < 0 ) && ( ua.indexOf("MSIE 4") < 0 ) && ( ua.indexOf( "MSIE" ) >=0) );
+	this.win = (ua && ((ua.indexOf( "Windows 95" ) >=0) || (ua.indexOf("Windows NT") >=0 ) || (ua.indexOf("Windows 98") >=0) ) );
+	this.mac = (navigator.platform && (navigator.platform.indexOf('Mac')!=-1));
+	this.opera7 = ((ua.indexOf('Opera') != -1) && window.opera && document.readyState) ? 1 : 0;
+	this.gecko   = (ua.toLowerCase().indexOf('gecko') != -1) && (ua.indexOf('safari') == -1);
+
+	haveFlash08332404000 = (navigator.mimeTypes && navigator.mimeTypes["application/x-shockwave-flash"]) ? navigator.mimeTypes["application/x-shockwave-flash"].enabledPlugin : 0;
+
+	if( haveFlash08332404000 ){
+		haveFlash08332404000 = (parseInt(haveFlash08332404000.description.substring(haveFlash08332404000.description.indexOf(".")-1))>=6);
+	}else if ( this.msie && this.win && !this.mac){
+		document.write('<SCR' + 'IPT LANGUAGE=VBScript\> \n'
+			+ ' on error resume next \n'
+			+ ' haveFlash08332404000 = (IsObject(CreateObject("ShockwaveFlash.ShockwaveFlash.6")))\n'
+			+ '</SCR' + 'IPT\> \n' );
+	}
+
+	this.other = !( (this.gecko || this.msie) && this.win && !this.mac);
+	this.desc =  this.msie ? "msie " : this.gecko ? "gecko " : this.opera7 ? "opera7(other) " : this.other? "other" : "ukn";
+	this.flash = haveFlash08332404000 ? 6 : 0;	
+}
+
+function CAWCode08332404000(){
+
+	this.server = "engine.awaps.net"; 
+	this.section = 833;
+	this.adw_w = 240;
+	this.adw_h = 400;
+	this.wh = "240400";
+	this.subsection = 0;
+	this.uniq = "08332404000";
+
+	this.html_code = "";
+	this.adw_a = 0;
+	this.adw_p = 0;
+	this.i_type = 0;
+	this.seed = Math.round(Math.random()*65535);
+
+	this.jsinfo_onload = function(t, a, p, cmd){
+
+	        var d=document;
+		this.adw_a = a;
+		this.adw_p = p;
+
+		if ( this.adw_a == 0 || cmd == 2 ){
+			if (!aw_br.other){
+				aw_tb = d.getElementById('aw_tb' + this.uniq);		
+				aw_tb.style.display = 'none';
+			}
+        		return;
+		}
+
+		if ( cmd == 1){
+			switch ( t ){
+				case 1: this.writeGIF(); break;
+				case 2: this.writeHTM(); break;
+				case 3: this.writeSWF(); break;
+				case 4:	this.writeJS(); break;
+				case 24: this.writeJS(); break;
+				case 5:	this.writeCustom(); return; break;
+				default: this.writeDef( 97 ); return; break;
+			}
+
+			if( aw_br.other ){
+				d.write( this.html_code );		
+			}else{
+				aw_td = d.getElementById('aw_td' + this.uniq);			
+				aw_td.innerHTML = this.html_code;		
+			}
+		}
+
+	}
+	this.writeCustom = function(){
+		// emplement custom code, like site default code
+	}
+	this.writeJS = function(){
+		var jssrc = 'http://' + this.server + '/0/' + this.section + '/' + this.wh + '.htm?0-0-' + this.seed + '-0-la:' + this.adw_a + 'p:' + this.adw_p + '&subsection=' + this.subsection + '&c_uniq=' + this.uniq;
+		if( aw_br.other ){
+			this.html_code = '<sc'+'ript src="' + jssrc +'"></sc'+'ript>';
+		}else{
+			this.html_code="";
+			var h = document.getElementsByTagName('head')[0];
+			var s = document.createElement('script');
+			s.type = 'text/javascript';
+			s.src = jssrc;
+			h.appendChild(s);
+		}
+	}
+	this.writeGIF = function(){
+		this.html_code =  '<a href=http://' + this.server + '/1/' + this.section + '/' + this.wh + '.gif?0-0-' + this.seed + '-0-la:' + this.adw_a + 'p:' + this.adw_p + ' target=_blank >'
+			+ '<img src=http://' + this.server + '/0/' + this.section + '/' + this.wh + '.gif?0-0-' + this.seed + '-0-la:' + this.adw_a + 'p:' + this.adw_p + '&' + 'timestamp=' + this.seed + '&subsection=' + this.subsection
+			+ ' width=' + this.adw_w + ' height=' + this.adw_h + ' border=0></a>';
+	}
+	this.writeHTM = function(){
+		this.html_code =  '<IFRAME  src=http://' + this.server + '/0/' + this.section + '/' + this.wh + '.htm?0-0-' + this.seed + '-0-la:' + this.adw_a + 'p:' + this.adw_p + '&subsection=' + this.subsection
+			+ '  width="' + this.adw_w + '" height="' + this.adw_h + '" frameborder=0 marginwidth="0" marginheight="0" scrolling="no"> </IFRAME>';
+	}
+	this.writeSWF = function(){
+		var c_linkNmbs = '';
+		for (var n_linkNmb = 0; n_linkNmb < 6; n_linkNmb++) {
+			c_linkNmbs += (n_linkNmb == 0 ? '' : '&') + 'link' + (n_linkNmb + 1) + '=' + 'http://' + this.server + '/1/' + this.section + '/' + this.wh + '.swf?0-' + n_linkNmb + '-' + this.seed + '-0-la:' + this.adw_a + 'p:' + this.adw_p + '';
+		}
+
+		var swf_url = 'http://' + this.server + '/0/' + this.section + '/'+ this.wh + '.swf?0-0-' + this.seed + '-0-la:' + this.adw_a + 'p:' + this.adw_p + '-&' + 'section=' + this.section + '&subsection=' + this.subsection + '&' + c_linkNmbs;
+
+		this.html_code = '<object classid=clsid:D27CDB6E-AE6D-11cf-96B8-444553540000 codebase=http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0 width='
+			+ this.adw_w + ' height=' + this.adw_h + ' > ' + '<param name=movie value=' + swf_url + ' ><param name=menu value=false><param name=quality value=high>'
+			+ '<EM' + 'BED src="' + swf_url + '" quality=high '
+			+ 'menu=false swLiveConnect=FALSE WIDTH='+ this.adw_w +' HEIGHT=' + this.adw_h 
+			+ ' TYPE="application/x-shockwave-flash" PLUGINSPAGE="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">'
+			+ '</EMBED>'
+			+ ' </object>';
+	}
+	this.writeDef = function(num){
+		var info = new Image();
+		info.src = "http://" + this.server + "/" + num + "/" + this.section + "/" + this.wh + ".gif?0-0-" + this.seed;
+	}
+
+	this.write = function(){		
+		var jssrc = "http://" + this.server + "/3/" + this.section + "/" + this.wh + ".?0-0-" + this.seed + "&swfcode=6&awcode=33&subsection=" + this.subsection + "&c_uniq=" + this.uniq + "&jsaction4=1&flash=" + aw_br.flash;
+		var jssrc_code = '<sc'+'ript src="' + jssrc +'"></sc'+'ript>';
+
+		if ( !aw_br.other){
+			document.write( '<table border=0 cellpadding=0 cellspacing=0 id="aw_tb'+this.uniq+'" width=' + this.adw_w + ' height=' + this.adw_h + '"><tr><td id="aw_td'+this.uniq+'"></td></tr></table>' );	
+			var h = document.getElementsByTagName('head')[0];
+			var s = document.createElement('scr'+'ipt');
+			s.type = 'text/javasc'+'ript';
+			s.src = jssrc;
+			h.appendChild(s);					
+		}else{ 
+			document.write(jssrc_code);
+		}
+	}
+}
+
+function aw_jsinfo_onload08332404000(t,a,p,cmd){
+	code08332404000.jsinfo_onload(t,a,p,cmd);
+}
+
+var aw_br = new CAWBrowser();
+var code08332404000 = new CAWCode08332404000();
+code08332404000.write();
+
+//-->
+</SCRIPT>
+                        <NOSCRIPT><A 
+                        href="http://engine.awaps.net/1/833/240400.gif" 
+                        target=_blank><IMG height=400 
+                        src="Работа с Web-сервером Russian Apache.files/240x400.gif" 
+                        width=240 border=0></A> </NOSCRIPT></TD></TR>
+                    <TR>
+                      <TD align=middle>
+                    <TR>
+                      <TD bgColor=#008080><IMG height=1 alt="" 
+                        src="Работа с Web-сервером Russian Apache.files/1x1.gif" 
+                        width=1 border=0></TD></TR>
+                    <TR>
+                      <TD bgColor=#daecd7><IMG height=3 alt="" 
+                        src="Работа с Web-сервером Russian Apache.files/1x1.gif" 
+                        width=1 border=0></TD></TR>
+                    <TR>
+                      <TD bgColor=#008080><!--subscribe small-->
+                        <TABLE cellSpacing=1 cellPadding=1 width="100%" 
+border=0>
+                          <FORM action=http://citforum.ru/anketa/subscribe.php 
+                          method=post>
+                          <TBODY>
+                          <TR>
+                            <TD bgColor=#ffffff>
+                              <CENTER>
+                              <TABLE cellSpacing=0 cellPadding=1 border=0>
+                                <TBODY>
+                                <TR>
+                                <TD align=middle><FONT size=2>
+                                <P><B>Подписка на новости IT-портала 
+                                CITForum.ru</B><BR><I>(<A 
+                                href="http://citforum.ru/">библиотека</A>, <A 
+                                href="http://citkit.ru/" 
+                                target=_blank>CITKIT.ru</A>, <A 
+                                href="http://citcity.ru/" 
+                                target=_blank>CitCity</A>)</I>
+                                <P><INPUT size=15 value=e@mail name=e_mail><INPUT type=submit value=OK> 
+                                </P></FONT></TD></TR></TBODY></TABLE></CENTER></TD></TR></FORM></TBODY></TABLE><!--/subscribe small--></TD></TR></TD></TR>
+                    <TR>
+                      <TD style="PADDING-LEFT: 5px"><FONT size=2>
+                        <P><B>Самое интересное в деловой газете <A 
+                        href="http://citcity.ru/" target=_blank>CitCity</A>:</B> 
+
+                        <P>
+                        <LI><A href="http://citcity.ru/12022/" 
+                        target=_blank>Интерконнект: 10 Гбит/с и даже больше</A> 
+                        <LI><A href="http://citcity.ru/12023/" 
+                        target=_blank>Аппаратные решения для выявления и 
+                        предотвращения утечек конфиденциальной информации</A> 
+                        <LI><A href="http://citcity.ru/12021/" 
+                        target=_blank>MVNO как способ повышения КПД компании</A> 
+
+                        <HR>
+
+                        <P><B>Новые поступления в on-line библиотеку:</B> 
+                        <P><B>23 марта</B> </P>
+                        <LI><B><A 
+                        href="http://www.citforum.ru/open_source/unixarts11/">Мастерство 
+                        работы в Unix</A></B> 
+                        <LI><A 
+                        href="http://www.citforum.ru/open_source/kubuntu_app/">Kubuntu: 
+                        обзор пользовательских приложений</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/open_source/pack_manage/deb_packman/">Debian 
+                        и его клоны: управление пакетами</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/nets/wireless/bluetooth_2/">Bluetooth 
+                        2.0 EDR: не спешите встраивать Wi-Fi в телефон!</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/nets/wireless/wimax/">Мобильный 
+                        WiMAX: реалии и перспективы</A> 
+                        <P><B>21 марта</B> </P>
+                        <LI><A 
+                        href="http://www.citforum.ru/security/articles/sql_sec/">Скрытые 
+                        возможности MS SQL: расширенная функциональность или 
+                        уязвимость системы?</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/database/articles/b-tree_indexes/">Индексы 
+                        на основе B-деревьев для поддержки высокого темпа 
+                        обновлений</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/hardware/microcon/i975x/">Intel 
+                        D975XBX: i975X Express "глазами" разработчика</A> 
+                        <P><B>16 марта</B> </P>
+                        <LI><A 
+                        href="http://www.citforum.ru/SE/project/selfmade/">Своими 
+                        силами: управление процессом разработки ПО небольшой 
+                        командой специалистов</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/hardware/data/sata_2/">Вторая 
+                        скорость SerialATA</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/hardware/monitor/19_inch/">19 
+                        дюймов - территория бизнес-пользователя</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/internet/common/tv_o_ip/">Говорит 
+                        и показывает Интернет</A> 
+                        <P><B>14 марта</B> </P>
+                        <LI><A 
+                        href="http://www.citforum.ru/database/articles/xquery_1.0/">XQuery 
+                        1.0 близок к завершению</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/database/postgres/savepoints">Точки 
+                        сохранения транзакций в PostgreSQL Version 8 могут 
+                        сохранить ваши данные</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/open_source/linuxdistros/">Слово 
+                        о дистрибутивах</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/open_source/newbaselinux/">Концепция 
+                        Base Linux и ее воплощение</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/open_source/debianhistory/">Debian: 
+                        история в клонах</A> 
+                        <P><B>2 марта</B> </P>
+                        <LI><A 
+                        href="http://www.citforum.ru/open_source/linuxhistory1/">Linux: 
+                        извлечения из истории</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/open_source/linuxhistory2/">Linux 
+                        на Руси: вопросы истории</A> 
+                        <P>Обзоры журнала Computer: </P>
+                        <LI><A 
+                        href="http://www.citforum.ru/computer/2005-12/">Заслуживает 
+                        ли академических исследований электронное 
+                        правительство?</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/computer/2005-11/">Как 
+                        приучить суперкомпьютер к экономии энергии?</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/computer/2005-10/">Что же 
+                        такое Web-спам?</A> 
+                        <P><B>28 февраля</B> </P>
+                        <LI><A 
+                        href="http://www.citforum.ru/database/articles/scientific_data/">Управление 
+                        научными данными в следующем десятилетии</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/database/oracle/session_context/">Контекст 
+                        сеанса в Oracle</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/security/cryptography/pki_pgp/">PKI 
+                        или PGP?</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/nets/articles/synchro/">Сети 
+                        синхронизации: сценарии взаимодействия</A> 
+                        <P><B>21 февраля</B> </P>
+                        <LI><A 
+                        href="http://www.citforum.ru/security/articles/comp_prot/">Защита 
+                        домашнего компьютера</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/security/articles/chrooted/">Усиление 
+                        безопасности функционирования сервисов путем помещения 
+                        их в chrooted окружение</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/internet/flash/web_service/">Macromedia 
+                        Flash. Web Service</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/hardware/articles/radeonx1000/">Radeon 
+                        X1000: видеокарты нового поколения</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/hardware/articles/x800x850/">Карточные 
+                        метаморфозы - переделываем Radeon X800 GTO2 в X850 
+                        XT</A> 
+                        <P><B>16 февраля</B> </P>
+                        <LI><A 
+                        href="http://www.citforum.ru/SE/quality/qual_success/">Качественный 
+                        успех</A> (о роли тестирования в повышении качества 
+                        продукта) 
+                        <LI><A 
+                        href="http://www.citforum.ru/programming/digest/obmen/">Обмен 
+                        опытом</A> (о создании генератора SQL-скриптов по модели 
+                        данных, спроектированной в ERwin) 
+                        <LI><A 
+                        href="http://www.citforum.ru/internet/webservers/exim_clamav/">Взаимодействие 
+                        MTA exim и clamAV</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/operating_systems/linux/linux_ipaq/">Linux 
+                        + iPAQ 2210 = love</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/internet/webservers/imap4_serv/">Установка 
+                        IMAP4 сервера на базе cyrus-imapd + sendmail</A> 
+                        <P><B>14 февраля</B> </P>
+                        <LI><B><A 
+                        href="http://www.citforum.ru/database/articles/from_db_to_ds/">От 
+                        баз данных к пространствам данных: новая абстракция 
+                        управления информацией</A></B> 
+                        <LI><A 
+                        href="http://www.citforum.ru/security/articles/ids/">Обнаружение 
+                        несанкционированных подключений к локальной сети в 
+                        режиме реального времени</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/open_source/xul_apps/">XUL 
+                        приложения</A> (о программировании Firefox и других 
+                        продуктов Mozilla) 
+                        <LI><A 
+                        href="http://www.citforum.ru/nets/articles/tap_bridge/">Организация 
+                        единой сети при помощи виртуальных ethernet адаптеров 
+                        (TAP) и программных мостов</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/operating_systems/linux/soft_raid/">Создание 
+                        Software RAID в Slackware Linux (перевод)</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/operating_systems/linux/s_channel/">Организация 
+                        доступа к спутниковому каналу</A> 
+                        <P><B>9 февраля</B> </P>
+                        <LI><A 
+                        href="http://www.citforum.ru/database/articles/stream_8_req/">Восемь 
+                        требований к системе потоковой обработки в реальном 
+                        времени</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/SE/testing/mod_test/">Модульное 
+                        тестирование и Test-Driven Development, или Как 
+                        управлять страхом в программировании</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/operating_systems/linux/billing/">Принципы 
+                        разработки биллинговой системы</A> 
+                        <LI><A 
+                        href="http://www.citforum.ru/operating_systems/linux/dialin/">Настройка 
+                        dial-in модемного пула</A> 
+                        <P>В Курилке: </P>
+                        <LI><A 
+                        href="http://kurilka.citforum.ru/data/pnp/tel_content.html" 
+                        target=_blank>Телефонный контент своими руками: обзор 
+                        лучших программ для персонализации мобильника</A> 
+                        <LI><A 
+                        href="http://kurilka.citforum.ru/data/pnp/gui_history/" 
+                        target=_blank>19 ступеней вверх, или История графических 
+                        пользовательских интерфейсов</A> 
+                        <LI><A 
+                        href="http://kurilka.citforum.ru/data/pnp/jackpc.html" 
+                        target=_blank>Компьютер Jack-PC прикидывается простой 
+                        розеткой</A> 
+                        <P align=right><B><A 
+                        href="http://www.citforum.ru/news.shtml">Архив 
+                        новостей</A> &gt;&gt;&gt;</B> 
+                        <P></FONT><IMG height=10 
+                        src="Работа с Web-сервером Russian Apache.files/1x1.gif" 
+                        width=234><BR><!--<a target=_blank href="http://kurilka.citforum.ru"><img src="/pictures/kurilka234x60.gif" border="1"></a><br>  
+--><A 
+                        href="http://kurilka.citforum.ru/" target=_blank><IMG 
+                        src="Работа с Web-сервером Russian Apache.files/clocs.gif" 
+                        border=0></A><BR></P></LI></TD></TR>
+                    <TR>
+                      <TD align=middle>
+                        <TABLE class=go width="100%">
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <SCRIPT language=javascript><!--
+document.write('<a href=http://citf');document.write('orum.ru/go/click.php?bannerid=65&zoneid=1&source=&dest=http%3A%2F%2Fwww.rosterminal.com%2Findex.php%3Fid%3D94 target=_blank><div class=go-head>«Ростерминал» </div><div class=go-body>Консолидация информации. Как это работает на практике &gt;&gt; </div></a><div class=go-site>rosterminal.com</div>');
+//--></SCRIPT>
+                            </TD></TR>
+                          <TR>
+                            <TD>
+                              <SCRIPT language=javascript><!--
+document.write('<a href=http://citf');document.write('orum.ru/go/click.php?bannerid=29&zoneid=2&source=&dest=http%3A%2F%2Fwww.rosterminal.com%2Findex.php%3Fid%3D95 target=_blank><div class=go-head>«Ростерминал» </div><div class=go-body>OLAP аналитика или Как повысить эффективность системы управления &gt;&gt; </div></a><div class=go-site>rosterminal.com</div>');
+//--></SCRIPT>
+                            </TD></TR>
+                          <TR>
+                            <TD>
+                              <SCRIPT language=javascript><!--
+document.write('<a href=http://citf');document.write('orum.ru/go/click.php?bannerid=86&zoneid=3&source=&dest=http%3A%2F%2Fwww.tls-group.ru%2Fproekt_resh%2Fresh_aktiv%2Fstat_internet.html%3Fad%3Dcitf target=_blank><div class=go-head>Снизим затраты Интернет трафика! </div><div class=go-body>Cбор статистики, учет и контроль доступа к Сети! Экономия до 30%! </div></a><div class=go-site>tls-group.ru</div>');
+//--></SCRIPT>
+                            </TD></TR>
+                          <TR>
+                            <TD>
+                              <SCRIPT language=javascript><!--
+document.write('<a href=http://citf');document.write('orum.ru/go/click.php?bannerid=72&zoneid=4&source=&dest=http%3A%2F%2Fhosting.rbc.ru%2Fcounter%2Freferrer%3Frefgrp%3Ddomains1 target=_blank><div class=go-head>Два имени лучше чем одно! </div><div class=go-body>Второе доменное имя БЕСПЛАТНО!!! </div></a><div class=go-site>hosting.rbc.ru</div>');
+//--></SCRIPT>
+                            </TD></TR>
+                          <TR>
+                            <TD>
+                              <SCRIPT language=javascript><!--
+document.write('<a href=http://citf');document.write('orum.ru/go/click.php?bannerid=73&zoneid=5&source=&dest=http%3A%2F%2Fhosting.rbc.ru%2Fcounter%2Freferrer%3Frefgrp%3Ddomains1 target=_blank><div class=go-head>Акция «ДОМЕН ЗА ДОМЕН» </div><div class=go-body>Зарегистрируй один домен – получи второй Бесплатно! </div></a><div class=go-site>hosting.rbc.ru</div>');
+//--></SCRIPT>
+                            </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD><!--no_right--></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+<P>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD bgColor=#008080><IMG height=1 alt="" 
+      src="Работа с Web-сервером Russian Apache.files/1x1.gif" width=931 
+      border=0></TD></TR>
+  <TR>
+    <TD bgColor=#daecd7><IMG height=3 alt="" 
+      src="Работа с Web-сервером Russian Apache.files/1x1.gif" width=1 
+    border=0></TD></TR>
+  <TR>
+    <TD bgColor=#008080>
+      <TABLE cellSpacing=1 cellPadding=3 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD align=middle bgColor=#f4f9f3><FONT size=-1><A class=head 
+            href="http://www.citforum.ru/consulting/">IT-консалтинг</A></FONT></TD>
+          <TD align=middle bgColor=#f4f9f3><FONT size=-1><A class=head 
+            href="http://www.citforum.ru/SE/">Software Engineering</A></FONT></TD>
+          <TD align=middle bgColor=#f4f9f3><FONT size=-1><A class=head 
+            href="http://www.citforum.ru/programming/">Программирование</A></FONT></TD>
+          <TD align=middle bgColor=#f4f9ea><FONT size=-1><A class=head 
+            href="http://www.citforum.ru/open_source/">Open Source</A></FONT></TD>
+          <TD align=middle bgColor=#f4f9f3><FONT size=-1><A class=head 
+            href="http://www.citforum.ru/database/">СУБД</A></FONT></TD>
+          <TD align=middle bgColor=#f4f9f3><FONT size=-1><A class=head 
+            href="http://www.citforum.ru/security/">Безопасность</A></FONT></TD>
+          <TD align=middle bgColor=#f4f9f3><FONT size=-1><A class=head 
+            href="http://www.citforum.ru/internet/">Internet</A></FONT></TD>
+          <TD align=middle bgColor=#f4f9f3><FONT size=-1><A class=head 
+            href="http://www.citforum.ru/nets/">Сети</A></FONT></TD>
+          <TD align=middle bgColor=#f4f9f3><FONT size=-1><A class=head 
+            href="http://www.citforum.ru/operating_systems/">Операционные 
+            системы</A></FONT></TD>
+          <TD align=middle bgColor=#f4f9f3><FONT size=-1><A class=head 
+            href="http://www.citforum.ru/hardware/">Hardware</A></FONT></TD><!--
+<td bgcolor=#F4F9F3 align=center><font size=-1><a class=head href=/faq/>FAQ (ЧаВО)</a></font></td>
+<td bgcolor=#F4F9F3 align=center><font size=-1><a class=head href=/howto/>HOWTO</a></font></td>
+--></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>
+<TABLE width="100%">
+  <TBODY>
+  <TR>
+    <TD><A href="http://www.citforum.ru/about/"><FONT size=2>Информация для 
+      рекламодателей</FONT></A> </TD>
+    <TD><FONT size=2>PR-акции, размещение рекламы - <A 
+      href="mailto:pr@citforum.ru">pr@citforum.ru</A>, тел. +7 495 
+      4119920</FONT> </TD>
+    <TD align=right><FONT size=2>Пресс-релизы - <A 
+      href="mailto:manager@citforum.ru">manager@citforum.ru</A></FONT> 
+  </TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD><IMG height=5 alt="" 
+      src="Работа с Web-сервером Russian Apache.files/1x1.gif" width=1 
+    border=0></TD></TR>
+  <TR>
+    <TD bgColor=#008080><IMG height=1 alt="" 
+      src="Работа с Web-сервером Russian Apache.files/1x1.gif" width=1 
+    border=0></TD></TR>
+  <TR>
+    <TD bgColor=#daecd7><IMG height=3 alt="" 
+      src="Работа с Web-сервером Russian Apache.files/1x1.gif" width=1 
+    border=0></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=4 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD><FONT size=2><A 
+      href="http://www.citforum.ru/feedback.php?page=/internet/webservers/rus_apache.shtml&amp;server=www.citforum.ru">Послать 
+      комментарий</A><BR><A href="http://www.citforum.ru/how.shtml">Информация 
+      для авторов</A> </FONT></TD>
+    <TD><A href="http://top100.rambler.ru/cgi-bin/stats_top100.cgi?13078"><IMG 
+      height=31 alt="Rambler's Top100" 
+      src="Работа с Web-сервером Russian Apache.files/banner-88x31-rambler-darkblue2.gif" 
+      width=88 border=0></A></TD>
+    <TD><!--TopList LOGO--><A href="http://top.list.ru/jump?from=26978" 
+      target=_top><IMG height=31 alt=TopList 
+      src="C:\Мои документы\Alena\kursy\Web-progr\Работа с Web-сервером Russian Apache.files\counter(1).gif" 
+      width=88 border=0></A><!--TopList LOGO--></TD>
+    <TD><!--LiveInternet logo--><A href="http://www.liveinternet.ru/click" 
+      target=_blank><IMG height=31 
+      alt="liveinternet.ru: показано число просмотров за 24 часа, посетителей за 24 часа и за сегодня" 
+      src="Работа с Web-сервером Russian Apache.files/logo.gif" width=88 
+      border=0></A><!--/LiveInternet--> </TD>
+    <TD vAlign=bottom align=right><FONT face="Arial, sans-serif" size=1>This 
+      Web server launched on February 24, 1997<BR>Copyright © 1997-2000 CIT, © 
+      2001-2005 <A href="http://www.citforum.ru/info.shtml">CIT 
+    Forum</A></FONT></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD bgColor=#daecd7><IMG height=3 alt="" 
+      src="Работа с Web-сервером Russian Apache.files/1x1.gif" width=1 
+    border=0></TD></TR>
+  <TR>
+    <TD bgColor=#008080><IMG height=1 alt="" 
+      src="Работа с Web-сервером Russian Apache.files/1x1.gif" width=1 
+    border=0></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT face="Arial, sans-serif" size=1><B>Внимание!</B> 
+      Любой из материалов, опубликованных на этом сервере, не может быть 
+      воспроизведен в какой бы то ни было форме и какими бы то ни было 
+      средствами без письменного разрешения владельцев авторских прав. <A 
+      href="http://www.citforum.ru/ssi/copyright.shtml">Подробнее...</A></FONT></TD></TR></TBODY></TABLE></P></BODY></HTML>

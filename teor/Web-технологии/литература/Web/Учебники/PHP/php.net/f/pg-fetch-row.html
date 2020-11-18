@@ -1,0 +1,48 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>pg_fetch_row</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="pg-fetch-result.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="pg-field-is-null.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.pg-fetch-row">pg_fetch_row</A></H1><A NAME="AEN66911"></A><P>(PHP 3&#62;= 3.0.1, PHP 4)</P>
+<p>pg_fetch_row - получает ряд как перечислимый массив.<A NAME="AEN66914"></A></p><H2>Описание</H2><p>array <B>pg_fetch_row</B> (resource result, int row)</p>
+<P><B>pg_fetch_row()</B> извлекает один ряд данных из результата, ассоциированного со специфицированным
+<TT><I>result</I></TT> ресурсом. Ряд (запись) возвращается как массив. Каждый результирующий столбец 
+хранится в смещении массива, начиная со смещения 0.</P><P>Возвращает массив, соответствующий извлечённому ряду, или
+<TT><B>FALSE</B></TT>, если рядов больше нет.</P><P>См. также <A HREF="pg-query.html"><B>pg_query()</B></A>,
+<A HREF="pg-fetch-array.html"><B>pg_fetch_array()</B></A>, <A HREF="pg-fetch-object.html"><B>pg_fetch_object()</B></A> и
+<A HREF="pg-fetch-result.html"><B>pg_fetch_result()</B></A>.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN66936"></A><h5>Пример 1. Извлечение ряда в Postgres</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php 
+$conn = pg_pconnect ("dbname=publisher");
+if (!$conn) {
+    echo "An error occured.\n";
+    exit;
+}
+
+$result = pg_query ($conn, "SELECT * FROM authors");
+if (!$result) {
+    echo "An error occured.\n";
+    exit;
+}
+
+$num = pg_num_rows($result); 
+
+for ($i=0; $i &#60; $num; $i++) {
+  $r = pg_fetch_row($result, $i);
+
+  for ($j=0; $j &#60; count($r); $j++) {
+    echo "$r[$j]&#38;nbsp;";
+  }
+
+  echo "&#60;BR&#62;";
+
+}
+ 
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+начиная с 4.1.0, <TT><I>row</I></TT> стал необязательным. Вызов <B>pg_fetch_row()</B> увеличивает внутренний счётчик рядов на 1.</P></BLOCKQUOTE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="pg-fetch-result.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="pg-field-is-null.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">pg_fetch_result</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.pgsql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">pg_field_is_null</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

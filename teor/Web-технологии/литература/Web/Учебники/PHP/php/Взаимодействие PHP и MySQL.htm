@@ -1,0 +1,661 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0057)http://www.intuit.ru/department/pl/plphp/11/plphp_11.html -->
+<HTML><HEAD><TITLE>INTUIT.ru::Интернет-Университет Информационных Технологий</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251"><LINK 
+href="Взаимодействие PHP и MySQL.files/printable.css" type=text/css 
+rel=stylesheet>
+<META content="MSHTML 6.00.2900.2180" name=GENERATOR></HEAD>
+<BODY leftMargin=0 topMargin=6 marginwidth="0" marginheight="6">
+<DIV align=left><SPAN style="FONT-WEIGHT: bold; COLOR: #000000">&nbsp;&nbsp; 
+<SPAN style="FONT-SIZE: 12pt">Интернет-Университет Информационных 
+Технологий</SPAN> </SPAN></DIV>&nbsp;&nbsp; <SPAN 
+style="COLOR: #330066; TEXT-DECORATION: underline" 
+align="rright">http://www.INTUIT.ru</SPAN> 
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD colSpan=3 height=8><IMG height=8 
+      src="Взаимодействие PHP и MySQL.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD class=orang colSpan=3 height=1><IMG height=1 
+      src="Взаимодействие PHP и MySQL.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD colSpan=3 height=8><IMG height=8 
+      src="Взаимодействие PHP и MySQL.files/empty.gif" width=1></TD></TR>
+  <TR vAlign=top>
+    <TD><IMG height=1 src="Взаимодействие PHP и MySQL.files/empty.gif" 
+    width=8></TD>
+    <TD><!-- content -->
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=head>Язык программирования PHP</TD></TR>
+        <TR>
+          <TD height=4><IMG height=4 
+            src="Взаимодействие PHP и MySQL.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD class=orang height=1><IMG height=1 
+            src="Взаимодействие PHP и MySQL.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Взаимодействие PHP и MySQL.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD><SPAN class=headsub>11. Лекция: Взаимодействие PHP и MySQL: 
+            версия для печати и PDA</SPAN> <BR><SPAN class=rtxt>Лекция 
+            предназначена для знакомства со способами взаимодействия PHP и СУБД 
+            MySql. Основное внимание уделяется установке соединения с базой 
+            данных, функциям отправки запросов и обработке ответов 
+            (mysql_connect, mysql_query, mysql_result, mysql_num_rows, 
+            mysql_close). Пример - создание web -интерфейса для 
+            администрирования базы данных виртуального музея истории.</SPAN> 
+        </TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Взаимодействие PHP и MySQL.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD class=orang height=1><IMG height=1 
+            src="Взаимодействие PHP и MySQL.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Взаимодействие PHP и MySQL.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD>
+            <H3></H3>
+            <P>В дистрибутив PHP входит расширение, содержащее встроенные 
+            функции для работы с базой данных <SPAN class=keyword>MySQL</SPAN>. 
+            В этой лекции мы познакомимся с некоторыми основными функциями для 
+            работы с <SPAN class=keyword>MySQL</SPAN>, которые потребуются для 
+            решения задач построения web-интерфейсов с целью отображения и 
+            наполнения базы данных. Возникает вопрос, зачем строить такие 
+            интерфейсы? Для того чтобы вносить информацию в базу данных и 
+            просматривать ее содержимое могли люди, не знакомые с языком 
+            запросов SQL. При работе с web-интерфейсом для добавления информации 
+            в базу данных человеку нужно просто ввести эти данные в <SPAN 
+            class=keyword>html-форму</SPAN> и отправить их на сервер, а наш 
+            скрипт сделает все остальное. А для просмотра содержимого таблиц 
+            достаточно просто щелкнуть по ссылке и зайти на нужную страницу.</P>
+            <P>Для наглядности будем строить эти интерфейсы для таблицы 
+            Artifacts, в которой содержится информация об экспонатах 
+            виртуального музея информатики. В предыдущей лекции мы уже приводили 
+            структуру этой коллекции, а также ее связи с коллекциями описания 
+            персон (Persons) и изображений (Images). Напомним, что каждый 
+            экспонат в коллекции Artifacts описывается с помощью следующих 
+            характеристик:</P>
+            <UL>
+              <LI>название (title);
+              <LI>автор (author);
+              <LI>описание (description);
+              <LI>альтернативное название (alternative);
+              <LI>изображение (photo).</LI></UL>
+            <P>Название и альтернативное название являются строками менее чем 
+            255 символов длиной (т.е. имеют тип VARCHAR(255)), описание - 
+            текстовое поле (имеет тип TEXT), а в полях "автор" и "изображение" 
+            содержатся идентификаторы автора из коллекции Persons и изображения 
+            экспоната из коллекции Images соответственно.</P>
+            <H3>Построение интерфейса для добавления информации</H3>
+            <P>Итак, у нас есть какая-то таблица в базе данных. Чтобы построить 
+            интерфейс для добавления информации в эту таблицу, нужно ее 
+            структуру (т.е. набор ее полей) отобразить в <SPAN 
+            class=keyword>html-форму</SPAN>.</P>
+            <P>Разобьем эту задачу на следующие подзадачи:</P>
+            <UL>
+              <LI><SPAN class=keyword>установка соединения с БД</SPAN>;
+              <LI><SPAN class=keyword>выбор рабочей БД</SPAN>;
+              <LI><SPAN class=keyword>получение списка полей таблицы</SPAN>;
+              <LI>отображение полей в <SPAN 
+            class=keyword>html-форму</SPAN>.</LI></UL>
+            <P>После этого данные, введенные в форму, нужно записать в базу 
+            данных. Рассмотрим все эти задачи по порядку.</P>
+            <H4>Установка соединения</H4>
+            <P>Итак, первое, что нужно сделать, - это установить соединение с 
+            базой данных. Воспользуемся функцией <SPAN 
+            class=keyword>mysql_connect</SPAN>.</P>
+            <P>Синтаксис <SPAN class=keyword>mysql_connect</SPAN></P>
+            <DIV class=example><PRE>ресурс mysql_connect ( [строка server 
+    [, строка username [, строка password
+   [, логическое new_link 
+    [, целое client_flags]]]]])
+</PRE></DIV>
+            <P>Данная функция устанавливает соединение с сервером <SPAN 
+            class=keyword>MySQL</SPAN> и возвращает указатель на это соединение 
+            или <SPAN class=texample>FALSE</SPAN> в случае неудачи. Для 
+            отсутствующих параметров устанавливаются следующие значения по 
+            умолчанию:</P>
+            <DIV class=example><PRE>server = 'localhost:3306' 
+username = имя пользователя владельца 
+           процесса сервера
+password = пустой пароль 
+</PRE></DIV>
+            <P>Если функция вызывается дважды с одними и теми же параметрами, то 
+            новое соединение не устанавливается, а возвращается ссылка на старое 
+            соединение. Чтобы этого избежать, используют параметр <SPAN 
+            class=texample>new_link</SPAN>, который заставляет в любом случае 
+            открыть еще одно соединение.</P>
+            <P>Параметр <SPAN class=texample>client_flags</SPAN> - это 
+            комбинация следующих констант: <SPAN 
+            class=keyword>MYSQL_CLIENT_COMPRESS</SPAN> (использовать протокол 
+            сжатия), <SPAN class=keyword>MYSQL_CLIENT_IGNORE_SPACE</SPAN> 
+            (позволяет вставлять пробелы после имен функций), <SPAN 
+            class=keyword>MYSQL_CLIENT_INTERACTIVE</SPAN> (ждать <SPAN 
+            class=texample>interactive_timeout</SPAN> секунд - вместо <SPAN 
+            class=texample>wait_timeout</SPAN> - до закрытия соединения).</P>
+            <P>Параметр <SPAN class=texample>new_link</SPAN> появился в PHP 
+            4.2.0, а параметр <SPAN class=texample>client_flags</SPAN> - в PHP 
+            4.3.0.</P>
+            <P>Соединение с сервером закрывается при завершении исполнения 
+            скрипта, если оно до этого не было закрыто с помощью функции <SPAN 
+            class=keyword>mysql_close()</SPAN>.</P>
+            <P>Итак, устанавливаем соединение с базой данных на локальном 
+            сервере для пользователя <SPAN class=texample>nina</SPAN> с паролем 
+            <SPAN class=texample>"123"</SPAN>:</P>
+            <DIV class=example><PRE>&lt;?
+$conn = mysql_connect(
+    "localhost", "nina","123")
+or die("Невозможно установить 
+        соединение: ". mysql_error());
+echo "Соединение установлено";
+mysql_close($conn);
+?&gt;
+</PRE></DIV>
+            <P>Действие <SPAN class=keyword>mysql_connect</SPAN> равносильно 
+            команде </P>
+            <DIV class=example><PRE>      
+shell&gt;mysql -u nina -p123 		
+</PRE></DIV>
+            <H4>Выбор базы данных</H4>
+            <P>После <SPAN class=keyword>установки соединения</SPAN> нужно 
+            выбрать базу данных, с которой будем работать. Наши данные хранятся 
+            в базе данных <SPAN class=texample>book</SPAN>. В <SPAN 
+            class=keyword>MySQL </SPAN><SPAN class=keyword>выбор базы 
+            данных</SPAN> осуществляется с помощью команды <SPAN 
+            class=texample>use</SPAN>:</P>
+            <DIV class=example><PRE>mysql&gt;use book;
+</PRE></DIV>
+            <P>В PHP для этого существует функция <SPAN 
+            class=keyword>mysql_select_db</SPAN>. </P>
+            <P>Синтаксис <SPAN class=keyword>mysql_select_db</SPAN>:</P>
+            <DIV class=example><PRE>логическое mysql_select_db ( 
+    строка database_name 
+    [, ресурс link_identifier])
+</PRE></DIV>
+            <P>Эта функция возвращает <SPAN class=texample>TRUE</SPAN> в случае 
+            успешного <SPAN class=keyword>выбора базы данных</SPAN> и <SPAN 
+            class=texample>FALSE</SPAN> - в противном случае.</P>
+            <P>Сделаем базу данных <SPAN class=texample>book</SPAN> рабочей:</P>
+            <DIV class=example><PRE>&lt;?
+$conn = mysql_connect(
+    "localhost","nina","123") 
+or die("Невозможно установить 
+        соединение: ". mysql_error());
+echo "Соединение установлено";
+mysql_select_db("book");
+?&gt;
+</PRE></DIV>
+            <H4>Получение списка полей таблицы</H4>
+            <P>Теперь можно заняться собственно решением задачи. Как получить 
+            список полей таблицы? Очень просто. В PHP и на этот случай есть своя 
+            команда - <SPAN class=texample>mysql_list_fields</SPAN>.</P>
+            <P>Синтаксис <SPAN class=texample>mysql_list_fields</SPAN></P>
+            <DIV class=example><PRE>ресурс mysql_list_fields (
+    строка database_name, 
+    строка table_name 
+   [, ресурс link_identifier])
+</PRE></DIV>
+            <P>Эта функция возвращает список полей в таблице <SPAN 
+            class=texample>table_name</SPAN> в базе данных <SPAN 
+            class=texample>database_name</SPAN>. Получается, что выбирать базу 
+            данных нам было необязательно, но это пригодится позже. Как можно 
+            заметить, результат работы этой функции - переменная типа ресурс. То 
+            есть это не совсем то, что мы хотели получить. Это ссылка, которую 
+            можно использовать для получения информации о полях таблицы, включая 
+            их названия, типы и флаги.</P>
+            <P>Функция <SPAN class=keyword>mysql_field_name</SPAN> возвращает 
+            имя поля, полученного в результате выполнения запроса. Функция <SPAN 
+            class=keyword>mysql_field_len</SPAN> возвращает длину поля. Функция 
+            <SPAN class=keyword>mysql_field_type</SPAN> возвращает тип поля, а 
+            функция <SPAN class=keyword>mysql_field_flags</SPAN> возвращает 
+            список флагов поля, записанных через пробел. Типы поля могут быть 
+            <SPAN class=texample>int</SPAN>, <SPAN class=texample>real</SPAN>, 
+            <SPAN class=texample>string</SPAN>, <SPAN class=texample>blob</SPAN> 
+            и т.д. Флаги могут быть <SPAN class=texample>not_null</SPAN>, <SPAN 
+            class=texample>primary_key</SPAN>, <SPAN 
+            class=texample>unique_key</SPAN>, <SPAN class=texample>blob</SPAN>, 
+            <SPAN class=texample>auto_increment</SPAN> и т.д.</P>
+            <P>Синтаксис у всех этих команд одинаков:</P>
+            <DIV class=example><PRE>строка mysql_field_name (
+    ресурс result, целое field_offset)
+строка mysql_field_type ( 
+    ресурс result, целое field_offset)
+строка mysql_field_flags ( 
+    ресурс result, целое field_offset)
+строка mysql_field_len ( 
+    ресурс result, целое field_offset)
+</PRE></DIV>
+            <P>Здесь <SPAN class=texample>result</SPAN> - это идентификатор 
+            результата запроса (например, запроса, отправленного функциями <SPAN 
+            class=texample>mysql_list_fields</SPAN> или <SPAN 
+            class=keyword>mysql_query</SPAN> (о ней будет рассказано позднее)), 
+            а <SPAN class=texample>field_offset</SPAN> - порядковый номер поля в 
+            результате.</P>
+            <P>Вообще говоря, то, что возвращают функции типа <SPAN 
+            class=texample>mysql_list_fields</SPAN> или <SPAN 
+            class=keyword>mysql_query</SPAN>, представляет собой таблицу, а 
+            точнее, указатель на нее. Чтобы получить из этой таблицы конкретные 
+            значения, нужно задействовать специальные функции, которые построчно 
+            читают эту таблицу. К таким функциям и относятся <SPAN 
+            class=keyword>mysql_field_name</SPAN> и т.п. Чтобы перебрать все 
+            строки в таблице результата выполнения запроса, нужно знать число 
+            строк в этой таблице. Команда <SPAN 
+            class=keyword>mysql_num_rows</SPAN>(ресурс <SPAN 
+            class=texample>result</SPAN>) возвращает число строк во множестве 
+            результатов <SPAN class=texample>result</SPAN>.</P>
+            <P>А теперь попробуем получить список полей таблицы <SPAN 
+            class=texample>Artifacts</SPAN> (коллекция экспонатов).</P>
+            <DIV class=example><PRE>&lt;?
+$conn = mysql_connect(
+    "localhost","nina","123")
+or die("Невозможно установить 
+        соединение: ". mysql_error());
+echo "Соединение установлено";
+mysql_select_db("book");
+$list_f = mysql_list_fields (
+  "book","Artifacts",$conn);
+  $n = mysql_num_fields($list_f);
+for($i=0;$i&lt;$n; $i++){
+  $type = mysql_field_type($list_f, $i);
+  $name_f = mysql_field_name($list_f,$i);
+  $len = mysql_field_len($list_f, $i);
+  $flags_str =  mysql_field_flags (
+               $list_f, $i);
+echo "&lt;br&gt;Имя поля: ". $name_f;
+echo "&lt;br&gt;Тип поля: ". $type;
+echo "&lt;br&gt;Длина поля: ". $len;
+echo "&lt;br&gt;Строка флагов поля: ".
+    $flags_str . "&lt;hr&gt;";
+}
+?&gt;
+</PRE></DIV>
+            <P>В результате должно получиться примерно вот что (если в таблице 
+            всего два поля, конечно):</P>
+            <DIV class=example><PRE>      
+Имя поля: id
+Тип поля: int
+Длина поля: 11
+Строка флагов поля: 
+   not_null primary_key auto_increment
+Имя поля: title
+Тип поля: string
+Длина поля: 255
+Строка флагов поля: 
+</PRE></DIV>
+            <H4>Отображение списка полей в html-форму</H4>
+            <P>Теперь немножко подкорректируем предыдущий пример. Будем не 
+            просто выводить информацию о поле, а отображать его в подходящий 
+            элемент <SPAN class=keyword>html-формы</SPAN>. Так, элементы типа 
+            <SPAN class=texample>BLOB</SPAN> переведем в <SPAN 
+            class=texample>textarea</SPAN> (заметим, что поле <SPAN 
+            class=texample>description</SPAN>, которое мы создавали с типом 
+            <SPAN class=texample>TEXT</SPAN>, отображается как имеющее тип <SPAN 
+            class=texample>BLOB</SPAN>), числа и строки отобразим в текстовые 
+            строки ввода <SPAN class=texample>&lt;input type=text&gt;</SPAN>, а 
+            элемент, имеющий метку автоинкремента, вообще не будем отображать, 
+            поскольку его значение устанавливается автоматически.</P>
+            <P>Все это решается довольно просто, за исключением выделения из 
+            списка флагов флага <SPAN class=texample>auto_increment</SPAN>. Для 
+            этого нужно воспользоваться функцией <SPAN 
+            class=keyword>explode</SPAN>.</P>
+            <P>Синтаксис <SPAN class=keyword>explode</SPAN>:</P>
+            <DIV class=example><PRE>массив explode( строка separator, 
+    строка string [, int limit])
+</PRE></DIV>
+            <P>Эта функция разбивает строку <SPAN class=texample>string</SPAN> 
+            на части с помощью разделителя <SPAN class=texample>separator</SPAN> 
+            и возвращает массив полученных строк.</P>
+            <P>В нашем случае в качестве разделителя нужно взять пробел <SPAN 
+            class=texample>" "</SPAN>, а в качестве исходной строки для 
+            разбиения - строку флагов поля.</P>
+            <P>Итак, создадим форму для ввода данных в таблицу <SPAN 
+            class=texample>Artifacts</SPAN>:</P><A name=example.11.0.1></A>
+            <DIV class=example><PRE>      
+&lt;?
+$conn=mysql_connect("localhost","nina","123"); 
+           // устанавливаем соединение
+$database = "book";
+$table_name = "Artifacts";
+mysql_select_db($database); // выбираем базу данных для 
+           // работы
+$list_f = mysql_list_fields($database,$table_name); 
+           // получаем список полей в базе
+$n = mysql_num_fields($list_f); // число строк в результате 
+           // предыдущего запроса (т.е. сколько всего 
+           // полей в таблице Artifacts) 
+echo "&lt;form method=post action=insert.php&gt;";  
+           // создаем форму для ввода данных
+echo "&amp;nbsp;&lt;TABLE BORDER=0 CELLSPACING=0 width=50% &gt;&lt;tr&gt;
+    &lt;TD  BGCOLOR='#005533' align=center&gt;&lt;font color='#FFFFFF'&gt;
+    &lt;b&gt; Add new row in $table_name&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/TABLE&gt;";
+echo "&lt;table border=0 CELLSPACING=1 cellpadding=0 width=50% &gt;";
+// для каждого поля получаем его имя, тип, длину и флаги
+for($i=0;$i&lt;$n; $i++){
+    $type = mysql_field_type($list_f, $i);
+    $name_f = mysql_field_name ($list_f,$i);
+    $len = mysql_field_len($list_f, $i);
+    $flags_str = mysql_field_flags ($list_f, $i);
+    // из строки флагов делаем массив, 
+    // где каждый элемент массива - флаг поля
+    $flags = explode(" ", $flags_str); 
+    foreach ($flags as $f){
+        if ($f == 'auto_increment') $key = $name_f; 
+            // запоминаем имя автоинкремента
+    }
+/* для каждого поля, не являющегося автоинкрементом, в 
+зависимости от его типа выводим подходящий элемент формы */
+if ($key &lt;&gt; $name_f){ 
+echo "&lt;tr&gt;&lt;td align=right bgcolor='#C2E3B6'&gt;&lt;font size=2&gt;
+        &lt;b&gt;&amp;nbsp;". $name_f ."&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;";
+switch ($type){
+        case "string":
+            $w = $len/5;
+            echo "&lt;td&gt;&lt;input type=text name=\"$name_f\" 
+                size = $w &gt;&lt;/td&gt;";
+        break;
+        case "int": 
+            $w =  $len/4;
+            echo "&lt;td&gt;&lt;input type=text name=\"$name_f\" 
+                size = $w &gt;&lt;/td&gt;";
+        break;  
+        case "blob":
+            echo "&lt;td&gt;&lt;textarea rows=6 cols=60 name=\"$name_f\"&gt;&lt;/textarea&gt;&lt;/td&gt;";
+        break;   
+        } 
+    }
+    echo "&lt;/tr&gt;";
+}
+echo "&lt;/table&gt;";
+echo "&lt;input type=submit name='add' value='Add'&gt;";
+echo "&lt;/form&gt;";
+?&gt;
+</PRE><SPAN class=objectName>Листинг 11.0.1. Форма для ввода данных 
+            в таблицу Artifacts</SPAN></DIV>
+            <H4>Запись данных в базу данных</H4>
+            <P>Итак, форма создана. Теперь нужно сделать самое главное - 
+            отправить данные из этой формы в нашу базу данных. Как вы уже 
+            знаете, для того чтобы записать данные в таблицу, используется 
+            команда <SPAN class=texample>INSERT</SPAN> языка SQL. Например:</P>
+            <DIV class=example><PRE>mysql&gt; INSERT INTO Artifacts 
+           SET title='Петров';
+</PRE></DIV>
+            <P>Возникает вопрос, как можно воспользоваться такой командой (или 
+            любой другой командой SQL) в PHP скрипте. Для этого существует 
+            функция <SPAN class=keyword>mysql_query()</SPAN>.</P>
+            <P>Синтаксис <SPAN class=keyword>mysql_query</SPAN></P>
+            <DIV class=example><PRE>ресурс mysql_query ( строка query 
+    [, ресурс link_identifier])
+</PRE></DIV>
+            <P><SPAN class=keyword>mysql_query()</SPAN> посылает SQL-запрос 
+            активной базе данных <SPAN class=keyword>MySQL</SPAN> сервера, 
+            который определяется с помощью указателя <SPAN 
+            class=texample>link_identifier</SPAN> (это ссылка на какое-то 
+            соединение с сервером <SPAN class=keyword>MySQL</SPAN>). Если 
+            параметр <SPAN class=texample>link_identifier</SPAN> опущен, 
+            используется последнее открытое соединение. Если открытые соединения 
+            отсутствуют, функция пытается соединиться с СУБД, аналогично функции 
+            <SPAN class=keyword>mysql_connect()</SPAN> без параметров. Результат 
+            запроса буферизируется.</P>
+            <P><B>Замечание:</B> строка запроса НЕ должна заканчиваться точкой с 
+            запятой.</P>
+            <P>Только для запросов <SPAN class=texample>SELECT</SPAN>, <SPAN 
+            class=texample>SHOW</SPAN>, <SPAN class=texample>EXPLAIN</SPAN>, 
+            <SPAN class=texample>DESCRIBE</SPAN>, <SPAN 
+            class=keyword>mysql_query()</SPAN> возвращает указатель на результат 
+            запроса, или <SPAN class=texample>FALSE</SPAN>, если запрос не был 
+            выполнен. В остальных случаях <SPAN 
+            class=keyword>mysql_query()</SPAN> возвращает <SPAN 
+            class=texample>TRUE</SPAN>, если запрос выполнен успешно, и <SPAN 
+            class=texample>FALSE</SPAN> - в случае ошибки. Значение, не равное 
+            <SPAN class=texample>FALSE</SPAN>, говорит о том, что запрос был 
+            выполнен успешно. Оно не говорит о количестве затронутых или 
+            возвращенных рядов. Вполне возможна ситуация, когда успешный запрос 
+            не затронет ни одного ряда. <SPAN class=keyword>mysql_query()</SPAN> 
+            также считается ошибочным и вернет <SPAN 
+            class=texample>FALSE</SPAN>, если у пользователя недостаточно прав 
+            для работы с указанной в запросе таблицей. </P>
+            <P>Итак, теперь мы знаем, как отправить запрос на вставку строк в 
+            базу данных. Заметим, что в предыдущем примере элементы формы мы 
+            назвали именами полей таблицы. Поэтому они будут доступны в скрипте 
+            insert.php, обрабатывающем данные формы, как переменные вида</P>
+            <DIV class=example><PRE>$_POST['имя_поля'].
+</PRE></DIV><A name=example.11.0.2></A>
+            <DIV class=example><PRE>&lt;?
+$conn=mysql_connect("localhost","nina","123");// устанавливаем 
+              // соединение
+$database = "book";
+$table_name = "Artifacts";
+mysql_select_db($database); // выбираем базу данных
+$list_f = mysql_list_fields($database,$table_name); 
+              // получаем список полей в базе
+$n = mysql_num_fields($list_f); // число строк в результате 
+              // предыдущего запроса 
+// составим один запрос сразу для всех полей таблицы
+$sql = "INSERT INTO $table_name SET "; // начинаем создавать 
+    // запрос, перебираем все поля таблицы
+for($i=0;$i&lt;$n; $i++){
+    $name_f = mysql_field_name ($list_f,$i); // вычисляем имя поля
+    $value = $_POST[$name_f]; // вычисляем значение поля
+    $j = $i + 1;
+    $sql = $sql . $name_f." = '$value'"; // дописываем в 
+              // строку $sql пару имя=значение
+    if ($j &lt;&gt; $n) $sql = $sql . ", "; // если поле не 
+              // последнее в списке, то ставим запятую
+}
+// перед тем как записывать что-то в базу, 
+// можно посмотреть, какой запрос получился
+//echo $sql; 
+$result = mysql_query($sql,$conn); // отправляем запрос 
+// выводим сообщение успешно ли выполнен запрос
+if (!result) echo " Can't add ($table_name) "; 
+    else echo "Success!&lt;br&gt;"; 
+?&gt;
+</PRE><SPAN class=objectName>Листинг 11.0.2. insert.php</SPAN></DIV>
+            <P>Итак, задачу добавления данных с помощью web-интерфейса мы 
+            решили. Однако тут есть одна тонкость. При решении мы не учитывали 
+            тот факт, что значения некоторых полей (<SPAN 
+            class=texample>author</SPAN>, <SPAN class=texample>photo</SPAN>) 
+            должны браться из других таблиц (<SPAN 
+            class=texample>Persons</SPAN>, <SPAN class=texample>Images</SPAN>). 
+            Поскольку <SPAN class=keyword>MySQL</SPAN> с внешними ключами не 
+            работает, этот момент остается на совести разработчиков системы, 
+            т.е. на нашей совести. Нужно дописать программу таким образом, чтобы 
+            была возможность вводить в такие поля правильные значения. Но мы 
+            делать этого не будем, поскольку задача лекции состоит в том, чтобы 
+            познакомить читателя с элементами технологии, а не в том, чтобы 
+            создать работающую систему. Кроме того, имеющихся у читателя знаний 
+            вполне достаточно, чтобы решить эту проблему самостоятельно. Мы же 
+            обратимся к другой задаче - отображение данных, хранящихся в базе 
+            данных СУБД <SPAN class=keyword>MySQL</SPAN>.</P>
+            <H3>Отображение данных, хранящихся в MySQL</H3>
+            <P>Чтобы отобразить какие-то данные в браузер с помощью PHP, нужно 
+            сначала получить эти данные в виде переменных PHP. При работе с 
+            <SPAN class=keyword>MySQL</SPAN> без посредника (такого, как PHP) 
+            выборка данных производится с помощью команды <SPAN 
+            class=texample>SELECT</SPAN> языка SQL:</P>
+            <DIV class=example><PRE>mysql&gt; SELECT * FROM Artifacts;
+</PRE></DIV>
+            <P>В предыдущей главе мы говорили, что любой запрос, в том числе и 
+            на выборку, можно отправить на сервер с помощью функции <SPAN 
+            class=keyword>mysql_query()</SPAN>; Там у нас стояла немного другая 
+            задача - получить данные из формы и отправить их с помощью запроса 
+            на вставку в базу данных. Результатом работы <SPAN 
+            class=keyword>mysql_query()</SPAN> там могло быть только одно из 
+            выражений, <SPAN class=texample>TRUE</SPAN> или <SPAN 
+            class=texample>FALSE</SPAN>. Теперь же требуется отправить запрос на 
+            выбор всех полей, а результат отобразить в браузере. И здесь 
+            результат - это целая таблица значений, а точнее, указатель на эту 
+            таблицу. Так что нужны какие-то аналоги функции <SPAN 
+            class=keyword>mysql_field_name()</SPAN>, только чтобы они извлекали 
+            из результата запроса не имя, а значение поля. Таких функций в PHP 
+            несколько. Наиболее популярные - <SPAN 
+            class=keyword>mysql_result()</SPAN> и <SPAN 
+            class=keyword>mysql_fetch_array()</SPAN>.</P>
+            <P>Синтаксис <SPAN class=keyword>mysql_result</SPAN></P>
+            <DIV class=example><PRE>смешанное mysql_result (ресурс result, 
+    целое row [, смешанное field])
+</PRE></DIV>
+            <P><SPAN class=keyword>mysql_result()</SPAN> возвращает значение 
+            одной ячейки результата запроса. Аргумент <SPAN 
+            class=texample>field</SPAN> может быть порядковым номером поля в 
+            результате, именем поля или именем поля с именем таблицы через точку 
+            <SPAN class=texample>tablename.fieldname</SPAN>. Если для имени поля 
+            в запросе применялся алиас <SPAN class=texample>('select foo as bar 
+            from...')</SPAN>, используйте его вместо реального имени поля. </P>
+            <P>Работая с большими результатами запросов, следует задействовать 
+            одну из функций, обрабатывающих сразу целый ряд результата 
+            (например, <SPAN class=keyword>mysql_fetch_row()</SPAN>, <SPAN 
+            class=keyword>mysql_fetch_array()</SPAN> и т.д.). Так как эти 
+            функции возвращают значение нескольких ячеек сразу, они НАМНОГО 
+            быстрее <SPAN class=keyword>mysql_result()</SPAN>. Кроме того, нужно 
+            учесть, что указание численного смещения (номера поля) работает 
+            намного быстрее, чем указание колонки или колонки и таблицы через 
+            точку.</P>
+            <P>Вызовы функции <SPAN class=keyword>mysql_result()</SPAN> не 
+            должны смешиваться с другими функциями, работающими с результатом 
+            запроса.</P>
+            <P>Синтаксис <SPAN class=keyword>mysql_fetch_array</SPAN></P>
+            <DIV class=example><PRE>массив mysql_fetch_array ( ресурс result 
+    [, целое result_type])
+</PRE></DIV>
+            <P>Эта функция обрабатывает ряд результата запроса, возвращая массив 
+            (ассоциативный, численный или оба) с обработанным рядом результата 
+            запроса, или <SPAN class=texample>FALSE</SPAN>, если рядов больше 
+            нет.</P>
+            <P><A name=keyword-context.1></A><SPAN 
+            class=keyword_def>mysql_fetch_array()</SPAN> - это расширенная 
+            версия функции <SPAN class=keyword>mysql_fetch_row()</SPAN>. Помимо 
+            хранения значений в массиве с численными индексами, функция 
+            возвращает значения в массиве с индексами по названию колонок.</P>
+            <P>Если несколько колонок в результате будут иметь одинаковые 
+            названия, будет возвращена последняя колонка. Чтобы получить доступ 
+            к первым, следует использовать численные индексы массива или алиасы 
+            в запросе. В случае алиасов именно их вы не сможете использовать 
+            настоящие имена колонок, как, например, не сможете использовать 
+            "photo" в описанном ниже примере.</P><A name=example.11.1></A>
+            <DIV class=example><PRE>select Artifacts.photo as art_image, 
+    Persons.photo as pers_image 
+   from Artifacts, Persons
+</PRE><SPAN class=objectName>Пример 11.1. Запрос с дублирующимися 
+            именами колонок</SPAN></DIV>
+            <P>Важно заметить, что <SPAN 
+            class=keyword>mysql_fetch_array()</SPAN> работает НЕ медленнее, чем 
+            <SPAN class=keyword>mysql_fetch_row()</SPAN>, и предоставляет более 
+            удобный доступ к данным.</P>
+            <P>Второй опциональный аргумент <SPAN 
+            class=texample>result_type</SPAN> в функции <SPAN 
+            class=keyword>mysql_fetch_array()</SPAN> является константой и может 
+            принимать следующие значения: <SPAN 
+            class=texample>MYSQL_ASSOC</SPAN>, <SPAN 
+            class=texample>MYSQL_NUM</SPAN> и <SPAN 
+            class=texample>MYSQL_BOTH</SPAN>. Эта возможность добавлена в PHP 
+            3.0.7. Значением по умолчанию является: <SPAN 
+            class=texample>MYSQL_BOTH</SPAN>. </P>
+            <P>Используя <SPAN class=texample>MYSQL_BOTH</SPAN>, получим массив, 
+            состоящий как из ассоциативных индексов, так и из численных. <SPAN 
+            class=texample>MYSQL_ASSOC</SPAN> вернет только ассоциативные 
+            соответствия, а <SPAN class=texample>MYSQL_NUM</SPAN> - только 
+            численные.</P>
+            <P><B>Замечание:</B> имена полей, возвращаемые этой функцией, 
+            регистрозависимы.</P>
+            <P>Теперь отобразим данные из <SPAN class=texample>Artifacts</SPAN> 
+            в виде таблицы в браузере:</P><A name=example.11.1.1></A>
+            <DIV class=example><PRE>&lt;?
+/ * сначала делаем то же, что и раньше: устанавливаем 
+соединение, выбираем базу и получаем список и число полей в таблице Artifacts */
+$conn=mysql_connect("localhost","nina","123");
+$database = "book";
+$table_name = "Artifacts";
+mysql_select_db($database);
+$list_f = mysql_list_fields($database,$table_name);
+$n1 = mysql_num_fields($list_f);
+// сохраним имена полей в массиве $names
+for($j=0;$j&lt;$n1; $j++){
+    $names[] = mysql_field_name ($list_f,$j);
+}
+$sql = "SELECT * FROM $table_name"; // создаем SQL запрос
+$q = mysql_query($sql,$conn) or die(); // отправляем 
+           // запрос на сервер
+$n = mysql_num_rows($q); // получаем число строк результата
+//рисуем HTML-таблицу
+echo "&amp;nbsp;&lt;TABLE BORDER=0 CELLSPACING=0 width=90% 
+    align=center&gt;&lt;tr&gt;&lt;TD BGCOLOR='#005533' align=center&gt;
+    &lt;font color='#FFFFFF'&gt;&lt;b&gt;$table_name&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;
+    &lt;/tr&gt;&lt;/TABLE&gt;";
+    echo "&lt;table cellspacing=0 cellpadding=1 border=1 
+        width=90% align=center&gt;";
+    // отображаем названия полей
+    echo "&lt;tr&gt;"; 
+    foreach ($names as $val){
+        echo "&lt;th ALIGN=CENTER BGCOLOR='#C2E3B6'&gt;
+            &lt;font size=2&gt;$val&lt;/font&gt;&lt;/th&gt;";
+    }
+    // отображаем значения полей
+    echo "&lt;/tr&gt;";
+    for($i=0;$i&lt;$n; $i++){ // перебираем все строки в 
+                // результате запроса на выборку
+        echo "&lt;tr&gt;"; 
+        foreach  ($names as $k =&gt; $val) { // перебираем все 
+                // имена полей
+        $value = mysql_result($q,$i,$val); // получаем 
+                // значение поля
+        echo "&lt;td&gt;&lt;font size=2&gt;&amp;nbsp;$value&lt;/font&gt;&lt;/td&gt;"; 
+                // выводим значение поля
+        }
+    echo "&lt;/tr&gt;";
+    }
+echo "&lt;/table&gt;";
+</PRE><SPAN class=objectName>Листинг 11.1.1. Отображение данных из 
+            Artifacts в виде таблицы в браузере</SPAN></DIV>
+            <P>Сделаем то же самое с помощью <SPAN 
+            class=keyword>mysql_fetch_array()</SPAN>:</P><A 
+            name=example.11.1.2></A>
+            <DIV class=example><PRE>&lt;?
+/* ... начало  то же, что и в предыдущем примере */ 
+// отображаем значения полей
+for($i=0;$i&lt;$n; $i++){
+// получаем значение поля в виде ассоциативного массива
+     while($row = mysql_fetch_array($q, MYSQL_ASSOC)) { 
+        echo "&lt;tr&gt;";
+        foreach  ($names as $k =&gt; $val){
+            echo "&lt;td&gt;&lt;font size=2&gt;&amp;nbsp;$row[$val]&lt;/font&gt;&lt;/td&gt;"; 
+                 // выводим значение поля
+        }
+    echo "&lt;/tr&gt;";
+    }
+}
+echo "&lt;/table&gt;";
+?&gt;
+</PRE><SPAN class=objectName>Листинг 11.1.2. Отображение данных из 
+            Artifacts в виде таблицы в браузере. Вариант 2</SPAN></DIV>
+            <H3>Заключение</H3>
+            <P>В этой лекции мы решили две задачи: добавление данных в базу 
+            данных и их отображение в браузере с помощью языка PHP. Для этого мы 
+            рассмотрели ряд функций, которые позволяют отправлять SQL-запросы к 
+            базе данных и обрабатывать полученные ответы. Используя приведенную 
+            здесь технологию, можно решить целый ряд похожих задач, таких как 
+            задачи изменения и удаления данных, задачи манипулирования таблицами 
+            базы данных (т.е. их создание, изменение и удаление) и т.п. Все это 
+            типовые задачи, возникающие при разработке систем управления 
+            данными, и умение их решать, как и умение работать с базами данных в 
+            целом, очень важно для web-программиста.</P></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Взаимодействие PHP и MySQL.files/empty.gif" 
+        width=1></TD></TR></TBODY></TABLE><!-- /content --></TD>
+    <TD><IMG height=1 src="Взаимодействие PHP и MySQL.files/empty.gif" 
+    width=8></TD></TR></TBODY></TABLE><!-- /bottom -->
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD class=orang height=1><IMG height=1 
+      src="Взаимодействие PHP и MySQL.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD class=ltxt align=middle>© 2003-2005 INTUIT.ru. Все права 
+  защищены.</TD></TR></TBODY></TABLE><!-- /bottom --></BODY></HTML>

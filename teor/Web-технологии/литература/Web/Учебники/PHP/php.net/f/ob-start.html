@@ -1,0 +1,68 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>ob_start</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ob-implicit-flush.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="../ref.overload.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.ob-start">ob_start</A></H1><A NAME="AEN60966"></A><P>(PHP 4)</P>
+<p>ob_start - включает буферизацию вывода.<A NAME="AEN60969"></A></p><H2>Описание</H2>
+<p>void <B>ob_start</B> ([string output_callback])</p>
+<P>Эта функция включает буферизацию вывода. Если буферизация вывода активна, 
+никакой вывод скрипта не высылается (кроме шапок/headers); вывод сохраняется во внутреннем буфере.</P>
+<P>Содержимое этого внутреннего буфера может быть скопировано в строковую переменную с использованием
+<A HREF="ob-get-contents.html"><B>ob_get_contents()</B></A>. Для вывода содержимого этого внутреннего буфера используйте
+<A HREF="ob-end-flush.html"><B>ob_end_flush()</B></A>. Альтернативно
+<A HREF="ob-end-clean.html"><B>ob_end_clean()</B></A> втихую отбрасывает содержимое буфера.</P>
+<P>Может быть специфицирована необязательная функция <TT><I>output_callback</I></TT>. Эта функция принимает строку как параметр и должна возвращать строку. Функция 
+будет вызвана при вызове <A HREF="ob-end-flush.html"><B>ob_end_flush()</B></A>, или если буфер выводится в браузер в конце запроса. Когда вызывается
+<TT><I>output_callback</I></TT>, она примет содержимое буфера вывода как параметр и по идее должна возвратить 
+новый буфер вывода как результат, который будет направлен в браузер.</P><BLOCKQUOTE><P><B>Примечание: </B>
+в PHP 4.0.4 <A HREF="ob-gzhandler.html"><B>ob_gzhandler()</B></A> была введена для облегчения отправки gz-кодированных данных web-браузерам, 
+поддерживающим сжатые web-страницы. <A HREF="ob-gzhandler.html"><B>ob_gzhandler()</B></A> определяет тип кодировки содержимого, принимаемый браузером, и возвращает 
+вывод соответствующим образом.</P></BLOCKQUOTE><P>Буферы вывода стэкируются, то есть вы можете вызвать
+<B>ob_start()</B>, когда активна другая <B>ob_start()</B>. просто убедитесь, что вы вызываете
+<A HREF="ob-end-flush.html"><B>ob_end_flush()</B></A> соответствующее количество раз. Если активны несколько callback-функций, вывод 
+последовательно фильтруется для каждой из них в порядке вложения.</P>
+<P><A HREF="ob-end-clean.html"><B>ob_end_clean()</B></A>, <A HREF="ob-end-flush.html"><B>ob_end_flush()</B></A>,
+<A HREF="ob-clean.html"><B>ob_clean()</B></A>, <A HREF="ob-flush.html"><B>ob_flush()</B></A>
+и <B>ob_start()</B> не могут вызываться из callback. Если вы вызовете их из
+callback-функции, поведение не определено. Если вы хотите удалить 
+содержимое буфера, возвратите "" (нулевую строку) из callback.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN61000"></A><h5>Пример 1. Пользовательская callback-функция</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+
+function callback($buffer) {
+
+  // заменить все apples на oranges
+  return (ereg_replace("apples", "oranges", $buffer));
+
+}
+
+ob_start("callback");
+
+?&#62;
+
+&#60;html&#62;
+&#60;body&#62;
+&#60;p&#62;It's like comparing apples to oranges.
+&#60;/body&#62;
+&#60;/html&#62;
+
+&#60;?php
+
+ob_end_flush();
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Даст:<A NAME="AEN61004"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;html&#62;
+&#60;body&#62;
+&#60;p&#62;It's like comparing oranges to oranges.
+&#60;/body&#62;
+&#60;/html&#62;</PRE></TD></TR></TABLE><P>См. также <A HREF="ob-get-contents.html"><B>ob_get_contents()</B></A>,
+<A HREF="ob-end-flush.html"><B>ob_end_flush()</B></A>,
+<A HREF="ob-end-clean.html"><B>ob_end_clean()</B></A>,
+<A HREF="ob-implicit-flush.html"><B>ob_implicit_flush()</B></A> и
+<A HREF="ob-gzhandler.html"><B>ob_gzhandler()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ob-implicit-flush.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="../ref.overload.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ob_implicit_flush</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.outcontrol.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Перегрузка свойств и вызовов методов объектов</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

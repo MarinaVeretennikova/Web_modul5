@@ -1,0 +1,60 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>pfpro_process</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="pfpro-process-raw.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="pfpro-version.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.pfpro-process">pfpro_process</A></H1><A NAME="AEN63648"></A><P>(PHP 4 &#62;= 4.0.2)</P>
+<p>pfpro_process - обрабатывает транзакцию с помощью Payflow Pro.<A NAME="AEN63651"></A></p><H2>Описание</H2>
+<p>array <B>pfpro_process</B> (array parameters [, string address [, int port [, int timeout [, string proxy address [, int proxy port [, string proxy logon [, string proxy password]]]]]]])</p>
+<P>Возвращает ассоциативный массив, содержащий ответ.</P><P><B>pfpro_process()</B> обрабатывает транзакцию с помощью Payflow Pro.</P>
+<P>Первый параметр является ассоциативным массивом, содержащим ключи и значения, которые будут 
+кодированы и переданы процессору.</P>
+<P>Второй параметр является необязательным и специфицирует хост для соединения. По умолчанию это "test.signio.com", поэтому вы наверняка захотите 
+изменить его на "connect.signio.com" для обработки реальных транзакций.</P>
+<P>Третий параметр специфицирует порт для соединения. По умолчанию это 443, стандартный SSL-порт.</P>
+<P>Четвёртый параметр специфицирует таймаут в секундах. По умолчанию 30 секунд. Заметьте, что этот таймаут возникает, как только 
+устанавливается ссылка на процессор и ваш скрипт может потенциально продолжать 
+работу очень долго, в случае проблем с DNS или сетью.</P>
+<P>Пятый параметр, если он необходим, специфицирует имя хоста/hostname вашего SSL proxy.</P>
+<P>Шестой параметр специфицирует порт.</P><P>Седьмой и восьмой параметры специфицируют specify logon-идентификацию и 
+пароль/password, используемые для proxy.</P><P>Функция возвращает ассоциативный массив ключей и значений.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>
+прочтите в Payflow Pro Developers Guide детали о необходимых параметрах.</P></BLOCKQUOTE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN63691"></A><h5>Пример 1. Payflow Pro</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+pfpro_init();
+
+$transaction = array(USER	=&#62; 'mylogin',
+		     PWD	=&#62; 'mypassword',
+		     TRXTYPE	=&#62; 'S',
+		     TENDER	=&#62; 'C',
+		     AMT	=&#62; 1.50,
+		     ACCT	=&#62; '4111111111111111',
+		     EXPDATE	=&#62; '0904'
+		     );
+
+$response = pfpro_process($transaction);
+
+if (!$response) {
+  die("Couldn't establish link to Verisign.\n");
+}
+
+echo "Verisign response code was ".$response[RESULT];
+echo ", which means: ".$response[RESPMSG]."\n";
+
+echo "\nThe transaction request: ";
+print_r($transaction);
+
+echo "\nThe response: ";
+print_r($response);
+
+pfpro_cleanup();
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="pfpro-process-raw.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="pfpro-version.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">pfpro_process_raw</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.pfpro.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">pfpro_version</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

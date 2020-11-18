@@ -1,0 +1,42 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>OCIDefineByName</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ocicommit.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ocierror.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="ocidefinebyname">OCIDefineByName</A></H1><A NAME="AEN58197"></A><P>(PHP 3&#62;= 3.0.7, PHP 4)</P>
+<p>OCIDefineByName - использует PHP-переменную для define-этапа при выполнении SELECT.<A NAME="AEN58200"></A></p>
+<H2>Описание</H2><p>int <B>OCIDefineByName</B> (int stmt, string Column-Name, mixed variable [, int type])</p>
+<P><B>OCIDefineByName()</B> связывает PHP-переменные для извлечения SQL-столбцов. Не забывайте, что Oracle 
+использует имена столбцов ALL-UPPERCASE, в то время как в вашем select вы можете также записывать в нижнем регистре.
+<B>OCIDefineByName()</B> ожидает, что <TT><I>Column-Name</I></TT> будет в верхнем регистре. Если вы определяете переменную, которая не 
+существует в вашем операторе select, ошибка не будет выдана!</P><P>Если вам нужно определить абстрактный тип данных (LOB/ROWID/BFILE), его 
+нужно сначала разместить с помощью <B>OCINewDescriptor()</B>. См. также <B>OCIBindByName()</B>.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN58224"></A><h5>Пример 1. OCIDefineByName</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+/* пример OCIDefineByName - thies@thieso.net (980219) */
+
+$conn = OCILogon("scott","tiger");
+
+$stmt = OCIParse($conn,"select empno, ename from emp");
+
+/* это определение ОБЯЗАНО быть сделано ДО ociexecute! */
+
+OCIDefineByName($stmt,"EMPNO",$empno);
+OCIDefineByName($stmt,"ENAME",$ename);
+
+OCIExecute($stmt);
+
+while (OCIFetch($stmt)) {
+    echo "empno:".$empno."\n";
+    echo "ename:".$ename."\n";
+}
+
+OCIFreeStatement($stmt);
+OCILogoff($conn);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0"  WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ocicommit.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ocierror.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">OCICommit</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.oci8.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">OCIError</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

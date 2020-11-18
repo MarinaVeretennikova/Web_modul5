@@ -1,0 +1,345 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0030)http://jsp.newmail.ru/les3.htm -->
+<HTML><HEAD><TITLE>Урок 3. Дата и время</TITLE>
+<META content="text/html; charset=windows-1251" http-equiv=Content-Type>
+<META 
+content="html javascript джаваскрипт советы для начинающих script уроки код&#13;&#10;руководство основы design дизайн веб-страницы web pages" 
+name=Keywords>
+<META 
+content="Самое толковое руководство по основам javascript на русском языке. Дата и время" 
+name=Description><LINK href="les3.files/blue.css" rel=STYLESHEET type=text/css>
+<SCRIPT language=javascript>
+<!--
+if (document.images) {
+ar_r = new Image(33,33); ar_r.src = "i/ar_r.gif"; 
+ar_r1 = new Image(33,33); ar_r1.src = "i/ar_r1.gif"; 
+none = new Image(79,35); none.src = "i/none.gif"; 
+next = new Image(79,35); next.src = "i/next.gif"; 
+prev = new Image(79,35); prev.src = "i/prev.gif";
+ar_l = new Image(33,33); ar_l.src = "i/ar_l.gif";
+ar_l1 = new Image(79,35); ar_l1.src = "i/ar_l1.gif";
+}
+function swap(imgName,imgObjName) {
+if (document.images) {
+  document.images[imgName].src = eval(imgObjName + ".src");
+}}
+function toc() {
+OpenWindow=window.open('toc.html', 'toc', config='width=300,scrollbars=1,resizable=1,status=1')
+self.name="one"
+}
+//-->
+</SCRIPT>
+
+<META content="MSHTML 5.00.2614.3500" name=GENERATOR></HEAD>
+<BODY background=les3.files/Life_blue.gif bgColor=#334775 text=#334775>
+<DIV 
+style="HEIGHT: 35px; LEFT: 10px; POSITION: absolute; TOP: 10px; WIDTH: 160px"><A 
+href="http://jsp.newmail.ru/les2.htm" 
+onmouseout="swap('left','ar_l');swap('none','none')" 
+onmouseover="swap('left','ar_l1');swap('none','prev')"><IMG border=0 height=33 
+name=left src="les3.files/ar_l.gif" width=33></A>&nbsp;<A href="" 
+onmouseout="swap('left','ar_l');swap('right','ar_r')" 
+onmouseover="swap('left','ar_l1');swap('right','ar_r1')"><IMG border=0 height=35 
+name=none src="les3.files/none.gif" width=79></A>&nbsp;<A 
+href="http://jsp.newmail.ru/les4.htm" 
+onmouseout="swap('right','ar_r');swap('none','none')" 
+onmouseover="swap('right','ar_r1');swap('none','next')"><IMG border=0 height=33 
+name=right src="les3.files/ar_r.gif" width=33></A> </DIV>
+<H1 align=right>Урок 3<BR>Дата и время</H1>
+<P align=right><B><FONT color=#fb4462>красным цветом даны примечания 
+переводчика</FONT></B><BR><A 
+href="http://jsp.newmail.ru/les3.htm#concept">Концепция</A>__<A 
+href="http://jsp.newmail.ru/les3.htm#script">Скрипт</A>__<A 
+href="http://jsp.newmail.ru/les3.htm#effect">Эффект</A>__<A 
+href="http://jsp.newmail.ru/les3.htm#decon">Разбор скрипта</A>__<A 
+href="http://jsp.newmail.ru/les3.htm#assig">Задание</A></P>
+<P align=right><A href="http://jsp.newmail.ru/les3.htm#" 
+onclick=toc()>Оглавление (в новом окне)</A></P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="50%"><IMG height=13 
+      src="les3.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="30%">
+      <P align=right><IMG height=13 src="les3.files/b_t_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="80%">
+      <H2><A name=concept>Концепция</A></H2>
+      <P align=justify><B>И</B>з <A href="http://jsp.newmail.ru/les1.htm" 
+      id=l>Урока 1</A> вам известно, что существует такой объект как документ. 
+      Иначе в нем ничего нельзя было бы написать. Сегодня мы поговорим о семи 
+      методах объекта: getDay(), getDate(), getMonth(), getYear(), getHour(), 
+      getMinute(), и getSecond() <FONT color=red>(получитьДень, Число, Месяц, 
+      Год, Час, Минуту, Секунду)</FONT>. Все они уже существуют, их можно взять 
+      и поместить на страницу. Проблема в том, что это всего лишь методы. Для 
+      воздействия им нужен объект, а документ для этих целей не годится... так 
+      что придется самим придумывать новый объект.</P>
+      <P><STRONG><FONT color=red>Ошибка 2000!</STRONG></P>
+      <P align=justify>С 1 января 2000 вместо двух последних цифр года, как 
+      раньше, getYear в Експлорере показывает полный четырехзначный номер, а в 
+      Нескейпе — число 100. Может быть, Нетскейп заделает эту дырку, а до тех 
+      пор лучше пользоваться командой getFullYear, которую, кажется, правильно 
+      воспринимает и тот, и другой. Правда, Опера ее вообще не 
+      воспринимает.</SMALL></FONT></P>
+      <H2><A name=script>Скрипт</A></H2>
+      <P class=cou>&lt;SCRIPT LANGUAGE="JavaScript"&gt;</P>
+      <P class=cou>//Скрипт отмечает точную дату и время вашего прибытия на 
+      страницу</P>
+      <P class=cou>Now = new Date();<BR>document.write("Сегодня " + 
+      Now.getDate()+ <BR>"-" + Now.getMonth() + "-" + Now.getFullYear() + ". 
+      <BR>Вы зашли на мою страницу ровно в: " + Now.getHours() + <BR>":" + 
+      Now.getMinutes() + " и " + Now.getSeconds() + <BR>" секунд.")</P>
+      <P class=cou>&lt;/SCRIPT&gt;</P>
+      <P><I>Кстати, строка document.write не должна прерываться. Я разбил ее на 
+      несколько, чтобы удобнее было читать.</I></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd vAlign=bottom width="50%"><IMG height=13 
+      src="les3.files/b_b_l.gif" width=12></TD>
+    <TD bgColor=#cef3fd vAlign=bottom width="30%">
+      <P align=right><IMG height=13 src="les3.files/b_b_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P>
+<DIV align=right>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="85%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=30 vAlign=top width="50%"><IMG height=13 
+      src="les3.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd vAlign=top width="50%">
+      <P align=right><IMG height=13 src="les3.files/b_t_r.gif" 
+  width=13></P></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%">
+      <H2><A name=effect>Эффект</A> </H2>
+      <P>
+      <SCRIPT language=JavaScript>
+//Скрипт отмечает точную дату и время вашего прибытия на страницу
+Now = new Date();
+document.write("Сегодня " + Now.getDate()+ "-" + Now.getMonth() + "-" + Now.getFullYear() + ". Вы зашли на мою страницу ровно в: " + Now.getHours() + ":" + Now.getMinutes() + " и " + Now.getSeconds() + " секунд.")
+</SCRIPT>
+      </P></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%"><IMG height=13 
+      src="les3.files/b_b_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%">
+      <P align=right><IMG height=13 src="les3.files/b_b_r.gif" 
+  width=13></P></TD></TR></TBODY></TABLE></DIV>
+<P>.</P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="50%"><IMG height=13 
+      src="les3.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="30%">
+      <P align=right><IMG height=13 src="les3.files/b_t_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%"><A 
+      name=decon>
+      <H2>Разбор скрипта</A> </H2>
+      <P align=justify><B>Н</B>е пугайтесь сразу, скоро все станет понятно. 
+      Позвольте, уж я снова напомню вам о четкой форме скрипта. Строка 
+      document.write уходит далеко за границы экрана. Эту форму необходимо 
+      сохранить, иначе ваш браузер выдаст сообщение об ошибке.</P>
+      <P><B>Что это за штука // ?</B></P>
+      <P align=justify>По ходу наших разговоров вы будете узнавать все больше 
+      новых команд. Это одна из них. Двойная дробь указывает на комментарий 
+      внутри скрипта. Она означает, что следующий за ней текст не участвует в 
+      процессе. Можете добавлять сколько угодно текста, только помните, что 
+      каждая строка должна начинаться с двойной дроби //.</P>
+      <P><B>Методы Дата и Время</B></P>
+      <P align=justify>Посмотрите на скрипт. Видите, скрипту дается команда 
+      поместить в документ число, месяц, год, часы, минуты и секунды. Несколько 
+      дополнительных слов объясняют, на что вы смотрите.<BR>Все это было создано 
+      с помощью метода get<I>Что-либо</I>(). Обратите внимание на заглавную 
+      букву. Сначала «g» в нижнем регистре, потом Заглавная буква.</P>
+      <P>Во-первых, помните, что все это цифры. Даже метод getDay(), который 
+      отвечает за день недели, выражается цифрой от единицы до семи.<BR>Начнем с 
+      месяца. Как уже говорилось раньше, getMonth() — это метод, отвечающий за 
+      месяц. Теперь задумаемся о том, на какой объект воздействует метод 
+      getMonth(). Помните это из <A href="http://jsp.newmail.ru/les1.html" 
+      id=l>Урока 1</A>? Метод <FONT color=red>(method)</FONT> воздейcтвует на 
+      объект <FONT color=red>(object)</FONT>.</P>
+      <P align=justify>Может показаться, что get<I>Что-либо</I>() — это метод 
+      объекта document. Вовсе нет. Метод документа — write. getMonth() на самом 
+      деле является методом объекта <B>Date</B>. Взгляните на скрипт еще раз. 
+      Date занимает отдельное место в команде:</P>
+      <P align=center class=cou>Now = new Date();</P>
+      <P align=justify>Я устанавливаю объект, с которым будет работать метод 
+      getMonth(). Имея дело с датой и временем, всякий раз пользуйтесь той же 
+      схемой. Нужно создать объект. Мой объект называется <B>Now</B> <FONT 
+      color=red>(сейчас)</FONT>. Видите? Между прочим, я мог бы назвать его Zork 
+      или Fred, браузеру все равно. Это не имеет значения, если объект получил 
+      оригинальное имя, которое больше нигде в JavaScript не 
+      встречается.<BR>Если вам кажется, что кое-что тут поставлено с ног на 
+      голову, я вас понимаю. Такое впечатление, что следует писать new Date = 
+      Now, но это не так. Вы изучаете незнакомый язык и обязаны подчиняться его 
+      правилам.<BR>Команда говорит: <I>Now</I> — это объект, который 
+      представляет <I>new Date() <FONT color=red>(новую Дату)</FONT></I>. Дата 
+      обязательно должна быть новой. Таким способом вы будете получать новую 
+      дату каждый раз, когда заходите на страницу или обновляете ее.</P>
+      <P align=justify><B>Обратите внимание</B> и на точку с запятой в конце. 
+      Она указывает на то, что строка JavaScript закончена. Без нее браузер 
+      решил бы, что команда продолжается на следующей строке. Ошибка.</P>
+      <P align=justify>Ура! У нас есть объект, на который может воздействовать 
+      метод getMonth(). Нам нужно напечатать месяц на странице, значит, где-то 
+      должна быть команда document.write(). Нам также известно, что текст в 
+      скобках будет виден на странице, так давайте напишем все это, следуя 
+      логике:
+      <UL>
+        <LI>Сначала пишем &lt;SCRIPT LANGUAGE="javascript"&gt;. 
+        <LI>Потом вставляем комментарий о том, для чего предназначен скрипт. 
+        <LI>Прежде чем приступить к getMonth(), необходимо создать объект. 
+        Убедитесь, что строка заканчивается точкой с запятой. 
+        <LI>Теперь можно вставлять утверждение document.write. 
+        <LI>Текст в скобках после document.write оформляем по правилам <A 
+        href="http://jsp.newmail.ru/les1.html" id=l>Урока 1</A>. 
+        <UL>
+          <LI>Текст, видимый на странице, должен быть окружен двойными кавычками 
+          (одинарные кавычки для кода HTML внутри двойных). 
+          <LI><I><U>Новое правило</U></I>: сочетание текста и команд требует 
+          знака «плюс» + между элементами. 
+          <LI>Объект и метод разделены точкой, так что команда напечатать месяц 
+          выглядит так: Now.getMonth(). 
+          <LI><I><U>Новое правило</U></I>: Now.getMonth() — это не текст, 
+          который должен быть виден на странице, а команда, которая указывает 
+          месяц. Поэтому не нужно ставить ее ни в какие кавычки. </LI></UL>
+        <LI>Заканчиваем командой &lt;/SCRIPT&gt;. </LI></UL>
+      <P>И вот что у нас получилось:</P>
+      <P class=cou>&lt;SCRIPT LANGUAGE="javascript"&gt;</P>
+      <P class=cou>//Скрипт напечатает на странице номер месяца</P>
+      <P class=cou>Now = new Date();<BR>document.write("Сейчас месяц " + 
+      Now.getMonth())</P>
+      <P class=cou>&lt;/SCRIPT&gt;</P>
+      <P align=justify>Посмотрите на первый скрипт еще раз. Длинная строка уже 
+      не кажется такой страшной. Это просто объект Now и метод getЧто-либо() 
+      после него. Я разделил элементы даты дефисами. Помните, дефис должен быть 
+      виден на странице, поэтому его следует ставить в кавычки. Все части 
+      связаны между собой плюсами +.</P>
+      <P align=justify><B>Пробелы</B></P>
+      <P align=justify>Я научу вас одной маленькой хитрости. Сколько бы пробелов 
+      вы не ставили до и после знаков плюс, это никак не повлияет на видимый 
+      результат. Элементы пойдут сплошным текстом. Поэтому, если вам нужны 
+      пробелы, добавляйте их в части текста в кавычках. Например:</P>
+      <P align=center class=cou>"Сейчас ровно &nbsp; "</P>
+      <P align=justify>Видите, я добавил пробел перед второй кавычкой? Когда 
+      скрипт отпечатается на странице, пробел окажeтся на своем месте. 
+      <B>Помните</B>: это не HTML. В Javascript существуют свои правила 
+      относительно пробелов.</P>
+      <P><B>Длинная строка</B></P>
+      <P align=justify>Я не буду разбирать ее во всех подробностях, потому что 
+      вы наверняка уже вошли в курс дела. Оставим только cтроку c датой. Вот как 
+      это выглядит:</P>
+      <P class=cou>document.write("Сегодня " + Now.getDate() + <BR>"-" + 
+      Now.getMonth() + "-" + Now.getFullYear() + ". <BR>Вы зашли на страницу 
+      ровно в: " + Now.getHours() + <BR>":" + Now.getMinutes() + " и " + 
+      Now.getSeconds() + <BR>" секунд.")
+      <OL>
+        <LI>Я начал с «Сегодня », прибавив пробел в конце. 
+        <LI>Следом знак плюс. 
+        <LI>Now.getDate() без кавычек, потому что нам нужен не текст, а цифры. 
+        <LI>Еще плюс. 
+        <LI>Потом дефис в кавычках, чтобы отделить следующие цифры. Никаких 
+        пробелов, потому что они должны стоять вплотную. 
+        <LI>Плюс. 
+        <LI>Потом Now.getMonth без кавычек, чтобы у нас был месяц. 
+        <LI>Плюс. 
+        <LI>Еще дефис в кавычках, чтобы он был виден на странице. 
+        <LI>Плюс. 
+        <LI>Еще один метод Now.getFullYear сообщит год. </LI></OL>
+      <P align=justify>Продолжайте дальше по этой схеме, и скрипт напечатает 
+      именно то, что вы хотите. Тогда вы всем сможете сказать, который час.</P>
+      <P align=justify>Кое-что об одной из самых интересных заморочек 
+      JavaScript. Должно быть, вы заметили, что номер месяца на один меньше, чем 
+      нужно. Почему? Цифры сообщает нам JavaScript, a JavaScript любит считать 
+      от нуля. Чудно, ничего не скажешь, но так уж вышло. Tо есть, январь 
+      нулевой месяц и так далее.</P>
+      <P align=justify>Так что же делать? Прибавить 1, разумеется! Тут требуется 
+      известная сноровка. Нужно ввести несколько переменных, то есть, присвоить 
+      имя некоему элементу (это еще будет в <A 
+      href="http://jsp.newmail.ru/les6.htm" id=l>Уроке 6</A>). Вы присваиваете 
+      new Date() имя, как уже делали раньше. Затем присваиваете имя команде, 
+      которая вызывает месяц. Ниже я назвал ее mpo (<B>M</B>есяц <B>П</B>люс 
+      <B>O</B>дин). И прибавляете к ней единицу. Эту новую команду я назвал 
+      mpo1. На слух довольно путано, но не торопитесь. Вот как это выглядит:</P>
+      <P class=cou>&lt;SCRIPT LANGUAGE="javascript"&gt;</P>
+      <P class=cou>Now = new Date();<BR>var mpo = Now.getMonth();<BR>var mpo1 = 
+      mpo + 1<BR>document.write("Сейчас месяц " + mpo1 + 
+      ".");<BR><BR>&lt;/SCRIPT&gt;</P>
+      <P align=justify>И вот что у вас получилось:</P>
+      <P align=center>
+      <SCRIPT>
+Now = new Date();
+var mpo = Now.getMonth();
+var mpo1 = mpo + 1
+document.write("Cегодня месяц " +mpo1+ ".");
+</SCRIPT>
+      </P>
+      <P align=center>Это уж правильный месяц, или как?</P>
+      <H2><A name=assig>Ваше задание</A></H2>
+      <P align=justify><B>С</B>егодняшнее задание не такое уж сложное. Я 
+      предлагаю вам написать скрипт, который поместит на вашу страницу дату, 
+      разделенную дробями /. Приветственный текст должен быть зеленого цвета. 
+      Также отметьте, что это вы написали скрипт, потому что... так оно и 
+      есть!</P>
+      <P align=justify>Возможный ответ <A 
+      href="http://jsp.newmail.ru/assig3.htm" id=l>здесь</A></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd vAlign=bottom width="50%"><IMG height=13 
+      src="les3.files/b_b_l.gif" width=12></TD>
+    <TD bgColor=#cef3fd vAlign=bottom width="30%">
+      <P align=right><IMG height=13 src="les3.files/b_b_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR></TBODY></TABLE>
+<P align=right><A 
+href="http://jsp.newmail.ru/les3.htm#concept">Концепция</A>__<A 
+href="http://jsp.newmail.ru/les3.htm#script">Скрипт</A>__<A 
+href="http://jsp.newmail.ru/les3.htm#effect">Эффект</A>__<A 
+href="http://jsp.newmail.ru/les3.htm#decon">Разбор скрипта</A>__<A 
+href="http://jsp.newmail.ru/les3.htm#assig">Задание</A> </P>
+<P align=right><FONT size=5><A href="http://jsp.newmail.ru/les4.htm">Вперед, на 
+Урок 4</A></FONT></P>
+<DIV align=right>
+<TABLE width="75%">
+  <TBODY>
+  <TR>
+    <TD><FONT color=#cef3fd>
+      <P align=justify class=small>авторы <A 
+      href="http://www.htmlgoodies.com/primers/jsp/me.html">Джо Бернс</A> и 
+      Эндри Грауни. <A href="http://www.htmlgoodies.com/">Оригинал и многое 
+      другое на английском языке</A> © <A 
+      href="http://www.earthweb.com/">EarthWeb Inc.</A> <BR>Перевод, оформление 
+      и верстка © Татьяна.</FONT></P></TD></TR></TBODY></TABLE></DIV><!-- HotLog -->
+<SCRIPT language=javascript>
+hotlog_js="1.0";hotlog_d=document; hotlog_n=navigator;hotlog_rn=Math.random();
+hotlog_n_n=(hotlog_n.appName.substring(0,3)=="Mic")?0:1;
+hotlog_r=""+hotlog_rn+"&s=15862&r="+escape(hotlog_d.referrer)+"&pg="+
+escape(window.location.href);
+hotlog_d.cookie="hotlog=1"; hotlog_r+="&c="+(hotlog_d.cookie?"Y":"N");
+hotlog_d.cookie="hotlog=1; expires=Thu, 01-Jan-70 00:00:01 GMT"</SCRIPT>
+
+<SCRIPT language=javascript1.1>
+hotlog_js="1.1";hotlog_r+="&j="+(navigator.javaEnabled()?"Y":"N")</SCRIPT>
+
+<SCRIPT language=javascript1.2>
+hotlog_js="1.2";hotlog_s=screen;
+hotlog_r+="&wh="+hotlog_s.width+'x'+hotlog_s.height+"&px="+((hotlog_n_n==0)?
+hotlog_s.colorDepth:hotlog_s.pixelDepth)</SCRIPT>
+
+<SCRIPT language=javascript1.3>hotlog_js="1.3"</SCRIPT>
+
+<SCRIPT language=javascript>hotlog_r+="&js="+hotlog_js;
+hotlog_d.write("<img src=\"http://hit2.hotlog.ru/cgi-bin/hotlog/count?"+
+hotlog_r+"&\" border=0 width=1 height=1>")</SCRIPT>
+<NOSCRIPT><IMG border=0 height=1 src="les3.files/count" width=1></NOSCRIPT> <!-- /HotLog --><!--webbot bot="HTMLMarkup" startspan ALT="Site Meter" -->
+<SCRIPT>var site="sm2jsp"</SCRIPT>
+
+<SCRIPT language=JavaScript1.2 src="les3.files/counter.js">
+</SCRIPT>
+<!-- Copyright (c) 1999-2000 Site Meter --><!--webbot
+bot="HTMLMarkup" endspan --></BODY></HTML>

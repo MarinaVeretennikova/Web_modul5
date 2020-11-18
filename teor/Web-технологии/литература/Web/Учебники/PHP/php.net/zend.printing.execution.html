@@ -1,0 +1,37 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Информация Выполнения</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="zend.printing.phpinfo.html">Назад</A></TD><th WIDTH="80%">Глава 37. Печать информации</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="zend.startup-and-shutdown.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="zend.printing.execution">Информация выполнения</a></H1>
+<P>Вы можете также печатать информацию о ходе выполнения, такую как текущий 
+выполняемый файл. Имя выполняемой в данный момент функции можно получить с 
+помощью функции <B>get_active_function_name()</B>. Эта функция возвращает указатель на имя функции и не принимает аргументов. 
+Чтобы запросить имя исполняемого в данный момент файла, используйте <B>zend_get_executed_filename()</B>.
+Эта функция выполняет доступ к глобалам исполнителя/executor, которые передаются ей макросом
+<TT>ELS_C</TT>. Глобалы исполнителя автоматически доступны каждой функции, вызываемой 
+непосредственно Zend (они являются частью <TT>INTERNAL_FUNCTION_PARAMETERS</TT>, описанного ранее в этой главе). Если вам нужен доступ к глобалам исполнителя 
+в другой функции, которая не имеет их как автоматически доступные, вызовите макрос
+<TT>ELS_FETCH()</TT> один раз в этой функции; это переведёт их в вашу локальную область видимости.</P>
+<P>Наконец, номер исполняемой в данный момент строки можно получить с помощью функции
+<B>zend_get_executed_lineno()</B>. Эта функция также требует глобалов исполнителя в качестве аргументов. Примеры
+этих функций см. в Листинге 9.15 и на Рисунке 9.10. Разумеется, все примеры доступны с CD-ROM.</P>
+<A NAME="AEN87082"></A><h5>Рисунок 37-4. Листинг 9.15. Печать информации выполнения.</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>zend_printf("The name of the current function is %s&#60;br&#62;", get_active_function_name());
+zend_printf("The file currently executed is %s&#60;br&#62;", zend_get_executed_filename(ELS_C));
+zend_printf("The current line being executed is %i&#60;br&#62;", zend_get_executed_lineno(ELS_C));</PRE></TD></TR></TABLE>
+<P><IMG SRC="imag/Zend_9_execution_info.png" width="477" height="268"></P></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="zend.printing.phpinfo.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="zend.startup-and-shutdown.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Включение вывода в
+<A HREF="f/phpinfo.html"><B>phpinfo()</B></A></TD><th WIDTH="34%" VALIGN="top">
+<a href="zend.printing.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+    Функции старта и останова</TD>
+</TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

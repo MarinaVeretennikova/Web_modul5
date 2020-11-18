@@ -1,0 +1,48 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>strtok</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="strstr.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="strtolower.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.strtok">strtok</A></H1><A NAME="AEN79000"></A><P>(PHP 3, PHP 4 )</P>
+<p>strtok - лексемизация/Tokenize строки.<A NAME="AEN79003"></A></p><H2>Описание</H2><p>string <B>strtok</B> (string arg1, string arg2)</p>
+<P><B>strtok()</B> разделяет строку (<TT><I>arg1</I></TT>) на небольшие строки (лексемы/tokens), где каждая строка отделена символом 
+из <TT><I>arg2</I></TT>. То есть, если у вас имеется, например, строка "This is an example string", 
+вы можете лексемизировать её на отдельные слова с применением пробела как разделителя.<TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN79018"></A><h5>Пример 1. strtok()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$string = "This is\tan example\nstring";
+/* Использовать также символы tab и newline как лексемизирующие символы */
+$tok = strtok($string," \n\t");
+while ($tok) {
+    echo "Word=$tok&#60;br&#62;";
+    $tok = strtok(" \n\t");
+}</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Заметьте, что только первый вызов strtok использует аргумент string.
+Каждый последующий вызов strtok только использует лексему и отслеживает таким образом, где он находится в текущей строке. Для старта сначала или для 
+лексемизации новой строки вы просто вызываете strtok снова с аргументом string для его инициализации. Заметьте, что вы можете поместить несколько 
+лексем в параметр token. Строка будет лексемизироваться, если найден какой-нибудь один из символов из этого аргумента.</P>
+<P>Поведение в случае обнаружения пустой части было изменено в PHP 4.1.0. Старое поведение - возвращалась пустая строка, новое, корректное - эта часть 
+строки просто пропускается:<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN79024"></A><h5>Пример 2. Старое поведение strtok()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$first_token  = strtok('/something', '/');
+    $second_token = strtok('/');
+    var_dump ($first_token, $second_token);
+
+/* Выводится:
+    string(0) ""
+    string(9) "something"
+*/</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN79028"></A>
+<h5>Пример 3. Новое поведение strtok()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$first_token  = strtok('/something', '/');
+    $second_token = strtok('/');
+    var_dump ($first_token, $second_token);
+
+/* Выводится:
+    string(9) "something"
+    bool(false)
+*/</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Имейте также в виду, что ваши лексемы могут быть равны "0". Это даёт
+<TT><B>FALSE</B></TT> в условных выражениях.</P><P>См. также <A HREF="split.html"><B>split()</B></A> и
+<A HREF="explode.html"><B>explode()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="strstr.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="strtolower.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">strstr</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.strings.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">strtolower</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,32 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>Использование Отладчика</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="debugger.html">Назад</A></TD>
+<th WIDTH="80%">Приложение D. Отладка PHP</th><TD WIDTH="10%" ALIGN="right">
+<A HREF="debugger-protocol.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="debugger-using">Использование Отладчика</a></H1>
+<P>Внутренний отладчик в PHP 3 используется для поиска ошибок в коде. Отладчик работает через
+TCP-порт для каждого старта PHP 3. Все сообщения об ошибках по данному запросу пересылаются по данному TCP-соединению.
+Эта информация предназначается для "сервера отладки", который работает внутри IDE или программируемого редактора (такого как Emacs).</P>
+<P>Как настроить отладчик:<OL TYPE="1"><LI><P>Настройте порт TCP для отладчика в
+<a href="configuration.html#configuration.file">файле конфигурации</a> (<A HREF="configuration.html#ini.debugger.port">debugger.port</A>) и включите его (<A HREF="configuration.html#ini.debugger.enabled">debugger.enabled</A>).</P></LI><LI><P>
+Настройте прослушиватель/listener TCP на этот порт (например, <B>socket -l -s 1400</B> в UNIX).</P></LI>
+<LI><P> В вашем коде - запустите "debugger_on(<TT><I>host</I></TT>)", где <TT><I>host</I></TT> это
+IP-номер или имя хоста, на котором запущен TCP-прослушиватель.</P></LI></OL>
+Теперь все предупреждения, сообщения etc. будут выводиться на этот сокет прослушивателя, <I>даже если
+вы отключите их в <A HREF="f/error-reporting.html"><B>error_reporting()</B></A></I>.
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="debugger.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="debugger-protocol.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">Отладка PHP</TD><th WIDTH="34%" VALIGN="top">
+<a href="debugger.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Протокол отладчика</TD></TR>
+</TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

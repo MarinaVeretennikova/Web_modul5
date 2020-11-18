@@ -1,0 +1,40 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>ibase_connect</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ibase-commit.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ibase-errmsg.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.ibase-connect">ibase_connect</A></H1><A NAME="AEN37049"></A><P>(PHP 3&#62;= 3.0.6, PHP 4)</P>
+<p>ibase_connect - открывает соединение с БД InterBase.<A NAME="AEN37052"></A></p><H2>Описание</H2>
+<p>int <B>ibase_connect</B> (string database [, string username [, string password [, string charset [, int buffers [, int dialect [, string role]]]]]])</p>
+<P>Устанавливает соединение с InterBase-сервером. Аргумент <TT><I>database</I></TT> должен быть правильным путём к файлу БД на сервере, на котором он находится.
+Если сервер не является локальным, он обязан иметь префикс 'hostname:' (TCP/IP) '//hostname/' (NetBEUI), или 'hostname@' (IPX/SPX),
+в зависимости от используемого протокола соединения.<TT><I><br>username</I></TT> и <TT><I>password</I></TT> могут также быть специфицированными директивами конфигурации PHP ibase.default_user 
+и ibase.default_password.<br><TT><I>charset</I></TT> это набор символов по умолчанию для БД.<TT><I><br>
+buffers</I></TT> это это количество буферов БД, выделяемых серверным кэшем. Если 0 или опущен, сервер выбирает собственное значение по умолчанию.
+<TT><I><br>  dialect</I></TT> выбирает диалект SQL по умолчанию для любого оператора, выполняемого внутри 
+соединения, и по умолчанию является наивысшим, поддерживаемым клиентскими библиотеками.</P>
+<P>Если делается второй вызов <B>ibase_connect()</B> с теми же аргументами, новая ссылка не устанавливается, но возвращается 
+идентификатор уже открытой ссылки. Ссылка на сервер будет закрыта сразу же по 
+окончании работы скрипта, если она не будет закрыта до этого явным образом путём вызова
+<A HREF="ibase-close.html"><B>ibase_close()</B></A>.<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN37088"></A>
+<h5>Пример 1. ibase_connect()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;?php
+    $dbh = ibase_connect($host, $username, $password);
+    $stmt = 'SELECT * FROM tblname';
+    $sth = ibase_query($dbh, $stmt);
+    while ($row = ibase_fetch_object($sth)) {
+        echo $row-&#62;email, "\n";
+    }
+    ibase_free_result($sth);
+    ibase_close($dbh);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+<TT><I>buffers</I></TT> был введён в PHP 4.0RC2.</P></BLOCKQUOTE><BLOCKQUOTE><P><B>Примечание: </B>
+<TT><I>dialect</I></TT> был введён в PHP 4.0RC2. Эта функциональность - только для InterBase 6 и более 
+новых версий.</P></BLOCKQUOTE><BLOCKQUOTE><P><B>Примечание: </B><TT><I>role</I></TT> был введён в PHP 4.0RC2. Эта функциональность - только для InterBase 5 и более 
+новых версий.</P></BLOCKQUOTE><P>См. также <A HREF="ibase-pconnect.html"><B>ibase_pconnect()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ibase-commit.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ibase-errmsg.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ibase_commit</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.ibase.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ibase_errmsg</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

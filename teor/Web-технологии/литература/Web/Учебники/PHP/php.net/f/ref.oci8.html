@@ -1,0 +1,131 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Oracle 8</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%"  BORDER="0"CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="odbc-tables.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="ocibindbyname.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.oci8"></A>LXX. Функции Oracle 8</h1><A NAME="AEN57812"></A>
+<P>Эти функции дают возможность доступа к БД Oracle8 и Oracle7.
+Используется интерфейс Oracle8 Call-Interface (OCI8). Для использования 
+этого расширения вам понадобятся клиентские библиотеки Oracle8.</P>
+<P>Это расширение более гибко, чем стандартное расширение Oracle. Оно 
+поддерживает связку глобальных и локальных переменных PHP с заглушками Oracle, 
+имеет полную поддержку LOB, FILE и ROWID и позволяет использовать 
+предоставленные пользователем определённые переменные.</P>
+<P>Прежде чем использовать это расширение, убедитесь, что вы соответствующим 
+образом настроили ваши переменные окружения oracle для пользователя Oracle, а также для пользователя вашего web-демона.
+Вот переменные, которые вам может понадобиться установить:
+<UL><LI><P>ORACLE_HOME</P></LI><LI><P>ORACLE_SID</P></LI><LI><P>LD_PRELOAD</P></LI><LI><P>LD_LIBRARY_PATH</P></LI>
+<LI><P>NLS_LANG</P></LI><LI><P>ORA_NLS33</P></LI></UL>
+<P>После настройки переменных окружения для пользователя вашего web-сервера не 
+забудьте также добавить пользователя web-сервера (nobody, www) в группу oracle.</P>
+<BLOCKQUOTE><P><B>Если ваш web-сервер не стартует или заваливается при старте: </B>
+убедитесь, что Apache связан с библиотекой pthread:<A NAME="AEN57834"></A></P>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE># ldd /www/apache/bin/httpd 
+    libpthread.so.0 =&#62; /lib/libpthread.so.0 (0x4001c000)
+    libm.so.6 =&#62; /lib/libm.so.6 (0x4002f000)
+    libcrypt.so.1 =&#62; /lib/libcrypt.so.1 (0x4004c000)
+    libdl.so.2 =&#62; /lib/libdl.so.2 (0x4007a000)
+    libc.so.6 =&#62; /lib/libc.so.6 (0x4007e000)
+    /lib/ld-linux.so.2 =&#62; /lib/ld-linux.so.2 (0x40000000)</PRE></TD></TR></TABLE>
+<P>Если libpthread нет в списке, нужно переустановить Apache:<A NAME="AEN57838"></A></P>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE># cd /usr/src/apache_1.3.xx
+# make clean
+# LIBS=-lpthread ./config.status
+# make
+# make install</PRE></TD></TR></TABLE></BLOCKQUOTE><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN57841"></A><h5>Пример 1. Подсказки по OCI</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+// от sergo@bacup.ru
+
+// Используйте опцию: OCI_DEFAULT для выполнения команды задержки выполнения
+OCIExecute($stmt, OCI_DEFAULT);
+
+// для запроса использования данных (после извлечения):
+
+$result = OCIResult($stmt, $n);
+if (is_object ($result)) $result = $result-&#62;load();
+
+// Для использования операторов INSERT или UPDATE:
+
+$sql = "insert into table (field1, field2) values (field1 = 'value',
+ field2 = empty_clob()) returning field2 into :field2";
+OCIParse($conn, $sql);
+$clob = OCINewDescriptor($conn, OCI_D_LOB);
+OCIBindByName ($stmt, ":field2", &#38;$clob, -1, OCI_B_CLOB);
+OCIExecute($stmt, OCI_DEFAULT);
+$clob-&#62;save ("some text");
+OCICommit($conn);
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Вы легко можете получить доступ к хранимым процедурам тем же способом, что 
+и из командной строки.<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN57845"></A>
+<h5>Пример 2. Использование хранимых процедур</h5><TABLE BORDER="0"  BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+// от webmaster@remoterealty.com
+$sth = OCIParse ( $dbh, "begin sp_newaddress( :address_id, '$firstname',
+ '$lastname', '$company', '$address1', '$address2', '$city', '$state',
+ '$postalcode', '$country', :error_code );end;" );
+
+// Это вызывает хранимую процедуру sp_newaddress с :address_id в
+// in/out-переменной и :error_code в out-переменной.
+// Затем вы выполняете связывание:
+
+   OCIBindByName ( $sth, ":address_id", $addr_id, 10 );
+   OCIBindByName ( $sth, ":error_code", $errorcode, 10 );
+   OCIExecute ( $sth );
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><DL><DT><B>Содержание</B></DT><DT>
+<A HREF="ocibindbyname.html">OCIBindByName</A> - связывает PHP-переменную с заглушкой Oracle</DT>
+<DT><A HREF="ocicancel.html">OCICancel</A> - отменяет чтение из курсора</DT>
+<DT><A HREF="ocicollappend.html">OCICollAppend</A> -</DT>
+<DT><A HREF="ocicollassign.html">OCICollAssign</A> -</DT>
+<DT><A HREF="ocicollassignelem.html">OCICollAssignElem</A> -</DT>
+<DT><A HREF="ocicollgetelem.html">OCICollGetElem</A> -</DT>
+<DT><A HREF="ocicollmax.html">OCICollMax</A> -</DT><DT>
+<A HREF="ocicollsize.html">OCICollSize</A> -</DT>
+<DT><A HREF="ocicolltrim.html">OCICollTrim</A> -</DT>
+<DT><A HREF="ocicolumnisnull.html">OCIColumnIsNULL</A> - тестирует, является ли результирующий столбец <TT><B>NULL</B>
+</TT></DT><DT><A HREF="ocicolumnname.html">OCIColumnName</A> - возвращает имя столбца</DT>
+<DT><A HREF="ocicolumnprecision.html">OCIColumnPrecision</A> -</DT>
+<DT><A HREF="ocicolumnscale.html">OCIColumnScale</A> -</DT>
+<DT><A HREF="ocicolumnsize.html">OCIColumnSize</A> - возвращает размер результирующего столбца</DT>
+<DT><A HREF="ocicolumntype.html">OCIColumnType</A> - возвращает тип данных столбца</DT>
+<DT><A HREF="ocicolumntyperaw.html">OCIColumnTypeRaw</A> -</DT>
+<DT><A HREF="ocicommit.html">OCICommit</A> - подтверждает внешние транзакции</DT>
+<DT><A HREF="ocidefinebyname.html">OCIDefineByName</A> - использует PHP-переменную для шага define в операторе SELECT</DT>
+<DT><A HREF="ocierror.html">OCIError</A> - возвращает последнюю ошибку из stmt|conn|global</DT>
+<DT><A HREF="ociexecute.html">OCIExecute</A> - выполняет оператор</DT>
+<DT><A HREF="ocifetch.html">OCIFetch</A> - извлекает следующий ряд в result-буфер</DT>
+<DT><A HREF="ocifetchinto.html">OCIFetchInto</A> - извлекает следующий ряд в result-массив</DT>
+<DT><A HREF="ocifetchstatement.html">OCIFetchStatement</A> - извлекает все ряды результирующих данных в массив</DT>
+<DT><A HREF="ocifreecollection.html">OCIFreeCollection</A> -</DT>
+<DT><A HREF="ocifreecursor.html">OCIFreeCursor</A> - освобождает все ресурсы, ассоциированные с курсором</DT>
+<DT><A HREF="ocifreedesc.html">OCIFreeDesc</A> - удаляет дескриптор большого объекта/large object</DT>
+<DT><A HREF="ocifreestatement.html">OCIFreeStatement</A> - освобождает все ресурсы, ассоциированные с оператором</DT>
+<DT><A HREF="ociinternaldebug.html">OCIInternalDebug</A> - включает или отключает вывод внутренней отладки</DT>
+<DT><A HREF="ociloadlob.html">OCILoadLob</A> -</DT>
+<DT><A HREF="ocilogoff.html">OCILogOff</A> - отсоединяет от Oracle</DT>
+<DT><A HREF="ocilogon.html">OCILogon</A> - устанавливает соединение с Oracle</DT>
+<DT><A HREF="ocinewcollection.html">OCINewCollection</A> -</DT>
+<DT><A HREF="ocinewcursor.html">OCINewCursor</A> - возвращает новый курсор (Statement-Handle/оператор-дескриптор)</DT>
+<DT><A HREF="ocinewdescriptor.html">OCINewDescriptor</A> - инициализирует новый пустой дескриптор LOB или FILE</DT>
+<DT><A HREF="ocinlogon.html">OCINLogon</A> - устанавливает новое соединение с Oracle</DT>
+<DT><A HREF="ocinumcols.html">OCINumCols</A> - возвращает количество результирующих столбцов в операторе</DT>
+<DT><A HREF="ociparse.html">OCIParse</A> - разбирает запрос/query и возвращает оператор</DT>
+<DT><A HREF="ociplogon.html">OCIPLogon</A> - соединяется с БД Oracle с использованием постоянного соединения</DT>
+<DT><A HREF="ociresult.html">OCIResult</A> - возвращает значение столбца для извлечённого ряда</DT>
+<DT><A HREF="ocirollback.html">OCIRollback</A> - откатывает неразрешённые транзакции</DT>
+<DT><A HREF="ocirowcount.html">OCIRowCount</A> - получает количество задействованных рядов</DT>
+<DT><A HREF="ocisavelob.html">OCISaveLob</A> -</DT>
+<DT><A HREF="ocisavelobfile.html">OCISaveLobFile</A> -</DT>
+<DT><A HREF="ociserverversion.html">OCIServerVersion</A> - возвращает строку, содержащую информацию о версии сервера</DT>
+<DT><A HREF="ocisetprefetch.html">OCISetPrefetch</A> - устанавливает количество предварительно извлечённых рядов</DT>
+<DT><A HREF="ocistatementtype.html">OCIStatementType</A> - возвращает тип OCI-оператора</DT>
+<DT><A HREF="ociwritelobtofile.html">OCIWriteLobToFile</A> -</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="odbc-tables.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="ocibindbyname.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">odbc_tables</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">OCIBindByName</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,47 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>pack</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="leak.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="show-source.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="pack">pack</A></H1><A NAME="AEN48990"></A><P>(PHP 3, PHP 4)</P>
+<p>pack - упаковывает данные в бинарную строку.<A NAME="AEN48993"></A></p><H2>Описание</H2><p>string <B>pack</B> (string format [, mixed args])</p>
+<P>Упаковывает данные аргументы в бинарную строку в соответствии с форматом
+<TT><I>format</I></TT>. Возвращает бинарную строку с данными.</P>
+<P>Идея этой функции была взята из Perl, и весь код форматирования работает аналогично, однако отсутствуют некоторые коды форматирования, такие как 
+Perl'овский "u". Строка форматирования состоит из кодов форматирования и 
+последующего необязательного аргумента повторения/repeater. Аргумент repeater может быть целочисленным или
+* для повторения до конца данных ввода. Для a, A, h, H повторение 
+специфицирует, сколько символов аргумента data принимается, для @ это 
+абсолютная позиция для размещения следующих данных, для других параметров 
+повторение специфицирует, сколько аргументов данных употребляется и 
+упаковывается в результирующую бинарную строку. В настоящее время реализованы:<UL>
+<LI><P>строка с NUL-заполнением</P></LI><LI><P>строка со SPACE-заполнение</P></LI>
+<LI><P>h Hex-строка, сначала нижний разряд</P></LI><LI><P>H Hex-строка, сначала высший разряд</P></LI>
+<LI><P>c знаковый char</P></LI><LI><P>C беззнаковый char</P></LI><LI><P>s знаковый short (всегда 16 бит, машинный байтовый порядок)</P></LI>
+<LI><P>S беззнаковый short (всегда 16 бит, машинный байтовый порядок)</P></LI>
+<LI><P>n беззнаковый short (всегда 16 бит, байтовый порядок big endian)</P></LI>
+<LI><P>v беззнаковый short (всегда 16 бит, байтовый порядок little endian)</P></LI>
+<LI><P>i signed integer (машиннозависимый размер и байтовый порядок)</P></LI>
+<LI><P>I беззнаковый integer (машиннозависимый размер и байтовый порядок)</P></LI>
+<LI><P>l signed long (всегда 32 бита, машинный байтовый порядок)</P></LI>
+<LI><P>L беззнаковый long (всегда 32 бита, машинный байтовый порядок)</P></LI>
+<LI><P>N беззнаковый long (всегда 32 бита, байтовый порядок big endian)</P></LI>
+<LI><P>V беззнаковый long (всегда 32 бита, байтовый порядок little endian)</P></LI>
+<LI><P>f float (машиннозависимый размер и представление)</P></LI>
+<LI><P>d double (машиннозависимый размер и представление)</P></LI><LI><P>x NUL байт</P></LI>
+<LI><P>X обратно на один байт</P></LI><LI><P>@ NUL-заполнение до абсолютной позиции</P></LI></UL>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN49050"></A><h5>Пример 1. Строка форматирования pack()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$binarydata = pack ("nvc*", 0x1234, 0x5678, 65, 66);</PRE>
+</TD></TR></TABLE><P>Результирующая бинарная строка имеет длину 6 байт и содержит байтовую 
+последовательность 0x12, 0x34, 0x78, 0x56, 0x41, 0x42.</P></TD></TR></TABLE>
+<P>Обратите внимание, что отличие между знаковым и беззнаковым значением влияет только на функцию <A HREF="unpack.html"><B>unpack()</B></A>, а функция
+<B>pack()</B> даёт одинаковые результаты для знакового и беззнакового кода формата.</P>
+<P>Отметьте также, что PHP внутренне хранит значения <A HREF="../types.integer.html"><B>integer</B></A> как знаковые значения машиннозависимого размера. Если вы задаёте значение как 
+беззнаковое integer, слишком большое, чтобы хранить его таким способом, оно конвертируется во
+<A HREF="../types.float.html"><B>float</B></A>, что часто приводит к непредсказуемым результатам.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="leak.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="show-source.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">leak</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.misc.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">show_source</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

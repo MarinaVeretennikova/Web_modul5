@@ -1,0 +1,1748 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE></TITLE>
+<META content="TEXT/HTML; CHARSET=WINDOWS-1251" http-equiv=CONTENT-TYPE>
+<META content="Microsoft FrontPage 4.0" name=GENERATOR>
+<STYLE></STYLE>
+</HEAD>
+<body background=../fon.jpg>
+<ul>
+
+  <li><a href="#a"><font face="Times New Roman" size=3>Глава 10. Формы</font></a> </li>
+  <ul>
+    <li><a href="#b"><font face="Times New Roman" size="3">Общие
+      сведения о формах</font></a>
+      <ul>
+        <li><a href="#c"><font face="Times New Roman" size="3">Элементы
+          форм, ориентированные на ввод с
+          клавиатуры</font></a></li>
+        <li><a href="#d"><font face="Times New Roman" size="3">Элементы
+          форм, ориентированные на ввод с мыши</font></a></li>
+        <li><a href="#e"><font face="Times New Roman" size="3">Все
+          вместе: пример формы</font></a></li>
+      </ul>
+    </li>
+    <li><a href="#f"><font face="Times New Roman" size="3">Формы и PHP</font></a>
+      <ul>
+        <li><a href="#g"><font face="Times New Roman" size="3">Вводные
+          примеры</font></a></li>
+      </ul>
+    </li>
+    <li><a href="#h"><font face="Times New Roman" size="3">Проверка
+      ошибок</font></a></li>
+    <li><a href="#i"><font face="Times New Roman" size="3">Динамическое
+      конструирование форм</font></a></li>
+    <li><a href="#j"><font face="Times New Roman" size="3">Проект:
+      гостевая книга</font></a>
+    </li>
+    <li><a href="#k"><font face="Times New Roman" size="3">Итоги</font></a>
+    </li>
+  </ul>
+</ul>
+<A NAME="a"></A>
+<p>&nbsp;</p>
+<p><font COLOR="#000000" face="Times New Roman" size="5">ГЛАВА 10</font></p>
+<p><font COLOR="#000000" face="Times New Roman" size="5">Формы</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Получение и
+обработка данных, введенных пользователем,
+стали неотъемлемой частью большинства
+успешных web-сайтов. Бесспорно, возможности
+накопления статистики, проведения опросов,
+хранения персональных настроек и поиска
+выводят Web на принципиально новый уровень —
+без них эта среда обладала бы минимальной
+интерактивностью.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Ввод
+информации в основном реализуется с
+применением форм HTML. Несомненно, вы хорошо
+знакомы с принципами работы форм HTML. Как
+правило, пользователь заполняет в форме
+одно или несколько полей (например, имя и
+адрес электронной почты), нажимает кнопку
+отправки данных, после чего получает
+ответное сообщение.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Возможно, вы
+полагаете, что сбор пользовательских
+данных в формах HTML — процесс сложный и
+утомительный. В действительности эта
+задача решается на удивление просто.</font></p>
+<b>
+<p><A NAME="b"></A>
+<font color="#000000" face="Times New Roman" size="4">Общие
+сведения о формах</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">При вводе
+данных в форму используются различные
+управляющие элементы. В одних элементах
+пользователь вводит информацию с
+клавиатуры, в других он выбирает нужный
+вариант, щелкая кнопкой мыши. В формах могут
+присутствовать скрытые поля, которые
+поддерживаются самой формой; содержимое
+скрытых полей не должно изменяться
+пользователем.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Одна
+страница может содержать несколько форм,
+поэтому необходимы средства, которые
+позволяли бы отличить одну форму от другой.
+Более того, вы должны как-то сообщить форме,
+куда следует перейти, когда пользователь
+выполняет действие с формой (как правило,
+нажимает кнопку отправки данных). Обе
+задачи решаются заключением форм в
+следующие теги HTML:</font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">&lt;form action = действие
+method
+= &quot;метод&quot; -
+элементы формы -&lt;/form&gt;</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Как видно
+из приведенного фрагмента, в тегах форм
+указываются два важных элемента: действие и
+метод. </font><i><font COLOR="#000000">Действие </font></i><font COLOR="#000000">указывает,
+какой сценарий должен обрабатывать форму, а
+</font><i><font COLOR="#000000">метод </font></i><font COLOR="#000000">определяет
+способ передачи данных этому сценарию.
+Существует два метода:</font></font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Метод get
+передает все данные формы в конце URL. Из-за
+различных ограничений, связанных со
+спецификой языков и длиной данных, этот
+метод применяется редко.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Метод post
+передает все данные формы в теле запроса.
+Этот метод используется чаще, чем get.</font></li>
+</ul>
+<p><img border="0" src="prim.gif" align=left width="36" height="35"><font COLOR="#000000" size="3" face="Times New Roman"><i>В
+этой главе приведена лишь очень краткая
+вводная информация по основному син-таксису
+форм HTML. Более полную информацию можно
+найти в книге А. Хоумера и К. Улмена «Dynamic HTML.
+Справочник» (СПб.: Питер, 1999).</i></font></p>
+<p><A NAME="c"></A>
+<font color="#000000" face="Times New Roman" size="4">Элементы
+форм, ориентированные на ввод с клавиатуры</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Наше
+знакомство с построением форм начнется с
+элементов, ориентированных на ввод с
+клавиатуры. Таких элементов всего два —
+текстовое поле (text box) и текстовая область (text
+area).</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Текстовое
+поле</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В текстовых
+полях обычно вводится короткая текстовая
+информация — скажем, адрес электронной
+почты, почтовый адрес или имя. Синтаксис
+определения текстового поля:</font></p>
+<p><font size="3" face="Courier New"><font COLOR="#000000">&lt;input type=&quot;text&quot;
+nате=&quot;имя_переменной&quot; size=&quot;N&quot;
+maxlength=&quot;N&quot; value=&quot;&quot;&gt;</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Определение
+текстового поля включает пять атрибутов:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">type — тип
+элемента (для текстовых полей — text);</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">name — имя
+переменной, в которой сохраняются
+введенные данные;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">size — общий
+размер текстового поля в браузере;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">maxlength —
+максимальное количество символов, вводимых
+в текстовом поле;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">value —
+значение, отображаемое в текстовом поле по
+умолчанию.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Текстовое
+поле изображено на рис. 10.1.</font></p>
+<p><img border="0" src="10.1.jpg"></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Рис. 10.1. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Текстовое
+поле</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Особой
+разновидностью текстовых полей является
+поле для ввода паролей. Оно работает точно
+так же, как обычное текстовое поле, однако
+вводимые символы заменяются звездочками.
+Чтобы создать в форме поле для ввода
+паролей, достаточно указать type=&quot;password&quot;
+вместо type=&quot;text&quot;.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Текстовая
+область</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Текстовая
+область (text area) используется для ввода
+несколько больших объемов текста, не
+ограничивающихся простым именем или
+адресом электронной почты. Синтаксис
+определения текстовой области:</font></p>
+<p><font size="3" face="Courier New"><font COLOR="#000000">&lt;textarea name=&quot;имя_переменной&quot;
+rows=&quot;N&quot; cols=&quot;N&quot; value=&quot;&quot;&gt;&lt;/textarea&gt;</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Определение
+текстового поля включает три атрибута:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">name — имя
+переменной, в которой сохраняются
+введенные данные;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">rows —
+количество строк в текстовой области;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">cols —
+количество столбцов в текстовой области.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Текстовая
+область изображена на рис. 10.2.</font></p>
+<p><font size="3" face="Times New Roman">&nbsp;<img border="0" src="10.2.jpg"></font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Рис. 10.2. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Текстовая
+область</font></font></p>
+</i>
+<p><A NAME="d"></A>
+<font color="#000000" face="Times New Roman" size="4">Элементы
+форм, ориентированные на ввод с мыши</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В других
+элементах форм пользователь выбирает один
+из заранее определенных вариантов при
+помощи мыши. Я ограничусь описанием флажков,
+переключателей и раскрывающихся списков.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Флажок</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Флажки (checkboxes)
+используются в ситуациях, когда
+пользователь выбирает один или несколько
+вариантов из готового набора — по аналогии
+с тем, как ставятся «галочки» в анкетах.
+Синтаксис определения флажка:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=&quot;checkbox&quot;
+name=&quot;</font><font size="3" face="Courier New"><font COLOR="#000000">имя_переменной&quot;
+valuе=&quot;начальное_значение&quot;&gt;</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Определение
+флажка включает три атрибута:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">type — тип
+элемента (для флажков — checkbox);</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">name — имя
+переменной, в которой сохраняются
+введенные данные (в данном случае —
+состояние элемента);</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">value —
+значение, присваиваемое переменной по
+умолчанию. Если флажок установлен, именно
+это значение будет присвоено переменной с
+указанным именем. Если флажок не установлен,
+значение атрибута value не используется.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Флажок
+изображен на рис. 10.3.</font></p>
+<p><img border="0" src="10.3.jpg" width="157" height="114"></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Рис. 10.3. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Флажок</font></font></p>
+</i><b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Переключатель</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Переключатель
+(radio button) представляет собой разновидность
+флажка; он работает практически так же за
+одним исключением — в любой момент времени
+в группе может быть установлен лишь один
+переключатель. Синтаксис определения
+переключателя:</font></p>
+<p><font size="3" face="Courier New"><font COLOR="#000000">&lt;input type=&quot;radio&quot;
+name=&quot;имя_переменной&quot; value=&quot;начальное_значение&quot;&gt;</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как видите,
+синтаксис почти не отличается от
+определения флажка. Определение
+переключателя поля включает три атрибута:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">type — тип
+элемента (для переключателей — radio);</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">name — имя
+переменной, в которой сохраняются
+введенные данные (в данном случае —
+состояние элемента);</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">value —
+значение, присваиваемое переменной по
+умолчанию. Если переключатель установлен,
+именно это значение будет присвоено
+переменной с указанным именем. Если флажок
+не установлен, значение атрибута value не
+используется.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Переключатель
+изображен на рис. 10.4.</font></p>
+<p><img border="0" src="10.4.jpg" width="207" height="104"></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Рис. 10.4. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Переключатель</font></font></p>
+</i><b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Раскрывающийся
+список</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Раскрывающиеся
+списки особенно удобны в ситуации, когда у
+вас имеется длинный перечень допустимых
+вариантов, из которого пользователь должен
+выбрать один вариант. Как правило,
+раскрывающиеся списки применяются при
+работе с относительно большими наборами
+данных — например, при перечислении
+американских штатов или стран. Синтаксис
+определения раскрывающегося списка:</font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">&lt;select name=&quot;имя_переменной&quot;&gt;</font></p>
+<p><font size="3" face="Courier New"><font COLOR="#000000">&lt;option valuе=&quot;имя_переменной1
+&quot;&gt;</font></font></p>
+<p><font size="3" face="Courier New"><font COLOR="#000000">&lt;option value=&quot;</font><font COLOR="#000000">имя_переменной2&quot;&gt;</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=&quot;</font><font size="3" face="Courier New"><font COLOR="#000000">имя_переменнойЗ&quot;&gt;</font></font></p>
+<p><font size="3" face="Courier New"><font COLOR="#000000">&lt;option value=&quot;</font><font COLOR="#000000">имя_переменнойN&quot;&gt;</font></font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">&lt;/select&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Определение
+переключателя поля включает три атрибута:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">name — имя
+переменной, в которой сохраняются
+введенные данные (в данном случае — строка,
+выбранная в списке);</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">value —
+значение, отображаемое в списке по
+умолчанию.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Раскрывающийся
+список изображен на рис. 10.5.</font></p>
+<p><font size="3" face="Times New Roman">&nbsp;<img border="0" src="10.5.jpg" width="410" height="133"></font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Рис. 10.5. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Раскрывающийся
+список</font></font></p>
+</i><b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Скрытые поля</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Скрытые поля
+не отображаются в браузере и обычно
+используются для передачи данных между
+сценариями. Хотя передача в скрытых полях
+работает вполне нормально, в РНР существует
+другое, более удобное средство — сеансовые
+переменные (см. главу 13). Впрочем, скрытые
+поля также используются в некоторых
+ситуациях и потому заслуживают упоминания.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Синтаксис
+определения скрытого поля практически
+идентичен синтаксису текстовых полей,
+отличается только атрибут типа. Поскольку
+скрытые поля не отображаются в браузере,
+привести пример на страницах книги
+невозможно. Синтаксис определения скрытого
+поля:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=&quot;hidden&quot;
+name=&quot;имя_переменной&quot; value=&quot;</font><font size="3" face="Courier New"><font COLOR="#000000">начальное_значение&quot;&gt;</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Определение
+скрытого поля включает три атрибута:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">type — тип
+элемента (для скрытых полей — hidden);</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">name — имя
+переменной, в которой сохраняются скрытые
+данные;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">value —
+значение, по умолчанию сохраняемое в
+скрытом поле.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Вообще
+говоря, название этого элемента — скрытое
+поле — несколько неточно. Хотя скрытые поля
+не отображаются в браузерах, пользователь
+может просто выполнить команду View Source и
+увидеть, какие скрытые значения хранятся в
+форме.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Кнопка
+отправки данных</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Кнопка
+отправки данных инициирует действие,
+заданное атрибутом action тега &lt;form&gt;.
+Синтаксис определения:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=&quot;submit&quot;
+value=&quot;</font><font size="3" face="Courier New"><font COLOR="#000000">текст_на_кнопке&quot;&gt;</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Определение
+кнопки включает два атрибута:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">type — тип
+элемента (для кнопки отправки данных — submit);</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">value — текст,
+по умолчанию отображаемый на кнопке.</font></li>
+</ul>
+<b><i>
+<p><img border="0" src="10.6.jpg" width="66" height="24"></p>
+<p><font COLOR="#000000">Рис. 10.6. </font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Кнопка
+отправки данных</font></font></p>
+</i><b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Кнопка
+сброса</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Кнопка
+сброса отменяет все изменения, внесенные в
+элементы формы. Обычно никто ею не
+пользуется, однако кнопки сброса так часто
+встречаются на формах в Web, что я решил
+привести ее описание. Синтаксис
+определения:</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">&lt;input type=&quot;reset&quot;
+value<i>=&quot; </i></font><i><font size="3" face="Times New Roman"><font COLOR="#000000">текст
+_на_кнопке&quot;&gt;</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Определение
+кнопки включает два атрибута:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">type — тип
+элемента (для кнопки сброса — reset);</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">value — текст,
+по умолчанию отображаемый на кнопке.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Кнопка
+сброса выглядит точно так же, как и кнопка
+отправки данных, если не считать того, что
+на ней обычно выводится слово «Reset» (рис. 10.6).</font></p>
+<p><img border="0" src="prim.gif" align=left width="36" height="35"><i><font COLOR="#000000" size="3" face="Times New Roman">Джейкоб
+Нильсен (Jakob Nielsen), известный авторитет в
+области Web, недавно напи-сал интересную
+статью о проблемах, связанных с
+использованием кнопки сброса. Статья
+опубликована по адресу <a href="http://www.useit.com/alertbox/20000416.html">http://www.useit.com/alertbox/20000416.html</a>.</font></p>
+</i>
+<p><A NAME="e"></A>
+<font color="#000000" face="Times New Roman" size="4">Все вместе:
+пример формы</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">От описания
+базовых компонентов форм мы переходим к
+практическому примеру — построению формы
+для обработки данных, введенных
+пользователем. Допустим, вы хотите создать
+форму, в которой пользователь может
+высказать мнение о вашем Сайте. Пример
+такой формы приведен в листинге 10.1.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+10.1. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Пример
+формы для сбора данных</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;form action =
+&quot;process.php&quot; method = &quot;post&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;Please take a
+moment to tell us what you think about our site:&lt;/b&gt;&lt;p&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;Name:&lt;/b&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=&quot;text&quot;
+name=&quot;name&quot; size=&quot;15&quot; maxlength=&quot;25&quot; value=&quot;&quot;&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;Email:&lt;/b&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=&quot;text&quot;
+name=&quot;email&quot; size=&quot;15&quot; maxlength=&quot;45&quot; value=&quot;&quot;&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;How frequently
+do you visit our site?:&lt;/b&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;select name=&quot;frequency&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=&quot;&quot;&gt;Site
+frequency:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=&quot;0&quot;&gt;This
+is my first time</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=&quot;l&quot;&gt;&amp;lt;
+1 time a month</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=&quot;2&quot;&gt;Roughly
+once a month</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=&quot;3&quot;&gt;Several
+times a week</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=&quot;4&quot;&gt;Every
+day</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option
+va1ue-&quot;5&quot;&gt;I'm addicted</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/select&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;I frequently
+purchase the following products from our site:&lt;/b&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=&quot;checkbox&quot;
+name=&quot;software&quot; value=&quot;software&quot;&gt;Software&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=&quot;checkbox&quot;
+name=&quot;cookware&quot; value=&quot;cookware&quot;&gt;Cookware&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=&quot;checkbox&quot;
+name=&quot;hats&quot; value=&quot;hats&quot;&gt;Chef's Hats&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;0ur site's
+greatest asset is:&lt;/b&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=&quot;radio&quot;
+name=&quot;asset&quot; value=&quot;products&quot;&gt;Product selection&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=&quot;radio&quot;
+name=&quot;asset&quot; value=&quot;design&quot;&gt;Cool design&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=&quot;radio&quot;
+name=&quot;asset&quot; value=&quot;service&quot;&gt;Customer Service&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;Comments:&lt;/b&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;textarea name=&quot;comments&quot;
+rows=&quot;3&quot; cols=&quot;40&quot;&gt;&lt;/textarea&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=&quot;submit&quot;
+value=&quot;Submit!&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/form&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Внешний вид
+формы в браузере изображен на рис. 10.7.</font></p>
+<p>&nbsp;<img border="0" src="10.7.jpg" width="350" height="399"></p>
+<p><b><i><font COLOR="#000000">Рис. 10.7. </font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Пример
+формы для ввода данных</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Вроде бы все
+понятно. Возникает вопрос — как получить
+данные, введенные пользователем, и сделать
+с ними что-нибудь полезное? Этой теме
+посвящен следующий раздел, «Формы и РНР».</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Не забывайте:
+все сказанное ранее — не более чем вводный
+курс. Приведенная информация ни в коем
+случае не исчерпывает всех возможностей,
+предоставляемых различными компонентами
+форм. За дополнительной информацией
+обращайтесь к многочисленным учебникам по
+работе с формами, опубликованным в Web, а
+также книгам по HTML.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">От
+предварительного знакомства с формами HTML
+мы переходим к самому интересному —
+применению РНР для обработки данных,
+введенных пользователем в форме.</font></p>
+<b>
+<p><A NAME="f"></A>
+<font color="#000000" face="Times New Roman" size="4">Формы и РНР</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Обработка
+данных в формах имеет много общего с
+обработкой переменных, передаваемых в URL, —
+эта тема подробно рассматривалась в
+предыдущей главе.</font></p>
+<p><A NAME="g"></A>
+<font color="#000000" face="Times New Roman" size="4">Вводные
+примеры</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Следующие
+практические примеры помогут вам быстрее
+освоить различные аспекты обработки форм в
+РНР. В этих примерах продемонстрированы
+разные подходы к реализации интерактивных
+возможностей на сайте.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Пример 1:
+передача данных формы из одного сценария в
+другой</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В первом
+примере представлена характерная ситуация
+— когда пользовательские данные вводятся
+на одной странице и отображаются на другой.
+В листинге 10.2 приведен код формы для ввода
+имени пользователя и адреса электронной
+почты. Когда пользователь щелкает на кнопке
+отправки данных (кнопка Go!), форма
+обращается к странице, приведенной в
+листинге 10.3. В свою очередь, листинг 10.3
+выводит переменные $name и $mail, переданные с
+запросом.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+10.2. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Простая
+форма</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;Listing
+10-2&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=&quot;#ffffff&quot;
+text=&quot;#000000&quot; link=&quot;#cbda74&quot; vlink=&quot;#808040&quot;
+alink=&quot;#808040&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;form action=&quot;listingl0-3.php&quot;
+method=&quot;post&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;Give us some
+information!&lt;/b&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Your Name:&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=&quot;text&quot;
+name=&quot;name&quot; size=&quot;20&quot; maxlength=&quot;20&quot; value=&quot;&quot;&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Your Email:&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=&quot;text&quot;
+name=&quot;email&quot; size=&quot;20&quot; maxlength=&quot;40&quot; value=&quot;&quot;&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=&quot;submit&quot;
+value=&quot;go!&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/form&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt; &lt;/html&gt;</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+10.3. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Отображение
+данных, введенных в листинге 10.1</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt; &lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;Listing
+10-3&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=&quot;#ffffff&quot;
+text=&quot;#000000&quot; link=&quot;#cbda74&quot; vlink=&quot;#808040&quot;
+alink=&quot;#808040&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вывести
+имя и адрес электронной почты.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Hi. $name!.
+Your email address is $email&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt; &lt;/html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В общих
+чертах происходит следующее: пользователь
+заполняет поля формы и нажимает кнопку
+отправки данных. Управление передается
+странице, приведенной в листинге 10.3, где
+происходит форматирование и последующее
+отображение данных. Как видите, все просто.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Существует и
+другой способ обработки данных форм, при
+котором используется всего один сценарий. К
+недостаткам этого способа относятся
+увеличение сценария и как следствие —
+затруднения с редактированием и
+сопровождением. Впрочем, есть и достоинства
+— уменьшение количества файлов, с которыми
+вам приходится работать. Более того, в этом
+варианте сокращается избыточный код при
+проверке ошибок (эта тема рассматривается
+ниже в данной главе). Конечно, в некоторых
+ситуациях работать с одним сценарием
+неудобно, но, по крайней мере, вы должны
+знать об этой возможности. В примере 2
+воспроизводится пример 1, но с
+использованием лишь одного сценария.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Пример 2:
+альтернативная обработка формы (с одним
+сценарием)</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Обработка
+данных формы в одном сценарии реализуется
+относительно просто. Вы проверяете, были ли
+присвоены значения переменным формы. Если
+значения присвоены, сценарий обрабатывает
+их (в нашем примере — просто выводит), а если
+нет — отображает форму. Решение о том, было
+ли задано значение переменной или нет,
+принимается при помощи функции strcmp( ),
+описанной в главе 8. Пример реализации формы
+с одним сценарием приведен в листинге 10.4.
+Обратите внимание: атрибут action формы
+ссылается на ту же страницу, в которой
+определяется сама форма. Условная команда i
+f проверяет состояние переменной скрытого
+поля с именем $seenform. Если значение $seenform не
+задано, форма отображается в браузере, а
+если задано — значит, форма была заполнена
+пользователем и введенные данные
+обрабатываются сценарием (в данном примере
+— просто выводятся в браузере).</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+10.4. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Ввод
+данных на форме в одном сценарии</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;Listing
+10-4&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=&quot;#ffffff&quot;
+text=&quot;#000000&quot; link=&quot;#cbda74&quot; vlink=&quot;#808040&quot;
+alink=&quot;f808040&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Все
+кавычки внутри $form должны экранироваться,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// в
+противном случае произойдет ошибка.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$form = &quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;form action=\&quot;listing10-4.php\&quot;
+method=\&quot;post\&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;hidden\&quot;
+name=\&quot;seenform\&quot; value=\&quot;y\&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;Give us some
+information!&lt;/b&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Your Name:&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;text\&quot;
+name=\&quot;name\&quot; size=\&quot;20\&quot; maxlength=\&quot;20\&quot; value=\&quot;\&quot;&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Your Email:&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;text\&quot;
+name=\&quot;email\&quot; size=\&quot;20\&quot; maxlength=\&quot;40\&quot; value=\&quot;\&quot;&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;submit\&quot;
+value=\&quot;subscribe!\&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/form&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Если форма
+ранее не отображалась, отобразить ее.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Для
+проверки используется значение скрытой
+переменной $seenform.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ($seenform != &quot;у&quot;):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;$form&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Hi. $name!.
+Your email address is $email&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Учтите, что
+этот вариант создает определенные
+неудобства, поскольку при повторной
+загрузке страницы пользователь ничего не
+узнает о том, правильно ли были заполнены
+поля формы. Процедура проверки ошибок
+рассматривается далее в этой главе, а пока
+достаточно запомнить, что ввод данных можно
+осуществить при помощи одного сценария.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Теперь,
+когда вы представляете, как просто
+выполняются операции с формами, мы
+переходим к интересному примеру —
+автоматической отправке данных
+пользователя по заданному адресу
+электронной почты. Эта возможность
+реализована в примере 3.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Пример 3:
+автоматическая отправка данных по
+электронной почте</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Вывести
+пользовательские данные в браузере
+несложно, но вряд ли это можно назвать
+содержательной обработкой
+пользовательского ввода. Один из способов
+обработки информации заключается в ее
+отправке по электронной почте — например,
+администратору сайта. Хотя при помощи
+гиперссылки mailto: можно отправить сообщение
+прямо из браузера, следует учитывать, что
+внешние приложения электронной почты
+настроены не на каждом компьютере.
+Следовательно, отправка сообщений с web-формы
+более надежно гарантирует, что сообщение
+будет доставлено адресату.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующем
+разделе, mail( ), создается небольшая форма, в
+которой пользователь вводит информацию и
+комментарии по поводу сайта. Затем данные
+форматируются соответствующим образом и
+передаются стандартной функции РНР mail( ). Но
+прежде чем переходить к построению формы,
+необходимо предварительно рассмотреть
+синтаксис функции mail( ).</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">mail ( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция mail( )
+отправляет сообщение заданному адресату по
+электронной почте. Синтаксис функции mail( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">boolean </font></font><font size="3" face="Times New Roman"><font COLOR="#000000">mail
+(string получатель, string
+тема, string сообщение [, string доп_заголовки])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В параметре
+тема, как нетрудно предположить, передается
+тема сообщения. Параметр сообщение
+содержит текст сообщения, а необязательный
+параметр доп_за головки предназначен для
+включения дополнительной информации (например,
+атрибутов форматирования HTML), пересылаемой
+с сообщением.</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="prim.gif" align=left width="36" height="35">В
+системе UNIX функция mail( ) использует утилиту
+sendmail. В Windows эта функция работает лишь при
+наличии установленного почтового сервера
+или если функция mail( ) связана с работающим
+сервером SMTP. Эта задача решается
+модификацией переменной SMTP в файле php.ini.</font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если вы
+сделали все необходимое и функция mail( )
+работает в вашей системе, попробуйте
+выполнить следующий фрагмент (конечно,
+адрес youraddress@yourserver.com заменяется вашим
+настоящим адресом электронной почты):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$email = &quot;youraddress@yourserver.com&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$subject = &quot;This is the subject&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$message = &quot;This is the message&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$headers = &quot;From: somebody@somesite.com&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">mail ($email, $subject,
+$message, $headers);</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Хотя при
+обширной переписке, конечно, следует
+использовать специализированные почтовые
+программы вроде majordomo (<a href="http://www.greatcircle.com/majordomo">http://www.greatcircle.com/majordomo</a>),
+в простых случаях функции РНР mail( )
+оказывается вполне достаточно.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Итак, после
+знакомства с функцией mail( ) можно применить
+ее на практике. В листинге 10.5 показано, как
+получить информацию от пользователя и
+отправить ее по адресу, заданному
+администратором сценария.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+10.5. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Пересылка
+пользовательских данных функцией mail( )</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;Listing
+10-5&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=&quot;#ffffff&quot;
+text=&quot;#000000&quot; link=&quot;#cbda74&quot; vlink=&quot;#808040&quot;
+alink=&quot;#808040&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Все
+кавычки внутри $form должны экранироваться.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// в
+противном случае произойдет ошибка.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$form = &quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;form action=\&quot;listing10-5.php\&quot;
+method=\&quot;post\&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;hidden\&quot;
+name=\&quot;seenform\&quot; value=\&quot;y\&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;Send us your
+comments!&lt;/b&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Your Name:&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;text\&quot;
+name=\&quot;name\&quot; size=\&quot;20\&quot; maxlength=\&quot;20\&quot; value=\&quot;\&quot;&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Your Email:&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;text\&quot;
+name-\&quot;email\&quot; size=\&quot;20\&quot; maxlength=\&quot;40\&quot; value=\&quot;\&quot;&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Your Comments:&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;textarea name=\&quot;comments\&quot;
+rows=\&quot;3\&quot; cols=\&quot;30\&quot;&gt;&lt;/textarea&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;submit\&quot;
+value=\&quot;submit!\&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/form&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Если форма
+ранее не отображалась, отобразить ее.</font></p>
+<i>
+<p><font COLOR="#000000" size="3" face="Courier New">// </font></i><font size="3" face="Courier New"><font COLOR="#000000">Для
+проверки используется значение скрытой
+переменной $seenform.</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ($seenform != &quot;у&quot;) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;$form&quot;;
+else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Переменная
+$recipient определяет получателя данных формы</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$recipient = &quot;yourname@youremail.com&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Тема
+сообщения</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$subject = &quot;User
+Comments ($name)&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Дополнительные заголовки $headers = &quot;From: $email&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Отправить
+сообщение или выдать сообщение об ошибке</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">mail($recipient, $subject,
+$comments, $headers) or die(&quot;Could not send email!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вывести
+сообщение для пользователя</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Thank you
+$name for taking a moment to send us your comments!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Неплохо,
+правда? Листинг 10.5 работает так же, как
+листинг 10.4; сначала мы проверяем,
+отображалась ли форма ранее. Если это
+происходило, программа вызывает функцию mail(
+) и пользовательские данные отправляются по
+адресу, определяемому переменной $recipient.
+Затем в браузере выводится
+благодарственное сообщение для
+пользователя.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Простейшим
+расширением этого примера будет отправка
+благодарственного сообщения по
+электронной почте (вторым вызовом mail( )).
+Следующий пример развивает эту идею —
+пользователю предлагается на выбор
+несколько бюллетеней. Выбранные бюллетени
+отправляются по электронной почте.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Пример 4:
+отправка запрашиваемой информации по
+электронной почте</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В этом
+примере в форме создается несколько
+флажков, каждый из которых соответствует
+отдельному документу с информацией о сайте.
+Пользователь устанавливает один, два или
+три флажка, вводит свой адрес, и
+запрашиваемые брошюры отправляются ему по
+электронной почте. Обратите внимание на
+применение массива при работе с флажками —
+это упрощает проверку выбранных флажков, а
+также улучшает структуру программы.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Информационные
+сообщения хранятся в отдельных файлах. В
+нашем примере используются три текстовых
+файла:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">site.txt —
+информация о сайте;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">team.txt —
+информация о талантливых разработчиках
+сайта;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">events.txt —
+приглашение на очередное мероприятие.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Исходный
+текст примера приведен в листинге 10.6.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+10.6.</font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Отправка
+информации, запрашиваемой пользователем</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;Listing10-5&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=&quot;#ffffff&quot;
+text=&quot;#000000&quot; link=&quot;#cbda74&quot; vlink=&quot;#808040&quot;
+alink=&quot;#808040&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$form = &quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;form action=\&quot;Listing10-6.php\&quot;
+method=\&quot;post\&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;hidden\&quot;
+name=\&quot;seenform\&quot; value=\&quot;y\&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;Receive
+information about our site!&lt;/b&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Your Email:&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;text\&quot;
+name=\&quot;email\&quot; size=\&quot;20\&quot; maxlength=\&quot;40\&quot; value=\&quot;\&quot;&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;checkbox\&quot;
+name=\&quot;information[site]\&quot; value=\&quot;y\&quot;&gt;Site Architecture&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;checkbox\&quot;
+name=\&quot;information[team]\&quot; value=\&quot;y\&quot;&gt;Development Team&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;checkbox\&quot;
+name=\&quot;information[events]\&quot; value=\&quot;y\&quot;&gt;Upcoming Events&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;submit\&quot;
+value=\&quot;send it to me!\&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/form&gt;&quot;:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ($seenform != &quot;y&quot;)
+:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;$form&quot;;
+else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$headers = &quot;From:
+devteam@yoursite.com&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Перебрать
+все пары &quot;ключ/значение&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while ( list($key, Sval)
+= each ($information) ) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Сравнить
+текущее значение с &quot;у&quot; if ($val == &quot;у&quot;) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Построить
+имя файла, соответствующее текущему ключу</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$filename = &quot;$key.txt&quot;:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$subject = &quot;Requested
+$key information&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Открыть
+файл</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$fd = fopen ($filename,
+&quot;r&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Прочитать
+содержимое всего файла в переменную $contents =
+fread ($fd. filesize ($filename));</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Отправить
+сообщение</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">mail($email, $subject,
+$contents, $headers) or die(&quot;Can't send email!&quot;);; fclose($fd);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Известить
+пользователя об успешной отправке</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print sizeof($information).&quot;
+informational newsletters</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">have been sent to
+$email!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">В
+листинге 10.6 мы перебираем пары «ключ/значение»
+в цикле while и отправляем только те бюллетени,
+у которых значение равно у. Следует помнить,
+что имена текстовых файлов </font><i><font COLOR="#000000">должны
+</font></i><font COLOR="#000000">соответствовать ключам
+массива</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">(site.txt, team.txt и
+events.txt). Имя файла строится динамически по
+ключу, после чего файл открывается по имени
+и его содержимое загружается в переменную ($contents).
+Затем переменная $contents передается функции
+mail( ) в качестве параметра.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующем
+примере пользовательские данные
+сохраняются в текстовом файле.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Пример 5:
+сохранение пользовательских данных в
+текстовом файле</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Пользовательские
+данные сохраняются в текстовом файле для
+последующего статистического анализа,
+поиска и т. д. — короче, любой обработки по
+вашему усмотрению. В листинге 10.7, как и в
+предыдущих примерах, данные формы
+обрабатываются в одном сценарии.
+Пользователю предлагается ввести четыре
+объекта данных: имя, адрес электронной
+почты, язык и профессию. Введенная
+информация сохраняется в текстовом файле
+user_information.txt. Элементы данных разделяются
+символами «вертикальная черта» (|).</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+10.7. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Сохранение
+пользовательской информации в текстовом
+файле</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;titlexisting
+10-7&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=&quot;#ffffff&quot;
+text=&quot;#000000&quot; link=&quot;#cbda74&quot; vlink=&quot;#808040&quot;
+alink=&quot;#808040&quot;&gt;</font></p>
+<p><font color="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Создать
+форму</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$form = &quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;form action=\&quot;Listing10-7.php\&quot;
+method=\&quot;post\&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;hidden\&quot;
+name=\&quot;seenform\&quot; value=\&quot;y\&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;Give us your
+personal info!&lt;/fb&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Your Name:&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;text\&quot;
+name=\&quot;name\&quot; size=\&quot;20\&quot; maxlength=\&quot;20\&quot; value=\&quot;\&quot;&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Your Email:&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;text\&quot;
+name&quot;=\&quot;email\&quot; size=\&quot;20\&quot; maxlength=\&quot;20\&quot;
+value=\&quot;\&quot;&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Your Preferred Language:&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;select name=\&quot;language\&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=\&quot;\&quot;&gt;Choose
+a language:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=\&quot;English\&quot;&gt;English</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=\&quot;Spanish\&quot;&gt;Spanish</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=\&quot;Italian\&quot;&gt;Italian</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=\&quot;French\&quot;&gt;French</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=\&quot;Japanese\&quot;&gt;Japanese</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=\&quot;newyork\&quot;&gt;NewYork-ese</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/select&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Your
+Occupation:'&quot;ibr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;select name=\&quot;job\&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=\&quot;\&quot;&gt;What
+do you do?:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=\&quot;student\&quot;&gt;Student</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=\
+&quot;programmed &quot;&gt;Programmer</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=\&quot;manager\&quot;&gt;Project
+Manager</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=\&quot;slacker\&quot;&gt;Slacker</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=\&quot;chef\&quot;&gt;Gourmet
+Chef</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/select&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;submit\&quot;
+value=\&quot;submit!\&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/form&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Заполнялась ли форма ранее? if ($seenform != &quot;у&quot;)
+:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;$form&quot;;
+else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$fd = fopen(&quot;useMnformation.txt&quot;,
+&quot;a&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Убедиться,
+что во введенных данных не встречается</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+вертикальная черта.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$name = str_replace(&quot;|&quot;,
+&quot;&quot;, $name);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$email = str_replace(&quot;|&quot;,
+&quot;&quot;, $email);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Построить
+строку с пользовательскими данными</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$user_row = $name.&quot;
+&quot;.$email.&quot;|&quot;.$language.&quot; &quot;.$job.&quot;\n&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">fwrite($fd, $user_row)
+or die(&quot;Could not write to file!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">fclose($fd);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Thank you
+for taking a moment to fill out our brief questionnaire!&quot;:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Обратите
+внимание на фрагмент, в котором мы
+проверяем, что пользователь не включил в
+имя или адрес электронной почты символы «вертикальная
+черта» (|). Функция str_replace( ) удаляет эти
+символы, заменяя их пустой строкой. Если бы
+это не было сделано, пользовательские
+символы | нарушили бы структуру файла
+данных и существенно затруднили (а то и
+сделали невозможным) его правильную
+обработку.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">При работе с
+относительно малыми объемами информации
+вполне можно обойтись текстовыми файлами.
+Однако при большом количестве
+пользователей или объеме сохраняемой
+информации для хранения и обработки данных,
+введенных в форме, лучше воспользоваться
+базой данных. Эта тема подробно
+рассматривается в главе 11.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">До
+настоящего момента предполагалось, что
+пользователь всегда вводит правильные
+данные и не действует злонамеренно. В
+высшей степени оптимистичное
+предположение! В следующем разделе мы
+усовершенствуем рассмотренные примеры и
+организуем проверку целостности данных
+форм. Проверка ошибок не только
+обеспечивает удаление неполной и
+неправильной информации, но и обеспечивает
+более эффективный и удобный интерфейс.</font></p>
+<b>
+<p><A NAME="h"></A>
+<font color="#000000" face="Times New Roman" size="4">Проверка
+ошибок</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Обработка
+пользовательских данных дает осмысленный
+результат лишь в том случае, если данные
+имеют правильную структуру. Проверить
+достоверность введенных данных невозможно,
+однако вы можете проверить их целостность (например,
+убедиться в том, что адрес электронной
+почты соответствует стандартному шаблону).
+Хотя для проверки данных часто применяется
+технология JavaScript, могут возникнуть
+проблемы с несовместимостью браузеров.
+Поскольку код РНР выполняется на стороне
+сервера, вы всегда можете быть уверены в том,
+что проверка данных формы даст нужный
+результат (конечно, при условии
+правильности вашей программы).</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">При
+обнаружении ошибки в данных необходимо
+сообщить об этом пользователю и предложить
+внести исправления. Существует несколько
+возможных решений, в том числе простой
+вывод сообщения об ошибке и предложение
+альтернативных вариантов (например, если
+пользователь выбирает имя, которое уже было
+выбрано другим пользователем). В этом
+разделе рассматривается процедура
+проверки и вывода сообщений,</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Пример 6:
+вывод информации о пустых или ошибочно
+заполненных полях формы</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Ни один
+разработчик сайта не захочет раздражать
+пользователя невразумительными
+сообщениями об ошибках в данных — особенно
+если пользователь запрашивает
+дополнительную информацию о товаре или
+оформляет покупку! Чтобы пользователь
+понял, какие поля формы остались пустыми
+или были заполнены неверно, сообщения
+должны быть четкими и конкретными.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Мы
+последовательно проверяем все поля формы и
+убеждаемся в том, что они не остались
+пустыми. Там, где это возможно, проверяется
+правильность структуры введенных данных.
+Если проверка прошла успешно, мы переходим
+к следующему полю; в противном случае
+программа выводит сообщение об ошибке,
+устанавливает флаг, который позднее
+используется для повторного отображения
+формы, и переходит к следующему полю.
+Процедура повторяется до тех пор, пока не
+будут проверены все поля формы (листинг 10.8).</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+10.8. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Проверка
+данных формы и вывод сообщений об ошибках</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;Listing
+10-8&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=&quot;#ffffff&quot;
+text=&quot;#000000&quot; link=&quot;#cbda74&quot; vlink=&quot;#808040&quot;
+alink=&quot;#808040&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Создать
+форму</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$form = &quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;form action=\&quot;Listing10-8.php\&quot;
+method=\&quot;post\&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;hidden\&quot;
+name=\&quot;seenform\&quot; value=\&quot;y\&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;Give us some
+information!&lt;/b&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Your Name:&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;text\&quot;
+name=\&quot;name\&quot; size=\&quot;20\&quot; maxlength=\&quot;20\&quot; value=\&quot;$name\&quot;&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Your Email:&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;text\&quot;
+name=\&quot;email\&quot; s1ze=\&quot;20\&quot; maxlength=\&quot;40\&quot; value=\&quot;$email\&quot;&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input
+type=\&quot;submit\&quot; value=\&quot;subscribe!\&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/form&gt;&quot;:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Заполнялась ли форма ранее?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ($seenform != &quot;у&quot;):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;$form&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Пользователь заполнил форму. Проверить
+введенные данные, else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$error_flag =
+&quot;n&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Убедиться
+в том. что поле имени содержит информацию</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ($name ==
+&quot;&quot;) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;font
+color=\&quot;red\&quot;&gt;* You forgot to enter your name!</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/font&gt;
+&lt;br&gt;&quot;:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$error_flag = &quot;y&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Убедиться
+в том. что поле адреса содержит информацию</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ($email ==
+&quot;&quot;) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;font
+color=\&quot;red\&quot;&gt;* You forgot to enter your email !</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/font&gt;
+&lt;br&gt;&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$error_flag = &quot;y&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Преобразовать все алфавитные символы в
+адресе</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// электронной почты к нижнему
+регистру</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$email = strtolower(trim($email)):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Убедиться в
+правильности синтаксиса</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// адреса
+электронной почты</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (! @eregi('^[0-9a-z]+'.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">'([0-9a-z-]+\.)+'.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">'([0-9a-z]){2.4}$'. $email)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;font
+color=\&quot;red\&quot;&gt;* You entered an invalid email address!</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/font&gt;
+&lt;br&gt;&quot; :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$error_flag = &quot;y&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Если флаг
+ошибки $error_flag установлен.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// заново
+отобразить форму</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ($error_flag ==
+&quot;у&quot;) : print &quot;$form&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Обработать
+данные пользователя</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;You entered
+valid form information!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Программа
+в листинге 10.8 убеждается в том, что поля
+имени и адреса электронной почты не
+остались пустыми, а также проверяет
+правильность синтаксиса вве-, денного
+адреса. Если в результате каких-либо
+проверок в форме обнаруживаются ошибки,
+программа выводит соответствующие
+сообщения </font><i><font COLOR="#000000">и </font></i><font COLOR="#000000">отображает
+форму заново — при этом вся введенная ранее
+информация </font><i><font COLOR="#000000">остается </font></i><font COLOR="#000000">в
+форме, благодаря чему пользователю будет
+проще внести исправления. Если вывести
+пустую форму и предложить пользователю
+заполнить ее заново, он может отправиться</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">за
+необходимым товаром или услугой в другое
+место.</font></p>
+<b>
+<p><A NAME="i"></A>
+<font color="#000000" face="Times New Roman" size="4">Динамическое
+конструирование форм</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">До
+настоящего момента я программировал все
+формы вручную. Любому программисту
+известно, что ручное кодирование — это
+плохо, поскольку оно увеличивает
+вероятность ошибок, не говоря уже о лишних
+затратах времени.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующем
+разделе я представлю сценарий, в котором
+раскрывающийся список строится
+динамически по содержимому массива. Этот
+прием несложен, однако</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">он экономит
+немало времени как при исходном
+программировании, так и при последующем
+сопровождении программы.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Пример 7:
+построение раскрывающегося списка</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Предположим,
+у вас имеется список сайтов, которые вы
+хотите порекомендовать посетителю из-за
+классного дизайна. Вместо того чтобы жестко
+кодировать каждую строку списка, можно
+создать массив и воспользоваться его
+содержимым для заполнения списка.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В листинге
+10.9, как и в предыдущих примерах, реализован
+вариант с одним сценарием. Сначала мы
+проверяем, было ли присвоено значение
+переменной $site. Если проверка дает
+положительный результат, вызывается
+функция header( ) с параметром, в котором
+значение $site присоединяется к строке «Location:http://».
+При передаче этой команды функция header О
+перенаправляет браузер на указанный URL.
+Если значение переменной $site не задано,
+форма выводится в браузере. Раскрывающийся
+список строится в цикле, количество
+итераций зависит от размера массива Sfavsites. В
+листинге 10.9 я включил в этот массив пять
+своих любимых сайтов. Конечно, вы можете
+добавить в него сколько угодно своих сайтов.</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="attent.gif" align=left width="36" height="35">Запомните
+одно важное обстоятельство — функция header( )
+должна вызываться до вывода данных в
+браузере. Ее нельзя просто вызвать в любой
+точке сценария РНР. Несвоевременные вызовы
+header( ) порождают столько проблем у неопытных
+программистов РНР, что я рекомендую
+повторить это правило раз пять, чтобы лучше
+запомнить его.</font></p>
+<b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+10.9. </font></font></b><font size="3" face="Times New Roman"><font COLOR="#000000">Динамическое
+построение раскрывающегося списка</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ($site !=
+&quot;&quot;) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">header(&quot;Location:
+http://Ssite&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">exit;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;Listing
+10-9&lt;/Fit1e&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body
+bgcolor=&quot;#ffffff&quot; text=&quot;#000000&quot; Iink=&quot;#cbda74&quot;
+vlink=&quot;#808040&quot; alink=&quot;#808040&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$favsites = array
+(&quot;www.k10k.com&quot;. &quot;www.yahoo.com&quot;,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&quot;www.drudgereport.com&quot;,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&quot;www.phprecipes.com&quot;,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&quot;www.frogdesign.com&quot;):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Создать
+форму</font></p>
+<p><font color="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;form action =
+&quot;Listing10-9.php&quot; method=&quot;post&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;select
+name=&quot;site&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value =
+&quot;&quot;&gt;Choose a site:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$х = 0:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while ( $х &lt; sizeof
+($favsites) ) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;option
+value='$favsites[$x]'&gt;$favsites[$x]&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$x++;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/select&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input
+type=&quot;submit&quot; value=&quot;go!&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/form&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Динамическое
+конструирование форм особенно удобно при
+обработке больших объемов данных, которые в
+любой момент могут измениться, что приведет
+к устареванию всей жестко закодированной
+информации форм. Впрочем, я рекомендую
+жестко кодировать все статические данные (например,
+список штатов США), поскольку это ускорит
+работу программы.</font></p>
+<b>
+<p><A NAME="j"></A>
+<font color="#000000" face="Times New Roman" size="4">Проект:
+гостевая книга</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">С первых
+дней World Wide Web разработчики сайтов
+стремились к тому, чтобы посетители могли
+поделиться своими мыслями и комментариями
+по поводу сайта. На сайтах эта возможность
+обычно называется «гостевой книгой» (guestbook).
+Я покажу, как легко создать гостевую книгу
+при помощи форм HTML, средств обработки форм
+РНР и текстового файла.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Прежде всего
+создается инициализационный файл,
+содержащий некоторые глобальные
+переменные и функции приложения (листинг
+10.10).</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+10.10. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Файл
+init.inc, используемый при создании гостевой
+книги</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Файл: init.inc</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+глобальные переменные и функции для
+проекта гостевой книги</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Заголовок
+страницы по умолчанию</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$title = &quot;My Guestbook&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Цвет фона</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$bg_color =
+&quot;white&quot;: /</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Гарнитура
+шрифта</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$font_face =
+&quot;Arial, Verdana, Times New Roman&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Цвет
+шрифта</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$font_color =
+&quot;black&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Дата
+отправки $post_date - date(&quot;M d y&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Файл
+данных гостевой книги</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$guest_file =
+&quot;comments.txt&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Функция
+читает данные гостевой книги</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//и отображает
+их в браузере</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function view_guest($guest_file) {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">GLOBAL $font_face,
+$font_color;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Return to
+&lt;a
+href=\&quot;index.php\&quot;&gt;index&lt;/a&gt;,&lt;br&gt;&lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Если в
+файле гостевой книги имеются данные...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if
+(filesize($guest_file) &gt; 0) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Открыть
+файл данных гостевой книги</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$fh =
+fopen($guest_file. &quot;r&quot;) or die(&quot;Couldn't open $guest_file&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;table
+border=1 cellpadding=2 cellspacing=0 width=\&quot;600\&quot;&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Повторять
+до конца файла</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while (! feof($fh)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Прочитать
+следующую строку</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$line &lt;= fgetsdfh, 4096);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Разбить
+строку на компоненты</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// и
+присвоить каждый компонент переменной</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">list($date. $name,
+$email, $comments) = explode(&quot;|&quot;, $line):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Если
+указано имя посетителя, вывести его</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ($name !=
+&quot;&quot;) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print
+&quot;&lt;tr&gt;&quot;:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print
+&quot;&lt;td&gt;&lt;font color=\&quot;$font_co!or\&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">face=\&quot;$font_face\&quot;&gt;Date:&lt;/font&gt;&lt;/td&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print
+&quot;&lt;td&gt;&lt;font color=\&quot;$font_color\&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">face=\&quot;$font_face\&quot;&gt;$date&lt;/font&gt;&lt;/td&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print
+&quot;&lt;/tr&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print
+&quot;&lt;tr&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print
+&quot;&lt;td&gt;&lt;font color=\&quot;$font_color\&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&nbsp;face=\&quot;$font_face\&quot;&gt;Name:&lt;/font&gt;&lt;/td&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print
+&quot;&lt;td&gt;&lt;font color=\&quot;$font_color\&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&nbsp;face=\&quot;$font_face\&quot;&gt;$name&lt;/font&gt;&lt;/td&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print
+&quot;&lt;/tr&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print
+&quot;&lt;tr&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print
+&quot;&lt;td&gt;&lt;font color=\&quot;$font_color\&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&nbsp;face=\&quot;$font_face\&quot;&gt;Email:&lt;/font&gt;&lt;/td&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print
+&quot;&lt;td&gt;&lt;font color=\&quot;$font_color\&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&nbsp;face=\&quot;$font_face\&quot;&gt;$email&lt;/font&gt;&lt;/td&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print
+&quot;&lt;/tr&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print
+&quot;&lt;tr&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;td
+valign=\'top\&quot;&gt;&lt;font color=\&quot;$font_color\&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">face=\&quot;$font_face\&quot;&gt;Message:&lt;/font&gt;&lt;/td&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print
+&quot;&lt;td&gt;&lt;font color=\&quot;$font_color\&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">face=\&quot;$font_face\&quot;&gt;$comments&lt;/font&gt;&lt;/td&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;/tr&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print
+&quot;&lt;tr&gt;&lt;td
+colspan=\&quot;2\&quot;&gt;&amp;nbsp:&lt;/td&gt;&lt;/tr&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print
+&quot;&lt;/table&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Закрыть
+файл</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">fclose($fh);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print
+&quot;&lt;h3&gt;Currently there are no entries in the
+guestbook!&lt;/h3&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">} // view_guest</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Функция
+сохраняет новую информацию в файле данных</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function
+add_guest($name, $email, $comments) {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">GLOBAL $post_date,
+$guest_file;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Отформатировать данные для ввода ,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$contents =
+&quot;$post_date|$name|$email |$comments\n&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Открыть
+файл данных</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$fh =
+fopen($guest_file. &quot;a&quot;) or dieC'Could not open $guest_file!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Записать
+данные в файл</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$wr = fwrite($fh,
+$contents) or die(&quot;Could not write to $guest_file!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Закрыть
+файл fclose($fh);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">} // add_guest</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Затем
+создаются еще три файла: файл ссылок index.php,
+файл add_guest.php для вывода информации гостевой
+книги и файл view_guest.php для ввода новых данных.
+Файл index.php (листинг 10.11) просто отображает
+две ссылки для выполнения основных функций
+гостевой книги — просмотра и добавления
+новых данных. Эти ссылки легко включаются в
+сайт, имеющий более сложную структуру.</font></p>
+<i>
+<p><font COLOR="#000000" size="3" face="Times New Roman"><b>Листинг 10.11.</b>
+Файл index.php со ссылками для просмотра и
+добавления новых данных в гостевую книгу</font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">INCLUDE(&quot;init.inc&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;&lt;?=$page_title;?&gt;&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body
+bgcolor=&quot;&lt;?=$bg_color;?&gt;&quot; text=&quot;#000000&quot;
+link=&quot;#808040&quot; vlink=&quot;#808040&quot; alink=&quot;#808040&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a
+href=&quot;view_guest.php&quot;&gt;View the guestbook!&lt;/a&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a
+href=&quot;add_guest.php&quot;&gt;Sign the guestbook!&lt;/a&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Файл view_guest.php
+(листинг 10.12) выводит всю информацию
+гостевой книги, хранящуюся в файле данных.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+10.12. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Файл
+view_guest.php</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">INCLUDE(&quot;init.inc&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;t1tle&gt;&lt;?=$page_title;?&gt;&lt;/t1tle&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body
+bgcolor=&quot;&lt;?=$bg_color:?&gt;&quot; text=&quot;#000000&quot; link=&quot;
+vlink=&quot;#808040&quot; alink=&quot;#808040&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">vi ew_guest ( $guest_file );</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Файл add_guest.php
+(листинг 10.13) запрашивает у пользователя
+новые данные для внесения в гостевую книгу.
+Введенная информация записывается в файл
+данных.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+10.13. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Файл
+add_guest.php</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">INCLUDE(&quot;init.inc&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;&lt;?=$page_title:?&gt;&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body
+bgcolor=&quot;#ffffff&quot; text=&quot;#000000&quot; link=&quot;#808040&quot;
+vlink=&quot;#808040&quot; alink=&quot;#808040&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&lt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Если форма
+еще не отображалась - запросить данные у
+пользователя</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (! $seenform) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;form
+action=&quot;add_guest.php&quot; method=&quot;post&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input
+type=&quot;hidden&quot; name=&quot;seenform&quot; value=&quot;y&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Name:&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input
+type=&quot;text&quot; name=&quot;name&quot; size=&quot;15&quot;
+maxlength=&quot;30&quot; value=&quot;&quot;&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Email:&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input
+type=&quot;text&quot; name=&quot;email&quot; size=&quot;15&quot;
+maxlength=&quot;35&quot; value=&quot;&quot;&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Comment: &lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;textarea
+name=&quot;comment&quot; rows=&quot;'3&quot;
+cols=&quot;40&quot;&gt;&lt;/textarea&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input
+type=&quot;submit&quot; value=&quot;submit&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/form&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Форма уже
+отображалась - добавить данные в текстовый
+файл.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">add_guest($name, $email,
+$comment);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print
+&quot;&lt;h3&gt;Your comments have been added to the guestbook.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a
+href=\&quot;index.php\&quot;&gt;Click here&lt;/a&gt; to return to the index.
+&lt;/h3&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">К числу
+основных преимуществ модульной разработки
+приложений относится простота адаптации
+для других систем. Допустим, вы решили
+перейти от хранения данных в текстовом
+файле к использованию базы данных. Стоит
+изменить содержимое add_guest( ) и view_guest( ), и ваша
+гостевая книга перейдет на работу с базой
+данных.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">На рис. 10.8
+показано, как выглядит гостевая книга после
+сохранения пары записей.</font></p>
+<p>&nbsp;<img border="0" src="10.8.jpg" width="459" height="221"></p>
+<p><b><i><font COLOR="#000000">Рис. 10.8. </font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Просмотр
+гостевой книги (view_guest.php)</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Информация,
+показанная на рис. 10.8, хранится в файле
+данных в следующем виде:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Oct 29
+00|Michele|michelle@latorre.com|I love cheese!</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Oct 29 00|Nino|nino@latorre.com|Great
+site!</font></p>
+<b>
+<p><A NAME="k"></A>
+<font color="#000000" face="Times New Roman" size="4">Итоги</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Обработка
+данных форм принадлежит к числу сильнейших
+сторон РНР, поскольку простота и надежность
+сочетаются в ней с одним из важнейших
+аспектов любого сайта — интерактивностью.
+В этой главе рассматривался широкий круг
+вопросов, относящихся к формам и роли РНР в
+обработке данных форм, в том числе:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">общие
+сведения о синтаксисе форм;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">передача
+данных форм между сценариями РНР;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">обработка
+форм в одном сценарии;</font></li>
+  <li><font size="3" face="Times New Roman"><font COLOR="#000000">функция
+    mail(
+); </font></font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">отправка
+данных формы по электронной почте;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">автоматическая
+обработка пользовательских запросов на
+получение информации;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">сохранение
+данных пользователя в текстовом файле;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">проверка
+ошибок;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">динамическое
+конструирование форм.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если вы
+собираетесь работать со сколько-нибудь
+заметными объемами информации, одним из
+первых шагов на этом пути должна стать
+интеграция базы данных в структуру сайта.
+Эта тема рассматривается в следующей главе.</font></p>
+
+</BODY></HTML>

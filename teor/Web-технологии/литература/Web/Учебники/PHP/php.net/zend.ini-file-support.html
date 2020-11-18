@@ -1,0 +1,104 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Поддержка Файлов Инициализации</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="zend.calling-user-functions.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="zend.where-to-go.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="zend.ini-file-support">Глава 40. Поддержка файлов инициализации</A></H1>
+<P>В PHP 4 имеется переработанная поддержка файлов инициализации. Теперь можно 
+специфицировать вхождения инициализации по умолчанию непосредственно в вашем 
+коде, читать и изменять эти значения на этапе прогона/runtime и создавать 
+обработчики сообщений для изменения уведомления.</P>
+<P>При создании раздела .ini в вашем собственном модуле используйте макрос <TT>PHP_INI_BEGIN()</TT>
+для маркировки начала такого раздела и макрос <TT>PHP_INI_END()</TT> - для маркировки его конца. Между ними вы можете использовать
+<TT>PHP_INI_ENTRY()</TT> для создания вхождений.<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>PHP_INI_BEGIN()
+    PHP_INI_ENTRY("first_ini_entry",  "has_string_value", PHP_INI_ALL, NULL)
+    PHP_INI_ENTRY("second_ini_entry", "2",                PHP_INI_SYSTEM, OnChangeSecond)
+    PHP_INI_ENTRY("third_ini_entry",  "xyz",              PHP_INI_USER, NULL)
+PHP_INI_END()</PRE></TD></TR></TABLE>
+<p>Макрос <TT>PHP_INI_ENTRY()</TT> принимает 4 параметра: имя вхождения/entry name, значение вхождения/entry value, 
+изменение прав доступа и указатель на обработчик изменения уведомления. Имя и 
+значение вхождения обязаны быть специфицированы как строки, независимо от 
+того, являются они в действительности строками или целыми числами.</p>
+<P>Права доступа сгруппированы в три раздела:<TT> PHP_INI_SYSTEM</TT> позволяет вносить изменения только непосредственно в файле
+<TT>php3.ini</TT>; <TT>PHP_INI_USER</TT> позволяет пользователю переопределять изменения на этапе прогона с 
+использованием дополнительных файлов конфигурации, таких как <TT>.htaccess</TT>;<br>
+а <TT>PHP_INI_ALL</TT> позволяет делать изменения без ограничений.<br>
+Имеется также четвёртый уровень, <TT>PHP_INI_PERDIR</TT>, поведение которого ещё не проверено.</P>
+<P>Четвёртый параметр состоит из указателя на обработчик change-notification/изменения 
+уведомления. При изменении любого из этих вхождений вызывается этот обработчик. 
+Такой обработчик может быть объявлен с использованием макроса <TT>PHP_INI_MH</TT>:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>PHP_INI_MH(OnChangeSecond);             // обработчик для ini-entry "second_ini_entry"
+
+// специфицируйте здесь ini-entries
+
+PHP_INI_MH(OnChangeSecond)
+{
+
+    zend_printf("Message caught, our ini entry has been changed to %s&#60;br&#62;", new_value);
+
+    return(SUCCESS);
+
+}</PRE></TD></TR></TABLE>
+<p>Новое значение даётся обработчику изменения как строка в переменной <TT>new_value</TT>. Если посмотреть на определение
+<TT>PHP_INI_MH</TT>, вы увидите, что должны использовать небольшое количество параметров:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>#define PHP_INI_MH(name) int name(php_ini_entry *entry, char *new_value,
+                                  uint new_value_length, void *mh_arg1,
+                                  void *mh_arg2, void *mh_arg3)</PRE></TD></TR></TABLE>
+<p>Все эти определения можно найти в <TT>php_ini.h</TT>. Ваш обработчик сообщений будет иметь доступ к структуре, которая содержит 
+полное вхождение, новое значение, его длину и три необязательных аргумента. 
+Эти необязательные аргументы можно специфицировать дополнительным макросом <TT>PHP_INI_ENTRY1</TT>
+(допускающим один дополнительный аргумент), <TT>PHP_INI_ENTRY2</TT> (допускающим два дополнительных аргумента) и
+<TT>PHP_INI_ENTRY3</TT> (допускающим три дополнительных аргумента).</p>
+<P>Обработчики change-notification должны использоваться при кэширования вхождений 
+инициализации для быстрого доступа или для выполнения определённых задач, 
+которые необходимы при изменении значения. Например, если модулю необходимо 
+постоянное соединение с определённым хостом и кто-то изменяет hostname,
+автоматически разрывается старое соединение и делается попытка установить новое.</P>
+<P>Доступ к вхождениям инициализации может также обрабатываться макросами из Таблицы 9.17.</P>
+<A NAME="AEN87154"></A><h6>Рисунок 40-1. Таблица 9.17. Макросы для доступа<br>
+к вхождениям инициализации в PHP.</h6><A NAME="AEN87156"></A><TABLE BORDER="1"><TR>
+<th WIDTH="38%">Макрос</th><th WIDTH="62%">Описание</th></TR><TR><TD WIDTH="38%"><TT>INI_INT(name)</TT></TD>
+<TD WIDTH="62%">Возвращает текущее значение вхождения <TT>name</TT> как integer (long).</TD></TR><TR>
+<TD WIDTH="38%"><TT>INI_FLT(name)</TT></TD><TD WIDTH="62%">Возвращает текущее значение вхождения
+<TT>name</TT> как float (double).</TD></TR><TR><TD WIDTH="38%"><TT>INI_STR(name)</TT></TD>
+<TD WIDTH="62%">Возвращает текущее значение вхождения <TT>name</TT> как строку. <b><I>Примечание:</I></b> Эта строка не дублируется, а указывает на внутренние данные. Последующий
+доступ требует дублирования в локальную память.</TD></TR><TR><TD WIDTH="38%"><TT>INI_BOOL(name)</TT></TD>
+<TD WIDTH="62%">Возвращает текущее значение вхождения <TT>name</TT> как Boolean (определённое как
+<TT>zend_bool</TT>, что в настоящее время означает <TT>unsigned char</TT>).</TD></TR><TR>
+<TD WIDTH="38%"><TT>INI_ORIG_INT(name)</TT></TD><TD WIDTH="62%">Возвращает оригинальное значение вхождения
+<TT>name</TT> как integer (long).</TD></TR><TR><TD WIDTH="38%"><TT>INI_ORIG_FLT(name)</TT>
+</TD><TD WIDTH="62%">Возвращает оригинальное значение вхождения <TT>name</TT> как float (double).</TD></TR>
+<TR><TD WIDTH="38%"><TT>INI_ORIG_STR(name)</TT></TD><TD WIDTH="62%">Возвращает оригинальное значение вхождения
+<TT>name</TT> как строку. <b><I>Примечание:</I></b> Эта строка не дублируется, а указывает на внутренние данные. Последующий 
+доступ требует дублирования в локальную память.</TD></TR><TR><TD WIDTH="38%">
+<TT>INI_ORIG_BOOL(name)</TT></TD><TD WIDTH="62%">Возвращает оригинальное значение вхождения <TT>name</TT>
+как Boolean (определённое как <TT>zend_bool</TT>, что в настоящее время означает <TT>unsigned char</TT>).</TD>
+</TR></TABLE>
+<P>Наконец, вы должны ввести ваши вхождения инициализации в PHP.
+Это можно сделать в startup и shutdown-функциях модуля, используя макросы <TT>REGISTER_INI_ENTRIES()</TT>
+и <TT>UNREGISTER_INI_ENTRIES()</TT>:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>ZEND_MINIT_FUNCTION(mymodule)
+{
+
+    REGISTER_INI_ENTRIES();
+
+}
+
+ZEND_MSHUTDOWN_FUNCTION(mymodule)
+{
+
+    UNREGISTER_INI_ENTRIES();
+
+}</PRE></TD></TR></TABLE></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="zend.calling-user-functions.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="zend.where-to-go.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Вызов пользовательских функций</TD>
+<th WIDTH="34%" VALIGN="top"><a href="zend.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Что дальше?</TD>
+</TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

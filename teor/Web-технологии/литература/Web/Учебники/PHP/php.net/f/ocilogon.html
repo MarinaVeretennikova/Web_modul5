@@ -1,0 +1,103 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>OCILogon</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ocilogoff.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ocinewcollection.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>    
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.ocilogon">OCILogon</A></H1><A NAME="AEN58448"></A><P>(PHP 3&#62;= 3.0.4, PHP 4)</P>
+<p>OCILogon - устанавливает соединение с Oracle.<A NAME="AEN58451"></A></p><H2>Описание</H2><p>int <B>OCILogon</B> (string username, string password [, string db])</p>
+<P><B>OCILogon()</B> возвращает идентификатор соединения, необходимый для большинства других OCI-вызовов.  
+Необязательный третий параметр может содержать имя локального экземпляра Oracle 
+или имя вхождения в tnsnames.ora, с которым вы хотите соединиться.
+Если необязательный третий параметр не специфицирован, PHP использует 
+переменные окружения ORACLE_SID (Oracle-экземпляр) или TWO_TASK
+(tnsnames.ora) для определения того, с какой БД соединиться.</P>
+<P>Соединения используются совместно на уровне страницы при работе с <B>OCILogon()</B>. Это значит, что подтверждения и откаты применяются ко всем открытым 
+транзакциям на странице, даже если вы создали несколько соединений.</P>
+<P>В примере показано, как совместно использовать/share соединения.<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN58470"></A><h5>Пример 1. OCILogon</h5><TABLE BORDER="0"  BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>&#60;?php
+print "&#60;HTML&#62;&#60;PRE&#62;";
+$db = "";
+
+$c1 = ocilogon("scott","tiger",$db);
+$c2 = ocilogon("scott","tiger",$db);
+
+function create_table($conn)
+{ $stmt = ociparse($conn,"create table scott.hallo (test varchar2(64))");
+  ociexecute($stmt);
+  echo $conn." created table\n\n";
+}
+
+function drop_table($conn)
+{ $stmt = ociparse($conn,"drop table scott.hallo");
+  ociexecute($stmt);
+  echo $conn." dropped table\n\n";
+}
+
+function insert_data($conn)
+{ $stmt = ociparse($conn,"insert into scott.hallo 
+            values('$conn' || ' ' || to_char(sysdate,'DD-MON-YY HH24:MI:SS'))");
+  ociexecute($stmt,OCI_DEFAULT);
+  echo $conn." inserted hallo\n\n";
+}
+
+function delete_data($conn)
+{ $stmt = ociparse($conn,"delete from scott.hallo");
+  ociexecute($stmt,OCI_DEFAULT);
+  echo $conn." deleted hallo\n\n";
+}
+
+function commit($conn)
+{ ocicommit($conn);
+  echo $conn." committed\n\n";
+}
+
+function rollback($conn)
+{ ocirollback($conn);
+  echo $conn." rollback\n\n";
+}
+
+function select_data($conn)
+{ $stmt = ociparse($conn,"select * from scott.hallo");
+  ociexecute($stmt,OCI_DEFAULT);
+  echo $conn."----selecting\n\n";
+  while (ocifetch($stmt))
+    echo $conn." &#60;".ociresult($stmt,"TEST")."&#62;\n\n";
+  echo $conn."----done\n\n";
+}
+
+create_table($c1);
+insert_data($c1);   // вставить ряд с использованием c1
+insert_data($c2);   // вставить ряд с использованием c2
+
+select_data($c1);   // возвращаются результаты обеих вставок
+select_data($c2);   
+
+rollback($c1);      // откат с использованием c1
+
+select_data($c1);   // обе вставки откатываются
+select_data($c2);   
+
+insert_data($c2);   // вставить ряд с использованием c2
+commit($c2);        // подтвердить использование c2
+
+select_data($c1);   // возвращается результат c2-вставки
+
+delete_data($c1);   // удалить все ряды в таблице с использованием c1
+select_data($c1);   // ряды не возвращаются
+select_data($c2);   // ряды не возвращаются
+commit($c1);        // подтвердить использование c1
+
+select_data($c1);   // ряды не возвращаются
+select_data($c2);   // ряды не возвращаются
+
+drop_table($c1);
+print "&#60;/PRE&#62;&#60;/HTML&#62;";
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <B>OCIPLogon()</B> и
+<B>OCINLogon()</B>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3">
+<TR><TD WIDTH="33%" VALIGN="top"><A HREF="ocilogoff.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ocinewcollection.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">OCILogOff</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.oci8.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">OCINewCollection</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

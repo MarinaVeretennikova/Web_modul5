@@ -1,0 +1,78 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>sprintf</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="soundex.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="sscanf.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.sprintf">sprintf</A></H1><A NAME="AEN78155"></A><P>(PHP 3, PHP 4)</P>
+<p>sprintf - возвращает отформатированную строку.<A NAME="AEN78158"></A></p><H2>Описание</H2>
+<p>string <B>sprintf</B> (string format [, mixed args])</p>
+<P>Возвращает строку, созданную в соответствии со строкой форматирования <TT><I>format</I></TT>.</P>
+<P>Строка форматирования состоит из 0 или более директив: обычных символов (исключая <TT>%</TT>), которые копируются прямо в результат, и <i>спецификаций конвертации</i>, 
+каждая из которых приводит к извлечению её собственного параметра. Это применяется к <B>sprintf()</B> и к
+<A HREF="printf.html"><B>printf()</B></A>.</P><P>Каждая спецификация конвертации состоит из знака процентов
+(<TT>%</TT>) с последующим одним или более из следующих элементов, в данном порядке:<OL TYPE="1"><LI>
+<P>Необязательный <I>padding-спецификатор</I>, который сообщает, какой символ будет использоваться для заполнения 
+результатов до размера строки. Это может быть символ space/пробел или <TT>0</TT> (символ нуль). По умолчанию заполняется пробелами.  Альтернативный 
+заполнитель может быть специфицирован с помощью префикса - одинарной кавычки (<TT>'</TT>).
+См. примеры далее.</P></LI><LI><P>Необязательный <I>alignment-спецификатор</I>, который сообщает, должен ли результат выравниваться влево или вправо (left-justified 
+или right-justified). По умолчанию right-justified; символ <TT>-</TT> здесь делает left-justified.</P></LI>
+<LI><P>Необязательное число, <I>width-спецификатор</I>, который сообщает, сколько символов (минимум) должна дать эта конвертация.</P></LI>
+<LI><P>Необязательный <I>precision-спецификатор</I>, который сообщает, сколько десятеричных цифр должно выводиться для чисел с 
+плавающей точкой. Эта опция не оказывает действия на другие типы, кроме <A HREF="../types.float.html">
+<B>float</B></A>. (Для форматирования чисел используется также функция
+<A HREF="number-format.html"><B>number_format()</B></A>.)</P></LI><LI><P><I>type-спецификатор</I>, который сообщает, как какой тип должны рассматриваться данные аргумента.  
+Возможные типы:<TABLE BORDER="0"><TBODY><TR><TD><TT>%</TT> - литеральный символ процентов. Аргументы не требуются.</TD>
+</TR><TR><TD><TT>b</TT> - аргумент рассматривается как integer и представлен как двоичное число.</TD></TR>
+<TR><TD><TT>c</TT> - аргумент рассматривается как integer и представлен как символ с этим ASCII-значением.</TD>
+</TR><TR><TD><TT>d</TT> - аргумент рассматривается как integer и представлен как (знаковое) 
+десятеричное число.</TD></TR><TR><TD><TT>u</TT> - аргумент рассматривается как integer и представлен как беззнаковое
+десятеричное число.</TD></TR><TR><TD><TT>f</TT> - аргумент рассматривается как <B><A HREF="../types.float.html">float</A>
+</B>и представлен как число с плавающей точкой.</TD></TR><TR><TD><TT>o</TT> - аргумент рассматривается как integer и представлен как восьмеричное число.</TD>
+</TR><TR><TD><TT>s</TT> - аргумент рассматривается и представляется как строка/string.</TD></TR>
+<TR><TD><TT>x</TT> - аргумент рассматривается как integer и представлен как шестнадцатеричное 
+число (с буквами в нижнем регистре).</TD></TR><TR><TD><TT>X</TT> - аргумент рассматривается как integer и представлен как шестнадцатеричное 
+число (с буквами в верхнем регистре).</TD></TR></TBODY></TABLE></LI></OL>
+<P>Как и в PHP версии 4.0.6, строка форматирования поддерживает 
+нумерацию/обмен аргументов (numbering/swapping). Вот пример:<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN78222"></A><h5>Пример 1. Обмен/swapping аргументов</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$format = "There are %d monkeys in the %s";
+printf($format,$num,$location);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Это выведет &quot;There are 5 monkeys in the tree". Но представьте, что мы создаём строку форматирования в отдельном файле,
+что является обычным, поскольку мы хоти интернационализировать её, и мы переписываем:</p>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN78225"></A><h5>Пример 2. Обмен аргументов</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$format = "The %s contains %d monkeys";
+printf($format,$num,$location);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Вот мы и получили проблему. Порядок заглушек в строке формата не 
+совпадает с порядком аргументов в коде.  Мы хотели бы оставить код без 
+изменений и просто указать в строке формата, к каким аргументам относятся заглушки строки формата.
+Теперь запишем строку формата так:</p><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN78228"></A>
+<h5>Пример 3. Обмен аргументов</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$format = "The %2\$s contains %1\$d monkeys";
+printf($format,$num,$location);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Теперь появилось преимущество: вы можете повторять заглушки без 
+добавления аргументов в коде. Например:</p><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN78231"></A><h5>Пример 4. Обмен аргументов</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$format = "The %2\$s contains %1\$d monkeys.
+           That's a nice %2\$s full of %1\$d monkeys.";
+printf($format, $num, $location);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>См. также <A HREF="printf.html"><B>printf()</B></A>,
+<A HREF="sscanf.html"><B>sscanf()</B></A>, <A HREF="fscanf.html"><B>fscanf()</B></A> и
+<A HREF="number-format.html"><B>number_format()</B></A>.</P><A NAME="AEN78239"></A><H2>Примеры</H2>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN78242"></A><h5>Пример 5. sprintf(): целые числа с заполнением нулями
+</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$isodate = sprintf("%04d-%02d-%02d", $year, $month, $day);</PRE>
+</TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN78246"></A>
+<h5>Пример 6. sprintf(): форматирование валюты</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$money1 = 68.75;
+$money2 = 54.35;
+$money = $money1 + $money2;
+// echo $money will output "123.1";
+$formatted = sprintf("%01.2f", $money);
+// echo $formatted выдаст "123.10"</PRE></TD></TR></TABLE></TD></TR></TABLE>
+</TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="soundex.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="sscanf.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">soundex</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.strings.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">sscanf</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

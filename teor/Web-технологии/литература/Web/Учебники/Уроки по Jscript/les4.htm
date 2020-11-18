@@ -1,0 +1,289 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0030)http://jsp.newmail.ru/les4.htm -->
+<HTML><HEAD><TITLE>Урок 4. Команда onMouseOver</TITLE>
+<META content="text/html; charset=windows-1251" http-equiv=Content-Type>
+<META 
+content="Самое толковое руководство по основам javascript на русском языке. Команда onMouseOver" 
+name=Description>
+<SCRIPT language=javascript>
+<!--
+if (document.images) {
+ar_r = new Image(33,33); ar_r.src = "i/ar_r.gif"; 
+ar_r1 = new Image(33,33); ar_r1.src = "i/ar_r1.gif"; 
+none = new Image(79,35); none.src = "i/none.gif"; 
+next = new Image(79,35); next.src = "i/next.gif"; 
+prev = new Image(79,35); prev.src = "i/prev.gif";
+ar_l = new Image(33,33); ar_l.src = "i/ar_l.gif";
+ar_l1 = new Image(79,35); ar_l1.src = "i/ar_l1.gif";
+}
+function swap(imgName,imgObjName) {
+if (document.images) {
+  document.images[imgName].src = eval(imgObjName + ".src");
+}}
+function toc() {
+OpenWindow=window.open('toc.html', 'toc', config='width=300,scrollbars=1,resizable=1,status=1')
+self.name="one"
+}
+//-->
+</SCRIPT>
+<LINK href="les4.files/blue.css" rel=STYLESHEET type=text/css>
+<META content="MSHTML 5.00.2614.3500" name=GENERATOR></HEAD>
+<BODY background=les4.files/Life_blue.gif bgColor=#334775 text=#334775>
+<DIV 
+style="HEIGHT: 35px; LEFT: 10px; POSITION: absolute; TOP: 10px; WIDTH: 160px"><A 
+href="http://jsp.newmail.ru/les3.htm" 
+onmouseout="swap('left','ar_l');swap('none','none')" 
+onmouseover="swap('left','ar_l1');swap('none','prev')"><IMG border=0 height=33 
+name=left src="les4.files/ar_l.gif" width=33></A>&nbsp;<A href="" 
+onmouseout="swap('left','ar_l');swap('right','ar_r')" 
+onmouseover="swap('left','ar_l1');swap('right','ar_r1')"><IMG border=0 height=35 
+name=none src="les4.files/none.gif" width=79></A>&nbsp;<A 
+href="http://jsp.newmail.ru/les5.htm" 
+onmouseout="swap('right','ar_r');swap('none','none')" 
+onmouseover="swap('right','ar_r1');swap('none','next')"><IMG border=0 height=33 
+name=right src="les4.files/ar_r.gif" width=33></A> </DIV>
+<H1 align=right>Урок 4<BR>Команда onMouseOver</H1>
+<P align=right><B><FONT color=#fb4462>красным цветом даны примечания 
+переводчика</FONT></B><BR><A 
+href="http://jsp.newmail.ru/les4.htm#concept">Концепция</A>__<A 
+href="http://jsp.newmail.ru/les4.htm#script">Скрипт</A>__<A 
+href="http://jsp.newmail.ru/les4.htm#effect">Эффект</A>__<A 
+href="http://jsp.newmail.ru/les4.htm#decon">Разбор скрипта</A>__<A 
+href="http://jsp.newmail.ru/les4.htm#assig">Задание</A></P>
+<P align=right><A href="http://jsp.newmail.ru/les4.htm#" 
+onclick=toc()>Оглавление (в новом окне)</A></P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="50%"><IMG height=13 
+      src="les4.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="30%">
+      <P align=right><IMG height=13 src="les4.files/b_t_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%">
+      <H2><A name=concept>Концепция</A></H2>
+      <P align=justify><B>М</B>ы обсудили объекты и методы. Теперь приступим к 
+      событиям <FONT color=red>(events)</FONT>. Сначала разрешите мне кое-что 
+      пояснить (или запутать). События <FONT color=red>(event)</FONT> и 
+      обработчики событий <FONT color=red>(event handler)</FONT> относятся к 
+      JavaScript, но они скорее «встроены» в HTML-код, а не существуют 
+      самостоятельно, как те скрипты, которые мы с вами разбирали. Они входят в 
+      структуру документа НТМL, не требуя команд &lt;SCRIPT&gt; и 
+      &lt;/SCRIPT&gt;. Сами они не скрипты, а скорее область взаимодействия 
+      между вашей страницей и читателем.<BR>События — это то, что 
+      <I>происходит</I>. Они добавят динамики вашему сайту. Увидев их, 
+      посетители скажут: «Ух ты!», а сочинять длинные скрипты совсем не 
+      нужно.<BR>Среди разнообразных обработчиков событий для начала мы выберем 
+      один, самый популярный, — <B>onMouseOver</B> <FONT color=red>(навести 
+      мышь)</FONT>.</P>
+      <H2><A name=script>Скрипт</A></H2>
+      <P class=cou>&lt;A HREF="http://www.newmail.ru" 
+      <BR>onMouseOver="window.status='Бесплатный хостинг'; <BR>return 
+      true"&gt;Ссылка&lt;/A&gt;</P>
+      <P align=justify><I>Все это должно быть на одной строке.</I></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd vAlign=bottom width="50%"><IMG height=13 
+      src="les4.files/b_b_l.gif" width=12></TD>
+    <TD bgColor=#cef3fd vAlign=bottom width="30%">
+      <P align=right><IMG height=13 src="les4.files/b_b_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P>
+<DIV align=right>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="85%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=30 vAlign=top width="50%"><IMG height=13 
+      src="les4.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd vAlign=top width="50%">
+      <P align=right><IMG height=13 src="les4.files/b_t_r.gif" 
+  width=13></P></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%">
+      <H2><A name=effect>Эффект</A> </H2>
+      <P align=center><A href="http://www.newmail.ru/" id=l 
+      onmouseover="window.status='Бесплатный хостинг'; return true">Ссылка</A></FONT></SMALL></P>
+      <P align=center><I>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Наведите курсор на ссылку 
+      и посмотрите на строку состояния в окне браузера.</I></P></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%"><IMG height=13 
+      src="les4.files/b_b_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%">
+      <P align=right><IMG height=13 src="les4.files/b_b_r.gif" 
+  width=13></P></TD></TR></TBODY></TABLE></DIV>
+<P>.</P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="50%"><IMG height=13 
+      src="les4.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="30%">
+      <P align=right><IMG height=13 src="les4.files/b_t_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%"><A 
+      name=decon>
+      <H2>Разбор скрипта</A> </H2>
+      <P align=justify><B>В</B>ы уже знаете достаточно, чтобы понять смысл 
+      написанного. Давайте быстро разберем скрипт и попробуем его 
+      изменить.<BR>Во-первых, onMouseOver (обратите внимание на заглавные буквы) 
+      представляет собой обработчик событий <FONT color=red>(Event 
+      Handler)</FONT> гипертекстовой <B>ссылки</B>. Это понятно? Он используется 
+      внутри гиперссылки.<BR>Формат ссылки остается без изменений. Те же команды 
+      и те же двойные кавычки. onMouseOver ставится сразу же после адреса URL. 
+      Видите?<BR>Событие <FONT color=red>(Event)</FONT> приводится в действие, 
+      когда браузер распознает onMouseOver="". Схема уже должна казаться вам 
+      немного знакомой: два элемента, разделенных точкой. До сих пор это 
+      означало, что один является объектом, а другой методом. Но не в этом 
+      случае. Объектом является <STRONG>window</STRONG> <FONT 
+      color=red>(окно)</FONT>, оно существует; <STRONG>status</STRONG> <FONT 
+      color=red>(статус)</FONT> представляет собой <STRONG>property</STRONG> 
+      <FONT color=red>(свойство)</FONT> oкна. Это небольшой участок окна, где 
+      должен разместиться следующий текст. Это проще запомнить, если 
+      представить, что <EM>метод</EM> обычно выражается глаголом, как write 
+      <FONT color=red>(писать)</FONT> или get <FONT color=red>(получить)</FONT>. 
+      <I>Свойство</I> выражается существительным и существует как небольшая 
+      часть элемента, стоящего перед точкой.<BR>Если у window есть изменяемое 
+      свойство status, значит, можно изменить и другие свойства окна. Это верно, 
+      но не будем лезть поперед батьки в пекло. Займемся пока окном и его 
+      строкой состояния.</P>
+      <P align=justify>После window.status следует знак равенства = и то, что 
+      должно произойти. В данном случае это текст в одинарных кавычках. Он 
+      появится в строке состояния, когда вы наведете курсор на 
+      ссылку.<BR><B>Пожалуйста, обратите внимание </B>на точку с запятой в конце 
+      строки.</P>
+      <P align=justify><B>return true</B>&nbsp;&nbsp;&nbsp; Эти два слова имеют 
+      не последнее значение. Они дают скрипту указание проверить, есть ли строка 
+      состояния. Если отчет (return) соответствует действительности (true), 
+      тогда происходит событие. Обратите внимание, что текст в строке состояния 
+      уже не изменяется и не изменится, сколько раз вы не наводили бы на нее 
+      курсор.</P>
+      <P align=justify><FONT color=red>Поэтому не нужно злоупотреблять такими 
+      трюками — человек, пришедший к вам на сайт, имеет право знать точный адрес 
+      каждой ссылки и другую информацию о загрузке страницы, которую выдает 
+      строка состояния.</FONT> 
+      <P><B>Другие свойства</B></P>
+      <P align=justify>Вернемся к свойствам. Если они есть у окна, другие 
+      объекты тоже должны иметь свойства. Как насчет цвета фона? Это же 
+      свойство, верно? В HTML цветом фона страницы управляет команда BGCOLOR. То 
+      же самое и здесь, только обязательно соблюдайте регистр. В JavaScript он 
+      пишется <B>bgColor</B>. Подумаем, как создать ссылку. которая изменяла бы 
+      фон страницы с помощью обработчика onMouseOver.
+      <OL>
+        <LI>Во-первых, раз это ссылка, то сохраним ту же схему, которой сегодня 
+        уже пользовались. 
+        <LI>Что мы меняем, окно или нашего старого приятеля, документ? Куда идет 
+        команда bgColor, когда вы пишете веб-страницу? В документ. Значит, это и 
+        есть нужный нам объект. Заменим window на document. 
+        <LI>Мы собираемся менять фоновый цвет объекта, потому заменим status на 
+        bgColor. 
+        <LI>Больше нам текст не нужен, так что заменим его цветом. Возьмем 
+        белый. 
+        <LI>Нам нужно, чтобы новый цвет оставался независимо от того, сколько 
+        раз мы будем наводить курсор на ссылку, потому вставляем return true 
+        после точки с запятой. </LI></OL>
+      <P><I>Вот что у нас получилось...</I></P>
+      <P class=cou>&lt;a href="http://www.newmail.ru" 
+      onMouseOver="document.bgColor='white'; <BR>return true"&gt;Не 
+      щелкать&lt;/a&gt;</P>
+      <P><I>...а что это нам дает, смотрите здесь, <A 
+      href="http://jsp.newmail.ru/example.htm" id=l target="assig window">в 
+      маленьком окне</A></I></P>
+      <P><B>А что, если я хочу и то, и другое</B></P>
+      <P align=justify>Ладно, и как вы собираетесь этого добиваться? Разберемся: 
+
+      <UL>
+        <LI>Здравый смысл подсказывает, что нужно написать две команды 
+        onMouseOver. Попробуем. 
+        <LI>Мы хотим, чтобы два события произошли одновременно, поэтому не будем 
+        разделять команды точкой с запятой, так как это означает конец. 
+        <LI><I>Новое правило:</I> ставьте запятую, чтобы отделить друг от друга 
+        разные команды JavaScript, происходящие одновременно. 
+        <LI>Как там насчет этих дурацких кавычек? Помните, в кавычки ставятся 
+        отдельные элементы вроде текста. Раз нам нужно, чтобы обе команды 
+        действовали одновременно, ставим кавычки в самом начале первой и в самом 
+        конце второй. Таким образом мы показываем браузеру, что все это одно 
+        событие. Следите за мыслью? 
+        <LI>Однако нам еще могут понадобиться одинарные кавычки... </LI></UL>
+      <P><I>Вернем документу первоначальный цвет...</I></P>
+      <P class=cou>&lt;a href="http://www.newmail.ru" 
+      onMouseOver="document.bgColor='334775', 
+      onMouseOver=window.status='Бесплатная почта'; return true"&gt;Не 
+      щелкать&lt;/a&gt;</P>
+      <P><I>...Результат смотрите <A href="http://jsp.newmail.ru/example.htm" 
+      id=l target="assig window">там же</A></I>:</P>
+      <P align=justify>Таких обработчиков событий великое множество, и все они 
+      замечательные. В следующем уроке мы поговорим еще о нескольких и научимся 
+      их комбинировать.</P>
+      <P align=justify>Вы заметили, что мы уже начинаем понемногу добираться до 
+      сути дела? Не забывайте, что это очень логичный язык. Позднее мы проведем 
+      урок, посвященный иерархии элементов.</P>
+      <H2><A name=assig>Ваше задание</A></H2>
+      <P align=justify><B>П</B>осмотрим, не удастся ли мне запутать вас. Я 
+      собираюсь дать вам новый метод, <B>alert()</B><FONT color=red> 
+      (предупредить)</FONT>. Он вызывает небольшое диалоговое окно с текстом и 
+      кнопкой OK. Попробуйте сделать так, чтобы окно предупреждения всплывало 
+      при наведении курсора на ссылку. Вот формат команды:</P>
+      <P align=center>alert('текст в окошке')</P>
+      <P align=justify>Подумайте хорошенько, решите, что должно произойти 
+      сначала, что потом. На самом деле все это довольно просто.</P>
+      <P>Возможный ответ <A href="http://jsp.newmail.ru/assig4.htm" 
+      id=l>здесь</A></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd vAlign=bottom width="50%"><IMG height=13 
+      src="les4.files/b_b_l.gif" width=12></TD>
+    <TD bgColor=#cef3fd vAlign=bottom width="30%">
+      <P align=right><IMG height=13 src="les4.files/b_b_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR></TBODY></TABLE>
+<P align=right><A 
+href="http://jsp.newmail.ru/les4.htm#concept">Концепция</A>__<A 
+href="http://jsp.newmail.ru/les4.htm#script">Скрипт</A>__<A 
+href="http://jsp.newmail.ru/les4.htm#effect">Эффект</A>__<A 
+href="http://jsp.newmail.ru/les4.htm#decon">Разбор скрипта</A>__<A 
+href="http://jsp.newmail.ru/les4.htm#assig">Задание</A> </P>
+<P align=right><FONT size=5><A href="http://jsp.newmail.ru/les5.htm">Вперед, на 
+Урок 5</A></FONT></P>
+<DIV align=right>
+<TABLE width="75%">
+  <TBODY>
+  <TR>
+    <TD><FONT color=#cef3fd>
+      <P align=justify class=small>авторы <A 
+      href="http://www.htmlgoodies.com/primers/jsp/me.html">Джо Бернс</A> и 
+      Эндри Грауни. <A href="http://www.htmlgoodies.com/">Оригинал и многое 
+      другое на английском языке</A> © <A 
+      href="http://www.earthweb.com/">EarthWeb Inc.</A> <BR>Перевод, оформление 
+      и верстка © Татьяна.</FONT></P></TD></TR></TBODY></TABLE></DIV><!-- HotLog -->
+<SCRIPT language=javascript>
+hotlog_js="1.0";hotlog_d=document; hotlog_n=navigator;hotlog_rn=Math.random();
+hotlog_n_n=(hotlog_n.appName.substring(0,3)=="Mic")?0:1;
+hotlog_r=""+hotlog_rn+"&s=15862&r="+escape(hotlog_d.referrer)+"&pg="+
+escape(window.location.href);
+hotlog_d.cookie="hotlog=1"; hotlog_r+="&c="+(hotlog_d.cookie?"Y":"N");
+hotlog_d.cookie="hotlog=1; expires=Thu, 01-Jan-70 00:00:01 GMT"</SCRIPT>
+
+<SCRIPT language=javascript1.1>
+hotlog_js="1.1";hotlog_r+="&j="+(navigator.javaEnabled()?"Y":"N")</SCRIPT>
+
+<SCRIPT language=javascript1.2>
+hotlog_js="1.2";hotlog_s=screen;
+hotlog_r+="&wh="+hotlog_s.width+'x'+hotlog_s.height+"&px="+((hotlog_n_n==0)?
+hotlog_s.colorDepth:hotlog_s.pixelDepth)</SCRIPT>
+
+<SCRIPT language=javascript1.3>hotlog_js="1.3"</SCRIPT>
+
+<SCRIPT language=javascript>hotlog_r+="&js="+hotlog_js;
+hotlog_d.write("<img src=\"http://hit2.hotlog.ru/cgi-bin/hotlog/count?"+
+hotlog_r+"&\" border=0 width=1 height=1>")</SCRIPT>
+<NOSCRIPT><IMG border=0 height=1 src="les4.files/count" width=1></NOSCRIPT> <!-- /HotLog --><!--webbot bot="HTMLMarkup" startspan ALT="Site Meter" -->
+<SCRIPT>var site="sm2jsp"</SCRIPT>
+
+<SCRIPT language=JavaScript1.2 src="les4.files/counter.js">
+</SCRIPT>
+<!-- Copyright (c) 1999-2000 Site Meter --><!--webbot
+bot="HTMLMarkup" endspan --></BODY></HTML>

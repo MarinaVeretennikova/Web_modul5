@@ -1,0 +1,118 @@
+<html>
+<title>Выборка данных из нескольких таблиц</title>
+<meta name=keywords content="СУБД реляционные базы данных SQL SELECT GROUP BY HAVING COUNT AVG SUM MIN MAX INSERT UPDATE DELETE">
+
+
+<body>
+<table align=center width=90%>
+<tr><td>
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c10_grp.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c10_grp.html">Разбиение на группы</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c10_end.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c10_end.html">Заключение, или что осталось за кадром и почему</a>
+</table>
+
+<h3>Выборка данных из нескольких таблиц</h3></a>
+  Теперь перейдем к рассмотрению запросов из нескольких таблиц. У нас в двух таблицах присутствует поле
+  с одним и тем же названием, поэтому язык SQL предусматривает возможность указывать название поля 
+  в виде имя_таблицы.имя_столбца. В нашем случае: gb.gb_id или message.gb_id.
+  Давайте выберем пары: идентификатор гостевой книги, идентификатор сообщения. На
+  первый взгляд приходит следующее: SELECT gb.gb_id, message_id  FROM gb, message.
+  Однако результатом будет декартово произведение, т.е. всевозможные комбинации - 
+  20 записей из таблицы gb умножить на 52 записи из таблицы message получается 1040 записей.
+  <center><img src="c11tbl0.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/c11tbl0.jpg"></center>
+  Но нас интересуют только осмысленные комбинации, т.е. там, где совпадают значения полей gb_id,
+  поэтому необходимо добавить условие WHERE gb.gb_id=message.gb_id. Теперь записей стало 52, как и положено.
+  <center><img src="c11tbl2.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/c11tbl2.jpg"></center>
+  Для того чтобы выбрать другие поля, просто добавьте их в запрос, только лучше писать полное
+  имя, т.е. таблица.поле: SELECT gb.gb_id, gb.name, message.name, message_id FROM gb, message WHERE gb.gb_id=message.gb_id.
+  Теперь давайте посчитаем количество записей в каждой гостевой книге, только при этом выберем еще 
+  и название гостевой книги. <br>
+    
+  SELECT gb.name, COUNT(*) from gb, message WHERE gb.gb_id=message.gb_id GROUP BY gb.name 
+  <br>
+ <center><img src="c11tbl1.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/c11tbl1.jpg"></center>
+ 
+ 
+<h3>Упражнения</h3>
+ <ol>
+ <li> Выведите все записи из таблицы gb, а также количество сообщений в каждой гостевой книге.
+</ol>
+
+  
+  
+</td></tr>
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?4921  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?4921'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?4921" target=_top>
+    <img src="itsoft-4921" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?4921" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?4921  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?4921'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?4921" target=_top>
+    <img src="itsoft-4921" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?4921" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="itsoft-4921-1" tppabs="http://rb1.rotabanner.com/cgi-bin/iframe/itsoft?4921"
+ width=468 height=60 marginwidth=0 marginheight=0 scrolling=no 
+ frameborder=0><a href="javascript:if(confirm('http://rb1.rotabanner.com/cgi-bin/href/itsoft?4921  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb1.rotabanner.com/cgi-bin/href/itsoft?4921'" tppabs="http://rb1.rotabanner.com/cgi-bin/href/itsoft?4921" 
+ target=_top><img src="itsoft-4921-2" tppabs="http://rb1.rotabanner.com/cgi-bin/banner/itsoft?4921" 
+ alt="RB1" width=468 height=60 border=0 ismap></a></iframe>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>fbsql_fetch_field</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE  WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="fbsql-fetch-assoc.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="fbsql-fetch-lengths.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="fbsql-fetch-field">fbsql_fetch_field</A></H1><A NAME="AEN22024"></A><P>(PHP 4 &#62;= 4.0.6)</P>
+<p>fbsql_fetch_field - получает информацию столбца из результата и возвращает её как объект.<A NAME="AEN22027"></A></p>
+<H2>Описание</H2><p>object <B>fbsql_fetch_field</B> (resource result [, int field_offset])</p>
+<P>Возвращает объект, содержащий информацию поля.</P><P><B>fbsql_fetch_field()</B> может использоваться для получения информации о полях в определённом 
+результате выполнения запроса. Если смещение поля не специфицировано, запрашивается следующее поле, которое ещё
+не было запрошено функцией <B>fbsql_fetch_field()</B>.</P><P>Свойства объекта:
+<UL><LI><P>name - имя столбца</P></LI><LI><P>table - имя таблицы, которой принадлежит столбец</P></LI>
+<LI><P>max_length - максимальный размер столбца</P></LI><LI><P>not_null - 1, если столбец не может быть
+<TT><B>NULL</B></TT></P></LI><LI><P>type - тип столбца</P></LI></UL><TABLE WIDTH="100%" BORDER="0"><TR>
+<TD><A NAME="AEN22055"></A><h5>Пример 1. fbsql_fetch_field()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php 
+fbsql_connect ($host, $user, $password)
+    or die ("Could not connect");
+$result = fbsql_db_query ("database", "select * from table")
+    or die ("Query failed");
+# получить метаданные столбца
+$i = 0;
+while ($i &#60; fbsql_num_fields ($result)) {
+    echo "Information for column $i:&#60;BR&#62;\n";
+    $meta = fbsql_fetch_field ($result);
+    if (!$meta) {
+        echo "No information available&#60;BR&#62;\n";
+    }
+    echo "&#60;PRE&#62;
+max_length:   $meta-&#62;max_length
+name:         $meta-&#62;name
+not_null:     $meta-&#62;not_null
+table:        $meta-&#62;table
+type:         $meta-&#62;type
+&#60;/PRE&#62;";
+    $i++;
+}
+fbsql_free_result ($result);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="fbsql-field-seek.html">
+<B>fbsql_field_seek()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="fbsql-fetch-assoc.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="fbsql-fetch-lengths.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">fbsql_fetch_assoc</TD><th WIDTH="34%" VALIGN="top"><A HREF="ref.fbsql.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">fbsql_fetch_lengths</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

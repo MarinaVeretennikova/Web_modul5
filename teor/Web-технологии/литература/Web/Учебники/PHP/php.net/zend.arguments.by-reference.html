@@ -1,0 +1,78 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Работа с Аргументами, Передаваемыми по Ссылке</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="zend.arguments.access.html">Назад</A></TD>
+<th WIDTH="80%">Глава 33. Приём аргументов</th><TD WIDTH="10%" ALIGN="right">
+<A HREF="zend.arguments.write-safety.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="zend.arguments.by-reference">Работа с аргументами, передаваемыми по ссылке</A></H1>
+<P>Если ваша функция принимает передаваемые по ссылке аргументы, которые вы 
+намереваетесь изменять, вы должны предпринять некоторые меры предосторожности.</P>
+<P>Мы ещё не говорили, что при указанных обстоятельствах вы не имеете доступа для 
+записи любого параметра функции назначения <TT>zval</TT>-контейнера, передаваемого (параметр) вам.
+Конечно, вы можете изменять любой <TT>zval</TT>-контейнер, который создали внутри вашей функции,
+но вы обязаны не изменять любые <TT>zval</TT>s, которые ссылаются на внутренние Zend-данные!</P>
+<P>Мы обсудили только так называемый <B>*_ex()</B> API. Вы могли заметить, что API-функции,
+использованные нами, вызываются <B>zend_get_parameters_ex()</B>, вместо <B>zend_get_parameters()</B>,
+<B>convert_to_long_ex()</B> вместо <B>convert_to_long()</B>, etc. Функции <B>*_ex()</B> образуют
+так называемый новый "расширенный/extended" Zend API. Они дают незначительное
+увеличение скорости по сравнению со старым API, но 
+предназначаются главным образом для предоставления доступа &quot;только-для-чтения&quot;.</P>
+<P>Поскольку Zend работает внутренне со ссылками, разные переменные могут 
+ссылаться на одно значение. Доступ для записи в <TT>zval</TT>-контейнер требует, чтобы этот
+контейнер содержал изолированное значение, то 
+есть значение, на которое нет ссылок из других контейнеров. Если бы на<TT> zval</TT>-контейнер имелись
+ссылки из других контейнеров и вы изменили бы <TT>zval</TT>, на который ссылаются, вы
+могли бы автоматически изменять содержимое других контейнеров, ссылаясь на данный <TT>zval</TT> (поскольку
+они просто указывали бы на изменённое значение и изменяли бы таким образом свои собственные значения).</P>
+<P><B>zend_get_parameters_ex()</B> не отслеживает такую ситуацию, а просто возвращает указатель на желаемые
+<TT>zval</TT>-контейнеры, независимо от того, состоят они из ссылок или нет.
+Соответствующая ему функция в традиционном API, <B>zend_get_parameters()</B>, немедленно
+проверяет значения по ссылкам. Если он обнаруживает ссылку, он создаёт новый изолированный
+<TT>zval</TT>-контейнер; копирует ссылочные данные в это вновь выделенное пространство; 
+затем возвращает указатель на это новое изолированное значение.</P>
+<P>Эта акция называется <I>zvalseparation\сепарация</I> zval (или  zval separation). Поскольку <B>*_ex()</B>
+API не выполняет zval separation, он работает быстрее, отменяя за это же время доступ для записи.</P>
+<P>Однако для изменения параметров доступ для записи необходим. Zend обрабатывает 
+эту ситуацию специальным способом: При передаче параметра в функцию по ссылке, 
+он выполняет автоматическую zval-сепарацию. Это означает, что всякий раз, 
+когда вызываете функцию вроде этой в PHP, Zend автоматически будет гарантировать, что этот <TT>$parameter</TT>
+ передаётся как изолированное значение с переводом его в состояние write-safe/безопасной 
+записи:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>my_function(&#38;$parameter);</PRE>
+</TD></TR></TABLE><P>Но это <i>не так</i> в случае в регулярными параметрами!
+Все другие параметры, которые не передаются по ссылке, находятся в состоянии read-only/только-для-чтения.</P>
+<P>Это требует, чтобы вы гарантировали, что вы реально работаете со ссылкой - 
+иначе вы можете получить нежелательный результат. Для проверки передачи 
+параметра по ссылке вы можете использовать макрос <TT>PZVAL_IS_REF</TT>. Этот макрос принимает
+<TT>zval*</TT> и проверяет, является он ссылкой или нет. Примеры даны в Листинге 9.6 и на 
+Рисунке 9.9 (см. на CD-ROM полный исходник).</P><A NAME="AEN86261"></A><h6>Рисунок 33-9. Листинг 9.6. Тестирование передачи параметра как ссылки</h6>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>zval *parameter;
+
+if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &#38;parameter) == FAILURE)
+    return;
+}
+
+/* проверить, передан ли параметр по ссылке */
+if (!PZVAL_IS_REF(*parameter)) {
+{
+    zend_error(E_WARNING, "Parameter wasn't passed by reference");
+    RETURN_NULL();
+}
+
+/* сделать изменения в параметре */
+ZVAL_LONG(*parameter, 10);</PRE></TD></TR></TABLE>
+    </TD><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="zend.arguments.access.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="zend.arguments.write-safety.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Доступ к аргументам</TD>
+<th WIDTH="34%" VALIGN="top"><a href="zend.arguments.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Гарантия безопасной записи для других параметров</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

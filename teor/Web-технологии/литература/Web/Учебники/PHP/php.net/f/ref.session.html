@@ -1,0 +1,204 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Обслуживани Сессий</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="sesam-settransaction.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="session-cache-expire.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.session"></A>XCII. Функции обслуживания сессий</h1><A NAME="AEN73295"></A>
+<P>Поддержка сессий в PHP это способ сохранения определённых данных в течение 
+последовательно выполняемых доступов. Это даёт возможность создать более 
+специализированные приложения и увеличить привлекательность вашего web-сайта.</P>
+<P>Если вы знакомы с обслуживанием сессий с помощью PHPLIB, вы заметите, что некоторые вопросы аналогичны поддержке сессий в PHP.</P>
+<P>Посетителю вашего сайта присваивается уникальный id, так называемый session id. 
+Он хранится в куке на стороне пользователя или вводится в URL.</P>
+<P>Поддержка работы с сессиями даёт вам возможность регистрировать 
+произвольное количество переменных и сохранять их в промежутках между 
+выполнениями запросов. Когда пользователь заходит на ваш сайт, PHP будет 
+автоматически (если session.auto_start имеет значение 1) или по вашему запросу (явно - через
+<A HREF="session-start.html"><B>session_start()</B></A> или неявно - через
+<A HREF="session-register.html"><B>session_register()</B></A>) проверять, выслан ли специфический session
+id вместе с запросом. Если это так, воссоздаётся предшествующее окружение.</P>
+<P>Все зарегистрированные переменные сериализуются после окончания запроса.  
+Зарегистрированные undefined-переменные маркируются как не определённые. При 
+последующих запросах они не определяются модулем сессии, если только пользователь не определить их позднее.</P>
+<P>Установки конфигурации <A HREF="../configuration.html#ini.track-vars"><TT>track_vars</TT></A> и
+<A HREF="../configuration.html#ini.register-globals"><TT>register_globals</TT></A> определяют, как переменные сессии хранятся и восстанавливаются.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>в 4.0.3 <A HREF="../configuration.html#ini.track-vars"><TT>track_vars</TT></A>
+всегда on.</P></BLOCKQUOTE><BLOCKQUOTE><P><B>Примечание: </B>в PHP 4.1.0 <TT>$_SESSION</TT> доступна как глобальная переменная, совсем как <TT>$_POST</TT>,
+<TT>$_GET</TT>, <TT>$_REQUEST</TT> и так далее. В отличие от <TT>$HTTP_SESSION_VARS</TT>,
+<TT>$_SESSION</TT> всегда глобальна. Следовательно, <TT>global</TT> не должно использоваться для
+<TT>$_SESSION</TT>.</P></BLOCKQUOTE><P>Если <A HREF="../configuration.html#ini.track-vars">
+<TT>track_vars</TT></A> включена, а <A HREF="../configuration.html#ini.register-globals">
+<TT>register_globals</TT></A> отключена, только члены глобального ассоциативного массива
+<TT>$HTTP_SESSION_VARS</TT> могут быть зарегистрированы как переменные сессии. Восстановленные переменные 
+сессии будут доступны только в массиве <TT>$HTTP_SESSION_VARS</TT>.<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN73329"></A><h5>Пример 1. Регистрация переменной при включённой
+<A HREF="../configuration.html#ini.track-vars"><TT>track_vars</TT></A></h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+session_start();
+if (isset($HTTP_SESSION_VARS['count'])) {
+   $HTTP_SESSION_VARS['count']++;
+}
+else {
+   $HTTP_SESSION_VARS['count'] = 0;
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Использование <TT>$_SESSION</TT> (или
+<TT>$HTTP_SESSION_VARS</TT> в PHP 4.0.6 или ранее) рекомендовано из соображений безопасности и читаемости 
+кода. При наличии переменных <TT>$_SESSION</TT> или <TT>$HTTP_SESSION_VARS</TT> нет необходимости использовать функции
+session_register()/session_unregister()/session_is_registered(). 
+Пользователи могут получать доступ к переменной сессии как к нормальной переменной.<TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN73339"></A><h5>Пример 2. Регистрация переменной с помощью $_SESSION</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+session_start();
+// Используйте $HTTP_SESSION_VARS в PHP 4.0.6 или более старых версиях
+if (!isset($_SESSION['count'])) {
+    $_SESSION['count'] = 0;
+} else {
+    $_SESSION['count']++;
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN73342"></A>
+<h5>Пример 3. Дерегистрация переменной с помощью $_SESSION</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+session_start();
+// Используйте $HTTP_SESSION_VARS в PHP 4.0.6 или более старых версиях
+unset($_SESSION['count']);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Если <A HREF="../configuration.html#ini.register-globals">
+<TT>register_globals</TT></A> включена, то все глобальные переменные могут быть зарегистрированы как 
+переменные сессии, а переменные сессии будут восстанавливаться в 
+соответствующие глобальные переменные. Поскольку PHP обязан знать, какие 
+глобальные переменные зарегистрированы как переменные сессии, пользователь 
+обязан регистрировать переменные функцией <b>session_register()</b>, в то время как
+<TT>$HTTP_SESSION_VARS</TT>/<TT>$_SESSION</TT> не должна использовать session_register().
+<TABLE CLASS="caution" BORDER="1" WIDTH="100%"><TR><th>Внимание!</th></TR><TR><TD>
+<P>Если вы используете <TT>$HTTP_SESSION_VARS</TT>/<TT>$_SESSION</TT> и отключили
+<A HREF="../configuration.html#ini.register-globals"><TT>register_globals</TT></A>,
+не используйте <A HREF="session-register.html"><B>session_register()</B></A>,
+<A HREF="session-is-registered.html"><B>session_is_registered()</B></A> и
+<A HREF="session-unregister.html"><B>session_unregister()</B></A>.</P>
+<P>Если вы включили <A HREF="../configuration.html#ini.register-globals"><TT>register_globals</TT></A>,
+<B>должна использоваться <A HREF="session-unregister.html">session_unregister()</A>,</B> поскольку переменные сессии регистрируются как глобальные переменные, когда 
+данные сессии десериализуются. Отключение <A HREF="../configuration.html#ini.register-globals">
+<TT>register_globals</TT></A> рекомендуется по соображениям безопасности и производительности.</P></TD></TR></TABLE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN73365"></A><h5>Пример 4. Регистрация переменной при включённой
+<A HREF="../configuration.html#ini.register-globals"><TT>register_globals</TT></A></h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+if (!session_is_registered('count')) {
+    session_register("count");
+    $count = 0;
+}
+else {
+    $count++;
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Если <A HREF="../configuration.html#ini.track-vars">
+<TT>track_vars</TT></A> и <A HREF="../configuration.html#ini.register-globals"><TT>register_globals</TT></A> включены, то вхождения глобальных переменных и
+<TT>$HTTP_SESSION_VARS</TT>/<TT>$_SESSION</TT> будут ссылаться на то же самое значение для уже зарегистрированных переменных.</P>
+<P>Если пользователь применяет session_register() для регистрации переменной сессии, <TT>$HTTP_SESSION_VARS</TT>/<TT>$_SESSION</TT>
+не будет иметь эти переменные в массиве, пока он не будет загружен из 
+хранилища сессии (т.е. до следующего запроса).</P>
+<P>Есть два метода хранения session id:<UL><LI><P>куки</P></LI><LI><P>параметр URL</P></LI></UL>
+<P>Модель сессий поддерживает оба метода. Куки являются оптимальными, но, 
+поскольку это ненадёжно (клиенты могут их не принимать), мы не можем полагаться на них. Второй метод внедряет
+session id непосредственно в URL.</P><P>PHP способен делать это прозрачно при компилировании с опцией
+<A HREF="../configure.html#install.configure.enable-trans-sid"><TT>--enable-trans-sid</TT></A>. Если вы включили эту опцию,
+относительные URI изменятся и будут содержать session id автоматически.  
+Альтернативно вы можете использовать константу <TT>SID</TT>, которая определена, если клиент не отправил соответствующую куку.
+<TT>SID</TT> имеет форму <TT>session_name=session_id</TT> или пустой строки.<BLOCKQUOTE><P><B>Примечание: </B>
+  директива <A HREF="../a107352.html#ini.arg_separator.output">arg_separator.output</A> <TT>php.ini</TT> позволяет специализировать разделитель аргументов.</P>
+</BLOCKQUOTE><P>Следующие пример демонстрирует, как зарегистрировать переменную и как 
+корректно связаться с другой страницей, используя SID.<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN73398"></A><h5>Пример 5. Подсчёт количества входов отдельного пользователя</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+if (!session_is_registered('count')) {
+    session_register('count');
+    $count = 1;
+}
+else {
+    $count++;
+}
+?&#62;
+
+Hello visitor, you have seen this page &#60;?php echo $count; ?&#62; times.&#60;p&#62;;
+
+&#60;?php
+# Тэг &#60;?php echo SID?&#62; (&#60;?=SID?&#62; можно использовать, если включены
+# укороченные тэги/short tag) 
+# нужна для сохранения session id
+# в том случае, если данный пользователь отключил куки
+?&#62;
+
+To continue, &#60;A HREF="nextpage.php?&#60;?php echo SID?&#62;"&#62;click here&#60;/A&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P><TT>&#60;?=SID?&#62;</TT> не нужен, если <A HREF="../configure.html#install.configure.enable-trans-sid">
+<TT>--enable-trans-sid</TT></A> использовалась при компиляции PHP.</P><BLOCKQUOTE><P><B>Примечание: </B>
+  принимается, что не-относительные URL указывают на внешние сайты и, 
+следовательно, не присоединяют SID, так как имеется риск утечки информации о SID на другой сервер.</P></BLOCKQUOTE>
+<P>Для реализации хранения в БД или другого метода вам понадобится использовать
+<A HREF="session-set-save-handler.html"><B>session_set_save_handler()</B></A> для создания набора функций хранения уровня пользователя.</P>
+<P>Система менеджмента сессий поддерживает несколько опций конфигурации, которые вы можете поместить в ваш файл
+<TT>php.ini</TT>. Мы дадим краткий обзор.<UL><LI><P><TT>session.save_handler</TT> определяет имя обработчика хранения и запрашивания данных, ассоциированных с 
+сессией. По умолчанию <TT>files</TT>.</P></LI><LI><P><TT>session.save_path</TT> определяет аргумент, который передаётся для хранения обработчика. Если вы 
+выбрали обработчик файлов по умолчанию, это будет путь к месту создания файлов.
+По умолчанию <TT>/tmp</TT>. Если глубина пути для <TT>session.save_path</TT> больше
+2, сборка мусора не будет выполняться.</P>
+<TABLE CLASS="warning" BORDER="1" WIDTH="90%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>Если вы выставили этот набор в директории, доступной для всеобщего обозрения, такой как
+<TT>/tmp</TT> (по умолчанию), другие пользователи сервера смогут подключаться к сессиям, 
+получив список файлов в этой директории.</P></TD></TR></TABLE></LI><LI><P><TT>session.name</TT> специфицирует имя сессии, которое используется как имя куки. Оно должно 
+содержать только буквы и цифры. По умолчанию <TT>PHPSESSID</TT>.</P></LI>
+<LI><P><TT>session.auto_start</TT> специфицирует, стартует ли модуль сессий сессию автоматически при стартовом 
+запросе. По умолчанию <TT>0</TT> (отключено).</P></LI><LI><P><TT>session.cookie_lifetime</TT> специфицирует период хранения куки в секундах. Значение 0
+означает "пока браузер не будет закрыт." По умолчанию <TT>0</TT>.</P></LI>
+<LI><P><TT>session.serialize_handler</TT> определяет имя обработчика для сериализации/десериализации данных. В настоящий 
+момент поддерживается внутренний формат PHP (name <TT>php</TT>) и WDDX (name
+<TT>wddx</TT>). WDDX доступен только тогда, когда PHP скомпилирован с <A HREF="ref.wddx.html">поддержкой WDDX</A>. По умолчанию
+<TT>php</TT>.</P></LI><LI><P><TT>session.gc_probability</TT> специфицирует вероятность того, что утилита gc (garbage collection/сборщик 
+мусора) стартует при каждом запросе, в процентах. По умолчанию <TT>1</TT>.</P></LI>
+<LI><P><TT>session.gc_maxlifetime</TT> специфицирует количество секунд, после чего данные будут считаться 'мусором' и 
+зачищаться.</P></LI><LI><P><TT>session.referer_check</TT> содержит подстроку, которую вы можете проверять при каждом HTTP-обращении. Если 
+обращение было выслано клиентом и подстрока не была найдена, внедрённый session id 
+будет помечен как недействующий. По умолчанию - пустая строка.</P></LI><LI><P><TT>session.entropy_file</TT> задаёт путь ко внешнему ресурсу (файлу), который будет использован как 
+дополнительный источник в процессе создания session id. Примеры: <TT>/dev/random</TT> или
+<TT>/dev/urandom</TT>, которые доступны на многих Unix-системах.</P></LI><LI><P><TT>session.entropy_length</TT> специфицирует количество байтов, которые будут прочитаны из файла 
+специфицированного выше. По умолчанию <TT>0</TT> (отключено).</P></LI><LI><P><TT>session.use_cookies</TT> специфицирует, будет ли модуль использовать куки для хранения session id на 
+стороне клиента. По умолчанию <TT>1</TT> (включено).</P></LI><LI><P><TT>session.use_only_cookies</TT> специфицирует, будет ли модуль использовать <i>только</i> куки для хранения session id 
+на стороне клиента. По умолчанию <TT>0</TT> (отключено, для обратной совместимости). Включение этой установки 
+предотвращает атаки при передаче session id в URL. Эта установка была добавлена в <TT>PHP</TT> 4.3.0.</P></LI>
+<LI><P><TT>session.cookie_path</TT> специфицирует путь для установки в session_cookie. По умолчанию <TT>/</TT>.</P></LI>
+<LI><P><TT>session.cookie_domain</TT> специфицирует домен для установки в session_cookie. По умолчанию нет ничего.</P>
+</LI><LI><P><TT>session.cache_limiter</TT> специфицирует метод управления кэшем для страниц сессии
+(none/nocache/private/private_no_expire/public). По умолчанию <TT>nocache</TT>.</P></LI>
+<LI><P><TT>session.cache_expire</TT> специфицирует период существования кэшированных страниц сессии в минутах, это 
+не имеет эффекта при ограничителе nocache. По умолчанию <TT>180</TT>.</P></LI>
+<LI><P><TT>session.use_trans_sid</TT> специфицирует, включена ли прозрачная поддержка sid, если включена при 
+компиляции с опцией <A HREF="../configure.html#install.configure.enable-trans-sid">
+<TT>--enable-trans-sid</TT></A>. По умолчанию <TT>1</TT> (включено).</P></LI>
+<LI><P><TT>url_rewriter.tags</TT> специфицирует, какие тэги html перезаписываются для включения session id, если 
+прозрачная поддержка sid включена. По умолчанию <TT>a=href,area=href,frame=src,input=src,form=fakeentry</TT></P></LI></UL>
+<BLOCKQUOTE><P><B>Примечание: </B>работа с сессиями была добавлена в PHP 4.0.</P></BLOCKQUOTE>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="session-cache-expire.html">session_cache_expire</A> - возвращает окончание действия текущего кэша</DT>
+<DT><A HREF="session-cache-limiter.html">session_cache_limiter</A> - получает и/или устанавливает текущий ограничитель кэша</DT>
+<DT><A HREF="session-decode.html">session_decode</A> - декодирует данные сессии из строки</DT>
+<DT><A HREF="session-destroy.html">session_destroy</A> - уничтожает все данные, зарегистрированные для сессии</DT>
+<DT><A HREF="session-encode.html">session_encode</A> - шифрует данные текущей сессии как строку</DT>
+<DT><A HREF="session-get-cookie-params.html">session_get_cookie_params</A> - получает параметры куки сессии</DT>
+<DT><A HREF="session-id.html">session_id</A> - получает и/или устанавливает текущий session id</DT>
+<DT><A HREF="session-is-registered.html">session_is_registered</A> - определяет, зарегистрирована ли переменная в сессии</DT>
+<DT><A HREF="session-module-name.html">session_module_name</A> - получает и/или устанавливает модуль текущей сессии</DT>
+<DT><A HREF="session-name.html">session_name</A> - получает и/или устанавливает имя текущей сессии</DT>
+<DT><A HREF="session-readonly.html">session_readonly</A> - начинает сессию - реинициализирует замороженные переменные, но не записывает в конец запроса</DT>
+<DT><A HREF="session-register.html">session_register</A> - регистрирует одну или более переменных для текущей сессии</DT>
+<DT><A HREF="session-save-path.html">session_save_path</A> - получает и/или устанавливает путь сохранения текущей сессии</DT>
+<DT><A HREF="session-set-cookie-params.html">session_set_cookie_params</A> - устанавливает параметры куки сессии</DT>
+<DT><A HREF="session-set-save-handler.html">session_set_save_handler</A> - устанавливает функции хранения сессии уровня пользователя</DT>
+<DT><A HREF="session-start.html">session_start</A> - инициализирует данные сессии</DT>
+<DT><A HREF="session-unregister.html">session_unregister</A> - дерегистрирует переменную из текущей сессии</DT>
+<DT><A HREF="session-unset.html">session_unset</A> - освобождает все переменные сессии</DT>
+<DT><A HREF="session-write-close.html">session_write_close</A> - записывает данные сессии и конец сессии</DT>
+</DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="sesam-settransaction.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="session-cache-expire.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">sesam_settransaction</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">session_cache_expire</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

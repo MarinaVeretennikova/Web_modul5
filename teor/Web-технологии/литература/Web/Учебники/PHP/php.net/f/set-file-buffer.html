@@ -1,0 +1,28 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>set_file_buffer</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="rmdir.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="stat.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="set-file-buffer">set_file_buffer</A></H1><A NAME="AEN24893"></A><P>(PHP 3&#62;= 3.0.8, PHP 4 &#62;= 4.0.1)</P>
+<p>set_file_buffer - устанавливает буферизацию файла в данном указателе файла.<A NAME="AEN24896"></A></p>
+<H2>Описание</H2><p>int <B>set_file_buffer</B> (int fp, int buffer)</p><P>Вывод с помощью <A HREF="fwrite.html"><B>fwrite()</B></A> обычно буферизуется в
+8K. Это означает, что, если есть два процесса, желающих записать в один поток вывода (в файл), каждый делает паузу после 8K данных, позволяя другому 
+записать. <B>set_file_buffer()</B> устанавливает буферизацию для операций записи в данном указателе файла
+<TT><I>fp</I></TT> в <TT><I>buffer</I></TT> байт. Если <TT><I>buffer</I></TT> равен 0, операции записи разбуферизуются. Это гарантирует, что все записи с 
+помощью <A HREF="fwrite.html"><B>fwrite()</B></A> выполнятся до получения другими процессами разрешения на запись в этот поток 
+вывода.</P><P>Функция возвращает 0 при успехе, или EOF, если запрос не может быть выполнен.</P>
+<P>В примере показано, как использовать <B>set_file_buffer()</B> для создания небуферизованного потока.
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN24917"></A><h5>Пример 1. set_file_buffer()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$fp=fopen($file, "w");
+if($fp){
+  set_file_buffer($fp, 0);
+  fputs($fp, $output);
+  fclose($fp);
+}</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="fopen.html"><B>fopen()</B></A>,
+<A HREF="fwrite.html"><B>fwrite()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="rmdir.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="stat.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">rmdir</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.filesystem.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">stat</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

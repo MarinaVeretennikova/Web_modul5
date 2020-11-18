@@ -1,0 +1,404 @@
+<html>
+<title>Выполняем SQL-запросы к базе данных</title>
+<meta name=keywords content="СУБД MySQL mysqladmin mysqlshow phpMySQLadmin C API">
+
+<body>
+<table align=center width=90%>
+<tr><td>
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c12_admin.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c12_admin.html">Администрирование</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c12_counter.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c12_counter.html">Анализ посетителей веб-сайта.</a>
+</table>
+
+
+
+  <h3>Выполняем SQL-запросы к базе данных</h3>
+  <p align=justify>
+  В качестве первого примера CGI-скрипта, работающего с СУБД MySQL рассмотрим программу из предыдущей главы,
+  которая выполняет SQL-запросы. Хотя MySQL наиболее часто используется под
+  операционной системой UNIX, существует версия MySQL и для Windows. Мы начнем с версии CGI-скрипта
+  под Windows, т.к. операционная система Windows знакома подавляющему большинству читателей.
+ Вам необходимо установить библиотеку
+itcgimysql. itcgimysql - это версия ITCGI под Windows, с поддержкой функций для
+работы с СУБД MySQL. Данную версию библиотеки вы можете взять на нашем сайте http://itsoft.ru/.
+<br>
+HTML-форма для выполнения sql-запросов выглядит следующим образом:
+
+<form method=post action="http://alice.stup.ac.ru/cgi-bin/sql_query_mysql.exe">
+База данных: <input type=text name=db><br>
+Пользователь: <input type=text name=user><br>
+Пароль: <input type=password name=pwd><br>
+<textarea name=query rows=10 cols=80></textarea>
+<input type=submit value="Отправить запрос">
+</form>
+HTML-код приведен ниже:
+<pre>
+&lt;form action="/cgi-bin/sql_query_mysql.exe"&gt;
+База данных: &lt;input type=text name=db&gt;&lt;br&gt;
+Пользователь: &lt;input type=text name=user&gt;&lt;br&gt;
+Пароль: &lt;input type=password name=pwd&gt;&lt;br&gt;
+
+&lt;textarea name=query rows=10 cols=80&gt;&lt;/textarea&gt;
+&lt;input type=submit value="Отправить запрос"&gt;
+&lt;/form&gt;
+</pre>
+
+Запустите MS Visual Studio и создайте приложение по образу и подобию gbadd из 
+предыдущей главы. Назовите его sql_query_mysql. В список подключаемых библиотек
+включите Ws2_32.lib, libmysql.lib, itcgimysql.lib.
+
+Отредактируйте sql_query_mysql.cpp следующим образом:
+<pre>
+ // sql_query.cpp : Defines the entry point for the console application.
+//
+#include "stdafx.h"
+#include "sql_query.h"
+
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+// The one and only application object
+
+#include &lt;winsock2.h&gt;
+
+
+#include &lt;mysql/mysql.h&gt;
+#include &lt;itcgi.h&gt;
+
+CWinApp theApp;
+
+using namespace std;
+
+int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
+{
+        if (!AfxWinInit(::GetModuleHandle(NULL), NULL, ::GetCommandLine(), 0))
+        return -1;
+
+/*
+ Ниже идет непосредственно код программы, который мы впоследствии
+ перенесем под UNIX.
+*/
+MYSQL* pDB;
+MYSQL_RES* res;
+
+//используем наш тип LString для работы со строками в библиотеке ITCGI
+//мы не используем MFC-класс CString, чтобы обеспечить 
+//переносимость кода под UNIX
+LString* db = CreateString();
+LString* user = CreateString();
+LString* pwd = CreateString();
+LString* sql_query = CreateString();
+
+
+//инициализируем библиотеку функций для работы с MySQL
+pDB = mysql_init(NULL);
+ if(!pDB)
+ {
+  printError("Внимание! Ошибка!!!", mysql_error(pDB));
+  return -1;
+ }
+
+
+//получаем CGI-параметры из HTML-формы
+GetParamByName("user", user);
+GetParamByName("pwd",  pwd);
+GetParamByName("db", db);
+GetParamByName("query", sql_query);
+
+//осуществляем соединение с конкретной базой данных
+if( !mysql_real_connect(pDB, NULL, *user, *pwd, *db, 0, NULL, 0) )
+ {
+  printError("Внимание! Ошибка!!!", "mysql_real_connect: %s\n", mysql_error(pDB)); 
+  goto LABEL_END;
+ }
+
+
+//выполняем SQL-запрос 
+if( mysql_query(pDB, *sql_query) )
+ {
+  printError("Внимание! Ошибка!!!", mysql_error(pDB));  
+  goto LABEL_END;
+ }
+
+//Сохраняем результат выполнения SQL-запоса.
+//Результатом любого SQL-запроса типа SELECT является таблица.  
+//Результатом любых других запросов отличных от SELECT будет NULL.
+res = mysql_store_result(pDB);  
+if( res )
+{
+//Если результатом является таблица, печатаем ее.
+MYSQL_ROW row;  
+MYSQL_FIELD* field;
+int i;
+
+printf("Content-type: text/html\n\n");
+printf("&lt;table border=1&gt;\n");
+
+//печатаем названия столбцов
+  printf("&lt;tr bgcolor=\"#CCCCCC\"&gt;\n");   
+while(field=mysql_fetch_field(res))
+     printf("&lt;td&gt;%s&lt;/td&gt;", field-&gt;name);
+  printf("&lt;/tr&gt;\n");
+
+//печатаем записи таблицы  
+ while( (row = mysql_fetch_row(res))!=NULL )
+ {
+  printf("&lt;tr&gt;\n");       
+  
+   for(i=0;i&lt;(int)res-&gt;field_count;i++)   
+     printf("&lt;td&gt;%s&lt;/td&gt;", row[i]);
+
+ }//while
+
+printf("&lt;/table&gt;");
+
+//освобождаем память, выделенную под таблицу
+mysql_free_result(res);
+}
+
+//если результатом SQL-запроса был NULL, т.е.
+//мы выполнили запрос типа INSERT, UPDATE, DELETE и т.п.,
+//то возвращаем пользователя на страницу с HTML-формой
+else
+printf("Location: %s\n\n",getenv("HTTP_REFERER"));
+
+
+LABEL_END:
+//закрываем соединение с базой данных
+mysql_close(pDB);
+
+//освобождаем память, выделенную под строки
+DeleteString(db);
+DeleteString(user);
+DeleteString(pwd);
+return 0;
+}
+</pre>
+
+Соберите и протестируйте данный CGI-скрипт в действии.
+
+<p align=justify>
+В связи с тем, что основная часть приложений с MySQL создается в среде UNIX рассмотрим
+этот же скрипт и Makefile для него.
+
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;mysql/mysql.h&gt;
+#include &lt;itcgi.h&gt;
+
+int main()
+{
+MYSQL* pDB;
+MYSQL_RES* res;
+LString* db = CreateString();
+LString* user = CreateString();
+LString* pwd = CreateString();
+LString* sql_query = CreateString();
+
+
+
+pDB = mysql_init(NULL);
+
+ if(!pDB)
+ {
+  printError("Внимание! Ошибка!!!", mysql_error(pDB));
+  return -1;
+ }
+
+
+GetParamByName("user", user);
+GetParamByName("pwd",  pwd);
+GetParamByName("db", db);
+GetParamByName("query", sql_query);
+
+if( !mysql_real_connect(pDB, NULL, *user, *pwd, *db, 0, NULL, 0) )
+ {
+  printError("Внимание! Ошибка!!!", "mysql_real_connect: %s\n", mysql_error(pDB)); 
+  goto LABEL_END;
+ }
+
+ 
+if( mysql_query(pDB, *sql_query) )
+ {
+  printError("Внимание! Ошибка!!!", mysql_error(pDB));  
+  goto LABEL_END;
+ }
+
+ 
+res = mysql_store_result(pDB);  
+if( res )
+{
+MYSQL_ROW row;  
+MYSQL_FIELD* field;
+int i;
+
+printf("Content-type: text/html\n\n");
+printf("&lt;table border=1&gt;\n");
+
+
+  printf("&lt;tr bgcolor=\"#CCCCCC\"&gt;\n");   
+while(field=mysql_fetch_field(res))
+     printf("&lt;td&gt;%s&lt;/td&gt;", field-&gt;name);
+  printf("&lt;/tr&gt;\n");
+  
+ while( (row = mysql_fetch_row(res))!=NULL )
+ {
+  printf("&lt;tr&gt;\n");       
+  
+   for(i=0;i&lt;(int)res-&gt;field_count;i++)   
+     printf("&lt;td&gt;%s&lt;/td&gt;", row[i]);
+
+ }//while
+
+printf("&lt;/table&gt;");
+mysql_free_result(res);
+}
+else
+printf("Location: %s\n\n",getenv("HTTP_REFERER"));
+
+LABEL_END:
+mysql_close(pDB);
+
+
+DeleteString(db);
+DeleteString(user);
+DeleteString(pwd);
+return 0;
+}
+
+
+******Makefile*******
+all: sql_query2
+
+
+sql_query2: sql_query2.c itcgi.a
+        gcc sql_query2.c -L/usr/local/lib/mysql \
+-L/usr/local/lib -I/usr/local/include \
+-o sql_query2 -lmysqlclient /usr/lib/itcgi.a -Wall -O3 
+        strip sql_query2
+
+
+</pre>
+
+
+Содержание функции main осталось неизменным. Мы убрали заголовочные файлы и директивы библиотеки
+MFC. Данная программа была собрана и оттестирована на платформе FreeBSD, но она также должна работать на
+любом клоне Unix.
+
+  
+
+</td></tr>
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #1 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=0-5740" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=0?5740" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=0'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69019-bn=0-5740" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=0?5740"
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #2 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=1?Rnd_Num" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=1'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=1?Rnd_Num" 
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="erle.cgi-51599-5740" tppabs="http://www.linkexchange.ru/cgi-bin/erle.cgi?51599?5740" frameborder=0 
+    vspace=0 hspace=0 width=468 height=60 marginwidth=0 marginheight=0 scrolling=no>
+    <a href="javascript:if(confirm('http://www.linkexchange.ru/users/goto.map  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://www.linkexchange.ru/users/goto.map'" tppabs="http://www.linkexchange.ru/users/goto.map" target=_top>
+    <img src="rle.cgi-51599-5740" tppabs="http://www.linkexchange.ru/cgi-bin/rle.cgi?51599?5740" alt="RLE Banner Network" border=0 height=60 width=468></a>
+    </iframe>
+
+<!-- Russian LinkExchange code START - BANNER #1 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=0-5740" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=0?5740"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=0'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69021-bn=0-5740" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=0?5740"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+<!-- Russian LinkExchange code START - BANNER #2 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=1-5740" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=1?5740"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=1'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69021-bn=1-5740" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=1?5740"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+</td></tr>
+</table>
+
+</body>
+</html>

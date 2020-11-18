@@ -1,0 +1,44 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>get_included_files</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="get-extension-funcs.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="get-loaded-extensions.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="get-included-files">get_included_files</A></H1><A NAME="AEN63985"></A><P>(PHP 4)</P>
+<p>get_included_files - возвращает массив из имён файлов, включаемых (include) или необходимых.<A NAME="AEN63988"></A></p>
+<H2>Описание</H2><p>array <B>get_included_files</B> (void)</p>
+<P>Возвращает массив имён всех файлов, которые включены с использованием <A HREF="../include.html"><B>include()</B></A>,
+<A HREF="../include-once.html"><B>include_once()</B></A>, <A HREF="require.html"><B>require()</B></A> или
+<A HREF="require-once.html"><B>require_once()</B></A>.</P><P>Файлы, включённые или затребованные несколько раз, показаны в возвращаемом 
+массиве только один раз.</P><BLOCKQUOTE><P><B>Примечание: </B>
+файлы, включённые с использованием директивы конфигурации <TT>auto_prepend_file</TT>, не входят в возвращаемый массив.</P></BLOCKQUOTE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN64004"></A><h5>Пример 1. get_included_files()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+include("test1.php");
+include_once("test2.php");
+require("test3.php");
+require_once("test4.php");
+
+$included_files = get_included_files();
+
+foreach($included_files as $filename) {
+    echo "$filename\n";
+}
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><p>сгенерирует на выводе:<A NAME="AEN64008"></A></p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>test1.php
+test2.php
+test3.php
+test4.php</PRE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+в PHP 4.0.1pl2 и предыдущих версиях для <B>get_included_files()</B> принималось, что требуемые файлы имели расширении имени
+<TT>.php</TT>; другие расширения не возвращались. Массив, возвращаемый функцией
+<B>get_included_files()</B>, был ассоциативным и содержал только имена файлов, включённых с помощью
+<A HREF="../include.html"><B>include()</B></A> и <A HREF="../include-once.html"><B>include_once()</B></A>.</P></BLOCKQUOTE>
+<P>См. также <A HREF="../include.html"><B>include()</B></A>, <A HREF="../include-once.html"><B>include_once()</B></A>,
+<A HREF="require.html"><B>require()</B></A>, <A HREF="require-once.html"><B>require_once()</B></A> и
+<A HREF="get-required-files.html"><B>get_required_files()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="get-extension-funcs.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="get-loaded-extensions.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">get_extension_funcs</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../ref.info.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">get_loaded_extensions</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

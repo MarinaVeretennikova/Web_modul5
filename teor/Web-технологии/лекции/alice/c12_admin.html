@@ -1,0 +1,464 @@
+<html>
+<title>Администрирование</title>
+<meta name=keywords content="СУБД MySQL mysqladmin mysqlshow phpMySQLadmin C API">
+
+<body>
+<table align=center width=90%>
+<tr><td>
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c12.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c12.html">СУБД MySQL</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c12_sql.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c12_sql.html">Выполняем SQL-запросы к базе данных </a>
+</table>
+
+
+<h3>Администрирование</h3> 
+ <p align="justify">
+  В наших разработках мы очень часто используем СУБД MySQL. Хотя MySQL не является полноценной 
+  СУБД, т.к. не поддерживает очень важных элементов БД, например, таких как: внешние ключи,
+  курсоры, триггеры, ограничение на значение, подзапросы и др.
+  Однако, на сегодняшний день, MySQL является одной из самых быстрых и популярных СУБД в сети Интернет, 
+  и может использоваться для большинства информационных систем небольшого масштаба. Для 
+  серьезных информационных систем лучше использовать более функциональные СУБД, например ORACLE или InterBase.
+  К обсуждению необходимых механизмов СУБД мы вернемся в главе "Проектирование баз данных".
+  <br><br>
+  Основными задачами администрирования системы управления баз данных являются:
+  <ol>
+  <li> запуск, мониторинг и завершение работы сервера
+  <li> управление пользователями и их привилегиями
+  <li> создание и удаление баз данных
+  <li> резервирование и копирование данных
+  </ol>
+  
+  Для взаимодействия администратора и пользователей с СУБД MySQL в комплект поставки MySQL
+  входят следующие утилиты командной строки:
+  <dl>
+  <dt> mysqladmin
+  <dd> Основная утилита администратора СУБД MySQL, ее применение мы детально рассмотрим ниже.
+  
+  <dt> mysqlshow
+       <dd> 
+       Позволяет просматривать список баз данных и по каждой базе данных список таблиц.
+       
+  <dt> mysql
+  <dd> Позволяет выполнять SQL-запросы.
+  
+  <dt> mysqldump
+  <dd> Позволяет получить содержимое отдельных баз данных.
+  
+  <dt> mysqlimport
+  <dd> Загружает данные из текстового файла в таблицу.
+  </dl>
+  
+  Для запуска СУБД MySQL в Windows запустите mysqld.exe из директории mysql\bin\.
+  В Unix демон mysql стартует автоматически при загрузке системы. Он запускается
+  программой /usr/local/etc/rc.d/mysql-server.sh. Для завершения работы сервера MySQL
+  используется команда 'mysqladmin shutdown'. Состояние сервера можно узнать
+  командой 'mysqladmin status'. Ниже приведен результат ее выполнения на нашем 
+  сервере, правда с авторскими комментариями. Также имеется команда
+  'mysqladmin extended-status' для получения более детальной информации.
+  <pre>
+Uptime: 1437330     //время работы сервера в секундах
+Threads: 1          //число потоков, взаимодействующих
+                    //с базой в данный момент
+                    
+Questions: 2717244  //всего запросов
+Slow queries: 10    //количество медленных запросов
+Opens: 3013         // число таблиц, открытых с 
+                    //момента запуска сервера
+Flush tables: 1  
+Open tables: 64     // количество открытых таблиц
+Queries per second avg: 1.890    // среднее количество запросов в секунду
+  </pre>
+
+
+  
+  Работа с СУБД MySQL в операционной системе Unix начинается c установки пароля администратора:
+  <pre>
+  mysqladmin -u root password  'пароль'.
+  </pre>
+  <p align="justify">
+  Если вы работаете в Windows98, то такую операцию проделывать не надо. Аутентификация в Windows 
+  не работает, да она вам для учебных целей и не потребуется. Следующие несколько абзацев
+  посвящены разграничению доступа и администрированию пользователей. Если у вас не стоит
+  задачи держать на своем сервере несколько баз данных и разграничивать к ним доступ по
+  пользователям, то можете перейти сразу к следующему этапу администрирования - созданию
+  и удалению баз данных. 
+  <br>
+  Разграничение доступа в MySQL основано на пяти таблицах из базы данных mysql.
+  Это таблицы:
+  <ol>
+  <li> user
+  <li> db
+  <li> host
+  <li> tables_priv
+  <li> columns_priv
+  </ol>
+
+Первый этап разграничения доступа основывается на таблице user, вот ее структура:
+<pre>
+CREATE TABLE user (
+  Host char(60) NOT NULL default '',
+  User char(16) NOT NULL default '',
+  Password char(16) NOT NULL default '',
+  Select_priv enum('N','Y') NOT NULL default 'N',
+  Insert_priv enum('N','Y') NOT NULL default 'N',
+  Update_priv enum('N','Y') NOT NULL default 'N',
+  Delete_priv enum('N','Y') NOT NULL default 'N',
+  Create_priv enum('N','Y') NOT NULL default 'N',
+  Drop_priv enum('N','Y') NOT NULL default 'N',
+  Reload_priv enum('N','Y') NOT NULL default 'N',
+  Shutdown_priv enum('N','Y') NOT NULL default 'N',
+  Process_priv enum('N','Y') NOT NULL default 'N',
+  File_priv enum('N','Y') NOT NULL default 'N',
+  Grant_priv enum('N','Y') NOT NULL default 'N',
+  References_priv enum('N','Y') NOT NULL default 'N',
+  Index_priv enum('N','Y') NOT NULL default 'N',
+  Alter_priv enum('N','Y') NOT NULL default 'N',
+  PRIMARY KEY  (Host,User)
+) 
+</pre>
+<p align="justify">
+При попытке соединится с сервером баз данных некоторого пользователя alex
+с компьютера alex.host.ru, MySQL сначала проверяется, разрешено ли этому пользователю соединятся с
+сервером с компьютера alex.host.ru. Эта проверка выполняется на основании значений полей Host 
+и User таблицы user. Если в таблице есть запись для пользователя alex и компьютера alex.host.ru,
+то соединение произойдет успешно. Если же такой записи нет, то соединение будет отвергнуто.
+В таблице user для пользователя alex должны быть перечислены все компьютеры, с которых 
+ему разрешено подключаться к системе. В поле Host можно задавать значения, используя знак %,
+который означает произвольный набор символов. Так, например, если вы укажете просто знак процента,
+то это будет означать, что пользователю alex разрешено подключаться к серверу баз данных с любого
+компьютера. Если же вы напишите %.ru, то будет означать, что alex'у можно подключаться
+с любого компьютера в зоне .ru. Одновременно с проверкой полей User и Host проверяется
+ третье поле - Password. Если оно пустое, то пароль не требуется. Если же в этом поле есть
+ какое-то значение, то происходит проверка пароля. Если и пароль совпадает, то соединение
+ с сервером происходит успешно. Как вы, наверное, обратили внимание в таблице user есть
+ и другие атрибуты. Эти атрибуты задают полномочия пользователя по отношению ко всем
+ базам данных, размещенным на данном сервере. Для простых пользователей все полномочия
+ должны быть запрещены, т.е. установлены в значение 'N'. Вы можете некоторых пользователей 
+ наделить особыми правами и дать им некоторые полномочия, но мы не рекомендуем так делать, т.к.
+ эти полномочия относятся абсолютно ко всем базам данных. Мы рекомендуем наделять конкретного пользователя
+ полномочиями на уровне конкретной базы данных, таблиц и столбцов баз данных, о чем будет рассказано ниже.
+ <br><br>
+ На самом деле, вам вряд ли придется строить системы, расположенные на разных компьютерах, т.е.
+ чтобы веб-сервер с CGI-программами крутился на одной машине, а сервер баз данных работал на другой.
+ У такого подхода, конечно, есть свои плюсы и минусы. К минусам такого решения
+ относится бОльшая стоимость, задержки при передаче данных по сети между сервером и клиентом,
+ возможные аппаратные или программные сбои сети или одного из компьютеров ведут к неработоспособности всей
+ системы в целом. Плюсом является то, что вы разделяете задачи по различным компьютерам.
+ Настроить и управлять работой одной программы будь то MySQL, Apache или Sendmail проще, чем
+ при их одновременной работе. Вы застрахованы от проблем, связанных с нехваткой ресурсов, конфликтов 
+ приложений. Нам видится, что такой подход будет оправдан при построение систем в больших 
+ масштабах. Мы используем централизованный подход, у нас все работает на одном сервере.
+ Соединения с других машин с сервером MySQL вообще закрыты межсетевым экраном (firewall'ом).
+ 
+<br><br>
+ После соединения с сервером MySQL пользователь соединяется с конкретной базой данных на этом
+ сервере. Далее разграничение доступа происходит на основании таблицы db:
+ <pre>
+ CREATE TABLE db (
+  Host char(60) NOT NULL default '',
+  Db char(64) NOT NULL default '',
+  User char(16) NOT NULL default '',
+  Select_priv enum('N','Y') NOT NULL default 'N',
+  Insert_priv enum('N','Y') NOT NULL default 'N',
+  Update_priv enum('N','Y') NOT NULL default 'N',
+  Delete_priv enum('N','Y') NOT NULL default 'N',
+  Create_priv enum('N','Y') NOT NULL default 'N',
+  Drop_priv enum('N','Y') NOT NULL default 'N',
+  Grant_priv enum('N','Y') NOT NULL default 'N',
+  References_priv enum('N','Y') NOT NULL default 'N',
+  Index_priv enum('N','Y') NOT NULL default 'N',
+  Alter_priv enum('N','Y') NOT NULL default 'N',
+  PRIMARY KEY  (Host,Db,User)
+) 
+ </pre>
+<p align=justify>
+На основе этой таблицы проверяется имеет ли доступ к данной базе данных пользователь 
+с компьютера Host. Если подходящей записи нет, то в соединении с выбранной базой данных будет отказано.
+Если соответствующая запись будет найдена, то соединение пройдет успешно, и пользователь 
+будет наделен полномочиями по работе с данной базой. Под пользователем здесь, конечно, надо
+понимать набор CGI-программ, которые будут работать с базой. Здесь вы уже смело можете ставить
+'Y' во все позиции. Значение поле Host задается точно также, как и для таблицы user.
+В случае, если в этом поле пустая строка, то просматривается таблица host, на предмет ограничения
+привилегий.
+
+<pre>
+CREATE TABLE host (
+  Host char(60) NOT NULL default '',
+  Db char(64) NOT NULL default '',
+  Select_priv enum('N','Y') NOT NULL default 'N',
+  Insert_priv enum('N','Y') NOT NULL default 'N',
+  Update_priv enum('N','Y') NOT NULL default 'N',
+  Delete_priv enum('N','Y') NOT NULL default 'N',
+  Create_priv enum('N','Y') NOT NULL default 'N',
+  Drop_priv enum('N','Y') NOT NULL default 'N',
+  Grant_priv enum('N','Y') NOT NULL default 'N',
+  References_priv enum('N','Y') NOT NULL default 'N',
+  Index_priv enum('N','Y') NOT NULL default 'N',
+  Alter_priv enum('N','Y') NOT NULL default 'N',
+  PRIMARY KEY  (Host,Db)
+) 
+</pre>
+
+Привилегии из таблицы host перекрывают привилегии из таблицы db. Но это только
+при условии, что в таблице db не задано имя компьютера. Также учтите, что это привилегии
+для всех пользователей, соединившихся с компьютера host. Как правило, эта 
+таблица не используется.
+<br>
+Аналогичным образом, для разграничения доступа в сложных системах,
+имеются таблицы для разграничения доступа на уровне таблиц и столбцов.
+<pre>
+CREATE TABLE tables_priv (
+  Host char(60) NOT NULL default '',
+  Db char(64) NOT NULL default '',
+  User char(16) NOT NULL default '',
+  Table_name char(64) NOT NULL default '',
+  Grantor char(77) NOT NULL default '',
+  Timestamp timestamp(14) NOT NULL,
+  Table_priv set('Select','Insert','Update','Delete','Create',
+  'Drop','Grant','References','Index','Alter') NOT NULL default '',
+  Column_priv set('Select','Insert','Update','References') NOT NULL default '',
+  PRIMARY KEY  (Host,Db,User,Table_name)
+) 
+
+ 
+  CREATE TABLE columns_priv (
+  Host char(60) NOT NULL default '',
+  Db char(64) NOT NULL default '',
+  User char(16) NOT NULL default '',
+  Table_name char(64) NOT NULL default '',
+  Column_name char(64) NOT NULL default '',
+  Timestamp timestamp(14) NOT NULL,
+  Column_priv set('Select','Insert','Update','References') NOT NULL default '',
+  PRIMARY KEY  (Host,Db,User,Table_name,Column_name)
+) 
+</pre>
+
+<p align="justify">
+Для внесения изменений в таблицы разграничения прав доступа имеется две возможности.
+Первая - непосредственное выполнение следующих SQL-запросов:
+<pre>
+INSERT INTO user (host, user, password) 
+VALUES( 'localhost', 'alex', password('HofdWf67') )     
+
+INSERT INTO db (host, user, db, select_priv, Insert_priv, 
+         Update_priv, Delete_priv, Create_priv, Drop_priv, 
+         References_priv, Index_priv, Alter_priv) 
+VALUES( 'localhost', 'alex', 'music', 'Y', 'Y',
+        'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y' )     
+</pre>
+Мы вносим в таблицу user нового пользователя alex. Обратите внимание, что пароли хранятся в
+зашифрованном виде, т.е., даже если кто-то получит резервную копию ваших баз данных или
+пароль администратора, то узнать пароли пользователей он не сможет.
+И второй запрос вносит в таблицу db полный список разрешений на использование
+пользователем alex базы данных music. Для выполнения этих запросов запустите
+<pre>
+mysql -u root -p -Dmysql        // в Unix
+mysql -Dmysql                   // в Windows
+</pre>
+При вводе SQL-запросов через mysql ставьте в конце точку с запятой - ';'.
+После выполнения данных запросов выйдите из утилиты mysql и выполните команду
+'mysqladmin reload' для перезагрузки таблиц прав доступа с внесенными изменениями.
+<br>
+Второй способ - это использование SQL-команд GRANT и REVOKE. Ниже
+приведен синтаксис и примеры использования этих команд.
+<pre>
+GRANT priv_type [(column_list)] [, priv_type [(column_list)] ...]
+    ON {tbl_name | * | *.* | db_name.*}
+    TO user_name [IDENTIFIED BY 'password']
+        [, user_name [IDENTIFIED BY 'password'] ...]
+    [WITH GRANT OPTION]
+
+REVOKE priv_type [(column_list)] [, priv_type [(column_list)] ...]
+    ON {tbl_name | * | *.* | db_name.*}
+    FROM user_name [, user_name ...]
+
+    
+priv_type может быть одним из следующих ключевых слов:
+ALL PRIVILEGES      FILE                RELOAD
+ALTER               INDEX               SELECT
+CREATE              INSERT              SHUTDOWN
+DELETE              PROCESS             UPDATE
+DROP                REFERENCES          USAGE
+
+
+
+//следующий SQL-запрос равносилен двум SQL-запросам,
+//которые мы рассмотрели выше
+GRANT ALL ON music.* TO alex@localhost IDENTIFIED BY 'HofdWf67'
+WITH GRANT OPTION
+    
+</pre>
+  <p align="justify">
+После внесения изменений этими командами, перезагрузка таблиц при помощи 
+команды 'mysqladmin reload' не требуется. В случае, если пользователя alex не было, то
+он создается с паролем 'HofdWf67'. Если же он уже был в таблице user, то для него
+меняется пароль. WITH GRANT OPTION позволяет alex'у давать привилегии на базу music
+другим пользователям.
+<br>
+И последнее, о чем хотелось бы здесь сказать, о смене паролей. Пароли могут 
+перехватываться, теряться, оказаться известными посторонним людям и т.д. и т.п., поэтому
+рекомендуется с определенной периодичностью их менять. Периодичность зависит от уровня
+надежности защиты вашей системы. На гостевую книгу пароль можно не менять совсем.
+Если с ней что-то случится, вы всегда сможете восстановить ее с резервной копии, ну потеряете
+в худшем случае пару последних новых сообщений. При функционировании сложной многопользовательской
+системы, смена паролей может происходить раз в 3-6 месяцев. Производить смену паролей все же
+удобнее командой:
+<pre>
+UPDATE user SET password=password('newpwd') WHERE user='username'
+</pre>
+<p align="justify">
+После чего не забудьте сделать 'mysqladmin reload'. Команда GRANT здесь не подходит, т.к.
+она завязана еще и на привилегиях пользователей, вспоминать которые нам ни к чему.
+
+<br><br>
+Далее мы переходим к созданию и удалению баз данных. Это можно сделать либо командой
+SQL-запроса 'CREATE DATABASE databasename', либо при помощи команды 
+'mysqladmin -u root -p create databasename'. Удаление аналогично - 
+'DROP DATABASE databasename' или же 
+'mysqladmin -u root -p drop databasename'.
+<br><br>
+  Копирование баз данных в MySQL осуществляется простым копированием файлов. Все базы данных
+  MySQL обычно лежат либо в директории C:\mysql\data в операционной системе Windows, 
+  либо же в /var/db/mysql в операционной системе Unix. Для копирования базы вам 
+  нужно просто скопировать соответствующую директорию. Для переименования просто
+  переименовать директорию. Хотите создать дубль базы, скопируйте директорию в этот
+  же каталог под другим именем. Резервное копирование баз данных делается опять же таки
+ простым копированием, но лучше также еще и заархивировать, т.к. базы ужимаются в 
+ десять раз. Небольшое пояснение по поводу использования mysqldump, эта утилита
+ не предназначена для резервного копирования баз данных! С помощью mysqldump
+ можно просматривать структуру таблиц баз данных, извлекать сами данные и сохранять
+ их в текстовые файлы. Например, 'mysqldump -d mysql' выдаст SQL-код приведенных
+ выше таблиц. Флаг -d означает, что нужно вывести только структуру таблиц без данных.
+ Для полного дампа базы дайте команду
+ <pre>
+ mysqldump -T /tmp --fields-terminated-by="|" databasename
+ </pre>  
+  
+  
+  <p align="justify">
+  Особо хочется отметить веб-интерфейс phpMyAdmin, который позволяет
+  администрировать MySQL через веб и выполнять все рассмотренные
+  выше задачи. Если вы собираетесь плотно работать с MySQL,
+  то обязательно установите phpMyAdmin. Последнюю версию phpMyAdmin можно взять
+  по следующим адресам:
+  <pre>
+  http://phpwizard.net/projects/phpMyAdmin/
+  http://phpmyadmin.sourceforge.net/
+  </pre>    
+
+ <center>
+ <img src="phpadm.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/phpadm.jpg">
+ </center>
+
+
+</td></tr>
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #1 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=0-1682" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=0?1682" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=0'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69019-bn=0-1682" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=0?1682"
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #2 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=1?Rnd_Num" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=1'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=1?Rnd_Num" 
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="erle.cgi-51599-1682" tppabs="http://www.linkexchange.ru/cgi-bin/erle.cgi?51599?1682" frameborder=0 
+    vspace=0 hspace=0 width=468 height=60 marginwidth=0 marginheight=0 scrolling=no>
+    <a href="javascript:if(confirm('http://www.linkexchange.ru/users/goto.map  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://www.linkexchange.ru/users/goto.map'" tppabs="http://www.linkexchange.ru/users/goto.map" target=_top>
+    <img src="rle.cgi-51599-1682" tppabs="http://www.linkexchange.ru/cgi-bin/rle.cgi?51599?1682" alt="RLE Banner Network" border=0 height=60 width=468></a>
+    </iframe>
+
+<!-- Russian LinkExchange code START - BANNER #1 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=0-1682" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=0?1682"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=0'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69021-bn=0-1682" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=0?1682"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+<!-- Russian LinkExchange code START - BANNER #2 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=1-1682" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=1?1682"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=1'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69021-bn=1-1682" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=1?1682"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+</td></tr>
+</table>
+
+</body>
+</html>

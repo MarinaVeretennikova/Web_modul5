@@ -1,0 +1,67 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Фунции Регулярных Выражений (Perl-Совместимые)</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="recode.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%"  ALIGN="right"><A HREF="../pcre.pattern.modifiers.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.pcre"></A>LXXXVII. Функции регулярных выражений<br>(Perl-совместимые)</h1>
+<A NAME="AEN70425"></A><P>Синтаксис патэрнов, используемый в этих функциях, очень напоминает
+Perl. Выражение должно быть заключено в ограничители, слэши (/), например.  
+В качестве ограничителей могут использоваться любые символы, кроме не 
+алфавитных символов, цифр и обратного слэша (\). Если символ ограничителя должен использоваться в самом выражении,
+он должен мнемонизироваться/escape обратным слэшем. Начиная с PHP 4.0.4, вы можете также использовать парные ограничители в стиле
+Perl: (), {}, [] и &#60;&#62;.</P><P>После конечного ограничителя могут идти различные модификаторы, влияющие на подстановку. 
+См. <a href="../pcre.pattern.modifiers.html">Модификаторы патэрна</a>.</P>
+<P>PHP также поддерживает регулярные выражения, использующие расширенный синтаксис POSIX с функциями
+<A HREF="ref.regex.html">POSIX-extended regex</A>.</P><H1><A NAME="pcre.requirements">Требования</A></H1>
+<P>Поддержка регулярных выражений предоставляется пакетом библиотеки PCRE, 
+который является открытым ресурсом, автор Philip Hazel,
+и copyright University of Cambridge, England. Он находится на
+<A HREF="ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/" TARGET="_top">ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/</A>
+</P><H1><A NAME="pcre.installation">Установка</A></H1><P>Начиная с PHP 4.2.0, эти функции по умолчанию включены.
+В более старых версиях вы должны конфигурировать и компилировать PHP 
+с опцией <TT>--with-pcre-regex[=DIR]</TT>, чтобы использовать эти функции. Вы можете отменить функции pcre опцией
+<TT>--without-pcre-regex</TT>.</P><H1><a name="pcre.configuration">Конфигурация</a></H1>
+<P>Это расширение не определяет никаких директив конфигурации.</P><H1><A NAME="pcre.resources">Типы ресурсов</A>
+</H1><P>Это расширение не определяет никакие типы ресурсов.</P>
+<H1><A NAME="pcre.constants">Предопределённые константы</A><A NAME="AEN70449"></A></H1>
+<h6>Таблица 1. PREG-константы</h6><TABLE BORDER="1"><TR><TH>константа</TH><TH>описание</TH></TR>
+<TBODY><TR><TD>PREG_PATTERN_ORDER</TD><TD>Оформляет результат таким образом, что $matches[0] является массивом 
+совпадений всего патэрна, $matches[1] это массив строк, совпавших с 
+первым субпатэрном в кавычках, и так далее. Этот флаг используется только с
+<A HREF="preg-match-all.html"><B>preg_match_all()</B></A>.</TD></TR><TR><TD>PREG_SET_ORDER</TD>
+<TD>Оформляет результат таким образом, что $matches[0] это массив первого набора совпадений, $matches[1] это массив второго набора совпадений, и 
+так далее. Этот флаг используется только с <A HREF="preg-match-all.html"><B>preg_match_all()</B></A>.</TD></TR>
+<TR><TD>PREG_OFFSET_CAPTURE</TD><TD>См. описание <TT><B>PREG_SPLIT_OFFSET_CAPTURE</B></TT>. Этот флаг
+доступен, начиная с PHP 4.3.0.</TD></TR><TR><TD>PREG_SPLIT_NO_EMPTY</TD>
+<TD>Этот флаг говорит функции <A HREF="preg-split.html"><B>preg_split()</B></A> - возвращать только непустые участки.</TD>
+</TR><TR><TD>PREG_SPLIT_DELIM_CAPTURE</TD><TD>Этот флаг говорит функции <A HREF="preg-split.html"><B>preg_split()</B></A>
+- захватывать выражение в скобках также в патэрне ограничителе. Этот флаг доступен, начиная с PHP 4.0.5.</TD></TR>
+<TR><TD>PREG_SPLIT_OFFSET_CAPTURE</TD><TD>Если этот флаг установлен, для каждого возникающего совпадения будет 
+возвращаться также смещение прибавляемой строки. Обратите внимание, что 
+это изменяет return-значение в массиве, где элемент является массивом, 
+состоящим из совпавшей строки со смещением 0&nbsp; и смещения его строки 
+в субъекте со смещением 1. Этот флаг доступен, начиная с PHP 4.3.0, и используется только для
+<A HREF="preg-split.html"><B>preg_split()</B></A>.</TD></TR></TBODY></TABLE>
+<H1><A NAME="pcre.examples">Примеры</A></H1><P><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN70487"></A>
+<h5>Пример 1. Примеры верных патэрнов</h5><UL><LI><P><TT>/&#60;\/\w+&#62;/</TT></P></LI>
+<LI><P><TT>|(\d{3})-\d+|Sm</TT></P></LI><LI><P><TT>/^(?i)php[34]/</TT></P></LI><LI><P><TT>{^\s+(\s+)?$}</TT></P>
+</LI></UL></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN70503"></A>
+<h5>Пример 2. Примеры неправильных патэрнов</h5><UL><LI><P><TT>/href='(.*)'</TT> - отсутствует конечный ограничитель</P>
+</LI><LI><P><TT>/\w+\s*\w+/J</TT> - неизвестный модификатор 'J'</P></LI><LI>
+<P><TT>1-\d3-\d3-\d4|</TT> - пропущен начальный ограничитель</P></LI></UL></TD></TR></TABLE>
+<DL><DT><B>Содержание</B></DT><DT><a href="../pcre.pattern.modifiers.html">Модификаторы Патэрна</a> - описаны 
+возможные модификаторы в regex-патэрнах</DT>
+<DT><a href="../pcre.pattern.syntax.html">Синтаксис Патэрна</a> - описан синтаксис PCRE regex</DT>
+<DT><A HREF="preg-grep.html">preg_grep</A> - возвращает вхождения массива, совпадающие с патэрном</DT>
+<DT><A HREF="preg-match-all.html">preg_match_all</A> - выполняет глобальный поиск совпадений регулярного выражения</DT>
+<DT><A HREF="preg-match.html">preg_match</A> - выполняет поиск совпадений регулярного выражения</DT>
+<DT><A HREF="preg-quote.html">preg_quote</A> - закавычивает символы регулярного выражения</DT>
+<DT><A HREF="preg-replace-callback.html">preg_replace_callback</A> - выполняет поиск регулярного выражения и замену с использованием обратного
+вызова/callback</DT><DT><A HREF="preg-replace.html">preg_replace</A> - выполняет поиск регулярного выражения и замену</DT>
+<DT><A HREF="preg-split.html">preg_split</A> - делит строку регулярным выражением</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="recode.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%"  ALIGN="right"VALIGN="top"><A HREF="../pcre.pattern.modifiers.html">Вперёд</A></TD></TR>
+<TR><TD WIDTH="33%" VALIGN="top">recode</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Модификаторы патэрна</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

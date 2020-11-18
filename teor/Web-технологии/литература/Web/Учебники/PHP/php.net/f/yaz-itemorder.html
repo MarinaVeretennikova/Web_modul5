@@ -1,0 +1,53 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>yaz_itemorder</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="yaz-hits.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="yaz-present.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.yaz-itemorder">yaz_itemorder</A></H1><A NAME="AEN83704"></A><P>(PHP 4 &#62;= 4.0.5)</P>
+<p>yaz_itemorder - готовит для Z39.50 Item Order с пакетом ILL-Request.<A NAME="AEN83707"></A></p><H2>Описание</H2>
+<p>int <B>yaz_itemorder</B> (array args)</p><P>Эта функция готовит к запрашиванию Extended Services с использованием
+Profile для использования Z39.50 Item Order Extended Service для Transport ILL (Profile/1). См.
+<a href="http://www.nlc-bnc.ca/iso/ill/stanprf.htm">здесь</a> и
+<a href="http://www.nlc-bnc.ca/iso/ill/document/standard/z-ill-1a.pdf"> спецификацию</a>.
+Параметр args обязан быть хэш-массивом с информацией об отправляемом
+Item Order-запросе. Ключ хэша это имя соответствующего пути ASN.1-тэга.
+Например, ISBN ниже Item-ID имеет ключ item-id,ISBN.</P><P>Параметры ILL-Request/Запроса:</P>
+<P>protocol-version-num<br>
+transaction-id,initial-requester-id,person-or-institution-symbol,person<br>
+transaction-id,initial-requester-id,person-or-institution-symbol,institution<br>
+transaction-id,initial-requester-id,name-of-person-or-institution,name-of-person<br>
+transaction-id,initial-requester-id,name-of-person-or-institution,name-of-institution<br>
+transaction-id,transaction-group-qualifier<br>transaction-id,transaction-qualifier<br>
+transaction-id,sub-transaction-qualifier<br>service-date-time,this,date<br>service-date-time,this,time<br>
+service-date-time,original,date<br>service-date-time,original,time<br>requester-id,person-or-institution-symbol,person<br>
+requester-id,person-or-institution-symbol,institution<br>requester-id,name-of-person-or-institution,name-of-person<br>
+requester-id,name-of-person-or-institution,name-of-institution<br>responder-id,person-or-institution-symbol,person<br>
+responder-id,person-or-institution-symbol,institution<br>responder-id,name-of-person-or-institution,name-of-person<br>
+responder-id,name-of-person-or-institution,name-of-institution<br>transaction-type<br>delivery-address,postal-address,name-of-person-or-institution,name-of-person<br>
+delivery-address,postal-address,name-of-person-or-institution,name-of-institution<br>delivery-address,postal-address,extended-postal-delivery-address<br>
+delivery-address,postal-address,street-and-number<br>delivery-address,postal-address,post-office-box<br>
+delivery-address,postal-address,city<br>delivery-address,postal-address,region<br>delivery-address,postal-address,country<br>
+delivery-address,postal-address,postal-code<br>delivery-address,electronic-address,telecom-service-identifier<br>
+delivery-address,electronic-address,telecom-service-addreess<br>billing-address,postal-address,name-of-person-or-institution,name-of-person<br>
+billing-address,postal-address,name-of-person-or-institution,name-of-institution<br>billing-address,postal-address,extended-postal-delivery-address<br>
+billing-address,postal-address,street-and-number<br>billing-address,postal-address,post-office-box<br>billing-address,postal-address,city<br>
+billing-address,postal-address,region<br>billing-address,postal-address,country<br>billing-address,postal-address,postal-code<br>
+billing-address,electronic-address,telecom-service-identifier<br>billing-address,electronic-address,telecom-service-addreess<br>
+ill-service-type<br>requester-optional-messages,can-send-RECEIVED<br>requester-optional-messages,can-send-RETURNED<br>
+requester-optional-messages,requester-SHIPPED<br>requester-optional-messages,requester-CHECKED-IN<br>search-type,level-of-service<br>
+search-type,need-before-date<br>search-type,expiry-date<br>search-type,expiry-flag<br>place-on-hold<br>client-id,client-name<br>
+client-id,client-status<br>client-id,client-identifier<br>item-id,item-type<br>item-id,call-number<br>item-id,author<br>
+item-id,title<br>item-id,sub-title<br>item-id,sponsoring-body<br>item-id,place-of-publication<br>item-id,publisher<br>
+item-id,series-title-number<br>item-id,volume-issue<br>item-id,edition<br>item-id,publication-date<br>item-id,publication-date-of-component<br>
+item-id,author-of-article<br>item-id,title-of-article<br>item-id,pagination<br>item-id,ISBN<br>item-id,ISSN<br>
+item-id,additional-no-letters<br>item-id,verification-reference-source<br>copyright-complicance<br>retry-flag<br>
+forward-flag<br>requester-note<br>forward-note<br>&nbsp;</P><P>Есть также несколько параметров, являющихся частью пакета Extended
+Services Request и пакета ItemOrder:</P><P>package-name<br>user-id<br>contact-name<br>contact-phone<br>contact-email<br>
+itemorder-item</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0"  WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="yaz-hits.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="yaz-present.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">yaz_hits</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.yaz.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">yaz_present</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,36 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>strtotime</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="strftime.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="time.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.strtotime">strtotime</A></H1><A NAME="AEN16058"></A><P>(PHP 3&#62;= 3.0.12, PHP 4)</P>
+<p>strtotime - разбирает английское текстовое описание datetime в UNIX timestamp.<A NAME="AEN16061"></A></p>
+<H2>Описание</H2><p>int <B>strtotime</B> (string time [, int now])</p>
+<P>Функция ожидает строку, содержащую английский формат даты, и пытается разобрать этот формат в UNIX timestamp относительно timestamp, заданного в 
+параметре <TT><I>now</I></TT>, или относительно текущего времени, если ничего не задано. При неудаче 
+возвращает <TT>-1</TT>.</P><P>Поскольку <B>strtotime()</B> ведёт себя в соответствии с GNU-синтаксисом даты, просмотрите страницу GNU-учебника
+<A HREF="http://www.gnu.org/manual/tar-1.12/html_chapter/tar_7.html" TARGET="_top">Date Input Formats</A>.
+Там описан правильный синтаксис параметра <TT><I>time</I></TT>.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN16080"></A><h5>Пример 1. strtotime()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>echo strtotime ("now"), "\n";
+echo strtotime ("10 September 2000"), "\n";
+echo strtotime ("+1 day"), "\n";
+echo strtotime ("+1 week"), "\n";
+echo strtotime ("+1 week 2 days 4 hours 2 seconds"), "\n";
+echo strtotime ("next Thursday"), "\n";
+echo strtotime ("last Monday"), "\n";</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR>
+<TD><A NAME="AEN16085"></A><h5>Пример 2. Проверка при неудаче</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$str = 'Not Good';
+if (($timestamp = strtotime($str)) === -1) {
+    echo "The string ($str) is bogus";
+} else {
+    echo "$str == ". date('l dS of F Y h:i:s A',$timestamp);
+}</PRE></TD></TR></TABLE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+диапазон правильных значений timestamp обычно: от Fri, 13 Dec 1901 20:45:54 GMT до Tue, 19 Jan 2038 03:14:07 GMT. (Это даты, 
+соответствующие минимальным и максимальным значениям для 32-битного знакового integer.)</P></BLOCKQUOTE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="strftime.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="time.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">strftime</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.datetime.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">time</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

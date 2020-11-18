@@ -1,0 +1,89 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Установка под Unix/HP-UX</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="inst.installation.html">Назад</A></TD><th WIDTH="80%">Глава 2. Инсталяция</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="linux.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1>Установка на <A NAME="install.hpux">Unix/HP-UX</A></H1>
+<P>В этом разделе дана информация и подсказки, относящиеся к установке PHP на системах HP-UX.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+  <h5><A NAME="install.hpux.example"></A>
+  Пример 2-1. Инструкции инсталяции для HP-UX 10</h5>
+  <TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>От: paul_mckay@clearwater-it.co.uk
+04-Jan-2001 09:49
+(Эти заметки относятся к PHP 4.0.4 и Apache v1.3.9)
+
+Итак, вы хотите установить PHP и Apache в бокс HP-UX 10.20?
+1. Вам необходим gzip-файл; загрузите двоичный дистрибутив с
+http://hpux.connect.org.uk/ftp/hpux/Gnu/gzip-1.2.4a/gzip-1.2.4a-sd-10.20.depot.Z
+распакуйте файл и установите с помощью swinstall.
+
+2. Вам необходим gcc; загрузите двоичный дистрибутив с
+http://gatekeep.cs.utah.edu/ftp/hpux/Gnu/gcc-2.95.2/gcc-2.95.2-sd-10.20.depot.gz 
+gunzip этот файл и установите gcc с помощью swinstall.
+
+3. Вам необходимы бинарные утилиты GNU; вы можете загрузить двоичный дистрибутив с
+http://hpux.connect.org.uk/ftp/hpux/Gnu/binutils-2.9.1/binutils-2.9.1-sd-10.20.depot.gz 
+gunzip и установите с помощью swinstall.
+
+4. Теперь вам необходим bison, загрузите двоичный дистрибутив с
+http://hpux.connect.org.uk/ftp/hpux/Gnu/bison-1.28/bison-1.28-sd-10.20.depot.gz 
+установите, как указано выше.
+
+5. Вам нужен flex, необходимо загрузить исходник с
+http://www.gnu.org mirrors. Он находится в директории &#60;filename&#62;non-gnu&#60;/filename&#62;
+на это ftp-сайте.
+Загрузите файл, gunzip, затем tar -xvf. перейдите во вновь созданную директорию flex
+и выполните команду a ./configure, затем make, затем make install
+
+Если у вас здесь появятся ошибки, это может быть из-за того, что gcc etc. не
+находятся в вашем PATH, поэтому добавьте их в PATH.
+
+Теперь самое сложное.
+
+6. Загрузите исходники PHP и Аpache.
+
+7. gunzip и tar -xvf их.
+
+Необходимо подсоединить пару файлов, чтобы всё скомпилировалось ok.
+
+8. Во-первых должен быть присоединён файл конфигурации, поскольку вы на
+hpux-машине, и будет лучше присоединить его
+    lt_target=hpux10.20 
+в строке 47286 скрипта конфигурации.
+
+9. Теперь должен быть присоединён файл Apache GuessOS. Ниже
+apache_1.3.9/src/helpers измените строку 89 с
+    "echo "hp${HPUXMACH}-hpux${HPUXVER}"; exit 0"
+на:
+    "echo "hp${HPUXMACH}-hp-hpux${HPUXVER}"; exit 0"
+
+10. Вы не можете установить PHP как shared-объект под HP-UX, поэтому вы обязаны
+скомпилировать его как static, просто следуя инструкциям страницы Apache.
+
+11. PHP и Аpache должны скомпилироваться OK, но Apache не будет стартовать. Вам нужно
+создать нового пользователя для Apache, например, www или apache. Затем измените строки
+252 и 253 в conf/httpd.conf в Apache, чтобы вместо
+    User nobody
+    Group nogroup
+
+у вас было что-то вроде
+
+    User www
+    Group sys
+
+Иначе вы не сможете запускать Apache как nobody под hp-ux.
+Apache и PHP теперь должны заработать.
+
+Надеемся, что это поможет кому-нибудь,
+Paul Mckay.</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="inst.installation.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="linux.html">Вперёд</A></TD></TR>
+<TR><TD WIDTH="33%" VALIGN="top">Инсталяция</TD><th WIDTH="34%" VALIGN="top">
+<a href="inst.installation.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Установка на Unix/Linux</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

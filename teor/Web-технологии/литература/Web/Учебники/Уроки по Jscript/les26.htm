@@ -1,0 +1,313 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0031)http://jsp.newmail.ru/les26.htm -->
+<HTML><HEAD><TITLE>Урок 26. Введение в массивы</TITLE>
+<META content="text/html; charset=windows-1251" http-equiv=Content-Type>
+<META 
+content="html javascript джаваскрипт советы для начинающих script уроки код&#13;&#10;руководство основы design дизайн веб-страницы web pages" 
+name=Keywords>
+<META 
+content="Самое толковое руководство по основам javascript на русском языке. Введение в массивы" 
+name=Description>
+<SCRIPT language=javascript>
+<!--
+if (document.images) {
+ar_r = new Image(33,33); ar_r.src = "i/ar_r.gif"; 
+ar_r1 = new Image(33,33); ar_r1.src = "i/ar_r1.gif"; 
+none = new Image(79,35); none.src = "i/none.gif"; 
+next = new Image(79,35); next.src = "i/next.gif"; 
+prev = new Image(79,35); prev.src = "i/prev.gif";
+ar_l = new Image(33,33); ar_l.src = "i/ar_l.gif";
+ar_l1 = new Image(79,35); ar_l1.src = "i/ar_l1.gif";
+}
+function swap(imgName,imgObjName) {
+if (document.images) {
+  document.images[imgName].src = eval(imgObjName + ".src");
+}}
+tv=new Array()
+      tv[0]="ОРТ"
+      tv[1]="РТР"
+      tv[2]="ТВЦ"
+      tv[3]="НТВ"
+      tv[4]="ТВ6"
+      num=0
+ function picktv()
+     {
+        now=new Date()
+        num=(now.getSeconds())%5
+      }
+   function whichtv()
+      {
+        picktv()
+        guess=" "
+        while (tv[num] != guess.toUpperCase())
+        {guess=prompt("Угадайте мой любимый телеканал: ОРТ, РТР, ТВЦ, НТВ или ТВ6?")
+        if (guess.toUpperCase() == tv[num])
+               {alert("Это мой любимый телеканал!")}
+        else
+               {alert("Нет, попробуйте еще раз.")}}
+      }
+function toc() {
+OpenWindow=window.open('toc.html', 'toc', config='width=300,scrollbars=1,resizable=1,status=1')
+self.name="one"
+}
+//-->
+</SCRIPT>
+<LINK href="les26.files/blue.css" rel=STYLESHEET type=text/css>
+<META content="MSHTML 5.00.2614.3500" name=GENERATOR></HEAD>
+<BODY background=les26.files/Life_blue.gif bgColor=#334775 text=#334775>
+<DIV 
+style="HEIGHT: 35px; LEFT: 10px; POSITION: absolute; TOP: 10px; WIDTH: 160px"><A 
+href="http://jsp.newmail.ru/les25.htm" 
+onmouseout="swap('left','ar_l');swap('none','none')" 
+onmouseover="swap('left','ar_l1');swap('none','prev')"><IMG border=0 height=33 
+name=left src="les26.files/ar_l.gif" width=33></A>&nbsp;<A href="" 
+onmouseout="swap('left','ar_l');swap('right','ar_r')" 
+onmouseover="swap('left','ar_l1');swap('right','ar_r1')"><IMG border=0 height=35 
+name=none src="les26.files/none.gif" width=79></A>&nbsp;<A 
+href="http://jsp.newmail.ru/les27.htm" 
+onmouseout="swap('right','ar_r');swap('none','none')" 
+onmouseover="swap('right','ar_r1');swap('none','next')"><IMG border=0 height=33 
+name=right src="les26.files/ar_r.gif" width=33></A> </DIV>
+<H1 align=right>Урок 26<BR>Введение в массивы:<BR>функция внутри функции</H1>
+<P align=right><B><FONT color=#fb4462>красным цветом даны примечания 
+переводчика</FONT></B><BR><A 
+href="http://jsp.newmail.ru/les26.htm#concept">Концепция</A>__<A 
+href="http://jsp.newmail.ru/les26.htm#script">Скрипт</A>__<A 
+href="http://jsp.newmail.ru/les26.htm#effect">Эффект</A>__<A 
+href="http://jsp.newmail.ru/les26.htm#decon">Разбор скрипта</A>__<A 
+href="http://jsp.newmail.ru/les26.htm#assig">Задание</A></P>
+<P align=right><A href="http://jsp.newmail.ru/les26.htm#" 
+onclick=toc()>Оглавление (в новом окне)</A></P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="50%"><IMG height=13 
+      src="les26.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="30%">
+      <P align=right><IMG height=13 src="les26.files/b_t_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="80%">
+      <H2><A name=concept>Концепция</A></H2>
+      <P align=justify><B>С</B>егодня мы приступим к нашей последней новой теме 
+      — <STRONG>массивы <FONT color=red>(array)</FONT></STRONG><B>.</B> Вы уже 
+      узнали о переменных. Каждая <B>переменная </B>имеет одно значение, но 
+      иногда вам необходим <B>массив <FONT color=red>(array)</FONT></B>, или 
+      переменная, которая имеет множество значений.<BR>В этом примере программа 
+      просит пользователя угадать телевизионный канал из перечня телеканалов. 
+      Запрос повторяется до тех пор, пока пользователь не угадает. Каждый раз 
+      при нажатии кнопки выбирается новый телеканал.</P>
+      <H2><A name=script>Скрипт</A></H2>
+      <P class=cou>&lt;HTML&gt;<BR>&lt;HEAD&gt;<BR>&lt;SCRIPT 
+      LANGUAGE="JavaScript"&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp; tv=new 
+      Array()<BR>&nbsp;&nbsp;&nbsp;&nbsp; 
+      tv[0]="ОРТ"<BR>&nbsp;&nbsp;&nbsp;&nbsp; 
+      tv[1]="РТР"<BR>&nbsp;&nbsp;&nbsp;&nbsp; 
+      tv[2]="ТВЦ"<BR>&nbsp;&nbsp;&nbsp;&nbsp; 
+      tv[3]="НТВ"<BR>&nbsp;&nbsp;&nbsp;&nbsp; 
+      tv[4]="ТВ6"<BR>&nbsp;&nbsp;&nbsp;&nbsp; num=0<BR>function 
+      picktv()<BR>&nbsp;&nbsp;&nbsp; {<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      now=new Date()<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      num=(now.getSeconds())%5<BR>&nbsp;&nbsp;&nbsp;&nbsp; }<BR>function 
+      whichtv()<BR>{<BR>picktv()<BR>guess=" "<BR>while (tv[num] != 
+      guess.toUpperCase())<BR><BR>{guess=prompt("Угадайте мой любимый телеканал: 
+      <BR>&nbsp;&nbsp;ОРТ, РТР, ТВЦ, НТВ или ТВ6?")<BR><BR>&nbsp; if 
+      (guess.toUpperCase() == tv[num])<BR>&nbsp; {alert("Это мой любимый 
+      телеканал!")}<BR>&nbsp; else<BR>&nbsp; {alert("Нет, попробуйте еще 
+      раз.")}}<BR>&nbsp; }<BR>&lt;/SCRIPT&gt;&nbsp;&nbsp;&nbsp; 
+      <BR>&lt;/HEAD&gt;<BR>&lt;BODY&gt;<BR>&lt;FORM&gt;<BR><BR>&lt;INPUT 
+      TYPE="button" VALUE="Угадайте" <BR>&nbsp;&nbsp;&nbsp;&nbsp; 
+      onClick="whichtv()"&gt;<BR><BR>&lt;/FORM&gt;<BR>&lt;/BODY&gt;<BR>&lt;/HTML&gt;</P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd vAlign=bottom width="50%"><IMG height=13 
+      src="les26.files/b_b_l.gif" width=12></TD>
+    <TD bgColor=#cef3fd vAlign=bottom width="30%">
+      <P align=right><IMG height=13 src="les26.files/b_b_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P>
+<DIV align=right>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="85%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=30 vAlign=top width="50%"><IMG height=13 
+      src="les26.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd vAlign=top width="50%">
+      <P align=right><IMG height=13 src="les26.files/b_t_r.gif" 
+  width=13></P></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%">
+      <H2><A name=effect>Эффект</A> </H2>
+      <FORM>
+      <P><INPUT onclick=whichtv() type=button value="Угадайте телеканал!"> 
+      </P></FORM></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%"><IMG height=13 
+      src="les26.files/b_b_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%">
+      <P align=right><IMG height=13 src="les26.files/b_b_r.gif" 
+  width=13></P></TD></TR></TBODY></TABLE></DIV>
+<P>.</P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="50%"><IMG height=13 
+      src="les26.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="30%">
+      <P align=right><IMG height=13 src="les26.files/b_t_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%"><A 
+      name=decon>
+      <H2>Разбор скрипта</A> </H2>
+      <P class=cou>&lt;SCRIPT 
+      LANGUAGE="JavaScript"&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp; tv=new 
+      Array()<BR>&nbsp;&nbsp;&nbsp;&nbsp; 
+      tv[0]="ОРТ"<BR>&nbsp;&nbsp;&nbsp;&nbsp; 
+      tv[1]="РТР"<BR>&nbsp;&nbsp;&nbsp;&nbsp; 
+      tv[2]="ТВЦ"<BR>&nbsp;&nbsp;&nbsp;&nbsp; 
+      tv[3]="НТВ"<BR>&nbsp;&nbsp;&nbsp;&nbsp; 
+      tv[4]="ТВ6"<BR>&nbsp;&nbsp;&nbsp;&nbsp; num=0
+      <UL>
+        <LI><B>tv=new Array()</B> объявляет, что tv представляет собой массив. С 
+        пустыми <B>(скобками)</B> массив может быть какой угодно длины. Можно 
+        также указать длину массива, например,<B> tv=new Array(5)</B>. 
+        <LI>Помните, что массив<FONT color=red> array</FONT> может иметь 
+        множество значений. Можно представить себе массив в виде таблицы:
+        <P align=center><B>tv</B></P>
+        <DIV align=center>
+        <TABLE border=1 style="FONT-FAMILY: Arial Cyr; FONT-SIZE: 10pt">
+          <TBODY>
+          <TR>
+            <TD>tv[0]</TD>
+            <TD bgColor=white>tv[1]</TD>
+            <TD>tv[2]</TD>
+            <TD bgColor=white>tv[3]</TD>
+            <TD>tv[4]</TD></TR>
+          <TR>
+            <TD align=middle>ОРТ</TD>
+            <TD align=middle bgColor=white>РТР</TD>
+            <TD align=middle>ТВЦ</TD>
+            <TD align=middle bgColor=white>НТВ</TD>
+            <TD align=middle>ТВ6</TD></TR></TBODY></TABLE></DIV><BR>
+        <LI>Обратите внимание, мы заранее указываем переменную <B>num</B>, у 
+        которой одно значение, равное 0, и массив<B> tv</B>, который имеет 5 
+        значений.<BR>
+        <LI>Теперь функция <B>picktv()</B>: </LI></UL>
+      <BLOCKQUOTE>
+        <P class=cou>function picktv()<BR>&nbsp;&nbsp;&nbsp; 
+        {<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now=new 
+        Date()<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        num=(now.getSeconds())%5<BR>&nbsp;&nbsp;&nbsp;&nbsp; }</P></BLOCKQUOTE>
+      <UL>
+        <LI>Функция <B>picktv()</B> наугад выбирает число от 0 до 4, которое 
+        становится индексом <B>tv</B>. Помните, от нуля до четырех ПЯТЬ чисел. 
+        То есть если <B>num </B>равно 2, то любимый телеканал — <B>tv[2], 
+        </B>или <B>ТВЦ.</B><BR>
+        <LI>Теперь функции <B>whichtv()</B> и <B>picktv()</B>: </LI></UL>
+      <BLOCKQUOTE>
+        <P class=cou>function whichtv()<BR>{<BR>picktv()<BR>guess=" "<BR>while 
+        (tv[num] != guess.toUpperCase())<BR><BR>{guess=prompt("Угадайте мой 
+        любимый телеканал: <BR>&nbsp;&nbsp;ОРТ, РТР, ТВЦ, НТВ или 
+        ТВ6?")<BR><BR>&nbsp; if (guess.toUpperCase() == tv[num])<BR>&nbsp; 
+        {alert("Это мой любимый телеканал!")}<BR>&nbsp; else<BR>&nbsp; 
+        {alert("Нет, попробуйте еще раз.")}}<BR>&nbsp; }</P>
+        <P><I>Команда guess=prompt должна находиться полностью на одной 
+        строке.</I></P></BLOCKQUOTE>
+      <UL>
+        <LI>Вот кое-что новенькое! Видите, первым делом функция вызывает другую 
+        функцию, <B>picktv()</B>. Таким образом, когда бы вы ни нажали на 
+        кнопку, будет выбираться новый телеканал. 
+        <LI>Строка <B>while (tv[num] != guess.toUpperCase())</B>. <B>Метод</B> 
+        или действие <B>toUpperCase()</B> <FONT color=red>(в верхний 
+        регистр)</FONT> используется для перевода всего, что бы вы ни 
+        напечатали, в верхний регистр. 
+        <LI>Программа повторяет цикл <B>While</B>, пока пользователь не угадает 
+        правильный телеканал. Фрагмент с циклом While уже должен казаться вам 
+        вполне знакомым. 
+        <LI>Обратите внимание на <B>If</B> и <B>Else</B>. В игре возможны только 
+        два результата: либо вы правы, либо ошибаетесь.<BR>
+        <LI>Теперь кнопка, которая все это запускает:
+        <P class=cou>&lt;FORM&gt;<BR>&lt;INPUT TYPE="button" VALUE="Угадай" 
+        <BR>&nbsp;&nbsp;&nbsp; onClick="whichtv()"&gt;<BR>&lt;/FORM&gt;</P>
+        <P>Тут ничего нового.</P></LI></UL>
+      <P><B>Еще кое-что о массивах:</B></P>
+      <P align=justify>В JavaScript есть несколько встроенных массивов. В 
+      массивах можно указывать формы. Можете передать форму командой 
+      <B>document.myform</B> или <B>document.forms[0]</B>, если это первая 
+      форма. Массивы всегда начинаются с нуля. Вторая будет 
+      <B>document.forms[1]</B>. Третья <B>document.forms[2]</B> и так 
+      далее...</P>
+      <P align=justify>Для рисунков тоже есть готовый массив. Можно указать 
+      <B>pic1.gif</B> как <B>document.pic1.src</B> или как 
+      <B>document.images[0].src</B>. Просто продолжайте следовать схеме, 
+      прибавляя номер в [квадратных скобках].</P>
+      <P>Более-менее поняли, что такое массивы?</P>
+      <H2><A name=assig>Ваше задание</A></H2>
+      <P align=justify><B>Н</B>апишите программу JavaScript, которая содержит 
+      кнопку с надписью: «Щелкните, чтобы попасть на случайный сайт». Когда 
+      пользователь нажмет на нее, запустится функция, которая наугад выберет 
+      число и сайт из массива внутри команды JavaScript <B>top.location.href = 
+      urls[num]</B>. <B>top</B> <FONT color=red>(вершина)</FONT> — это 
+      <B>свойство </B>объекта <B>window</B>, оно относится к главному окну 
+      браузера. <B>location.href</B>, другой объект со свойством, содержит адрес 
+      URL.</P>
+      <P>Возможный ответ <A href="http://jsp.newmail.ru/assig26.htm" 
+      id=l>здесь</A></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd vAlign=bottom width="50%"><IMG height=13 
+      src="les26.files/b_b_l.gif" width=12></TD>
+    <TD bgColor=#cef3fd vAlign=bottom width="30%">
+      <P align=right><IMG height=13 src="les26.files/b_b_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR></TBODY></TABLE>
+<P align=right><A 
+href="http://jsp.newmail.ru/les26.htm#concept">Концепция</A>__<A 
+href="http://jsp.newmail.ru/les26.htm#script">Скрипт</A>__<A 
+href="http://jsp.newmail.ru/les26.htm#effect">Эффект</A>__<A 
+href="http://jsp.newmail.ru/les26.htm#decon">Разбор скрипта</A>__<A 
+href="http://jsp.newmail.ru/les26.htm#assig">Задание</A> </P>
+<P align=right><FONT size=5><A href="http://jsp.newmail.ru/les27.htm">Вперед, на 
+Урок 27</A></FONT></P>
+<DIV align=right>
+<TABLE width="75%">
+  <TBODY>
+  <TR>
+    <TD><FONT color=#cef3fd>
+      <P align=justify class=small>авторы <A 
+      href="http://www.htmlgoodies.com/primers/jsp/me.html">Джо Бернс</A> и 
+      Эндри Грауни. <A href="http://www.htmlgoodies.com/">Оригинал и многое 
+      другое на английском языке</A> © <A 
+      href="http://www.earthweb.com/">EarthWeb Inc.</A> <BR>Перевод, оформление 
+      и верстка © Татьяна.</FONT></P></TD></TR></TBODY></TABLE></DIV><!-- HotLog -->
+<SCRIPT language=javascript>
+hotlog_js="1.0";hotlog_d=document; hotlog_n=navigator;hotlog_rn=Math.random();
+hotlog_n_n=(hotlog_n.appName.substring(0,3)=="Mic")?0:1;
+hotlog_r=""+hotlog_rn+"&s=15862&r="+escape(hotlog_d.referrer)+"&pg="+
+escape(window.location.href);
+hotlog_d.cookie="hotlog=1"; hotlog_r+="&c="+(hotlog_d.cookie?"Y":"N");
+hotlog_d.cookie="hotlog=1; expires=Thu, 01-Jan-70 00:00:01 GMT"</SCRIPT>
+
+<SCRIPT language=javascript1.1>
+hotlog_js="1.1";hotlog_r+="&j="+(navigator.javaEnabled()?"Y":"N")</SCRIPT>
+
+<SCRIPT language=javascript1.2>
+hotlog_js="1.2";hotlog_s=screen;
+hotlog_r+="&wh="+hotlog_s.width+'x'+hotlog_s.height+"&px="+((hotlog_n_n==0)?
+hotlog_s.colorDepth:hotlog_s.pixelDepth)</SCRIPT>
+
+<SCRIPT language=javascript1.3>hotlog_js="1.3"</SCRIPT>
+
+<SCRIPT language=javascript>hotlog_r+="&js="+hotlog_js;
+hotlog_d.write("<img src=\"http://hit2.hotlog.ru/cgi-bin/hotlog/count?"+
+hotlog_r+"&\" border=0 width=1 height=1>")</SCRIPT>
+<NOSCRIPT><IMG border=0 height=1 src="les26.files/count" width=1></NOSCRIPT> <!-- /HotLog --><!--webbot bot="HTMLMarkup" startspan ALT="Site Meter" -->
+<SCRIPT>var site="sm2jsp"</SCRIPT>
+
+<SCRIPT language=JavaScript1.2 src="les26.files/counter.js">
+</SCRIPT>
+<!-- Copyright (c) 1999-2000 Site Meter --><!--webbot
+bot="HTMLMarkup" endspan --></BODY></HTML>

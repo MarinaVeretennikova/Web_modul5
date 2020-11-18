@@ -1,0 +1,55 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>mysql_affected_rows</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ref.mysql.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="mysql-change-user.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.mysql-affected-rows">mysql_affected_rows</A></H1><A NAME="AEN50789"></A><P>(PHP 3, PHP 4)</P>
+<p>mysql_affected_rows - получает количество рядов, задействованных в предыдущей MySQL-операции.
+<A NAME="AEN50792"></A></p><H2>Описание</H2><p>int <B>mysql_affected_rows</B> ([resource link_identifier])</p>
+<P><B>mysql_affected_rows()</B> возвращает количество рядов, задействованных в последнем запросе INSERT, UPDATE 
+или DELETE, ассоциированном с идентификатором <TT><I>link_identifier</I></TT>. Если link identifier не специфицирован, принимается последняя ссылка, открытая функцией
+<A HREF="mysql-connect.html"><B>mysql_connect()</B></A>.</P><BLOCKQUOTE><P><B>Примечание: </B>
+если вы используете транзакции, необходимо вызывать <B>mysql_affected_rows()</B> после запроса INSERT,
+UPDATE или DELETE, а не после подтверждения транзакции.</P></BLOCKQUOTE>
+<P>Если последним запросом был DELETE без оператора WHERE, все записи таблицы будут удалены, но функция возвратит нуль.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>при использовании UPDATE, MySQL не обновит столбцы, где новое значение - 
+такое же, как и старое. Это создаёт возможность того, что <B>mysql_affected_rows()</B> совпадёт не с количеством рядов, задействованных реально, а только с рядами, 
+непосредственно изменёнными запросом.</P></BLOCKQUOTE><P><B>mysql_affected_rows()</B> не работает с операторами SELECT; только с операторами, модифицирующими запись. 
+Для запрашивания количества рядов, возвращённых SELECT, используйте
+<A HREF="mysql-num-rows.html"><B>mysql_num_rows()</B></A>.</P><P>Если последний запрос потерпел неудачу, эта функция возвратит -1.
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN50815"></A><h5>Пример 1. Delete-Query</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+    /* соединение с БД */
+    mysql_pconnect("localhost", "mysql_user", "mysql_password") or
+        die ("Could not connect");
+
+    /* это должно возвратить корректное количество удалённых записей */
+    mysql_query("DELETE FROM mytable WHERE id &#60; 10");
+    printf ("Records deleted: %d\n", mysql_affected_rows());
+
+    /* без оператора where в операторе delete должно возвратить 0 */
+    mysql_query("DELETE FROM mytable");
+    printf ("Records deleted: %d\n", mysql_affected_rows());
+?&#62;</PRE></TD></TR></TABLE><P>На выходе будет:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>Records deleted: 10
+Records deleted: 0</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN50820"></A><h5>Пример 2. Update-Query</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+    /* соединение с БД */
+    mysql_pconnect("localhost", "mysql_user", "mysql_password") or
+        die ("Could not connect");
+
+    /* обновить/Update записи */
+    mysql_query("UPDATE mytable SET used=1 WHERE id &#60; 10");
+    printf ("Updated records: %d\n", mysql_affected_rows());
+mysql_query("COMMIT");
+?&#62;</PRE></TD></TR></TABLE><P>На выходе:<TABLE  BORDER="0" CELLPADDING="5" BGCOLOR="#E0E0E0"><TR><TD>
+<PRE>Updated Records: 10</PRE></TD></TR></TABLE></TD></TR></TABLE> 
+<P>См. также <A HREF="mysql-num-rows.html"><B>mysql_num_rows()</B></A>, <A HREF="mysql-info.html"><B>mysql_info()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ref.mysql.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="mysql-change-user.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Функции MySQL</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.mysql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">mysql_change_user</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

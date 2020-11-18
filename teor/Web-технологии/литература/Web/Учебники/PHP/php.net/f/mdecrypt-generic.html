@@ -1,0 +1,58 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>mdecrypt_generic</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="mcrypt-ofb.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="ref.mhash.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.mdecrypt-generic">mdecrypt_generic</A></H1><A NAME="AEN45169"></A><P>(PHP 4 &#62;= 4.0.2)</P>
+<p>mdecrypt_generic - эта функция дешифрует данные.<A NAME="AEN45172"></A></p><H2>Описание</H2>
+<p>string <B>mdecrypt_generic</B> (resource td, string data)</p>
+<P>Эта функция дешифрует данные. Обратите внимание, что длина возвращаемой 
+строки может оказаться больше, чем длина нешифрованной, из-за заполнения данными.</P><TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN45185"></A><h5>Пример 1. mdecrypt_generic()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+    /* Данные */
+    $key = 'this is a very long key, even too long for the cipher';
+    $plain_text = 'very important data';
+   
+    /* Открывает модуль и создаёт IV */ 
+    $td = mcrypt_module_open ('des', '', 'ecb', '');
+    $key = substr ($key, 0, mcrypt_enc_get_key_size ($td));
+    $iv_size = mcrypt_enc_get_iv_size ($td);
+    $iv = mcrypt_create_iv ($iv_size, MCRYPT_RAND);
+
+    /* Инициализирует дескриптор шифрования */
+    if (mcrypt_generic_init ($td, $key, $iv) != -1) {
+
+        /* Шифрует данные */
+        $c_t = mcrypt_generic ($td, $plain_text);
+        mcrypt_generic_deinit ($td);
+
+        /* Реинициализирует буферы для дешифрования */
+        mcrypt_generic_init ($td, $key, $iv);
+        $p_t = mdecrypt_generic ($td, $c_t);
+
+        /* Зачистка */
+        mcrypt_generic_deinit ($td);
+        mcrypt_module_close ($td);
+    }
+
+    if (strncmp ($p_t, $plain_text, strlen($plain_text)) == 0) {
+        echo "ok\n";
+    } else {
+        echo "error\n";
+    }
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>В этом примере показано, как проверить, являются ли данные перед шифровкой 
+теми же, что и после дешифровки. очень важно реинициализировать буфер шифрования функцией
+<A HREF="mcrypt-generic-init.html"><B>mcrypt_generic_init()</B></A>, прежде чем вы попытаетесь дешифровать данные.</P>
+<P>Дескриптор дешифровки должен всегда инициализироваться функцией
+<A HREF="mcrypt-generic-init.html"><B>mcrypt_generic_init()</B></A> с ключом и IV до вызова этой функции. После выполнения шифрования вы должны 
+освободить буферы шифрования вызовом <A HREF="mcrypt-generic-deinit.html"><B>mcrypt_generic_deinit()</B></A>.
+См. пример в <A HREF="mcrypt-module-open.html"><B>mcrypt_module_open()</B></A>.</P><P>См. также
+<A HREF="mcrypt-generic.html"><B>mcrypt_generic()</B></A>, <A HREF="mcrypt-generic-init.html"><B>mcrypt_generic_init()</B></A> и
+<A HREF="mcrypt-generic-deinit.html"><B>mcrypt_generic_deinit()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="mcrypt-ofb.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ref.mhash.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">mcrypt_ofb</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.mcrypt.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Функции Mhash</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

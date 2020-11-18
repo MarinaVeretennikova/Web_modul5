@@ -1,0 +1,36 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>msql_query</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="msql-pconnect.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="msql-regcase.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="msql-query">msql_query</A></H1><A NAME="AEN50482"></A><P>(PHP 3, PHP 4)</P>
+<p>msql_query - отправляет mSQL-запрос/query.<A NAME="AEN50485"></A></p><H2>Описание</H2><p>int <B>msql_query</B> (string query, int link_identifier)</p>
+<P><B>msql_query()</B> отправляет запрос к текущей активной БД на сервере, ассоциированной со 
+специфицированным идентификатором ссылки.  Если этот идентификатор не 
+специфицирован, принимается последняя открытая ссылка. Если открытой ссылки нет, функция пытается установить ссылку, как при вызове
+<A HREF="msql-connect.html"><B>msql_connect()</B></A>, и использует её.</P>
+<P>Возвращает положительный идентификатор mSQL-запроса при успехе, <TT><B>FALSE</B></TT> при ошибке.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN50501"></A><h5>Пример 1. msql_query()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php 
+$link = msql_connect("dbserver")
+   or die("unable to connect to msql server: ".msql_error());
+msql_select_db("db", $link)
+   or die("unable to select database 'db': ".msql_error());
+
+$result = msql_query("SELECT * FROM table WHERE id=1", $link);
+if (!$result) {
+   die("query failed: ".msql_error());
+}
+
+while ($row = msql_fetch_array($result)) {
+    echo $row["id"];
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="msql.html"><B>msql()</B></A>,
+<A HREF="msql-select-db.html"><B>msql_select_db()</B></A> и
+<A HREF="msql-connect.html"><B>msql_connect()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="msql-pconnect.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="msql-regcase.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">msql_pconnect</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.msql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top" >msql_regcase</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

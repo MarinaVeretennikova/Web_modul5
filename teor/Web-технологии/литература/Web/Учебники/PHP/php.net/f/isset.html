@@ -1,0 +1,42 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>isset</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="is-string.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="print-r.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.isset">isset</A></H1><A NAME="AEN80709"></A><P>(unknown)</P>
+<p>isset - определяет, установлена ли переменная.<A NAME="AEN80712"></A></p><H2>Описание</H2>
+<p>bool <B>isset</B> (mixed var [, mixed var [, ...]])</p><BLOCKQUOTE><P><B>Примечание: </B>
+<B>isset()</B> это конструкция языка.</P></BLOCKQUOTE><P>Возвращает <TT><B>TRUE</B></TT>, если <TT><I>var</I></TT> существует, иначе
+<TT><B>FALSE</B></TT>.</P><P>Если переменная была разустановлена/unset с помощью функции <A HREF="unset.html"><B>unset()</B></A>, она больше не сможет быть
+<B>isset()</B>. <B>isset()</B> возвратит <TT><B>FALSE</B></TT>, если проверяет переменную, которая была установлена
+<TT><B>NULL</B></TT>. Также отметьте, что <TT><B>NULL</B>-</TT>байт (<TT>"\0"</TT>) не является эквивалентом PHP-константы
+<TT><B>NULL</B></TT>.<A NAME="AEN80741"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;?php
+    $a = "test";
+    $b = "anothertest";
+
+    echo isset ($a); // TRUE
+    echo isset ($a, $b); //TRUE
+
+    unset ($a);
+    echo isset ($a); // FALSE
+    echo isset ($a, $b); //FALSE
+
+$foo = NULL;
+    print isset ($foo); // FALSE
+?&#62;</PRE></TD></TR></TABLE><P>Это также работает с элементами массивов:<A NAME="AEN80744"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+    $a = array ('test' =&#62; 1, 'hello' =&#62; null);
+
+    echo isset ($a['test']);  // TRUE
+    echo isset ($a['foo']);   // FALSE
+    echo isset ($a['hello']); // FALSE
+    echo array_key_exists('hello', $a); // TRUE
+?&#62;</PRE></TD></TR></TABLE><P>См. также <A HREF="empty.html"><B>empty()</B></A>,
+<A HREF="unset.html"><B>unset()</B></A> и <A HREF="array-key-exists.html"><B>array_key_exists()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="is-string.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="print-r.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">is_string</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.variables.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">print_r</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

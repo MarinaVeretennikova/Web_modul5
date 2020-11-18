@@ -1,0 +1,34 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>urlencode</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="urldecode.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ref.variables.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.urlencode">urlencode</A></H1><A NAME="AEN80110"></A><P>(PHP 3, PHP 4)</P>
+<p>urlencode - URL-кодирует строку.<A NAME="AEN80113"></A></p><H2>Описание</H2><p>string <B>urlencode</B> (string str)</p>
+<P>Возвращает строку, в которой все не алфавитно-числовые символы (кроме <TT>-_.)</TT> заменены на знак процентов (%) с последующими двумя 16-ричными цифрами и 
+пробелами, кодированными как знаки плюс (<TT>+</TT>). Она кодируется тем же способом, что и post данные WWW-формы, то есть как в 
+типе носителя <TT>application/x-www-form-urlencoded</TT>. Это отличается от RFC1738-кодирования (см.
+<A HREF="rawurlencode.html"><B>rawurlencode()</B></A>) тем, что, по историческим соображениям, пробелы кодируются как плюсы (+). Эта функция 
+удобна при кодировании строки для использования в части запроса URL для 
+передачи переменных на следующую страницу:<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN80127"></A>
+<h5>Пример 1. urlencode()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>echo '&#60;a href="mycgi?foo=', urlencode($userinput), '"&#62;';</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P><b>Примечание:</b> будьте внимательны с переменными, которые могут совпасть с элементами HTML.  
+Мнемоники вроде &#38;amp, &#38;copy и &#38;pound разбираются браузером и 
+используется реальная мнемоника, а не желаемое имся переменной. Эта склока с W3C, которая тянется годами. Вот ссылка:
+<A HREF="http://www.w3.org/TR/html4/appendix/notes.html#h-B.2.2" TARGET="_top">http://www.w3.org/TR/html4/appendix/notes.html#h-B.2.2</A>
+<br>PHP поддерживает изменение сепаратора аргументов на рекомендуемый W3C символ 
+точка с запятой вместо .ini-директивы arg_separator. К сожалению, большинство пользовательских агентов не отправляют данные формы в формате с 
+разделением точкой с запятой. Более переносимый способ - использовать &#38;amp; вместо
+&#38; в качестве сепаратора. Вам не надо для этого изменять arg_separator РНР.  Оставьте его как &#38;, но просто кодируйте ваши URLs с 
+помощью <A HREF="htmlentities.html"><B>htmlentities()</B></A>(urlencode($data)).<TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN80134"></A><h5>Пример 2. urlencode/htmlentities()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>echo '&#60;a href="mycgi?foo=', htmlentities(urlencode($userinput)), '"&#62;';</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>См. также <A HREF="urldecode.html"><B>urldecode()</B></A>, <A HREF="htmlentities.html"><B>htmlentities()</B></A>,
+<A HREF="rawurldecode.html"><B>rawurldecode()</B></A>, <A HREF="rawurlencode.html"><B>rawurlencode()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="urldecode.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ref.variables.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">urldecode</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.url.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Функции переменных</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

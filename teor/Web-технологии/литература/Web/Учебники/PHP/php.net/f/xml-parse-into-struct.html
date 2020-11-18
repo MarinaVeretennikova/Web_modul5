@@ -1,0 +1,171 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>xml_parse_into_struct</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="xml-get-error-code.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="xml-parse.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="xml-parse-into-struct">xml_parse_into_struct</A></H1><A NAME="AEN82029"></A>
+<P>(PHP 3&#62;= 3.0.8, PHP 4)</P><p>xml_parse_into_struct - разбирает XML-данные в структуру массива.<A NAME="AEN82032"></A></p><H2>Описание</H2><p>int <B>xml_parse_into_struct</B> (resource parser, string data, array &#38;values, array &#38;index)</p>
+<P>Эта функция разбирает XML-файл на две параллельные структуры: одна из которых (<TT><I>index</I></TT>) содержит указатели на местонахождение соответствующих значений в массиве
+<TT><I>values</I></TT> array. Последние два параметра обязаны передаваться по ссылке.</P>
+<P>Пример иллюстрирует внутреннюю структуру сгенерированных массивов. Мы используем простой тэг
+<TT>note</TT>, встроенный в тэг <TT>para</TT>, а затем разбираем это и выводим сгенерированные структуры:
+<A NAME="AEN82055"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$simple = "&#60;para&#62;&#60;note&#62;simple note&#60;/note&#62;&#60;/para&#62;";
+$p = xml_parser_create();
+xml_parse_into_struct($p,$simple,$vals,$index);
+xml_parser_free($p);
+echo "Index array\n";
+print_r($index);
+echo "\nVals array\n";
+print_r($vals);</PRE></TD></TR></TABLE><p>На выводе будет:<A NAME="AEN82057"></A></p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>Index array
+Array
+(
+    [PARA] =&#62; Array
+        (
+            [0] =&#62; 0
+            [1] =&#62; 2
+        )
+
+    [NOTE] =&#62; Array
+        (
+            [0] =&#62; 1
+        )
+
+)
+
+Vals array
+Array
+(
+    [0] =&#62; Array
+        (
+            [tag] =&#62; PARA
+            [type] =&#62; open
+            [level] =&#62; 1
+        )
+
+    [1] =&#62; Array
+        (
+            [tag] =&#62; NOTE
+            [type] =&#62; complete
+            [level] =&#62; 2
+            [value] =&#62; simple note
+        )
+
+    [2] =&#62; Array
+        (
+            [tag] =&#62; PARA
+            [type] =&#62; close
+            [level] =&#62; 1
+        )
+
+)</PRE></TD></TR></TABLE>
+<P>Разбор на основе событий (на основе библиотеки expat) может усложниться, если у вас сложный XML-документ.
+Эта функция не производит объект в стиле DOM, а генерирует структуры, 
+отвечающие за то, чтобы быть пересечёнными в манере дерева. Таким образом, мы 
+может легко создавать объекты, представляющие данные в XML-файле. Рассмотрим 
+следующий XML-файл, представляющий собой небольшую БД с информацией об аминокислотах:
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN82060"></A>
+<h5>Пример 1. moldb.xml - небольшая БД с молекулярной информацией</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?xml version="1.0"?&#62;
+&#60;moldb&#62;
+
+    &#60;molecule&#62;
+        &#60;name&#62;Alanine&#60;/name&#62;
+        &#60;symbol&#62;ala&#60;/symbol&#62;
+        &#60;code&#62;A&#60;/code&#62;
+        &#60;type&#62;hydrophobic&#60;/type&#62;
+    &#60;/molecule&#62;
+
+    &#60;molecule&#62;
+        &#60;name&#62;Lysine&#60;/name&#62;
+        &#60;symbol&#62;lys&#60;/symbol&#62;
+        &#60;code&#62;K&#60;/code&#62;
+        &#60;type&#62;charged&#60;/type&#62;
+    &#60;/molecule&#62;
+
+&#60;/moldb&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>и небольшой код для разбора документа и генерации соответствующих объектов:</p>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN82063"></A><h5>Пример 2. 
+parsemoldb.php - разбирает moldb.xml на массив молекулярных объектов</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+class AminoAcid {
+    var $name;   // имя aa
+    var $symbol; // трёхбуквенный символ
+    var $code;  // однобуквенный код
+    var $type;  // hydrophobic, charged или neutral
+    
+    function AminoAcid ($aa) {
+        foreach ($aa as $k=&#62;$v)
+            $this-&#62;$k = $aa[$k];
+    }
+}
+
+function readDatabase($filename) {
+    // читать xml БД аминокислот
+    $data = implode("",file($filename));
+    $parser = xml_parser_create();
+    xml_parser_set_option($parser,XML_OPTION_CASE_FOLDING,0);
+    xml_parser_set_option($parser,XML_OPTION_SKIP_WHITE,1);
+    xml_parse_into_struct($parser,$data,$values,$tags);
+    xml_parser_free($parser);
+
+    // цикл по этим структурам
+    foreach ($tags as $key=&#62;$val) {
+        if ($key == "molecule") {
+            $molranges = $val;
+            // каждая пара вхождений массива это нижняя и верхняя
+            // границы диапазона для определения каждой молекулы
+            for ($i=0; $i &#60; count($molranges); $i+=2) {
+                    $offset = $molranges[$i] + 1;
+                $len = $molranges[$i + 1] - $offset;
+                $tdb[] = parseMol(array_slice($values, $offset, $len));
+            }
+        } else {
+            continue;
+        }
+    }
+    return $tdb;
+}
+
+function parseMol($mvalues) {
+    for ($i=0; $i &#60; count($mvalues); $i++)
+        $mol[$mvalues[$i]["tag"]] = $mvalues[$i]["value"];
+    return new AminoAcid($mol);
+}
+
+$db = readDatabase("moldb.xml");
+echo "** Database of AminoAcid objects:\n";
+print_r($db);
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>После выполнения <TT>parsemoldb.php</TT> переменная <TT>$db</TT> содержит массив
+<B>AminoAcid</B>-объектов, и вывод скрипта подтверждает это:<A NAME="AEN82069"></A></p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>** Database of AminoAcid objects:
+Array
+(
+    [0] =&#62; aminoacid Object
+        (
+            [name] =&#62; Alanine
+            [symbol] =&#62; ala
+            [code] =&#62; A
+            [type] =&#62; hydrophobic
+        )
+
+    [1] =&#62; aminoacid Object
+        (
+            [name] =&#62; Lysine
+            [symbol] =&#62; lys
+            [code] =&#62; K
+            [type] =&#62; charged
+        )
+
+)</PRE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="xml-get-error-code.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="xml-parse.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">xml_get_error_code</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.xml.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">xml_parse</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

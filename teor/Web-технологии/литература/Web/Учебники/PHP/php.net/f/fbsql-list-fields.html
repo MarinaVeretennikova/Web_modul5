@@ -1,0 +1,35 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>fbsql_list_fields</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%"  BORDER="0"CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="fbsql-list-dbs.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="fbsql-list-tables.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.fbsql-list-fields">fbsql_list_fields</A></H1><A NAME="AEN22363"></A>
+<P>(PHP 4 &#62;= 4.0.6)</P><p>fbsql_list_fields - список результирующих полей FrontBase.<A NAME="AEN22366"></A></p>
+<H2>Описание</H2><p>resource <B>fbsql_list_fields</B> (string database_name, string table_name [, resource link_identifier])</p>
+<P><B>fbsql_list_fields()</B> возвращает информацию о данной таблице tablename. Аргументами являются имя БД 
+и имя таблицы. Возвращается результирующий указатель, который можно использовать с функциями
+<A HREF="fbsql-field-flags.html"><B>fbsql_field_flags()</B></A>, <A HREF="fbsql-field-len.html"><B>fbsql_field_len()</B></A>,
+<A HREF="fbsql-field-name.html"><B>fbsql_field_name()</B></A> и
+<A HREF="fbsql-field-type.html"><B>fbsql_field_type()</B></A>.</P>
+<P>Результирующий идентификатор это положительное целое число. Функция возвращает
+-1, если возникла ошибка. Строка с описанием ошибки помещается в <TT>$phperrmsg</TT>, и, если функция не была вызвана как
+<TT>@fbsql()</TT>, то эта строка ошибки также будет напечатана.</P><TABLE WIDTH="100%" BORDER="0"><TR>
+<TD><A NAME="AEN22390"></A><h5>Пример 1. fbsql_list_fields()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$link = fbsql_connect('localhost', 'myname', 'secret');
+
+$fields = fbsql_list_fields("database1", "table1", $link);
+$columns = fbsql_num_fields($fields);
+
+for ($i = 0; $i &#60; $columns; $i++) {
+    echo fbsql_field_name($fields, $i) . "\n";;
+}</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Пример даст на выходе:<A NAME="AEN22395"></A>
+<TABLE BORDER="0"  BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>field1
+field2
+field3
+...</PRE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="fbsql-list-dbs.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="fbsql-list-tables.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">fbsql_list_dbs</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.fbsql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">fbsql_list_tables</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

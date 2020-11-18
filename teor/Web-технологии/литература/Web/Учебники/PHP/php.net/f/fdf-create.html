@@ -1,0 +1,29 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>fdf_create</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="fdf-close.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="fdf-get-file.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.fdf-create">fdf_create</A></H1><A NAME="AEN25356"></A><P>(PHP 3&#62;= 3.0.6, PHP 4)</P>
+<p>fdf_create - создаёт новый FDF-документ.<A NAME="AEN25359"></A></p><H2>Описание</H2>
+<p>int <B>fdf_create</B> (void)</p><P><B>fdf_create()</B> создаёт новый
+FDF-документ. Эта функция нужна, если необходимо заполнить поля ввода FDF-документа данными.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN25368"></A><h5>Пример 1. Заполнение FDF-документа</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$outfdf = fdf_create();
+fdf_set_value($outfdf, "volume", $volume, 0);
+
+fdf_set_file($outfdf, "http:/testfdf/resultlabel.pdf");
+fdf_save($outfdf, "outtest.fdf");
+fdf_close($outfdf);
+Header("Content-type: application/vnd.fdf");
+$fp = fopen("outtest.fdf", "r");
+fpassthru($fp);
+unlink("outtest.fdf");
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="fdf-close.html"><B>fdf_close()</B></A>,
+<A HREF="fdf-save.html"><B>fdf_save()</B></A>,
+<A HREF="fdf-open.html"><B>fdf_open()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="fdf-close.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="fdf-get-file.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">fdf_close</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.fdf.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">fdf_get_file</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

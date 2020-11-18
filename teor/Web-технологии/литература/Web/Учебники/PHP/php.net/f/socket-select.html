@@ -1,0 +1,67 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>socket_select</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="socket-recvmsg.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="socket-send.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.socket-select">socket_select</A></H1><A NAME="AEN76565"></A><P>(PHP 4 &#62;= 4.1.0)</P>
+<p>socket_select - запускает системный вызов select() на данных массивах сокетов с таймаутом, специфицированным параметрами tv_sec и tv_usec.
+<A NAME="AEN76568"></A></p><H2>Описание</H2><p>int <B>socket_select</B> (resource &#38;read, resource &#38;write, resource &#38;except, int tv_sec [, int tv_usec])</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD><P>Эта функция - ЭКСПЕРИМЕНТАЛЬНАЯ. Поведение, имя и всё остальное, что задокументировано для данной функции может быть изменено в будущих релизах РНР без предупреждения. Вы можете использовать эту функцию только на свой страх и риск.
+</P></TD></TR></TABLE><P><B>socket_select()</B> принимает массивы сокетов и ожидает их для изменения статуса. Сокеты, 
+приходящие из BSD, будут распознаваться как так называемые наборы дескрипторов файлов. Ожидаются три массива ресурсов сокетов.</P>
+<P>Сокеты массива <TT><I>read</I></TT> будут ожидаться, чтобы просмотреть, становятся ли символы доступными для 
+чтения (точнее, чтобы просмотреть, не будет ли блокировано чтение; ресурс сокета готов также и в
+end-of-file, и в этом случае <A HREF="socket-read.html"><B>socket_read()</B></A> возвратит строку нулевой длины).</P>
+<P>Сокеты из массива <TT><I>write</I></TT> будут ожидаться, чтобы просмотреть, не будет блокировано ли чтение.</P>
+<P>Сокеты из массива <TT><I>except</I></TT> ожидаются для исключений.</P>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>При выходе эти массивы модифицируются для указания на то, какой ресурс сокета фактически изменил статус.</P>
+</TD></TR></TABLE><P>Вам не нужно передавать каждый массив в <B>socket_select()</B>. Вместо них вы можете использовать пустой массив или
+<TT><B>NULL</B></TT>. Не забывайте также, что эти массивы передаются <i>по сылке</i> и будут 
+модифицированы после возвращения из <B>socket_select()</B>.</P><h5>Пример:</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>/* Подготовить read-массив */
+$read = array($socket1, $socket2);
+
+<font size="1">if (false === ($num_changed_sockets = socket_select($read, $write = NULL, $except = NULL, 0)))</font>
+{
+    /* Обработка ошибок */
+else if ($num_changed_sockets &#62; 0) {
+    /* Как минимум в одном из сокетов произойдёт что-нибудь интересное */
+}</PRE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+из-за ограничений в текущей Zend-машине невозможно передавать константный модификатор вроде <TT><B>NULL</B></TT> непосредственно как параметр функции, которая ожидает этот параметр, 
+передаваемый по ссылке. В этом случае можно использовать временную 
+переменную или выражение с самым левым членом - временной переменной:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>socket_select($r, $w, $e = NULL, 0);</PRE></TD></TR></TABLE></BLOCKQUOTE><P>Параметры <TT><I>tv_sec</I></TT> и
+<TT><I>tv_usec</I></TT> - оба из параметра <I>timeout</I>. Этот <I>timeout</I> является верхней границей времени, прошедшего до возврата из
+<B>socket_select()</B>. <TT><I>tv_sec</I></TT> может быть 0, вызывая немедленный возврат из
+<B>socket_select()</B>. Это используется для пулов. Если <TT><I>tv_sec</I></TT> равен <TT><B>NULL</B></TT> (нет таймаута),
+<B>socket_select()</B> может блокировать бесконечно.</P><P>При успехе <B>socket_select()</B> возвращает количество ресурсов сокетов, содержащихся в модифицированных 
+массивах, которое может быть равно 0, если timeout истёк до возникновения 
+чего-нибудь интересного. При ошибке возвращается <TT><B>FALSE</B></TT>. Код ошибки можно запросить функцией
+<A HREF="socket-last-error.html"><B>socket_last_error()</B></A>.</P><BLOCKQUOTE><P><B>Примечание: </B>обязательно используйте операцию
+<TT>===</TT> при проверке на наличие ошибок. Поскольку <B>socket_select()</B> может возвратить 0, сравнение с помощью
+<TT>==</TT> вычислится в <TT><B>TRUE</B></TT>:</BLOCKQUOTE>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>if (false === socket_select($r, $w, $e = NULL, 0)) {
+    echo "socket_select() failed, reason: " . socket_strerror(socket_last_error()) . "\n";
+}</PRE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>помните, что некоторые реализации сокетов должны обрабатываться предельно 
+осторожно. Вот некоторые основные правила:<UL><LI><P>Вы всегда должны пытаться использовать <B>socket_select()</B> без таймаута. Ваша программа ничего не должна делать, если доступных данных 
+нет. Код, зависящий от таймаута плохо переносится и труден для отладки.</P></LI>
+<LI><P>Никакие ресурсы сокетов не должны добавляться в какой-либо набор, если 
+вы не предполагаете проверять их результаты после вызова <B>socket_select()</B> и соответственно реагировать. После возврата из
+<B>socket_select()</B>, все ресурсы сокетов во всех массивах обязательно должны проверяться. В любой 
+ресурс сокета, доступный для записи, должна выполняться запись, а из 
+любого ресурса сокета, доступного для чтения, должно выполняться чтение.</P></LI>
+<LI><P>Если вы read/write в массивы, возвращаемые сокетом, имейте в виду, что они не обязательно read/write полный объём данных, запрошенный вами. 
+Будьте готовы даже к чтению/записи единственного байта.</P></LI>
+<LI><P>Для многих реализаций сокетов является обычным то, что только исключение, отлавливаемое массивом
+<TT><I>except</I></TT>, является out-of-bound-данными, полученными на сокете.</P></LI></UL></BLOCKQUOTE>
+<P>См. также <A HREF="socket-read.html"><B>socket_read()</B></A>, <A HREF="socket-write.html"><B>socket_write()</B></A>,
+<A HREF="socket-last-error.html"><B>socket_last_error()</B></A> и
+<A HREF="socket-strerror.html"><B>socket_strerror()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0"  WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="socket-recvmsg.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="socket-send.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">socket_recvmsg</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.sockets.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">socket_send</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

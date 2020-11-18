@@ -1,0 +1,53 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>SWFSprite</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="swfsprite.setframes.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="swftext.addstring.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="swfsprite">SWFSprite</A></H1><A NAME="AEN48118"></A><P>(PHP 4 &#62;= 4.0.5)</P>
+<p>SWFSprite - создаёт movie-клип (спрайт).<A NAME="AEN48121"></A></p><H2>Описание</H2><p>new <B>swfsprite</B> (void)</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD><P>Эта функция - ЭКСПЕРИМЕНТАЛЬНАЯ. Поведение, имя и всё остальное, что задокументировано для данной функции может быть изменено в будущих релизах РНР без предупреждения. Вы можете использовать эту функцию только на свой страх и риск.
+</P></TD></TR></TABLE><P><B>swfsprite()</B>, известная также как "movie clip", позволяет создавать объекты, которые анимированы в своих собственных 
+временных границах. Следовательно, спрайт имеет большинство тех же методов, что и movie.</P>
+<P><B>swfsprite()</B> имеет методы: <B>swfsprite-&#62;add()</B>, <B>swfsprite-&#62;remove()</B>,
+<B>swfsprite-&#62;nextframe()</B> и <B>swfsprite-&#62;setframes()</B>.</P>
+<P>Пример рисует большой красный квадрат.<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN48139"></A>
+<h5>Пример 1. swfsprite()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+  $s = new SWFShape();
+  $s-&#62;setRightFill($s-&#62;addFill(0xff, 0, 0));
+  $s-&#62;movePenTo(-500,-500);
+  $s-&#62;drawLineTo(500,-500);
+  $s-&#62;drawLineTo(500,500);
+  $s-&#62;drawLineTo(-500,500);
+  $s-&#62;drawLineTo(-500,-500);
+
+  $p = new SWFSprite();
+  $i = $p-&#62;add($s);
+  $p-&#62;nextFrame();
+  $i-&#62;rotate(15);
+  $p-&#62;nextFrame();
+  $i-&#62;rotate(15);
+  $p-&#62;nextFrame();
+  $i-&#62;rotate(15);
+  $p-&#62;nextFrame();
+  $i-&#62;rotate(15);
+  $p-&#62;nextFrame();
+  $i-&#62;rotate(15);
+  $p-&#62;nextFrame();
+
+  $m = new SWFMovie();
+  $i = $m-&#62;add($p);
+  $i-&#62;moveTo(1500,1000);
+  $i-&#62;setName("blah");
+
+  $m-&#62;setBackground(0xff, 0xff, 0xff);
+  $m-&#62;setDimension(3000,2000);
+
+  header('Content-type: application/x-shockwave-flash');
+  $m-&#62;output();
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="swfsprite.setframes.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="swftext.addstring.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">SWFSprite-&#62;setframes</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.ming.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">SWFText-&#62;addString</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

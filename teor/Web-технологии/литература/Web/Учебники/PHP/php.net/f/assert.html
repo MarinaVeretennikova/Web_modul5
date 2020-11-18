@@ -1,0 +1,62 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>assert</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="assert-options.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="dl.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="assert">assert</A></H1><A NAME="AEN63768"></A><P>(PHP 4)</P>
+<p>assert - проверяет, не является утверждение/assertion ложным (<TT><B>FALSE</B>)</TT>.<A NAME="AEN63772"></A><H2>Описание</H2> <p>int <B>assert</B> (string|bool assertion)</p>
+<P><B>assert()</B> проверяет данное утверждение <TT><I>assertion</I></TT> и выполняет определённую акцию, если результат
+<TT><B>FALSE</B></TT>.</P><P>Если <TT><I>assertion</I></TT> задано как строка, оно будет вычислено функцией
+<B>assert()</B> как РНР-код. Преимуществом строковых <TT><I>assertion</I></TT> является меньшая нагрузка при неудаче утверждения, когда проверка утверждения 
+отключена.</P><P>Утверждения должны использоваться только для целей отладки. Вы можете 
+использовать их для проверки условий, которые всегда должны быть <TT><B>TRUE</B></TT> и которые указывают на некоторые ошибки программы, если не
+<TT><B>TRUE</B></TT>, или для проверки существования определённых возможностей вроде функций 
+расширения или определённых ограничений и возможностей системы.</P>
+<P>Утверждения не должны использоваться для нормальных операций прогона 
+программы вроде проверки параметров ввода. Основным правилом будет: ваш код 
+всегда должен иметь возможность работать корректно, если проверка утверждения не активирована.</P>
+<P>Поведение <B>assert()</B> может конфигурироваться функцией
+<A HREF="assert-options.html"><B>assert_options()</B></A> или .ini-установками, описанными на странице об этой функции в данном учебнике.</P>
+<P>функция <A HREF="assert-options.html"><B>assert_options()</B></A> и/или директива конфигурации
+ASSERT_CALLBACK позволяют установить callback-функцию для обработки неудавшихся утверждений.</P>
+<P>Обратные вызовы/callbacks <B>assert()</B> обычно используются для построения утилит автоматической проверки, поскольку 
+они позволяют легко захватить код, передаваемый в утверждение вместе с 
+информацией о том, где утверждение было сделано. Хотя эта информация может 
+быть захвачена другими методами, использование утверждений позволяет делать это намного быстрее и легче!</P>
+<P>Сallback-функция должна принимать три аргумента. Первый аргумент будет 
+содержать файл, в котором утверждение не удалось. Второй аргумент будет 
+содержать строку, в которой утверждение потерпело неудачу, а третий аргумент 
+будет содержать выражение, которое не удалось выполнить (если имеются - 
+такие литеральные значения как 1 или "two" не будут передаваться через этот аргумент).</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN63801"></A><h5>
+Пример 1. Обработка неудавшегося утверждения специальным обработчиком</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+// Активизирует утверждение и делает его тихим/quiet
+assert_options (ASSERT_ACTIVE, 1);
+assert_options (ASSERT_WARNING, 0);
+assert_options (ASSERT_QUIET_EVAL, 1);
+
+// Создаётся функция-обработчик
+function my_assert_handler ($file, $line, $code) {
+    echo "&#60;hr&#62;Assertion Failed:
+        File '$file'&#60;br&#62;
+        Line '$line'&#60;br&#62;
+        Code '$code'&#60;br&#62;&#60;hr&#62;";
+}
+
+// Устанавливается callback/обратный вызов
+assert_options (ASSERT_CALLBACK, 'my_assert_handler');
+
+// Делается утверждение, которое должно потерпеть неудачу
+assert ('mysql_query ("")');
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="assert-options.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="dl.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">assert_options</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../ref.info.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">dl</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

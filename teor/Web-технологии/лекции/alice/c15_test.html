@@ -1,0 +1,201 @@
+<html>
+<title>Тестирование</title>
+<meta name=keywords content="Проектирование информационных систем Программирование Отладка Тестирование Производительность Переносимость Надежность и качество">
+<body>
+<table align=center width=90%>
+<tr><td>
+
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c15_debug.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c15_debug.html">Отладка</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c15_prod.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c15_prod.html">Производительность</a>
+</table>
+
+
+<h3>Тестирование</h3>
+<p align=justify>
+Целью процесса тестирования является выявление ошибок в программе.
+Чем больше ошибок нашли, тем лучше. О том, как интерпретировать количество
+ошибок, будет рассказано в параграфе "Надежность и качество". Мы будем различать
+три этапа тестирования на стадии проектирования, реализации и тестирование законченного продукта.
+Неплохо также тестировать сам процесс тестирования, но эта тема уже выходит за 
+рамки данной книги.
+<br>
+ Тестирование ни в коем случае
+не стоит делать непосредственному испольнителю, т.к. у него уже замыленный взгляд. Он знает, 
+как спроектирована или работает программа, что ей подавать на вход. Человек так устроен, что всегда идет не самым 
+простым и правильным путем, а тем, которым у него уже получалось дойти до цели.
+Другими словами, проектировщик или программист уже интуитивно представляет пути, по которым надо идти, чтобы
+получить результат. И он не знает и не представляет еще 1001 способ, которым можно воспользоваться
+программой. 
+<br>
+Надо правильно понимать, что процесс тестирования не ставит своей задачей доказать
+правильность работы программы или информационной системы. Это просто невозможно сделать, т.к. невозможно 
+протестировать абсолютно все варианты работы и использования программы. Однако, можно говорить,
+что были пройдены такие-то тесты и программа работоспособна. Результаты тестирования
+необходимо документировать и подшивать в отчет. 
+В ходе тестирования тестерам должны быть доступны исходные коды программ.
+Но не путайте процесс тестирования с отладкой. Задачей тестера является зафиксировать ошибку
+и, по возможности, указать, как ее можно воспроизвести. Исправлять и отлаживать программу должен программист.
+<br>
+Поскольку, как уже было сказано, протестировать все возможные случаи работы программы нельзя,
+то необходимо протестировать ее работу в характерных точках.
+
+<br>
+<br>
+Прежде, чем приступать к поиску ошибок необходимо определить, что такое 
+ошибка и как ее идентифицировать. Для того чтобы можно было со стопроцентной
+уверенностью утверждать об обнаружение ошибки нужно иметь эталон, с которым
+можно было бы сравнивать объект тестирования. В нашем случае
+мы не имеем точного эталона.
+ При тестирование на стадии 
+проектирования эталоном может служить логическая непротиворечивость
+и полнота функциональных требований. Необходиомо отметить, что поскольку 
+мы имеем дело не с математикой, то полнота и непротиворечивость функциональных
+требований довольно субъективные характеристики и определяются здравым смыслом.
+На стадии реализации дело обстоит несколько проще, т.к. тестируются отдельные
+CGI-программы. Критерием обнаружения ошибки уже будет расхождение с проектной 
+документацией. Казалось бы тот же критерий можно применить и на стадии 
+тестирования конечного продукта. Но за время разработки, как правило, функциональные
+требования к системе немного меняются. Некоторые добавляются, некоторые 
+оказываются невостребованными. В значительной степени функциональные 
+требования могут быть уточнены и дополнены на стадии тестирования и внедрения.
+Иногда ошибки закрадываются и в ходе самого процесса тестирования. Например, у
+нас был такой случай, когда при тестировании программного продукта все гиперссылки
+на одной машине открывались в новом окне. Разработчиков на уши поставили, мол в чем дело? 
+Оказалось, клавиша Shift на клавиатуре 
+запала. Эта ошибка тестирования, конечно, была быстро выявлена. Но это пример из реальной
+жизни. Бывают и значительно более сложные ситуации.
+Вследствие всего вышесказанного, можно лишь говорить об обнаружении ошибки с 
+определенной долей вероятности. Разделим выявленные ошибки по следующим типам:
+<dl>
+<dt><b>проектирование</b>
+  <dd>Невозвожно выполнить функциональное требование. Например, в интернет-магазине
+невозможно запросить 10 самых дешевых или дорогих товаров.
+<br> <br>   
+
+<dt><b>кодирование</b>
+  <dd>Программа аварийно завершилась, повисла или выдала, что 2х2 неравно 4.
+<br> <br>   
+
+<dt><b>Предложение</b>
+  <dd>Тестер вносит предложение по усовершенствованию информационной системы.
+<br> <br>   
+
+<dt><b>Вопрос</b>
+  <dd>Тестеру что-то непонятно, он не может точно сказать столкнулся ли он с
+ ошибкой или особенностью программы.
+<br> <br>   
+</dl>
+
+<br><br><br><br>
+
+Каждуй ошибку различают по степени важности:
+<dl>
+<dt><b>Фатальная</b>
+  <dd> Ошибка, которая не позволяет работать с системой.
+ Например, сбой системы или неправильная логика работы. 
+<br> <br>   
+
+<dt><b>Серьезная</b>
+  <dd> Ошибка, которая доставляет неудобства и осложняет 
+работу пользователя. Например, сортировка записей осуществляется не в том порядке.
+<br> <br>   
+
+
+<dt><b>Незначительная</b>
+  <dd>Например, тип шрифта не тот. 
+<br> <br>   
+</dl>
+
+<br><br><br>
+В заключении данного параграфа перечислим темы тестов:
+<ul>
+<li>логика информационной системы
+<li>интерфейс
+<li>взаимосвязанная работа компонентов
+<li>безопасность
+<li>многопользовательский режим работы
+<li>производительность 
+<li>переносимость 
+</dl>
+
+
+
+
+
+</td></tr>
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?2825  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?2825'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?2825" target=_top>
+    <img src="itsoft-2825" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?2825" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?2825  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?2825'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?2825" target=_top>
+    <img src="itsoft-2825" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?2825" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="itsoft-2825-1" tppabs="http://rb1.rotabanner.com/cgi-bin/iframe/itsoft?2825"
+ width=468 height=60 marginwidth=0 marginheight=0 scrolling=no 
+ frameborder=0><a href="javascript:if(confirm('http://rb1.rotabanner.com/cgi-bin/href/itsoft?2825  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb1.rotabanner.com/cgi-bin/href/itsoft?2825'" tppabs="http://rb1.rotabanner.com/cgi-bin/href/itsoft?2825" 
+ target=_top><img src="itsoft-2825-2" tppabs="http://rb1.rotabanner.com/cgi-bin/banner/itsoft?2825" 
+ alt="RB1" width=468 height=60 border=0 ismap></a></iframe>
+
+</body>
+</html>

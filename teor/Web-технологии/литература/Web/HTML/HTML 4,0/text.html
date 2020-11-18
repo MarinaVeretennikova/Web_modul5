@@ -1,0 +1,788 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="ru">
+
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=Windows-1251">
+<TITLE>Абзацы, строки и фразы</TITLE>
+<LINK rel="previous" href="dirlang.html" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html">
+<LINK rel="next" href="lists.html" tppabs="http://www.citforum.ru/internet/html40/struct/lists.html">
+<LINK rel="contents" href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">
+<LINK rel="STYLESHEET" href="tppmsgs/msgs0.htm#18" tppabs="http://www.citforum.ru/internet/html40/style/default.css" type="text/css">
+</HEAD>
+<BODY>
+<div class="navbar">
+<center>&nbsp;<a href="dirlang.html" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html">назад</a> &nbsp; <a href="lists.html" tppabs="http://www.citforum.ru/internet/html40/struct/lists.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center><hr>
+</div>
+
+<H1 align="center"><a name="h-9">9</a> Текст</H1>
+<div class="subtoc"><p><strong>Содержание</strong>
+<ol>
+<li><a href="#h-9.1">
+<span class="index-def" title="white space">Неотображаемые символы</span></a>
+<li><a href="#h-9.2">Структурированный текст</a>
+<ol>
+<li><a href="#h-9.2.1">Элементы фраз: <samp class="einst2">EM</SAMP>, <samp class="einst2">STRONG</SAMP>, <samp class="einst2">DFN</SAMP>, <samp class="einst2">CODE</SAMP>, <samp class="einst2">SAMP</SAMP>, 
+<samp class="einst2">KBD</SAMP>, <SAMP class="edef">VAR</SAMP>, <samp class="einst2">CITE</SAMP>, <samp class="einst2">ABBR</SAMP> и <samp class="einst2">ACRONYM</SAMP></a>
+<li><a href="#h-9.2.2">Кавычки: элементы <samp class="einst2">
+BLOCKQUOTE</SAMP> и <samp class="einst2">Q</SAMP></a>
+<ul>
+<li><a href="#h-9.2.2.1">
+<span class="index-inst" title="quoted text::rendering of">Отображение информации в кавычках</span></a>
+</ul>
+<li><a href="#h-9.2.3">Верхние и нижние индексы: элементы <SAMP class
+="edef">SUB</SAMP> и <samp class="einst2">SUP</SAMP></a>
+</ol>
+<li><a href="#h-9.3">Строки и абзацы</a>
+<ol>
+<li><a href="#h-9.3.1">Абзацы: элемент <samp class="einst2">P</SAMP></a>
+<li><a href="#h-9.3.2">Управление переходом на следующую строку</a>
+<ul>
+<li><a href="#h-9.3.2.1">
+<span class="index-inst" title="line break::forcing">Принудительный</span> переход на следующую строку: элемент <samp class="einst2"> BR</SAMP></a>
+<li><a href="#h-9.3.2.2">
+<span class="index-inst" title="line break::prohibiting">
+Запрет перехода на новую строку</span></a>
+</ul>
+<li><a href="#h-9.3.3">
+<span class="index-inst" title="hyphenation">
+Переносы</span></a>
+<li><a href="#h-9.3.4">Форматированный текст: элемент <samp class="einst2">PRE</SAMP></a>
+<li><a href="#h-9.3.5">
+<span class="index-inst" title="paragraph::visual rendering of">
+Визуальное представление абзацев</span></a>
+</ol>
+<li><a href="#h-9.4">Разметка изменений в документе: элементы INS и DEL</a>
+</ol>
+</div>
+
+<P>В следующих разделах обсуждаются вопросы структурирования текста. Элементы <a href="graphics.html" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html">представления текста</a> (элементы выравнивания, шрифта, таблицы стилей и т.д.) обсуждаются в других частях этой спецификации. Информацию о символах см. в разделе о <A
+href="charset.html#doc-char-set" tppabs="http://www.citforum.ru/internet/html40/charset.html#doc-char-set">наборе символов документа.</A></P>
+
+<H2><a name="h-9.1">9.1</a> 
+<span class="index-def" title="white space"><A name="whitespace">Неотображаемые символы</A></span></H2>
+
+<P><a href="charset.html" tppabs="http://www.citforum.ru/internet/html40/charset.html">Набор символов документа</a> включает множество различных неотображаемых символов.  Многие из них являются типографскими элементами, используемым в некоторых приложениях для достижения специальных визуальных эффектов отображения.  В языке HTML только следующие символы определяются как <span class="index-def" title="white space::character"><a name="didx-white_space-1"><dfn>неотображаемые</dfn></a></span>:
+
+<ul>
+<LI>пробел набора символов ASCII (&amp;#x0020;)
+<LI>табуляция набора символов ASCII (&amp;#x0009;)
+<LI> ASCII form feed (&amp;#x000C;)
+<LI>пробел нулевой ширины (&amp;#x200B;)
+</ul>
+
+<P><a href="#line-breaks">Символы перевода строки</a> также являются неотображаемыми. Помните, что хотя символы &amp;#x2028; и &amp;#x2029; определены в спецификации <a href="references.html#ref-ISO10646" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-ISO10646" class="normref">[ISO10646]</a> как разделители строк и абзацев соответственно, это не определяет символы перевода строки в HTML,
+а также в этой спецификации они не включены в более общую категорию неотображаемых символов.
+
+<P>В этой спецификации не определяется поведение, отображение и пр. символов пробелов, если они явно не определены как неотображаемые символы. По этой причине для достижения визуальных эффектов форматирования, использующих неотображаемые символы вместо пробелов, авторам следует использовать соответствующие элементы и таблицы стилей.
+
+<P>Для всех элементов HTML, кроме последовательностей неотображаемых слово (мы используем термин "слово" для обозначения "последовательности отображаемых символов") в теге <a href="text.html#edef-PRE" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-PRE" class="noxref"><samp class="einst">PRE</samp></a>. При форматировании текст агенты пользователей должны идентифицировать эти слова и обрабатывать их в соответствии с соглашениями относительно определенного языка и целевого носителя.
+
+<P>Форматирование может включать пробелы между словами (называемые 
+<span class="index-def" title="inter-word space"><a name="didx-inter-word_space">
+<dfn>межсловными</dfn></a></span> пробелами), но соглашения относительно межсловных пробелов меняются в зависимости от сценария. Например, в латинских сценариях межсловный пробел обычно отображается как пробел набора символов ASCII (&amp;#x0020;), в то время как в таиландской кодировке это разделитель слов нулевой ширины (&amp;#x200B;).  В японской и китайской кодировке межсловный пробел обычно вообще не генерируется.
+
+<P>Помните, что последовательность неотображаемых символов между словами в исходном документе может вызвать отображение совершенно другого межсловного пробела (кроме элемента <a href="text.html#edef-PRE" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-PRE" class="noxref"><samp class="einst">PRE</samp></a>). В частности, агенты пользователей должны <span class="index-inst" title="white space::collapsed"><a name="idx-white_space-2">прекращать</a></span> ввод последовательностей неотображаемых символов при выводе межсловного пробела. Это можно и нужно делать, даже при отсутствии информации о языке (из атрибута <a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><SAMP class="ainst">lang</SAMP></a>, полях заголовка HTTP <span class="index-inst"
+title="HTTP::Content-Language header|Content-Language
+header"><a name="idx-HTTP">"Content-Language"</a></span> (см. <a
+rel="biblioentry" href="references.html#ref-RFC2068" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC2068"
+class="normref">[RFC2068]</a>, раздел14.13), настроек агента пользователя
+и т.д.).
+
+<P>Элемент <a href="text.html#edef-PRE" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-PRE" class="noxref"><SAMP class="einst">PRE</SAMP></a> используется для <A
+href="#preformatted">форматированного текста</A>, в котором неотображаемые символы имеют важное значение.</P>
+
+<P>Для того, чтобы избежать проблем с <a
+href="notes.html#notes-line-breaks" tppabs="http://www.citforum.ru/internet/html40/appendix/notes.html#notes-line-breaks">правилами переноса строк SGML </a> и несоответствия между существующими применениями, авторы не должны полагаться на агенты пользователей при генерации неотображаемых символов непосредственно после начального тега или непосредственно перед конечным тегом. Таким образом, авторы и особенно <span class="index-inst" title="authoring tool"><a name="idx-authoring_tool">средства разработки</a></span>, должны писать, например:</P>
+
+<PRE>
+  &lt;P&gt;Мы предлагаем бесплатную &lt;A&gt;техническую поддержку&lt;/A&gt; для зарегистрированных пользователей.&lt;/P&gt;
+</PRE>
+
+<P>и не должны писать:</P>
+
+<PRE>
+  &lt;P&gt;Мы предлагаем бесплатную&lt;A&gt; техническую поддержку &lt;/A&gt;для зарегистрированных пользователей.&lt;/P&gt;
+</PRE>
+
+<H2><a name="h-9.2">9.2</a> Структурированный текст</H2>
+
+<H3><a name="h-9.2.1">9.2.1</a> Элементы фраз: <A name="edef-EM"><SAMP class="edef">EM</SAMP></A>, <A name="edef-STRONG"><SAMP class="edef">STRONG</SAMP></A>, <A name="edef-DFN"><SAMP class="edef">DFN</SAMP></A>, <A name="edef-CODE"><SAMP class="edef">CODE</SAMP></A>, <A name="edef-SAMP"><SAMP class="edef">SAMP</SAMP></A>, <A name="edef-KBD"><SAMP class="edef">KBD</SAMP></A>, <A name="edef-VAR"><SAMP class=
+"edef">VAR</SAMP></A>, <A name="edef-CITE"><SAMP class="edef">CITE</SAMP></A>, <A name="edef-ABBR"><SAMP
+class="edef">ABBR</SAMP></A> и <A name="edef-ACRONYM"><SAMP
+class="edef">ACRONYM</SAMP></A></H3>
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">
+&lt;!ENTITY % phrase "<a href="text.html#edef-EM" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-EM" class="noxref"><samp class="einst">EM</samp></a> | <a href="text.html#edef-STRONG" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-STRONG" class="noxref"><samp class="einst">STRONG</samp></a> | <a href="text.html#edef-DFN" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-DFN" class="noxref"><samp class="einst">DFN</samp></a> | <a href="text.html#edef-CODE" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-CODE" class="noxref"><samp class="einst">CODE</samp></a> |
+                   <a href="text.html#edef-SAMP" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-SAMP" class="noxref"><samp class="einst">SAMP</samp></a> | <a href="text.html#edef-KBD" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-KBD" class="noxref"><samp class="einst">KBD</samp></a> | <a href="text.html#edef-VAR" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-VAR" class="noxref"><samp class="einst">VAR</samp></a> | <a href="text.html#edef-CITE" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-CITE" class="noxref"><samp class="einst">CITE</samp></a> | <a href="text.html#edef-ABBR" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-ABBR" class="noxref"><samp class="einst">ABBR</samp></a> | <a href="text.html#edef-ACRONYM" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-ACRONYM" class="noxref"><samp class="einst">ACRONYM</samp></a>" &gt;
+&lt;!ELEMENT (<a href="dtd.html#fontstyle" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#fontstyle">%fontstyle;</a>|<a href="dtd.html#phrase" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#phrase">%phrase;</a>) - - (<a href="dtd.html#inline" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#inline">%inline;</a>)*&gt;
+&lt;!ATTLIST (<a href="dtd.html#fontstyle" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#fontstyle">%fontstyle;</a>|<a href="dtd.html#phrase" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#phrase">%phrase;</a>)
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  &gt;
+</PRE>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>обязателен</strong></em></p>
+
+<DIV class="aref-list">
+<P><EM>Атрибуты, определяемые в любом другом месте</EM></P>
+
+<UL>
+<LI><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><SAMP class="ainst">id</SAMP></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><SAMP class="ainst">class</SAMP></a> (<A href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</A>) </LI>
+
+<LI><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><SAMP class="ainst">lang</SAMP></a> (<A href="dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">language information</A>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><SAMP class="ainst">dir</SAMP></a> (<A href=
+"dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</A>) </LI>
+
+<LI><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><SAMP class="ainst">title</SAMP></a> (<A href="global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</A>) </LI>
+
+<LI><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><SAMP class="ainst">style</SAMP></a> (<A href="styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</A>) </LI>
+
+<LI><a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><SAMP class="ainst">onclick</SAMP></a>, <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><SAMP class="ainst">ondblclick</SAMP></a>, <a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><SAMP class="ainst">onmousedown</SAMP></a>, <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><SAMP class="ainst">onmouseup</SAMP></a>, <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><SAMP class="ainst">onmouseover</SAMP></a>, <a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><SAMP class="ainst">onmousemove</SAMP></a>, <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><SAMP class=
+"ainst">onmouseout</SAMP></a>, <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><SAMP class="ainst">onkeypress</SAMP></a>, <a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><SAMP
+class="ainst">onkeydown</SAMP></a>, <a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><SAMP class="ainst">onkeyup</SAMP></a> (<A
+href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events"> внутренние события</A>)</LI>
+</UL>
+</DIV>
+
+<P>Фразовые элементы добавляют в текстовые фрагменты структуру.
+Обычное значение фразовых элементов следующее:</P>
+
+<P></P>
+
+<DL>
+<DT><B>EM:</B></DT>
+
+<DD>Выделение. </DD>
+
+<DT><B>STRONG:</B></DT>
+
+<DD>Более сильное выделение. </DD>
+
+<DT><B>CITE:</B></DT>
+
+<DD>Содержит цитату или ссылку на другие ресурсы.</DD>
+
+<DT><B>DFN:</B></DT>
+
+<DD>Указывает, что это является определением вложенного термина. </DD>
+
+<DT><B>CODE:</B></DT>
+
+<DD>Фрагмент компьютерного кода. </DD>
+
+<DT><B>SAMP:</B></DT>
+
+<DD>Вывод примера программ, сценариев и т.д. </DD>
+
+<DT><B>KBD:</B></DT>
+
+<DD>Текст, который должен ввести пользователь. </DD>
+
+<DT><B>VAR:</B></DT>
+
+<DD>Экземпляр переменной или аргумента программы. </DD>
+
+<DT><B>ABBR:</B></DT>
+
+<DD>Сокращенная форма (например, WWW, HTTP, URI, Mass., и т.д.).</DD>
+
+<DT><B>ACRONYM:</B></DT>
+
+<DD>Акроним (например, WAC, радар и т.д.).</DD>
+</DL>
+
+<P>Элементы <a href="text.html#edef-EM" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-EM" class="noxref"><SAMP class="einst">EM</SAMP></a> и <a href="text.html#edef-STRONG" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-STRONG" class="noxref"><SAMP class="einst">STRONG</SAMP></a> используются для выделения. Другие фразовые элементы имеют определенное значение в технических документах. В следующих примерах показано использование некоторых фразовых элементов:</P>
+
+<PRE class="example">
+Как сказал &lt;CITE&gt;Гари Трумэн&lt;/CITE&gt;,
+&lt;Q lang="en-US"&gt;The buck stops here.&lt;/Q&gt;
+
+Подробнее см. &lt;CITE&gt;[ISO-0000]&lt;/CITE&gt;.
+
+В дальнейшем используйте следующий номер ссылки: &lt;STRONG&gt;1-234-55&lt;/STRONG&gt;
+</PRE>
+
+<P>Представление фразовых элементов зависит от агента пользователя. Обычно визуальные агенты пользователей представляют текст элемента <a href="text.html#edef-EM" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-EM" class="noxref"><SAMP class="einst">EM</SAMP></a>
+курсивом, а текст элемента <a href="text.html#edef-STRONG" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-STRONG" class="noxref"><SAMP class="einst">STRONG</SAMP></a> полужирным шрифтом. Синтезаторы речи могут изменять параметры синтеза, например, громкость, повышение тона и скорости соответственно.</P>
+
+<P>Элементы <a href="text.html#edef-ABBR" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-ABBR" class="noxref"><samp class="einst">ABBR</samp></a> и <a href="text.html#edef-ACRONYM" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-ACRONYM" class="noxref"><samp class="einst">ACRONYM</samp></a> позволяют авторам явно показывать использование <span class="index-inst" title="abbreviations and acronyms"><a name="idx-abbreviations_and_acronyms"> аббревиатур и акронимов.</a></span> Западные языки широко используют акронимы, такие как "GmbH", "НАТО" и "ФБР", а также аббревиатуры типа "M.", "Inc.", "et al.", "etc.".  В китайском и японском языках используются аналогичные механизмы аббревиатур, когда длинное название заменяется последовательностью символов Han
+из оригинала. Разметка этих конструкций предоставляет агентам пользователей и вспомогательным средствам, таким как средства проверки орфографии, синтезаторы речи, переводящие системы и индексаторы поисковых машин, полезную информацию.
+
+<P>Содержимое элементов <a href="text.html#edef-ABBR" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-ABBR" class="noxref"><samp class="einst">ABBR</samp></a> и <a href="text.html#edef-ACRONYM" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-ACRONYM" class="noxref"><samp class="einst">ACRONYM</samp></a> определяет саму аббревиатуру, как она обычно отображается в тексте.  Атрибут title этих элементов может использоваться для указания полной развернутой формы выражения.
+
+<div class="example"><P>
+<P>Несколько примеров использования элемента <a href="text.html#edef-ABBR" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-ABBR" class="noxref"><samp class="einst">ABBR</samp></a>:
+
+<PRE>
+  &lt;P&gt;
+  &lt;ABBR title="World Wide Web"&gt;WWW&lt;/ABBR&gt;
+  &lt;ABBR lang="fr" 
+        title="Soci&amp;eacute;t&amp;eacute; Nationale des Chemins de Fer"&gt;
+     SNCF
+  &lt;/ABBR&gt;
+  &lt;ABBR lang="es" title="Do&amp;ntilde;a"&gt;Do&amp;ntilde;a&lt;/ABBR&gt;
+  &lt;ABBR title="Abbreviation"&gt;abbr.&lt;/ABBR&gt;
+</PRE>
+</div>
+
+<P>Помните, что аббревиатуры и акронимы часто имеют различное произношение.  Например, если слова "США" и "BBC" обычно произносятся побуквенно, слова "НАТО" и "ЮНЕСКО" произносятся фонетически.  Другие формы аббревиатур (например, "URI" и "SQL") некоторыми людьми произносятся побуквенно, а другими - как слова. При необходимости авторам следует использовать таблицы стилей для указания произношения аббревиатур.
+
+<H3><a name="h-9.2.2">9.2.2</a> Кавычки: Элементы <A name="edef-BLOCKQUOTE"><SAMP class="edef">BLOCKQUOTE</SAMP></A> и <A name="edef-Q"><SAMP class="edef">Q</SAMP></A></H3>
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">
+&lt;!ELEMENT <a href="text.html#edef-BLOCKQUOTE" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-BLOCKQUOTE" class="noxref"><samp class="einst">BLOCKQUOTE</samp></a> - - (<a href="dtd.html#block" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#block">%block;</a>|SCRIPT)+ -- длинная цитата --&gt;
+&lt;!ATTLIST BLOCKQUOTE
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  <samp class="ainst-BLOCKQUOTE">cite</samp>        <a href="dtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#URI">%URI;</a>          #IMPLIED  -- адрес URI документа или сообщения --
+  &gt;
+&lt;!ELEMENT <a href="text.html#edef-Q" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-Q" class="noxref"><samp class="einst">Q</samp></a> - - (<a href="dtd.html#inline" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#inline">%inline;</a>)*            -- краткая встроенная цитата --&gt;
+&lt;!ATTLIST Q
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  <a href="text.html#adef-cite-Q" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#adef-cite-Q" class="noxref"><samp class="ainst-Q">cite</samp></a>        <a href="dtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#URI">%URI;</a>          #IMPLIED  -- адрес URI документа или сообщения --
+  &gt;
+</PRE>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, конечный тег: <strong>обязателен</strong></em></p>
+
+<DIV class="adef-list">
+<P><EM>Определения атрибутов</EM></P>
+
+<DL>
+<DT><A name="adef-cite-Q"><SAMP class="adef">cite</SAMP></A> = <A
+href="types.html#type-uri" tppabs="http://www.citforum.ru/internet/html40/types.html#type-uri"><EM>uri</EM></A> <a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+</DT>
+<DD>Значением этого атрибута является URI, определяющий источник документа или сообщения. Этот атрибут предназначен для предоставления
+информации об источнике, из которого заимствована цитат.</DD>
+</DL>
+</DIV>
+
+<DIV class="aref-list">
+<P><EM>Атрибуты, определяемые в любом другом месте</EM></P>
+
+<UL>
+<LI><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><SAMP class="ainst">id</SAMP></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><SAMP class="ainst">class</SAMP></a>
+(<A href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</A>) </LI>
+
+<LI><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><SAMP class="ainst">lang</SAMP></a> (<A href=
+"dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">информация о языке</A>),
+<a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><SAMP class="ainst">dir</SAMP></a> (<A href=
+"dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</A>) </LI>
+
+<LI><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><SAMP class="ainst">title</SAMP></a> (<A href=
+"global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</A>) </LI>
+
+<LI><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><SAMP class="ainst">style</SAMP></a> (<A href=
+"styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</A>) </LI>
+
+<LI><a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><SAMP class="ainst">onclick</SAMP></a>, <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><SAMP class="ainst">ondblclick</SAMP></a>, <a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><SAMP class="ainst">onmousedown</SAMP></a>, <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><SAMP
+class="ainst">onmouseup</SAMP></a>, <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><SAMP class="ainst">onmouseover</SAMP></a>,
+<a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><SAMP class="ainst">onmousemove</SAMP></a>, <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><SAMP class=
+"ainst">onmouseout</SAMP></a>, <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><SAMP class="ainst">onkeypress</SAMP></a>, <a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><SAMP
+class="ainst">onkeydown</SAMP></a>, <a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><SAMP class="ainst">onkeyup</SAMP></a> (<A
+href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</A>)</LI>
+</UL>
+</DIV>
+
+<P>Эти два элемента определяют 
+<span class="index-inst" title="quoted text|text::quoted"><a name="idx-quoted_text">
+текст в кавычках.</a></span> Элемент <a href="text.html#edef-BLOCKQUOTE" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-BLOCKQUOTE" class="noxref"><SAMP class="einst">BLOCKQUOTE</SAMP></a> предназначен
+для длинных цитат (содержимое уровня блока) и <a href="text.html#edef-Q" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-Q" class="noxref"><SAMP class="einst">Q</SAMP></a> 
+предназначен для коротких цитат (встроенное содержимое), в которых не нужно разбиение на абзацы.</P>
+
+<DIV class="example">
+<P>В этом примере цитата из книги "Две твердыни" Дж. Р. Р. Толкиена отформатирована с помощью элемента blockquote.</P>
+
+<PRE>
+&lt;BLOCKQUOTE cite="http://www.mycom.com/tolkien/twotowers.html"&gt;
+&lt;P&gt;They went in single file, running like hounds on a strong scent,
+and an eager light was in their eyes. Nearly due west the broad
+swath of the marching Orcs tramped its ugly slot; the sweet grass
+of Rohan had been bruised and blackened as they passed.&lt;/P&gt;
+&lt;/BLOCKQUOTE&gt;
+</PRE>
+</DIV>
+
+<H4>
+<span class="index-inst" title="quoted text::rendering of"><a name="idx-quoted_text-1">
+Отображение информации в кавычках</a></span><a name="h-9.2.2.1">&nbsp;</a></H4>
+
+<P>Визуальные агенты пользователей обычно генерируют элемент <a href="text.html#edef-BLOCKQUOTE" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-BLOCKQUOTE" class="noxref"><SAMP class="einst">BLOCKQUOTE</SAMP></a> как блок с отступом. 
+
+<p>Визуальные агенты пользователей должны обеспечивать отображение содержимого элемента <a href="text.html#edef-Q" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-Q" class="noxref"><samp class="einst">Q</samp></a> с кавычками в начале и в конце. Авторы не должны помещать кавычки в начало и в конец текста в элементе <a href="text.html#edef-Q" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-Q" class="noxref"><samp class="einst">Q</samp></a>.
+
+<p>Агенты пользователей должны генерировать кавычки с учетом принятого в данном языке стиля (см. атрибуты <a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a>). Во многих языках используются различные стили для внешних и внутренних (вложенных) кавычек, которые должны соответственно отображаться агентами пользователей.
+
+<div class="example"><P>
+В примере ниже показаны вложенные кавычки в элементе <a href="text.html#edef-Q" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-Q" class="noxref"><samp class="einst">Q</samp></a>. </P>
+
+<pre>
+John said, &lt;Q lang="en"&gt;I saw Lucy at lunch, she says &lt;Q lang="en"&gt;Mary wants you to get some ice cream on your way home.&lt;/Q&gt; I think I will get some at Ben and Jerry's, on Gloucester Road.&lt;/Q&gt;
+</pre>
+
+<P>Поскольку в обеих цитатах используется английский язык, агенты пользователей должны генерировать их соответственно - одиночные кавычки во внутренних кавычках и двойные - во внешних:</P>
+
+<pre>
+  John said, "I saw Lucy at lunch, she told me 'Mary wants you to get some ice cream on your way home.' I think I will get some at Ben and Jerry's, on Gloucester Road."
+</pre>
+</div>
+
+<DIV class="note"><P>
+<em><strong>Примечание.</strong>В реализации таблиц стилей рекомендуется обеспечение механизма вставки кавычек перед цитатой, определяемой элементом <a href="text.html#edef-BLOCKQUOTE" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-BLOCKQUOTE" class="noxref"><SAMP class="einst">BLOCKQUOTE</SAMP></a>, и после нее в соответствии с текущим языком и степенью вложенности кавычек.</EM></P>
+
+<P><EM>Однако, поскольку некоторые авторы использовали элемент <a href="text.html#edef-BLOCKQUOTE" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-BLOCKQUOTE" class="noxref"><SAMP class="einst">BLOCKQUOTE</SAMP></a> в основном для отступа текста, чтобы не нарушать намерения авторов, агенты пользователей <STRONG>не</STRONG> должны вставлять кавычки в стиль по умолчанию.</EM></P>
+
+<P><EM>В связи с этим использование элемента <a href="text.html#edef-BLOCKQUOTE" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-BLOCKQUOTE" class="noxref"><SAMP class="einst">BLOCKQUOTE</SAMP></a> для смещения текста <a href="conform.html#deprecated" tppabs="http://www.citforum.ru/internet/html40/conform.html#deprecated">нежелательно</a>.</EM></P>
+</DIV>
+
+<H3><a name="h-9.2.3">9.2.3</a> Верхние и нижние индексы: элементы <A name="edef-SUB"><SAMP class
+="edef">SUB</SAMP></A>и <A name="edef-SUP"><SAMP class="edef">SUP</SAMP></A></H3>
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">
+&lt;!ELEMENT (<a href="text.html#edef-SUB" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-SUB" class="noxref"><samp class="einst">SUB</samp></a>|<a href="text.html#edef-SUP" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-SUP" class="noxref"><samp class="einst">SUP</samp></a>) - - (<a href="dtd.html#inline" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#inline">%inline;</a>)*    -- нижний индекс, верхний индекс--&gt;
+&lt;!ATTLIST (SUB|SUP)
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  &gt;
+</PRE>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>обязателен</strong></em></p>
+
+<DIV class="aref-list">
+<P><EM>Атрибуты, определяемые в любом другом месте</EM></P>
+
+<UL>
+<LI><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><SAMP class="ainst">id</SAMP></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><SAMP class="ainst">class</SAMP></a> (<A href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</A>) </LI>
+
+<LI><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><SAMP class="ainst">lang</SAMP></a> (<A href=
+"dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">language information</A>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><SAMP class="ainst">dir</SAMP></a> (<A href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</A>) </LI>
+
+<LI><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><SAMP class="ainst">title</SAMP></a> (<A href= "global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</A>) </LI>
+
+<LI><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><SAMP class="ainst">style</SAMP></a> (<A href=
+"styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</A>) </LI>
+
+<LI><a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><SAMP class="ainst">onclick</SAMP></a>, <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><SAMP class="ainst">ondblclick</SAMP></a>, <a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><SAMP class="ainst">onmousedown</SAMP></a>, <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><SAMP class="ainst">onmouseup</SAMP></a>, <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><SAMP class="ainst">onmouseover</SAMP></a>,
+<a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><SAMP class="ainst">onmousemove</SAMP></a>, <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><SAMP class="ainst">onmouseout</SAMP></a>, <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><SAMP class="ainst">onkeypress</SAMP></a>, <a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><SAMP class="ainst">onkeydown</SAMP></a>, <a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><SAMP class="ainst">onkeyup</SAMP></a> (<A
+href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</A>)</LI>
+</UL>
+</DIV>
+
+<P>Часто для правильной генерации необходимы верхние и нижние индексы (например, во французском языке). В этих случаях для разметки текста должны использоваться элементы <a href="text.html#edef-SUB" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-SUB" class="noxref"><SAMP class="einst">SUB</SAMP></a> и <a href="text.html#edef-SUP" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-SUP" class="noxref"><SAMP class="einst">SUP</SAMP></a>.</P>
+
+<DIV class="example">
+<PRE>
+      H&lt;sub&gt;2&lt;/sub&gt;O
+      E = mc&lt;sup&gt;2&lt;/sup&gt;
+      &lt;SPAN lang="fr"&gt;M&lt;sup&gt;lle&lt;/sup&gt; Dupont&lt;/SPAN&gt;
+</PRE>
+
+</DIV>
+
+<H2><a name="h-9.3">9.3</a> Строки и абзацы</H2>
+
+<P>Авторы традиционно разделяют свои тексты на последовательности абзацев. Организация информации в абзацы не влияет на представление абзаца: абзацы с двойным выравниванием содержат те же мысли, что и абзацы с выравниванием влево.</P>
+
+<P>Разметка HTML для <EM>определения</EM> абзаца проста: элемент <a href="text.html#edef-P" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-P" class="noxref"><SAMP class="einst">P</SAMP></a> определяет новый абзац.</P>
+
+<P>Визуальное представление абзаца не так просто. Имеется ряд проблем, стилистических и технических:</P>
+
+<UL>
+<LI>Обработка непечатных символов</LI>
+
+<LI>Перенос строки и продолжение слов</LI>
+
+<LI>Выравнивание</LI>
+
+<LI>Перенос</LI>
+
+<LI>Соглашения относительного письменного языка и направления текста</LI>
+
+<LI>Форматирование абзацев относительно окружающего
+</LI>
+</UL>
+
+<P>Эти вопросы обсуждаются ниже. <A href="graphics.html#alignment" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html#alignment">Выравнивание абзаца и плавающие объекты</A> обсуждаются далее в этом документе.</P>
+
+<H3><a name="h-9.3.1">9.3.1</a> Абзацы: элемент <A name="edef-P"><SAMP class="edef">P</SAMP>
+</A></H3>
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">
+&lt;!ELEMENT <a href="text.html#edef-P" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-P" class="noxref"><samp class="einst">P</samp></a> - O (<a href="dtd.html#inline" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#inline">%inline;</a>)*            -- абзац --&gt;
+&lt;!ATTLIST P
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  &gt;
+</PRE>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>необязателен</strong></em></p>
+
+<DIV class="aref-list">
+<P><EM>Атрибуты, определяемые в любом другом месте</EM></P>
+
+<UL>
+<LI><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><SAMP class="ainst">id</SAMP></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><SAMP class="ainst">class</SAMP></a> (<A href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</A>) </LI>
+
+<LI><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><SAMP class="ainst">lang</SAMP></a> (<A href=
+"dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">language information</A>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><SAMP class="ainst">dir</SAMP></a> (<A href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</A>) </LI>
+
+<LI><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><SAMP class="ainst">title</SAMP></a> (<A href=
+"global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</A>) </LI>
+
+<LI><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><SAMP class="ainst">style</SAMP></a> (<A href=
+"styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</A>) </LI>
+
+<LI><a href="graphics.html#adef-align" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html#adef-align" class="noxref"><SAMP class="ainst">align</SAMP></a> (<A href=
+"graphics.html#alignment" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html#alignment">выравнивание</A>) </LI>
+
+<LI><a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><SAMP class="ainst">onclick</SAMP></a>, <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><SAMP class="ainst">ondblclick</SAMP></a>, <a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><SAMP class="ainst">onmousedown</SAMP></a>, <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><SAMP class="ainst">onmouseup</SAMP></a>, <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><SAMP class="ainst">onmouseover</SAMP></a>,
+<a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><SAMP class="ainst">onmousemove</SAMP></a>, <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><SAMP class="ainst">onmouseout</SAMP></a>, <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><SAMP class="ainst">onkeypress</SAMP></a>, <a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><SAMP class="ainst">onkeydown</SAMP></a>, <a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><SAMP class="ainst">onkeyup</SAMP></a> (<A
+href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</A>)</LI>
+</UL>
+</DIV>
+
+<P>Элемент <a href="text.html#edef-P" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-P" class="noxref"><SAMP class="einst">P</SAMP></a> представляет абзац.
+В нем не могут содержаться <a href="global.html#block-inline" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#block-inline">элементы уровня блока </a> (включая и сам элемент <a href="text.html#edef-P" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-P" class="noxref"><SAMP class= "einst">P</SAMP></a>).
+
+<P>Мы призываем авторов не использовать пустой элемент <a href="text.html#edef-P" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-P" class="noxref"><SAMP class="einst">P</SAMP></a>. Агенты пользователей должны игнорировать пустые элементы <a href="text.html#edef-P" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-P" class="noxref"><SAMP class= "einst">P</SAMP></a>.</P>
+
+<H3><a name="h-9.3.2">9.3.2</a> <a name="line-breaks">Управление переходом на следующую строку</a></H3>
+
+<P><span class="index-def" title="line break"><a name="didx-line_break"><dfn>Переходом на следующую строку</dfn></a></span> считается возврат каретки (&amp;#x000D;), перевод строки (&amp;#x00OA;) или пара возврат каретки/перевод строки. Все переходы на другую строку являются <a href="#whitespace">непечатными символами.</a>
+
+<P>Подробнее о переходе на другую строку в спецификации SGML см. в разделе <a href="notes.html#notes-line-breaks" tppabs="http://www.citforum.ru/internet/html40/appendix/notes.html#notes-line-breaks">замечаний о переходе на новую строку</a> в приложении.
+
+<H4>
+<span class="index-inst" title="line break::forcing"><a name="idx-line_break-1">Принудительный</a></span> переход на новую строку: элемент <A name="edef-BR"><SAMP class="edef"> BR</SAMP></A><a name="h-9.3.2.1">&nbsp;</a></H4>
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">
+&lt;!ELEMENT <a href="text.html#edef-BR" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-BR" class="noxref"><samp class="einst">BR</samp></a> - O EMPTY                 -- принудительный переход на новую строку --&gt;
+&lt;!ATTLIST BR
+  <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs;</a>                          -- <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id">id</a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class">class</a>, <a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style">style</a>, <a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title">title</a> --
+  &gt;
+</PRE>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>запрещен</strong></em></p>
+
+<DIV class="aref-list">
+<P><EM>Атрибуты, определяемые в любом другом месте</EM></P>
+
+<UL>
+<LI><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><SAMP class="ainst">id</SAMP></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><SAMP class="ainst">class</SAMP></a> (<A href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</A>) </LI>
+
+<LI><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><SAMP class="ainst">title</SAMP></a> (<A href=
+"global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</A>) </LI>
+
+<LI><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><SAMP class="ainst">style</SAMP></a> (<A href=
+"styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</A>) </LI>
+
+<LI><a href="graphics.html#adef-clear" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html#adef-clear" class="noxref"><SAMP class="ainst-BR">clear</SAMP></a> (<A href=
+"graphics.html#alignment" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html#alignment">выравнивание и плавающие объекты</A>)</LI>
+</UL>
+</DIV>
+
+<P>Элемент <a href="text.html#edef-BR" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-BR" class="noxref"><SAMP class="einst">BR</SAMP></a> принудительно разбивает (заканчивает) текущую строку текста.</P>
+
+<P>Для визуальных агентов пользователей можно использовать атрибут <a href="graphics.html#adef-clear" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html#adef-clear" class="noxref"><SAMP class="ainst">clear</SAMP></a> для определения того, обтекает ли следующая за элементом <a href="text.html#edef-BR" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-BR" class="noxref"><SAMP class="einst">BR</SAMP></a> разметка изображения и другие объекты, плавающие относительно левого или правого поля или начинается ниже объекта. Дальнейшая информация приведена в разделе о <A href="graphics.html#alignment" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html#alignment">выравнивании и плавающих объектах</A>. Авторам рекомендуется использовать таблицы стилей для управления обтеканием текстом изображений и других объектов.</P>
+
+<P>С использованием <span class="index-inst" title="line break::and bidirectional text"><a name="idx-line_break-2"> двунаправленного форматирования</a></span>, элемент <a href="text.html#edef-BR" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-BR" class="noxref"><SAMP class=
+"einst">BR</SAMP></a> должен действовать так же, как действует символ РАЗДЕЛИТЕЛЬ СТРОКИ <A
+rel="biblioentry" href="references.html#ref-ISO10646" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-ISO10646" class="normref"> [ISO10646]</A> в двунаправленном алгоритме.</P>
+
+<H4>
+<span class="index-inst" title="line break::prohibiting">
+<A name="nbsp">Запрет перехода на новую строку</A></span><a name="h-9.3.2.2">&nbsp;</a></H4>
+
+<P>Иногда авторам нужно избежать перехода на новую строку между двумя определенными словами. Комбинация символов &amp;nbsp; (&amp;#160; или &amp;#xA0;) действует как неразрывный пробел.</P>
+
+<H3><a name="h-9.3.3">9.3.3</a><span class="index-inst" title="hyphenation">
+<A name="hyphenation">Переносы</A></span></H3>
+
+<P>В HTML имеется два типа переносов: простой и мягкий перенос. Простой перенос должен интерпретироваться агентами пользователя просто как любой другой символ. <span class="index-def" title="soft hyphen"><a name="didx-soft_hyphen">Мягкий перенос</a></span> показывает агенту пользователя, где можно сделать переход на новую строку.</P>
+
+<P>Браузеры, которые интерпретируют мягкие переносы, должны обеспечивать следующую семантику: если строка прекращается в месте мягкого переноса, в конце первой строки должен отображаться символ переноса. Если строка не прерывается в месте мягкого переноса, символ переноса отображаться не должен. При выполнении таких операций как поиск и сортировка мягкие переносы всегда должны игнорироваться.</P>
+
+<P>В языке HTML простой перенос представляется символом "-" (&amp;#45; или &amp;#x2D;). Мягкий перенос представляется комбинацией символов &amp;shy; (&amp;#173; или &amp;#xAD;)</P>
+
+<H3><a name="h-9.3.4">9.3.4</a> <A name="preformatted">Форматированный текст:</A> Элемент <A
+name="edef-PRE"><SAMP class="edef">PRE</SAMP></A></H3>
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">
+&lt;!ENTITY % pre.exclusion "IMG|OBJECT|BIG|SMALL|SUB|SUP"&gt;
+
+&lt;!ELEMENT <a href="text.html#edef-PRE" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-PRE" class="noxref"><samp class="einst">PRE</samp></a> - - (<a href="dtd.html#inline" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#inline">%inline;</a>)* -(<a href="dtd.html#pre.exclusion" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#pre.exclusion">%pre.exclusion;</a>) - форматированный текст --&gt;
+&lt;!ATTLIST PRE
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  &gt;
+</PRE>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>обязателен</strong></em></p>
+
+<DIV class="adef-list">
+<P><EM>Определения атрибутов</EM></P>
+
+<DL>
+<DT><A name="adef-width-PRE"><SAMP class="adef">width</SAMP></A> = <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number"><em>number</em></a><a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+</DT> 
+<DD>Этот атрибут предоставляет визуальным агентам пользователей подсказку относительно желаемой ширины блока форматированного текста. Агент пользователя может использовать эту информацию для выбора соответствующего размера шрифта или для создания соответствующего отступа. Ширина выражается числом символов. Этот атрибут часто не поддерживается.</DD>
+</DL>
+</DIV>
+
+<DIV class="aref-list">
+<P><EM>Атрибуты, определяемые в любом другом месте</EM></P>
+
+<UL>
+<LI><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><SAMP class="ainst">id</SAMP></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><SAMP class="ainst">class</SAMP></a> (<A href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</A>) </LI>
+
+<LI><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><SAMP class="ainst">lang</SAMP></a> (<A href=
+"dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">language information</A>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><SAMP class="ainst">dir</SAMP></a> (<A href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</A>) </LI>
+
+<LI><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><SAMP class="ainst">title</SAMP></a> (<A href=
+"global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</A>) </LI>
+
+<LI><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><SAMP class="ainst">style</SAMP></a> (<A href=
+"styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</A>) </LI>
+
+<LI><a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><SAMP class="ainst">onclick</SAMP></a>, <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><SAMP class="ainst">ondblclick</SAMP></a>, <a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><SAMP class="ainst">onmousedown</SAMP></a>, <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><SAMP class="ainst">onmouseup</SAMP></a>, <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><SAMP class="ainst">onmouseover</SAMP></a>,
+<a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><SAMP class="ainst">onmousemove</SAMP></a>, <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><SAMP class="ainst">onmouseout</SAMP></a>, <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><SAMP class="ainst">onkeypress</SAMP></a>, <a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><SAMP class="ainst">onkeydown</SAMP></a>, <a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><SAMP class="ainst">onkeyup</SAMP></a> (<A
+href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</A>)</LI>
+</UL>
+</DIV>
+
+<P>Элемент <a href="text.html#edef-PRE" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-PRE" class="noxref"><SAMP class="einst">PRE</SAMP></a> сообщает визуальным агентам пользователей, что содержащийся в нем текст <span class="index-inst" title="text::preformatted|white space::preserved in PRE"><a name="idx-text-1">"отформатирован".</a></span> При обработке форматированного текста визуальные агенты пользователей:</P>
+
+<UL>
+<LI>Могут оставлять <A href="#whitespace">непечатные символы</A> так, как они указаны. 
+</LI>
+
+<LI>Могут использовать для отображения текста шрифт с символами одинаковой ширины. </LI>
+
+<LI>Могут отключать автоматическое продолжение слов. </LI>
+
+<LI>Не должны отключать обработку двунаправленности.</LI>
+</UL>
+
+<P>Невизуальные агенты пользователей не обязаны учитывать дополнительные <A href="#whitespace">непечатные символы</A> в содержимом элемента <a href="text.html#edef-PRE" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-PRE" class="noxref"><samp class="einst">PRE</samp></a>.
+
+<P>Подробнее о переходе на новую строку в спецификации SGML см. в разделе <a href="notes.html#notes-line-breaks" tppabs="http://www.citforum.ru/internet/html40/appendix/notes.html#notes-line-breaks">замечаний о переходе на новую строку</a> в приложении.
+
+<P>В приведенном выше фрагменте DTD указывается, какие элементы не могут находиться в объявлении <a href="text.html#edef-PRE" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-PRE" class="noxref"><SAMP class="einst">PRE</SAMP></a>. То же самое выполняется в HTML 3.2; это предназначено для сохранения постоянного межстрочного интервала и выравнивания столбцов для текста, генерируемого с использованием шрифта с символами равной ширины. Авторам не рекомендуется изменять такую обработку с помощью таблиц стилей.</P>
+
+<DIV class="example">
+<P>В следующем примере показана отформатированная строфа из стихотворения Шелли <EM>To a Skylark</EM>:</P>
+
+<PRE>
+&lt;PRE&gt;
+       Higher still and higher
+         From the earth thou springest
+       Like a cloud of fire;
+         The blue deep thou wingest,
+And singing still dost soar, and soaring ever singest.
+&lt;/PRE&gt;
+</PRE>
+
+<P>Вот как она обычно отображается:</P>
+
+<PRE>
+       Higher still and higher
+         From the earth thou springest
+       Like a cloud of fire;
+         The blue deep thou wingest,
+And singing still dost soar, and soaring ever singest.
+</PRE>
+
+</DIV>
+
+<DIV class="note">
+<P><EM><STRONG>Символ горизонтальной табуляции</STRONG><BR> Символ горизонтальной табуляции (десятичный символ 9 в <A rel="biblioentry" href="references.html#ref-ISO10646" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-ISO10646" class="normref">[ISO10646]</A> и <A
+rel="biblioentry" href="references.html#ref-ISO88591" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-ISO88591" class="normref">[ISO88591]</A>) обычно интерпретируется визуальными агентами пользователей как наименьшее ненулевое число пробелов, необходимое для того, чтобы сдвинуть символы на позицию табуляции, которые находятся через каждые 8 символов. Настоятельно не рекомендуется использовать горизонтальные табуляции в форматированном тексте, поскольку при редактировании установка других значений табуляции может привести к неправильному выравниванию в документах.</EM></P>
+</DIV>
+
+<H3><a name="h-9.3.5">9.3.5</a> 
+<span class="index-inst" title="paragraph::visual rendering of"><a name="idx-paragraph">
+Визуальное отображение абзацев</a></span></H3>
+
+<div class="note"><P> 
+<em><strong>Примечание.</strong>В следующем разделе содержится информативное описание обработки некоторыми из визуальных агентов пользователя форматированного текста. Таблицы стилей предоставляют лучшие возможности управления форматированием текста.
+</em> 
+</div>
+
+<P>Визуальное генерирование абзацев зависит от агента пользователя. Обычно абзацы генерируются с выравниванием влево и неровным правым полем. Для направления текста справа налево используются другие значения по умолчанию.
+</P>
+
+<P>Агенты пользователей HTML традиционно генерируют абзацы с непечатным символом перед абзацем и после него, например,</P>
+
+<PRE class="example">
+  Одновременно начали формироваться система нумерации,
+  календарь, иероглифическое письмо и технически развитое
+  искусство, все, что позже повлияло на других людей.
+
+  В рамках этого развития или культурного прогресса
+  Предклассическая эпоха подразделяется на Ранний,
+  Средний и Поздний периоды, к которым можно добавить 
+  переходный или протоклассический период, некоторые черты
+  которого будут потом присущи цивилизациям Америки.
+</PRE>
+
+<P>Это отличается от стиля, используемого в романах, где первая строка каждого абзаца смещена, а интервал между последней строкой текущего абзаца и первой строкой следующего не отличается от межстрочных интервалов внутри абзаца, например,</P>
+
+<PRE class="example">
+     Одновременно начали формироваться система нумерации,
+  календарь, иероглифическое письмо и технически развитое
+  искусство, все, что позже повлияло на других людей.
+     В рамках этого развития или культурного прогресса
+  Предклассическая эпоха подразделяется на Ранний,
+  Средний и Поздний периоды, к которым можно добавить
+  переходный или протоклассический период, некоторые черты
+  которого будут потом присущи цивилизациям Америки.
+ 
+</PRE>
+
+<P>Следуя установкам браузера NCSA Mosaic, созданного в 1993 году, агенты пользователей обычно не выравнивают оба поля, частично из-за сложности этого процесса при отсутствии специальных процедур расстановки переносов. Использование таблиц стилей и шрифтов без псевдонимов с субпиксельным позиционированием обещает авторам текстов на языке HTML более широкие возможности.</P>
+
+<P>Таблицы стилей предоставляют широкие возможности управления размером и стилем шрифтов, полями, расстояниями перед и после абзацев, отступом первой строки, выравниванием и многими другими аспектами. Таблица стилей агента пользователя, используемая по умолчанию, генерирует элементы <a href="text.html#edef-P" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-P" class="noxref"><SAMP class="einst">P</SAMP></a> как показано выше. В принципе, можно переопределить такую генерацию абзацев, без использования символов перехода на следующую строку, которые существенно изменяют абзац. Вообще же, поскольку это может запутать читателей, так делать не рекомендуется.</P>
+
+<P>По соглашению визуальные агенты HTML <span class="index-inst" title="text::wrapping in paragraph|wrapping text"><a name="idx-text-2">разбивают текстовые строки</a></span> так, чтобы они входили в пределы используемых полей. Алгоритмы разбиения зависят от сценария форматирования.</P>
+
+<P>В западных сценариях, например, текст должен разбиваться только в позиции, где стоит неотображаемый символ. Ранние версии агентов пользователей некорректно разбивали строки сразу же после начального тега или перед конечным тегом элемента, что приводило к нарушению пунктуации. Например, рассмотрите предложение:</P>
+
+<DIV class="example">
+<PRE>
+   Статуя &lt;a href="cih78"&gt;Свободы&lt;/a&gt;, которая является ...
+</PRE>
+
+<P>Разбиение строки сразу перед конечным тегом элемента <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a> приведет к тому, что запятая будет помещена в начало следующей строки:</P>
+
+<PRE>
+  Статуя Свободы
+  , которая является ...
+</PRE>
+
+<P>Это ошибка, поскольку в разметке в этой позиции нет неотображаемого символа.</P>
+</DIV>
+
+
+<H2><a name="h-9.4">9.4</a> Разметка изменений в документе: Элементы <A name="edef-ins">INS</A> и <A
+name="edef-del">DEL</A></H2>
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">
+&lt;!-- INS/DEL are handled by inclusion on BODY --&gt;
+&lt;!ELEMENT (<a href="text.html#edef-ins" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-ins" class="noxref"><samp class="einst">INS</samp></a>|<a href="text.html#edef-del" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-del" class="noxref"><samp class="einst">DEL</samp></a>) - - (<a href="dtd.html#flow" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#flow">%flow;</a>)*      -- вставленный текст, удаленный текст --&gt;
+&lt;!ATTLIST (INS|DEL)
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  <a href="text.html#adef-cite-INS" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#adef-cite-INS" class="noxref"><samp class="ainst-INS">cite</samp></a>        <a href="dtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#URI">%URI;</a>          #IMPLIED  -- информация о причине изменения --
+  <a href="text.html#adef-datetime" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#adef-datetime" class="noxref"><samp class="ainst-INS">datetime</samp></a>    <a href="dtd.html#Datetime" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Datetime">%Datetime;</a>     #IMPLIED  -- дата и время изменения --
+  &gt;
+</PRE>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>обязателен</strong></em></p>
+
+<DIV class="adef-list">
+<P><EM>Определения атрибутов</EM></P>
+
+<DL>
+<DT><A name="adef-cite-INS"><SAMP class="adef">cite</SAMP></A> = 
+<A href="types.html#type-uri" tppabs="http://www.citforum.ru/internet/html40/types.html#type-uri"><EM>uri</EM></A> 
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+</DT>
+<DD>Значением этого атрибута является адрес URI, определяющий источник документа или сообщения. Этот атрибут указывает на информацию, объясняющую причины изменения документа. </DD>
+
+<DT><A name="adef-datetime"><SAMP class="adef">datetime</SAMP></A>
+= <A href="types.html#type-datetime" tppabs="http://www.citforum.ru/internet/html40/types.html#type-datetime"><EM>datetime</EM></A>
+<a href="types.html#case-sensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-sensitive">[CS]</a>
+</DT>
+<DD>Значение этого атрибута указывает <span class="index-inst" title="date::of inserted and deleted text"><a name="idx-date">дату и время</a></span> выполнения изменения.</DD>
+</DL>
+</DIV>
+
+<DIV class="aref-list">
+<P><EM>Атрибуты, определяемые в любом другом месте</EM></P>
+
+<UL>
+<LI><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><SAMP class="ainst">id</SAMP></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><SAMP class="ainst">class</SAMP></a> (<A href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</A>) </LI>
+
+<LI><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><SAMP class="ainst">lang</SAMP></a> (<A href=
+"dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">language information</A>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><SAMP class="ainst">dir</SAMP></a> (<A href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</A>) </LI>
+
+<LI><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><SAMP class="ainst">title</SAMP></a> (<A href=
+"global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</A>) </LI>
+
+<LI><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><SAMP class="ainst">style</SAMP></a> (<A href=
+"styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</A>) </LI>
+
+<LI><a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><SAMP class="ainst">onclick</SAMP></a>, <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><SAMP class="ainst">ondblclick</SAMP></a>, <a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><SAMP class="ainst">onmousedown</SAMP></a>, <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><SAMP class="ainst">onmouseup</SAMP></a>, <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><SAMP class="ainst">onmouseover</SAMP></a>,
+<a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><SAMP class="ainst">onmousemove</SAMP></a>, <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><SAMP class="ainst">onmouseout</SAMP></a>, <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><SAMP class="ainst">onkeypress</SAMP></a>, <a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><SAMP class="ainst">onkeydown</SAMP></a>, <a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><SAMP class="ainst">onkeyup</SAMP></a> (<A
+href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</A>)</LI>
+</UL>
+</DIV>
+
+<P>Элементы <a href="text.html#edef-ins" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-ins" class="noxref"><SAMP class="einst">INS</SAMP></a> и <a href="text.html#edef-del" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-del" class="noxref"><SAMP class="einst">DEL</SAMP></a> используются для разметки <span class="index-inst" title="text::markup for inserted and deleted"><a name="idx-text-3">вставленных или удаленных</a></span> разделов документа по отношению к другой версии документа (например, в черновике законопроекта, куда юристы должны вносить поправки).</P>
+
+<P>Эти два элемента необычны для HTML, поскольку они могут служить элементами уровня блока или встроенными элементами (но не теми и другими).  Они могут содержать одно или несколько слов в абзаце или один или несколько элементов уровня блока - абзацев, списков и таблиц.
+
+<div class="example">
+<p>Это пример законопроекта о количестве депутатов у окружного шерифа - 3 исправлено на 5.
+
+<pre>
+&lt;P&gt;
+  У шерифа может быть &lt;DEL&gt;3&lt;/DEL&gt;&lt;INS&gt;5&lt;/INS&gt; депутатов.
+&lt;/P&gt;
+</pre> 
+</div>
+
+<P>Элементы <a href="text.html#edef-ins" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-ins" class="noxref"><SAMP class="einst">INS</SAMP></a> и <a href="text.html#edef-del" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-del" class="noxref"><SAMP class="einst">DEL</SAMP></a> не должны включать содержимое уровня блока, если они являются встроенными элементами.</P>
+
+<div class="illegal-example">
+<P><span class="example-title">ПРИМЕР НЕДОПУСТИМОГО ИСПОЛЬЗОВАНИЯ:</span><br>
+Ниже показан недопустимый код HTML.</p>
+
+<pre>
+&lt;P&gt;
+&lt;INS&gt;&lt;DIV&gt;<em>...содержимое уровня блока...</em>&lt;/DIV&gt;&lt;/INS&gt;
+&lt;/P&gt;
+</pre>
+</div>
+
+<P>Агенты пользователей должны генерировать вставленный и удаленный текст так, чтобы изменения были очевидны. Например, вставленный текст может отображаться специальным шрифтом, удаленный текст может вообще не отображаться, отображаться перечеркнутым или со специальными пометками и т.д.</P>
+
+<DIV class="example"><P>
+Оба примера ниже соответствуют 5 ноября 1994 года, 20 ч. 15 мин. 30 с по стандартному восточному времени США. 
+
+<PRE>
+     1994-11-05T13:15:30Z
+     1994-11-05T08:15:30-05:00
+</PRE>
+
+<P>С использованием элемента <a href="text.html#edef-ins" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-ins" class="noxref"><SAMP class="einst">INS</SAMP></a> получаем:</P>
+
+<PRE>
+&lt;INS datetime="1994-11-05T08:15:30-05:00"
+        cite="http://www.foo.org/mydoc/comments.html"&gt;
+Более того, последние цифры из отдела маркетинга говорят о том, что это полезная практика.
+&lt;/INS&gt;
+</PRE>
+
+<P>В документе "http://www.foo.org/mydoc/comments.html" должны содержаться комментарии о том, почему эта информация помещена в документ.</P>
+</DIV>
+
+<P>Авторы также могут оставлять комментарии о вставленном или удаленном тексте для элементов <a href="text.html#edef-ins" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-ins" class="noxref"><SAMP class="einst">INS</SAMP></a> и <a href="text.html#edef-del" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-del" class="noxref"><SAMP class="einst">DEL</SAMP></a>с помощью атрибута <a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><SAMP class="ainst">title</SAMP></a>. Агенты пользователей могут представлять эту информацию пользователю (например, в виде всплывающего сообщения). Например:</P>
+
+<DIV class="example">
+<P></P>
+
+<PRE>
+&lt;INS datetime="1994-11-05T08:15:30-05:00"
+        title="Изменено в результате комментариев Михаила А. о встрече."&gt;
+Более того, последние цифры из отдела маркетинга говорят о том, что это полезная практика.
+&lt;/INS&gt;
+</PRE>
+</DIV>
+
+<div class="navbar">
+<hr><center><a href="dirlang.html" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html">назад</a> &nbsp; <a href="lists.html" tppabs="http://www.citforum.ru/internet/html40/struct/lists.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center></div>
+</BODY>
+</HTML>

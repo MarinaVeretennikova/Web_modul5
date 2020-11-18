@@ -1,0 +1,672 @@
+<HTML>
+
+
+
+<!--
+
+
+
+Author:	Paul Khramtsov
+
+
+
+Date:	May 17, 1998
+
+
+
+-->
+
+
+
+<HEAD>
+
+
+
+<title>Web-engineering (Introduction to the JavaScript. Graphics and event handlers.)</title>
+
+
+
+<link rel="stylesheet" type="text/css" href="page.css" tppabs="http://webclass.polyn.kiae.su/classes/css/page.css">
+
+
+
+<!--Charset-->
+
+
+
+<script language=JavaScript src="jsc.pgm" tppabs="http://webclass.polyn.kiae.su/classes/css/jsc.pgm"></script>
+
+<script language=JavaScript>
+
+<!--
+
+nt('evente.htm'/*tpa=http://webclass.polyn.kiae.su/classes/jsi/evente.htm*/);
+
+
+
+var image1 = new Image(142,380);
+
+
+
+image1.src = "sheepb.gif"/*tpa=http://webclass.polyn.kiae.su/classes/images/main/sheepb.gif*/;
+
+
+
+var image2 = new Image(20,10)
+
+
+
+image2.src = "arrowdw.gif"/*tpa=http://webclass.polyn.kiae.su/classes/images/jsi/arrowdw.gif*/;
+
+
+
+muzik_flag=0;
+
+
+
+function muzik()
+
+
+
+{
+
+
+
+ if(window.muzik_flag==1) window.document.main.document.muzik.src="muzik1.gif"/*tpa=http://webclass.polyn.kiae.su/classes/images/jsi/muzik1.gif*/;
+
+
+
+ if(window.muzik_flag==2) window.document.main.document.muzik.src="muzik2.gif"/*tpa=http://webclass.polyn.kiae.su/classes/images/jsi/muzik2.gif*/;
+
+
+
+ if(window.muzik_flag==3) window.document.main.document.muzik.src="muzik0.gif"/*tpa=http://webclass.polyn.kiae.su/classes/images/jsi/muzik0.gif*/;
+
+
+
+}
+
+
+
+function click()
+
+
+
+{
+
+
+
+ if(window.muzik_flag==1) window.document.main.document.forms[0].f.value="Пишите письма";
+
+
+
+ if(window.muzik_flag==2) window.document.main.document.forms[0].f.value="Несите ваши денежки";
+
+
+
+ if(window.muzik_flag==3) window.document.main.document.forms[0].f.value="Солнце еще высоко";
+
+
+
+ if(window.muzik_flag==0) window.document.main.document.forms[0].f.value="";
+
+
+
+}
+
+
+
+// -->
+
+
+
+</script>
+
+
+
+</HEAD>
+
+
+
+<body style="color:navy;background-color:white;background-image:url(../images/main/rope.gif);" onLoad="jump();">
+
+<map name=image>
+
+
+
+<area href="javascript:if(confirm('http://kuku.ru/r/dir/page?search  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://kuku.ru/r/dir/page?search#mark'" tppabs="http://kuku.ru/r/dir/page?search#mark">
+
+
+
+</map>
+
+
+
+
+
+
+
+<SCRIPT SRC="count.js" tppabs="http://counter.hotlog.ru/cgi-bin/hotlog/count.js"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">js=0</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.1">js=1</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.2">js=2</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.3">js=3</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">HotLOG(1686,js)</SCRIPT>
+<noscript><img src="count-s=1686" tppabs="http://hit.hotlog.ru/cgi-bin/hotlog/count?s=1686" border=0 width=1 height=1></noscript>
+<!-- Логотип -->
+
+
+
+<div class=logo>
+
+<table border=0 cellpadding=0 cellspacing=0 width=560>
+
+<tr><td><img src="sea003.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea003.gif" width=560 height=5 border=0 hspace=0 vspace=0 align=left></td></tr>
+
+<tr><td><img src="sea000.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea000.gif" width=560 height=15 border=0 hspace=0 vspace=0 align=left></td></tr>
+<!--
+<tr><td><a href=../homef.htm onMouseover="document.sea001.src='../images/main/hweb.gif';return true;" onMouseout="document.sea001.src='../images/main/sea001.gif';return true;"><img name=sea001 src=../images/main/sea001.gif width=560 height=15 border=0 hspace=0 vspace=0 align=left></a></td></tr>
+-->
+<tr><td><img name=sea001 src="sea001.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea001.gif" width=560 height=15 border=0 hspace=0 vspace=0 align=left></td></tr>
+
+<tr><td><img src="sea002.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea002.gif" width=560 height=5 border=0 hspace=0 vspace=0 align=left></td></tr>
+
+</table>
+
+</div>
+
+
+
+<!-- Конец логотипа -->
+
+
+
+<!-- Главное меню -->
+
+
+
+<div class=menu>
+
+<table border=0 cellpadding=0 cellspacing=0 width=560>
+
+<tr>
+
+<td><a href="jsid.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/jsid.htm"><img src="manual.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/manual.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Конспект></a></td>
+
+<td><img src="ref.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/ref.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Справочник></td>
+
+<td><img src="work.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/work.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Задания></td>
+
+<td><img src="ex.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/ex.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Примеры></td>
+
+<td><a href="eventt.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/test/eventt.htm"><img src="tests.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/tests.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Контроль></a></td>
+
+<td><img src="coach.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/coach.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Тьютор></td>
+
+<td><a href="javascript:if(confirm('http://webclass.polyn.kiae.su/classes/fsub.htm  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://webclass.polyn.kiae.su/classes/fsub.htm'" tppabs="http://webclass.polyn.kiae.su/classes/fsub.htm"><img src="lcheck.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/lcheck.gif" border=0 hspace=0 vspace=0 height=20 width=74 alt=Подписка></a></td>
+
+</tr>
+
+</table>
+
+</div>
+
+
+
+<!-- Конец главного меню -->
+
+
+
+<!-- Навигационное дерево -->
+
+
+
+<div class=navy>
+<table border=0 cellspacing=0 cellpadding=0 width=560>
+<tr>
+<td height=15 class=tree>
+<a class=tree href="javascript:if(confirm('http://webclass.polyn.kiae.su/classes/homef.htm  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://webclass.polyn.kiae.su/classes/homef.htm'" tppabs="http://webclass.polyn.kiae.su/classes/homef.htm">Web-инжиниринг(Оглавление)</a>
+</td>
+<tr>
+<td height=15 class=tree>
+<img src="treetc-1.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main//treetc.gif" border=0 hspace=2 align=top width=15 height=15 vspace=0>
+Объектная модель в World Wide Web. Динамический HTML
+</td>
+</tr>
+<tr>
+<td height=15 class=tree>
+<img name=down src="treevl.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treevl.gif" border=0 hspace=2 align=top width=15 height=15 vspace=0>
+<img src="treetc.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treetc.gif" border=0 hspace=2 align=top width=15 height=15 vspace=0>
+<a class=tree id=current href="treejsi.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/treejsi.htm">Введение в JavaScript</a>
+</td>
+</tr>
+</table>
+</div>
+
+<!-- Конец навигационного дерева -->
+
+
+
+<!-- Меню последовательного просмотра -->
+
+
+
+<div class=next>
+
+
+
+<map name=top_menu>
+
+
+
+<area shape=rect coords="500,0,560,15" href="menu.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/menu.htm">
+
+
+
+</map>
+
+
+
+<img src="menu_l.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/menu_l.gif" width=560 height=15 vspace=0 hspace=0 border=0 usemap=#top_menu>
+
+
+
+</div>
+
+
+
+<!-- Конец меню последовательного просмотра -->
+
+
+
+<!-- Начало текста документа -->
+
+
+
+<div class=main name=main>
+
+
+
+<a name=top></a>
+
+
+
+<span class=myheader>Графика и обработка событий</span>
+
+
+
+<p class=just>
+
+
+
+<span class=letter>В</span>данном разделе речь не пойдет об обработчиках событий контейнера IMG. Мы просто рассмотрим наиболее типичный способ комбинирования обработчиков событий и изменения графических образов.
+
+
+
+Собственно не имело бы смысла применять нарезанную графику, если бы не возможность использования обработчиков событий для изменения отдельных частей изображения. Продолжая обсуждение <a href="table.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/table.htm">примера с навигационным деревом</a>, покажем его развитие с обработкой событий от мыши и изменением картинок:
+
+
+
+<p><span class=tags>
+
+
+
+&lt;table border=0 cellpadding=0 cellspacing=0 align=center&gt;<br>
+
+
+
+&lt;tr&gt;<br>
+
+
+
+&lt;td&gt;&lt;img src=../images/main/treeup.gif width=20 height=20 border=0&gt;&lt;/td&gt;<br>
+
+
+
+&lt;td&gt;&lt;img src=../images/main/blank.gif width=20 height=20 border=0&gt;&lt;/td&gt;<br>
+
+
+
+&lt;/tr&gt;<br>
+
+
+
+&lt;tr&gt;<br>
+
+
+
+&lt;td&gt;&lt;img src=../images/main/treetc.gif width=20 height=20 border=0&gt;&lt;/td&gt;<br>
+
+
+
+&lt;td&gt;&lt;a href="javascript:void(0);" onMouseover="document.manual.src='../images/jsi/manualb.gif';return true;" onMouseout="document.manual.src='../images/jsi/manual.gif';return true;"&gt;&lt;img name=manual src=../images/jsi/manual.gif border=0 width=20 height=20&gt;&lt;/a&gt;&lt;/td&gt;<br>
+
+
+
+&lt;/tr&gt;<br>
+
+
+
+&lt;tr&gt;<br>
+
+
+
+&lt;td&gt;&lt;img src=../images/main/treetc.gif width=20 height=20 border=0&gt;&lt;/td&gt;<br>
+
+
+
+&lt;td&gt;&lt;a href="javascript:void(0);" onMouseover="document.desk.src='../images/jsi/deskb.gif';return true;" onMouseout="document.desk.src='../images/jsi/desk.gif';return true;"&gt;&lt;img name=desk src=../images/jsi/desk.gif border=0 width=20 height=20&gt;&lt;/a&gt;&lt;/td&gt;<br>
+
+
+
+&lt;/tr&gt;<br>
+
+
+
+&lt;/table&gt;<br>
+
+
+
+</span>
+
+
+
+<table border=0 cellpadding=0 cellspacing=0 align=center>
+
+
+
+<tr>
+
+
+
+<td><img src="treeup.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeup.gif" width=20 height=20 border=0></td>
+
+
+
+<td><img src="blank.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/blank.gif" width=20 height=20 border=0></td>
+
+
+
+</tr>
+
+
+
+<tr>
+
+
+
+<td><img src="treetc.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treetc.gif" width=20 height=20 border=0></td>
+
+
+
+<td><a href="javascript:void(0);" onMouseover="document.manual.src='manualb.gif'/*tpa=http://webclass.polyn.kiae.su/classes/images/jsi/manualb.gif*/;return true;" onMouseout="document.manual.src='manual-1.gif'/*tpa=http://webclass.polyn.kiae.su/classes/images/jsi/manual.gif*/;return true;"><img name=manual src="manual-1.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/jsi/manual.gif" border=0 width=20 height=20></a></td>
+
+
+
+</tr>
+
+
+
+<tr>
+
+
+
+<td><img src="treetc.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treetc.gif" width=20 height=20 border=0></td>
+
+
+
+<td><a href="javascript:void(0);"  onMouseover="document.desk.src='deskb.gif'/*tpa=http://webclass.polyn.kiae.su/classes/images/jsi/deskb.gif*/;return true;" onMouseout="document.desk.src='desk.gif'/*tpa=http://webclass.polyn.kiae.su/classes/images/jsi/desk.gif*/;return true;"><img name=desk src="desk.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/jsi/desk.gif" border=0 width=20 height=20></a></td>
+
+
+
+</tr>
+
+
+
+</table>
+
+
+
+<p class=just>
+
+
+
+В данном примере при проходе мышки через картинки меню они изменяются. Этот эффект достигается за счет применения двух событий: onMouseover и onMouseout. По первому событию картинка меняется с позитива на негатив, по второму событию восстанавливается первоначальный вариант. Следует заметить, что события определены в контейнере якоря (A), а не в контейнере IMG. Это наиболее устойчивый с точки зрения совместимости браузеров вариант. 
+
+
+
+<p class=just>
+
+
+
+Для разнообразия рассмотрим еще один пример. В нем мы будем менять статическую картинку при прохождении мыши по меню:
+
+
+
+<table border=0 align=center>
+
+
+
+<tr>
+
+
+
+<td>
+
+
+
+<a href="javascript:window.document.main.document.forms[0].f.value='Почта';void(0);" 
+
+
+
+onMouseover="muzik_flag=1;document.muzik.src='muzik1.gif'/*tpa=http://webclass.polyn.kiae.su/classes/images/jsi/muzik1.gif*/;return true;"
+
+
+
+onMouseout="document.muzik.src='blank.gif'/*tpa=http://webclass.polyn.kiae.su/classes/images/main/blank.gif*/;return true;"
+
+
+
+><img src="write.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/jsi/write.gif" border=0></a></td>
+
+
+
+<td rowspan=3>
+
+
+
+<a href="javascript:window.click();void(0);"
+
+
+
+onMouseover="window.muzik();return true;"
+
+
+
+onMouseout="document.muzik.src='blank.gif'/*tpa=http://webclass.polyn.kiae.su/classes/images/main/blank.gif*/;return true;"
+
+
+
+><img name=muzik src="blank.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/blank.gif" width=100 height=100 border=0></a>
+
+
+
+</td>
+
+
+
+</tr>
+
+
+
+<tr>
+
+
+
+<td>
+
+
+
+<a href="javascript:window.document.main.document.forms[0].f.value='Подписка';void(0);" 
+
+
+
+onMouseover="muzik_flag=2;document.muzik.src='muzik2.gif'/*tpa=http://webclass.polyn.kiae.su/classes/images/jsi/muzik2.gif*/;return true;"
+
+
+
+onMouseout="document.muzik.src='blank.gif'/*tpa=http://webclass.polyn.kiae.su/classes/images/main/blank.gif*/;return true;"
+
+
+
+><img src="test.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/jsi/test.gif" border=0></a></td>
+
+
+
+</tr>
+
+
+
+<tr>
+
+
+
+<td>
+
+
+
+<a href="javascript:window.document.main.document.forms[0].f.value='Практика';void(0);" 
+
+
+
+onMouseover="muzik_flag=3;document.muzik.src='muzik0.gif'/*tpa=http://webclass.polyn.kiae.su/classes/images/jsi/muzik0.gif*/;return true;"
+
+
+
+onMouseout="document.muzik.src='blank.gif'/*tpa=http://webclass.polyn.kiae.su/classes/images/main/blank.gif*/;return true;"
+
+
+
+><img src="work-1.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/jsi/work.gif" border=0></a></td>
+
+
+
+</tr>
+
+
+
+</table>
+
+
+
+<center>
+
+
+
+<form>
+
+
+
+<input name=f value="" size=20 onFocus="this.blur();">
+
+
+
+</form>
+
+
+
+</center>
+
+
+
+<p class=just>
+
+
+
+Скрытая картинка, кроме всего прочего, еще и контекстно-зависимая гипертекстовая ссылка. Картинка "запоминает"  последнюю позицию меню, на которую указывала мышь. При этом поле формы служит для демонстрации этой контекстной зависимости. "Покликайте" на различные варианты картинки и на иконки меню. Посмотрите, что из этого получится.
+
+
+
+<!-- В начало страницы -->
+
+
+
+<p align=right><a href=#top class=tree id=home><img src="treeup.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeup.gif" border=0 align=top hspace=2><br>начало страницы<img src="treeru.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeru.gif" border=0 align=top hspace=2></a><br>
+
+
+
+<!-- Конец перехода -->
+
+
+
+<p><!-- Конец текста документа -->
+
+
+
+<!-- Меню последовательного просмотра(нижнее) -->
+
+
+
+<map name=bmenu>
+
+
+
+<area shape=rect coords="0,0,60,15" href="table.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/table.htm">
+
+
+
+<area shape=rect coords="500,0,560,15" href="menu.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/menu.htm">
+
+
+
+</map>
+
+
+
+<p>
+
+
+
+<img src="bottom_l.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/bottom_l.gif" border=0 width=560 height=15 border=0 usemap=#bmenu hspace=0 vspace=0><br>
+
+
+
+<!-- Конец меню последовательного просмотра(нижнее) -->
+
+
+
+<!-- Нижний логотип -->
+
+
+
+<a href="javascript:if(confirm('http://www.citmgu.ru/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.citmgu.ru/'" tppabs="http://www.citmgu.ru/"><img src="bottom.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/bottom.gif" border=0 width=560 height=15></a>
+<!-- SpyLOG v2 f:0211 -->
+<script language="javascript">
+u="http://webclass.polyn.kiae.su/classes/jsi/u686.25.spylog.com";d=document;nv=navigator;na=nv.appName;p=1;
+bv=Math.round(parseFloat(nv.appVersion)*100);
+n=(na.substring(0,2)=="Mi")?0:1;rn=Math.random();z="p="+p+"&rn="+rn;y="";
+y+="<a href='http://"+u+"/cnt?f=3&p="+p+"&rn="+rn+"' target=_blank>";
+y+="<img src='http://"+u+"/cnt?"+z+"&r="+escape(d.referrer)+"&pg="+escape(window.location.href)+"' border=0  width=0 height=0  alt='SpyLOG'>";
+y+="</a>"; d.write(y);if(!n) { d.write("<"+"!--"); }//--></script><noscript>
+<a href="javascript:if(confirm('http://u686.25.spylog.com/cnt?f=3&p=1  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://u686.25.spylog.com/cnt?f=3&p=1'" tppabs="http://u686.25.spylog.com/cnt?f=3&p=1" target=_blank>
+<img src="cnt-p=1" tppabs="http://u686.25.spylog.com/cnt?p=1" alt='SpyLOG' border='0'  width=0 height=0 >
+</a></noscript><script language="javascript1.2"><!--
+if(!n) { d.write("--"+">"); }//--></script>
+<!-- SpyLOG  -->
+
+<!-- Конец нижнего логотипа -->
+
+
+
+</div>
+
+
+
+</BODY>
+
+
+
+</HTML>
+
+
+

@@ -1,0 +1,44 @@
+<HTML>
+<HEAD> 
+     <TITLE>Список с множественным выбором</TITLE>
+<SCRIPT language="JavaScript">
+      //Функция создания массива выбранных опций 
+      function choiceConstr(listOpt) {
+          //Определение объекта массива
+          var choice = new Array(); 
+           //Начальное значение индекса
+          var k=0;
+          //Циклическая обработка массива-аргумента 
+          for (var i=0; i<listOpt.length; i++) { 
+          //Отбор элементов в массив выбранных опций 
+          if(listOpt[i].selected) {
+                //Создание объекта и определение свойства value
+                choice[k]=new Object;
+                choice[k].value=listOpt[i].value;
+                 //Подготовка индекса для следующего элемента
+                k++;
+                }
+          }
+          return choice;
+      }
+       //Функция вывода списка выбора
+       function alertChoice(listOpt) {
+           //Определение массива выбранных элементов
+           var ch=choiceConstr(listOpt);
+           //Строковая переменная для хранения результата
+           var strChoice="";
+           for (var i=0; i<ch.length; i++)
+           strChoice+=ch[i].value+"\n"; 
+           alert("Выбранные элементы:\n"+strChoice);
+        } 
+</SCRIPT>
+</HEAD>
+<BODY>
+<H2>0пределение выбранных элементов</H2>
+<FORM name="">
+<SELECT name="listl" size=4 multiple> <OPTION value="Книги">Книги <OPTION value="Видео">Видео <OPTION value="Аудио">Аудио <OPTION value="Бумага">Бумага <OPTION value="Канцелярия">Канцелярия
+</SELECT>
+<INPUT type=BUTTON value="Список выбора" onclick="alertChoice(this.form.listl.options)">
+</FORM> 
+</BODY> 
+</HTML>

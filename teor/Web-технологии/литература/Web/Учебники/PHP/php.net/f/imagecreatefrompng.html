@@ -1,0 +1,31 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>imagecreatefrompng</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="imagecreatefromjpeg.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="imagecreatefromstring.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.imagecreatefrompng">imagecreatefrompng</A></H1><A NAME="AEN32085"></A><P>(PHP 3&#62;= 3.0.13, PHP 4)</P>
+<p>imagecreatefrompng - создаёт новое изображение из файла или URL.<A NAME="AEN32088"></A></p><H2>Описание</H2>
+<p>resource <B>imagecreatefrompng</B> (string filename)</p><P><B>imagecreatefrompng()</B> возвращает идентификатор изображения, полученного из данного файла filename.</P>
+<P><B>imagecreatefrompng()</B> возвращает пустую строку при ошибке. Также выводит сообщение об ошибке, 
+которое отображается в браузере как разорванная ссылка. Для облегчения отладки 
+следующий пример выведет PNG ошибки:<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN32101"></A>
+<h5>Пример 1. Обработка ошибки при создании (благодарим vic@zymsys.com) </h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>function LoadPNG ($imgname) {
+    $im = @imagecreatefrompng ($imgname); /* попытка открыть */
+    if (!$im) { /* проверить, удачно ли */
+        $im  = imagecreate (150, 30); /* создать пустое изображение */
+        $bgc = imagecolorallocate ($im, 255, 255, 255);
+        $tc  = imagecolorallocate ($im, 0, 0, 0);
+        imagefilledrectangle ($im, 0, 0, 150, 30, $bgc);
+        /* вывести errmsg */
+        imagestring ($im, 1, 5, 5, "Error loading $imgname", $tc);
+    }
+    return $im;
+}</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0"  WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="imagecreatefromjpeg.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="imagecreatefromstring.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">imagecreatefromjpeg</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.image.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">imagecreatefromstring</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

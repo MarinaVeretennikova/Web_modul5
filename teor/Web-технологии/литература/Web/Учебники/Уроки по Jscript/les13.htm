@@ -1,0 +1,237 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0031)http://jsp.newmail.ru/les13.htm -->
+<HTML><HEAD><TITLE>Урок 13. Метод confirm</TITLE>
+<META content="text/html; charset=windows-1251" http-equiv=Content-Type>
+<META 
+content="Самое толковое руководство по основам javascript на русском языке. Метод confirm" 
+name=Description>
+<SCRIPT language=javascript>
+<!--
+if (document.images) {
+ar_r = new Image(33,33); ar_r.src = "i/ar_r.gif"; 
+ar_r1 = new Image(33,33); ar_r1.src = "i/ar_r1.gif"; 
+none = new Image(79,35); none.src = "i/none.gif"; 
+next = new Image(79,35); next.src = "i/next.gif"; 
+prev = new Image(79,35); prev.src = "i/prev.gif";
+ar_l = new Image(33,33); ar_l.src = "i/ar_l.gif";
+ar_l1 = new Image(79,35); ar_l1.src = "i/ar_l1.gif";
+}
+function swap(imgName,imgObjName) {
+if (document.images) {
+  document.images[imgName].src = eval(imgObjName + ".src");
+}}
+function go(){
+if (confirm("Уверены, что хотите на прошлый урок?") )
+{
+parent.location='les12.htm';
+alert("Счастливого пути");
+}
+else
+{
+alert("Tогда оставайтесь");
+}}
+function toc() {
+OpenWindow=window.open('toc.html', 'toc', config='width=300,scrollbars=1,resizable=1,status=1')
+self.name="one"
+}
+//-->
+</SCRIPT>
+<LINK href="les13.files/blue.css" rel=STYLESHEET type=text/css>
+<META content="MSHTML 5.00.2614.3500" name=GENERATOR></HEAD>
+<BODY background=les13.files/Life_blue.gif bgColor=#334775 text=#334775>
+<DIV 
+style="HEIGHT: 35px; LEFT: 10px; POSITION: absolute; TOP: 10px; WIDTH: 160px"><A 
+href="http://jsp.newmail.ru/les12.htm" 
+onmouseout="swap('left','ar_l');swap('none','none')" 
+onmouseover="swap('left','ar_l1');swap('none','prev')"><IMG border=0 height=33 
+name=left src="les13.files/ar_l.gif" width=33></A>&nbsp;<A href="" 
+onmouseout="swap('left','ar_l');swap('right','ar_r')" 
+onmouseover="swap('left','ar_l1');swap('right','ar_r1')"><IMG border=0 height=35 
+name=none src="les13.files/none.gif" width=79></A>&nbsp;<A 
+href="http://jsp.newmail.ru/les14.htm" 
+onmouseout="swap('right','ar_r');swap('none','none')" 
+onmouseover="swap('right','ar_r1');swap('none','next')"><IMG border=0 height=33 
+name=right src="les13.files/ar_r.gif" width=33></A> </DIV>
+<H1 align=right>Урок 13<BR>Метод confirm (введение в if и else)</H1>
+<P align=right><B><FONT color=#fb4462>красным цветом даны примечания 
+переводчика</FONT></B><BR><A 
+href="http://jsp.newmail.ru/les13.htm#concept">Концепция</A>__<A 
+href="http://jsp.newmail.ru/les13.htm#script">Скрипт</A>__<A 
+href="http://jsp.newmail.ru/les13.htm#effect">Эффект</A>__<A 
+href="http://jsp.newmail.ru/les13.htm#decon">Разбор скрипта</A>__<A 
+href="http://jsp.newmail.ru/les13.htm#assig">Задание</A></P>
+<P align=right><A href="http://jsp.newmail.ru/les13.htm#" 
+onclick=toc()>Оглавление (в новом окне)</A></P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="50%"><IMG height=13 
+      src="les13.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="30%">
+      <P align=right><IMG height=13 src="les13.files/b_t_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%">
+      <H2><A name=concept>Концепция</A></H2>
+      <P align=justify><B>К</B>оманда confirm <FONT 
+      color=red>(подтвердить)</FONT> действует очень похоже на alert, за 
+      исключением того, что добавляет кнопку «Отмена» в диалоговое окно. И то, и 
+      другое — методы.</P>
+      <P align=justify>Одна команда сама по себе многого не дает. Нет никакой 
+      разницы, что вы выбираете — «ОК» или «ОТМЕНА». Но стоит добавить функции 
+      IF <FONT color=red>(если)</FONT> и ELSE <FONT color=red>(иначе)</FONT>, и 
+      готовы отличные эффекты.</P>
+      <H2><A name=script><B>Скрипт</B></A></H2>
+      <P class=cou>&lt;SCRIPT LANGUAGE="javascript"&gt;</P>
+      <P class=cou>confirm("Уверены, что хотите войти?")</P>
+      <P class=cou>&lt;/SCRIPT&gt;</P>
+      <P align=justify>Знакомо? Пора бы уже. То же самое, что и alert, кроме 
+      слова confirm. Вот основной пример 
+      <FORM><INPUT onclick="confirm('Уверены, что хотите войти?')" type=button value=пример> 
+      </FORM>того, что делает скрипт. Как видите, немного. Но вот вам та же 
+      команда с некоторыми добавлениями:</P>
+      <P class=cou>&lt;SCRIPT LANGUAGE="javascript"&gt;</P>
+      <P class=cou>if (confirm("Уверены, что хотите на прошлый урок?") )</P>
+      <P 
+      class=cou>{<BR>parent.location='http://www.jsp.newmail.ru/les12.htm';<BR>alert("Счастливого 
+      пути");<BR>}<BR><BR>else<BR>{<BR>alert("Tогда 
+      оставайтесь");<BR>}<BR><BR>&lt;/SCRIPT&gt;</P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd vAlign=bottom width="50%"><IMG height=13 
+      src="les13.files/b_b_l.gif" width=12></TD>
+    <TD bgColor=#cef3fd vAlign=bottom width="30%">
+      <P align=right><IMG height=13 src="les13.files/b_b_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P>
+<DIV align=right>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="85%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=30 vAlign=top width="50%"><IMG height=13 
+      src="les13.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd vAlign=top width="50%">
+      <P align=right><IMG height=13 src="les13.files/b_t_r.gif" 
+  width=13></P></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%">
+      <H2><A name=effect>Эффект</A> </H2>
+      <P align=justify>Это уже кое-что. <A href="" id=l onclick=go()>Вот 
+      ссылка</A>, которая задаст вопрос. Только на этот раз, если нажмете «OK», 
+      то пойдете по ссылке, а если щелкнете по «Отмене», то останетесь.</P>
+      <P>Здорово, а? Давайте разберемся, как это делается.</P></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%"><IMG height=13 
+      src="les13.files/b_b_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%">
+      <P align=right><IMG height=13 src="les13.files/b_b_r.gif" 
+  width=13></P></TD></TR></TBODY></TABLE></DIV>
+<P>.</P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="50%"><IMG height=13 
+      src="les13.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="30%">
+      <P align=right><IMG height=13 src="les13.files/b_t_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="80%"><A 
+      name=decon>
+      <H2>Разбор скрипта</A> </H2>
+      <P><B>У вас есть выбор</B><BR>Во-первых, скрипт говорит:</P>
+      <P class=cou>if (confirm("Вы уверены, что хотите пойти на прошлый урок?") 
+      )</P>
+      <P align=justify>Это значит Если (<I>Здесь ваш шанс сделать выбор</I>)</P>
+      <P align=justify>В нашем случае сonfirm предлагает альтернативу: «OK» и 
+      «Отмена». Можно сказать, Да и Нет. Обратите внимание на скобки. После 
+      команды IF всегда идут скобки, но, как известно, команды сonfirm тоже 
+      требует скобок. Следовательно, берем две пары скобок, одна внутри 
+      другой.</P>
+      <P align=justify>Сразу же после этого идут команды, выполняемые при каждом 
+      варианте ответа. Обратите внимание на фигурные скобки{}. Ведь в 
+      действительности это функции. Первая из них показывает, что должно 
+      произойти, если пользователь выберет ОК (или Да).</P>
+      <P 
+      class=cou>{<BR>parent.location='http://www.jsp.newmail.ru/les12.htm';<BR>alert("Счастливого 
+      пути");<BR>}</P>
+      <P align=justify>Если помните, несколько уроков назад я говорил, что 
+      parent.location означает ссылку. Дальше идет обыкновенная команда alert. 
+      Не забудьте про точки с запятой в конце строк.</P>
+      <P align=justify><B>А что если я выберу отмену?</B><BR>Мы уже знаем, что 
+      если выбрать ОК, запускается функция IF <FONT color=red>(если)</FONT>. 
+      Отмена — другой выбор. Видите, сразу после фигурной скобки идет команда 
+      ELSE <FONT color=red>(иначе)</FONT>, как бы «если нет». И тогда следующий 
+      текст...</P>
+      <P class=cou>else<BR>{<BR>alert("Tогда оставайтесь");<BR>}</P>
+      <P align=justify>...означает: если нет, тогда вызвать окно и не менять 
+      страницу.</P>
+      <P align=justify>Все это вместе и дает пользователю возможность выбора: 
+      входить или не входить.</P>
+      <P align=justify>Это самые основы использования IF и ELSE. Позже команде 
+      IF мы посвятим целый урок. Она того заслуживает, как вам кажется? 
+      Аплодисменты команде IF, дамы и господа!</P>
+      <H2><A name=assig><B>Ваше задание</B></A></H2>
+      <P align=justify>Не пугайтесь, вы это можете. Преобразуйте скрипт, о 
+      котором мы сегодня говорили, в функцию. Да, и сделайте так, чтобы при 
+      отмене, кроме окна, еще появлялась какая-нибудь надпись в строке 
+      состояния.</P>
+      <P>Возможный ответ <A href="http://jsp.newmail.ru/assig13.htm" 
+      id=l>здесь</A></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd vAlign=bottom width="50%"><IMG height=13 
+      src="les13.files/b_b_l.gif" width=12></TD>
+    <TD bgColor=#cef3fd vAlign=bottom width="30%">
+      <P align=right><IMG height=13 src="les13.files/b_b_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR></TBODY></TABLE>
+<P align=right><A 
+href="http://jsp.newmail.ru/les13.htm#concept">Концепция</A>__<A 
+href="http://jsp.newmail.ru/les13.htm#script">Скрипт</A>__<A 
+href="http://jsp.newmail.ru/les13.htm#effect">Эффект</A>__<A 
+href="http://jsp.newmail.ru/les13.htm#decon">Разбор скрипта</A>__<A 
+href="http://jsp.newmail.ru/les13.htm#assig">Задание</A> </P>
+<P align=right><FONT size=5><A href="http://jsp.newmail.ru/les14.htm">Вперед, на 
+Урок 14</A></FONT></P>
+<DIV align=right>
+<TABLE width="75%">
+  <TBODY>
+  <TR>
+    <TD><FONT color=#cef3fd>
+      <P align=justify class=small>авторы <A 
+      href="http://www.htmlgoodies.com/primers/jsp/me.html">Джо Бернс</A> и 
+      Эндри Грауни. <A href="http://www.htmlgoodies.com/">Оригинал и многое 
+      другое на английском языке</A> © <A 
+      href="http://www.earthweb.com/">EarthWeb Inc.</A> <BR>Перевод, оформление 
+      и верстка © Татьяна.</FONT></P></TD></TR></TBODY></TABLE></DIV><!-- SpyLOG v2 f:0211 --><!-- HotLog -->
+<SCRIPT language=javascript>
+hotlog_js="1.0";hotlog_d=document; hotlog_n=navigator;hotlog_rn=Math.random();
+hotlog_n_n=(hotlog_n.appName.substring(0,3)=="Mic")?0:1;
+hotlog_r=""+hotlog_rn+"&s=15862&r="+escape(hotlog_d.referrer)+"&pg="+
+escape(window.location.href);
+hotlog_d.cookie="hotlog=1"; hotlog_r+="&c="+(hotlog_d.cookie?"Y":"N");
+hotlog_d.cookie="hotlog=1; expires=Thu, 01-Jan-70 00:00:01 GMT"</SCRIPT>
+
+<SCRIPT language=javascript1.1>
+hotlog_js="1.1";hotlog_r+="&j="+(navigator.javaEnabled()?"Y":"N")</SCRIPT>
+
+<SCRIPT language=javascript1.2>
+hotlog_js="1.2";hotlog_s=screen;
+hotlog_r+="&wh="+hotlog_s.width+'x'+hotlog_s.height+"&px="+((hotlog_n_n==0)?
+hotlog_s.colorDepth:hotlog_s.pixelDepth)</SCRIPT>
+
+<SCRIPT language=javascript1.3>hotlog_js="1.3"</SCRIPT>
+
+<SCRIPT language=javascript>hotlog_r+="&js="+hotlog_js;
+hotlog_d.write("<img src=\"http://hit2.hotlog.ru/cgi-bin/hotlog/count?"+
+hotlog_r+"&\" border=0 width=1 height=1>")</SCRIPT>
+<NOSCRIPT><IMG border=0 height=1 src="les13.files/count" width=1></NOSCRIPT> <!-- /HotLog --><!--webbot bot="HTMLMarkup" startspan ALT="Site Meter" -->
+<SCRIPT>var site="sm2jsp"</SCRIPT>
+
+<SCRIPT language=JavaScript1.2 src="les13.files/counter.js">
+</SCRIPT>
+<!-- Copyright (c) 1999-2000 Site Meter --><!--webbot
+bot="HTMLMarkup" endspan --></BODY></HTML>

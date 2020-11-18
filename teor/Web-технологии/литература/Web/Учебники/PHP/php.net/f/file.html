@@ -1,0 +1,37 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>file</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="file-register-wrapper.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="fileatime.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.file">file</A></H1><A NAME="AEN23601"></A><P>(PHP 3, PHP 4)</P>
+<p>file - читает весь файл в массив.<A NAME="AEN23604"></A></p><H2>Описание</H2>
+<p>array <B>file</B> (string filename [, int use_include_path])</p>
+<P>Идентична <A HREF="readfile.html"><B>readfile()</B></A>, но <B>file()</B> возвращает файл в виде массива. 
+Каждый элемент массива соответствует строке 
+файла с символом newline.</P><BLOCKQUOTE><P><B>Примечание: </B>
+каждая строка в результирующем массиве будет содержать символ конца строки, 
+поэтому вам нужно будет использовать <A HREF="trim.html"><B>trim()</B></A>, если символы конца строки вам не нужны.</P>
+</BLOCKQUOTE><P>Вы можете использовать необязательный второй параметр и установить в него "1", 
+если вам также необходим поиск файла в <A HREF="../configuration.html#ini.include-path">include_path</A>.<A NAME="AEN23624"></A></P><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+// получить web-страницу в виде массива и напечатать его
+$fcontents = file ('http://www.example.com/');
+while (list ($line_num, $line) = each ($fcontents)) {
+    echo "&#60;b&#62;Line $line_num:&#60;/b&#62;; ", htmlspecialchars ($line), "&#60;br&#62;\n";
+}
+
+// получить web-страницу в строке
+$fcontents = implode ('', file ('http://www.example.com/'));
+?&#62;</PRE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+начиная с PHP 4.3.0, вы можете использовать <A HREF="file-get-contents.html"><B>file_get_contents()</B></A> для возвращения содержимого файла как строки в манере binary safe.</P>
+</BLOCKQUOTE><TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>Эта функция (пока ещё) не binary safe/безопасна в двоичном режиме!</P></TD></TR></TABLE>
+<BLOCKQUOTE><P><b>Подсказка: </b>вы можете использовать URL как
+filename с этой функцией, если "fopen-оболочки" включены.
+См. <A HREF="fopen.html"><B>fopen()</B></A>.</P></BLOCKQUOTE><P>См. также <A HREF="readfile.html">
+<B>readfile()</B></A>, <A HREF="fopen.html"><B>fopen()</B></A>, <A HREF="fsockopen.html"><B>fsockopen()</B></A> и
+<A HREF="popen.html"><B>popen()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="file-register-wrapper.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="fileatime.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">file_register_wrapper</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.filesystem.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">fileatime</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

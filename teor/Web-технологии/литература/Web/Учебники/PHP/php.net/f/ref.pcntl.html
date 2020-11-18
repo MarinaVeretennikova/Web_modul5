@@ -1,0 +1,96 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Управления Процессом</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="pg-update.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="pcntl-exec.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.pcntl"></A>LXXXI. Функции управления процессом</h1><A NAME="AEN67990"></A>
+<P>Поддержка функций управления процессом в РНР реализует создание процесса в 
+стиле Unix, выполнение программы, обработку сигналов и окончание процесса.  
+Управление процессом не должно включаться в окружении
+web-сервера, и могут быть неожиданные результаты, если функции управления 
+процессом будут выполняться внутри среды web-сервера.</P>
+<P>Эта документация призвана разъяснить общие принципы использования каждой из 
+функций управления процессом. Детальную информацию об управлении процессом в Unix 
+мы рекомендуем вам найти в вашей системной документации, включая fork(2), waitpid(2) 
+и signal(2), или в исчерпывающем справочнике, таком как Advanced Programming in the
+UNIX Environment, автор W. Richard Stevens (Addison-Wesley).</P>
+<P>Поддержка управления процессом в PHP по умолчанию не включена.  Вам 
+необходимо использовать опцию конфигурации <A HREF="../configure.html#install.configure.enable-pcntl">--enable-pcntl</A> при компилировании PHP, чтобы включить эту поддержку.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>в настоящее время этот модуль не работает на не-Unix платформах (Windows).</P>
+</BLOCKQUOTE><P>Следующий список сигналов поддерживается функциями управления процессом.  
+См. man-страницу signal(7) вашей системной документации о поведении по 
+умолчанию этих сигналов.<A NAME="AEN67998"></A><h6>Таблица 1. Поддерживаемые сигналы</h6>
+<center><TABLE BORDER="1"><TBODY><TR><TD><TT>SIGFPE</TT></TD><TD><TT>SIGCONT</TT></TD>
+<TD><TT>SIGKILL</TT></TD></TR><TR><TD><TT>SIGSTOP</TT></TD><TD><TT>SIGUSR1</TT></TD><TD><TT>SIGTSTP</TT></TD>
+</TR><TR><TD><TT>SIGHUP</TT></TD><TD><TT>SIGUSR2</TT></TD><TD><TT>SIGTTIN</TT></TD></TR><TR><TD><TT>SIGINT</TT></TD>
+<TD><TT>SIGSEGV</TT></TD><TD><TT>SIGTTOU</TT></TD></TR><TR><TD><TT>SIGQUIT</TT></TD><TD><TT>SIGPIPE</TT></TD>
+<TD><TT>SIGURG</TT></TD></TR><TR><TD><TT>SIGILL</TT></TD><TD><TT>SIGALRM</TT></TD><TD><TT>SIGXCPU</TT></TD>
+</TR><TR><TD><TT>SIGTRAP</TT></TD><TD><TT>SIGTERM</TT></TD><TD><TT>SIGXFSZ</TT></TD></TR><TR><TD><TT>SIGABRT</TT></TD>
+<TD><TT>SIGSTKFLT</TT></TD><TD><TT>SIGVTALRM</TT></TD></TR><TR><TD><TT>SIGIOT</TT></TD><TD><TT>SIGCHLD</TT></TD>
+<TD><TT>SIGPROF</TT></TD></TR><TR><TD><TT>SIGBUS</TT></TD><TD><TT>SIGCLD</TT></TD><TD><TT>SIGWINCH</TT></TD></TR>
+<TR><TD><TT>SIGPOLL</TT></TD><TD><TT>SIGIO</TT></TD><TD><TT>SIGPWR</TT></TD></TR><TR><TD><TT>SIGSYS</TT></TD>
+<TD>&nbsp;</TD><TD>&nbsp;</TD></TR></TBODY></TABLE></center><H1
+><a name="pcntl-example">Пример управления процессом</a></H1>
+<P>Этот пример разветвляет процесс демона/daemon с обработчиком сигнала.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN68089"></A><h5>Пример 1. Управление процессом</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+$pid = pcntl_fork();
+if ($pid == -1) {
+     die("could not fork"); 
+} else if ($pid) {
+     exit(); // мы родитель
+} else {
+     // мы потомок
+}
+
+// отсоединиться от терминала управления
+if (!posix_setsid()) {
+    die("could not detach from terminal");
+}
+
+// настроить обработчики сигнала
+pcntl_signal(SIGTERM, "sig_handler");
+pcntl_signal(SIGHUP, "sig_handler");
+
+// проходить по циклу, выполняя задачи
+while(1) {
+
+    // здесь делать что-нибудь интересное
+
+}
+
+function sig_handler($signo) {
+
+     switch($signo) {
+         case SIGTERM:
+             // обработать задачи отключения
+             exit;
+             break;
+         case SIGHUP:
+             // обработать задачи рестарта
+             break;
+         default:
+             // обработать все другие сигналы
+     }
+
+}
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><DL><DT><B>Содержание</B></DT>
+<DT><A HREF="pcntl-exec.html">pcntl_exec</A> - выполняет специфицированную программу в пространстве текущего процесса</DT>
+<DT><A HREF="pcntl-fork.html">pcntl_fork</A> - разветвляет текущий процесс</DT>
+<DT><A HREF="pcntl-signal.html">pcntl_signal</A> - инсталирует обработчик сигнала</DT>
+<DT><A HREF="pcntl-waitpid.html">pcntl_waitpid</A> - ожидает или возвращает статус разветвлённого потомка</DT>
+<DT><A HREF="pcntl-wexitstatus.html">pcntl_wexitstatus</A> - возвращает return-код завершённого потомка</DT>
+<DT><A HREF="pcntl-wifexited.html">pcntl_wifexited</A> - возвращает <TT><B>TRUE</B></TT>, если статус-код представляет успешный выход</DT>
+<DT><A HREF="pcntl-wifsignaled.html">pcntl_wifsignaled</A> - возвращает <TT><B>TRUE</B></TT>, если статус-код представляет окончание по сигналу</DT>
+<DT><A HREF="pcntl-wifstopped.html">pcntl_wifstopped</A> - возвращает <TT><B>TRUE</B></TT>, если дочерний процесс в данный момент остановлен</DT>
+<DT><A HREF="pcntl-wstopsig.html">pcntl_wstopsig</A> - возвращает сигнал, который заставляет потомка остановиться</DT>
+<DT><A HREF="pcntl-wtermsig.html">pcntl_wtermsig</A> - возвращает сигнал, который заставляет потомка закончить работу</DT>
+</DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="pg-update.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%"  ALIGN="right" VALIGN="top"><A HREF="pcntl-exec.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">pg_update</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" VALIGN="top" ALIGN="right">pcntl_exec</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

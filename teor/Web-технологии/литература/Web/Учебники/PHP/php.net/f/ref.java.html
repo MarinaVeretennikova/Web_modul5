@@ -1,0 +1,93 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Java</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0"  WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="ircg-whois.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="java-last-exception-clear.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.java"></A>XLVIII. Java</h1><A NAME="AEN38631"></A><P>Есть два способа связать PHP и Java: вы можете либо интегрировать PHP в 
+среду Java Servlet, что является более стабильным и эффективным решением, либо 
+интегрировать поддержку Java в PHP.
+Первый предоставляется SAPI-модулем, который является интерфейсом с 
+Servlet-сервером, второй - РНР-расширением Java.</P>
+<P>PHP 4 ext/java предоставляет простые и эффективные средства для создания и 
+вызова методов Java-объектов из PHP. JVM создаётся с использованием JNI,
+и всё запускается in-process. Встроенные инструкции для ext/java можно найти в файле <TT>php4/ext/java/README</TT>.<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN38635"></A>
+  <h5>Пример 1. Java</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+  // получить экземпляр Java-класса java.lang.System в PHP
+  $system = new Java('java.lang.System');
+
+  // демонстрируется доступ к свойствам
+  print 'Java version='.$system-&#62;getProperty('java.version').' &#60;br&#62;';
+  print 'Java vendor=' .$system-&#62;getProperty('java.vendor').'  &#60;br&#62;';
+  print 'OS='.$system-&#62;getProperty('os.name').' '.
+              $system-&#62;getProperty('os.version').' on '.
+              $system-&#62;getProperty('os.arch').' &#60;br&#62;';
+
+  // пример java.util.Date
+  $formatter = new Java('java.text.SimpleDateFormat',
+                        "EEEE, MMMM dd, yyyy 'at' h:mm:ss a zzzz");
+
+  print $formatter-&#62;format(new Java('java.util.Date'));
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN38638"></A><h5>Пример 2. AWT</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>&#60;?php
+  // Этот пример предназначается только для запуска как CGI.
+
+  $frame  = new Java('java.awt.Frame', 'PHP');
+  $button = new Java('java.awt.Button', 'Hello Java World!');
+
+  $frame-&#62;add('North', $button);
+  $frame-&#62;validate();
+  $frame-&#62;pack();
+  $frame-&#62;visible = True;
+
+  $thread = new Java('java.lang.Thread');
+  $thread-&#62;sleep(10000);
+
+  $frame-&#62;dispose();
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><p><b>Примечания</b>: </p>
+<UL><LI><P><TT>new Java()</TT> создаст экземпляр класса, если подходящий конструктор доступен. Если параметры 
+не передаются, используется конструктор по умолчанию, так как он 
+предоставляет доступ к классам вроде <TT>java.lang.System</TT>, которые экспонируют большую часть своей функциональности через static-методы.</P>
+</LI><LI><P>При доступе к члену экземпляра сначала ищутся свойства &quot;боба&quot;/bean 
+(компонента), а затем - public-поля. Иначе говоря, <TT>print $date.time</TT> сначала пытается разрешиться как
+<TT>$date.getTime()</TT>, а затем как <TT>$date.time</TT>.</P></LI>
+<LI><P> Доступ к статическим членам и членам экземпляра может быть выполнен на 
+объекте с тем же самым синтаксисом. Кроме того, если java-объект имеет тип <TT>java.lang.Class</TT>, то можно получить доступ также к static-членам класса
+(полям и методам).</P></LI><LI><P>Возникающие исключения выдают предупреждения PHP и <TT><B>NULL</B></TT>-результаты. Появление предупреждений можно подавить с помощью префиксирования 
+вызовов методов знаком "@". Следующие API можно использовать для запрашивания и восстановления последней ошибки:
+<UL><LI><P><A HREF="java-last-exception-get.html"><B>java_last_exception_get()</B></A></P></LI>
+<LI><P><A HREF="java-last-exception-clear.html"><B>java_last_exception_clear()</B></A></P></LI></UL>
+</LI><LI><P>Решение проблемы перегрузки в общем является большой проблемой из-за 
+различий в типах между двумя языками. PHP-расширение Java реализует простую, 
+но довольно эффективную метрику для определения того, какая перегрузка подходит более всего.</P>
+<P>Кроме того, имена методов в PHP не чувствительны к регистру символов, 
+потенциально увеличивая количество перегрузок, из которых делается выборка.</P>
+<P>После выбора метода выполняется если необходимо, приведение параметров, 
+возможно, с потерей данных (пример: числа двойной точности с плавающей точкой будут конвертированы в boolean).</P></LI>
+<LI><P>По традиции в PHP массивы и хэш-таблицы могут взаимозаменяться. Обратите 
+внимание, что хэш-таблицы в PHP могут индексироваться только целыми числами 
+или строками, и что массивы примитивных типов Java не могут быть рассеяны/sparse. 
+Также заметьте, что эти конструкции передаются по значению, поэтому могут быть затратными в плане памяти и времени.</P></LI></UL>
+<P>sapi/servlet построен на механизме, определённом расширением ext/java, что 
+обеспечивает запуск всего процессора PHP как сервлета. Основным преимуществом 
+этого способа, в отличие от PHP, является то, что web-серверы, поддерживающие 
+сервлеты, обычно очень заботятся о пулах и повторном использовании JVM. 
+Инструкции построения для модуля Servlet SAPI можно найти в файле <TT>php4/sapi/README</TT>.
+<P><b>Примечания</b>:<UL><LI><P>Поскольку предполагается, что этот код должен иметь возможность запуска 
+на любой машине сервлетов, он был протестирован только на Apache'вском Jakarta/tomcat. Мы 
+приветствуем также сообщения о дефектах, успехах и/или патчах, необходимых для работы этого кода на других машинах.</P></LI>
+<LI><P>PHP имеет привычку менять рабочую директорию. sapi/servlet может вернуть 
+в прежнюю, но, пока PHP работает, машина сервлетов не сможет загрузить 
+какие-либо классы из CLASSPATH, которые специфицированы с использованием 
+относительного синтаксиса директорий, или найти рабочую директорию, 
+используемую для задач администрирования и компиляции JSP.</P></LI></UL>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="java-last-exception-clear.html">java_last_exception_clear</A> - очищает последнее Java-исключение</DT>
+<DT><A HREF="java-last-exception-get.html">java_last_exception_get</A> - получает последнее Java-исключение</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0"  WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="ircg-whois.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="java-last-exception-clear.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ircg_whois</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">java_last_exception_clear</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

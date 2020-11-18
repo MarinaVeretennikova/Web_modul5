@@ -1,0 +1,31 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>msg_send</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="msg-remove-queue.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="msg-set-queue.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="msg-send">msg_send</A></H1><A NAME="AEN71926"></A><P>(только PHP 4  CVS)</P>
+<p>msg_send - отправляет сообщение в очередь сообщений.<A NAME="AEN71929"></A></p><H2>Описание</H2>
+<p>bool <B>msg_send</B> (int queue, int msgtype, mixed message [, bool serialize [, bool blocking [, int errorcode]]])</p>
+<P><B>msg_send()</B> отправляет сообщение <TT><I>message</I></TT> типа <TT><I>msgtype</I></TT> (который ОБЯЗАН быть больше 0) в очередь сообщений
+<TT><I>queue</I></TT>.</P><P>Если сообщение слишком большое, чтобы вместиться в очередь, ваш скрипт 
+будет ожидать, пока другой процесс не прочтёт сообщения из очереди и не 
+освободит достаточно пространства для пересылки вашего сообщения.
+Это называется блокировкой; вы можете предотвратить блокировку, установив необязательный параметр <TT><I>blocking</I></TT> в
+<TT><B>FALSE</B>;</TT> в этом случае <B>msg_send()</B> немедленно возвратит <TT><B>FALSE</B></TT>, если сообщение слишком велико для очереди, и установит необязательный
+<TT><I>errorcode</I></TT> в EAGAIN, указывая на то, что вы должны попытаться отправить сообщение снова 
+немного позднее.</P><P>Необязательный параметр <TT><I>serialize</I></TT> контролирует то, как сообщение
+<TT><I>message</I></TT> отправляется. <TT><I>serialize</I></TT> по умолчанию имеет значение <TT><B>TRUE</B></TT>, т.е.
+<TT><I>message</I></TT> сериализуется с использованием того же механизма, что и в модуле сессии, перед 
+отправкой в очередь. Это позволяет отправлять сложные массивы и объекты 
+другим PHP-скриптам или, если вы используете WDDX-сериализатор, - любому WDDX-совместимому клиенту.</P>
+<P>При успешном выполнении структура очереди сообщений обновляется так: в <TT><I>msg_lspid</I></TT> устанавливается process-ID вызывающего&nbsp; процесса,
+<TT><I>msg_qnum</I></TT> увеличивается на 1, а в <TT><I>msg_stime</I></TT> устанавливается текущее время.</P>
+<P>См. также <A HREF="msg-remove-queue.html"><B>msg_remove_queue()</B></A>,
+<A HREF="msg-receive.html"><B>msg_receive()</B></A>, <A HREF="msg-stat-queue.html"><B>msg_stat_queue()</B></A> и
+<A HREF="msg-set-queue.html"><B>msg_set_queue()</B></A>.</P>
+<P>Эта функция была введена в PHP 4.3.0.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="msg-remove-queue.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="msg-set-queue.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">msg_remove_queue</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.sem.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">msg_set_queue</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,55 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>in_array</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="extract.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="key.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="in-array">in_array</A></H1><A NAME="AEN8357"></A><P>(PHP 4)</P>
+<p>in_array - возвращает <TT><B>TRUE</B></TT>, если значение существует в массиве.<A NAME="AEN8361"></A></p>
+<H2>Описание</H2><p>bool <B>in_array</B> (mixed needle, array haystack [, bool strict])</p>
+<P>Ищет <TT><I>haystack</I></TT> для <TT><I>needle</I></TT> и возвращает <TT><B>TRUE</B></TT>, если найдёт его в массиве,
+<TT><B>FALSE</B></TT> - в ином случае.</P><P>Если третий параметр <TT><I>strict</I></TT> установлен в
+<TT><B>TRUE</B></TT>, то функция <B>in_array()</B> также проверит <a href="../types.html">типы</a> <TT><I>needle</I></TT> в
+<TT><I>haystack</I></TT>.</P><BLOCKQUOTE><P><B>Примечание: </B>если <TT><I>needle</I></TT> это строка, сравнение выполняется с учётом регистра.</P></BLOCKQUOTE>
+<BLOCKQUOTE><P><B>Примечание: </B>в версиях PHP до 4.2.0 <TT><I>needle</I></TT> не мог быть массивом.</P></BLOCKQUOTE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN8394"></A><h5>Пример 1. in_array()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$os = array ("Mac", "NT", "Irix", "Linux");
+if (in_array ("Irix", $os)) {
+    print "Got Irix";
+}
+if (in_array ("mac", $os)) {
+    print "Got mac";
+}</PRE></TD></TR></TABLE><P>Второе условие не выполняется, так как <B>in_array()</B> чувствительна к регистру, поэтому программа выведет:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>Got Irix</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN8402"></A><h5>Пример 2. in_array() с примером строгой проверки</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$a = array('1.10', 12.4, 1.13);
+
+if (in_array('12.4', $a, TRUE))
+    echo "'12.4' found with strict check\n";
+if (in_array(1.13, $a, TRUE))
+    echo "1.13 found with strict check\n";
+?&#62;</PRE></TD></TR></TABLE><P>Будет выведено:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>1.13 found with strict check</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR>
+<TD><A NAME="AEN8409"></A><h5>Пример 3. in_array() с массивом</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+$a = array(array('p', 'h'), array('p', 'r'), 'o');
+
+if (in_array(array ('p', 'h'), $a))
+    echo "'ph' is found\n";
+if (in_array(array ('f', 'i'), $a))
+    echo "'fi' is not found\n";
+if (in_array('o', $a))
+    echo "'o' is found\n";
+?&#62;
+
+// Это выведет:
+
+'ph' is found
+'o' is found</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="array-search.html"><B>array_search()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="extract.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="key.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">extract</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.array.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">key</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

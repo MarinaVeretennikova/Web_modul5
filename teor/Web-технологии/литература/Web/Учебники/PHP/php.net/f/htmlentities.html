@@ -1,0 +1,33 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>htmlentities</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="hebrevc.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="htmlspecialchars.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="htmlentities">htmlentities</A></H1><A NAME="AEN77386"></A><P>(PHP 3, PHP 4)</P>
+<p>htmlentities - конвертирует символы в мнемоники HTML.<A NAME="AEN77389"></A></p><H2>Описание</H2>
+<p>string <B>htmlentities</B> (string string [, int quote_style [, string charset]])</p>
+<P>Эта функция идентична <A HREF="htmlspecialchars.html"><B>htmlspecialchars()</B></A>, но все символы, имеющие эквиваленты - мнемоники HTML, транслируются в эти 
+мнемоники. Как и <A HREF="htmlspecialchars.html"><B>htmlspecialchars()</B></A>, она принимает необязательный второй аргумент, указывающий, что должно 
+выполняться с одинарными и двойными кавычками. <TT><B>ENT_COMPAT</B></TT> (по умолчанию) будет конвертировать только двойные кавычки и оставит одинарные без 
+изменения. <TT><B>ENT_QUOTES</B></TT> будет конвертировать как двойные, так и одинарные кавычки, а <TT><B>ENT_NOQUOTES</B></TT>
+оставит и двойные, и одинарные кавычки без конвертации.</P>
+<P>В настоящее время по умолчанию используется набор символов ISO-8859-1. Поддержка второго аргумента была введена в PHP 3.0.17 и в PHP
+4.0.3.</P><P>Как и <A HREF="htmlspecialchars.html"><B>htmlspecialchars()</B></A>, она принимает необязательный третий аргумент, который определяет набор 
+символов, используемый при конвертации. Поддержка этого аргумента была введена в PHP 4.1.0.</P>
+<P>Обратная функция отсутствует, но вы можете создать её сами.  Вот пример того, как это сделать.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN77413"></A><h5>Пример 1. Реверсия htmlentities()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+function unhtmlentities ($string)
+{
+	$trans_tbl = get_html_translation_table (HTML_ENTITIES);
+	$trans_tbl = array_flip ($trans_tbl);
+	return strtr ($string, $trans_tbl);
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="htmlspecialchars.html"><B>htmlspecialchars()</B></A> и
+<A HREF="nl2br.html"><B>nl2br()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="hebrevc.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="htmlspecialchars.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">hebrevc</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.strings.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">htmlspecialchars</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

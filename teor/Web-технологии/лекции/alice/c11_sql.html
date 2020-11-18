@@ -1,0 +1,241 @@
+<html>
+<title>Выполняем SQL-запросы к базе данных</title>
+<meta name=keywords content="ODBC MS Access SQL Visual C C++ MFC CDatabase CRecordset CGI">
+
+<body>
+<table align=center width=90%>
+<tr><td>
+
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c11_show.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c11_show.html">Отображаем сообщения из базы</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c11_ex.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c11_ex.html">Упражнение</a>
+</table>
+
+
+
+<h3>Выполняем SQL-запросы к базе данных</h3>
+<p align=justify>
+База данных MS Access и многие другие локальные (или, как их еще называют, десктопные СУБД)
+не позволяют подключаться к ним по сети, также бывает, что невозможно осуществить
+соединение по порту базы данных из-за межсетевых экранов (firewall'ов, брендмауера или прокси-серверов).
+В таких случаях
+полезно иметь CGI-программу, которая позволит нам выполнять SQL-запросы через Internet.
+Такая CGI-программа - просто незаменимый инструмент при разработке интерактивных веб-сайтов
+на основе баз данных. HTML-форма для выполнения sql-запросов выглядит следующим образом:
+
+<form action="javascript:if(confirm('http://alice.stup.ac.ru/cgi-bin/sql_query.exe?dsn=gb  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/cgi-bin/sql_query.exe?dsn=gb'" tppabs="http://alice.stup.ac.ru/cgi-bin/sql_query.exe?dsn=gb">
+<input type=hidden name=dsn value=gb>
+
+<textarea name=query rows=10 cols=80></textarea>
+<input type=submit value="Отправить запрос">
+</form>
+
+HTML-код приведен ниже:
+<pre>
+&lt;form action="/cgi-bin/sql_query.exe"&gt;
+&lt;input type=hidden name=dsn value=gb&gt;
+
+&lt;textarea name=query rows=10 cols=80&gt;&lt;/textarea&gt;
+&lt;input type=submit value="Отправить запрос"&gt;
+&lt;/form&gt;
+</pre>
+
+Данная программа соединяется с источником данных dsn, выполняет sql-запрос
+query и возвращает пользователя на страницу с HTML-формой для SQL-запроса, в случае, если результатом 
+запроса не является таблица.
+Создайте еще один проект в среде MS Visual Studio с именем sql_query.
+Ниже приведен исходный код функции _tmain с комментариями:
+<pre>
+int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
+{
+
+        if (!AfxWinInit(::GetModuleHandle(NULL), NULL, ::GetCommandLine(), 0))
+        return -1;
+
+
+CString test;
+CDatabase  db;
+CString dsn, query;
+
+
+//получаем параметры из HTML-формы
+GetParamByName("dsn", dsn);
+GetParamByName("query", query);
+
+
+
+//соединяемся с базой
+try
+{
+ db.OpenEx("DSN="+dsn, CDatabase::noOdbcDialog);
+}
+catch(CDBException* e) 
+{
+ printError("Error: %s\nState: %s\n", e-&gt;m_strError, e-&gt;m_strStateNativeOrigin);
+ goto LABEL_END;
+}
+
+
+//определяем тип запроса
+//если SELECT, то результатом будет таблица, которую мы и печатаем
+//иначе просто выполняем запрос, ничего не печатая
+test=query;
+test.MakeUpper();
+if( test.Find("SELECT",0)==0 )
+{
+        
+        CRecordset rs(&db);
+        
+        //выполняем sql-запрос
+        try
+        {
+                rs.Open(CRecordset::dynaset,query);
+        }
+ catch(CDBException* e) 
+ {
+  printError("%s\n%s\nquery=%s\n", e-&gt;m_strError, e-&gt;m_strStateNativeOrigin, query);
+  goto LABEL_END;
+ }
+
+        //если запрос выполнен успешно, печатаем HTTP-заголовок
+        printf("Content-type: text/html\n\n");
+        
+        //и выводим таблицу
+        printf("&lt;table border=1&gt;&lt;tr&gt;\n");
+
+        CODBCFieldInfo info;
+        int i;
+
+        //печатаем названия колонок
+        for (i=0;i&lt;rs.GetODBCFieldCount();i++)
+        {
+        rs.GetODBCFieldInfo(i,info);
+  printf("&lt;td&gt;&lt;font color=green&gt;%s&lt;/font&gt;&lt;/td&gt;\n",info.m_strName);
+        }
+        printf("&lt;/tr&gt;");
+
+
+        //печатаем записи таблицы
+        while (!rs.IsEOF())
+        {
+                printf("&lt;tr&gt;\n");
+                CString col;
+                for (int i=0;i&lt;rs.GetODBCFieldCount();i++)
+                {
+                        rs.GetFieldValue(i,col);
+                        printf(" &lt;td&gt;%s\n",col);
+                }
+                rs.MoveNext();
+        }
+        printf("&lt;/table&gt;\n");
+
+        if (rs.IsOpen())
+                rs.Close();
+
+}
+
+else
+{
+ try
+ {
+  db.ExecuteSQL(query);
+ }
+ catch(CDBException* e)
+ {
+  printError("%s\n%s\nquery=%s", e-&gt;m_strError, e-&gt;m_strStateNativeOrigin, query);
+  goto LABEL_END;
+ }
+
+printf("Location: %s\n\n",getenv("HTTP_REFERER"));
+}
+
+
+
+LABEL_END:
+if (db.IsOpen())
+         db.Close();
+
+return 0;
+}
+</pre>
+
+Соберите этот проект и выполните несколько sql-запросов при помощи этой программы.
+
+
+
+
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?7909  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?7909'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?7909" target=_top>
+    <img src="itsoft-7909" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?7909" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?7909  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?7909'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?7909" target=_top>
+    <img src="itsoft-7909" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?7909" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="itsoft-7909-1" tppabs="http://rb1.rotabanner.com/cgi-bin/iframe/itsoft?7909"
+ width=468 height=60 marginwidth=0 marginheight=0 scrolling=no 
+ frameborder=0><a href="javascript:if(confirm('http://rb1.rotabanner.com/cgi-bin/href/itsoft?7909  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb1.rotabanner.com/cgi-bin/href/itsoft?7909'" tppabs="http://rb1.rotabanner.com/cgi-bin/href/itsoft?7909" 
+ target=_top><img src="itsoft-7909-2" tppabs="http://rb1.rotabanner.com/cgi-bin/banner/itsoft?7909" 
+ alt="RB1" width=468 height=60 border=0 ismap></a></iframe>
+
+</body>
+</html>

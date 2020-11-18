@@ -1,0 +1,41 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Иная Несовместимость</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR>
+<TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%"><A HREF="truefalse.html">Назад</A></TD>
+<th WIDTH="80%">Приложение C. Переход от PHP/FI 2 к PHP 3</th><TD WIDTH="10%" ALIGN="right">
+<A HREF="debugger.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="migration-other">Иная несовместимость</a></H1><UL><LI>
+<P> PHP 3.0 Apache-модуль больше не поддерживает версии Apache до 1.2. Необходим Apache 1.2 или более новый.</P></LI>
+<LI><P><A HREF="f/echo.html"><B>echo()</B></A> больше не поддерживает строку формата. Вместо неё используйте функцию
+<A HREF="f/printf.html"><B>printf()</B></A>.</P></LI><LI>
+<P>В PHP/FI 2.0 побочным эффектом было такое же действие <TT>$foo[0]</TT>, как и <TT>$foo</TT>. В PHP
+3.0 это не так.</P></LI><LI><P>Чтение массивов с <TT>$array[]</TT> больше не поддерживается.</P>
+<P>То есть вы не можете пройти по массиву с помощью цикла <TT>$data = $array[]</TT>. Вместо этого используйте
+<A HREF="f/current.html"><B>current()</B></A> и <A HREF="f/next.html">
+<B>next()</B></A>.</P><P>Также <TT>$array1[] = $array2</TT> не присоединяет значения <TT>$array2</TT> к
+<TT>$array1</TT>, а присоединяет <TT>$array2</TT> как последнее вхождение <TT>$array1</TT>. См. также
+поддержку многомерных массивов.</P></LI><LI><P><TT>"+"</TT> больше не перегружается как операция конкатенации строк, а конвертирует свои 
+аргументы в числа и выполняет числовое сложение. Для конкатенации используйте<TT> "."</TT>.</P></LI></UL>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><h5><A NAME="AEN88692"></A>Пример C-11. Перенос из 2.0: конкатенация строк</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>echo "1" + "1";</PRE></TD></TR></TABLE>
+<P>В PHP 2.0 это выведет/echo 11, в PHP 3.0 выведет 2. Вместо этого используйте:<TABLE BORDER="0" CELLPADDING="5"><TR><TD><PRE>echo "1"."1";</PRE></TD></TR></TABLE>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$a = 1;
+$b = 1;
+echo $a + $b;</PRE></TD></TR></TABLE>
+<P>Это будет echo 2 как в PHP 2.0, так и в 3.0.<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>$a = 1;
+$b = 1;
+echo $a.$b;</PRE></TD></TR></TABLE>
+<p>Это echo 11 в PHP 3.0.</TD></TR></TABLE></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD>
+</TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD
+><IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="truefalse.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="debugger.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Возвращаемые функциями значения
+<TT><B>TRUE</B></TT>/<TT><B>FALSE</B></TT></TD><th WIDTH="34%" VALIGN="top">
+<a href="appendix.migration.html">Вверх</a></th><TD ALIGN="right">Отладка PHP</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

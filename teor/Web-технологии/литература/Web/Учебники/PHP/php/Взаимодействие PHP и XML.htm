@@ -1,0 +1,748 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0057)http://www.intuit.ru/department/pl/plphp/14/plphp_14.html -->
+<HTML><HEAD><TITLE>INTUIT.ru::Интернет-Университет Информационных Технологий</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251"><LINK 
+href="Взаимодействие PHP и XML.files/printable.css" type=text/css 
+rel=stylesheet>
+<META content="MSHTML 6.00.2900.2180" name=GENERATOR></HEAD>
+<BODY leftMargin=0 topMargin=6 marginwidth="0" marginheight="6">
+<DIV align=left><SPAN style="FONT-WEIGHT: bold; COLOR: #000000">&nbsp;&nbsp; 
+<SPAN style="FONT-SIZE: 12pt">Интернет-Университет Информационных 
+Технологий</SPAN> </SPAN></DIV>&nbsp;&nbsp; <SPAN 
+style="COLOR: #330066; TEXT-DECORATION: underline" 
+align="rright">http://www.INTUIT.ru</SPAN> 
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD colSpan=3 height=8><IMG height=8 
+      src="Взаимодействие PHP и XML.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD class=orang colSpan=3 height=1><IMG height=1 
+      src="Взаимодействие PHP и XML.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD colSpan=3 height=8><IMG height=8 
+      src="Взаимодействие PHP и XML.files/empty.gif" width=1></TD></TR>
+  <TR vAlign=top>
+    <TD><IMG height=1 src="Взаимодействие PHP и XML.files/empty.gif" 
+    width=8></TD>
+    <TD><!-- content -->
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=head>Язык программирования PHP</TD></TR>
+        <TR>
+          <TD height=4><IMG height=4 
+            src="Взаимодействие PHP и XML.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD class=orang height=1><IMG height=1 
+            src="Взаимодействие PHP и XML.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Взаимодействие PHP и XML.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD><SPAN class=headsub>14. Лекция: Взаимодействие PHP и XML: версия 
+            для печати и PDA</SPAN> <BR><SPAN class=rtxt>Лекция знакомит с 
+            понятием объектной модели XML-документа и ее использованием в PHP. 
+            Установка расширения DOM XML. Обработка элементов XML документа с 
+            помощью функций PHP (получение значения узла, атрибута и т.п.) 
+            Пример – использование XML-базы данных в качестве альтернативы 
+            реляционной СУБД (реализация административного интерфейса каталога 
+            виртуального музея).</SPAN> </TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Взаимодействие PHP и XML.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD class=orang height=1><IMG height=1 
+            src="Взаимодействие PHP и XML.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Взаимодействие PHP и XML.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD>
+            <H3>Введение</H3>
+            <P>Прежде чем начать изучать способы работы PHP с <SPAN 
+            class=keyword>XML</SPAN>, полезно хотя бы вкратце ознакомиться с 
+            самой технологией <SPAN class=keyword>XML</SPAN>. В первой части 
+            лекции будут рассмотрены основные понятия этой технологии, базовый 
+            синтаксис XML–документов, области ее применения, а также понятие 
+            <SPAN class=keyword>DOM XML</SPAN>. Вторая часть лекции посвящена 
+            непосредственно вопросам обработки <SPAN class=keyword>XML</SPAN> 
+            при помощи PHP. Сюда входит <SPAN class=keyword>установка расширения 
+            DOM XML</SPAN>, описание и примеры использования некоторых 
+            встроенных в PHP функций для обработки XML-документов. </P>
+            <P>В качестве примера рассмотрим <SPAN 
+            class=keyword>XML</SPAN>-файл, содержащий описания личностей, и 
+            попытаемся научиться добавлять, удалять и находить личность или 
+            отдельные <SPAN class=keyword>элементы</SPAN> ее описания в этом 
+            файле с помощью PHP. </P>
+            <H3>XML</H3>
+            <H4>Основные понятия</H4>
+            <P><A name=keyword-context.1></A><SPAN class=keyword_def>XML 
+            (Extensible Markup Language)</SPAN> – это расширяемый язык разметки, 
+            являющийся подмножеством языка <SPAN class=keyword>SGML</SPAN> и 
+            поэтому имеющий общие с ним цели – разметка любого типа документов. 
+            </P>
+            <P><SPAN class=keyword>XML</SPAN> имеет много общего с языком 
+            разметки HTML, но они различны по своему назначению. HTML, как и 
+            <SPAN class=keyword>XML</SPAN>, является подмножеством <SPAN 
+            class=keyword>SGML</SPAN>, но предназначен только для отображения 
+            информации в браузере. <SPAN class=keyword>XML</SPAN> же 
+            предназначен для структурированного <SPAN class=keyword>хранения 
+            информации</SPAN> и не содержит никаких конструкций для отображения 
+            этих данных. </P>
+            <P>Для отображения данных, хранящихся в <SPAN 
+            class=keyword>XML</SPAN>-формате, используются различного рода 
+            преобразователи, например язык трансформаций XSLT. Комбинация <SPAN 
+            class=keyword>XML</SPAN><SPAN class=texample> +</SPAN> 
+            преобразователь позволяет достичь того же результата, что и 
+            использование HTML-форматированного отображения документа 
+            пользователю. Однако в случае использования <SPAN 
+            class=keyword>XML</SPAN> и преобразователя данные хранятся отдельно 
+            от их представления, т. е. от инструкций о том, как они должны 
+            отображаться. </P>
+            <P><SPAN class=keyword>XML</SPAN> очень похож на HTML по своему 
+            синтаксису, за исключением того, что теги <SPAN 
+            class=keyword>XML</SPAN> можно придумывать собственные. По аналогии 
+            с HTML внутри <SPAN class=keyword>XML</SPAN>-тегов можно 
+            использовать атрибуты. Каждый тег <SPAN class=keyword>XML</SPAN> 
+            должен иметь соответствующий <SPAN class=keyword>закрывающий 
+            тег</SPAN> (в HTML это не является обязательным). Каждый 
+            XML-документ начинается со строки декларации, например:</P>
+            <DIV class=example><PRE>&lt;?xml version='1.0' encoding='UTF-16'
+                    standalone='yes' ?&gt;
+</PRE></DIV>
+            <P>которая указывает на версию языка <SPAN class=keyword>XML</SPAN> 
+            (атрибут version), кодировку текста в этом документе (атрибут <SPAN 
+            class=texample>encoding</SPAN>) и показывает, существует ли документ 
+            сам по себе или зависит от других файлов (атрибут <SPAN 
+            class=texample>standalone</SPAN>). </P>
+            <P>Приведем пример XML-документа. </P>
+            <P>Пусть у нас имеется письмо. Содержащуюся в нем информацию можно 
+            хранить в следующем виде:</P>
+            <DIV class=example><PRE>&lt;?xml version='1.0' encoding='KOI8-R'
+                    standalone='yes' ?&gt;
+&lt;note title="Письмо"&gt;
+    &lt;to&gt;Маша Петрова&lt;/to&gt;
+    &lt;body&gt;Привет, Маша! 
+    Как у тебя дела? 
+    У меня все хорошо. 
+    Собираюсь приехать 
+    к тебе в гости.&lt;/body&gt;
+    &lt;from&gt;Вася Иванов&lt;/from&gt;
+&lt;/note&gt;
+</PRE></DIV>
+            <P>Сохранив этот файл, например, как <SPAN 
+            class=texample>note.xml</SPAN>, мы можем переслать его кому-нибудь, 
+            просмотреть с помощью браузера или использовать в программе. В 
+            частности, можно использовать этот XML-документ в своей 
+            PHP-программе. </P>
+            <P>С помощью <SPAN class=keyword>XML</SPAN> можно создать документ 
+            для описания любой информации. Для того чтобы другие разработчики 
+            могли создавать документы в этом же <SPAN 
+            class=keyword>XML</SPAN>-языке (т.е. используя те же теги) и чтобы 
+            можно было проверить правильность созданного документа (его 
+            соответствие выбранному <SPAN class=keyword>XML</SPAN>-языку), нужно 
+            формально описать используемый <SPAN class=keyword>XML</SPAN>-язык. 
+            Это делается с помощью механизмов <SPAN class=keyword>DTD (Document 
+            Type Definition)</SPAN> или <SPAN class=keyword>Schemas</SPAN>, 
+            которые дают возможность создавать шаблоны для новых типов 
+            документов. Для экспериментов в домашних условиях создавать <SPAN 
+            class=keyword>DTD</SPAN>-описания необязательно. Важно понимать, что 
+            <SPAN class=keyword>XML</SPAN> на самом деле вовсе не язык, а 
+            стандарт для создания языков, отвечающих критериям <SPAN 
+            class=keyword>XML</SPAN>. </P>
+            <P>Между XML-документами могут быть установлены ссылки, один 
+            документ может включать в себя другой, т.е. <SPAN 
+            class=keyword>структура документа</SPAN> может быть сколь угодно 
+            сложной. </P>
+            <P><SPAN class=keyword>Элементы</SPAN> в <SPAN 
+            class=keyword>XML</SPAN>-документах могут быть связаны между собой 
+            <SPAN class=keyword>отношениями родитель/потомок</SPAN> или 
+            родственник/родственник. В нашем примере <SPAN 
+            class=texample>&lt;note&gt;</SPAN> является <SPAN 
+            class=keyword>родителем</SPAN> <SPAN 
+            class=texample>&lt;to&gt;</SPAN> , который в свою очередь является 
+            <SPAN class=keyword>потомком</SPAN><SPAN class=texample> 
+            &lt;note&gt;</SPAN>, а <SPAN class=texample>&lt;to&gt;</SPAN>, <SPAN 
+            class=texample>&lt;body&gt;</SPAN> и <SPAN 
+            class=texample>&lt;from&gt;</SPAN> являются родственниками. 
+            Собственно текст тоже является <SPAN class=keyword>потомком 
+            </SPAN><SPAN class=keyword>элемента</SPAN>, например, «<SPAN 
+            class=texample>Вася Иванов</SPAN>» – <SPAN class=keyword>потомок 
+            </SPAN><SPAN class=keyword>элемента </SPAN><SPAN 
+            class=texample>&lt;from&gt;</SPAN>. Такая структура называется 
+            деревом; любые части дерева, имеющие <SPAN 
+            class=keyword>потомков</SPAN>, называются ветвями, а не имеющие – 
+            листьями.</P>
+            <H4>Объектная модель XML-документа</H4>
+            <P><SPAN class=keyword>Структура XML-документа</SPAN> очень 
+            напоминает <SPAN class=keyword>объектную модель</SPAN>: она 
+            иерархична, одни <SPAN class=keyword>элементы</SPAN> могут быть 
+            <SPAN class=keyword>потомками</SPAN> других. Любой <SPAN 
+            class=keyword>XML</SPAN>-документ можно представить в качестве <SPAN 
+            class=keyword>объектной модели</SPAN>. При этом одни <SPAN 
+            class=keyword>элементы</SPAN> (например, теги) становятся объектами, 
+            другие (атрибуты и текстовые <SPAN class=keyword>элементы</SPAN>) – 
+            их свойствами. Например, для документа</P>
+            <DIV class=example><PRE>&lt;parent&gt;
+  &lt;child id="text"&gt;Добрый день!&lt;/child&gt;
+&lt;/parent&gt;
+</PRE></DIV>
+            <P><SPAN class=keyword>объектная модель</SPAN> может выглядеть как 
+            показано на <A 
+            href="http://www.intuit.ru/department/pl/plphp/14/plphp_14.html#image.14.1">рис. 
+            14.1</A> </P>
+            <P>Прямоугольниками изображены объекты, овалом – свойства 
+            объектов.</P>
+            <P align=left><A name=image.14.1></A><IMG height=121 
+            alt="Пример объектной модели" 
+            src="Взаимодействие PHP и XML.files/14_1.gif" width=365><BR><B>Рис. 
+            14.1.</B>&nbsp; Пример объектной модели</P>
+            <P>Для каждого конкретного <SPAN class=keyword>XML</SPAN>-документа 
+            можно создать свою <SPAN class=keyword>объектную модель</SPAN>, но 
+            есть более общая <SPAN class=keyword>объектная модель</SPAN>, 
+            применимая для любого <SPAN class=keyword>XML</SPAN>-документа, вне 
+            зависимости от его <SPAN class=keyword>структуры</SPAN>. Эта модель 
+            называется <SPAN class=keyword>DOM (Document Object Model)</SPAN>. 
+            </P>
+            <P>Обычно <SPAN class=keyword>DOM</SPAN> добавляется как слой между 
+            <SPAN class=keyword>XML</SPAN>-парсером и приложением, которому 
+            требуется информация из документа. То есть парсер берет данные из 
+            документа и передает их в <SPAN class=keyword>DOM</SPAN>. Затем 
+            <SPAN class=keyword>DOM</SPAN> используется приложениями более 
+            высокого уровня. </P>
+            <P>Хотя <SPAN class=keyword>DOM</SPAN> расшифровывается как <SPAN 
+            class=keyword>«объектная модель документа»</SPAN>, работает <SPAN 
+            class=keyword>DOM</SPAN> преимущественно с интерфейсами, а не с 
+            объектами. Интерфейс – это соглашение, по которому поддерживаются 
+            определенные свойства и методы, применяемые к некоему объекту. На <A 
+            href="http://www.intuit.ru/department/pl/plphp/14/plphp_14.html#image.14.2">рис. 
+            14.2</A> показано, как приведенный выше <SPAN 
+            class=keyword>XML</SPAN>-документ представляется в <SPAN 
+            class=keyword>DOM</SPAN>:</P>
+            <P align=left><A name=image.14.2></A><IMG height=311 
+            alt="Пример DOM (Document Object Model)" 
+            src="Взаимодействие PHP и XML.files/14_2.gif" width=365><BR><B>Рис. 
+            14.2.</B>&nbsp; Пример DOM (Document Object Model)</P>
+            <P>Каждый прямоугольник представляет собой объект, имена в 
+            прямоугольниках соответствуют интерфейсам, которые будут реализованы 
+            каждым объектом. Каждый объект может реализовывать несколько 
+            подходящих интерфейсов. Например, объект представляющий символьные 
+            данные «<SPAN class=texample>Hello,World!</SPAN>», реализует 
+            интерфейсы <SPAN class=texample>Text</SPAN>, <SPAN 
+            class=texample>CharacterData</SPAN>, <SPAN 
+            class=texample>Node</SPAN>. </P>
+            <P>Преимущество модели <SPAN class=keyword>DOM</SPAN> состоит в том, 
+            что она универсальна, т.е. может применяться для документов любого 
+            типа. Ее использование может существенно упростить обработку <SPAN 
+            class=keyword>XML</SPAN>-документов. </P>
+            <P>Но вернемся к технологии <SPAN class=keyword>XML</SPAN>. Для чего 
+            она используется? В основном для <SPAN class=keyword>хранения и 
+            передачи данных</SPAN>. В последнее время <SPAN 
+            class=keyword>хранение данных в виде набора XML-файлов</SPAN> 
+            рассматривается даже как альтернатива реляционным базам данных. Но 
+            наиболее прогрессивные разработчики стремятся задействовать 
+            совместно <SPAN class=keyword>XML</SPAN> и базы данных, пользуясь 
+            достоинствами обеих технологий. В частности, <SPAN 
+            class=keyword>XML</SPAN> удобнее использовать для <SPAN 
+            class=keyword>передачи данных</SPAN>, а базу данных – для <SPAN 
+            class=keyword>их хранения</SPAN> и обработки. </P>
+            <P>Например, главная компания и ее филиал в другом городе имеют два 
+            разных сайта поддержки, написанных на PHP. На сайте филиала нужно 
+            сообщать обо всех основных событиях, происходящих в главной 
+            компании, и наоборот. Поэтому обе организации ежедневно обмениваются 
+            новостями в универсальном формате <SPAN class=keyword>XML</SPAN>, а 
+            эти файлы создаются и обрабатываются PHP-скриптами и отображаются на 
+            обоих сайтах.</P>
+            <H3>Взаимодействие PHP и XML</H3>
+            <H4>Расширения SAX и DOM XML</H4>
+            <P>Для работы с <SPAN class=keyword>XML</SPAN>-документами можно 
+            использовать язык PHP. В <B>PHP</B> для этого существует два модуля, 
+            реализующие два разных стандарта обработки <SPAN 
+            class=keyword>XML</SPAN>-данных: <SPAN class=keyword>SAX (Simple API 
+            for XML)</SPAN> и <SPAN class=keyword>DOM (Document Object 
+            Model)</SPAN>. </P>
+            <P>Стандарт <SPAN class=keyword>SAX</SPAN> (<A 
+            href="http://www.saxproject.org/" 
+            target=_blank>http://www.saxproject.org/</A>) не является стандартом 
+            W3C и описывает метод обработки <SPAN 
+            class=keyword>XML</SPAN>-документов для получения из них данных. То 
+            есть этот метод обработки <SPAN class=keyword>XML</SPAN>-документов 
+            позволит только прочитать данные из <SPAN 
+            class=keyword>XML</SPAN>-документа, и не более того. Создавать и 
+            изменять <SPAN class=keyword>XML</SPAN>-документы с его помощью 
+            невозможно. </P>
+            <P><A name=keyword-context.2></A><SPAN class=keyword_def>SAX</SPAN> 
+            основан на так называемом <SPAN class=keyword>событийном 
+            программировании</SPAN>. Его особенность заключается в том, что вы 
+            предоставляете парсеру <SPAN class=keyword>XML</SPAN> набор 
+            собственных функций, которые будут заниматься обработкой различных 
+            типов <SPAN class=keyword>XML</SPAN>-данных (<SPAN 
+            class=keyword>элементов</SPAN> (тегов), текста и т.п.), а парсер 
+            затем будет сам вызывать ваши функции в процессе обработки <SPAN 
+            class=keyword>XML</SPAN>-документа, передавая им найденные данные. 
+            Функции будут вызываться в той же последовательности, в которой 
+            соответствующие данные располагаются в <SPAN 
+            class=keyword>XML</SPAN>-документе. </P>
+            <P>Другим стандартом для обработки <SPAN 
+            class=keyword>XML</SPAN>-данных является <SPAN 
+            class=keyword>DOM</SPAN> – стандарт <B>W3C</B>, спецификацию 
+            которого можно найти на сайте консорциума (<A 
+            href="http://www.w3c.org/DOM" 
+            target=_blank>http://www.w3c.org/DOM</A>). В отличие от <SPAN 
+            class=keyword>SAX</SPAN>, этот метод позволяет производить любые 
+            операции с <SPAN class=keyword>XML</SPAN>-данными в достаточно 
+            удобной форме – представляя <SPAN class=keyword>XML</SPAN>-документ 
+            как дерево объектов. </P>
+            <P>Модуль, реализующий этот стандарт, называется <SPAN 
+            class=keyword>DOM XML</SPAN>. Он не входит в основной набор модулей 
+            PHP, но может быть установлен как расширение. API этого модуля 
+            старается как можно более точно следовать стандарту <SPAN 
+            class=keyword>DOM</SPAN> level 2. Кроме того, существует множество 
+            дополнительных функций. Эти функции включены для совместимости с 
+            предыдущими версиями расширения, и использовать их в новых скриптах 
+            не рекомендуется. Кроме того, у расширения <SPAN 
+            class=keyword>DOMXML</SPAN> есть проблемы с русской кодировкой. 
+            Парсер обрабатывает текст только в кодировке UTF-8, поэтому текст 
+            нужно каждый раз перекодировать с помощью функции <SPAN 
+            class=texample>iconv</SPAN>. Отсюда и необходимость установки 
+            расширения <SPAN class=texample>iconv</SPAN> вместе с <SPAN 
+            class=keyword>DOM XML</SPAN>. </P>
+            <P>Модуль <SPAN class=keyword>DOM XML</SPAN> является мощным и 
+            удобным в использовании средством обработки <SPAN 
+            class=keyword>XML</SPAN>-документов. В данной лекции мы будем 
+            рассматривать именно его.</P>
+            <H4>Установка расширения DOM XML</H4>
+            <P>Для того чтобы установить расширение <SPAN class=keyword>DOM 
+            XML</SPAN>, нужно сделать следующее.</P>
+            <UL>
+              <LI>В файле настроек PHP (php.ini) раскомментировать строку, 
+              касающуюся этого расширения (<SPAN 
+              class=texample>extension=php_domxml.dll</SPAN> для Windows, либо 
+              <SPAN class=texample>extension=php_domxml.so</SPAN> для 
+              Linux-платформ). 
+              <LI>Скопировать файл расширения (<SPAN 
+              class=texample>php_domxml.dll</SPAN> или <SPAN 
+              class=texample>php_domxml.so</SPAN>) в папку, где находятся 
+              расширения (<SPAN class=texample><SPAN 
+              class=keyword>extension_dir</SPAN></SPAN>). 
+              <LI>Подключить расширение <SPAN class=texample>iconv</SPAN> так 
+              же, как в пунктах выше (иногда это расширение устанавливается 
+              автоматически вместе с <SPAN class=texample>domxml</SPAN>). 
+              <LI>Скопировать дополнительные библиотеки в системную папку <SPAN 
+              class=texample>system</SPAN> (Windows 98) или <SPAN 
+              class=texample>system32</SPAN> (WindowsNT/2000/XP). В первую 
+              очередь это библиотеки <SPAN class=texample>libxml2</SPAN> и <SPAN 
+              class=texample>iconv</SPAN>, затем <SPAN 
+              class=texample>libxslt</SPAN>, <SPAN 
+              class=texample>libexslt</SPAN> и <SPAN class=texample>zlib</SPAN>. 
+
+              <LI>Перезапустить сервер.</LI></UL>
+            <P>Следует проверить, правильно ли установлена переменная <SPAN 
+            class=texample><SPAN class=keyword>extension_dir</SPAN></SPAN> в 
+            файле настройки <SPAN class=texample>php.ini</SPAN>. Если она не 
+            указывает на директорию, где находятся библиотеки расширений PHP, то 
+            ни одно из расширений подключить не удастся. </P>
+            <P>Чтобы проверить, установилось ли расширение, можно создать 
+            простейший скрипт, который будет выводить все настройки 
+            PHP-интерпретатора (это делает функция <SPAN class=texample><SPAN 
+            class=keyword>phpinfo()</SPAN></SPAN> ). Другой вариант – 
+            попробовать использовать какую-нибудь функцию из данного расширения. 
+            Например, можно попробовать получить версию используемой библиотеки 
+            libxml с помощью функции <SPAN class=texample><SPAN 
+            class=keyword>domxml_version()</SPAN></SPAN>. Но этот способ не 
+            очень хорош, поскольку расширение экспериментальное (это значит, что 
+            некоторые функции в каких-то определенных условиях могут и не 
+            работать), да и функции еще надо изучить, прежде чем их 
+            использовать.</P><A name=example.14.1></A>
+            <DIV class=example><PRE>&lt;?
+// выводит информацию о настройках PHP
+phpinfo(); 
+// отображает используемую версию
+// библиотеки libxml
+echo domxml_version();
+?&gt;
+</PRE><SPAN class=objectName>Пример 14.1. Проверка, установлено ли 
+            расширение DOM XML</SPAN></DIV>
+            <H3>Взаимодействие PHP и XML посредством DOM XML</H3>
+            <P>Что происходит, если взаимодействие PHP и <SPAN 
+            class=keyword>XML</SPAN> осуществляется с помощью <SPAN 
+            class=keyword>объектной модели</SPAN> стандарта <SPAN 
+            class=keyword>DOM</SPAN>? Модуль <SPAN class=keyword>DOM XML</SPAN> 
+            определяет в PHP несколько классов, таких как <SPAN 
+            class=keyword>DomNode</SPAN>, <SPAN 
+            class=keyword>DomDocument</SPAN>, <SPAN 
+            class=keyword>DomElement</SPAN>, <SPAN class=keyword>DomText</SPAN> 
+            и <SPAN class=keyword>DomAttribute</SPAN>, большинство из которых 
+            идут из ядра стандарта <SPAN class=keyword>DOM</SPAN>. Почти для 
+            всех классов (в частности, для перечисленных выше) класс <SPAN 
+            class=keyword>DomNode</SPAN> является <SPAN 
+            class=keyword>родительским</SPAN>, поэтому его свойства и методы 
+            наследуются всеми остальными классами. </P>
+            <P>Если рассмотреть произвольный <SPAN 
+            class=keyword>XML</SPAN>-документ, то классу <SPAN 
+            class=keyword>DomDocument</SPAN> будет соответствовать сам этот 
+            документ, классу <SPAN class=keyword>DomElement</SPAN> – каждый 
+            <SPAN class=keyword>XML</SPAN>-тег, классу <SPAN 
+            class=keyword>DomAttribute</SPAN> – атрибуты тегов, а классу <SPAN 
+            class=keyword>DomText</SPAN> – содержание XML-<SPAN 
+            class=keyword>элементов</SPAN>. В то же время классу <SPAN 
+            class=keyword>DomNode</SPAN> будет соответствовать каждый из 
+            перечисленных <SPAN class=keyword>элементов </SPAN><SPAN 
+            class=keyword>XML</SPAN>-документа. </P>
+            <P>Рассмотрим коллекцию, содержащую описания персон. Если каждую из 
+            них мы описываем с помощью таких характеристик, как фамилия, имя, 
+            дата рождения и электронный адрес, то <SPAN 
+            class=keyword>структура</SPAN> коллекции «<SPAN 
+            class=texample>Личности</SPAN>», где хранится информация обо всех 
+            известных нам персонах, может быть представлена следующим 
+            образом.</P><A name=example.14.2></A>
+            <DIV class=example><PRE>&lt;?xml version="1.0"?&gt;
+&lt;collection&gt;
+    &lt;person id="10"&gt;
+        &lt;name&gt;
+            &lt;first&gt;Nick&lt;/first&gt;
+            &lt;last&gt;Petrov&lt;/last&gt;
+        &lt;/name&gt;
+        &lt;birth&gt;
+            &lt;day&gt;23&lt;/day&gt;
+            &lt;month&gt;12&lt;/month&gt;
+            &lt;year&gt;89&lt;/year&gt;
+        &lt;/birth&gt;
+        &lt;email&gt; nick@ngs.ru 
+        &lt;/email&gt;
+    &lt;/person&gt;
+    &lt;person id="20"&gt;
+        &lt;name&gt;
+            &lt;first&gt;Bob&lt;/first&gt;
+            &lt;last&gt;Ivanov&lt;/last&gt;
+        &lt;/name&gt;
+        &lt;birth&gt;
+            &lt;day&gt;03&lt;/day&gt;
+            &lt;month&gt;05&lt;/month&gt;
+            &lt;year&gt;90&lt;/year&gt;
+        &lt;/birth&gt;
+        &lt;email&gt; bob@ngs.ru 
+        &lt;/email&gt;
+    &lt;/person&gt;
+&lt;/collection&gt;
+</PRE><SPAN class=objectName>Пример 14.2. Коллекция «Личности» в 
+            виде XML-файла (persons.xml)</SPAN></DIV>
+            <P>В дальнейшем, приводя примеры, мы будем использовать этот файл. 
+            </P>
+            <P>Нам необходимо научиться читать, добавлять, изменять и искать 
+            информацию, находящуюся в <SPAN class=keyword>XML</SPAN>-файлах. 
+</P>
+            <H4>Перевод данных XML-файла в объекты и классы PHP</H4>
+            <P>Первое, что нужно сделать, если мы хотим работать с <SPAN 
+            class=keyword>XML</SPAN>-данными в PHP при помощи расширения <SPAN 
+            class=keyword>DOM XML</SPAN>, это перевести имеющиеся данные в 
+            объекты и классы <SPAN class=keyword>DOM</SPAN>. Это можно сделать 
+            несколькими способами.</P>
+            <OL>
+              <LI>С помощью функции <SPAN class=texample><SPAN 
+              class=keyword>domxml_open_mem</SPAN></SPAN>. 
+              <P>Синтаксис: </P>
+              <DIV class=example><PRE>object domxml_open_mem (string str)
+</PRE></DIV>В качестве параметра эта функция принимает строку 
+              <SPAN class=texample>str</SPAN>, содержащую <SPAN 
+              class=keyword>XML</SPAN>-документ. Результатом ее работы является 
+              объект класса, называемого <SPAN class=keyword>DOMDocument</SPAN>. 
+
+              <LI>С помощью функции <SPAN class=texample><SPAN 
+              class=keyword>domxml_open_file</SPAN></SPAN>. 
+              <P>Синтаксис: </P>
+              <DIV class=example><PRE>object domxml_open_file (string filename)</PRE></DIV>Эта 
+              функция обрабатывает <SPAN class=keyword>XML</SPAN>-файл, имя 
+              которого задается параметром filename, и переводит его в объект 
+              класса <SPAN class=keyword>DOMDocument</SPAN>. Доступ к файлу 
+              производится только на чтение. </LI></OL>
+            <P>Такие функции, как <SPAN class=texample><SPAN 
+            class=keyword>domxml_open_mem()</SPAN></SPAN> и <SPAN 
+            class=texample><SPAN class=keyword>domxml_open_file()</SPAN></SPAN>, 
+            как правило, нужно вызывать перед вызовом любых других функций, 
+            связанных с расширением <SPAN class=keyword>DOM</SPAN>. </P>
+            <P>Эти функции преобразуют <SPAN class=keyword>XML</SPAN>-файл в 
+            дерево объектов. К таким объектам можно обращаться с помощью 
+            различных методов. В частности, для выделения <SPAN 
+            class=keyword>корневого элемента</SPAN> используется метод <SPAN 
+            class=texample><SPAN 
+            class=keyword>DomDocument-&gt;document_element()</SPAN></SPAN>. </P>
+            <P>Еще существует функция <SPAN class=texample><SPAN 
+            class=keyword>domxml_new_doc(string version)</SPAN></SPAN>, которая 
+            создает новый пустой <SPAN class=keyword>XML</SPAN>-документ. Ее 
+            параметром является номер версии создаваемого документа. Но ее мы 
+            касаться не будем, а будем считать, что <SPAN 
+            class=keyword>XML</SPAN>-файл уже создан.</P><A 
+            name=example.14.3></A>
+            <DIV class=example><PRE>&lt;?
+//считываем файл "persons.xml" в строку
+$xmlstr = join('',file('persons.xml'));
+// переводим строку с xml-файлом
+// в дерево объектов. Если операция
+// прошла неудачно, то выводим
+// ошибку и прекращаем работу.
+if(!$dom = domxml_open_mem($xmlstr)) {
+  echo "Ошибка при разборе документа\n";
+  exit;
+}
+// можно посмотреть, как выглядит
+// этот объект
+print_r($dom);
+echo "&lt;hr&gt;";
+// выделяем корневой элемент
+// дерева объектов.
+// В нашем случае это будет
+// элемент &lt;collection&gt;
+$root = $dom-&gt;document_element();
+print_r($root);
+echo "&lt;hr&gt;";
+?&gt;
+</PRE><SPAN class=objectName>Пример 14.3. Перевод XML-файла в дерево 
+            объектов PHP и выделение корневого элемента</SPAN></DIV>
+            <P>Итак, каждому <SPAN class=keyword>элементу</SPAN> <SPAN 
+            class=keyword>XML</SPAN>-файла мы поставили в соответствие какой-то 
+            объект. Теперь нужно научиться перемещаться по дереву объектов и 
+            обращаться с этими объектами: получать и изменять их значения, 
+            находить их <SPAN class=keyword>потомков</SPAN> и предков, удалять 
+            объекты. </P>
+            <H4>Обход дерева объектов</H4>
+            <P>Для получения значения текущего узла (вне зависимости от его 
+            типа) используют метод <SPAN class=texample><SPAN 
+            class=keyword>DomNode-&gt;node_value()</SPAN></SPAN> или <SPAN 
+            class=texample><SPAN 
+            class=keyword>DomNode-&gt;get_content()</SPAN></SPAN> для получения 
+            содержимого узла. </P>
+            <P>Для получения значения атрибута используется метод <SPAN 
+            class=texample><SPAN class=keyword>DomElement-&gt;get_attribute 
+            (attr_name)</SPAN></SPAN>. А метод <SPAN class=texample><SPAN 
+            class=keyword>DomNode-&gt;child_nodes()</SPAN></SPAN> возвращает 
+            массив <SPAN class=keyword>потомков</SPAN> данного узла. </P>
+            <P>Для того чтобы сделать обход дерева объектов, полезно еще уметь 
+            различать объекты по типам, т.е. определять, является ли узел <SPAN 
+            class=keyword>элементом</SPAN> (тегом), текстом, атрибутом и т.п. 
+            Для этого используются специальные константы. <SPAN 
+            class=texample><SPAN class=keyword>XML_ELEMENT_NODE</SPAN></SPAN> 
+            определяет, является ли узел <SPAN class=keyword>элементом</SPAN>, 
+            <SPAN class=texample><SPAN 
+            class=keyword>XML_ATTRIBUTE_NODE</SPAN></SPAN> определяет, является 
+            ли узел атрибутом, и <SPAN class=texample><SPAN 
+            class=keyword>XML_TEXT_NODE</SPAN></SPAN> определяет, является ли 
+            узел куском текста. Эти константы имеют целочисленные значения <SPAN 
+            class=texample>1</SPAN>, <SPAN class=texample>2</SPAN> и <SPAN 
+            class=texample>3</SPAN> соответственно. Использование этих констант 
+            полезно, поскольку переводы строки, применяемые для удобочитаемости 
+            <SPAN class=keyword>XML</SPAN>-файлов, тоже становятся узлами.</P><A 
+            name=example.14.4></A>
+            <DIV class=example><PRE>&lt;?
+// сначала делаем то же,
+// что и в предыдущем примере
+$xmlstr = join('',file('persons.xml'));
+if(!$dom = domxml_open_mem($xmlstr)) {
+  echo "Ошибка при разборе документа\n";
+  exit;
+}
+$root = $dom-&gt;document_element();
+// Получаем массив потомков
+// родительского узла
+// (в нашем случае это массив &lt;person&gt;)
+$nodes = $root-&gt;child_nodes();
+print_r($nodes);
+echo "&lt;hr&gt;";
+// Начинаем обработку каждого
+// узла в массиве
+foreach($nodes as $node){
+    // Если текущий узел – один
+    // из узлов &lt;person&gt;, то
+    // продолжаем ее обработку,
+    // чтобы получить информацию
+    // об этой личности
+    if ($node-&gt;tagname=='person'){
+    // Создаем массив, куда
+    // будем собирать информацию
+    // о рассматриваемой личности
+    $currentPers = array();
+    // Получаем id личности,
+    // который хранится в атрибуте 'id'
+    $currentPers['id'] = 
+          $node-&gt;get_attribute('id');
+    // Получаем массив потомков
+    // &lt;person&gt;. Это вся
+    // информация о личности
+    // (&lt;name&gt;,&lt;birth&gt; и т.д.)
+    $persons_info = 
+                $node-&gt;child_nodes();
+    // Перебираем все дочерние
+    // узлы $node
+    foreach ($persons_info as $info){
+    // проверяем, является ли узел
+    // элементом (xml-тегом)
+    if ($info-&gt;type==
+                  XML_ELEMENT_NODE) {
+        // тогда метод tagname
+        // возвратит имя этого  
+        // элемента (тега), а метод
+        // get_content() –
+        // его содержимое
+        $currentPers[$info-&gt;tagname] =
+                 $info-&gt;get_content();
+        }
+    }
+    // выводим на экран полученные
+    // массивы
+    print_r ($currentPers);
+                                        
+    echo "&lt;br&gt;";
+    }
+}
+?&gt;
+</PRE><SPAN class=objectName>Пример 14.4. Обход дерева 
+            XML</SPAN></DIV>
+            <P>Итак, мы научились обходить дерево <SPAN 
+            class=keyword>XML</SPAN>. Теперь можно попытаться что-нибудь найти в 
+            <SPAN class=keyword>XML</SPAN>-файле. Правда, делать это не совсем 
+            удобно опять же из-за переносов строк, которые мы использовали при 
+            написании <SPAN class=keyword>XML</SPAN>-файла. Пусть наш <SPAN 
+            class=keyword>XML</SPAN>-файл записан в строку, а точнее, в нем есть 
+            следующая строка: </P>
+            <DIV class=example><PRE>...
+&lt;person id="20"&gt;
+  &lt;name&gt;
+    &lt;first&gt;Иван&lt;/first&gt;
+    &lt;last&gt;Иванов&lt;/last&gt;
+  &lt;/name&gt;
+...
+</PRE></DIV>
+            <P>Тогда в наш предыдущий пример вставим (после вывода на экран 
+            полученных массивов) строчку для поиска электронного адреса Ивана 
+            Иванова.</P>
+            <DIV class=example><PRE>...
+    $str = $currentPers["email"];
+    if ($currentPers["name"] ==
+                    "Иван Иванов" )
+        echo "Здравствуйте Иван! " .
+        "Ваш e-mail $str";
+...
+</PRE></DIV>
+            <H4>Добавление новых элементов в XML-документ</H4>
+            <P>Далее разберем задачу, как можно добавить в нашу базу данных 
+            новую личность средствами php. </P>
+            <P>Сначала нужно скопировать описание личности (считаем, что все 
+            личности описываются с помощью стандартного набора характеристик, 
+            как в файле <SPAN class=texample>persons.xml</SPAN> ). Это делается 
+            с помощью метода <SPAN class=texample><SPAN 
+            class=keyword>DomNode-&gt;clone_node()</SPAN></SPAN>. Таким образом, 
+            мы клонируем <SPAN class=keyword>элемент</SPAN> <SPAN 
+            class=texample>&lt;person&gt;</SPAN> и все его внутренние <SPAN 
+            class=keyword>элементы</SPAN> (содержание тегов не копируется). </P>
+            <P>Потом можно установить какие-нибудь значения для <SPAN 
+            class=keyword>элементов</SPAN> описания личности. Например, задать 
+            имя человека, дату его рождения и т.п. В конце нужно записать 
+            полученное описание личности в качестве <SPAN class=keyword>потомка 
+            </SPAN><SPAN class=keyword>корневого элемента</SPAN> в дерево <SPAN 
+            class=keyword>DOM</SPAN> с помощью метода <SPAN class=texample><SPAN 
+            class=keyword>DomNode-&gt;append_child(new_node)</SPAN></SPAN>, где 
+            в качестве параметра передается созданный объект (новый узел). </P>
+            <P>В PHP до версии 4.3 перед добавлением <SPAN 
+            class=keyword>потомка</SPAN> к узлу с помощью данной функции этот 
+            <SPAN class=keyword>потомок</SPAN> сначала копировался. Таким 
+            образом, новый узел являлся новой копией, которая могла изменяться 
+            без изменения узла, переданного как параметр в эту функцию. В более 
+            поздних версиях PHP новый узел удаляется из существующего контекста, 
+            если он уже есть в дереве. Такое поведение соответствует 
+            спецификациям W3C. </P>
+            <P>Для удаления узла можно воспользоваться методом, применив его к 
+            узлу, который требуется удалить, т.е. <SPAN class=texample><SPAN 
+            class=keyword>DomNode-&gt;unlink_node()</SPAN></SPAN>.</P><A 
+            name=example.14.5></A>
+            <DIV class=example><PRE>// Для того чтобы добавить описание
+// новой личности, нужно знать,
+// как описывается каждая личность.
+// Выбираем элемент person,
+// который содержит описание личности
+$elements = $dom-&gt;get_elements_by_tagname("person");
+$element = $elements[0]; 
+//вычисляем родителя и потомков
+$parent = $element-&gt;parent_node();
+$children = $element-&gt;child_nodes();
+// клонируем элемент person
+$person = $element-&gt;clone_node();
+// устанавливаем новой
+// личности идентификатор
+$attr = $person-&gt;set_attribute("id", "30");
+// если у личности были потомки,
+// то их тоже надо клонировать
+foreach ($children as $child){
+  //клонируем ребенка
+  $node = $child-&gt;clone_node();
+  //получаем массив внуков
+  $grand_children = $child-&gt;child_nodes();
+  // если ребенок имеет потомков,
+  //т.е. массив внуков не пуст, то
+  if (count($grand_children)&lt;&gt;1){
+       //клонируем каждого внука
+       //и присоединяем к уже
+       //клонированному ребенку
+    foreach($grand_children as $grand_child){
+     $lastnode = $grand_child-&gt;clone_node();
+       //записываем в нужные теги
+       //подходящие значения
+      if ($grand_child-&gt;tagname=="first")
+       $cont = $lastnode-&gt;set_content("Nina");
+      if ($grand_child-&gt;tagname=="last")
+       $cont = $lastnode-&gt;set_content("Saveljeva");
+      if ($grand_child-&gt;tagname=="day")
+       $cont = $lastnode-&gt;set_content("7");
+      if ($grand_child-&gt;tagname=="month")
+       $cont = $lastnode-&gt;set_content("06");
+      if ($grand_child-&gt;tagname=="year")
+       $cont = $lastnode-&gt;set_content("1981");
+      $newlastnode = $node-&gt;append_child($lastnode);
+        }
+    }
+    if ($child-&gt;tagname=="email") {
+        $cont = $node-&gt;set_content("help@intuit.ru");
+    }
+    $newnode2 = $person-&gt;append_child($node);
+}
+$newnode = $parent-&gt;append_child($person);
+//dump_mem создает XML-документ из dom
+//представления
+echo "&lt;PRE&gt;";
+$xmlfile = $dom-&gt;dump_mem(true);
+// посмотрим в браузере,
+// что получилось
+echo htmlentities($xmlfile);
+echo "&lt;/PRE&gt;";
+// запишем полученный XML-файл
+// в файл "test.xml"
+$h = fopen("test.xml","a");
+if (!fwrite($h, $xmlfile)) {
+        print "Cannot write " . "to file ($filename)";
+        exit;
+    }
+}
+</PRE><SPAN class=objectName>Пример 14.5. Добавление описания новой 
+            личности в каталог</SPAN></DIV>
+            <H3>Заключение</H3>
+            <P>Итак, мы изучили ряд функций, позволяющих манипулировать данными, 
+            хранящимися в <SPAN class=keyword>XML</SPAN>-формате. Это, конечно 
+            же, далеко не полный перечень существующих функций. В версии PHP5 он 
+            значительно усовершенствован и в большей степени соответствует 
+            стандарту <SPAN class=keyword>DOM</SPAN>. Тем не менее знание 
+            приведенных здесь основных функций может оказаться полезным при 
+            решении конкретных прикладных задач. </P></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Взаимодействие PHP и XML.files/empty.gif" 
+      width=1></TD></TR></TBODY></TABLE><!-- /content --></TD>
+    <TD><IMG height=1 src="Взаимодействие PHP и XML.files/empty.gif" 
+    width=8></TD></TR></TBODY></TABLE><!-- /bottom -->
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD class=orang height=1><IMG height=1 
+      src="Взаимодействие PHP и XML.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD class=ltxt align=middle>© 2003-2005 INTUIT.ru. Все права 
+  защищены.</TD></TR></TBODY></TABLE><!-- /bottom --></BODY></HTML>

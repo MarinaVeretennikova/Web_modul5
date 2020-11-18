@@ -1,0 +1,104 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Серверы IIS/PWS</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="fhttpd.html">Назад</A></TD><th WIDTH="80%">Глава 2. Инсталяция</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="netsc-enterpr.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="install.iis">Серверы IIS/PWS</A></H1>
+<P>В этом разделе собраны замечания, касающиеся IIS (MicrosoftInternet Information Server), установки PHP на
+<A HREF="#install.iis.iis3">PWS/IIS 3</A>, <A HREF="#install.iis.pws4">PWS 4 или новее</A> и на
+<A HREF="#install.iis.iis4">IIS 4 или новее</A>.</P>
+<H2><A NAME="install.iis.iis3">Windows и PWS/IIS 3</A></H2>
+<P>Рекомендуемый метод для конфигурирования этих серверов - использовать REG-файл, включённый в дистрибутив
+(pws-php4cgi.reg). Вы может редактировать этот файл, чтобы обеспечить 
+соответствие директорий установки расширений и PHP вашей конфигурации. Либо 
+вы можете следовать ниже указанным шагам и сделать это самостоятельно.</P>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th>Предупреждение!</th></TR><TR><TD>
+<P>Для выполнения этих шагов необходима прямая работа с Windows
+registry. Единственная ошибка может привести систему в нестабильное 
+состояние. Мы настоятельно рекомендуем сделать сначала копию реестра. 
+Команда PHP Development не несёт ответственности за ущерб, причинённый вашему реестру.</P></TD></TR></TABLE>
+<UL><LI><P>Запустите Regedit.</P></LI><LI><P>Найдите: <TT>HKEY_LOCAL_MACHINE /System/CurrentControlSet /Services /W3Svc /Parameters/ScriptMap</TT>.</P>
+</LI><LI><P>В меню Еdit выберите: <TT>New-&#62;String Value</TT>.</P></LI>
+<LI><P>Впечатайте расширение файлов, которое вы хотите использовать для ваших php-скриптов. Например, <TT>.php</TT>
+</P></LI><LI><P>Дважды щёлкните на новом строковом значении и введите путь к
+<TT>php.exe</TT> в поле значения данных. Например, <TT>c:\php\php.exe</TT>.</P></LI>
+<LI><P>Повторите эти шаги для каждого расширения, которое вы хотите ассоциировать с PHP-скриптами.</P></LI></UL>
+<P>Следующие шаги не влияют на инсталяцию web-сервера и выполняются только в 
+том случае, если вы хотите исполнять ваши php-скрипты из командной строки (пример: run
+<TT>c:\myscripts\test.php</TT>) или двойным щелчком на скрипте в окне просмотра директории. Вы можете 
+пропустить эти шаги, если предпочитаете загружать PHP-файлы в текстовый редактор, где можете дважды щёлкнуть по ним.</P>
+<UL><LI><P>Найдите: <TT>HKEY_CLASSES_ROOT</TT></P></LI><LI><P>В меню Еdit выберите: <TT>New-&#62;Key</TT></P></LI>
+<LI><P>Назовите ключ для расширения, установленного вами в предыдущем разделе. Пример: <TT>.php</TT></P></LI>
+<LI><P>Выделите новый ключ, в правой панели дважды щёлкните "default value" и введите <TT>phpfile</TT>.</P></LI>
+<LI><P>Повторите последний шаг для каждого расширения, установленного в предыдущем разделе.</P></LI>
+<LI><P>Теперь создайте новый <TT>New-&#62;Key</TT> под <TT>HKEY_CLASSES_ROOT</TT> и назовите его
+<TT>phpfile</TT>.</P></LI><LI><P>Выделите новый ключ <TT>phpfile</TT>, в правой панели дважды щёлкните "default value" и введите
+<TT>PHP Script</TT>.</P></LI><LI><P>Щёлкните правой кнопкой мыши на ключе <TT>phpfile</TT> и выберите
+<TT>New-&#62;Key</TT>, назовите его <TT>Shell</TT>.</P></LI>
+<LI><P>Щёлкните правой кнопкой мыши на ключе <TT>Shell</TT> и выберите <TT>New-&#62;Key</TT>, назовите
+его<TT> open</TT>.</P></LI><LI><P>Щёлкните правой кнопкой мыши на ключе<TT> open</TT>, выберите
+<TT>New-&#62;Key</TT>, назовите его <TT>command</TT>.</P></LI><LI><P>Выделите новый ключ
+<TT>command</TT>, в правой панели дважды щёлкните "default value" и введите путь к <TT>php.exe</TT>.
+Пример: <TT>c:\php\php.exe -q %1</TT>. (не забудьте <TT>%1</TT>).</P></LI><LI><P>Выйдите из Regedit.</P></LI>
+<LI><P>При использовании PWS под Windows перезагрузите компьютер для перезагрузки реестра.</P></LI></UL>
+<P>Пользователи PWS и IIS 3 теперь имеют полностью работоспособную систему. Пользователи IIS 3
+могут использовать nifty-<a href="http://www.genusa.com/iis/iiscfg.html">утилиту</a> 
+от Steven Genusa для конфигурирования отображения скриптов.</P>
+<H2><A NAME="install.iis.pws4">Windows и PWS 4 или новее</A></H2>
+<P>При установке PHP под Windows с PWS 4 или более новой версией у вас есть две опции.<br>
+Одна - установить PHP CGI-бинарный, другая - использовать ISAPI-модуль/библиотеку DLL.</P>
+<P>Если вы избрали CGI binary, сделайте следующее:<UL><LI><P>Отредактируйте включённый файл
+<TT>pws-php4cgi.reg</TT> (найдите его в директории SAPI), чтобы отразить местонахождение вашего php.exe. 
+Обратные слэши должны escape-ироваться, например: <TT>[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\w3svc\parameters\Script Map] ".php"="c:\\php\\php.exe"</TT>
+</P></LI><LI><P>В PWS Manager щёлкните правой кнопкой мыши на директории, в которую вы 
+хотите добавить поддержку PHP и выберите Properties. Отметьте бокс 'Execute' и подтвердите изменения.</P></LI>
+</UL><P>Если вы избрали ISAPI-модель, сделайте следующее:<UL><LI><P>Отредактируйте включённый файл
+<TT> pws-php4isapi.reg</TT> (найдите его в директории SAPI), чтобы отразить местонахождение вашей php4isapi.dll.
+Обратные слэши должны escape-ироваться, например:
+<TT>[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\w3svc\parameters\Script Map] ".php"="c:\\php\\sapi\\php4isapi.dll"</TT>
+</P></LI><LI><P>В PWS Manager щёлкните правой кнопкой мыши на директории, в которую вы 
+хотите добавить поддержку PHP и выберите Properties. Отметьте бокс 'Execute' и подтвердите изменения.</P></LI></UL>
+<H2><A NAME="install.iis.iis4">Windows NT/2000/XP и IIS 4 или новее</A></H2>
+<P>Для установки PHP на NT/2000/XP Server с сервером IIS 4 или более новым 
+следуйте данным инструкциям. Вы можете установить PHP как CGI binary (php.exe) или как ISAPI-модуль.</P>
+<P>В любом случае вы должны открыть Microsoft Management
+Console (может называться 'Internet Services Manager' в разделе Windows NT 4.0 Option Pack или в Control
+Panel=&#62;Administrative Tools в Windows 2000/XP). Затем щёлкните правой 
+кнопкой мыши на узле вашего Web-сервера (вероятнее всего, он называется 'Default Web Server') и выберите 'Properties'.</P>
+<P>Если вы хотите использовать CGI binary, сделайте следующее:<UL><LI>
+<P>Под 'Contents Directory', 'Virtual Directory' или
+'Directory' щёлкните кнопку 'Configuration' и перейдите на вкладку App Mappings.</P></LI>
+<LI><P>Щёлкните Add и в боксе Executable введите: <TT>c:\php\php.exe</TT> (если считать, что вы unzip PHP в директории in c:\php\).</P>
+</LI><LI><P>В боксе Extension введите расширение имени файла, которое вы хотите 
+ассоциировать с PHP-скриптами. Оставьте поле 'Method exclusions'
+чистым и отметьте переключатель Script engine.<br>
+Вы можете также отметить переключатель 'check that file exists' - что 
+несколько замедлит работу, IIS (или PWS) будет проверять, что файл скрипта 
+существует, и сортировать аутентификацию перед запуском php.
+Это означает, что вы получите ошибку в стиле 404 вместо cgi-ошибки, 
+сообщающую о том, что php не вывел никаких данных.</P>
+<P>Вы обязаны выполнить предыдущий шаг для каждого расширения имён файлов, 
+которое вы хотите ассоциировать с PHP-скриптами. <TT>.php</TT> и <TT>.phtml</TT> это обычные расширения, хотя может понадобиться и <TT>.php3</TT>
+для соответствующих приложений РНР 3.</P></LI><LI><P>Установите уровень безопасности. (В Internet
+Service Manager) и, если ваш NT Server использует файловую систему NTFS,
+добавьте право execute для I_USR_ в директории, которая содержит <TT>php.exe</TT>.</P></LI></UL>
+<P>Для использования ISAPI-модуля сделайте следующее:<UL><LI>
+<P>Если вы не хотите выполнять аутентификацию HTTP с использованием PHP,
+вы можете (и должны) пропустить этот шаг. Под ISAPI Filters добавьте 
+новый ISAPI-фильтр. Используйте PHP  в качестве имени фильтра и укажите путь к php4isapi.dll.</P></LI>
+<LI><P>Под 'Contents Directory' щёлкните кнопку 'Configuration'.
+Добавьте новое вхождение в Application Mappings. Используйте путь к php4isapi.dll как к Executable, введите
+<TT>.php</TT> как расширение, оставьте поле Method exclusions пустым и отметьте бокс Script engine.</P></LI>
+<LI><P>Полностью остановите IIS (NET STOP iisadmin)</P></LI>
+<LI><P>Снова стартуйте IIS (NET START w3svc)</P></LI></UL></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE BORDER="0" CELLPADDING="3" width="100%" style="border-collapse: collapse" bordercolor="#111111" cellspacing="0"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="fhttpd.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="netsc-enterpr.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Серверы fhttpd</TD>
+<th WIDTH="34%" VALIGN="top"><a href="inst.installation.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Серверы Netscape и iPlanet</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

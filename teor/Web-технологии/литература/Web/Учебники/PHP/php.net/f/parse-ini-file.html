@@ -1,0 +1,69 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>parse_ini_file</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="move-uploaded-file.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="pathinfo.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.parse-ini-file">parse_ini_file</A></H1><A NAME="AEN24621"></A><P>(PHP 4)</P>
+<p>parse_ini_file - разбирает файл конфигурации.<A NAME="AEN24624"></A></p><H2>Описание</H2><p>array <B>parse_ini_file</B> (string filename [, bool process_sections])</p>
+<P><B>parse_ini_file()</B> загружает ini-файл <TT><I>filename</I></TT> и возвращает его установки в виде ассоциативного массива. Установив в 
+последний параметр <TT><I>process_sections</I></TT> <TT><B>TRUE</B></TT>, вы получите многомерный массив, включая имена разделов и установки. По 
+умолчанию <TT><I>process_sections</I></TT> имеет значение <TT><B>FALSE</B></TT>.</P><BLOCKQUOTE><P><B>Примечание: </B>
+эта функция ничего не делает с файлом <TT>php.ini</TT>. Он уже обработан при запуске скрипта. Эта функция может использоваться для 
+чтения файлов конфигураций ваших приложений.</P></BLOCKQUOTE><BLOCKQUOTE><P><B>Примечание: </B>
+если значение в ini-файле содержит не-алфавитно-числовые символы, необходимо заключить его в двойные кавычки (").</P></BLOCKQUOTE>
+<BLOCKQUOTE><P><B>Примечание: </B>
+начиная с PHP 4.2.1, на эту функцию воздействует также <A HREF="../configuration.html#ini.safe-mode">safe_mode</A>
+и <A HREF="../configuration.html#ini.open-basedir">open_basedir</A>.</P></BLOCKQUOTE><P>Структура ini-файла аналогична структуре
+<TT>php.ini</TT>.</P><TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR>
+<TD><P>Если разбираемый ini-файл сформирован неверно, PHP выполняет выход.</P></TD></TR></TABLE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN24656"></A><h5>Пример 1. Содержимое sample.ini</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>; Это образец файла конфигурации
+; Комментарии начинаются с ';', как в php.ini
+
+[first_section]
+one = 1
+five = 5
+
+[second_section]
+path = /usr/local/bin
+URL = "http://www.example.com/~username"</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN24660"></A><h5>Пример 2. parse_ini_file()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+// Разобрать без разделов
+$ini_array = parse_ini_file("sample.ini");
+print_r($ini_array);
+
+// Разобрать с разделами
+$ini_array = parse_ini_file("sample.ini", TRUE);
+print_r($ini_array);
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Даст на выходе:<A NAME="AEN24665"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>Array
+(
+    [one] =&#62; 1
+    [five] =&#62; 5
+    [path] =&#62; /usr/local/bin
+    [URL] =&#62; http://www.example.com/~username
+)
+Array
+(
+    [first_section] =&#62; Array
+        (
+            [one] =&#62; 1
+            [five] =&#62; 5
+        )
+
+    [second_section] =&#62; Array
+        (
+            [path] =&#62; /usr/local/bin
+            [URL] =&#62; http://www.example.com/~username
+        )
+
+)</PRE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="move-uploaded-file.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="pathinfo.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">move_uploaded_file</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.filesystem.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">pathinfo</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

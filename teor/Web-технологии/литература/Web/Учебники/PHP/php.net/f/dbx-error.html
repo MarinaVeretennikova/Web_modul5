@@ -1,0 +1,34 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>dbx_error</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="dbx-connect.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="dbx-query.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.dbx-error">dbx_error</A></H1><A NAME="AEN16890"></A><P>(PHP 4 &#62;= 4.0.6)</P>
+<p>dbx_error - выводит сообщение об ошибке последнего вызова функции в модуле (не просто в 
+соединении).<A NAME="AEN16893"></A></p><H2>Описание</H2><p>string <B>dbx_error</B> (object link_identifier)</p>
+<P><B>dbx_error()</B> возвращает строку с сообщением об ошибке от последнего вызова функции 
+абстрактного модуля (например, mysql-модуля). Если есть несколько соединений с 
+одним и тем же модулем, выдаётся просто последняя ошибка. Если имеются 
+соединения в различных модулях, возвращается самая последняя ошибка для 
+модуля, специфицированного параметром <TT><I>link_identifier</I></TT>.</P><TABLE WIDTH="100%" BORDER="0"><TR>
+<TD><A NAME="AEN16904"></A><h5>Пример 1. dbx_error()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+$link   = dbx_connect(DBX_MYSQL, "localhost", "db", "username", "password")
+    or die ("Could not connect");
+
+$result = dbx_query($link, "select id from non_existing_table");
+if ( $result == 0 ) {
+    echo dbx_error ($link);
+}
+dbx_close ($link);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+всегда просматривайте также соответствующую документацию модуля.</P><P>Сообщение об ошибке для Microsoft SQL Server является результатом работы
+функции <A HREF="mssql-get-last-message.html"><B>mssql_get_last_message()</B></A>.</P></BLOCKQUOTE>
+</TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="dbx-connect.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="dbx-query.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">dbx_connect</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.dbx.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">dbx_query</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

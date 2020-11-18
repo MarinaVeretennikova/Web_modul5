@@ -1,0 +1,212 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Управления Экраном Терминала Ncurses</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="syslog.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="ncurses-addch.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.ncurses"></A>LXVII. Функции управления экраном терминала Ncurses</h1>
+<A NAME="AEN53343"></A><TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>Это расширение является ЭКСПЕРИМЕНТАЛЬНЫМ. Поведение этого расширения, имена его функций и всё, что задокументировано, может измениться в последующих релизах РНР без предупреждения. Вы предупреждены и можете использовать это расширение только под вашу ответственность.</P>
+</TD></TR></TABLE><H1><A NAME="ncurses.intro">Что такое ncurses?</A></H1><P>ncurses (new curses/новые курсы) это свободная программная эмуляция курсов
+в System V Rel 4.0 (и выше). Она использует формат terminfo, поддерживает заполнения, цвета, множественную подсветку/highlights, отображение символов формы и ключей функций.</P>
+<H1><a name="ncurses.platforms">Платформы</a></H1><P>Ncurses имеется для следующих платформ:
+<UL><LI><P>AIX</P></LI><LI><P>BeOS</P></LI><LI><P>Cygwin</P></LI><LI><P>Digital Unix (aka OSF1)</P></LI><LI><P>FreeBSD</P>
+</LI><LI><P>GNU/Linux</P></LI><LI><P>HPUX</P></LI><LI><P>IRIX</P></LI><LI><P>OS/2</P></LI><LI><P>SCO OpenServer</P>
+</LI><LI><P>Solaris</P></LI><LI><P>SunOS</P></LI></UL><H1><A NAME="ncurses.requirements">Требования</A></H1>
+<P>Вам необходимы библиотеки и header-файлы ncurses. Загрузите последнюю версию с
+<A HREF="ftp://ftp.gnu.org/pub/gnu/ncurses/" TARGET="_top">ftp://ftp.gnu.org/pub/gnu/ncurses/</A> или с другого зеркала GNU.</P>
+<H1><A NAME="ncurses.installation">Установка</A></H1><P>Чтобы эти функции работали, вы должны скомпилировали CGI-версию PHP с
+опцией <TT>--with-ncurses</TT>.</P><H1><A NAME="ncurses.constants">Предопределённые константы Ncurses</A></H1>
+<H2><a name="ncurses.errconsts">Коды ошибок</a></H2><P>При ошибке ncurses-функции возвращают NCURSES_ERR.</P>
+<H2><a name="ncurses.colorconsts">Цвета</a></H2><A NAME="AEN53393"></A>
+<h6>Таблица 1. Константы цветов ncurses</h6><TABLE BORDER="1"><TR><TH>константа</TH><TH>значение</TH></TR>
+<TBODY><TR><TD>NCURSES_COLOR_BLACK</TD><TD>нет цвета (чёрный)</TD></TR><TR><TD>NCURSES_COLOR_WHITE</TD>
+<TD>белый</TD></TR><TR><TD>NCURSES_COLOR_RED</TD><TD>красный - поддерживается, если терминал находится в режиме color</TD>
+</TR><TR><TD>NCURSES_COLOR_GREEN</TD><TD>зелёный - поддерживается, если терминал находится в режиме color</TD>
+</TR><TR><TD>NCURSES_COLOR_YELLOW</TD><TD>жёлтый - поддерживается, если терминал находится в режиме color</TD>
+</TR><TR><TD>NCURSES_COLOR_BLUE</TD><TD>синий - поддерживается, если терминал находится в режиме color</TD></TR>
+<TR><TD>NCURSES_COLOR_CYAN</TD><TD>cyan - поддерживается, если терминал находится в режиме color</TD></TR>
+<TR><TD>NCURSES_COLOR_MAGENTA</TD><TD>magenta - поддерживается, если терминал находится в режиме color</TD></TR></TBODY></TABLE>
+<H2><a name="ncurses.keyconsts">Клавиши</a></H2><A NAME="AEN53427"></A><h6>Таблица 2. Константы клавиш ncurses</h6>
+<TABLE BORDER="1"><TR><TH>константа</TH><TH>значение</TH></TR><TBODY><TR><TD>NCURSES_KEY_F0 - NCURSES_KEY_F64</TD>
+<TD>функциональные клавиши F1 - F64</TD></TR><TR><TD>NCURSES_KEY_DOWN</TD><TD>стрелка вниз</TD></TR>
+<TR><TD>NCURSES_KEY_UP</TD><TD>стрелка вверх</TD></TR><TR><TD>NCURSES_KEY_LEFT</TD><TD>стрелка влево</TD></TR>
+<TR><TD>NCURSES_KEY_RIGHT</TD><TD>стрелка вправо</TD></TR><TR><TD>NCURSES_KEY_HOME</TD><TD>клавиша home (upward+left arrow)</TD></TR>
+<TR><TD>NCURSES_KEY_BACKSPACE</TD><TD>backspace</TD></TR><TR><TD>NCURSES_KEY_DL</TD><TD>удалить строку</TD></TR>
+<TR><TD>NCURSES_KEY_IL</TD><TD>вставить строку</TD></TR><TR><TD>NCURSES_KEY_DC</TD><TD>удалить символ</TD></TR>
+<TR><TD>NCURSES_KEY_IC</TD><TD>вставить символ или войти в режим insert/вставки</TD></TR>
+<TR><TD>NCURSES_KEY_EIC</TD><TD>выйти из режима вставки символов</TD></TR><TR><TD>NCURSES_KEY_CLEAR</TD><TD>очистить экран</TD>
+</TR><TR><TD>NCURSES_KEY_EOS</TD><TD>очистить до конца экрана</TD></TR><TR><TD>NCURSES_KEY_EOL</TD>
+<TD>очистить до конца строки</TD></TR><TR><TD>NCURSES_KEY_SF</TD><TD>прокрутить вперёд на одну строку</TD></TR>
+<TR><TD>NCURSES_KEY_SR</TD><TD>прокрутить назад на одну строку</TD></TR><TR><TD>NCURSES_KEY_NPAGE</TD>
+<TD>следующая страница</TD></TR><TR><TD>NCURSES_KEY_PPAGE</TD><TD>предыдущая страница</TD></TR>
+<TR><TD>NCURSES_KEY_STAB</TD><TD>установить tab/табуляцию</TD></TR><TR><TD>NCURSES_KEY_CTAB</TD><TD>очистить tab</TD>
+</TR><TR><TD>NCURSES_KEY_CATAB</TD><TD>очистить все tabs</TD></TR><TR><TD>NCURSES_KEY_SRESET</TD><TD>мягкий (частичный) reset</TD>
+</TR><TR><TD>NCURSES_KEY_RESET</TD><TD>reset (или жёсткий reset)</TD></TR><TR><TD>NCURSES_KEY_PRINT</TD>
+<TD>print</TD></TR><TR><TD>NCURSES_KEY_LL</TD><TD>lower left/самая нижняя левая</TD></TR><TR><TD>NCURSES_KEY_A1</TD>
+<TD>upper left цифрового блока</TD></TR><TR><TD>NCURSES_KEY_A3</TD><TD>upper right цифрового блока</TD></TR>
+<TR><TD>NCURSES_KEY_B2</TD><TD>center цифрового блока</TD></TR><TR><TD>NCURSES_KEY_C1</TD><TD>lower left цифрового блока</TD></TR>
+<TR><TD>NCURSES_KEY_C3</TD><TD>lower right цифрового блока</TD></TR><TR><TD>NCURSES_KEY_BTAB</TD>
+<TD>back tab</TD></TR><TR><TD>NCURSES_KEY_BEG</TD><TD>начало</TD></TR><TR><TD>NCURSES_KEY_CANCEL</TD>
+<TD>cancel</TD></TR><TR><TD>NCURSES_KEY_CLOSE</TD><TD>close</TD></TR><TR><TD>NCURSES_KEY_COMMAND</TD>
+<TD>cmd (command/команда)</TD></TR><TR><TD>NCURSES_KEY_COPY</TD><TD>copy</TD></TR><TR><TD>NCURSES_KEY_CREATE</TD>
+<TD>create</TD></TR><TR><TD>NCURSES_KEY_END</TD><TD>end</TD></TR><TR><TD>NCURSES_KEY_EXIT</TD><TD>exit</TD></TR>
+<TR><TD>NCURSES_KEY_FIND</TD><TD>find</TD></TR><TR><TD>NCURSES_KEY_HELP</TD><TD>help</TD></TR><TR><TD>NCURSES_KEY_MARK</TD>
+<TD>mark</TD></TR><TR><TD>NCURSES_KEY_MESSAGE</TD><TD>message</TD></TR><TR><TD>NCURSES_KEY_MOVE</TD>
+<TD>move</TD></TR><TR><TD>NCURSES_KEY_NEXT</TD><TD>next</TD></TR><TR><TD>NCURSES_KEY_OPEN</TD><TD>open</TD></TR>
+<TR><TD>NCURSES_KEY_OPTIONS</TD><TD>опции</TD></TR><TR><TD>NCURSES_KEY_PREVIOUS</TD><TD>previous</TD></TR>
+<TR><TD>NCURSES_KEY_REDO</TD><TD>redo</TD></TR><TR><TD>NCURSES_KEY_REFERENCE</TD><TD>ref (reference)</TD></TR>
+<TR><TD>NCURSES_KEY_REFRESH</TD><TD>refresh</TD></TR><TR><TD>NCURSES_KEY_REPLACE</TD><TD>replace</TD></TR>
+<TR><TD>NCURSES_KEY_RESTART</TD><TD>restart</TD></TR><TR><TD>NCURSES_KEY_RESUME</TD><TD>resume</TD></TR>
+<TR><TD>NCURSES_KEY_SAVE</TD><TD>save</TD></TR><TR><TD>NCURSES_KEY_SBEG</TD><TD>shiftet beg (beginning)</TD></TR>
+<TR><TD>NCURSES_KEY_SCANCEL</TD><TD>shifted cancel</TD></TR><TR><TD>NCURSES_KEY_SCOMMAND</TD><TD>shifted command</TD></TR>
+<TR><TD>NCURSES_KEY_SCOPY</TD><TD>shifted copy</TD></TR><TR><TD>NCURSES_KEY_SCREATE</TD><TD>shifted create</TD></TR>
+<TR><TD>NCURSES_KEY_SDC</TD><TD>shifted delete char</TD></TR><TR><TD>NCURSES_KEY_SDL</TD><TD>shifted delete line</TD>
+</TR><TR><TD>NCURSES_KEY_SELECT</TD><TD>select</TD></TR><TR><TD>NCURSES_KEY_SEND</TD><TD>shifted end</TD></TR>
+<TR><TD>NCURSES_KEY_SEOL</TD><TD>shifted end of line</TD></TR><TR><TD>NCURSES_KEY_SEXIT</TD><TD>shifted exit</TD></TR>
+<TR><TD>NCURSES_KEY_SFIND</TD><TD>shifted find</TD></TR><TR><TD>NCURSES_KEY_SHELP</TD><TD>shifted help</TD></TR>
+<TR><TD>NCURSES_KEY_SHOME</TD><TD>shifted home</TD></TR><TR><TD>NCURSES_KEY_SIC</TD><TD>shifted input</TD></TR>
+<TR><TD>NCURSES_KEY_SLEFT</TD><TD>shifted left arrow</TD></TR><TR><TD>NCURSES_KEY_SMESSAGE</TD><TD>shifted message</TD>
+</TR><TR><TD>NCURSES_KEY_SMOVE</TD><TD>shifted move</TD></TR><TR><TD>NCURSES_KEY_SNEXT</TD><TD>shifted next</TD></TR>
+<TR><TD>NCURSES_KEY_SOPTIONS</TD><TD>shifted options</TD></TR><TR><TD>NCURSES_KEY_SPREVIOUS</TD><TD>shifted previous</TD>
+</TR><TR><TD>NCURSES_KEY_SPRINT</TD><TD>shifted print</TD></TR><TR><TD>NCURSES_KEY_SREDO</TD><TD>shifted redo</TD></TR>
+<TR><TD>NCURSES_KEY_SREPLACE</TD><TD>shifted replace</TD></TR><TR><TD>NCURSES_KEY_SRIGHT</TD><TD>shifted right arrow</TD></TR>
+<TR><TD>NCURSES_KEY_SRSUME</TD><TD>shifted resume</TD></TR><TR><TD>NCURSES_KEY_SSAVE</TD><TD>shifted save</TD></TR>
+<TR><TD>NCURSES_KEY_SSUSPEND</TD><TD>shifted suspend</TD></TR><TR><TD>NCURSES_KEY_UNDO</TD><TD>undo</TD></TR>
+<TR><TD>NCURSES_KEY_MOUSE</TD><TD>mouse event has occured</TD></TR><TR><TD>NCURSES_KEY_MAX</TD><TD>maximum key value</TD></TR></TBODY></TABLE>
+<H2><a name="AEN53696">Мышь</a></H2><A NAME="AEN53698"></A><h6>Таблица 3. mouse-константы</h6>
+<TABLE BORDER="1"><TR><TH>константа</TH><TH>значение</TH></TR><TBODY><TR><TD>NCURSES_BUTTON1_RELEASED - NCURSES_BUTTON4_RELEASED</TD>
+<TD>кнопка (1-4) отпущена</TD></TR><TR><TD>NCURSES_BUTTON1_PRESSED - NCURSES_BUTTON4_PRESSED</TD>
+<TD>кнопка (1-4) нажата</TD></TR><TR><TD>NCURSES_BUTTON1_CLICKED - NCURSES_BUTTON4_CLICKED</TD>
+<TD>кнопка (1-4) щёлкнула</TD></TR><TR><TD>NCURSES_BUTTON1_DOUBLE_CLICKED - NCURSES_BUTTON4_DOUBLE_CLICKED</TD>
+<TD>кнопка (1-4) дважды щёлкнула</TD></TR><TR><TD>NCURSES_BUTTON1_TRIPLE_CLICKED - NCURSES_BUTTON4_TRIPLE_CLICKED</TD>
+<TD>кнопка (1-4) трижды щёлкнула</TD></TR><TR><TD>NCURSES_BUTTON_CTRL</TD><TD>ctrl нажата при щелчке</TD></TR>
+<TR><TD>NCURSES_BUTTON_SHIFT</TD><TD>shift нажата при щелчке</TD></TR><TR><TD>NCURSES_BUTTON_ALT</TD>
+<TD>alt нажата при щелчке</TD></TR><TR><TD>NCURSES_ALL_MOUSE_EVENTS</TD><TD>сообщает обо всех событиях мыши</TD></TR>
+<TR><TD>NCURSES_REPORT_MOUSE_POSITION</TD><TD>сообщает о позиции мыши</TD></TR></TBODY></TABLE>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="ncurses-addch.html">ncurses_addch</A> - добавляет символ в текущей позиции и продвигает курсор вперёд</DT>
+<DT><A HREF="ncurses-addchnstr.html">ncurses_addchnstr</A> - добавляет атрибуированную строку со специфицированной длиной в текущей позиции</DT>
+<DT><A HREF="ncurses-addchstr.html">ncurses_addchstr</A> - добавляет атрибуированную строку в текущей позиции</DT>
+<DT><A HREF="ncurses-addnstr.html">ncurses_addnstr</A> - добавляет строку со специфицированной длиной в текущей позиции</DT>
+<DT><A HREF="ncurses-addstr.html">ncurses_addstr</A> - выводит текст в текущей позиции</DT>
+<DT><A HREF="ncurses-assume-default-colors.html">ncurses_assume_default_colors</A> - определяет цвет по умолчанию для цвета 0</DT>
+<DT><A HREF="ncurses-attroff.html">ncurses_attroff</A> - отключает данный атрибут</DT>
+<DT><A HREF="ncurses-attron.html">ncurses_attron</A> - включает данный атрибут</DT>
+<DT><A HREF="ncurses-attrset.html">ncurses_attrset</A> - устанавливает данные атрибуты</DT>
+<DT><A HREF="ncurses-baudrate.html">ncurses_baudrate</A> - возвращает baudrate терминала</DT>
+<DT><A HREF="ncurses-beep.html">ncurses_beep</A> - разрешает терминалу подать сигнал</DT>
+<DT><A HREF="ncurses-bkgd.html">ncurses_bkgd</A> - устанавливает свойство background экрана терминала</DT>
+<DT><A HREF="ncurses-bkgdset.html">ncurses_bkgdset</A> - управляет фоном экрана</DT>
+<DT><A HREF="ncurses-border.html">ncurses_border</A> - рисует рамку вокруг экрана с использованием атрибуированных символов</DT>
+<DT><A HREF="ncurses-can-change-color.html">ncurses_can_change_color</A> - проверяет, можем ли мы изменить цвета терминала</DT>
+<DT><A HREF="ncurses-cbreak.html">ncurses_cbreak</A> - отключает буферизацию ввода</DT>
+<DT><A HREF="ncurses-clear.html">ncurses_clear</A> - очищает экран</DT>
+<DT><A HREF="ncurses-clrtobot.html">ncurses_clrtobot</A> - очищает экран от текущей позиции до низа</DT>
+<DT><A HREF="ncurses-clrtoeol.html">ncurses_clrtoeol</A> - очищает экран от текущей позиции до конца строчки</DT>
+<DT><A HREF="ncurses-color-set.html">ncurses_color_set</A> - устанавливает цвета переднего плана и фона</DT>
+<DT><A HREF="ncurses-curs-set.html">ncurses_curs_set</A> - устанавливает статус курсора</DT>
+<DT><A HREF="ncurses-def-prog-mode.html">ncurses_def_prog_mode</A> - сохраняет режим терминала (программы)</DT>
+<DT><A HREF="ncurses-def-shell-mode.html">ncurses_def_shell_mode</A> - сохраняет режим терминала (оболочки/shell)</DT>
+<DT><A HREF="ncurses-define-key.html">ncurses_define_key</A> - определяет keycode/код клавиши</DT>
+<DT><A HREF="ncurses-delay-output.html">ncurses_delay_output</A> - задерживает вывод на терминал, используя заполняющие символы</DT>
+<DT><A HREF="ncurses-delch.html">ncurses_delch</A> - удаляет символ в текущей позиции, остаток строки сдвигается влево</DT>
+<DT><A HREF="ncurses-deleteln.html">ncurses_deleteln</A> - удаляет строчку в текущей позиции, остаток экрана сдвигается вверх</DT>
+<DT><A HREF="ncurses-delwin.html">ncurses_delwin</A> - удаляет ncurses-окно</DT>
+<DT><A HREF="ncurses-doupdate.html">ncurses_doupdate</A> - записывает все подготовленные обновления в терминал</DT>
+<DT><A HREF="ncurses-echo.html">ncurses_echo</A> - активирует отображение ввода с клавиатуры</DT>
+<DT><A HREF="ncurses-echochar.html">ncurses_echochar</A> - вывод одного символа, включая обновление</DT>
+<DT><A HREF="ncurses-end.html">ncurses_end</A> - останавливает использование ncurses, очищает экран</DT>
+<DT><A HREF="ncurses-erase.html">ncurses_erase</A> - стирает экран терминала</DT>
+<DT><A HREF="ncurses-erasechar.html">ncurses_erasechar</A> - возвращает текущий удалённый символ</DT>
+<DT><A HREF="ncurses-filter.html">ncurses_filter</A> -</DT>
+<DT><A HREF="ncurses-flash.html">ncurses_flash</A> - вспышка на экране терминала (визуальный сигнал)</DT>
+<DT><A HREF="ncurses-flushinp.html">ncurses_flushinp</A> - очищает буфер клавиатурного ввода</DT>
+<DT><A HREF="ncurses-getch.html">ncurses_getch</A> - читает символ с клавиатуры</DT>
+<DT><A HREF="ncurses-getmouse.html">ncurses_getmouse</A> - читает событие от мыши</DT>
+<DT><A HREF="ncurses-halfdelay.html">ncurses_halfdelay</A> - переводит терминал в режим halfdelay</DT>
+<DT><A HREF="ncurses-has-colors.html">ncurses_has_colors</A> - проверяет, имеет ли терминал цвета</DT>
+<DT><A HREF="ncurses-has-ic.html">ncurses_has_ic</A> - проверяет возможность вставки/удаления</DT>
+<DT><A HREF="ncurses-has-il.html">ncurses_has_il</A> - проверяет возможность вставки/удаления</DT>
+<DT><A HREF="ncurses-has-key.html">ncurses_has_key</A> - проверяет существование функциональной клавиши на клавиатуре терминала</DT>
+<DT><A HREF="ncurses-hline.html">ncurses_hline</A> - рисует горизонтальную линию в текущей позиции, используя атрибуированный символ и max. n длину символов</DT>
+<DT><A HREF="ncurses-inch.html">ncurses_inch</A> - получает символ и атрибут в текущей позиции</DT>
+<DT><A HREF="ncurses-init-color.html">ncurses_init_color</A> - устанавливает новое RGB-значение цвета</DT>
+<DT><A HREF="ncurses-init-pair.html">ncurses_init_pair</A> - размещает цветовую пару</DT>
+<DT><A HREF="ncurses-init.html">ncurses_init</A> - инициализирует ncurses</DT>
+<DT><A HREF="ncurses-insch.html">ncurses_insch</A> - вставляет символ, перемещая остаток строки, включая символ в текущей позиции</DT>
+<DT><A HREF="ncurses-insdelln.html">ncurses_insdelln</A> - вставляет строчки перед текущей строчкой, прокручивая вниз (отрицательные числа удаляют и прокручивают вверх)</DT>
+<DT><A HREF="ncurses-insertln.html">ncurses_insertln</A> - вставляет строчку, перемещая остаток экрана вниз</DT>
+<DT><A HREF="ncurses-insstr.html">ncurses_insstr</A> - вставляет string в текущей позиции, перемещая остаток строчки вправо</DT>
+<DT><A HREF="ncurses-instr.html">ncurses_instr</A> - читает строчку с экрана терминала</DT>
+<DT><A HREF="ncurses-isendwin.html">ncurses_isendwin</A> - Ncurses находится в режиме endwin, может выполняться нормальный вывод экрана</DT>
+<DT><A HREF="ncurses-keyok.html">ncurses_keyok</A> - включает или отключает keycode/код клавиши</DT>
+<DT><A HREF="ncurses-killchar.html">ncurses_killchar</A> - возвращает kill-символ текущей строки</DT>
+<DT><A HREF="ncurses-longname.html">ncurses_longname</A> - возвращает описание терминала</DT>
+<DT><A HREF="ncurses-mouseinterval.html">ncurses_mouseinterval</A> - устанавливает timeout для щелчка кнопки мыши</DT>
+<DT><A HREF="ncurses-mousemask.html">ncurses_mousemask</A> - устанавливает опции мыши</DT>
+<DT><A HREF="ncurses-move.html">ncurses_move</A> - переводит позицию вывода</DT>
+<DT><A HREF="ncurses-mvaddch.html">ncurses_mvaddch</A> - переводит текущую позицию и добавляет символ</DT>
+<DT><A HREF="ncurses-mvaddchnstr.html">ncurses_mvaddchnstr</A> - переводит позицию и 
+добавляет атрибуированную строку специфицированной длины </DT>
+<DT><A HREF="ncurses-mvaddchstr.html">ncurses_mvaddchstr</A> - переводит позицию и добавляет атрибуированную строку</DT>
+<DT><A HREF="ncurses-mvaddnstr.html">ncurses_mvaddnstr</A> - переводит позицию и добавляет строку со специфицированной длиной</DT>
+<DT><A HREF="ncurses-mvaddstr.html">ncurses_mvaddstr</A> - переводит позицию и добавляет строку</DT>
+<DT><A HREF="ncurses-mvcur.html">ncurses_mvcur</A> - переводит курсор немедленно</DT>
+<DT><A HREF="ncurses-mvdelch.html">ncurses_mvdelch</A> - переводит позицию и удаляет символ, сдвигая остаток строчки влево</DT>
+<DT><A HREF="ncurses-mvgetch.html">ncurses_mvgetch</A> - переводит позицию и получает символ в новой позиции</DT>
+<DT><A HREF="ncurses-mvhline.html">ncurses_mvhline</A> - устанавливает новую позицию рисует горизонтальную линию, используя трибуированный символ и max. n длину символов</DT>
+<DT><A HREF="ncurses-mvinch.html">ncurses_mvinch</A> - переводит позицию и получает атрибуированный символ в новой позиции</DT>
+<DT><A HREF="ncurses-mvvline.html">ncurses_mvvline</A> - устанавливает новую позицию и рисует вертикальную линию, используя атрибуированный символ и max. n длину символов</DT>
+<DT><A HREF="ncurses-mvwaddstr.html">ncurses_mvwaddstr</A> - добавляет строку в новой позиции в окне</DT>
+<DT><A HREF="ncurses-napms.html">ncurses_napms</A> - Sleep</DT>
+<DT><A HREF="ncurses-newwin.html">ncurses_newwin</A> - создаёт новое окно</DT>
+<DT><A HREF="ncurses-nl.html">ncurses_nl</A> - транслирует newline и carriage return / line feed</DT>
+<DT><A HREF="ncurses-nocbreak.html">ncurses_nocbreak</A> - переключает терминал в режим cooked</DT>
+<DT><A HREF="ncurses-noecho.html">ncurses_noecho</A> - отключает отображение ввода с клавиатуры</DT>
+<DT><A HREF="ncurses-nonl.html">ncurses_nonl</A> - не транслировать newline и carriage return / line feed</DT>
+<DT><A HREF="ncurses-noqiflush.html">ncurses_noqiflush</A> - не зачищает сигнальные символы</DT>
+<DT><A HREF="ncurses-noraw.html">ncurses_noraw</A> - отключает терминал от режима raw</DT>
+<DT><A HREF="ncurses-putp.html">ncurses_putp</A> -</DT>
+<DT><A HREF="ncurses-qiflush.html">ncurses_qiflush</A> - зачищает сигнальные символы</DT>
+<DT><A HREF="ncurses-raw.html">ncurses_raw</A> - переключает терминал в режим raw</DT>
+<DT><A HREF="ncurses-refresh.html">ncurses_refresh</A> - обновляет экран</DT>
+<DT><A HREF="ncurses-resetty.html">ncurses_resetty</A> - восстанавливает сохранённый статус терминала</DT>
+<DT><A HREF="ncurses-savetty.html">ncurses_savetty</A> - сохраняет статус терминала</DT>
+<DT><A HREF="ncurses-scr-dump.html">ncurses_scr_dump</A> - выполняет дамп содержимого экрана в файл</DT>
+<DT><A HREF="ncurses-scr-init.html">ncurses_scr_init</A> - инициализирует экран из дампа файла</DT>
+<DT><A HREF="ncurses-scr-restore.html">ncurses_scr_restore</A> - восстанавливает экран из дампа файла</DT>
+<DT><A HREF="ncurses-scr-set.html">ncurses_scr_set</A> - наследует экран из дампа файла</DT>
+<DT><A HREF="ncurses-scrl.html">ncurses_scrl</A> - прокручивает содержимое окна верх или вниз без изменения текущей позиции</DT>
+<DT><A HREF="ncurses-slk-attr.html">ncurses_slk_attr</A> - возвращает ключевой атрибут текущей soft-метки/label</DT>
+<DT><A HREF="ncurses-slk-attroff.html">ncurses_slk_attroff</A> -</DT>
+<DT><A HREF="ncurses-slk-attron.html">ncurses_slk_attron</A> -</DT>
+<DT><A HREF="ncurses-slk-attrset.html">ncurses_slk_attrset</A> -</DT>
+<DT><A HREF="ncurses-slk-clear.html">ncurses_slk_clear</A> - очищает soft-метки с экрана</DT>
+<DT><A HREF="ncurses-slk-color.html">ncurses_slk_color</A> - устанавливает цвет для ключей soft-меток</DT>
+<DT><A HREF="ncurses-slk-init.html">ncurses_slk_init</A> - инициализирует soft label key-функции</DT>
+<DT><A HREF="ncurses-slk-noutrefresh.html">ncurses_slk_noutrefresh</A> - копирует soft label ключи в виртуальный экран</DT>
+<DT><A HREF="ncurses-slk-refresh.html">ncurses_slk_refresh</A> - копирует soft label ключи в экран</DT>
+<DT><A HREF="ncurses-slk-restore.html">ncurses_slk_restore</A> - восстанавливает soft label keys</DT>
+<DT><A HREF="ncurses-slk-touch.html">ncurses_slk_touch</A> - форсирует вывод при выполнении ncurses_slk_noutrefresh</DT>
+<DT><A HREF="ncurses-standend.html">ncurses_standend</A> - останавливает использование атрибута 'standout'</DT>
+<DT><A HREF="ncurses-standout.html">ncurses_standout</A> - стартует использование атрибута 'standout'</DT>
+<DT><A HREF="ncurses-start-color.html">ncurses_start_color</A> - стартует использование цветов</DT>
+<DT><A HREF="ncurses-termattrs.html">ncurses_termattrs</A> - возвращает логическое ИЛИ всех флагов атрибутов, поддерживаемых терминалом</DT>
+<DT><A HREF="ncurses-termname.html">ncurses_termname</A> - возвращает (short)-имя терминала</DT>
+<DT><A HREF="ncurses-timeout.html">ncurses_timeout</A> - устанавливает timeout для специальных последовательностей клавиш</DT>
+<DT><A HREF="ncurses-typeahead.html">ncurses_typeahead</A> - специфицирует другой filedescriptor для проверки typeahead </DT>
+<DT><A HREF="ncurses-ungetch.html">ncurses_ungetch</A> - помещает символ обратно в поток ввода</DT>
+<DT><A HREF="ncurses-ungetmouse.html">ncurses_ungetmouse</A> - проталкивает событие от мыши в очередь/queue</DT>
+<DT><A HREF="ncurses-use-default-colors.html">ncurses_use_default_colors</A> - присваивает цвета по умолчанию color id -1</DT>
+<DT><A HREF="ncurses-use-env.html">ncurses_use_env</A> - управляет использованием информации окружения о размере терминала</DT>
+<DT><A HREF="ncurses-use-extended-names.html">ncurses_use_extended_names</A> - управляет использованием расширенных имён в описаниях terminfo</DT>
+<DT><A HREF="ncurses-vidattr.html">ncurses_vidattr</A> -</DT>
+<DT><A HREF="ncurses-vline.html">ncurses_vline</A> - рисует вертикальную линию в текущей позиции, используя атрибуированный символ и max. n длину символов</DT>
+<DT><A HREF="ncurses-wrefresh.html">ncurses_wrefresh</A> - обновляет окно экрана терминала</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD><TABLE  WIDTH="100%"BORDER="0" CELLPADDING="3">
+<TR><TD WIDTH="33%" VALIGN="top"><A HREF="syslog.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ncurses-addch.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">syslog</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">ncurses_addch</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

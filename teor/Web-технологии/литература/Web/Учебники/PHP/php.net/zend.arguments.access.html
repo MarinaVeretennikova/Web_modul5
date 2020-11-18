@@ -1,0 +1,157 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Доступ к Аргументам</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR>
+<TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="zend.arguments.variable.html">Назад</A></TD><th WIDTH="80%">Глава 33. Приём аргументов</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="zend.arguments.by-reference.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR>
+</TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD>
+<TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%"><H1><a name="zend.arguments.access">Доступ к аргументам</a></H1>
+<P>Для доступа к аргументам необходимо иметь для каждого аргумента ясно 
+определённый тип. Предельно динамичная природа PHP позволяет прибегать к 
+некоторым трюкам. Поскольку PHP никогда не делает никакой проверки типа, 
+вызыватель может передавать в функции любой вид данных, хотите вы этого или нет.
+Если вы ожидаете integer, например, вызыватель может передать массив, и наоборот - PHP этого не заметит.</P>
+<P>Чтобы работать в этих условиях, вы должны использовать набор API-функций для 
+форсирования конвертации типов каждого передаваемого аргумента (см. Таблицу 9.4).</P>
+<P><b>Примечание:</b> Все функции конвертации ожидают в качестве параметра <TT>**zval</TT>.</P>
+<A NAME="AEN86033"></A><h6>Рисунок 33-3. Таблица 9.4. Функции конвертации аргументов</h6>
+<A NAME="AEN86035"></A><TABLE BORDER="1" width="728"><TR><th WIDTH="219">Функция</th>
+<th WIDTH="493">Описание</th></TR><TR><TD WIDTH="219"><B>convert_to_boolean_ex()</B></TD>
+<TD WIDTH="493">Форсирует конвертацию в Boolean. Boolean-значения не изменяются. Long, double и 
+string, содержащие значения <TT>0</TT> и NULL, дают Boolean <TT>0</TT> (FALSE). Массивы и
+объекты конвертируются на основе количества вхождений или свойств,
+соответственно. Пустые массивы и объекты конвертируются в FALSE; другие - в TRUE. Все другие значения дают Boolean
+<TT>1</TT> (TRUE).</TD></TR><TR><TD WIDTH="219"><B>convert_to_long_ex()</B></TD>
+<TD WIDTH="493">Форсирует конвертацию в long, целочисленный тип по умолчанию.
+NULL, Boolean, ресурсы и, разумеется, long-значения не изменяются.
+Double усекаются. String, содержащие integer, конвертируются в 
+соответствующие числовые представления, иначе - дают <TT>0</TT>. Массивы и объекты конвертируются в
+<TT>0</TT>, если пустые, иначе - в  <TT>1</TT>.</TD></TR><TR><TD WIDTH="219">
+<B>convert_to_double_ex()</B></TD><TD WIDTH="493">Форсирует конвертацию в double, тип по умолчанию с плавающей точкой. NULL, 
+Boolean, ресурсы, long и double не изменяются. String, содержащие 
+integer, конвертируются в соответствующие числовые представления, иначе - дают <TT>0.0</TT>.
+Массивы и объекты конвертируются в <TT>0.0</TT>, если пустые, иначе - в <TT>1.0</TT>.</TD></TR>
+<TR><TD WIDTH="219"><B>convert_to_string_ex()</B></TD><TD WIDTH="493">Форсирует конвертацию в string. String остаются без изменений.
+NULL конвертируются в пустые строки. Boolean TRUE конвертируются в <TT>"1"</TT>, иначе дают пустую
+строку. Long и double конвертируются в their соответствующие 
+строковые представления. Массивы конвертируются в строку <TT>"Array"</TT>, а объекты - в строку <TT>"Object"</TT>.
+</TD></TR><TR><TD WIDTH="219"><TT>convert_to_array_ex(value)</TT></TD><TD WIDTH="493">Форсирует
+конвертацию в массив. Массивы остаются без изменений.
+Объекты конвертируются в массив с присвоением всех свойств таблице 
+массива. Имена свойств используются как ключи, содержание свойств 
+- как значения. NULL конвертируются в пустой массив. Все другие 
+значения конвертируются в массив, который содержит специфическое 
+исходное значение в элементе с ключом <TT>0</TT>.</TD></TR><TR><TD WIDTH="219">
+<TT>convert_to_object_ex(value)</TT></TD><TD WIDTH="493">Форсирует конвертацию в объект. Объекты остаются без изменений.
+NULL конвертируются в пустой объект. Массивы конвертируются в объекты с ключами 
+как свойствами и значениями свойств как содержимым свойств. Все другие типы дают объект со свойством
+<TT>scalar</TT>, имеющим исходное значение в качестве содержимого.</TD></TR><TR>
+<TD WIDTH="219"><TT>convert_to_null_ex(value)</TT></TD><TD WIDTH="493">Форсирует типы в NULL, что означает пустой.</TD>
+</TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>вы можете найти демо в файле <TT>cross_conversion.php</TT>
+на сопутствующем CD-ROM. На Рисунке 9.5 показан вывод.</P></BLOCKQUOTE><A NAME="AEN86088"></A>
+<h5>Рисунок 33-4. Рисунок 9.5. Конвертация в PHP.</h5><P><IMG SRC="imag/Zend_4_cross_converter.png" width="609" height="523"></P>
+<P>Использование этих функций с вашими аргументами гарантирует сохранение типа для 
+всех данных, передаваемых вам. Если предлагаемый тип не соответствует 
+требуемому типу, PHP форсирует содержимое-болванку (пустые строки, массивы или объекты, <TT>0</TT> для
+числовых значений, <TT>FALSE</TT> для Boolean), чтобы гарантировать сохранение статуса.</P>
+<P>Далее идёт выдержка из модуля-сэмпла, обсуждённого ранее, в которой 
+используются функции конвертации:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>zval **parameter;
+
+if((ZEND_NUM_ARGS() != 1) || (zend_get_parameters_ex(1, &#38;parameter) != SUCCESS))
+{
+    WRONG_PARAM_COUNT;
+}
+
+convert_to_long_ex(parameter);
+
+RETURN_LONG(Z_LVAL_P(parameter));</PRE></TD></TR></TABLE>
+<p>После получения указателя параметра, значение параметра конвертируется в long (integer), 
+которое формирует также return-значение данной функции. Понимание процесса 
+доступа к содержимому значения требует небольшого обсуждения типа <TT>zval</TT>, определение которого
+показано в Листинге 9.8.</p><A NAME="AEN86097"></A><h5 style="text-align: left">
+Рисунок 33-5.
+Листинг 9.8. Определение PHP/Zend-типа <TT><font size="4">zval</font></TT>.</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>typedef pval zval;
+
+typedef struct _zval_struct zval;
+
+typedef union _zvalue_value {
+	long lval;				/* long-значение */
+	double dval;				/* double-значение */
+	struct {
+		char *val;
+		int len;
+	} str;
+	HashТаблица *ht;			/* значение хэш-таблицы */
+	struct {
+		zend_class_entry *ce;
+		HashТаблица *properties;
+	} obj;
+} zvalue_value;
+
+struct _zval_struct {
+	/* Variable information */
+	zvalue_value value;			/* значение */
+	unsigned char type;			/* активный тип */
+	unsigned char is_ref;
+	short refcount;
+};</PRE></TD></TR></TABLE><P>В действительности <TT>pval</TT> (определённый в <TT>php.h</TT>)
+это лишь псевдоним для <TT>zval</TT> (определённом в <TT>zend.h</TT>),
+который, в свою очередь, ссылается на <TT>_zval_struct</TT>. Это самая интересная структура.
+<TT>_zval_struct</TT> это "мастер"-структура, содержащая структуру значения, тип и справочную 
+информацию. Подструктура <TT>zvalue_value</TT> это union (объединение), содержащее содержимое переменной.
+В зависимости от типа переменной, вы должны получать доступ к разным членам 
+этого union. Описание обеих структур см. в Таблицах 9.5, 9.6 и 9.7.</P>
+<A NAME="AEN86109"></A><h6>Рисунок 33-6. Таблица 9.5. Zend-структура <TT>zval</TT></h6>
+<A NAME="AEN86112"></A><TABLE BORDER="1"><TR><th WIDTH="38%">Вхождение</th><th WIDTH="62%">Описание</th></TR>
+<TR><TD WIDTH="38%"><TT>value</TT></TD><TD WIDTH="62%">Union, содержащее содержимое данной переменной. См. описание в Таблице 9.6.</TD>
+</TR><TR><TD WIDTH="38%"><TT>type</TT></TD><TD WIDTH="62%">Содержит тип переменной. Список доступных типов см. в Таблице 9.7.</TD>
+</TR><TR><TD WIDTH="38%"><TT>is_ref</TT></TD><TD WIDTH="62%">0 означает, что эта переменная не является ссылкой; 1 означает, что эта 
+переменная является ссылкой на другую переменную.</TD></TR><TR><TD WIDTH="38%"><TT>refcount</TT></TD>
+<TD WIDTH="62%">Количество существующих ссылок для данной переменной.
+Для каждой новой ссылки на значение, хранимое в этой переменной, 
+этот счётчик увеличивается на 1. Для каждой потерянной ссылки - 
+этот счётчик уменьшается на 1. Когда счётчик ссылок достигает 0, 
+для данной переменной больше не существует ни одной ссылке, что 
+вызывает автоматическое освобождение переменной.</TD></TR></TABLE><A NAME="AEN86136"></A>
+<h6>Рисунок 33-7. Таблица 9.6. Zend-структура <TT><font size="4">zvalue_value</font></TT></h6>
+<A NAME="AEN86139"></A><TABLE BORDER="1"><TR><th WIDTH="38%">Вхождение</th><th WIDTH="62%">Описание</th></TR>
+<TR><TD WIDTH="38%"><TT>lval</TT></TD><TD WIDTH="62%">Используйте это свойство, если переменная имеет тип
+<TT>IS_LONG</TT>, <TT>IS_BOOLEAN</TT> или <TT>IS_RESOURCE</TT>.</TD></TR><TR><TD WIDTH="38%">
+<TT>dval</TT></TD><TD WIDTH="62%">Используйте это свойство, если переменная имеет тип <TT>IS_DOUBLE</TT>.
+</TD></TR><TR><TD WIDTH="38%"><TT>str</TT></TD><TD WIDTH="62%">Эта структура может использоваться для доступа к
+переменным типа <TT>IS_STRING</TT>. Член <TT>len</TT> содержит длину строки; член <TT>val</TT>
+указывает на саму строку. Zend использует C-строки; таким образом, длина строки включает также ведомый
+<TT>0x00</TT>.</TD></TR><TR><TD WIDTH="38%"><TT>ht</TT></TD><TD WIDTH="62%">Это вхождение указывает
+на вхождение переменной в хэш-таблице, если переменная является массивом.</TD></TR><TR>
+<TD WIDTH="38%"><TT>obj</TT></TD><TDWIDTH="62%">Используйте это свойство, если переменная имеет тип
+<TT>IS_OBJECT</TT>.</TD></TR></TABLE><A NAME="AEN86176"></A><h6>Рисунок 33-8. Таблица 9.7. Константы типов Zend-переменных<br>
+&nbsp;</h6>
+<A NAME="AEN86178"></A><TABLE BORDER="1"><TR><th WIDTH="38%">Константа</th><th WIDTH="62%">Описание</th>
+</TR><TR><TD WIDTH="38%"><TT>IS_NULL</TT></TD><TD WIDTH="62%">Обозначает NULL (пустое) значение.</TD></TR>
+<TR><TD WIDTH="38%"><TT>IS_LONG</TT></TD><TD WIDTH="62%">Значение long (integer).</TD></TR><TR>
+<TD WIDTH="38%"><TT>IS_DOUBLE</TT></TD><TD WIDTH="62%">double (floating point).</TD></TR><TR>
+<TD WIDTH="38%"><TT>IS_STRING</TT></TD><TD WIDTH="62%">Строка.</TD></TR><TR><TD WIDTH="38%">
+<TT>IS_ARRAY</TT></TD><TD WIDTH="62%">Массив.</TD></TR><TR><TD WIDTH="38%"><TT>IS_OBJECT</TT></TD>
+<TD WIDTH="62%">Объект.</TD></TR><TR><TD WIDTH="38%"><TT>IS_BOOL</TT></TD><TD WIDTH="62%">Булево значение.</TD>
+</TR><TR><TD WIDTH="38%"><TT>IS_RESOURCE</TT></TD><TD WIDTH="62%">Ресурс (обсуждение ресурсов см. далее в соответствующем разделе).</TD>
+</TR><TR><TD WIDTH="38%"><TT>IS_CONSTANT</TT></TD><TD WIDTH="62%">Константное (определённое) значение.</TD>
+</TR></TABLE><P>Для доступа к long вы выполняете доступ к <TT>zval.value.lval</TT>, для доступа
+к double вы используете <TT>zval.value.dval</TT>, и так далее. Поскольку все значения хранятся в union,
+попытка доступа к данным через некорректный член union приведёт к бессмысленному выводу.</P>
+<P>Доступ к массивам и объектам немного сложнее и будет рассмотрен позже.</P>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="43%" VALIGN="top">
+<A HREF="zend.arguments.variable.html">Назад</A></TD><th WIDTH="13%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="43%" ALIGN="right" VALIGN="top">
+<A HREF="zend.arguments.by-reference.html">Вперёд</A></TD></TR><TR><TD WIDTH="43%" VALIGN="top">
+Работа с переменным количеством аргументов/необязательных параметров</TD><th WIDTH="13%" VALIGN="top">
+<a href="zend.arguments.html">Вверх</a></th><TD WIDTH="43%" ALIGN="right" VALIGN="top">Работа
+с аргументами, передаваемыми по ссылке</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

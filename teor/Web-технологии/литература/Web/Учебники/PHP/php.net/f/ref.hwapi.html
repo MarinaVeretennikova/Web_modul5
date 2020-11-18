@@ -1,0 +1,103 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Hyperwave API</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="hw-who.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="hwapi-attribute-key.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.hwapi"></A>XXXIX. Функции Hyperwave API</h1><A NAME="AEN29348"></A><H1><A NAME="hwapi-intro">Введение</A>
+</H1><P>Hyperwave был разработан  <A HREF="http://www.iicm.edu/" TARGET="_top">IICM</A> в Graz. Он начинался как
+Hyper-G и сменил название на Hyperwave при коммерциализации (насколько помню, это было в 1996).</P>
+<P>Hyperwave это не бесплатная программа. Текущая версия, 5.5, доступна на
+<A HREF="http://www.hyperwave.com/" TARGET="_top">www.hyperwave.com</A>.  
+Можно запросить оценочную версию с ограниченным временем использования (30 дней).</P>
+<P>Hyperwave это информационная система, аналогичная database (HIS, Hyperwave Information Server). Она сфокусирована на хранении и обслуживании
+документов. Документом может быть любой блок данных, которые могут 
+сохраняться в файле. Каждый документ сопровождается записью объекта. Запись 
+объекта/object record содержит метаданные документа. Метаданные это список 
+атрибутов, который может быть расширен пользователем. Некоторые атрибуты 
+всегда устанавливаются Hyperwave-сервером, другие могут модифицироваться пользователем.</P>
+<H1><A NAME="hwapi-requirements">Требования</A></H1><P> С 2001 г. доступен Hyperwave SDK. Он поддерживает Java,
+JavaScript и C++. Данное расширение PHP базируется на интерфейсе C++.
+Чтобы активировать поддержку hwapi в PHP, вы должны сначала установить Hyperwave SDK и сконфигурировать PHP с опцией
+<TT>--with-hwapi=&#60;dir$gt;</TT>.</P><H1><a name="hwapi-classes">Классы</a></H1>
+<P>API, предоставляемый расширением HW_API, является полностью объектно-ориентированным.
+Он очень похож на интерфейс C++ Hyperwave SDK. Он состоит из следующих классов.
+<UL><LI><P><B>HW_API</B></P></LI><LI><P><B>HW_API_Object</B></P></LI><LI><P><B>HW_API_Attribute</B></P></LI>
+<LI><P><B>HW_API_Error</B></P></LI><LI><P><B>HW_API_Content</B></P></LI><LI><P><B>HW_API_Reason</B></P></LI></UL>
+Некоторые базовые классы вроде <B>HW_API_String</B>, <B>HW_API_String_Array</B>, etc., которые имеются в
+Hyperwave SDK, не реализованы, поскольку PHP имеет для них полноценную замену.<P>Каждый класс имеет метод, имя которого идентично имени его двойника из Hyperwave SDK.
+Передача аргументов такой функции отличается от всех других расширений PHP и 
+напоминает C++ API пакета HW SDK. Вместо передачи различных параметров, они 
+все помещаются в ассоциативный массив и передаются как один параметр. Имена 
+ключей идентичны именам, задокументированным в HW SDK.
+Общие параметры перечислены ниже. Если необходимы другие параметры, они 
+будут документированы, если это необходимо.<UL><LI><P><B>objectIdentifier</B> - имя или id объекта,
+например, &quot;rootcollection", "0x873A8768 0x00000002".</P></LI><LI><P><B>parentIdentifier</B> 
+- имя или id объекта, который считается родительским.</P>
+</LI><LI><P><B>object</B> - экземпляр класса HW_API_Object.</P></LI><LI><P><B>parameters</B> - экземпляр класса HW_API_Object.</P>
+</LI><LI><P><B>version</B> - версия объекта.</P></LI><LI><P><B>mode</B> - целочисленное значение - способ выполнения операции.</P>
+</LI><LI><P><B>attributeSelector</B> - массив строк, каждая из которых содержит имя атрибута. Это используется, если
+вы запрашиваете запись объекта и хотите включить некоторые атрибуты.</P></LI><LI><P><B>objectQuery</B> 
+- запрос на выбор определённого объекта из списка объектов. Используется для 
+уменьшения количества объектов, выдаваемых функциями вроде<B>hw_api-&#62;children()</B> или
+<B>hw_api-&#62;find()</B>.</P></LI></UL><H1><A NAME="hwapi-apache">Интеграция с Apache</A></H1><P> Интеграция с Apache и, возможно, другими серверами уже описана в модуле Hyperwave Modul, 
+который был первым расширением для соединения с Hyperwave Server.</P><DL><DT><B>Содержание</B></DT>
+<DT><A HREF="hwapi-attribute-key.html">hw_api_attribute-&#62;key</A> — возвращает ключ/key атрибута</DT>
+<DT><A HREF="hwapi-attribute-langdepvalue.html">hw_api_attribute-&#62;langdepvalue</A> — возвращает значение для данного языка</DT>
+<DT><A HREF="hwapi-attribute-value.html">hw_api_attribute-&#62;value</A> — возвращает значение атрибута</DT>
+<DT><A HREF="hwapi-attribute-values.html">hw_api_attribute-&#62;values</A> — возвращает все значения атрибута</DT>
+<DT><A HREF="hwapi-attribute.html">hw_api_attribute</A> - создаёт экземпляр класса hw_api_attribute</DT>
+<DT><A HREF="hwapi-checkin.html">hw_api-&#62;checkin</A> - проверяет in-объект</DT>
+<DT><A HREF="hwapi-checkout.html">hw_api-&#62;checkout</A> - проверяет out-объект</DT>
+<DT><A HREF="hwapi-children.html">hw_api-&#62;children</A> — возвращает потомка объекта</DT>
+<DT><A HREF="hwapi-content-mimetype.html">hw_api_content-&#62;mimetype</A> — возвращает mimetype</DT>
+<DT><A HREF="hwapi-content-read.html">hw_api_content-&#62;read</A> - читает содержимое</DT>
+<DT><A HREF="hwapi-content.html">hw_api-&#62;content</A> — возвращает содержимое объекта</DT>
+<DT><A HREF="hwapi-copy.html">hw_api-&#62;copy</A> - копирует физически</DT>
+<DT><A HREF="hwapi-dbstat.html">hw_api-&#62;dbstat</A> — возвращает статистику о сервере БД</DT>
+<DT><A HREF="hwapi-dcstat.html">hw_api-&#62;dcstat</A> — возвращает статистику о сервере кэша документов</DT>
+<DT><A HREF="hwapi-dstanchors.html">hw_api-&#62;dstanchors</A> — возвращает список всех якорей назначения</DT>
+<DT><A HREF="hwapi-dstofsrcanchors.html">hw_api-&#62;dstofsrcanchors</A> — возвращает назначение якоря-источника</DT>
+<DT><A HREF="hwapi-error-count.html">hw_api_error-&#62;count</A> - возвращает количество причин/reasons</DT>
+<DT><A HREF="hwapi-error-reason.html">hw_api_error-&#62;reason</A> — возвращает reason ошибки</DT>
+<DT><A HREF="hwapi-find.html">hw_api-&#62;find</A> - ищет объекты</DT>
+<DT><A HREF="hwapi-ftstat.html">hw_api-&#62;ftstat</A> — возвращает статистику fulltext-сервере</DT>
+<DT><A HREF="hwapi-hgcsp.html">hwapi_hgcsp</A> — возвращает объект класса hw_api</DT>
+<DT><A HREF="hwapi-hwstat.html">hw_api-&#62;hwstat</A> — возвращает статистику о Hyperwave-сервере</DT>
+<DT><A HREF="hwapi-identify.html">hw_api-&#62;identify</A> - входит/Log в Hyperwave-сервер</DT>
+<DT><A HREF="hwapi-info.html">hw_api-&#62;info</A> — возвращает информацию о конфигурации сервера</DT>
+<DT><A HREF="hwapi-insert.html">hw_api-&#62;insert</A> - вставляет новый объект</DT>
+<DT><A HREF="hwapi-insertanchor.html">hw_api-&#62;insertanchor</A> - вставляет новый объект типа anchor</DT>
+<DT><A HREF="hwapi-insertcollection.html">hw_api-&#62;insertcollection</A> - вставляет новый объект типа collection</DT>
+<DT><A HREF="hwapi-insertdocument.html">hw_api-&#62;insertdocument</A> - вставляет новый объект типа document</DT>
+<DT><A HREF="hwapi-link.html">hw_api-&#62;link</A> - создаёт ссылку на объект</DT>
+<DT><A HREF="hwapi-lock.html">hw_api-&#62;lock</A> - блокирует объект</DT>
+<DT ><AHREF="hwapi-move.html">hw_api-&#62;move</A> - перемещает объект между коллекциями</DT>
+<DT><A HREF="hwapi-new-content.html">hw_api_content</A> - создаёт новый экземпляр класса hw_api_content</DT>
+<DT><A HREF="hwapi-object-assign.html">hw_api_object-&#62;assign</A> - клонирует объект</DT>
+<DT><A HREF="hwapi-object-attreditable.html">hw_api_object-&#62;attreditable</A> - проверяет, может ли атрибут редактироваться</DT>
+<DT><A HREF="hwapi-object-count.html">hw_api_object-&#62;count</A> - возвращает количество атрибутов</DT>
+<DT><A HREF="hwapi-object-insert.html">hw_api_object-&#62;insert</A> - вставляет новый атрибут</DT>
+<DT><A HREF="hwapi-object-new.html">hw_api_object</A> - создаёт новый экземпляр класса hw_api_object</DT>
+<DT><A HREF="hwapi-object-remove.html">hw_api_object-&#62;remove</A> - удаляет атрибут</DT>
+<DT><A HREF="hwapi-object-title.html">hw_api_object-&#62;title</A> — возвращает название атрибута</DT>
+<DT><A HREF="hwapi-object-value.html">hw_api_object-&#62;value</A> — возвращает значение атрибута</DT>
+<DT><A HREF="hwapi-object.html">hw_api-&#62;object</A> - запрашивает информацию атрибута</DT>
+<DT><A HREF="hwapi-objectbyanchor.html">hw_api-&#62;objectbyanchor</A> — возвращает объект, к которому принадлежит anchor</DT>
+<DT><A HREF="hwapi-parents.html">hw_api-&#62;parents</A> — возвращает родителя объекта</DT>
+<DT><A HREF="hwapi-reason-description.html">hw_api_reason-&#62;description</A> — возвращает описание reason</DT>
+<DT><A HREF="hwapi-reason-type.html">hw_api_reason-&#62;type</A> — возвращает тип reason/причины</DT>
+<DT><A HREF="hwapi-remove.html">hw_api-&#62;remove</A> - удаляет объект</DT>
+<DT><A HREF="hwapi-replace.html">hw_api-&#62;replace</A> - заменяет объект</DT>
+<DT><A HREF="hwapi-setcommitedversion.html">hw_api-&#62;setcommitedversion</A> - подтверждает версию, отличную от последней версии</DT>
+<DT><A HREF="hwapi-srcanchors.html">hw_api-&#62;srcanchors</A> — возвращает список всех anchor-источников</DT>
+<DT><A HREF="hwapi-srcsofdst.html">hw_api-&#62;srcsofdst</A> — возвращает источник объекта назначения</DT>
+<DT><A HREF="hwapi-unlock.html">hw_api-&#62;unlock</A> - разблокирует блокированный объект</DT>
+<DT><A HREF="hwapi-user.html">hw_api-&#62;user</A> — возвращает пользователя объекта</DT>
+<DT><A HREF="hwapi-userlist.html">hw_api-&#62;userlist</A> — возвращает список всех вошедших/logged in пользователей</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3">
+<TR><TD WIDTH="33%" VALIGN="top"><A HREF="hw-who.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="hwapi-attribute-key.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">hw_Who</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">hw_api_attribute-&#62;key</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

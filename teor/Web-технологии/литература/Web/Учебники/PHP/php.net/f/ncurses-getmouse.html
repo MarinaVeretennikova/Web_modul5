@@ -1,0 +1,34 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>ncurses_getmouse</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ncurses-getch.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ncurses-halfdelay.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="ncurses-getmouse">ncurses_getmouse</A></H1><A NAME="AEN54423"></A><P>(PHP 4 &#62;= 4.2.0)</P>
+<p>ncurses_getmouse - читает событие мыши.<A NAME="AEN54426"></A></p><H2>Описание</H2><p>bool <B>ncurses_getmouse</B> (array mevent)</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD><P>Эта функция - ЭКСПЕРИМЕНТАЛЬНАЯ. Поведение, имя и всё остальное, что задокументировано для данной функции может быть изменено в будущих релизах РНР без предупреждения. Вы можете использовать эту функцию только на свой страх и риск.
+</P></TD></TR></TABLE><P><B>ncurses_getmouse()</B> читает событие мыши из очереди. Функция <B>ncurses_getmouse()</B> возвратит
+<TT><B>FALSE</B></TT>, если событие мыши видно в данном окне, иначе <TT><B>TRUE</B></TT>.
+Опции события задаются в параметре <TT><I>mevent</I></TT>, который является массивом, передаваемым по ссылке (см. пример ниже).
+При успехе предоставляется ассоциативный массив со следующими ключами:<UL><LI><P>"id" : Id для отличения нескольких устройств</P></LI>
+<LI><P>"x" : x-позиция на экране в ячейках символов</P></LI><LI><P>"y" : y-позиция на экране в ячейках символов</P></LI>
+<LI><P>"z" : в настоящее время не поддерживается</P></LI><LI><P>"mmask" : акция мыши</P></LI></UL>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN54455"></A><h5>Пример 1. ncurses_getmouse()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>switch (ncurses_getch){
+  case NCURSES_KEY_MOUSE:
+    if (!ncurses_getmouse(&#38;$mevent)){
+      if ($mevent["mmask"] &#38; NCURSES_MOUSE_BUTTON1_PRESSED){
+        $mouse_x = $mevent["x"]; // сохранить позицию мыши
+        $mouse_y = $mevent["y"];
+      }
+    }
+  break;
+
+  default:
+    ....
+}</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="ncurses-ungetmouse.html"><B>ncurses_ungetmouse()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ncurses-getch.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ncurses-halfdelay.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ncurses_getch</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.ncurses.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ncurses_halfdelay</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,421 @@
+<html>
+<title>Создание HTML-форм</title>
+<meta name=keywords content="table align tr td border cellpadding cellspacing form input name type value text password textarea submit button map area ismap css styles">
+<meta name=description content="Таблицы Создание HTML-форм Навигационные области Таблицы каскадных стилей">
+
+<head>
+<style>
+pre {background:#E5E5E5}
+</style>
+</head>
+<body>
+<table align=center width=90%>
+<tr><td>
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c04_table.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c04_table.html">Таблицы</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c04_map.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c04_map.html">Навигационные области </a>
+</table>
+
+
+
+
+<h3>Создание HTML-форм</h3></a>
+<p align=justify>
+Для создания html-формы используется команда form. У нее могут быть
+следующие параметры:
+<ul>
+<li>NAME - определяет имя формы, обычно не указывается. Применяется для идентификации формы, если в документе присутствует несколько форм.
+<li>ACTION - обязательный параметр, он задает путь к скрипту, который будет запущен веб-сервером.
+<li>METHOD - определяет способ отправки параметров формы. Принимает значение GET или POST.
+<li>TARGET - определяет окно, в которое возвращается результат обработки отправленной формы. Возможные значения : _self, _parent, _top, _blank или явно указанное имя окна. 
+</ul>
+
+Простой пример:
+<table width=100% bgcolor=#E5E5E5>
+<tr><td>
+<pre>
+&lt;form method=POST action=/cgi-bin/gb_show.exe&gt;
+&lt;input type=text name=text value="Значение по умолчанию" size=40&gt; 
+&lt;input type=submit value=Опубликовать&gt;
+&lt;/form&gt;
+</td></tr>
+</table>
+Здесь мы создали форму, которую будет обрабатывать программа gb_show.exe.
+Параметр method, указывает каким способом передаются параметры в программу gb_show.exe.
+Какой именно способ указывать, зависит от программы gb_show.exe, которая будет обрабатывать 
+вашу html-форму. В этом параграфе вы должны научиться создавать формы в html-документе.
+Их использовать вы сможете после установки и настройки веб-сервера, но об этом во второй части книги.
+<br>
+
+
+Внутри команды form могут быть следующие элементы:
+<ul>
+<li> поле ввода для строки
+<li> поле ввода для пароля
+<li> кнопки
+<li> радиокнопки 
+<li> список
+<li> поле ввода для текста
+<li> checkbox - поле ввода для атрибутов типа Boolean 
+<li> рисунок 
+</ul>
+
+<h4>Поле ввода для строки</h4>
+
+Поле ввода для строки создается командой &lt;input type=text 
+name=text value="Начальное значение" size=40 maxlength=80&gt;.
+<ul>
+<li> name задает имя параметра
+<li> value - начальное значение
+<li> size - размер видимого поля на экране
+<li> maxlength - максимальный размер строки ввода
+</ul>
+Атрибут value обычно не указывается, это означает, что после загрузки HTML-страницы,
+в поле ввода будет пустая строка.
+Обратите внимание на параметр
+maxlength. Его желательно указывать, чтобы ограничить максимально допустимое количество 
+символов. Это полезно по двум причинам. Во-первых, предостеречь пользователя
+от неправильного ввода. Представьте, что у вас большая форма с кучей полей.
+Человек ошибся, в индексе вместо шести цифр указал семь. Если вы не
+зададите атрибут maxlength равным шести, то бедному пользователю придется 
+ждать, пока данные отправятся CGI-программе, потом пока программа выдаст
+сообщение об ошибке и т.д. Во-вторых, это будет предупреждением хакерам, что 
+ваш сайт не так просто сломать. Но эту тему мы разберем отдельно в главе
+"Безопасность CGI". 
+
+
+<form action="http://alice.stup.ac.ru/cgi-bin/test.cgi">
+<center>
+<input type=text name=text value="Начальное значение" size=40 maxlength=80> 
+</center>
+
+
+<h4>Поле ввода для пароля</h4>
+Поле ввода для пароля создается &lt;input type=password 
+name=text value="Начальное значение" size=40 maxlength=10&gt;.
+Как вы можете заметить, разница в значении атрибута type.
+<br><br><center>
+<input type=password name=text value=djsfb size=40 maxlength=10>
+</center>
+Обратите внимание, что на этот раз размер видимой части больше, чем максимальное количество 
+символов, которое можно ввести.
+
+
+
+<h4>Кнопки</h4>
+Для создания кнопки атрибут type должен быть равен button -
+&lt;input type=button value=Кнопка&gt;. Атрибут value задает
+надпись на кнопке.
+<br><br>
+<center>
+<input type=button value=Кнопка>
+</center>
+Такого рода кнопки используются обычно при совместном использовании с JavaScript.
+Наиболее часто используется кнопка для отправки данных HTML-формы на сервер и 
+кнопка для сброса значений формы в начальное положение.
+<br>
+Кнопка для отправки формы создается так: &lt;input type=submit value="Опубликовать"&gt;.
+Внешне она выглядит, как кнопка, но обратите внимание, что атрибут type имеет значение
+не button, а submit.
+<br><br>
+<center>
+<input type=submit value="Отправить данные формы"> 
+</center>
+<br><br>
+Для сброса формы в начальное состояние служит 
+элемент: &lt;input type=reset value="Сбросить в начальное состояние"&gt; 
+Вы можете изменить значения в элементах данной HTML-формы выше,
+а затем сбросить в начальное состояние, нажав следующую кнопку. Не путайте
+сброс в начальное состояние с нулевым. Часто на кнопке Reset пишут
+"очистить". Это в корне неверно. Очень часто
+этот элемент применяется не по делу. Во-первых, глупостью является
+сброс в нулевое состояние, т.е. когда у вас по умолчанию в HTML-форме никаких 
+значений не было. Во-вторых, совсем полной глупостью является размещения кнопки
+Reset рядом с кнопкой Submit. Многие пользователи жмут на кнопки интуитивно и очень 
+быстро. Например, все уже привыкли, что кнопка ОК размещается слева, а кнопка 
+Cancel справа. Если на сайте поставить кнопку Reset слева от кнопки Submit, то 
+будет много мата от посетителей такого сайта. Прежде, чем поставить кнопку Reset
+подумайте, а нужна ли она. Она нужна тогда и только тогда, когда в HTML-форме
+имеются начальные значения, которые пользователь редактирует. По сути кнопка Reset
+позволяет вернуться к начальным значениям не перегружая HTML-страницу. В Сети приходится
+встречать очень большие HTML-формы, в конце которых стоят рядом две кнопки Reset &
+Submit. И посетитель сайта долго и упорно заполнявший форму, а потом ошибившись
+кнопкой, начинает проклинать все что только можно и перебирать всех близких 
+родственников разработчиков данного сайта.
+<br><br>
+<center>
+<input type=reset value="Сбросить в начальное состояние"> 
+</center>
+
+<h4>Радиокнопки</h4>
+Для создания радиокнопки атрибут type должен быть равен radio.
+<pre>
+&lt;input type=radio checked name=smile value=images/smiles/icon1.gif&gt;
+&lt;img src=images/smiles/icon1.gif&gt;
+&lt;input type=radio name=smile value=images/smiles/icon2.gif&gt;
+&lt;img src=images/smiles/icon2.gif&gt;
+&lt;input type=radio name=smile value=images/smiles/icon3.gif&gt;
+&lt;img src=images/smiles/icon3.gif&gt;
+&lt;input type=radio name=smile value=images/smiles/icon4.gif&gt;
+&lt;img src=images/smiles/icon4.gif&gt;
+&lt;input type=radio name=smile value=images/smiles/icon5.gif&gt;
+&lt;img src=images/smiles/icon5.gif&gt;
+&lt;input type=radio name=smile value=images/smiles/icon6.gif&gt;
+&lt;img src=images/smiles/icon6.gif&gt;
+&lt;input type=radio name=smile value=images/smiles/icon7.gif&gt;
+&lt;img src=images/smiles/icon7.gif&gt;
+&lt;input type=radio name=smile value=images/smiles/icon8.gif&gt;
+&lt;img src=images/smiles/icon8.gif&gt;
+&lt;input type=radio name=smile value=images/smiles/icon9.gif&gt;
+&lt;img src=images/smiles/icon9.gif&gt;
+&lt;input type=radio name=smile value=images/smiles/icon10.gif&gt;
+&lt;img src=images/smiles/icon10.gif&gt;
+&lt;br&gt;
+&lt;input type=radio name=smile value=images/smiles/icon11.gif&gt;
+&lt;img src=images/smiles/icon11.gif&gt;
+&lt;input type=radio name=smile value=images/smiles/icon12.gif&gt;
+&lt;img src=images/smiles/icon12.gif&gt;
+&lt;input type=radio name=smile value=images/smiles/icon13.gif&gt;
+&lt;img src=images/smiles/icon13.gif&gt;
+&lt;input type=radio name=smile value=images/smiles/icon14.gif&gt;
+&lt;img src=images/smiles/icon14.gif&gt;
+&lt;input type=radio name=smile value=images/smiles/icon15.gif&gt;
+&lt;img src=images/smiles/icon15.gif&gt;
+&lt;input type=radio name=smile value=images/smiles/icon16.gif&gt;
+&lt;img src=images/smiles/icon16.gif&gt;
+&lt;input type=radio name=smile value=images/smiles/icon17.gif&gt;
+&lt;img src=images/smiles/icon17.gif&gt;
+&lt;input type=radio name=smile value=images/smiles/icon18.gif&gt;
+&lt;img src=images/smiles/icon18.gif&gt;
+&lt;input type=radio name=smile value=images/smiles/icon19.gif&gt;
+&lt;img src=images/smiles/icon19.gif&gt;
+&lt;input type=radio name=smile value=images/smiles/icon20.gif&gt;
+&lt;img src=images/smiles/icon20.gif&gt;
+</pre>
+ От группы радиокнопок
+на сервер посылается пара name=value, в нашем случае это smile=images/smiles/icon1.gif.
+Если вы переставите точку на другую кнопку, то соответственно value изменится.
+В одной форме может быть несколько групп радиокнопок. Радиокнопки группируются 
+на основании поля
+name. Если вы хотите заранее пометить какую-то кнопку, как отмеченную, то
+поставьте ей атрибут checked. См. самую первую строчку в примере.
+
+<br><center>
+<input type=radio checked name=smile value=images/smiles/icon1.gif><img src="icon1.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/smiles/icon1.gif">
+<input type=radio name=smile value=images/smiles/icon2.gif><img src="icon2.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/smiles/icon2.gif">
+<input type=radio name=smile value=images/smiles/icon3.gif><img src="icon3.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/smiles/icon3.gif">
+<input type=radio name=smile value=images/smiles/icon4.gif><img src="icon4.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/smiles/icon4.gif">
+<input type=radio name=smile value=images/smiles/icon5.gif><img src="icon5.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/smiles/icon5.gif">
+<input type=radio name=smile value=images/smiles/icon6.gif><img src="icon6.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/smiles/icon6.gif">
+<input type=radio name=smile value=images/smiles/icon7.gif><img src="icon7.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/smiles/icon7.gif">
+<input type=radio name=smile value=images/smiles/icon8.gif><img src="icon8.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/smiles/icon8.gif">
+<input type=radio name=smile value=images/smiles/icon9.gif><img src="icon9.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/smiles/icon9.gif">
+<input type=radio name=smile value=images/smiles/icon10.gif><img src="icon10.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/smiles/icon10.gif">
+<br>
+<input type=radio name=smile value=images/smiles/icon11.gif><img src="icon11.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/smiles/icon11.gif">
+<input type=radio name=smile value=images/smiles/icon12.gif><img src="icon12.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/smiles/icon12.gif">
+<input type=radio name=smile value=images/smiles/icon13.gif><img src="icon13.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/smiles/icon13.gif">
+<input type=radio name=smile value=images/smiles/icon14.gif><img src="icon14.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/smiles/icon14.gif">
+<input type=radio name=smile value=images/smiles/icon15.gif><img src="icon15.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/smiles/icon15.gif">
+<input type=radio name=smile value=images/smiles/icon16.gif><img src="icon16.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/smiles/icon16.gif">
+<input type=radio name=smile value=images/smiles/icon17.gif><img src="icon17.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/smiles/icon17.gif">
+<input type=radio name=smile value=images/smiles/icon18.gif><img src="icon18.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/smiles/icon18.gif">
+<input type=radio name=smile value=images/smiles/icon19.gif><img src="icon19.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/smiles/icon19.gif">
+<input type=radio name=smile value=images/smiles/icon20.gif><img src="icon20.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/smiles/icon20.gif">
+</center>
+
+Такие радиокнопки используются в форумах и гостевых книгах, см. <a href="javascript:if(confirm('http://itsoft.ru/guestbook  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://itsoft.ru/guestbook'" tppabs="http://itsoft.ru/guestbook">http://itsoft.ru/gb</a>.
+
+<h4>Переключатель - поле ввода для атрибутов типа Boolean</h4>
+&lt;input type=checkbox name=checkbox&gt; 
+<input type=checkbox name=checkbox>
+
+Аналогично примеру выше, для того чтобы отметить переключатель,
+укажите атрибут checked. Также вы можете задать и атрибут value. 
+По умолчанию он имеет значение on. Но смысла в этом особого нет, т.к.
+если переключатель не отмечен, то он не передается на сервер вообще.
+
+
+
+
+
+<h4>Список</h4>
+Список создается командой SELECT. Запись в списке создается командой OPTION.
+В команде OPTION обязательный атрибут value. Атрибут SELECTED указывает, что данная
+строка будет выбрана по умолчанию.<br>
+<pre>
+&lt;SELECT NAME=list&gt;<br>
+    &lt;OPTION value=1&gt;one<br>
+    &lt;OPTION value=2&gt;two<br>
+    &lt;OPTION value=0 SELECTED&gt;zero<br>
+&lt;/SELECT&gt;
+</pre>
+<br>
+<center>
+<SELECT NAME=list>
+    <OPTION value=1>one
+    <OPTION value=2>two
+    <OPTION value=0 SELECTED>zero
+</SELECT> 
+</center>
+
+В команде SELECT могут быть  атрибуты SIZE и MULTIPLE.
+SIZE задает размер списка на экране в строчках. Модификатор MULTIPLE
+указывает, что в данном списке можно выбрать несколько строк.<br>
+<pre>
+&lt;SELECT NAME=list2 SIZE=3 MULTIPLE&gt;<br>
+    &lt;OPTION value=1&gt;one<br>
+    &lt;OPTION value=2&gt;two<br>
+    &lt;OPTION value=0 SELECTED&gt;zero<br>
+    &lt;OPTION value=10&gt;ten<br>
+    &lt;OPTION value=11&gt;11<br>
+&lt;/SELECT&gt;
+</pre>
+
+<br>
+<center>
+<SELECT NAME=list2 SIZE=3 MULTIPLE >
+    <OPTION value=1>one
+    <OPTION value=2>two
+    <OPTION value=0 SELECTED>zero
+    <OPTION value=10>ten
+    <OPTION value=11>11
+</SELECT>                  
+</center>
+
+<h4>Поле ввода для текста</h4>
+Область ввода для текста создается командой
+&lt;textarea name=textarea cols=45 rows=6&gt;Здесь текст по умолчанию&lt;/textarea&gt;
+
+<br>
+<center>
+<textarea name=textarea cols=45 rows=6>Здесь текст по умолчанию</textarea>
+</center>
+
+
+<h4>Рисунок</h4>
+&lt;input type=image src=button.gif&gt; 
+
+<input type=image src="button.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/button.gif">
+
+</form>
+<br>
+
+<h3>Упражнение</h3>
+Попробуйте создать следующую форму. Код см. <a href="javascript:if(confirm('http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/form.html  \n\nThis file was not retrieved by Teleport Pro, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/form.html'" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/form.html">здесь</a>.
+<br>
+<img src="form.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/form.gif">
+
+
+
+</td></tr>
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #1 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=0-9358" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=0?9358" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=0'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69019-bn=0-9358" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=0?9358"
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #2 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=1?Rnd_Num" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=1'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=1?Rnd_Num" 
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="erle.cgi-51599-9358" tppabs="http://www.linkexchange.ru/cgi-bin/erle.cgi?51599?9358" frameborder=0 
+    vspace=0 hspace=0 width=468 height=60 marginwidth=0 marginheight=0 scrolling=no>
+    <a href="javascript:if(confirm('http://www.linkexchange.ru/users/goto.map  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://www.linkexchange.ru/users/goto.map'" tppabs="http://www.linkexchange.ru/users/goto.map" target=_top>
+    <img src="rle.cgi-51599-9358" tppabs="http://www.linkexchange.ru/cgi-bin/rle.cgi?51599?9358" alt="RLE Banner Network" border=0 height=60 width=468></a>
+    </iframe>
+
+<!-- Russian LinkExchange code START - BANNER #1 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=0-9358" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=0?9358"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=0'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69021-bn=0-9358" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=0?9358"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+<!-- Russian LinkExchange code START - BANNER #2 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=1-9358" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=1?9358"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=1'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69021-bn=1-9358" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=1?9358"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+</td></tr>
+</table>
+
+</body>
+</html>

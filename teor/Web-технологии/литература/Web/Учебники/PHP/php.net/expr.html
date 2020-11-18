@@ -1,0 +1,38 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Типы Выражений</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR>
+<TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%"><A HREF="while-syntax.html">Назад</A></TD>
+<th WIDTH="80%">Приложение C. Переход от PHP/FI 2 к PHP 3</th><TD WIDTH="10%" ALIGN="right">
+<A HREF="errors.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="migration.expr">Типы выражений</a></H1>
+<P>PHP/FI 2.0 использовал левую часть выражения для определения того, какого типа должно быть выражение.<br>
+PHP 3.0 учитывает обе части при определении типа результата, и это может вызвать другое поведение 2.0-скриптов в 3.0.</P>
+<P>Рассмотрим пример:<A NAME="AEN88625"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>$a[0]=5;
+$a[1]=7;
+
+$key = key($a);
+while ("" != $key) {
+    echo "$keyn";
+    next($a);
+}</PRE></TD></TR></TABLE>
+<p>В PHP/FI 2.0 этот код выведет оба индекса $a.  В PHP 3.0 вообще ничего не 
+будет выведено. Причина в том, что в PHP 2.0 тип левого аргумента был string/строка, было сделано сравнение строк,
+<TT>""</TT> не равно <TT>"0"</TT>, и цикл выполнялся.  В PHP 3.0,
+когда string сравнивается с integer, выполняется целочисленное сравнение (string 
+конвертируется в integer).  Это даёт сравнение <TT>atoi("")</TT>, равного <TT>0</TT>, и <TT>variablelist,</TT> которое также равно
+<TT>0</TT>, и поскольку <TT>0==0</TT>, цикл не выполняется ни разу.</p>
+<P>Исправить это просто.  Замените оператор while на:<A NAME="AEN88635"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>while ((string)$key != "") {</PRE></TD>
+</TR></TABLE></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="while-syntax.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="errors.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Синтаксис while</TD>
+<th WIDTH="34%" VALIGN="top"><a href="appendix.migration.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+Сообщения об ошибках изменены</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

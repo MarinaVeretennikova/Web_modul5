@@ -1,0 +1,32 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>ifx_affected_rows</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ref.ifx.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ifx-blobinfile-mode.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.ifx-affected-rows">ifx_affected_rows</A></H1><A NAME="AEN36008"></A><P>(PHP 3&#62;= 3.0.3, PHP 4)</P>
+<p>ifx_affected_rows - получает количество рядов, задействованных в запросе.<A NAME="AEN36011"></A></p><H2>Описание</H2>
+<p>int <B>ifx_affected_rows</B> (int result_id)</p><P><TT><I>result_id</I></TT> это правильный id результата, возвращённый функциями
+<A HREF="ifx-query.html"><B>ifx_query()</B></A> или <A HREF="ifx-prepare.html"><B>ifx_prepare()</B></A>.</P>
+<P>Возвращает количество рядов, задействованных в запросе, ассоциированном с <TT><I>result_id</I></TT>.</P>
+<P>Для insert, update и delete количество является реальным числом (sqlerrd[2]) использованных рядов. Для select оно является приблизительным
+(sqlerrd[0]). Не полагайтесь на него. Сервер БД никогда не сможет возвратить фактическое количество рядов, возвращённых оператором
+SELECT, поскольку он даже не начинал их извлечение на этом этапе (только после "PREPARE", когда оптимизатор определили план запроса).</P>
+<P>Используется после <A HREF="ifx-prepare.html"><B>ifx_prepare()</B></A> для ограничения запросов рациональными результирующими наборами.</P>
+<P>См. также <A HREF="ifx-num-rows.html"><B>ifx_num_rows()</B></A>.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN36030"></A><h5>Пример 1. Задействованные ряды Informix</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$rid = ifx_prepare ("select * from emp 
+                     where name like " . $name, $connid);
+if (! $rid) {
+    ... error ...
+}
+$rowcount = ifx_affected_rows ($rid);
+if ($rowcount &#62; 1000) {
+    printf ("Too many rows in result set (%d)\n&#60;br&#62;", $rowcount);
+    die ("Please restrict your query&#60;br&#62;\n");
+}</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ref.ifx.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ifx-blobinfile-mode.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Функции Informix</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.ifx.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ifx_blobinfile_mode</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

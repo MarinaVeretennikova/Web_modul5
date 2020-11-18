@@ -1,0 +1,81 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>SWFShape-&#62;addFill</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="swfmovie.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="swfshape.drawcurve.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.swfshape.addfill">SWFShape-&#62;addFill</A></H1><A NAME="AEN47624"></A><P>(unknown)</P>
+<p>SWFShape-&#62;addFill - добавляет сплошное заполнение  фигуре.<A NAME="AEN47627"></A></p><H2>Описание</H2>
+<p>void <B>swfshape-&#62;addfill</B> (int red, int green, int blue [, int a])</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD><P>Эта функция - ЭКСПЕРИМЕНТАЛЬНАЯ. Поведение, имя и всё остальное, что задокументировано для данной функции может быть изменено в будущих релизах РНР без предупреждения. Вы можете использовать эту функцию только на свой страх и риск.
+</P></TD></TR></TABLE><p>void <B>swfshape-&#62;addfill</B> (SWFbitmap bitmap [, int flags])</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD><P>Эта функция - ЭКСПЕРИМЕНТАЛЬНАЯ. Поведение, имя и всё остальное, что задокументировано для данной функции может быть изменено в будущих релизах РНР без предупреждения. Вы можете использовать эту функцию только на свой страх и риск.
+</P></TD></TR></TABLE><p>void <B>swfshape-&#62;addfill</B> (SWFGradient gradient [, int flags])</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD><P>Эта функция - ЭКСПЕРИМЕНТАЛЬНАЯ. Поведение, имя и всё остальное, что задокументировано для данной функции может быть изменено в будущих релизах РНР без предупреждения. Вы можете использовать эту функцию только на свой страх и риск.
+</P></TD></TR></TABLE><P><B>swfshape-&#62;addfill()</B> добавляет сплошное заполнение к списку стилей заполнения фигуры.
+<B>swfshape-&#62;addfill()</B> принимает три различных типа аргументов.</P><P><TT><I>red</I></TT>, <TT><I>green</I></TT>,
+<TT><I>blue</I></TT> это цвет (режим RGB). Последний параметр <TT><I>a</I></TT> не обязателен.</P>
+<P>Аргумент <TT><I>bitmap</I></TT> это <A HREF="swfbitmap.html"><B>swfbitmap()</B></A>-объект.
+Аргумент <TT><I>flags</I></TT> может иметь одно из значений: SWFFILL_CLIPPED_BITMAP или SWFFILL_TILED_BITMAP. 
+По умолчанию SWFFILL_TILED_BITMAP. Я так думаю.</P><P>Аргумент <TT><I>gradient</I></TT> это
+<A HREF="swfgradient.html"><B>swfgradient()</B></A>-объект. Аргумент flags может иметь одно из значений:  
+SWFFILL_RADIAL_GRADIENT или SWFFILL_LINEAR_GRADIENT. По умолчанию SWFFILL_LINEAR_GRADIENT. Насчёт этого я уверен. Действительно.</P>
+<P><B>swfshape-&#62;addfill()</B> возвращает <A HREF="swffill.html"><B>swffill()</B></A>-объект для использования с функциями
+<B>swfshape-&#62;setleftfill()</B> и <B>swfshape-&#62;setrightfill()</B>, описанными далее.</P>
+<P>См. также <B>swfshape-&#62;setleftfill()</B> и <B>swfshape-&#62;setrightfill()</B>.</P>
+<P>В этом простом примере рисуется кадр на растре. А, вот и другой баглет во flash-плэйере - похоже он не слишком беспокоится о трансформации растра второй фигуры в morph. 
+В соответствии со спецификацией, растр должен в этом примере растянуться вместе с фигурой.
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN47695"></A><h5>Пример 1. swfshape-&#62;addfill()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+  $p = new SWFMorph();
+
+  $b = new SWFBitmap("alphafill.jpg");
+  // использовать ваш собственный растр
+  $width = $b-&#62;getWidth();
+  $height = $b-&#62;getHeight();
+
+  $s = $p-&#62;getShape1();
+  $f = $s-&#62;addFill($b, SWFFILL_TILED_BITMAP);
+  $f-&#62;moveTo(-$width/2, -$height/4);
+  $f-&#62;scaleTo(1.0, 0.5);
+  $s-&#62;setLeftFill($f);
+  $s-&#62;movePenTo(-$width/2, -$height/4);
+  $s-&#62;drawLine($width, 0);
+  $s-&#62;drawLine(0, $height/2);
+  $s-&#62;drawLine(-$width, 0);
+  $s-&#62;drawLine(0, -$height/2);
+
+  $s = $p-&#62;getShape2();
+  $f = $s-&#62;addFill($b, SWFFILL_TILED_BITMAP);
+
+  // эти два не оказываю действия!
+  $f-&#62;moveTo(-$width/4, -$height/2);
+  $f-&#62;scaleTo(0.5, 1.0);
+
+  $s-&#62;setLeftFill($f);
+  $s-&#62;movePenTo(-$width/4, -$height/2);
+  $s-&#62;drawLine($width/2, 0);
+  $s-&#62;drawLine(0, $height);
+  $s-&#62;drawLine(-$width/2, 0);
+  $s-&#62;drawLine(0, -$height);
+
+  $m = new SWFMovie();
+  $m-&#62;setDimension($width, $height);
+  $i = $m-&#62;add($p);
+  $i-&#62;moveTo($width/2, $height/2);
+
+  for($n=0; $n&#60;1.001; $n+=0.03)
+  {
+    $i-&#62;setRatio($n);
+    $m-&#62;nextFrame();
+  }
+
+  header('Content-type: application/x-shockwave-flash');
+  $m-&#62;output();
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="swfmovie.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="swfshape.drawcurve.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">SWFMovie</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.ming.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">SWFShape-&#62;drawCurve</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

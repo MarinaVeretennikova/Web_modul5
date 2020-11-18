@@ -1,0 +1,59 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции dbx</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0"  WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="dbmreplace.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="dbx-close.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.dbx"></A>XXI. Функции dbx</h1><A NAME="AEN16576"></A><H1><A NAME="dbx.intro">Введение</A></H1>
+<P>Модуль dbx это слой абстракции БД (db 'X', где 'X'
+это поддерживаемая БД). Функции dbx дают вам доступ ко всем поддерживаемым 
+БД через использование простого соглашения по вызовам.<br>
+dbx-функции сами по себе являются не интерфейсом с БД, а интерфейсом с 
+модулями, которые используются для поддержки этих БД.</P><H1><A NAME="dbx.required">Требования</A></H1>
+<P>Чтобы использовать БД с dbx-модулем, этот модуль обязан быть либо 
+привязан, либо загружен в PHP, и модуль базы данных обязан поддерживаться этим 
+dbx-модулем. В настоящее время поддерживаются следующие БД, а остальные - пока 
+нет (надеюсь, это будет скоро):<UL><LI><P><A HREF="ref.fbsql.html">FrontBase</A> (начиная с PHP 4.1.0)</P></LI>
+<LI><P><A HREF="ref.mssql.html">Microsoft SQL Server</A></P></LI><LI><P><A HREF="ref.mysql.html">MySQL</A></P>
+</LI><LI><P><A HREF="ref.odbc.html">ODBC</A></P></LI><LI><P><A HREF="ref.pgsql.html">PostgreSQL</A></P></LI>
+<LI><P><A HREF="ref.sybase.html">Sybase-CT</A> (начиная с PHP 4.2.0)</P></LI></UL>
+<P>Документацию для добавления поддержки других БД в dbx можно найти по адресу:
+<A HREF="http://www.guidance.nl/php/dbx/doc/" TARGET="_top">http://www.guidance.nl/php/dbx/doc/</A>.</P>
+<H1><A NAME="dbx.installation">Установка</A></H1><P>Для того чтобы эти функции стали доступны, вы обязаны скомпилировать РНР с
+опцией <TT>--enable-dbx</TT> и всеми опциями для баз данных, которые будут использоваться, например, для
+MySQL вы обязаны также специфицировать <TT>--with-mysql=[DIR]</TT>.
+Чтобы включить поддержку других БД в dbx-модуле, обратитесь к соответствующей документации по этим БД.</P>
+<H1><a name="dbx.runtime">Конфигурация</a></H1><P>Это расширение не определяет никаких директив конфигурации.</P>
+<H1><A NAME="dbx.resources">Типы ресурсов</A></H1><P>В dbx-модуле используются ресурсы двух типов. Первый - это
+link-<A HREF="../types.object.html"><B>object</B></A> для соединения с БД, второй -
+result-<A HREF="../types.object.html"><B>object</B></A>, содержащий результат выполнения запроса.</P>
+<H1><A NAME="constants.dbx">Предопределённые константы</A></H1><P>Эти константы определены данным расширением и будут доступны только в том случае, если либо вкомпилированы в РНР, либо динамически загружены на этапе прогона.</P>
+<DL><DT><TT><B>DBX_MYSQL</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT><DT><TT>
+<B>DBX_ODBC</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT><DT><TT><B>DBX_PGSQL</B></TT> 
+(<A HREF="../types.integer.html">integer</A>)</DT><DT><TT><B>DBX_MSSQL</B></TT> 
+(<A HREF="../types.integer.html">integer</A>)</DT><DT><TT><B>DBX_FBSQL</B></TT> 
+(<A HREF="../types.integer.html">integer</A>)</DT><DT><TT><B>DBX_OCI8</B></TT> 
+(<A HREF="../types.integer.html">integer</A>)</DT><DT><TT><B>DBX_SYBASECT</B></TT> 
+(<A HREF="../types.integer.html">integer</A>)</DT><DT><TT><B>DBX_PERSISTENT</B></TT> 
+(<A HREF="../types.integer.html">integer</A>)</DT><DT><TT><B>DBX_RESULT_INFO</B></TT> 
+(<A HREF="../types.integer.html">integer</A>)</DT><DT><TT><B>DBX_RESULT_INDEX</B></TT> 
+(<A HREF="../types.integer.html">integer</A>)</DT><DT><TT><B>DBX_RESULT_ASSOC</B></TT> 
+(<A HREF="../types.integer.html">integer</A>)</DT><DT><TT><B>DBX_CMP_NATIVE</B></TT> 
+(<A HREF="../types.integer.html">integer</A>)</DT><DT><TT><B>DBX_CMP_TEXT</B></TT> 
+(<A HREF="../types.integer.html">integer</A>)</DT><DT><TT><B>DBX_CMP_NUMBER</B></TT> 
+(<A HREF="../types.integer.html">integer</A>)</DT><DT><TT><B>DBX_CMP_ASC</B></TT> 
+(<A HREF="../types.integer.html">integer</A>)</DT><DT><TT><B>DBX_CMP_DESC</B></TT> 
+(<A HREF="../types.integer.html">integer</A>)</DT></DL><DL><DT><B>Содержание</B></DT>
+<DT><A HREF="dbx-close.html">dbx_close</A> - закрывает открытое соединение/БД</DT>
+<DT><A HREF="dbx-compare.html">dbx_compare</A> - сравнивает два ряда с целью сортировки</DT>
+<DT><A HREF="dbx-connect.html">dbx_connect</A> - открывает соединение/БД</DT>
+<DT><A HREF="dbx-error.html">dbx_error</A> - выдаёт сообщение об ошибке в последнем вызове функции в модуле (а не просто в соединении)</DT>
+<DT><A HREF="dbx-query.html">dbx_query</A> - отправляет запрос/query и получает все результаты (если имеются)</DT>
+<DT><A HREF="dbx-sort.html">dbx_sort</A> - сортирует результат из dbx_query специальной функцией сортировки</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0"  WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="dbmreplace.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="dbx-close.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">dbmreplace</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">dbx_close</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,103 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>switch</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="continue.html">Назад</A></TD>
+<th WIDTH="80%">Глава 11. Структуры Управления</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="declare.html">Вперёд</A></TD></TR>
+</TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR>
+</TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD>
+<TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%"><H1><A NAME="control-structures.switch"><TT>switch</TT></A></H1>
+<P>Оператор <TT>switch</TT> напоминает выполнение серии операторов
+IF над одним выражением.  Во многих случаях вам нужно будет сравнить одну 
+переменную (или выражение) с различными значениями и выполнить разные участки 
+кода в зависимости от того, каково значение.  Именно это поможет сделать 
+оператор <TT>switch</TT>.</P><P>Следующие два примера это два способа записи одного и того же: в первом
+используется серия операторов <TT>if</TT>, во втором - оператор <TT>switch</TT>:</p><A NAME="AEN5011"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>if ($i == 0) {
+    print "i equals 0";
+}
+if ($i == 1) {
+    print "i equals 1";
+}
+if ($i == 2) {
+    print "i equals 2";
+}
+
+switch ($i) {
+    case 0:
+        print "i equals 0";
+        break;
+    case 1:
+        print "i equals 1";
+        break;
+    case 2:
+        print "i equals 2";
+        break;
+}</PRE></TD></TR></TABLE><P>Важно понять, как выполняется оператор <TT>switch</TT>, чтобы исключить
+ошибки. Оператор<TT> switch</TT> выполняется построчно
+(фактически - оператор за оператором).  В начале никакой код не выполняется. Только когда будет найден
+оператор <TT>case</TT> со значением, совпадающим со значением выражения <TT>switch</TT>, PHP начнёт
+выполнять операторы. PHP продолжает выполнение операторов до конца блока <TT>switch</TT> или до
+первого оператора <TT>break</TT>. Если вы не запишете операторы <TT>break</TT> в конце оператора
+case в списке, PHP будет выполнять операторы следующего case. Например:</p><A NAME="AEN5021"></A><TABLE BORDER="0" CELLPADDING="5" BGCOLOR="#E0E0E0"><TR><TD><PRE>switch ($i) {
+    case 0:
+        print "i equals 0";
+    case 1:
+        print "i equals 1";
+    case 2:
+        print "i equals 2";
+}</PRE></TD></TR></TABLE><P>Здесь, если $i равно 0, PHP выполнит все операторы print!  Если $i равно 1, PHP 
+выполнит последние два оператора print, и только если $i равно 2, вы получите
+'ожидаемое' поведение, и будет выведено только 'i equals 2'. Итак, важно не забывать записывать операторы
+<TT>break</TT> (хотя это может и не понадобиться при некоторых обстоятельствах).</P>
+<P>В операторе <TT>switch</TT> условие вычисляется только один раз, а результат сравнивается с каждым 
+оператором <TT>case</TT>. В операторе <TT>elseif</TT> условие вычисляется повторно. Если ваше
+условие сложнее, чем простое сравнение "и/или" в небольшом цикле,  оператор <TT>switch</TT> может сработать
+быстрее.</P><P>Список операторов в case может также быть пустым, что просто передаёт 
+управление в список операторов следующего case.</p><A NAME="AEN5031"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>switch ($i) {
+    case 0:
+    case 1:
+    case 2:
+        print "i is less than 3 but not negative";
+        break;
+    case 3:
+        print "i is 3";
+}</PRE></TD></TR></TABLE><P>Особый случай - default case (case по умолчанию).  Этот case совпадёт со 
+всем, с чем не совпали все предыдущие case, и должен быть самым последним <TT>case</TT>.
+Например:</p><A NAME="AEN5035"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>switch ($i) {
+    case 0:
+        print "i equals 0";
+        break;
+    case 1:
+        print "i equals 1";
+        break;
+    case 2:
+        print "i equals 2";
+        break;
+    default:
+        print "i is not equal to 0, 1 or 2";
+}</PRE></TD></TR></TABLE><P>Выражением <TT>case</TT> может быть любое выражение, которое вычисляется в простой тип, то есть целое 
+число, число с плавающей точкой или строка.  Массивы или объекты не могут 
+использоваться здесь, если только они не разыменовываются в простой тип.</P>
+<P>Альтернативный синтаксис структур управления поддерживается в switch. 
+Дополнительно см. <a href="control-structures.alternative-syntax.html">
+Альтернативный синтаксис структур управления</a>.</p><A NAME="AEN5041"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>switch ($i):
+    case 0:
+        print "i equals 0";
+        break;
+    case 1:
+        print "i equals 1";
+        break;
+    case 2:
+        print "i equals 2";
+        break;
+    default:
+        print "i is not equal to 0, 1 or 2";
+endswitch;</PRE></TD></TR></TABLE></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR>
+<TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="continue.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="declare.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top"><TT>continue</TT></TD><th WIDTH="34%" VALIGN="top"><a href="control-structures.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><TT>declare</TT></TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

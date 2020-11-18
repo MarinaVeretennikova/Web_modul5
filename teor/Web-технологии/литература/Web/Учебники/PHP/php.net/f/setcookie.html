@@ -1,0 +1,54 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>setcookie</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="headers-sent.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ref.hyperwave.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="setcookie">setcookie</A></H1><A NAME="AEN27859"></A><P>(PHP 3, PHP 4)</P><p>setcookie - отправляет куки.
+<A NAME="AEN27862"></A></p><H2>Описание</H2><p>int <B>setcookie</B> (string name [, string value [, int expire [, string path [, string domain [, int secure]]]]])</p>
+<P><B>setcookie()</B> определяет куку для отправки вместе с остальной header-информацией.  Куки 
+обязаны быть отправлены <i>до</i> любых других шапок/headers (это ограничение кук, а не РНР). Это требует, чтобы вы помещали вызовы этой 
+функции перед тэгами <TT>&#60;html&#62;</TT> или <TT>&#60;head&#62;</TT>.</P><P>Все аргументы, кроме <TT><I>name</I></TT>, являются необязательными. Если имеется только аргумент name, кука с этим 
+именем будет удалена с удалённого клиента. Вы можете также заместить любой аргумент пустой строкой (<I>""</I>), чтобы пропустить этот аргумент.
+Аргументы <TT><I>expire</I></TT> и <TT><I>secure</I></TT> это целые числа/integer и они не могут быть пропущены с помощью пустой строки. 
+В них используйте нуль (<I>0</I>). Аргумент <TT><I>expire</I></TT> это обычное Unix time integer, возвращаемое функциями
+<A HREF="time.html"><B>time()</B></A> или <A HREF="mktime.html"><B>mktime()</B></A>. Аргумент <TT><I>secure</I></TT> указывает, что данная кука должна передаваться только через секретное HTTPS-соединение.</P>
+<P>После того как куки установлены, доступ к ним может быть получен при загрузке следующей страницы через массив
+<TT>$_COOKIE</TT> (который вызывается <TT>$HTTP_COOKIE_VARS</TT> в версиях PHP до 4.1.0).</P>
+<P>Обычные ловушки:<UL><LI><P>Куки будут невидимы до тех пор, пока не будет загружена следующая страница.</P></LI>
+<LI><P>Куки обязаны быть удалены с теми же параметрами, с которыми были установлены.</P></LI></UL>
+<P>В PHP 3 множественные вызовы <B>setcookie()</B> в том же скрипте могут быть выполнены в реверсном порядке. Если вы пытаетесь 
+удалить одну куку до вставки другой, вы должны сделать вставку до удаления. В PHP 4 множественные вызовы
+<B>setcookie()</B> выполняются в порядке вызова.</P><P>Далее идут примеры отправки кук:<TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN27913"></A><h5>Пример 1. Отправка кук функцией setcookie()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>setcookie ("TestCookie", $value);
+setcookie ("TestCookie", $value,time()+3600);  /* период действия - 1 час */
+setcookie ("TestCookie", $value,time()+3600, "/~rasmus/", ".utoronto.ca", 1);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>При удалении куки вы должны убедиться, что дата окончания действия прошла, чтобы переключить механизм в вашем браузере.
+Далее идут примеры удаления куки, созданной в предыдущем примере:<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN27918"></A><h5>Пример 2. Удаление куки с помощью setcookie()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>// установить дату окончания действия на один час назад
+setcookie ("TestCookie", "", time() - 3600);
+setcookie ("TestCookie", "", time() - 3600, "/~rasmus/", ".utoronto.ca", 1);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Обратите внимание, что часть value куки будет автоматически urlencoded при отправке куки, и, когда она получена, она автоматически 
+декодируется и присваивается переменной с тем же именем, что и имя куки. Для просмотра содержимого нашей тестовой куки в скрипте просто используйте 
+один из следующих примеров:<A NAME="AEN27923"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>echo $TestCookie;
+echo $_COOKIE["TestCookie"];</PRE></TD></TR></TABLE><P>Вы можете также установить куки массива, используя нотацию в имени куки. 
+Это даёт эффект установки стольких кук, сколько элементов в этом массиве, но, когда кука получается скриптом, значения помещаются в массив с именем 
+куки:<A NAME="AEN27926"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>setcookie ("cookie[three]", "cookiethree");
+setcookie ("cookie[two]", "cookietwo");
+setcookie ("cookie[one]", "cookieone");
+if (isset ($cookie)) {
+    while (list ($name, $value) = each ($cookie)) {
+        echo "$name == $value&#60;br&#62;\n";
+    }
+}</PRE></TD></TR></TABLE><P>О куках дополнительно см. спецификацию Netscape по адресу: <A HREF="http://www.netscape.com/newsref/std/cookie_spec.html" TARGET="_top">http://www.netscape.com/newsref/std/cookie_spec.html</A>.</P>
+<P>Microsoft Internet Explorer 4 с Service Pack 1 некорректно работает с куками, которые имеют установленный параметр path.</P>
+<P>Netscape Communicator 4.05 и Microsoft Internet Explorer 3.x обрабатывают куки некорректно, если path и time не установлены.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="headers-sent.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ref.hyperwave.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">headers_sent</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.http.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Функции Hyperwave</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

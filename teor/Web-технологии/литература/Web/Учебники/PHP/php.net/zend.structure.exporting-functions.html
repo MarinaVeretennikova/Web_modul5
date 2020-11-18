@@ -1,0 +1,60 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Объявление Экспортируемых Функций</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="zend.structure.headers.html">Назад</A></TD><th WIDTH="80%">Глава 32. Исходные Ресурсы. Обсуждение.</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="zend.structure.function-block.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="zend.structure.exporting-functions">Объявление экспортируемых функций</a></H1>
+<P>Для объявления функций, которые экспортируются (т.е. делаются доступными в PHP
+как новые внешние функции), Zend предоставляет набор макросов. Сэмпл 
+объявления выглядит примерно так:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>ZEND_FUNCTION(my_function);</PRE></TD></TR></TABLE>
+<P><TT>ZEND_FUNCTION</TT> объявляет новую C-функцию, которая работает с внутренним API Zend'а. Это 
+означает, что функция имеет тип <TT>void</TT> и принимает в качестве параметров <TT>INTERNAL_FUNCTION_PARAMETERS</TT>
+(другой макрос). В дополнение к этому, к имени функции делается префикс <TT>zif</TT>. Расширенная версия ранее сделанного определения будет выглядеть так:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>void zif_my_function(INTERNAL_FUNCTION_PARAMETERS);</PRE></TD></TR></TABLE>
+<p>Расширение <TT>INTERNAL_FUNCTION_PARAMETERS</TT> даст:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>void zif_my_function(int ht, zval *return_value, zval *this_ptr,
+int return_value_used, zend_executor_globals *executor_globals);</PRE></TD></TR></TABLE> 
+<P>Поскольку интерпретатор и ядро исполнителя отделены от главного пакета
+PHP, привлекается второй API, определяющий наборы макросов и функций: 
+Zend API. Поскольку Zend API сейчас выполняет сравнительно мало работы, которую 
+раньше делал PHP, многие функции PHP были уменьшены до псевдонимов для вызова 
+в Zend API. Рекомендуем использовать Zend API везде, где это возможно, так как 
+старый API сохранён только для обеспечения обратной совместимости. Например, 
+типы <TT>zval</TT> и <TT>pval</TT> идентичны. <TT>zval</TT> это определение Zend'а; <TT>pval</TT>
+это определение PHP (в действительности <TT>pval</TT> это, в настоящее время, псевдоним <TT>zval</TT>).
+Так как макрос <TT>INTERNAL_FUNCTION_PARAMETERS</TT> это Zend-макрос, вышеприведённое определение содержит
+<TT>zval</TT>. При написании кода вы всегда должны использовать <TT>zval</TT> для обеспечения
+соответствия новому Zend API.</P>
+<P>Список параметров этого объявления очень важен; вы должны их запомнить (см. Таблицу 9.1).<A NAME="AEN85523"></A><h6>Рисунок 32-1. Таблица 9.1. Zend-параметры функций, вызываемых из PHP</h6>
+<A NAME="AEN85525"></A><TABLE BORDER="1" width="728"><TR><th WIDTH="151">Параметр</th>
+<th WIDTH="561">Описание</th></TR><TR><TD WIDTH="151"><TT>ht</TT></TD><TD WIDTH="561">Количество параметров, передаваемых в Zend-функцию.
+Вы не должны напрямую воздействовать на этот параметр; используйте ZEND_NUM_ARGS() для получения этого значения.</TD></TR>
+<TR><TD WIDTH="151"><TT>return_value</TT></TD><TD WIDTH="561">Эта переменная используется для передачи и возвращения значений вашей функции 
+обратно в PHP. Доступ к этой переменной лучше выполнять с помощью предопределённых макросов. См. далее их описание.</TD></TR>
+<TR><TD WIDTH="151"><TT>this_ptr</TT></TD><TD WIDTH="561">Используя эту переменную, вы можете получить доступ к объекту, в котором 
+содержится ваша функция, если она используется внутри объекта. 
+Используйте функцию <B>getThis()</B> для получения этого указателя.</TD></TR><TR>
+<TD WIDTH="151"><TT>return_value_used</TT></TD><TD WIDTH="561">Этот флаг указывает, будет ли return-значение этой функции действительно 
+использоваться вызывающим скриптом. <TT>0</TT> указывает, что return-значение не используется;
+<TT>1</TT> указывает, что вызывающий ожидает return-значение.
+Вычисление этого флага может быть сделано для проверки корректности 
+использования функции и для оптимизации скорости, если возвращение 
+значения требует затратных операций (например, см., как <TT>array.c</TT> использует это).</TD></TR><TR>
+<TD WIDTH="151"><TT>executor_globals</TT></TD><TD WIDTH="561">Эта переменная указывает на глобальные установки Zend-машины. Вам это может 
+потребоваться, например, при создании новых переменных (подробнее об 
+это чуть дальше). Глобалы исполнителя также могут вводиться в вашу функцию путём использования макроса
+<TT>ELS_FETCH()</TT>.</TD></TR></TABLE></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="zend.structure.headers.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="zend.structure.function-block.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Включения Header-файлов</TD>
+<th WIDTH="34%" VALIGN="top"><a href="zend.structure.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Объявление блока Zend-функции</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

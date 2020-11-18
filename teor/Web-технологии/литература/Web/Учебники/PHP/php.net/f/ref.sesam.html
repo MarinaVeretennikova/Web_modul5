@@ -1,0 +1,184 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Баз Данных SESAM</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="shm-remove.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="sesam-affected-rows.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.sesam"></A>XCI. Функции баз данных SESAM</h1><A NAME="AEN72288"></A>
+<P>SESAM/SQL-Server это основа системы БД, разработанной фирмой
+Fujitsu Siemens Computers, Германия. Она работает на высококлассных серверах с ОС BS2000/OSD.</P>
+<P>При установке на BS2000, SESAM/SQL-Server показал ...
+<UL><LI><P>лёгкость использования соединений с Java-, Web- и клиент/серверных;</P></LI>
+<LI><P>способность работать с доступностью более 99.99%;</P></LI>
+<LI><P>способность обслуживать тысячи и даже сотни тысяч пользователей.</P></LI></UL>
+<P>Теперь имеется интерфейс PHP3-SESAM, позволяющий выполнять операции с БД в PHP-скриптах.</P>
+<BLOCKQUOTE><P><B>Замечания по конфигурации: </B>отсутствует отдельная поддержка интерфейса PHP-SESAM, он работает только 
+как часть интегрированного Apache-модуля. В РНР-модуле Apache этот
+<A HREF="../configuration.html#ini.sect.sesam">SESAM-интерфейс конфигурируется</A> директивами Apache.<A NAME="AEN72303"></A><h6>Таблица 1. Директивы конфигурирования SESAM</h6><TABLE BORDER="1"><TR>
+<TH>Директива</TH><TH>Значение</TH></TR><TBODY><TR><TD><TT>php3_sesam_oml</TT></TD>
+<TD>Имя BS2000 PLAM-библиотеки, содержащей загружаемые модули драйверов SESAM.  
+Необходима для использования SESAM-функций.<P>Пример:<A NAME="AEN72316"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>php3_sesam_oml $.SYSLNK.SESAM-SQL.030</PRE></TD></TR></TABLE>
+</TD></TR><TR><TD><TT>php3_sesam_configfile</TT></TD>
+<TD>Имя файла конфигурации приложения SESAM.  необходим для использования SESAM-функций.
+<P>Пример:<A NAME="AEN72323"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>php3_sesam_configfile $SESAM.SESAM.CONF.AW</PRE></TD></TR></TABLE>
+<p>Обычно содержит конфигурацию такого вида (см. справочник SESAM):<A NAME="AEN72325"></A></p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>CNF=B
+NAM=K
+NOTYPE</PRE></TD></TR></TABLE></TD></TR><TR><TD><TT>php3_sesam_messagecatalog</TT></TD>
+<TD>Имя файла каталога сообщений SESAM. В большинстве случаев эта директива 
+не нужна. Но если файл сообщений SESAM не установлен в таблице 
+файлов сообщений системы BS2000, он может быть установлен этой директивой.
+<P>Пример:<A NAME="AEN72332"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>php3_sesam_messagecatalog $.SYSMES.SESAM-SQL.030</PRE></TD></TR></TABLE></TD></TR></TBODY></TABLE>
+<P>Помимо конфигурирования интерфейса PHP/SESAM, вы должны, как обычно, 
+сконфигурировать сам сервер БД SESAM на вашем базовом компьютере. Это означает:
+<UL><LI><P>стартовать SESAM database handler (DBH)/обработчик БД и</P></LI>
+<LI><P>соединиться с БД обработчиком БД SESAM.</P></LI></UL>
+<P>Для получения соединения между PHP-скриптом и обработчиком БД, параметры <TT>CNF</TT> и <TT>NAM</TT>
+выбранного файла конфигурации SESAM обязаны совпадать с id стартовавшего обработчика БД.</P>
+<P>В случае с распределёнными БД вы должны стартовать агент
+SESAM/SQL-DCN с таблицей распределения, включая имена хоста и БД.</P>
+<P>Сообщение между PHP (запущенного в подсистеме POSIX)
+и обработчиком БД (запущенного вне подсистемы POSIX) реализуется 
+специальным модулем драйверов под названием SQLSCI и моделями соединений SESAM 
+с использованием обычной памяти.  Из-за доступа к общей памяти и из-за 
+того, что PHP является статической частью web-сервера, доступ к БД 
+выполняется очень быстро, так как не требуется удалённый доступ через ODBC, JDBC или UTM.</P>
+<P>Только небольшой загрузчик заглушек/stub loader (SESMOD) связан с PHP, и модули соединений
+SESAM находятся в пуле SESAM OML PLAM-библиотеки. В <a href="../configuration.html#ini.sect.sesam">конфигурации</a> вы обязаны 
+указать PHP имя этой PLAM-библиотеки и дать ссылку на файл для использования с файлом 
+конфигурации SESAM (что касается SESAM V3.0, SQLSCI доступен в SESAM Tool Library, 
+которая является частью стандартного дистрибутива).</P>
+<P>По причине закавычивания в SQL-командах одинарных кавычек, что даёт двойные кавычки (в отличие от одинарной кавычки с обратным слэшем, 
+используемым в некоторых других БД), советуем устанавливать директивы 
+конфигурации PHP <A HREF="../configuration.html#ini.magic-quotes-gpc"><TT>php3_magic_quotes_gpc</TT></A> и
+<A HREF="../configuration.html#ini.magic-quotes-sybase"><TT>php3_magic_quotes_sybase</TT></A> в
+<TT>On</TT> для всех PHP-скриптов, использующих интерфейс SESAM.</P></BLOCKQUOTE>
+<BLOCKQUOTE><P><B>Проблемы этапа прогона: </B>из-за ограничений модели процессов BS2000, этот драйвер может быть 
+загружен только после того как Apache-сервер закроет ветвление по дочерним 
+процессам. Это несколько замедляет начальный
+SESAM-запрос каждого потомка, но последующие запросы выполняются на полной скорости.</P>
+<P>При явном определении Message Catalog для SESAM, этот каталог будет 
+загружаться каждый раз при загрузке драйвера (т.е. при начальном запросе SESAM). 
+ОС BS2000 печатает сообщение после успешной загрузки каталога сообщений, 
+которое может быть отправлено в файл error_log сервера Apache. BS2000 в 
+настоящее время не поддерживает подавление этого сообщения, и оно будет 
+постепенно заполнять log.</P><P>Убедитесь, что библиотека SESAM OML PLAM и файл конфигурации SESAM могут 
+читаться user id, запускающим данный web-сервер. Иначе сервер не сможет загружать драйвер и вызывать SESAM-функции. Также 
+должен быть обеспечен доступ к БД для user id, под которым работает Apache-сервер. 
+Иначе соединение с обработчиком БД SESAM не удастся.</P></BLOCKQUOTE><BLOCKQUOTE><P><B>Типы курсоров: </B>
+  результирующие курсоры, которые выделяются для SQL "select type"-запросов, 
+могут быть либо "sequential/последовательными", либо "scrollable/прокручиваемыми". 
+Из-за большой загрузки памяти курсорами "scrollable", по умолчанию используются "sequential".</P>
+<P>При использовании "scrollable"-курсоров, курсор может свободно 
+позиционироваться в результирующем наборе. Для каждого "scrollable"-запроса 
+имеются глобальные значения по умолчанию типа прокрутки (инициализируется в<TT>SESAM_SEEK_NEXT</TT>) и смещения прокрутки, которое может устанавливаться однократно в
+<A HREF="sesam-seek-row.html"><B>sesam_seek_row()</B></A>, либо каждый раз при извлечении ряда с помощью
+<A HREF="sesam-fetch-row.html"><B>sesam_fetch_row()</B></A>. При извлечении ряда с использованием "scrollable"-курсора выполняется 
+следующий пост-процессинг для глобальных значений по умолчанию типа и смещения прокрутки:<A NAME="AEN72365"></A>
+<h6>Таблица 2. Пост-процессинг прокручиваемого курсора</h6><TABLE BORDER="1"><TR><TH>Тип прокрутки</TH>
+<TH>Акция</TH></TR><TBODY><TR><TD><TT>SESAM_SEEK_NEXT</TT></TD><TD>нет</TD></TR><TR><TD><TT>SESAM_SEEK_PRIOR</TT></TD>
+<TD>нет</TD></TR><TR><TD><TT>SESAM_SEEK_FIRST</TT></TD><TD>устанавливает тип прокрутки <TT>SESAM_SEEK_NEXT</TT></TD>
+</TR><TR><TD><TT>SESAM_SEEK_LAST</TT></TD><TD>устанавливает тип прокрутки <TT>SESAM_SEEK_PRIOR</TT></TD></TR>
+<TR><TD><TT>SESAM_SEEK_ABSOLUTE</TT></TD><TD>автоинкремент значения внутреннего смещения</TD></TR>
+<TR><TD><TT>SESAM_SEEK_RELATIVE</TT></TD><TD>нет. (обслуживает глобальное значение по умолчанию <TT><I>offset</I></TT>, которое, например, извлекает каждый 10й ряд в обратном направлении)</TD>
+</TR></TBODY></TABLE></BLOCKQUOTE><BLOCKQUOTE><P><B>Перенос: </B>
+  поскольку в PHP индексирование обычно начинается с нуля
+(а не с 1), сделана некоторая адаптация интерфейса SESAM: если 
+индексированный массив начинается с индекса 1 в SESAM-интерфейсе, 
+интерфейс PHP использует индекс 0 в начале. Например, при запрашивании столбцов с помощью
+<A HREF="sesam-fetch-row.html"><B>sesam_fetch_row()</B></A>, первый столбец имеет индекс 0, а последующие столбцы имеют индексы до, но не 
+включительно, ($array["count"]).  При переносе приложений
+SESAM из других высокоуровневых приложений в PHP имейте в виду это 
+изменение интерфейса. Там, где уместно, описание соответствующей php sesam-функций 
+включает примечание о том, что индексирование ведётся от 0.</P></BLOCKQUOTE>
+<BLOCKQUOTE><P><B>Безопасность: </B>при выдаче разрешения на доступ к БД SESAM, пользователь web-сервера 
+должен иметь самые минимальные привилегии. Для большинства БД должен даваться доступ только для чтения.
+В зависимости от сценария использования, можете добавить больше прав 
+доступа. Никогда не давайте полный контроль над БД любому пользователю 
+сети! Ограничьте доступ к php-скриптам администрирования БД паролем и/или с помощью SSL.</P></BLOCKQUOTE>
+<BLOCKQUOTE><P><B>Перенос из других БД SQL: </B>нет двух разновидностей SQL, совместимых на 100%. При переносе 
+SQL-приложений из других интерфейсов БД в SESAM может потребоваться некоторая адаптация. Нужно учитывать следующие типичные различия:
+<UL><LI><P>специфичные для данного продавца типы данных;</P><P>Может понадобиться заменить некоторые специфичные для данного продавца типы
+данных на стандартные типы данных SQL (например, <TT>TEXT</TT> нужно заменить на <TT>VARCHAR(max. size)</TT>).</P>
+</LI><LI><P>ключевые слова как идентификаторы SQL;</P><P>В SESAM (как в стандартном SQL) такие идентификаторы обязаны быть заключены
+в двойные кавычки (или переименованы).</P></LI>
+<LI><P>экранный размер типов данных;</P><P>Типы данных	SESAM имеют точность, а не экранный размер/display length. Вместо
+<TT>int(4)</TT> (предполагаемое использование: целые числа до '9999'), SESAM требует просто
+<TT>int</TT> для подразумеваемого размера в 31 бит. Также доступными типами datetime в SESAM являются:
+<TT>DATE</TT>, <TT>TIME(3)</TT> и <TT>TIMESTAMP(3)</TT>.</P></LI>
+<LI><P>SQL-типы со специфическими для изготовителя атрибутами <TT>unsigned</TT>, <TT>zerofill</TT> или
+<TT>auto_increment</TT>;</P><P><TT>Unsigned</TT> и <TT>zerofill</TT> не поддерживаются.
+<TT>Auto_increment</TT> является автоматическим (используйте <TT>"INSERT ...  VALUES(*, ...)"</TT> вместо <TT>"... VALUES(0, ...)"</TT>, чтобы получить преимущество от автоинкремента SESAM.</P>
+</LI><LI><P><B>int ... DEFAULT '0000'</B></P><P>Числовые переменные обязаны не инициализироваться строковыми константами.
+Вместо этого используйте <B>DEFAULT 0</B>. Для инициализации переменных datetime SQL-типов данных строка инициализации 
+обязана иметь префикс из ключевого слова соответствующего типа, как здесь: <TT> CREATE TABLE exmpl ( xtime
+timestamp(3) DEFAULT TIMESTAMP '1970-01-01 00:00:00.000' NOT <TT><B>NULL</B></TT>).</TT></P></LI>
+<LI><P><B>$count = xxxx_num_rows();</B></P><P>Некоторые БД выдают количество рядов в результате запроса, даже если 
+возвращаемое значение совершенно некорректно.  SESAM не знает количества 
+рядов в результате запроса, пока действительно не получит их. Если вам 
+ДЕЙСТВИТЕЛЬНО необходим этот подсчёт, попытайтесь использовать <B>SELECT COUNT(...) WHERE ...</B>. Второй запрос (скорее всего) возвратит результаты.</P></LI>
+<LI><P><B>DROP TABLE thename;</B></P><P>В SESAM, при выполнении команды <B>DROP TABLE</B>, после имени таблицы должно идти ключевое слово
+<TT>RESTRICT</TT> или <TT>CASCADE</TT>. Когда специфицировано <TT>RESTRICT</TT>, возвращается ошибка, если имеются зависимые объекты (например VIEWs/просмотры),
+а если <TT>CASCADE</TT>, зависимые объекты будут удалены вместе со специфицированной таблицей.</P></LI></UL></BLOCKQUOTE>
+<BLOCKQUOTE><P><b>Замечания об использовании различных SQL-типов: </b>SESAM в данный момент не 
+поддерживает тип BLOB. В будущей версии SESAM поддержка BLOB будет.</P>
+<P>В интерфейсе PHP автоматически применяются следующие типы конвертации при запросе SQL-полей:<A NAME="AEN72463"></A><h6>Таблица 3. Конвертация типов из SQL в PHP</h6><TABLE BORDER="1"><TR>
+<TH>SQL-тип</TH><TH>PHP-тип</TH></TR><TBODY><TR><TD>SMALLINT, INTEGER</TD><TD>
+<A HREF="../types.integer.html"><B>integer</B></A></TD></TR><TR><TD>NUMERIC, DECIMAL, FLOAT, REAL, DOUBLE</TD>
+<TD><A HREF="../types.float.html"><B>float</B></A></TD></TR><TR><TD>DATE, TIME, TIMESTAMP</TD>
+<TD><A HREF="../types.string.html"><B>string</B></A></TD></TR><TR><TD>VARCHAR, CHARACTER</TD>
+<TD><A HREF="../types.string.html"><B>string</B></A></TD></TR></TBODY></TABLE>
+<p>При запрашивании всего ряда результат возвращается как массив. Пустые 
+поля не заполняются, поэтому вы сами должны будете проверить существование отдельных полей (используя
+<A HREF="isset.html"><B>isset()</B></A> или <A HREF="empty.html"><B>empty()</B></A> для проверки наличия пустых полей).  Это даст больше контроля пользователя над
+появлением пустых полей (чем в случае использования пустой строки для представления пустого поля).</p></BLOCKQUOTE>
+<BLOCKQUOTE><P><B>Поддержка &quot;множественных полей&quot; SESAM: </B>
+Специальная возможность "multiple fields" SESAM позволяет полям состоять 
+из массива полей. Такой столбец "множественного поля" может быть создан 
+так:<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN72492"></A><h5>Пример 1. Создание столбца "multiple field/множественного поля"</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>CREATE TABLE multi_field_test (
+    pkey CHAR(20) PRIMARY KEY,
+    multi(3) CHAR(12)
+)</PRE></TD></TR></TABLE></TD></TR></TABLE><p>и может быть заполнен:</p><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN72495"></A><h5>Пример 2. Заполнение столбца "multiple field"</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>INSERT INTO multi_field_test (pkey, multi(2..3) )
+    VALUES ('Second', &#60;'first_val', 'second_val'&#62;)</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Заметьте, что (как в данном случае) ведущие пустые субполя игнорируются, 
+а заполненные значения сжимаются, поэтому результат этого примера появится как multi(1..2), а не как
+multi(2..3).</p><P>При запрашивании результирующего ряда доступ к &quot;множественным столбцам" 
+делается как в "инлайновым" дополнительным столбцам. В предыдущем примере "pkey"
+будет иметь индекс 0, а три "multi(1..3)" столбца будут доступны как индексы с 1 по 3.</P></BLOCKQUOTE>
+<P>Специфические детали SESAM см. в
+<A HREF="http://its.siemens.de/lobs/its/techinf/oltp/sesam/manuals/index_en.htm" TARGET="_top">документации SESAM/SQL-Server
+(english)</A> или <A HREF="http://its.siemens.de/lobs/its/techinf/oltp/sesam/manuals/index_gr.htm" TARGET="_top">SESAM/SQL-Server (german)</A>, доступные
+online, или используйте соответствующие учебники.</P>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="sesam-affected-rows.html">sesam_affected_rows</A> - получает количество рядов, задействованных в непосредственном запросе/immediate query</DT>
+<DT><A HREF="sesam-commit.html">sesam_commit</A> - подтверждает обновление БД SESAM</DT>
+<DT><A HREF="sesam-connect.html">sesam_connect</A> - открывает соединение с БД SESAM</DT>
+<DT><A HREF="sesam-diagnostic.html">sesam_diagnostic</A> - возвращает информацию статуса для последнего вызова SESAM</DT>
+<DT><A HREF="sesam-disconnect.html">sesam_disconnect</A> - отключает от SESAM-соединения</DT>
+<DT><A HREF="sesam-errormsg.html">sesam_errormsg</A> - возвращает сообщение об ошибке последнего вызова SESAM</DT>
+<DT><A HREF="sesam-execimm.html">sesam_execimm</A> - выполняет "immediate" SQL-оператор</DT>
+<DT><A HREF="sesam-fetch-array.html">sesam_fetch_array</A> - извлекает один ряд как ассоциативный массив</DT>
+<DT><A HREF="sesam-fetch-result.html">sesam_fetch_result</A> - возвращает все части результата запроса</DT>
+<DT><A HREF="sesam-fetch-row.html">sesam_fetch_row</A> - извлекает один ряд как массив</DT>
+<DT><A HREF="sesam-field-array.html">sesam_field_array</A> - возвращает meta-информацию об отдельных столбцах результата</DT>
+<DT><A HREF="sesam-field-name.html">sesam_field_name</A> - возвращает имя одного столбца результирующего набора</DT>
+<DT><A HREF="sesam-free-result.html">sesam_free_result</A> - освобождает ресурсы запроса</DT>
+<DT><A HREF="sesam-num-fields.html">sesam_num_fields</A> - возвращает количество полей/столбцов в результирующем наборе</DT>
+<DT><A HREF="sesam-query.html">sesam_query</A> - выполняет SESAM SQL-запрос/query и готовит результат</DT>
+<DT><A HREF="sesam-rollback.html">sesam_rollback</A> - отменяет обновления БД SESAM</DT>
+<DT><A HREF="sesam-seek-row.html">sesam_seek_row</A> - устанавливает режим scrollable-курсора для последующих извлечений</DT>
+<DT><A HREF="sesam-settransaction.html">sesam_settransaction</A> - устанавливает параметры транзакции SESAM</DT>
+</DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR>
+<TD WIDTH="33%" VALIGN="top"><A HREF="shm-remove.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="sesam-affected-rows.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">shm_remove</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">sesam_affected_rows</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

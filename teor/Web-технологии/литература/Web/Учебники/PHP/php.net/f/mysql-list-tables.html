@@ -1,0 +1,44 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>mysql_list_tables</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="mysql-list-processes.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="mysql-num-fields.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.mysql-list-tables">mysql_list_tables</A></H1><A NAME="AEN51815"></A><P>(PHP 3, PHP 4)</P>
+<p>mysql_list_tables - список таблиц БД MySQL.<A NAME="AEN51818"></A></p><H2>Описание</H2><p>resource <B>mysql_list_tables</B> (string database [, resource link_identifier])</p>
+<P><B>mysql_list_tables()</B> принимает имя БД и возвращает результирующий указатель, как
+<B><A HREF="mysql-query.html">mysql_query()</A></B>. Вы можете использовать функцию
+<A HREF="mysql-tablename.html"><B>mysql_tablename()</B></A> для извлечения имён таблиц из результирующего указателя или любую другую 
+функцию результирующих таблиц, такую как <A HREF="mysql-fetch-assoc.html"><B>mysql_fetch_assoc()</B></A>.</P>
+<P>Параметр <TT><I>database</I></TT> это имя БД, в которой запрашивается список таблиц. При неудаче 
+<B>mysql_list_tables()</B> возвращает <TT><B>FALSE</B></TT>.</P><P>Для обратной совместимости может использоваться псевдоним
+<B>mysql_listtables()</B> этой функции, но это не рекомендуется.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN51840"></A><h5>Пример 1. mysql_list_tables</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;?php
+    $dbname = 'mysql_dbname';
+
+    if (!mysql_connect('mysql_host', 'mysql_user', 'mysql_password')) {
+        print 'Could not connect to mysql';
+        exit;
+    }
+
+    $result = mysql_list_tables($dbname);
+    
+    if (!$result) {
+        print "DB Error, could not list tables\n";
+        print 'MySQL Error: ' . mysql_error();
+        exit;
+    }
+    
+    while ($row = mysql_fetch_row($result)) {
+        print "Таблица: $row[0]\n";
+    }
+
+    mysql_free_result($result);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="mysql-list-dbs.html"><B>mysql_list_dbs()</B></A> и
+<A HREF="mysql-tablename.html"><B>mysql_tablename()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="mysql-list-processes.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="mysql-num-fields.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">mysql_list_processes</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.mysql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">mysql_num_fields</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

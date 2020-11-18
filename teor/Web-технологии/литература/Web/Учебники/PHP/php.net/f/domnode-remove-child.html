@@ -1,0 +1,39 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>DomNode-&#62;remove_child</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="domnode-previous-sibling.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="domnode-replace-child.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.DomNode-remove-child">DomNode-&#62;remove_child</A></H1><A NAME="AEN20678"></A>
+<P>(unknown)</P><p>DomNode-&#62;remove_child - удаляет потомка из списка потомков.<A NAME="AEN20681"></A></p>
+<H2>Описание</H2><p>object <B>DomNode-&#62;remove_child</B> (object oldchild)</p>
+<P>Эта функция удаляет потомка из списка потомков. Если потомок не может быть 
+удалён или не является потомком, функция возвращает false.
+Если потомок может быть удалён, функция возвращает старого потомка.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN20691"></A><h5>Пример 1. Удаление потомка</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+include("example.inc");
+
+if(!$dom = domxml_open_mem($xmlstr)) {
+  echo "Error while parsing the document\n";
+  exit;
+}
+
+$elements = $dom-&#62;get_elements_by_tagname("tbody");
+$element = $elements[0];
+$children = $element-&#62;child_nodes();
+$child = $element-&#62;remove_child($children[0]);
+
+echo "&#60;PRE&#62;";
+$xmlfile = $dom-&#62;dump_mem(true);
+echo htmlentities($xmlfile);
+echo "&#60;/PRE&#62;";
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="domnode-append-child.html">
+<B>DomNode_append_child()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="domnode-previous-sibling.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="domnode-replace-child.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">DomNode-&#62;previous_sibling</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.domxml.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">DomNode-&#62;replace_child</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

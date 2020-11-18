@@ -1,0 +1,180 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>Область Видимости Переменной</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3">
+<TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="variables.predefined.html">Назад</A></TD><th WIDTH="80%">Глава 7. Переменные</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="variables.variable.html">Вперёд</A></TD></TR>
+</TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD>
+<TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="language.variables.scope">Область видимости переменной</a></H1>
+<P>Область видимости переменной это контекст, в котором она определяется.
+Как правило все переменные PHP имеют единую область видимости.
+Эта единая область видимости включает также include и required/необходимые файлы. Например:</P>
+<A NAME="AEN4144"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$a = 1;
+include "b.inc";</PRE></TD></TR></TABLE>
+<P>Здесь переменная <TT>$a</TT> будет доступна внутри включаемого/include скрипта <TT>b.inc</TT>.
+Однако внутри пользовательских функций вводится также локальная область 
+видимости функции. Любая переменная, используемая внутри функции, по 
+умолчанию имеет ограниченную локальную область видимости в пределах функции. Например:</P>
+<A NAME="AEN4149"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$a = 1; /* глобальная область видимости */ 
+
+function Test()
+{ 
+    echo $a; /* ссылка на переменную локальной области видимости */ 
+} 
+
+Test();</PRE></TD></TR></TABLE>
+<P>Этот скрипт не производит никакого вывода, так как оператор echo ссылается 
+на локальную версию переменной <TT>$a</TT>,
+а ей не присвоено значение в пределах этой области видимости.  Вы можете 
+заметить, что это слегка отличается от языка C тем, что глобальные переменные C 
+автоматически доступны функциям, если только не переопределяются специально локальным определением.
+Это иногда создаёт проблемы, если неумышленно изменить глобальную переменную.  
+В PHP глобальные переменные обязаны быть определены внутри функции, если они 
+будут использоваться в этой функции. Пример:</P><A NAME="AEN4153"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$a = 1;
+$b = 2;
+
+function Sum()
+{
+    global $a, $b;
+
+    $b = $a + $b;
+} 
+
+Sum();
+echo $b;</PRE></TD></TR></TABLE><P>Этот скрипт выведет "3". При определении <TT>$a</TT> и <TT>$b</TT>
+как global внутри функции, все ссылки на любую переменную будут ссылаться на 
+глобальную версию. Нет ограничений на количество глобальных переменных, которые могут обрабатываться в функции.</P>
+<P>Второй способ доступа к глобальным переменным глобальной области 
+видимости - использовать специальный определяемый PHP массив <TT>$GLOBALS</TT>. Предыдущий пример можно
+записать так:</P><A NAME="AEN4160"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>$a = 1;
+$b = 2;
+
+function Sum()
+{
+    $GLOBALS["b"] = $GLOBALS["a"] + $GLOBALS["b"];
+} 
+
+Sum();
+echo $b;</PRE></TD></TR></TABLE><P>Массив <TT>$GLOBALS</TT> является ассоциативным массивом
+с именем глобальной переменной как ключом/key 
+и содержимым этой переменной как значением/value элемента этого массива.</P>
+<P>Другой важной особенностью области видимости переменной является <I>static/статическая</I>
+переменная. Статическая переменная существует только в локальной области 
+видимости функции, но не теряет своего значения, когда программа выходит из 
+этой области видимости. Рассмотрим пример:</P><A NAME="AEN4166"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>function Test ()
+{
+    $a = 0;
+    echo $a;
+    $a++;
+}</PRE></TD></TR></TABLE>
+<P>Эта функция практически бесполезна, поскольку каждый раз при её вызове <TT>$a</TT> устанавливается в
+<TT>0</TT> и печатается "0". Операция <TT>$a</TT>++, которая выполняет инкремент переменной, реально
+не нужна, так как при выходе из функции переменная <TT>$a</TT> исчезает. Чтобы функция не
+теряла текущего значения счётчика, переменная <TT>$a</TT> объявляется как static:</P>
+<A NAME="AEN4174"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>function Test()
+{
+    static $a = 0;
+    echo $a;
+    $a++;
+}</PRE></TD></TR></TABLE>
+<P>Теперь при каждом вызове функции Test() она будет печатать значение <TT>$a</TT> и выполнять инкремент.</P>
+<P>Static-переменные позволяют также работать с рекурсивными функциями. 
+Рекурсивной является функция, которая вызывает сама себя. При написании таких
+функций нужно быть внимательным, поскольку есть вероятность сделать рекурсию 
+бесконечной. Вы обязаны убедиться, что имеется адекватный способ прерывания 
+рекурсии. Следующая функция рекурсивно вычисляется до 10 с использованием статической переменной <TT>$count</TT>:</P>
+<A NAME="AEN4180"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>function Test()
+{
+    static $count = 0;
+
+    $count++;
+    echo $count;
+    if ($count &#60; 10) {
+        Test ();
+    }
+    $count--;
+}</PRE></TD></TR></TABLE>
+<P>Zend-Машина 1, выполняющая работу <TT>PHP4</TT>, реализует модификаторы <TT>static</TT> и <TT>global</TT>
+для переменных в терминах ссылок. Например, правильная глобальная переменная, 
+импортированная внутрь области видимости функции оператором <TT>global</TT>, создаёт в
+действительности ссылку на эту глобальную переменную. Это может 
+привести к неожиданным результатам, как показано в примере:</P>
+<A NAME="AEN4187"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>function test_global_ref() {
+    global $obj;
+    $obj = &#38;new stdclass;
+}
+
+function test_global_noref() {
+    global $obj;
+    $obj = new stdclass;
+}
+
+test_global_ref();
+var_dump($obj);
+test_global_noref();
+var_dump($obj);</PRE></TD></TR></TABLE><P>Выполнение этого примера даст на выходе:</P>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>NULL
+object(stdClass)(0) {
+}</PRE></TD></TR></TABLE><P>Аналогично для оператора <TT>static</TT>. Ссылки не хранятся статично:</P>
+<A NAME="AEN4193"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>function &#38;get_instance_ref() {
+    static $obj;
+
+    echo "Static object: ";
+    var_dump($obj);
+    if (!isset($obj)) {
+        // присвоить ссылку static-переменной
+        $obj = &#38;new stdclass;
+    }
+    $obj-&#62;property++;
+    return $obj;
+}
+
+function &#38;get_instance_noref() {
+    static $obj;
+
+    echo "Static object: ";
+    var_dump($obj);
+    if (!isset($obj)) {
+        // присвоить объект static-переменной
+        $obj = new stdclass;
+    }
+    $obj-&#62;property++;
+    return $obj;
+}
+
+$obj1 = get_instance_ref();
+$still_obj1 = get_instance_ref();
+echo "\n";
+$obj2 = get_instance_noref();
+$still_obj2 = get_instance_noref();</PRE></TD></TR></TABLE>
+<P>Выполнение этого примера даст на выходе:</P><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>Static object: NULL
+Static object: NULL
+
+Static object: NULL
+Static object: object(stdClass)(1) {
+  ["property"]=&#62;
+  int(1)
+}</PRE></TD></TR></TABLE><P>Этот пример показывает, что при присвоении ссылки static-переменной, ссылка
+<i>не запоминается</i>, когда вы во второй раз вызываете функцию <TT>&#38;get_instance_ref()</TT>.</P>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="variables.predefined.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="variables.variable.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Предопределённые переменные</TD>
+<th WIDTH="34%" VALIGN="top"><a href="variables.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Переменные переменные</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

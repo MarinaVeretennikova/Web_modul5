@@ -1,0 +1,61 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>preg_split</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="preg-replace.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ref.qtdom.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.preg-split">preg_split</A></H1><A NAME="AEN71319"></A><P>(PHP 3&#62;= 3.0.9, PHP 4)</P>
+<p>preg_split - делить строку регулярным выражением.<A NAME="AEN71322"></A></p><H2>Описание</H2><p>array <B>preg_split</B> (string pattern, string subject [, int limit [, int flags]])</p>
+<BLOCKQUOTE><P><B>Примечание: </B>параметр <TT><I>flags</I></TT> был введён в PHP 4 Beta 3.</P></BLOCKQUOTE>
+<P>Возвращает массив, содержащий подстроки из <TT><I>subject</I></TT>, разделённого по границам совпадений с
+<TT><I>pattern</I></TT>.</P><P>Если <TT><I>limit</I></TT> специфицирован, то будет возвращены только подстроки до
+<TT><I>limit</I></TT>, а если <TT><I>limit</I></TT> равен -1, это означает "нет ограничения", что используется для 
+специфицирования <TT><I>flags</I></TT>.</P><P><TT><I>flags</I></TT> может быть комбинацией следующих флагов
+(с помощью битовой операции |):<DL><DT>PREG_SPLIT_NO_EMPTY</DT><DD><P>Если это флаг установлен, только непустые участки возвращаются 
+функцией <B>preg_split()</B>.</P></DD><DT>PREG_SPLIT_DELIM_CAPTURE</DT><DD><P>Если это флаг установлен, выражение в скобках в патэрне ограничителя 
+будет захвачено и возвращено. Этот флаг был введён в 4.0.5.</P></DD><DT>PREG_SPLIT_OFFSET_CAPTURE</DT>
+<DD><P>Если это флаг установлен, для каждого найденного совпадения будет также возвращено смещение дополнительной строки. Заметьте, что это изменит return-значение 
+в массиве, где каждый элемент является массивом, состоящим из совпавшей строки в смещении <TT>0</TT> и её строкового смещения в
+<TT><I>subject</I></TT> - в смещении<TT>1</TT>. Этот флаг доступен, начиная с <TT>PHP</TT> 4.3.0.</P></DD></DL>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN71371"></A><h5>Пример 1. preg_split(): получение части строки поиска.</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>// разделить фразу по любому количеству запятых или пробельных символов,
+// куда входят " ", \r, \t, \n и \f
+$keywords = preg_split ("/[\s,]+/", "hypertext language, programming");</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN71376"></A><h5>Пример 2. Разделение строки на символы-компоненты.</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$str = 'string';
+$chars = preg_split('//', $str, -1, PREG_SPLIT_NO_EMPTY);
+print_r($chars);</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR>
+<TD><A NAME="AEN71380"></A><h5>Пример 3. Разделение строки на совпадения и их смещения.</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$str = 'hypertext language programming';
+$chars = preg_split('/ /', $str, -1, PREG_SPLIT_OFFSET_CAPTURE);
+print_r($chars);</PRE></TD></TR></TABLE><P>это даст</P><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>Array
+(
+    [0] =&#62; Array
+        (
+            [0] =&#62; hypertext
+            [1] =&#62; 0
+        )
+
+    [1] =&#62; Array
+        (
+            [0] =&#62; language
+            [1] =&#62; 10
+        )
+
+    [2] =&#62; Array
+        (
+            [0] =&#62; programming
+            [1] =&#62; 19
+        )
+
+)</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="spliti.html"><B>spliti()</B></A>,
+<A HREF="split.html"><B>split()</B></A>, <A HREF="implode.html"><B>implode()</B></A>,
+<A HREF="preg-match.html"><B>preg_match()</B></A>, <A HREF="preg-match-all.html"><B>preg_match_all()</B></A> и
+<A HREF="preg-replace.html"><B>preg_replace()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="preg-replace.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ref.qtdom.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">preg_replace</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.pcre.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Функции qtdom</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

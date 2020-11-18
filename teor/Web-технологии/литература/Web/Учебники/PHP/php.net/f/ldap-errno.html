@@ -1,0 +1,35 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>ldap_errno</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ldap-err2str.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ldap-error.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="ldap-errno">ldap_errno</A></H1><A NAME="AEN38990"></A><P>(PHP 3&#62;= 3.0.12, PHP 4)</P>
+<p>ldap_errno - возвращает номер LDAP-ошибки последней LDAP-команды.<A NAME="AEN38993"></A></p><H2>Описание</H2>
+<p>int <B>ldap_errno</B> (resource link_identifier)</p><P>Возвращает номер LDAP-ошибки последней LDAP-команды для данной ссылки.</P>
+<P>Эта функция возвращает стандартизованный номер ошибки, возвращённой последней LDAP-командой для данного идентификатора ссылки
+<TT><I>link_identifier</I></TT>. Это число может быть конвертировано в текстовое сообщение об ошибке с помощью
+<A HREF="ldap-err2str.html"><B>ldap_err2str()</B></A>.</P><P>Если вы не снизили уровень предупреждений в
+<TT>php.ini</TT> и не ввели префикс @ (at) в ваших LDAP-командах для подавления вывода предупреждений, генерируемые ошибки будут выводиться в вашем
+HTML-выводе.<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN39007"></A><h5>Пример 1. Генерирование и отлов ошибки</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+// Этот пример содержит ошибку, которую мы отловим.
+$ld = ldap_connect("localhost");
+$bind = ldap_bind($ld);
+// синтаксическая ошибка в выражении фильтра (errno 87),
+// должно быть "objectclass=*", чтобы работало.
+$res =  @ldap_search($ld, "o=Myorg, c=DE", "objectclass");
+if (!$res) {
+    printf("LDAP-Errno: %s&#60;br&#62;\n", ldap_errno($ld));
+    printf("LDAP-Error: %s&#60;br&#62;\n", ldap_error($ld));
+    die("Argh!&#60;br&#62;\n");
+}
+$info = ldap_get_entries($ld, $res);
+printf("%d matching entries.&#60;br&#62;\n", $info["count"]);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="ldap-err2str.html"><B>ldap_err2str()</B></A> и
+<A HREF="ldap-error.html"><B>ldap_error()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ldap-err2str.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ldap-error.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ldap_err2str</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.ldap.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ldap_error</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

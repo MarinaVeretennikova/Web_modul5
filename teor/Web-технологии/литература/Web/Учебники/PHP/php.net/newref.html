@@ -1,0 +1,160 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>Ссылки Внутри Конструктора</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="magic-functions.html">Назад</A></TD>
+<th WIDTH="80%">Глава 13. Классы и Объекты</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="references.html">Вперёд</A></TD></TR></TABLE>
+</TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR>
+</TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD>
+<TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="language.oop.newref">Ссылки внутри конструктора</a></H1>
+<P>Создание ссылок внутри конструктора может привести к неожиданным результатам. 
+В этом разделе сделана попытка помочь избежать проблем.</p><A NAME="AEN5528"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>class Foo
+{
+    function Foo($name)
+    {
+        // создать ссылку внутри глобального массива $globalref
+        global $globalref;
+        $globalref[] = &#38;$this;
+        // установить имя передаваемого значения
+        $this-&#62;setName($name);
+        // и выдать его
+        $this-&#62;echoName();
+    }
+
+    function echoName()
+    {
+        echo "&#60;br&#62;",$this-&#62;name;
+    }
+	
+    function setName($name)
+    {
+        $this-&#62;name = $name;
+    }
+}</PRE></TD></TR></TABLE><P>Давайте проверим, есть ли различия между <TT>$bar1</TT>, которая создана
+с использованием copy <TT>=</TT> operator и <TT>$bar2</TT>, которая создана с использованием
+reference <TT>=&#38;</TT> operator...</p><A NAME="AEN5535"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$bar1 = new Foo('set in constructor');
+$bar1-&#62;echoName();
+$globalref[0]-&#62;echoName();
+
+/* вывод:
+set in constructor
+set in constructor
+set in constructor */
+
+$bar2 =&#38; new Foo('set in constructor');
+$bar2-&#62;echoName();
+$globalref[1]-&#62;echoName();
+
+/* вывод:
+set in constructor
+set in constructor
+set in constructor */</PRE></TD></TR></TABLE>
+<P>Очевидной разницы нет, но фактически - очень значительная: <TT>$bar1</TT> и
+<TT>$globalref[0]</TT> это _НЕ_ ссылки, это НЕ одна и та же переменная. Это из-за того, что "new" не 
+возвращает ссылку по умолчанию, а возвращает копию.
+<BLOCKQUOTE><P><B>Примечание: </B>
+  здесь нет потери производительности (поскольку PHP 4 и более поздние 
+используют подсчёт ссылок) при возвращении копий вместо ссылок. Наоборот, 
+часто намного лучше работать с копиями вместо ссылок, так как создание 
+ссылок занимает некоторое время, а создание копий практически не требует 
+времени (если только они не большие массивы и не изменяются 
+последовательно одна за другой, тогда нужно использовать ссылки для изменения их всех).</P></BLOCKQUOTE>
+<p>Чтобы проверить то, что написано выше, давайте рассмотрим следующий код:</p>
+<A NAME="AEN5542"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>// теперь мы будем изменять имя. что можно ожидать?
+// можно ожидать, что $bar1 и $globalref[0] изменят свои имена...
+$bar1-&#62;setName('set from outside');
+
+// как сказано ранее, это не тот случай.
+$bar1-&#62;echoName();
+$globalref[0]-&#62;echoName();
+
+/* вывод:
+set from outside
+set in constructor */
+
+// давайте посмотрим, что разного есть в $bar2 и в $globalref[1]
+$bar2-&#62;setName('set from outside');
+
+// к счастью, они не только равны, но это одна и та же переменная
+// таким образом, $bar2-&#62;name и $globalref[1]-&#62;name это также одно и то же
+$bar2-&#62;echoName();
+$globalref[1]-&#62;echoName();
+
+/* вывод:
+set from outside
+set from outside */</PRE></TD></TR></TABLE>
+<P>Последний пример. Попытайтесь в нём разобраться.</p><A NAME="AEN5545"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>class A
+{
+    function A($i)
+    {
+        $this-&#62;value = $i;
+        // попытайтесь понять, почему ссылка нам здесь не нужна
+        $this-&#62;b = new B($this);
+    }
+
+    function createRef()
+    {
+        $this-&#62;c = new B($this);
+    }
+
+    function echoValue()
+    {
+        echo "&#60;br&#62;","class ",get_class($this),': ',$this-&#62;value;
+    }
+}
+
+
+class B
+{
+    function B(&#38;$a)
+    {
+        $this-&#62;a = &#38;$a;
+    }
+
+    function echoValue()
+    {
+        echo "&#60;br&#62;","class ",get_class($this),': ',$this-&#62;a-&#62;value;
+    }
+}
+
+// попытайтесь понять, почему использование простой копии здесь даст
+// нежелательный результат в строке *-marked
+$a =&#38; new A(10);
+$a-&#62;createRef();
+
+$a-&#62;echoValue();
+$a-&#62;b-&#62;echoValue();
+$a-&#62;c-&#62;echoValue();
+
+$a-&#62;value = 11;
+
+$a-&#62;echoValue();
+$a-&#62;b-&#62;echoValue(); // *
+$a-&#62;c-&#62;echoValue();
+
+/*
+output:
+class A: 10
+class B: 10
+class B: 10
+class A: 11
+class B: 11
+class B: 11
+*/</PRE></TD></TR></TABLE></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR>
+<TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="magic-functions.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="references.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Магические функции<br>
+<TT>__sleep</TT> и <TT>__wakeup</TT></TD><th WIDTH="34%" VALIGN="top">
+<a href="oop.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Ссылки. Разъяснения.</TD>
+</TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

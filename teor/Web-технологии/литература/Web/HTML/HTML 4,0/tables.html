@@ -1,0 +1,1827 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="ru">
+
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=Windows-1251">
+<TITLE>Таблицы в документах HTML</TITLE>
+<LINK rel="previous" href="lists.html" tppabs="http://www.citforum.ru/internet/html40/struct/lists.html">
+<LINK rel="next" href="links.html" tppabs="http://www.citforum.ru/internet/html40/struct/links.html">
+<LINK rel="contents" href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">
+<LINK rel="STYLESHEET" href="tppmsgs/msgs0.htm#18" tppabs="http://www.citforum.ru/internet/html40/style/default.css" type="text/css">
+</HEAD>
+<BODY>
+<div class="navbar">
+<center>&nbsp;<a href="lists.html" tppabs="http://www.citforum.ru/internet/html40/struct/lists.html">назад</a> &nbsp; <a href="links.html" tppabs="http://www.citforum.ru/internet/html40/struct/links.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center><hr>
+</div>
+
+<H1 align="center"><a name="h-11">11</a> Таблицы</H1>
+<div class="subtoc"><p><strong>Содержание</strong>
+<ol>
+<li><a href="#h-11.1">Введение в таблицы</a>
+<li><a href="#h-11.2">Элементы построения таблиц</a>
+<ol>
+<li><a href="#h-11.2.1">Элемент <samp class="einst2">TABLE</SAMP></a>
+<ul>
+<li><a href="#h-11.2.1.1">Направление таблиц</a>
+</ul>
+<li><a href="#h-11.2.2">Captions таблиц: элемент <samp class="einst2">CAPTION</SAMP></a>
+<li><a href="#h-11.2.3">Группы строк: элементы <samp class="einst2">THEAD</SAMP>, <samp class="einst2">TFOOT</SAMP> и <samp class="einst2">TBODY</SAMP></a>
+<li><a href="#h-11.2.4">Группы столбцов: элементы <samp class="einst2">COLGROUP</SAMP> и <samp class="einst2">COL</SAMP></a>
+<ul>
+<li><a href="#h-11.2.4.1">Элемент <samp class="einst2">COLGROUP</SAMP></a>
+<li><a href="#h-11.2.4.2">Элемент <samp class="einst2">COL</SAMP></a>
+<li><a href="#h-11.2.4.3">
+<span class="index-inst" title="column::number of in a
+table|table::number of columns"> Подсчет числа столбцов в таблице</span></a>
+<li><a href="#h-11.2.4.4">
+<span class="index-inst" title="column::width of in a
+table|table::width of columns"> Подсчет ширины столбцов</span></a>
+</ul>
+<li><a href="#h-11.2.5">Строки таблицы: элемент <samp class="einst2">TR</SAMP></a>
+<li><a href="#h-11.2.6">Ячейки таблицы: элементы <samp class="einst2">TH</SAMP> и <samp class="einst2">TD</SAMP></a>
+<ul>
+<li><a href="#h-11.2.6.1">
+<span class="index-inst" title="table::cells that span several
+rows/columns">Ячейки, span несколько строк или столбцов</span></a>
+</ul>
+</ol>
+<li><a href="#h-11.3">
+<span class="index-inst" title="table::visual rendering of">
+Форматирование таблиц визуальными агентами пользователей</span></a>
+<ol>
+<li><a href="#h-11.3.1">
+<span class="index-inst" title="table::borders and rules
+of|border::around a table|rule::between table cells">Границы и rules</span></a>
+<li><a href="#h-11.3.2">
+<span class="index-inst" title="table::alignment of
+contents|alignment::of table contents">Горизонтальное и вертикальное выравнивание</span></a>
+<ul>
+<li><a href="#h-11.3.2.1">Наследование параметров выравнивания</a>
+</ul>
+<li><a href="#h-11.3.3">
+<span class="index-inst" title="white space::around table contents|
+table::cell margins">Поля ячейки</span></a>
+</ol>
+<li><a href="#h-11.4">
+<span class="index-inst" title="table::non-visual rendering of">
+Представление таблиц невизуальными агентами пользователей</span></a>
+<ol>
+<li><a href="#h-11.4.1">Связь информации заголовка с ячейками данных</a>
+<li><a href="#h-11.4.2"><span class="index-inst" title="table::categorization of cells">Категоризация ячеек</span></a>
+<li><a href="#h-11.4.3">
+<span class="index-inst" title="table::algorithm to find heading">
+Алгоритм поиска заголовочной информации</span></a>
+</ol>
+<li><a href="#h-11.5">Пример таблицы</a>
+</ol>
+</div>
+
+<H2><a name="h-11.1">11.1</a> Введение в таблицы</h2>
+
+<P>Модель таблиц HTML позволяет авторам упорядочивать данные -- текст, форматированный текст, изображения, ссылки, формы, поля форм, другие таблицы и т.д. - в строки и столбцы ячеек.</P>
+
+<P>С каждой таблицей может быть связан заголовок (см. элемент <a href="tables.html#edef-CAPTION" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-CAPTION" class="noxref"><SAMP class="einst">CAPTION</SAMP></a>), предоставляющий краткое описание таблицы. Можно также указать и более длинное описание (с помощью атрибута <a href="tables.html#adef-summary" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-summary" class="noxref"><samp class="ainst">summary</samp></a>) для удобства людей, использующих агенты на базе азбуки Бройля или речи.</p>
+
+<P><a href="#rowgroups">Строки таблицы</a> могут группироваться в разделы заголовков, нижних заголовков и тела, (с помощью элементов <a href="tables.html#edef-THEAD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-THEAD" class="noxref"><SAMP class="einst">THEAD</SAMP></a>, <a href="tables.html#edef-TFOOT" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TFOOT" class="noxref"><SAMP class="einst">TFOOT</SAMP></a> и <a href="tables.html#edef-TBODY" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TBODY" class="noxref"><SAMP class="einst">TBODY</SAMP></a>
+соответственно). Группы строк convey дополнительную структурную информацию и могут генерироваться агентами пользователей различными способами, отображающими эту структуру. Агенты пользователей могут использовать подразделение на заголовки/тело/нижние заголовки для поддержки прокрутки тела независимо от заголовков. При печати длинных таблиц информация из заголовков может повторяться на каждой странице таблицы.</P>
+
+<P>Авторы также могут <a href="#colgroups">группировать столбцы</a> для предоставления дополнительной структурной информации, которая может использоваться агентами пользователей. Более того, авторы могут объявлять свойства столбцов в начале определения таблицы (с помощью элементов <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><SAMP class="einst">COLGROUP</SAMP></a> и <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</SAMP></a>) таким образом, который позволяет агентам пользователей генерировать таблицу последовательно, а не ждать считывания всех данных таблицы перед тем, как начать генерацию.</P>
+
+<P><a href="#cells">Ячейки таблицы</a> могут содержать "заголовок" (см. элемента <a href="tables.html#edef-TH" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TH" class="noxref"><samp class="einst">TH</samp></a>) или "данные" (см. элемент <a href="tables.html#edef-TD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TD" class="noxref"><samp class="einst">TD</samp></a>). Ячейки могут распространяться на несколько строк или столбцов. Модель таблиц языка HTML 4.0 позволяет авторам помечать каждую ячейку, так что <a href="#non-visual-rendering">невизуальным агентам пользователей</a> будет проще работать с информацией о ячейках. Эти механизмы не только существенно облегчают доступ пользователям с физическими недостатками, но и делают его обработку таблиц возможной для мультирежимных беспроводных браузеров с ограниченными возможностями отображения (например, Web-совместимых
+пейджеров и телефонов).</P>
+
+<P>Не следует использовать таблицы только как средство компоновки содержимого документа, поскольку это может вызвать проблемы при генерации для невизуальных средств. Кроме того, если метки использовать с графикой, это может привести к тому, что пользователям придется выполнять горизонтальную прокрутку, чтобы просмотреть таблицу, созданную в системе с большим экраном. Для уменьшения возможности этих проблем авторам следует использовать для компоновки документа <a href="styles.html" tppabs="http://www.citforum.ru/internet/html40/present/styles.html">таблицы стилей</a>, а не таблицы.</P>
+
+<DIV class="note">
+<P><EM><strong>Примечание.</strong>
+В этой спецификации более подробная информация о таблицах приводится в разделах о <A href=
+"notes.html#notes-tables" tppabs="http://www.citforum.ru/internet/html40/appendix/notes.html#notes-tables">вопросах применения и rationale создания таблиц</A>.</EM></P>
+</DIV>
+
+<div class="example"><P>
+Ниже показана простая таблица, на примере которой иллюстрируются некоторые возможности модели таблиц языка HTML. Следующее определение:</P>
+
+<PRE>
+&lt;TABLE border="1"
+          summary="В этой таблице приводится некоторая статистика о фруктовых мухах:
+                            средняя высота и вес, процент мух с красными глазами (особей мужского и женского пола)."&gt;
+&lt;CAPTION&gt;&lt;EM&gt;Тестовая таблица с объединенными ячейками&lt;/EM&gt;&lt;/CAPTION&gt;
+&lt;TR&gt;&lt;TH rowspan="2"&gt;&lt;TH colspan="2"&gt;Средний
+    &lt;TH rowspan="2"&gt;Красные&lt;BR&gt;глаза
+&lt;TR&gt;&lt;TH&gt;высота&lt;TH&gt;вес
+&lt;TR&gt;&lt;TH&gt;мужской пол&lt;TD&gt;1.9&lt;TD&gt;0.003&lt;TD&gt;40%
+&lt;TR&gt;&lt;TH&gt;женский пол&lt;TD&gt;1.7&lt;TD&gt;0.002&lt;TD&gt;43%
+&lt;/TABLE&gt;
+</PRE>
+
+<P>должно генерироваться на терминале примерно следующим образом:</P>
+
+<PRE>
+          Тестовая таблица с объединенными ячейками
+    /----------------------------------------------------------\
+    |                            |      Средний      | Красные |
+    |                            |-------------------| глаза   |
+    |                            |  высота |  вес    |         |
+    |----------------------------------------------------------|
+    |  Мужской пол   | 1.9       | 0.003   |   40%   |         |
+    |----------------------------------------------------------|
+    | Женский пол    | 1.7       | 0.002   |   43%   |                      |
+    \----------------------------------------------------------/
+</PRE>
+
+<P>или следующим образом - графическими агентами пользователей:</P>
+
+<P><img src="mergedcells.gif" tppabs="http://www.citforum.ru/internet/html40/images/mergedcells.gif" alt="Таблица с объединенными ячейками">
+</DIV>
+
+<H2><a name="h-11.2">11.2</a> Элементы построения таблиц</H2>
+<H3><a name="h-11.2.1">11.2.1</a> Элемент <A name="edef-TABLE"><SAMP class="edef">TABLE</SAMP></A></H3>
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">
+&lt;!ELEMENT <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><samp class="einst">TABLE</samp></a> - -
+     (CAPTION?, (COL*|COLGROUP*), THEAD?, TFOOT?, TBODY+)&gt;
+&lt;!ATTLIST TABLE                        -- таблица --
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  <a href="tables.html#adef-summary" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-summary" class="noxref"><samp class="ainst-TABLE">summary</samp></a>     <a href="dtd.html#Text" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Text">%Text;</a>         #IMPLIED  -- цель/структура для речевого вывода --
+  <a href="tables.html#adef-width-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-width-TABLE" class="noxref"><samp class="ainst-TABLE">width</samp></a>       <a href="dtd.html#Length" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Length">%Length;</a>       #IMPLIED  -- ширина таблицы --
+  <a href="tables.html#adef-border-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-border-TABLE" class="noxref"><samp class="ainst-TABLE">border</samp></a>      <a href="dtd.html#Pixels" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Pixels">%Pixels;</a>       #IMPLIED  -- толщина рамки вокруг таблицы --
+  <a href="tables.html#adef-frame" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-frame" class="noxref"><samp class="ainst-TABLE">frame</samp></a>       <a href="dtd.html#TFrame" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#TFrame">%TFrame;</a>       #IMPLIED  -- какие части рамки нужно генерировать --
+  <a href="tables.html#adef-rules" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-rules" class="noxref"><samp class="ainst-TABLE">rules</samp></a>       <a href="dtd.html#TRules" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#TRules">%TRules;</a>       #IMPLIED  -- rulings между строками и столбцами --
+  <a href="tables.html#adef-cellspacing" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-cellspacing" class="noxref"><samp class="ainst-TABLE">cellspacing</samp></a> <a href="dtd.html#Length" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Length">%Length;</a>       #IMPLIED  -- расстояние между ячейками --
+  <a href="tables.html#adef-cellpadding" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-cellpadding" class="noxref"><samp class="ainst-TABLE">cellpadding</samp></a> <a href="dtd.html#Length" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Length">%Length;</a>       #IMPLIED  -- расстояние внутри ячеек --
+  &gt;
+</PRE>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, конечный тег: <strong>обязателен</strong></em></p>
+
+<DIV class="adef-list">
+<P><EM>Определения атрибутов</EM></P>
+
+<DL>
+<DT><A name="adef-summary"><SAMP class="adef">summary</SAMP></A> = <A
+href="types.html#type-text" tppabs="http://www.citforum.ru/internet/html40/types.html#type-text"><EM>текст</EM></A> 
+<a href="types.html#case-sensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-sensitive">[CS]</a>
+</DT>
+<DD>Краткая информация о назначении и структуре таблицы для агентов пользователей, выполняющих генерацию для невизуальных средств, таких как синтезаторы речи или азбуки Бройля.</DD>
+
+<DT><A name="adef-align-TABLE"><SAMP class="adef">align</SAMP></A>
+= <SAMP>left|center|right</SAMP>
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+</DT>
+<DD><a href="conform.html#deprecated" tppabs="http://www.citforum.ru/internet/html40/conform.html#deprecated"><strong>Deprecated.</strong></a>
+Этот атрибут задает положение таблицы относительно документа. Допустимые значения:
+
+<UL>
+<LI><SAMP>left:</SAMP> Таблица находится в левой части документа. 
+</LI>
+
+<LI><SAMP>center:</SAMP> Таблица находится в центре документа. </LI>
+
+<LI><SAMP>right:</SAMP> Таблицы находится в правой части документа.
+</LI>
+</UL>
+</DD>
+
+<DT><A name="adef-width-TABLE"><SAMP class="adef">width</SAMP></A>
+= <A href="types.html#type-length" tppabs="http://www.citforum.ru/internet/html40/types.html#type-length"><EM>длина</EM></A> 
+<a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+</DT>
+<DD>Этот атрибут определяет необходимую ширину всей таблицы и предназначен для визуальных объектов пользователей. Если значение указано в процентах, это означает долю в процентах от доступного горизонтального пространства. Если ширина не указана, она определяется агентом пользователя. </DD>
+</DL>
+</DIV>
+
+<DIV class="aref-list">
+<P><EM>Атрибуты, определяемые в любом другом месте</EM></P>
+
+<UL>
+<LI><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><SAMP class="ainst">id</SAMP></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><SAMP class="ainst">class</SAMP></a> (<A href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</A>) </LI>
+
+<LI><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><SAMP class="ainst">lang</SAMP></a> (<A href=
+"dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">информация о языке</A>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><SAMP class="ainst">dir</SAMP></a> (<A href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</A>) </LI>
+
+<LI><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><SAMP class="ainst">title</SAMP></a> (<A href=
+"global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</A>) </LI>
+
+<LI><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><SAMP class="ainst">style</SAMP></a> (<A href=
+"styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</A>) </LI>
+
+<li><a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><samp class="ainst">onclick</samp></a>,
+  <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><samp class="ainst">ondblclick</samp></a>,
+  <a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><samp class="ainst">onmousedown</samp></a>,
+  <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><samp class="ainst">onmouseup</samp></a>,
+  <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><samp class="ainst">onmouseover</samp></a>,
+  <a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><samp class="ainst">onmousemove</samp></a>,
+  <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><samp class="ainst">onmouseout</samp></a>,
+  <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><samp class="ainst">onkeypress</samp></a>,
+  <a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><samp class="ainst">onkeydown</samp></a>,
+  <a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><samp class="ainst">onkeyup</samp></a>
+ (<a href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</a>)</li>
+
+<LI><a href="graphics.html#adef-bgcolor" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html#adef-bgcolor" class="noxref"><SAMP class="ainst">bgcolor</SAMP></a> (<A href=
+"graphics.html#background-color" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html#background-color">цвет фона</A>) 
+</LI>
+
+<LI><a href="tables.html#adef-frame" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-frame" class="noxref"><SAMP class="ainst">frame</SAMP></a>, 
+<a href="tables.html#adef-rules" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-rules" class="noxref"><SAMP class="ainst-TABLE">rules</SAMP></a>, 
+<a href="tables.html#adef-border-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-border-TABLE" class="noxref"><SAMP class="ainst-TABLE">border</SAMP></a> (<A href=
+"#borders">границы и rules</A>) </LI>
+
+<LI><a href="tables.html#adef-cellspacing" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-cellspacing" class="noxref"><SAMP class="ainst">cellspacing</SAMP></a>, 
+<a href="tables.html#adef-cellpadding" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-cellpadding" class="noxref"><SAMP class="ainst">cellpadding</SAMP></a> (<A href="#margins">поля в ячейках</A>)</LI>
+</UL>
+</DIV>
+
+<P>Элемент <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><SAMP class="einst">TABLE</SAMP></a> содержит все другие элементы, определяющие заголовок, строки, содержимое и форматирование.
+
+<P>В следующем списке описано, какие операции может выполнять агент пользователя при генерации таблиц:
+
+<ul>
+<li>Предоставление пользователю <a href="tables.html#adef-summary" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-summary" class="noxref"><samp class="ainst">информации о таблице</samp></a>. Авторам следует предоставлять краткую информацию о содержании и структуре таблицы, чтобы люди, работающие с невизуальными агентами пользователей, могли лучше понять ее. 
+<li>Генерация caption, если он определен.
+<li>Генерация верхнего заголовка таблицы, если он определен.
+Генерация нижнего заголовка, если он определен. Агенты пользователей должны знать, где нужно генерировать верхний и нижний заголовки. Например, если средство вывода делится на страницы, агенты пользователей могут помещать верхний заголовок в верхней части каждой страницы, а нижний - внизу. Точно так же, если агент пользователя предоставляет механизм прокрутки строк, верхний заголовок может отображаться вверху прокручиваемой области, а нижний - внизу.
+
+<li>Вычисление <a href="#column-calc">числа столбцов</a> в таблице. <span class="index-inst" title="table::number of
+rows|row::number of in table"><a name="idx-table"> Помните, что число строк в таблице </a></span> равно числу элементов <a href="tables.html#edef-TR" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TR" class="noxref"><samp class="einst">TR</samp></a>, содержащихся в элементе <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><samp class="einst">TABLE</samp></a>.
+
+<li>Группировка столбцов в соответствии со спецификациями <a href="#colgroups">групп столбцов</a>.
+
+<li>Построчная генерация ячеек и группировка в столбцы между верхним и нижним заголовками. Визуальные агенты пользователей должны <a href="#visual-formatting">форматировать таблицы</a> в соответствии с атрибутами HTML 
+и спецификациями таблиц стилей.  
+</ul>
+
+<P>Модель таблиц HTML разработана так, чтобы с помощью автора агенты пользователей могли генерировать таблицы <span class="index-inst" title="table::incremental rendering of"><a name="idx-table-1"><em>последовательно</em></a></span> (т.е. по мере получения строк таблицы), а не ждали получения всей таблицы до начала генерации.
+
+<P>Чтобы агенты пользователей могли форматировать таблицу за один проход, авторы должны сообщить агентам пользователей следующую информацию:
+
+<ul>
+<li>Число столбцов в таблице. Подробнее о том, как указать эту информацию, см. в разделе о <a href="#column-calc">подсчете числа столбцов в таблице</a>.
+<li>Ширину столбцов. Подробнее о том, как указать эту информацию, см. в разделе о <a href="#column-width">подсчете ширины столбцов</a>. 
+</ul>
+
+<P>Более точно агент пользователя может сгенерировать таблицу за один проход, когда ширина столбцов указана с использованием комбинации элементов <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><samp
+class="einst">COLGROUP</samp></a> и <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a>. Если для какого-либо столбца указана относительная ширина или ширина в процентах (см. раздел о <a href="#column-width">подсчете ширины столбцов</a>), авторы должны также указать ширину самой таблицы.
+
+<H4><a name="table-directionality">Направление таблиц</a><a name="h-11.2.1.1">&nbsp;</a></H4>
+
+<P><span class="index-inst" title="table::directionality of|direction::of table information"><a name="idx-table-2">Направление таблицы</a></span> либо наследуется (по умолчанию используется направление слева направо), либо определяется атрибутом <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><SAMP class="ainst">dir</SAMP></a> элемента <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><SAMP class="einst">TABLE</SAMP></a>.
+
+<P>Для таблиц, направление которых слева направо, нулевой столбец находится слева, а нулевая строка - сверху.  Для таблиц, направление которых справа налево, нулевой столбец находится справа, а нулевая строка - сверху. 
+
+<P>Если агент пользователя allots в строку дополнительные ячейки (см. раздел о <a href="#column-calc">подсчете числа столбцов в таблице</a>), дополнительные ячейки строки добавляются в таблицу справа для таблиц, имеющих направление слева направо, и слева для таблиц, имеющих направление справа налево.
+
+<P>Помните, что <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><samp class="einst">TABLE</samp></a> - единственный элемент, для которого атрибут <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> обращает визуальный порядок столбцов; нельзя изменить порядок одной строки (<a href="tables.html#edef-TR" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TR" class="noxref"><samp class="einst">TR</samp></a>) или группы столбцов (<a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><samp class="einst">COLGROUP</samp></a>).
+
+<P>Если для элемента <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><SAMP class="einst">TABLE</SAMP></a> установлен атрибут <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><SAMP class="ainst">dir</SAMP></a>, он также влияет на направление текста в ячейках таблицы (поскольку атрибут <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><SAMP class="ainst">dir</SAMP></a> наследуется элементами уровня блока).
+
+<DIV class="example">
+<P>Чтобы определить таблицу с направлением справа налево, установите атрибут <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><SAMP class="ainst">dir</SAMP></a> следующим образом:</P>
+
+<PRE>
+&lt;TABLE dir="RTL"&gt;
+<EM>...продолжение таблицы...</EM>
+&lt;/TABLE&gt;
+</PRE>
+
+</DIV>
+
+<P>Направление текста в отдельных ячейках можно изменить, установив атрибут <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><SAMP class="ainst">dir</SAMP></a> для элемента, определяющего ячейку. Подробнее о вопросах направления текста см. в разделе о <A href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">двунаправленном тексте</A>.</P>
+
+<H3><a name="h-11.2.2">11.2.2</a> <A name="caption">Captions таблиц:</A> элемент <A
+name="edef-CAPTION"><SAMP class="edef">CAPTION</SAMP></A></H3>
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">
+&lt;!ELEMENT <a href="tables.html#edef-CAPTION" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-CAPTION" class="noxref"><samp class="einst">CAPTION</samp></a>  - - (<a href="dtd.html#inline" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#inline">%inline;</a>)*     -- caption таблицы --&gt;
+&lt;!ENTITY % CAlign "(top|bottom|left|right)"&gt;
+
+&lt;!ATTLIST CAPTION
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  &gt;
+</PRE>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, конечный тег: <strong>обязателен</strong></em></p>
+
+<DIV class="adef-list">
+<P><EM>Определения атрибутов</EM></P>
+
+<DL>
+<DT><A name="adef-align-CAPTION"><SAMP class="adef">align</SAMP>
+</A> = <SAMP>top|bottom|left|right</SAMP> 
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+</DT>
+<DD><a
+href="conform.html#deprecated" tppabs="http://www.citforum.ru/internet/html40/conform.html#deprecated"><strong>Нежелателен.</strong></a> Для визуальных агентов пользователей этот атрибут указывает положение caption относительно таблицы. Возможные значения:
+
+<UL>
+<LI><SAMP>top:</SAMP> caption находится наверху таблицы. Это значение используется по умолчанию. </LI>
+
+<LI><SAMP>bottom:</SAMP> caption находится внизу таблицы.
+</LI>
+
+<LI><SAMP>left:</SAMP> caption находится слева от таблицы. 
+</LI>
+
+<LI><SAMP>right:</SAMP> caption находится справа от таблицы.
+</LI>
+</UL>
+</DD>
+</DL>
+</DIV>
+
+<DIV class="aref-list">
+<P><EM>Атрибуты, определяемые в любом другом месте</EM></P>
+
+<UL>
+<LI><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><SAMP class="ainst">id</SAMP></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><SAMP class="ainst">class</SAMP></a> (<A href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</A>) </LI>
+
+<LI><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><SAMP class="ainst">lang</SAMP></a> (<A href=
+"dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">информация о языке</A>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><SAMP class="ainst">dir</SAMP></a> (<A href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</A>) </LI>
+
+<LI><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><SAMP class="ainst">title</SAMP></a> (<A href=
+"global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</A>) </LI>
+
+<LI><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><SAMP class="ainst">style</SAMP></a> (<A href=
+"styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</A>) </LI>
+
+<LI><a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><SAMP class="ainst">onclick</SAMP></a>, 
+<a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><SAMP class="ainst">ondblclick</SAMP></a>, 
+<a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><SAMP class="ainst">onmousedown</SAMP></a>, 
+<a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><SAMP class="ainst">onmouseup</SAMP></a>, 
+<a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><SAMP class="ainst">onmouseover</SAMP></a>, 
+<a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><SAMP class="ainst">onmousemove</SAMP></a>, 
+<a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><SAMP class="ainst">onmouseout</SAMP></a>, 
+<a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><SAMP class="ainst">onkeypress</SAMP></a>, 
+<a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><SAMP class="ainst">onkeydown</SAMP></a>, 
+<a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><SAMP class="ainst">onkeyup</SAMP></a> 
+(<A href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</A>)</LI>
+</UL>
+</DIV>
+
+<P>Если элемент <a href="tables.html#edef-CAPTION" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-CAPTION" class="noxref"><SAMP class="einst">CAPTION</SAMP></a> присутствует, его текст должен <span class="index-inst" title="table::caption for"><a name="idx-table-3">описывать предмет таблицы.</a></span> Элемент <a href="tables.html#edef-CAPTION" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-CAPTION" class="noxref"><SAMP class="einst">CAPTION</SAMP></a> может располагаться только непосредственно после начального тега <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><SAMP class="einst">TABLE</SAMP></a>.  Элемент <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><samp class="einst">TABLE</samp></a> может включать только один элемент <a href="tables.html#edef-CAPTION" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-CAPTION" class="noxref"><samp class="einst">CAPTION</samp></a>.</P>
+
+<P>Визуальные агенты пользователей позволяют sighted people быстро grasp структуру таблицы из заголовков и caption. Последствием этого является то, что captions не будут совпадать с краткими описаниями назначения и структуры таблицы с точки зрения людей, использующих невизуальные агенты.</P>
+
+<P><span class="index-inst" title="table::summary of contents|summary::of table contents"><a name="idx-table-4">Таким образом, авторы должны позаботиться о предоставлении дополнительной </a></span>информации, описывающей назначение и структуру таблицы с помощью атрибута <a href="tables.html#adef-summary" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-summary" class="noxref"><SAMP class="ainst">summary</SAMP></a> элемента <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><SAMP
+class="einst">TABLE</SAMP></a>. Это особенно важно для таблиц, не имеющих captions. На примерах ниже показано использование атрибута <a href="tables.html#adef-summary" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-summary" class="noxref"><samp class="ainst">summary</samp></a>.</P>
+
+<P>Визуальные агенты пользователей должны избегать <span class="index-inst" title="clipping::table text"><a name="idx-clipping">clipping</a></span> любой части таблицы, включая caption, если не предоставлено средство доступа ко всем частям, например, с помощью горизонтальной или вертикальной прокрутки. Мы рекомендуем, чтобы текст caption разбивался так, чтобы иметь ту же ширину, что и таблица. (См. также раздел о <A href="notes.html#layout" tppabs="http://www.citforum.ru/internet/html40/appendix/notes.html#layout">рекомендуемых алгоритмах компоновки</A>.)</P>
+
+<H3><a name="h-11.2.3">11.2.3</a> <A name="rowgroups">Группы строк:</A> элементы <A
+name="edef-THEAD"><SAMP class="edef">THEAD</SAMP></A>, <A name="edef-TFOOT"><SAMP class="edef">TFOOT</SAMP></A> и <A name="edef-TBODY"><SAMP class="edef">TBODY</SAMP></A></H3>
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">
+&lt;!ELEMENT <a href="tables.html#edef-THEAD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-THEAD" class="noxref"><samp class="einst">THEAD</samp></a>    - O (TR)+           -- заголовок таблицы --&gt;
+&lt;!ELEMENT <a href="tables.html#edef-TFOOT" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TFOOT" class="noxref"><samp class="einst">TFOOT</samp></a>    - O (TR)+           -- нижний заголовок таблицы --&gt;
+</PRE>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, конечный тег: <strong>необязателен</strong></em></p>
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">
+&lt;!ELEMENT <a href="tables.html#edef-TBODY" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TBODY" class="noxref"><samp class="einst">TBODY</samp></a>    O O (TR)+           -- тело таблицы --&gt;
+</PRE>
+</div>
+<p><em>Начальный тег: <strong>необязателен</strong>, конечный тег: <strong>необязателен</strong></em></p>
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">
+&lt;!ATTLIST (THEAD|TBODY|TFOOT)          -- раздел таблицы --
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  <a href="dtd.html#cellhalign" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#cellhalign">%cellhalign;</a>                         -- горизонтальное выравнивание в ячейках --
+  <a href="dtd.html#cellvalign" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#cellvalign">%cellvalign;</a>                         -- вертикальное выравнивание в ячейках --
+  &gt;
+</PRE>
+</div>
+
+<DIV class="aref-list">
+<P><EM>Атрибуты, определяемые в любом другом месте</EM></P>
+
+<UL>
+<LI><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><SAMP class="ainst">id</SAMP></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><SAMP class="ainst">class</SAMP></a> (<A href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</A>) </LI>
+
+<LI><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><SAMP class="ainst">lang</SAMP></a> (<A href=
+"dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">информация о языке</A>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><SAMP class="ainst">dir</SAMP></a> (<A href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</A>) </LI>
+
+<LI><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><SAMP class="ainst">title</SAMP></a> (<A href=
+"global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</A>) </LI>
+
+<LI><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><SAMP class="ainst">style</SAMP></a> (<A href=
+"styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</A>) </LI>
+
+<LI><a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><SAMP class="ainst">onclick</SAMP></a>, 
+<a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><SAMP class="ainst">ondblclick</SAMP></a>, 
+<a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><SAMP class="ainst">onmousedown</SAMP></a>, 
+<a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><SAMP class="ainst">onmouseup</SAMP></a>, 
+<a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><SAMP class="ainst">onmouseover</SAMP></a>, 
+<a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><SAMP class="ainst">onmousemove</SAMP></a>, 
+<a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><SAMP class="ainst">onmouseout</SAMP></a>, 
+<a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><SAMP class="ainst">onkeypress</SAMP></a>,
+<a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><SAMP class="ainst">onkeydown</SAMP></a>, 
+<a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><SAMP class="ainst">onkeyup</SAMP></a> 
+(<A href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</A>) </LI>
+
+<LI><a href="tables.html#adef-align-TD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-align-TD" class="noxref"><SAMP class="ainst-TD">align</SAMP></a>, 
+<a href="tables.html#adef-char" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-char" class="noxref"><SAMP class="ainst">char</SAMP></a>, 
+<a href="tables.html#adef-charoff" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-charoff" class="noxref"><SAMP class="ainst">charoff</SAMP></a>, 
+<a href="tables.html#adef-valign" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-valign" class="noxref"><SAMP class="ainst">valign</SAMP></a> 
+(<A href="#alignment">выравнивание ячейки</A>)</LI>
+</UL>
+</DIV>
+
+<P><span class="index-inst" title="row group|table::row group in"><a name="idx-row_group">
+Строки таблицы могут группироваться </a></span> в заголовки, нижние заголовки и один или несколько разделов тела таблицы с помощью элементов <a href="tables.html#edef-THEAD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-THEAD" class="noxref"><SAMP class="einst">THEAD</SAMP></a>, <a href="tables.html#edef-TFOOT" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TFOOT" class="noxref"><SAMP class="einst">TFOOT</SAMP></a> и <a href="tables.html#edef-TBODY" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TBODY" class="noxref"><SAMP
+class="einst">TBODY</SAMP></a> соответственно.  Это подразделение позволяет агентам пользователей поддерживать прокрутку тела таблицы независимо от заголовков. При печати длинных таблиц информация из заголовков может повторяться на каждой странице, на которой имеются данные таблицы.</P>
+
+<P>Заголовки таблицы должны содержать информацию о столбцах таблицы. Тело таблицы должно содержать строки данных таблицы.
+
+<P>Если элементы <a href="tables.html#edef-THEAD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-THEAD" class="noxref"><SAMP class="einst">THEAD</SAMP></a>, <a href="tables.html#edef-TFOOT" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TFOOT" class="noxref"><SAMP class="einst">TFOOT</SAMP></a> и <a href="tables.html#edef-TBODY" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TBODY" class="noxref"><SAMP class="einst">TBODY</SAMP></a> присутствуют, каждый из них содержит <em>группу строк</em>. Каждая группа строк должна содержать по крайней мере одну строку, определяемую элементом <a href="tables.html#edef-TR" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TR" class="noxref"><samp class="einst">TR</samp></a>.
+
+<DIV class="example">
+<P>В этом примере показан порядок и структура заголовков таблицы, нижних заголовков и тел.</P>
+
+<PRE>
+&lt;TABLE&gt;
+&lt;THEAD&gt;
+     &lt;TR&gt; <EM>...заголовок...</EM>
+&lt;/THEAD&gt;
+&lt;TFOOT&gt;
+     &lt;TR&gt; <EM>...нижний заголовок...</EM>
+&lt;/TFOOT&gt;
+&lt;TBODY&gt;
+     &lt;TR&gt; <EM>...первая строка данных блока 1...</EM>
+     &lt;TR&gt; <EM>...вторая строка данных блока 1...</EM>
+&lt;/TBODY&gt;
+&lt;TBODY&gt;
+     &lt;TR&gt; <EM>...первая строка данных блока 2...</EM>
+     &lt;TR&gt; <EM>...вторая строка данных блока 2...</EM>
+     &lt;TR&gt; <EM>...третья строка данных блока 2...</EM>
+&lt;/TBODY&gt;
+&lt;/TABLE&gt;
+</PRE>
+
+</DIV>
+
+<P>Элемент <a href="tables.html#edef-TFOOT" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TFOOT" class="noxref"><SAMP class="einst">TFOOT</SAMP></a> должен располагаться до элемента <a href="tables.html#edef-TBODY" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TBODY" class="noxref"><SAMP
+class="einst">TBODY</SAMP></a> в определении <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><SAMP class="einst">TABLE</SAMP></a>, чтобы агенты пользователей могли генерировать нижний заголовок до получения 
+всех (возможно, многочисленных) строк данных. Ниже приводится сводка обязательных тегов и тегов, которые можно опустить:</P>
+
+<UL>
+<LI>Начальный тег <a href="tables.html#edef-TBODY" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TBODY" class="noxref"><SAMP class="einst">TBODY</SAMP></a> всегда обязателен, если только таблица не содержит единственного тела без верхних и нижних заголовков. Конечный тег <a href="tables.html#edef-TBODY" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TBODY" class="noxref"><SAMP class="einst">TBODY</SAMP></a> всегда можно опускать. </LI>
+
+<LI>Начальные теги для элементов <a href="tables.html#edef-THEAD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-THEAD" class="noxref"><SAMP class="einst">THEAD</SAMP></a> и <a href="tables.html#edef-TFOOT" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TFOOT" class="noxref"><SAMP class="einst">TFOOT</SAMP></a> обязательны, если в таблице присутствуют верхний и нижний заголовки, но соответствующие конечные теги можно опускать.</LI>
+</UL>
+
+<P>Соответствующий спецификации агент пользователя при разборе должен obey эти правила из соображений совместимости с предыдущими версиями.</P>
+
+<DIV class="example">
+<P>Таблицу из предыдущего примера можно сократить, удалив конечные теги, как показано ниже:</P>
+
+<PRE>
+&lt;TABLE&gt;
+&lt;THEAD&gt;
+     &lt;TR&gt; <EM>...верхний заголовок...</EM>
+&lt;TFOOT&gt;
+     &lt;TR&gt; <EM>...нижний заголовок...</EM>
+&lt;TBODY&gt;
+     &lt;TR&gt; <EM>...первая строка данных блока 1...</EM>
+     &lt;TR&gt; <EM>...вторая строка данных блока 1...</EM>
+&lt;TBODY&gt;
+     &lt;TR&gt; <EM>...первая строка данных блока 2...</EM>
+     &lt;TR&gt; <EM>...вторая строка данных блока 2...</EM>
+     &lt;TR&gt; <EM>...третья строка данных блока 2...</EM>
+&lt;/TABLE&gt;
+</PRE>
+</DIV>
+
+
+<P>Разделы <a href="tables.html#edef-THEAD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-THEAD" class="noxref"><samp class="einst">THEAD</samp></a>, <a href="tables.html#edef-TFOOT" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TFOOT" class="noxref"><samp class="einst">TFOOT</samp></a> и <a href="tables.html#edef-TBODY" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TBODY" class="noxref"><samp class="einst">TBODY</samp></a>должны содержать одинаковое число столбцов.</P>
+
+<H3><a name="h-11.2.4">11.2.4</a> <A name="colgroups">Группы столбцов: элементы </A> <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><SAMP class="einst">COLGROUP</SAMP></a> и <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><SAMP class="einst">COL</SAMP></a></H3>
+
+<P><span class="index-inst" title="column group|table::column group in"><a name="idx-column_group">Группы столбцов</a></span> позволяют создавать структурные подразделения внутри таблицы. Авторы могут выделять такую структуру с помощью таблиц стилей или атрибутов HTML (например, атрибут <a href="tables.html#adef-rules" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-rules" class="noxref"><samp class="ainst-TABLE">rules</samp></a> для элемента <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><samp class="einst">TABLE</samp></a>).  Пример визуального представления группы столбцов см. в <a href="#sample">примере таблицы</a>.
+
+<P>Таблица может содержать одну неявную группу столбцов (элемент <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><samp class="einst">COLGROUP</samp></a> не разделяет столбцы) или любое число явных групп столбцов (каждая из которых отделяется одним экземпляром элемента <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><samp class="einst">COLGROUP</samp></a>).
+
+<P>Элемент <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a> позволяет авторам использовать одни и те же атрибуты в различных столбцах, не используя структурной группировки. "span" элемента <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a> - это число столбцов, использующих атрибуты этого элемента.
+
+<H4>Элемент <A name="edef-COLGROUP"><SAMP class="edef">COLGROUP</SAMP></A><a name="h-11.2.4.1">&nbsp;</a></H4>
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">
+&lt;!ELEMENT <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><samp class="einst">COLGROUP</samp></a> - O (col)*          -- группа столбцов таблицы --&gt;
+&lt;!ATTLIST COLGROUP
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --  <a href="tables.html#adef-span-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-span-COLGROUP" class="noxref"><samp class="ainst-COLGROUP">span</samp></a>        <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number">NUMBER</a>         1         -- число столбцов в группе, используемое по умолчанию --  <a href="tables.html#adef-width-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-width-COLGROUP" class="noxref"><samp class="ainst-COLGROUP">width</samp></a>       <a href="dtd.html#MultiLength" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#MultiLength">%MultiLength;</a>  #IMPLIED  -- ширина для вложенных элементов COL, используемая по умолчанию --  <a href="dtd.html#cellhalign" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#cellhalign">%cellhalign;</a>                         -- горизонтальное выравнивание в ячейках --  <a href="dtd.html#cellvalign" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#cellvalign">%cellvalign;</a>                         -- вертикальное выравнивание в ячейках --  &gt;
+</PRE>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>необязателен</strong></em></p>
+
+<DIV class="adef-list">
+<P><EM>Определения атрибутов</EM></P>
+
+<DL>
+<DT><A name="adef-span-COLGROUP"><SAMP class="adef">span</SAMP></A> = <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number"><em>число</em></a><a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+</DT> 
+
+<DD>Этот атрибут, значением которого должно быть целое число больше нуля, определяет число столбцов в группе. Значения означают следующее:
+
+<UL>
+<LI>При отсутствии атрибута <a href="tables.html#adef-span-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-span-COLGROUP" class="noxref"><SAMP class="ainst-COLGROUP">span</SAMP></a> каждый элемент <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><SAMP class="einst">COLGROUP</SAMP></a> определяет группу столбцов, состоящую из одного столбца.
+</LI>
+
+<LI>Если для атрибута <a href="tables.html#adef-span-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-span-COLGROUP" class="noxref"><SAMP class="ainst-COLGROUP">span</SAMP></a> установлено значение N &gt; 0, текущий элемент <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><SAMP class="einst">COLGROUP</SAMP></a> определяет группу, содержащую N столбцов. </LI>
+</UL>
+
+<P>Агенты пользователей должны игнорировать этот атрибут, если элемент <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><samp class="einst">COLGROUP</samp></a> содержит один или несколько элементов <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><SAMP class="einst">COL</SAMP></a>.</P></dd>
+
+<DT><A name="adef-width-COLGROUP"><SAMP class="adef">width</SAMP></A> = <a href="types.html#type-multi-length" tppabs="http://www.citforum.ru/internet/html40/types.html#type-multi-length"><em>multi-length</em></a><a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a></DT> 
+
+<DD><P>Этот атрибут определяет ширину каждого столбца в текущей группе, используемую по умолчанию. Кроме стандартных значений в пикселах, процентах и относительных значений, в этом атрибуте может использоваться специальная форма "0*" (ноль со звездочкой), которая означает, что ширина каждого столбца в группе должна быть минимальной, необходимой для размещения содержимого столбца. Подразумевается, что содержимое столбца известно до того, как можно будет корректно вычислить его ширину.  Авторы должны знать, что использование "0*" не позволит агентам пользователей генерировать таблицу последовательно.</P>
+
+<P>Этот атрибут переопределяется для любого столбца из группы, для которого значение атрибута <a href="tables.html#adef-width-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-width-COL" class="noxref"><samp class="ainst-COL">width</samp></a> задано в элементе <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a>.
+</DD>
+</DL>
+</DIV>
+
+<DIV class="aref-list">
+<P><EM>Атрибуты, определяемые в любом другом месте</EM></P>
+
+<UL>
+<LI><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><SAMP class="ainst">id</SAMP></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><SAMP class="ainst">class</SAMP></a> (<A href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</A>) </LI>
+
+<LI><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><SAMP class="ainst">lang</SAMP></a> (<A href="dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">информация о языке</A>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><SAMP class="ainst">dir</SAMP></a> (<A href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</A>) </LI>
+
+<LI><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><SAMP class="ainst">title</SAMP></a> (<A href="global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</A>) </LI>
+
+<LI><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><SAMP class="ainst">style</SAMP></a> (<A href="styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</A>) </LI>
+
+<LI><a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><SAMP class="ainst">onclick</SAMP></a>, <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><SAMP class="ainst">ondblclick</SAMP></a>, <a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><SAMP class="ainst">onmousedown</SAMP></a>, <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><SAMP class="ainst">onmouseup</SAMP></a>, <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><SAMP class="ainst">onmouseover</SAMP></a>, <a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><SAMP class="ainst">onmousemove</SAMP></a>, <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><SAMP class="ainst">onmouseout</SAMP></a>, <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><SAMP class="ainst">onkeypress</SAMP></a>,<a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><SAMP class="ainst">onkeydown</SAMP></a>, <a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><SAMP class="ainst">onkeyup</SAMP></a> (<A href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</A>) </LI>
+
+<LI><a href="tables.html#adef-align-TD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-align-TD" class="noxref"><SAMP class="ainst-TD">align</SAMP></a>, <a href="tables.html#adef-char" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-char" class="noxref"><SAMP class="ainst">char</SAMP></a>, <a href="tables.html#adef-charoff" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-charoff" class="noxref"><SAMP class="ainst">charoff</SAMP></a>, <a href="tables.html#adef-valign" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-valign" class="noxref"><SAMP class="ainst">valign</SAMP></a> (<A href="#alignment">выравнивание ячейки</A>)</LI>
+</UL>
+</DIV>
+
+<P>Элемент <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><SAMP class="einst">COLGROUP</SAMP></a> создает явную группу столбцов. Число столбцов в группе может быть указано двумя взаимоисключающими способами:
+
+<ol>
+<li> Атрибут <a href="tables.html#adef-span-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-span-COLGROUP" class="noxref"><samp class="ainst-COLGROUP">span</samp></a> элемента (значение по умолчанию - 1) задает число столбцов в группе.
+
+<li> Каждый элемент <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a> в <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><samp class="einst">COLGROUP</samp></a> представляет один или несколько столбцов в группе.
+</ol>
+
+<P>Преимуществом использования атрибута <a href="tables.html#adef-span-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-span-COLGROUP" class="noxref"><samp class="ainst-COLGROUP">span</samp></a> является то, что авторы могут группировать информацию о ширине столбцов. Таким образом, если в таблице содержится сорок столбцов, каждый из которых имеет ширину 20 пикселов, проще написать:
+
+<PRE class="example">
+   &lt;COLGROUP span="40" width="20"&gt;
+   &lt;/COLGROUP&gt;
+</PRE>
+
+<p>чем:
+
+<PRE class="example">
+   &lt;COLGROUP&gt;
+      &lt;COL width="20"&gt;
+      &lt;COL width="20"&gt;
+      <em>...все сорок элементов COL...</em>
+   &lt;/COLGROUP&gt;
+</PRE>
+
+<P>Если необходимо выделить столбец (например, для информации о стиле, для указания информации о ширине и т.д.) в группе, авторы должны определить этот столбец с помощью элемента <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a>. Таким образом, чтобы применить специальную информацию о стиле к последнему столбцу предыдущей таблице, мы выделяем его следующим образом:
+
+<PRE class="example">
+   &lt;COLGROUP width="20"&gt;
+      &lt;COL span="39"&gt;
+      &lt;COL id="format-me-specially"&gt;
+   &lt;/COLGROUP&gt;
+</PRE>
+
+<P>Атрибут <a href="tables.html#adef-width-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-width-COLGROUP" class="noxref"><SAMP class="ainst-COLGROUP">width</SAMP></a> элемента <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><SAMP class="einst">COLGROUP</SAMP></a> наследуют все сорок столбцов.  Первый элемент <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a> относится к первым 39 столбцам (ничего особенного для них не делая), а второй назначает значение <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>сороковому столбцу, так что на него можно будет ссылаться в таблицах стилей.</P>
+
+<DIV class="example">
+<P>Таблица в следующем примере содержит две группы столбцов. Первая группа включает 10 столбов, вторая - 5. Ширина по умолчанию для каждого столбца в первой группе - 50 пикселов. Ширина каждого столбца во второй группе - минимальная, необходимая для этого столбца.</P>
+
+<PRE>
+&lt;TABLE&gt;
+&lt;COLGROUP span="10" width="50"&gt;
+&lt;COLGROUP span="5" width="0*"&gt;
+&lt;THEAD&gt;
+&lt;TR&gt;&lt;TD&gt; <EM>...</EM>
+&lt;/TABLE&gt;
+</PRE>
+
+</DIV>
+
+<H4>Элемент <A name="edef-COL"><SAMP class="edef">COL</SAMP></A><a name="h-11.2.4.2">&nbsp;</a></H4>
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">
+&lt;!ELEMENT <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a>      - O EMPTY           -- столбец таблицы --&gt;
+&lt;!ATTLIST COL                          -- группы и свойства столбцов --  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --  <a href="tables.html#adef-span-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-span-COL" class="noxref"><samp class="ainst-COL">span</samp></a>        <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number">NUMBER</a>         1         -- атрибут COL влияет на N столбцов --  <a href="tables.html#adef-width-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-width-COL" class="noxref"><samp class="ainst-COL">width</samp></a>       <a href="dtd.html#MultiLength" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#MultiLength">%MultiLength;</a>  #IMPLIED  -- ширина столбца --  <a href="dtd.html#cellhalign" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#cellhalign">%cellhalign;</a>                         -- горизонтальное выравнивание в ячейках --  <a href="dtd.html#cellvalign" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#cellvalign">%cellvalign;</a>                         -- вертикальное выравнивание в ячейках --  &gt;
+</PRE>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>запрещен</strong></em></p>
+
+<DIV class="adef-list">
+<P><EM>Определения атрибутов</EM></P>
+
+<DL>
+<DT><A name="adef-span-COL"><SAMP class="adef">span</SAMP></A> = <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number"><em>число</em></a><a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+</DT>
+
+<DD>Этот атрибут, значением которого должно быть целое число больше нуля, определяет число столбцов, "spanned" элементом <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a>; атрибуты элемента <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a> распространяются на все столбцы, которые он spans.  Значение по умолчанию для этого атрибута - 1 (т.е. элемент <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a> означает один столбец). Если для атрибута <a href="tables.html#adef-span-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-span-COL" class="noxref"><SAMP class="ainst-COL">span</SAMP></a> установлено значение N &gt; 1, атрибуты текущего элемента <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><SAMP class="einst">COL</SAMP></a> распространяются на следующие N-1 столбец.
+</DD>
+
+<DT><A name="adef-width-COL"><SAMP class="adef">width</SAMP></A> = <a href="types.html#type-multi-length" tppabs="http://www.citforum.ru/internet/html40/types.html#type-multi-length"><em>multi-length</em></a><a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+</DT>
+<DD>Этот атрибут определяет ширину каждого столбца, spanned текущим элементом <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a>, используемую по умолчанию. Он имеет то же значение, что и атрибут <a href="tables.html#adef-width-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-width-COLGROUP" class="noxref"><samp class="ainst-COLGROUP">width</samp></a> для элемента <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><samp class="einst">COLGROUP</samp></a> и имеет над ним приоритет.
+</DD>
+</DL>
+</DIV>
+
+<DIV class="aref-list">
+<P><EM>Атрибуты, определяемые в любом другом месте</EM></P>
+
+<UL>
+<LI><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><SAMP class="ainst">id</SAMP></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><SAMP class="ainst">class</SAMP></a> (<A href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</A>) </LI>
+
+<LI><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><SAMP class="ainst">lang</SAMP></a> (<A href="dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">информация о языке</A>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><SAMP class="ainst">dir</SAMP></a> (<A href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</A>) </LI>
+
+<LI><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><SAMP class="ainst">title</SAMP></a> (<A href="global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</A>) </LI>
+
+<LI><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><SAMP class="ainst">style</SAMP></a> (<A href="styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</A>) </LI>
+
+<LI><a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><SAMP class="ainst">onclick</SAMP></a>, <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><SAMP class="ainst">ondblclick</SAMP></a>, <a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><SAMP class="ainst">onmousedown</SAMP></a>, <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><SAMP class="ainst">onmouseup</SAMP></a>, <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><SAMP class="ainst">onmouseover</SAMP></a>, <a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><SAMP class="ainst">onmousemove</SAMP></a>, <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><SAMP class="ainst">onmouseout</SAMP></a>, <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><SAMP class="ainst">onkeypress</SAMP></a>, <a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><SAMP class="ainst">onkeydown</SAMP></a>, <a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><SAMP class="ainst">onkeyup</SAMP></a> (<A href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</A>) </LI>
+
+<LI><a href="tables.html#adef-align-TD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-align-TD" class="noxref"><SAMP class="ainst-TD">align</SAMP></a>, <a href="tables.html#adef-char" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-char" class="noxref"><SAMP class="ainst">char</SAMP></a>, <a href="tables.html#adef-charoff" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-charoff" class="noxref"><SAMP class="ainst">charoff</SAMP></a>, <a href="tables.html#adef-valign" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-valign" class="noxref"><SAMP class="ainst">valign</SAMP></a> (<A href="#alignment">выравнивание в ячейках</A>)</LI>
+</UL>
+</DIV>
+
+<P>Элемент <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><SAMP class="einst">COL</SAMP></a> позволяет авторам группировать определения атрибутов для столбцов таблицы. Атрибут <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a> <strong>не</strong> группирует столбцы структурно - эту роль играет элемент <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><samp class="einst">COLGROUP</samp></a>.
+
+Элементы <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><SAMP class="einst">COL</SAMP></a> являются пустыми и служат только для поддержания атрибутов. Они могут находиться внутри или вне явной группы столбцов (т.е. элемента <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><samp class="einst">COLGROUP</samp></a>).
+
+<P>Атрибут <a href="tables.html#adef-width-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-width-COL" class="noxref"><SAMP class="ainst-COL">width</SAMP></a> для элемента <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><SAMP class="einst">COL</SAMP></a> означает ширину каждого столбца в span элемента.</P>
+
+<H4>
+<span class="index-inst" title="column::number of in a table|table::number of columns"> <a name="column-calc">Подсчет числа столбцов в таблице</a></span><a name="h-11.2.4.3">&nbsp;</a></H4>
+
+<P>Имеется два способа определения числа столбцов в таблице (в порядке старшинства):</P>
+
+<OL>
+<LI>Если элемент <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><samp class="einst">TABLE</samp></a> включает элементы <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><samp class="einst">COLGROUP</samp></a> или <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a>, агенты пользователей должны подсчитывать число столбцов, суммируя следующие цифры:
+<ul>
+<li>Для каждого элемента <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a> - значение его атрибута <a href="tables.html#adef-span-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-span-COL" class="noxref"><samp class="ainst-COL">span</samp></a> (по умолчанию 1).</li>
+
+<li>Для каждого элемента <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><samp class="einst">COLGROUP</samp></a>, содержащего по крайней мере один элемент <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a> - игнорировать атрибут <a href="tables.html#adef-span-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-span-COLGROUP" class="noxref"><samp class="ainst-COLGROUP">span</samp></a> для элемента <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><samp class="einst">COLGROUP</samp></a>. Для каждого элемента <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a> выполнить вычисление из шага 1.</li>
+
+<li>Для каждого пустого элемента <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><samp class="einst">COLGROUP</samp></a> - значение его атрибута <a href="tables.html#adef-span-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-span-COLGROUP" class="noxref"><samp class="ainst-COLGROUP">span</samp></a> (по умолчанию 1).</li>
+</ul>
+
+<LI>В противном случае, если элемент <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><samp class="einst">TABLE</samp></a> не содержит элементов <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><samp class="einst">COLGROUP</samp></a> или <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a>, агенты пользователей определять число столбцов из того, что необходимо для строк.  Число столбцов равно число столбцов, необходимых строке с наибольшим числом столбцов, включая ячейки, span несколько столбцов.  Для любой строки, число столбцов в которой меньше, конец этой строки будет дополняться пустыми ячейками. "Конец" строки зависит от <a href="#table-directionality">направления таблицы</a>.</LI>
+</ol>
+
+<P>Если таблица содержит элементы <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><samp class="einst">COLGROUP</samp></a> или <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a>, и эти два способа подсчет дают разные результаты, это является ошибкой. 
+
+<P>Когда агент пользователя подсчитал число столбцов в таблице, он может сгруппировать их в <a href="#colgroups">группы столбцов.</a>
+
+<DIV class="example">
+<P>Например, для каждой из следующих таблиц, оба способа подсчета числа столбцов должны дать три столбца. Первые три таблицы могут генерироваться последовательно.</P>
+
+<PRE>
+&lt;TABLE&gt;
+&lt;COLGROUP span="3"&gt;&lt;/COLGROUP&gt;
+&lt;TR&gt;&lt;TD&gt; <EM>...</EM>
+<em>...строки...</em>
+&lt;/TABLE&gt;
+
+&lt;TABLE&gt;
+&lt;COLGROUP&gt;
+&lt;COL&gt;
+&lt;COL span="2"&gt;
+&lt;/COLGROUP&gt;
+&lt;TR&gt;&lt;TD&gt; <EM>...</EM>
+<em>...строки...</em>
+&lt;/TABLE&gt;
+
+&lt;TABLE&gt;
+&lt;COLGROUP&gt;
+&lt;COL&gt;
+&lt;/COLGROUP&gt;
+&lt;COLGROUP span="2"&gt;
+&lt;TR&gt;&lt;TD&gt; <EM>...</EM>
+<em>...строки...</em>
+&lt;/TABLE&gt;
+
+&lt;TABLE&gt;
+&lt;TR&gt;
+  &lt;TD&gt;&lt;TD&gt;&lt;TD&gt;
+&lt;/TR&gt;
+&lt;/TABLE&gt;
+</PRE>
+</DIV>
+
+<h4>
+<span class="index-inst" title="column::width of in a
+table|table::width of columns"> <a name="column-width">Подсчет ширины столбцов</a></span><a name="h-11.2.4.4">&nbsp;</a></h4>
+
+<P>Авторы могут указывать ширину столбцов тремя способами:
+<dl>
+<dt><strong>Фиксированная</strong>
+
+<dd>Указание фиксированной ширины дается в пикселах (например, <samp class="ainst">width</samp>="30"). Использование фиксированной ширины позволяет использовать последовательную генерацию.
+
+<dt><strong>В процентах</strong>
+
+<dd>Указание ширины в процентах (например, <samp class="ainst">width</samp>="20%") означает процент горизонтального пространства, доступного для таблицы (между текущим левым и правым полями, включая floats). Помните, что это пространство не зависит от самой таблицы, поэтому указание ширины в процентах позволяет использовать последовательную генерацию.
+
+<dt><strong>Пропорциональная</strong>
+
+<dd>Указание пропорциональной ширины (например, <samp class="ainst">width</samp>="3*") означает число частей горизонтального пространства, <em>необходимого</em> для таблицы. Если ширина таблицы определяется как фиксированное значение (с помощью атрибута <samp class="ainst">width</samp> элемента <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><samp class="einst">TABLE</samp></a>), агенты пользователей могут генерировать таблицу последовательно и с указанием пропорциональной ширины.
+
+<P>Однако если ширина таблицы не фиксирована, агенты пользователей должны получить все данные таблицы перед тем, как они смогут определить горизонтальное пространство, необходимое для таблицы. Только тогда это пространство может быть распределено между столбцами, для которых указана пропорциональная ширина.
+</dl>
+
+<P>Если автор не указывает для столбца информацию о ширине, агент пользователя не сможет форматировать таблицу последовательно, поскольку он вынужден будет ждать получения всех данных столбца для определения его ширины.</P>
+
+<P>Если указанная для столбца ширина недостаточна для размещения содержимого какой-либо ячейки, агенты пользователей могут переформатировать таблицу.</p>
+
+<DIV class="example">
+<P>Таблица в этом примере содержит шесть столбцов. Первый не принадлежит к явной группе столбцов. Следующие три образуют первую явную группу столбцов, а последние два - вторую явную группу столбцов. Эту таблицу нельзя отформатировать последовательно, поскольку она содержит столбцы пропорциональной ширины, а значение атрибута <a href="tables.html#adef-width-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-width-TABLE" class="noxref"><samp class="ainst-TABLE">width</samp></a> для элемента <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><samp class="einst">TABLE</samp></a> не указано.
+
+<P>Когда агент пользователя (визуальный) получит данные таблицы, доступное горизонтальное пространство будет распределяться агентом пользователя следующим образом: сначала агент пользователя распределит 30 пикселов на первый и второй столбец. Затем будет зарезервировано минимальное пространство, необходимое для третьего столбца.  Оставшееся горизонтальное пространство будет разделено на шесть равных частей (поскольку 2* + 1* + 3* = 6 частей).  Четвертый столбец (2*) получит две таких части, пятый (1*) - одну, а шестой - (3*) три.</P>
+
+<PRE>    
+&lt;TABLE&gt;
+&lt;COLGROUP&gt;
+   &lt;COL width="30"&gt;
+&lt;COLGROUP&gt;
+   &lt;COL width="30"&gt;
+   &lt;COL width="0*"&gt;
+   &lt;COL width="2*"&gt;
+&lt;COLGROUP align="center"&gt;
+   &lt;COL width="1*"&gt;
+   &lt;COL width="3*" align="char" char=":"&gt;
+&lt;THEAD&gt;
+&lt;TR&gt;&lt;TD&gt; <EM>...</EM>
+<em>...строки...</em>
+&lt;/TABLE&gt;
+</PRE>
+
+<P>Для атрибута <a href="tables.html#adef-align-TD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-align-TD" class="noxref"><SAMP class="ainst-TD">align</SAMP></a> во второй группе столбцов мы установили значение "center". Все ячейки в каждом столбце этой группы будут наследовать это значение, но могут переопределять его. В действительности последний элемент <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><SAMP class="einst">COL</SAMP></a> делает именно это, потому что в нем указано, что каждая ячейка столбца, которым он управляет, будет выровнена с использованием символа ":".</P>
+</DIV>
+
+<DIV class="example">
+<P>В следующей таблице спецификации ширины столбца позволяют агентам пользователя форматировать таблицу последовательно:</P>
+
+<PRE>    
+&lt;TABLE width="200"&gt;
+&lt;COLGROUP span="10" width="15"&gt;
+&lt;COLGROUP width="*"&gt;
+   &lt;COL id="penultimate-column"&gt;
+   &lt;COL id="last-column"&gt;
+&lt;THEAD&gt;
+&lt;TR&gt;&lt;TD&gt; <EM>...</EM>
+<em>...строки...</em>
+&lt;/TABLE&gt;
+</PRE>
+
+<P>Первые десять столбцов имеют ширину 15 пикселов каждый. Последние два столбца получают по половине из оставшихся 50 пикселов. Помните, что элемент <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a> расположен так, что значение <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a> можно указать только для последних двух столбцов.
+</div>
+
+<div class="example"><P>
+<em><strong>Примечание.</strong> Хотя атрибут <a href="tables.html#adef-width-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-width-TABLE" class="noxref"><samp class="ainst-TABLE">width</samp></a> элемента <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><samp class="einst">TABLE</samp></a> не является нежелательным, авторам рекомендуется использовать для указания ширины таблицы стилей.</em>
+</div>
+
+<H3><a name="h-11.2.5">11.2.5</a> <A name="rows">Строки таблицы:</A> элемент <A name="edef-TR"><SAMP class="edef">TR</SAMP></A></H3>
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">&lt;!ELEMENT <a href="tables.html#edef-TR" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TR" class="noxref"><samp class="einst">TR</samp></a>       - O (TH|TD)+        -- строка таблицы --&gt;
+&lt;!ATTLIST TR                           -- строка таблицы --  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --  <a href="dtd.html#cellhalign" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#cellhalign">%cellhalign;</a>                         -- горизонтальное выравнивание в ячейках --  <a href="dtd.html#cellvalign" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#cellvalign">%cellvalign;</a>                         -- вертикальное выравнивание в ячейках --  &gt;
+</PRE>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>не обязателен</strong></em></p>
+
+<DIV class="aref-list">
+<P><EM>Атрибуты, определяемые в любом другом месте</EM></P>
+
+<UL>
+<LI><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><SAMP class="ainst">id</SAMP></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><SAMP class="ainst">class</SAMP></a> (<A href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</A>) </LI>
+
+<LI><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><SAMP class="ainst">lang</SAMP></a> (<A href="dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">информация о языке</A>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><SAMP class="ainst">dir</SAMP></a> (<A href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</A>) </LI>
+
+<LI><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><SAMP class="ainst">title</SAMP></a> (<A href="global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</A>) </LI>
+
+<LI><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><SAMP class="ainst">style</SAMP></a> (<A href="styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле
+</A>) </LI>
+
+<LI><a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><SAMP class="ainst">onclick</SAMP></a>, <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><SAMP class="ainst">ondblclick</SAMP></a>, <a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><SAMP class="ainst">onmousedown</SAMP></a>, <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><SAMP class="ainst">onmouseup</SAMP></a>, <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><SAMP class="ainst">onmouseover</SAMP></a>, <a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><SAMP class="ainst">onmousemove</SAMP></a>, <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><SAMP class="ainst">onmouseout</SAMP></a>, <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><SAMP class="ainst">onkeypress</SAMP></a>, <a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><SAMP class="ainst">onkeydown</SAMP></a>,<a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><SAMP class="ainst">onkeyup</SAMP></a> (<A href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</A>) </LI>
+
+<LI><a href="tables.html#adef-align-TD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-align-TD" class="noxref"><SAMP class="ainst-TD">align</SAMP></a>, <a href="tables.html#adef-char" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-char" class="noxref"><SAMP class="ainst">char</SAMP></a>, <a href="tables.html#adef-charoff" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-charoff" class="noxref"><SAMP class="ainst">charoff</SAMP></a>, <a href="tables.html#adef-valign" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-valign" class="noxref"><SAMP class="ainst">valign</SAMP></a> (<A href="#alignment">выравнивание в ячейках</A>)</LI>
+</UL>
+</DIV>
+
+<P>Элементы <a href="tables.html#edef-TR" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TR" class="noxref"><SAMP class="einst">TR</SAMP></a> служат контейнерами для строки ячеек таблицы. Конечный тег можно опустить.</P>
+
+<DIV class="example">
+<P>Эта простая таблица состоит из трех строк, каждая из которых начинается с элемента <a href="tables.html#edef-TR" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TR" class="noxref"><SAMP class="einst">TR</SAMP></a>:</P>
+
+<PRE>
+&lt;TABLE summary="В этой таблице показан график числа
+                   чашек кофе, выпиваемых каждым сенатором, тип
+                   кофе (без кофеина или обычный) и наличие сахара."&gt;
+&lt;CAPTION&gt;Сколько чашек кофе выпивает каждый сенатор&lt;/CAPTION&gt;
+&lt;TR&gt; <EM>...Строка заголовка...</EM>
+&lt;TR&gt; <EM>...Первая строка данных...</EM>
+&lt;TR&gt; <EM>...Вторая строка данных...</EM>
+<EM>...продолжение таблицы...</EM>
+&lt;/TABLE&gt;
+</PRE>
+</DIV>
+
+<H3><a name="h-11.2.6">11.2.6</a> <A name="cells">Ячейки таблицы:</A> элементы <A name="edef-TH"><SAMP class="edef">TH</SAMP></A> и <A name="edef-TD"><SAMP class="edef">TD</SAMP></A></H3>
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">
+&lt;!ELEMENT (<a href="tables.html#edef-TH" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TH" class="noxref"><samp class="einst">TH</samp></a>|<a href="tables.html#edef-TD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TD" class="noxref"><samp class="einst">TD</samp></a>)  - O (<a href="dtd.html#flow" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#flow">%flow;</a>)*       -- ячейка заголовка таблицы, ячейка данных таблицы --&gt;
+
+&lt;!-Для большинства таблиц атрибут scope проще, чем атрибут axes --&gt;
+&lt;!ENTITY % Scope "(row|col|rowgroup|colgroup)"&gt;
+
+&lt;!-- TH используется для заголовков, TD - для данных, но для ячеек, служащих и тем, и другим используйте TD --&gt;
+&lt;!ATTLIST (TH|TD)                      -- заголовок ячейки данных --  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --  <a href="tables.html#adef-abbr" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-abbr" class="noxref"><samp class="ainst-TH">abbr</samp></a>        <a href="dtd.html#Text" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Text">%Text;</a>         #IMPLIED  -- сокращение для ячейки заголовка --  <a href="tables.html#adef-axis" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-axis" class="noxref"><samp class="ainst-TH">axis</samp></a>        <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata">CDATA</a>          #IMPLIED  -- группы имен связанных заголовков --  <a href="tables.html#adef-headers" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-headers" class="noxref"><samp class="ainst-TH">headers</samp></a>     <a href="types.html#type-idrefs" tppabs="http://www.citforum.ru/internet/html40/types.html#type-idrefs">IDREFS</a>         #IMPLIED  -- список id для ячеек заголовков --  <a href="tables.html#adef-scope" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-scope" class="noxref"><samp class="ainst-TH">scope</samp></a>       <a href="dtd.html#Scope" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Scope">%Scope;</a>        #IMPLIED  -- область ячеек заголовков --  <a href="tables.html#adef-rowspan" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-rowspan" class="noxref"><samp class="ainst-TH">rowspan</samp></a>     <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number">NUMBER</a>         1         -- число строк, spanned ячейкой --  <a href="tables.html#adef-colspan" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-colspan" class="noxref"><samp class="ainst-TH">colspan</samp></a>     <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number">NUMBER</a>         1         -- число столбцов, spanned ячейкой --  <a href="dtd.html#cellhalign" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#cellhalign">%cellhalign;</a>                         -- горизонтальное выравнивание в ячейках --  <a href="dtd.html#cellvalign" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#cellvalign">%cellvalign;</a>                         -- вертикальное выравнивание в ячейках --
+  &gt;
+</PRE>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>не обязателен</strong></em></p>
+
+<DIV class="adef-list">
+<P><EM>Определения атрибутов</EM></P>
+
+<DL>
+<DT><A name="adef-headers"><SAMP class="adef">headers</SAMP></A> = <a href="types.html#type-idrefs" tppabs="http://www.citforum.ru/internet/html40/types.html#type-idrefs"><em>idrefs</em></a><a href="types.html#case-sensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-sensitive">[CS]</a>
+</DT>
+
+<DD>В этом атрибуте указывается список ячеек заголовков, предоставляющих заголовочную информацию для текущей ячейки данных. Значением этого атрибута является разделенный пробелами список названий ячеек; имена ячейкам должны даваться с помощью атрибута <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>. Авторы обычно используют атрибут <a href="tables.html#adef-headers" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-headers" class="noxref"><samp class="ainst">headers</samp></a> с целью помочь невизуальным агентам пользователей в генерации заголовков ячеек данных (например, заголовок произносится перед прочтением данных ячейки), но этот атрибут может также использоваться вместе с таблицами стилей. См. также атрибут <a href="tables.html#adef-scope" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-scope" class="noxref"><samp class="ainst">scope</samp></a>.</DD>
+
+<DT><A name="adef-scope"><SAMP class="adef">scope</SAMP></A> = <EM>имя области действия</EM> <a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+</DT>
+
+<DD>Этот атрибут определяет набор ячеек данных, для которых заголовочная информация задается текущим заголовком. Этот атрибут может использоваться вместо атрибута a href="tables.html#adef-headers" class="noxref"><samp class="ainst">headers</samp></a>, особенно в простых таблицах. Если этот атрибут используется, он должен иметь одно из следующих значений:
+
+<ul>
+<li><strong>row:</strong> В ячейке представлена заголовочная информация для оставшейся части строки, в которой содержится эта ячейка (см. также раздел о <a href="#table-directionality">направлении таблиц</a>).
+<li><strong>col:</strong> В текущей ячейке представлена заголовочная информация для оставшейся части столбца, в котором содержится эта ячейка.
+<li><strong>rowgroup:</strong> В ячейке представлена заголовочная информация для оставшейся <a href="#rowgroups">группы строк</a>, в которой содержится эта ячейка.  
+<li><strong>colgroup:</strong> В ячейке представлена заголовочная информация для оставшейся <a href="#colgroups">группы столбцов</a>, в которой содержится эта ячейка.
+</ul>
+
+<DT><A name="adef-abbr"><SAMP class="adef">abbr</SAMP></A> = <A href="types.html#type-text" tppabs="http://www.citforum.ru/internet/html40/types.html#type-text"><EM>текст</EM></A> <a href="types.html#case-sensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-sensitive">[CS]</a>
+</DT>
+
+<DD>Этот атрибут следует использовать для представления сокращенной формы содержимого ячейки; он может генерироваться агентами пользователей в подходящий момент вместо содержимого ячейки. Сокращенные имена должны быть короче, и агенты пользователей могут повторять их. Например, синтезаторы речи могут генерировать сокращенные заголовки, относящиеся к определенной ячейке, перед генерацией содержимого ячейки.
+</DD>
+
+<DT><A name="adef-axis"><SAMP class="adef">axis</SAMP></A> = <A href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata"><EM>cdata</EM></A> <a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+</DT>
+
+<DD>Этот атрибут может использоваться вместо ячейки в концептуальных категориях, которая может использоваться для формирования axes в n-мерном пространстве. Агенты пользователей могут давать пользователям доступ к этим категориям (например, пользователь может запрашивать у агента все ячейки, принадлежащие к определенной категории, агент пользователя может представлять таблицу в форме оглавления и т.д.). Подробнее см. в разделе о <a href="#multi-dimension">категоризации ячеек</a>. Значением этого атрибута является список имен категорий, разделенных запятыми.</DD>
+
+<DT><A name="adef-rowspan"><SAMP class="adef">rowspan</SAMP></A> = <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number"><em>число</em></a> <a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a></DT>
+
+<DD>Этот атрибут определяет число строк, spanned текущей ячейкой. По умолчанию используется значение один ("1"). Значение ноль ("0") означает, что ячейка spans все строки от текущей до последней строки таблицы. </DD>
+
+<DT><A name="adef-colspan"><SAMP class="adef">colspan</SAMP></A> = <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number"><em>число</em></a> <a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+</DT>
+<DD>Этот атрибут определяет число столбцов, spanned текущей ячейкой. По умолчанию используется значение один ("1"). Значение ноль ("0") означает, что ячейка spans все столбцы от текущего до последнего столбца таблицы.</DD>
+
+<DT><A name="adef-nowrap"><SAMP class="adef">nowrap</SAMP></A> <a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+</DT>
+<DD><a href="conform.html#deprecated" tppabs="http://www.citforum.ru/internet/html40/conform.html#deprecated"><strong>Нежелателен.</strong></a> Если этот логический атрибут используется, он сообщает визуальным агентам пользователей о необходимости отключить автоматическое разбиение текста для этой ячейки. Для разбиения строк вместо этого атрибута должны использоваться <A href="styles.html" tppabs="http://www.citforum.ru/internet/html40/present/styles.html">таблицы стилей</A>. <strong>Примечание.</strong> при невнимательном использовании этот атрибут может привести к тому, что ячейки будут очень широкими.</DD>
+
+<dt><a name="adef-width-TH"><samp class="adef">width</samp></a> = <a href="types.html#type-pixels" tppabs="http://www.citforum.ru/internet/html40/types.html#type-pixels"><em>пикселы</em></a>  <a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+<dd><a href="conform.html#deprecated" tppabs="http://www.citforum.ru/internet/html40/conform.html#deprecated"><strong>Нежелателен.</strong></a> Этот атрибут дает агентам пользователей рекомендуемую ширину ячейки.
+
+<dt><a name="adef-height-TH"><samp class="adef">height</samp></a> = <a href="types.html#type-pixels" tppabs="http://www.citforum.ru/internet/html40/types.html#type-pixels"><em>пикселы</em></a> <a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+<dd><a
+href="conform.html#deprecated" tppabs="http://www.citforum.ru/internet/html40/conform.html#deprecated"><strong>Нежелателен.</strong></a> Этот атрибут дает агентам пользователей рекомендуемую высоту ячейки.
+</DL>
+</DIV>
+
+<DIV class="aref-list">
+<P><EM>Атрибуты, определяемые в любом другом месте</EM></P>
+
+<UL>
+<LI><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><SAMP class="ainst">id</SAMP></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><SAMP class="ainst">class</SAMP></a> (<A href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</A>) </LI>
+
+<LI><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><SAMP class="ainst">lang</SAMP></a> (<A href="dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">информация о языке</A>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><SAMP class="ainst">dir</SAMP></a> (<A href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</A>) </LI>
+
+<LI><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><SAMP class="ainst">title</SAMP></a> (<A href="global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</A>) </LI>
+
+<LI><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><SAMP class="ainst">style</SAMP></a> (<A href="styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле
+</A>) </LI>
+
+<LI><a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><SAMP class="ainst">onclick</SAMP></a>, <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><SAMP class="ainst">ondblclick</SAMP></a>, <a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><SAMP class="ainst">onmousedown</SAMP></a>, <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><SAMP class="ainst">onmouseup</SAMP></a>, <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><SAMP class="ainst">onmouseover</SAMP></a>, <a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><SAMP class="ainst">onmousemove</SAMP></a>, <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><SAMP class="ainst">onmouseout</SAMP></a>, <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><SAMP class="ainst">onkeypress</SAMP></a>, <a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><SAMP class="ainst">onkeydown</SAMP></a>, <a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><SAMP class="ainst">onkeyup</SAMP></a> (<A href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</A>) </LI>
+
+<LI><a href="graphics.html#adef-bgcolor" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html#adef-bgcolor" class="noxref"><SAMP class="ainst">bgcolor</SAMP></a> (<A href="graphics.html#background-color" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html#background-color">цвет фона</A>) 
+</LI>
+
+<LI><a href="tables.html#adef-align-TD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-align-TD" class="noxref"><SAMP class="ainst-TD">align</SAMP></a>, <a href="tables.html#adef-char" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-char" class="noxref"><SAMP class="ainst">char</SAMP></a>, <a href="tables.html#adef-charoff" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-charoff" class="noxref"><SAMP class="ainst">charoff</SAMP></a>, <a href="tables.html#adef-valign" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-valign" class="noxref"><SAMP class="ainst">valign</SAMP></a> (<A href="#alignment">выравнивание в ячейках</A>)</LI>
+</UL>
+</DIV>
+
+<P>Ячейки таблицы могут содержать информацию двух типов: <span class="index-inst" title="table::header cells|header cell::in table"><a name="idx-table-9">заголовочную информацию</a></span> и <span class="index-inst" title="table::data cells|data cell::in table"><a name="idx-table-10">данные.</a></span> Это различие позволяет агентам пользователей генерировать ячейки заголовков и данных различным образом даже при отсутствии таблиц стилей. Например, визуальные агенты пользователей могут представлять текст ячеек заголовков жирным шрифтом. Синтезаторы речи могут выделять заголовочную информацию голосом.
+
+<P>Элемент <a href="tables.html#edef-TH" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TH" class="noxref"><SAMP class="einst">TH</SAMP></a> определяет ячейку, содержащую информацию заголовка. Агентам пользователей доступны две части заголовочной информации: содержимое элемента <a href="tables.html#edef-TH" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TH" class="noxref"><samp class="einst">TH</samp></a> и значение атрибута <a href="tables.html#adef-abbr" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-abbr" class="noxref"><samp class="ainst">abbr</samp></a>. Агенты пользователей должны генерировать содержимое ячейки или значение атрибута <a href="tables.html#adef-abbr" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-abbr" class="noxref"><samp class="ainst">abbr</samp></a>.  Для визуальных устройств последнее может иметь смысл, если пространства для генерации полного содержимого ячейки недостаточно. Для невизуальных устройств <a href="tables.html#adef-abbr" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-abbr" class="noxref"><samp class="ainst">abbr</samp></a> может использоваться в качестве сокращения для заголовков таблиц, когда они генерируются вместе с содержимым ячеек, к которым они относятся.
+
+<P>Атрибуты <a href="tables.html#adef-headers" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-headers" class="noxref"><samp class="ainst">headers</samp></a> и <a href="tables.html#adef-scope" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-scope" class="noxref"><samp class="ainst">scope</samp></a> также позволяют авторам помочь невизуальным агентам пользователей в обработке информации заголовка.  Подробную информацию и примеры см. в разделе о <a href="#non-visual-rendering">пометке ячеек для невизуальных агентов пользователей</a>.
+
+<P>Элемент <a href="tables.html#edef-TD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TD" class="noxref"><SAMP class="einst">TD</SAMP></a> определяет ячейку, содержащую данные.
+
+<P>Ячейка может быть пустой (т.е. не содержать данных).</P>
+
+<DIV class="example">
+<P>Например, в следующей таблице содержится четыре столбца данных, каждый столбец имеет заголовок.</P>
+
+<PRE>
+&lt;TABLE summary="В этой таблице показан график числа
+                   чашек кофе, выпиваемых каждым сенатором, тип
+                   кофе (без кофеина или обычный) и наличие сахара."&gt;
+&lt;CAPTION&gt;Сколько чашек кофе выпивает каждый сенатор&lt;/CAPTION&gt;
+&lt;TR&gt;
+   &lt;TH&gt;Имя&lt;/TH&gt;
+   &lt;TH&gt;Число чашек&lt;/TH&gt;
+   &lt;TH&gt;Тип кофе&lt;/TH&gt;
+   &lt;TH&gt;Сахар?&lt;/TH&gt;
+&lt;TR&gt;
+   &lt;TD&gt;Т. Секстон&lt;/TD&gt;
+   &lt;TD&gt;10&lt;/TD&gt;
+   &lt;TD&gt;Эспрессо&lt;/TD&gt;
+   &lt;TD&gt;Нет&lt;/TD&gt;
+&lt;TR&gt;
+   &lt;TD&gt;Дж. Диннен&lt;/TD&gt;
+   &lt;TD&gt;5&lt;/TD&gt;
+   &lt;TD&gt;Без кофеина&lt;/TD&gt;
+   &lt;TD&gt;Да&lt;/TD&gt;
+&lt;/TABLE&gt;
+</PRE>
+
+<P>Агент пользователя, выполняющий генерацию для терминала, может отобразить это следующим образом:
+
+<pre>
+<strong>Имя                 Число чашек            Тип кофе                     Сахар?</strong>
+Т. Секстон    10         Эспрессо         Нет
+Дж. Диннен    5          Без кофеина       Да
+</pre>
+</DIV>
+
+<H4>
+<span class="index-inst" title="table::cells that span several rows/columns"><a name="idx-table-11">Ячейки, span несколько строк или столбцов</a></span><a name="h-11.2.6.1">&nbsp;</a></H4>
+
+<P>Ячейки могут span несколько строк или столбцов. Число строк или столбцов, spanned ячейкой, устанавливается с помощью атрибутов <a href="tables.html#adef-rowspan" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-rowspan" class="noxref"><SAMP class="ainst">rowspan</SAMP></a> и <a href="tables.html#adef-colspan" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-colspan" class="noxref"><SAMP class="ainst">colspan</SAMP></a> элементов <a href="tables.html#edef-TH" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TH" class="noxref"><SAMP class="einst">TH</SAMP></a> и <a href="tables.html#edef-TD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TD" class="noxref"><SAMP class="einst">TD</SAMP></a>.</P>
+
+<DIV class="example">
+<P>В этом определении таблицы мы указываем, что ячейка в четвертой строке во втором столбце span все три столбца, включая текущий.</P>
+
+<PRE>
+&lt;TABLE border="1"&gt;
+&lt;CAPTION&gt; Сколько чашек кофе выпивает каждый сенатор &lt;/CAPTION&gt;
+&lt;TR&gt;&lt;TH&gt;Имя&lt;TH&gt;Число чашек&lt;TH&gt;Тип кофе&lt;TH&gt;Сахар?
+&lt;TR&gt;&lt;TD&gt;Т. Секстон&lt;TD&gt;10&lt;TD&gt;Эспрессо&lt;TD&gt;Нет
+&lt;TR&gt;&lt;TD&gt;Дж. Диннен&lt;TD&gt;5&lt;TD&gt;Без кофеина&lt;TD&gt;Да
+&lt;TR&gt;&lt;TD&gt;А. Сориа&lt;TD colspan="3"&gt;&lt;em&gt;Нет данных&lt;/em&gt;
+&lt;/TABLE&gt;
+</PRE>
+
+<P>На терминале эта таблица может генерироваться следующим образом:</P>
+
+<PRE>
+Сколько чашек кофе выпивает каждый сенатор
+ ----------------------------------------------
+ |   Имя    |Число чашек|Тип кофе      |Сахар?|
+ ----------------------------------------------
+ |Т. Секстон|10         |Эспрессо      |Нет   |
+ ----------------------------------------------
+ |Дж. Диннен|5          |Без кофеина   |Да    |
+ ----------------------------------------------
+ |А. Сориа  |Нет данных                       |
+ ----------------------------------------------
+</PRE>
+</DIV>
+
+<DIV class="example">
+<P>В следующем примере показано (с помощью границ таблицы), как определения ячеек, span несколько строк или столбцов, влияют на определения следующих ячеек.  Рассмотрите следующее определение таблицы:</P>
+
+<PRE>
+&lt;TABLE border="1"&gt;
+&lt;TR&gt;&lt;TD&gt;1 &lt;TD rowspan="2"&gt;2 &lt;TD&gt;3
+&lt;TR&gt;&lt;TD&gt;4 &lt;TD&gt;6
+&lt;TR&gt;&lt;TD&gt;7 &lt;TD&gt;8 &lt;TD&gt;9
+&lt;/TABLE&gt;
+</PRE>
+
+<P>Поскольку ячейка "2" spans первую и вторую строки, определение второй строки будет принято во внимание. Таким образом, второй элемент <a href="tables.html#edef-TD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TD" class="noxref"><samp class="einst">TD</samp></a> в строке два в действительности определяет третью ячейку строки. Визуально на терминале таблица может генерироваться следующим образом:</P>
+
+<PRE>
+-------------
+| 1 | 2 | 3 | 
+----|   |----
+| 4 |   | 6 |
+----|---|----
+| 7 | 8 | 9 |
+-------------
+</PRE>
+
+<P>а графический агент пользователя может представить ее так:</P>
+
+<P><img src="rowspan.gif" tppabs="http://www.citforum.ru/internet/html40/images/rowspan.gif" alt="Таблица с rowspan=2">
+
+<P>Помните, что, если элемент <a href="tables.html#edef-TD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TD" class="noxref"><samp class="einst">TD</samp></a>, определяющий ячейку "6", опущен, агенты пользователя будут добавлять дополнительную пустую ячейку, чтобы заполнить строку.</P>
+
+<P>Точно так же в следующем определении таблицы:</P>
+
+<PRE>
+&lt;TABLE border="1"&gt;
+&lt;TR&gt;&lt;TD&gt;1 &lt;TD&gt;2 &lt;TD&gt;3
+&lt;TR&gt;&lt;TD colspan="2"&gt;4 &lt;TD&gt;6
+&lt;TR&gt;&lt;TD&gt;7 &lt;TD&gt;8 &lt;TD&gt;9
+&lt;/TABLE&gt;
+</PRE>
+
+<P>ячейка "4" spans два столбца, так что второй элемент <a href="tables.html#edef-TD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TD" class="noxref"><samp class="einst">TD</samp></a> в строке на самом деле определяет третью ячейку ("6"):</P>
+
+<PRE>
+-------------
+| 1 | 2 | 3 | 
+--------|----
+| 4     | 6 |
+--------|----
+| 7 | 8 | 9 |
+-------------
+</PRE>
+
+<P>Графический агент пользователя может представить это следующим образом:</P>
+
+<P><img src="colspan.gif" tppabs="http://www.citforum.ru/internet/html40/images/colspan.gif" alt="Таблица с colspan=2">
+</DIV>
+
+<P>Определение перекрывающихся ячеек является ошибкой. Агенты пользователей могут по-разному обрабатывать эту ошибку (например, они могут по-разному генерировать такие таблицы).</P>
+
+<DIV class="illegal-example">
+<P>В следующем примере недопустимого использования показано, как можно создать перекрывающиеся ячейки.  В этой таблице ячейка "5" spans две строки, а ячейка "7" spans два столбца, так что они обе используют ячейку между "7" и "9":</P>
+
+<PRE>
+&lt;TABLE border="1"&gt;
+&lt;TR&gt;&lt;TD&gt;1 &lt;TD&gt;2 &lt;TD&gt;3
+&lt;TR&gt;&lt;TD&gt;4 &lt;TD rowspan="2"&gt;5 &lt;TD&gt;6
+&lt;TR&gt;&lt;TD colspan="2"&gt;7 &lt;TD&gt;9
+&lt;/TABLE&gt;
+</PRE>
+</div>
+
+<H2><a name="h-11.3">11.3</a> <span class="index-inst" title="table::visual rendering of"><a name="visual-formatting">Форматирование таблиц визуальными агентами пользователей</a></span></H2>
+
+<div class="note"><P>
+<EM><strong>Примечание.</strong> В следующих разделах описываются атрибуты таблиц HTML, относящиеся к визуальному форматированию. Хотя таблицы стилей предлагают лучшие возможности управления визуальным форматированием таблиц, во время написания этой спецификации в <A rel="biblioentry" href="references.html#ref-CSS1" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-CSS1" class="informref">[CSS1]</A> не было механизмов для управления всеми аспектами визуального форматирования таблиц.</EM>
+</div>
+
+<P>В HTML 4.0 имеются механизмы для управления:</P>
+
+<UL>
+<LI><A href="#borders">стилями границ</A> </LI>
+
+<LI><A href="#alignment">горизонтальным и вертикальным выравниванием</A> содержимого ячеек</LI>
+
+<LI>и <A href="#margins">полями ячейки</A></LI>
+</UL>
+
+<H3><a name="h-11.3.1">11.3.1</a> <span class="index-inst" title="table::borders and rules of|border::around a table|rule::between table cells"><A name="borders">Границы и rules</A></span></H3>
+
+<P>Следующие атрибуты влияют на внутренние кадры и внутренние rules таблицы.</P>
+
+<DIV class="adef-list">
+<P><EM>Определения атрибутов</EM></P>
+
+<DL>
+<DT><A name="adef-frame"><SAMP class="adef">frame</SAMP></A> = <SAMP>void|above|below|hsides|lhs|rhs|vsides|box|border</SAMP> <a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+</DT>
+
+<DD>Этот атрибут указывает, какие стороны кадра, окружающего таблицу, будут видимы. Возможные значения: 
+
+<UL>
+<LI><SAMP>void:</SAMP> Сторон нет. Это значение используется по умолчанию. </LI>
+
+<LI><SAMP>above:</SAMP> Только верхняя часть. </LI>
+
+<LI><SAMP>below:</SAMP> Только нижняя часть. </LI>
+
+<LI><SAMP>hsides:</SAMP> Только верхняя и нижняя часть. </LI>
+
+<LI><SAMP>vsides:</SAMP> Только левая и правая части. </LI>
+
+<LI><SAMP>lhs:</SAMP> Только левая часть. </LI>
+
+<LI><SAMP>rhs:</SAMP> Только права часть. </LI>
+
+<LI><SAMP>box:</SAMP> Все четыре части. </LI>
+
+<LI><SAMP>border:</SAMP> Все четыре части.</LI>
+</UL>
+</DD>
+
+<DT><A name="adef-rules"><SAMP class="adef">rules</SAMP></A> = <SAMP>none|groups|rows|cols|all</SAMP> <a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+</DT>
+
+<DD>Этот атрибут указывает, какие rules будут отображаться между ячейками. Генерация rules зависит от агента пользователя. Возможные значения: 
+
+<UL>
+<LI><SAMP>none:</SAMP> Нет rules. Это значение используется по умолчанию. </LI>
+
+<LI><SAMP>groups:</SAMP> Rules отображаются только между группами строк (см. <a href="tables.html#edef-THEAD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-THEAD" class="noxref"><SAMP class="einst">THEAD</SAMP></a>, <a href="tables.html#edef-TFOOT" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TFOOT" class="noxref"><SAMP class="einst">TFOOT</SAMP></a>, and <a href="tables.html#edef-TBODY" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TBODY" class="noxref"><SAMP class="einst">TBODY</SAMP></a>) и группами столбцов (см. <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><SAMP class="einst">COLGROUP</SAMP></a> and <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><SAMP class="einst">COL</SAMP></a>).</LI>
+
+<LI><SAMP>rows:</SAMP> Rules отображаются только между строками. </LI>
+
+<LI><SAMP>cols:</SAMP> Rules отображаются только между столбцами. 
+</LI>
+
+<LI><SAMP>all:</SAMP> Rules отображаются между строками и столбцами.</LI>
+</UL>
+</DD>
+
+<DT><A name="adef-border-TABLE"><SAMP class="adef">border</SAMP></A> = <a href="types.html#type-pixels" tppabs="http://www.citforum.ru/internet/html40/types.html#type-pixels"><em>пикселы</em></a> <a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+</DT>
+
+<DD>Этот атрибут задает ширину (только в пикселах) кадра вокруг таблицы (подробнее об этом атрибуте см. в Примечании ниже).</DD>
+</DL>
+</DIV>
+
+<DIV class="example">
+<P>Для простоты различия ячеек в таблице мы можем устанавливать атрибут <a href="tables.html#adef-border-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-border-TABLE" class="noxref"><SAMP class="ainst-TABLE">border</SAMP></a> элемента <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><SAMP class="einst">TABLE</SAMP></a>. Рассмотрим предыдущий пример:</P>
+
+<PRE>
+&lt;TABLE border="1" 
+       summary="В этой таблице приведены данные
+                о числе чашек кофе, потребляемом каждым 
+                сенатором, типе кофе (без кофеина или обычный) 
+                и наличии сахара."&gt;
+&lt;CAPTION&gt;Сколько чашек кофе выпивает каждый сенатор&lt;/CAPTION&gt;
+&lt;TR&gt;
+   &lt;TH&gt;Имя&lt;/TH&gt;
+   &lt;TH&gt;Число чашек&lt;/TH&gt;
+   &lt;TH&gt;Тип кофе&lt;/TH&gt;
+   &lt;TH&gt;Сахар?&lt;/TH&gt;
+&lt;TR&gt;
+   &lt;TD&gt;Т. Секстон&lt;/TD&gt;
+   &lt;TD&gt;10&lt;/TD&gt;
+   &lt;TD&gt;Эспрессо&lt;/TD&gt;
+   &lt;TD&gt;Нет&lt;/TD&gt;
+&lt;TR&gt;
+   &lt;TD&gt;Дж. Диннен&lt;/TD&gt;
+   &lt;TD&gt;5&lt;/TD&gt;
+   &lt;TD&gt;Без кофеина&lt;/TD&gt;
+   &lt;TD&gt;Да&lt;/TD&gt;
+&lt;/TABLE&gt;
+</PRE>
+</DIV>
+
+<DIV class="example">
+<P>В следующем примере агент пользователя должен отобразить границу шириной в пять пикселов слева и справа от таблицы и rules между столбцами.</P>
+
+<PRE>
+&lt;TABLE border="5" frame="vsides" rules="cols"&gt;
+&lt;TR&gt; &lt;TD&gt;1 &lt;TD&gt;2 &lt;TD&gt;3
+&lt;TR&gt; &lt;TD&gt;4 &lt;TD&gt;5 &lt;TD&gt;6
+&lt;TR&gt; &lt;TD&gt;7 &lt;TD&gt;8 &lt;TD&gt;9
+&lt;/TABLE&gt;
+</PRE>
+
+</DIV>
+
+<P>Следующие настройки должны рассматриваться агентами пользователей для обеспечения совместимости с предыдущими версиями.</P>
+
+<UL>
+<LI>Настройка <a href="tables.html#adef-border-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-border-TABLE" class="noxref"><SAMP class="ainst-TABLE">border</SAMP></a>="0" подразумевает <a href="tables.html#adef-frame" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-frame" class="noxref"><SAMP class="ainst-TABLE">frame</SAMP></a>="void" и, если не указано другое, <a href="tables.html#adef-rules" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-rules" class="noxref"><SAMP class="ainst-TABLE">rules</SAMP></a>="none". </LI>
+
+<LI>Другие значения <a href="tables.html#adef-border-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-border-TABLE" class="noxref"><SAMP class="ainst-TABLE">border</SAMP></a> предполагают <a href="tables.html#adef-frame" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-frame" class="noxref"><SAMP class="ainst-TABLE">frame</SAMP></a>="border" и, если не указано другое, <a href="tables.html#adef-rules" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-rules" class="noxref"><SAMP class="ainst-TABLE">rules</SAMP></a>="all". 
+</LI>
+
+<LI>Значение "border" в начальном теге элемента <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><SAMP class="einst">TABLE</SAMP></a> должно интерпретироваться как значение атрибута <a href="tables.html#adef-frame" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-frame" class="noxref"><SAMP class="ainst-TABLE">frame</SAMP></a>. Предполагается, что <a href="tables.html#adef-rules" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-rules" class="noxref"><SAMP class="ainst-TABLE">rules</SAMP></a>="all" и используется некоторое стандартное значение (не нулевое) для атрибута <a href="tables.html#adef-border-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-border-TABLE" class="noxref"><SAMP class="ainst-TABLE">border</SAMP></a>.
+</LI>
+</UL>
+
+<DIV class="example">
+<P>Например, следующие определения эквивалентны:</P>
+
+<PRE>
+&lt;TABLE border="2"&gt;
+&lt;TABLE border="2" frame="border" rules="all"&gt;
+</PRE>
+
+<P>следующим:</P>
+
+<PRE>
+&lt;TABLE border&gt;
+&lt;TABLE frame="border" rules="all"&gt;
+</PRE>
+
+</DIV>
+
+<DIV class="note">
+<P><EM><strong>Примечание.</strong> Атрибут <a href="objects.html#adef-border" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-border" class="noxref"><SAMP class="ainst">border</SAMP></a> также определяет отображение границы для элементов <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><SAMP class="einst">OBJECT</SAMP></a> и <a href="objects.html#edef-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-IMG" class="noxref"><SAMP class="einst">IMG</SAMP></a>, но принимает для этих элементов различные значения.</EM></P>
+</DIV>
+
+<H3><a name="h-11.3.2">11.3.2</a> <span class="index-inst" title="table::alignment of contents|alignment::of table contents"><A name="alignment">Горизонтальное и вертикальное выравнивание</A></span></H3>
+
+<P>Для различных элементов таблицы можно установить следующие атрибуты (см. их определения).</P>
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">
+&lt;!- атрибуты горизонтального выравнивания содержимого ячейки --&gt;
+&lt;!ENTITY % cellhalign  "<a href="tables.html#adef-align-TD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-align-TD" class="noxref"><samp class="ainst-TD">align</samp></a>      (left|center|right|justify|char) #IMPLIED   <a href="tables.html#adef-char" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-char" class="noxref"><samp class="ainst">char</samp></a>       <a href="dtd.html#Character" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Character">%Character;</a>    #IMPLIED  -- символы выравнивания, например char=':' --   <a href="tables.html#adef-charoff" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-charoff" class="noxref"><samp class="ainst">charoff</samp></a>    <a href="dtd.html#Length" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Length">%Length;</a>       #IMPLIED  -- отступ символа выравнивания --"  &gt;&lt;!-атрибуты вертикального выравнивания содержимого ячейки --&gt;&lt;!ENTITY % cellvalign  "<a href="tables.html#adef-valign" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-valign" class="noxref"><samp class="ainst">valign</samp></a>     (top|middle|bottom|baseline) #IMPLIED"  &gt;
+</PRE>
+</div>
+
+<DIV class="adef-list">
+<P><EM>Определения атрибутов</EM></P>
+
+<DL>
+<DT><A name="adef-align-TD"><SAMP class="adef">align</SAMP></A> = <SAMP>left|center|right|justify|char</SAMP> <a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+</DT>
+
+<DD>Этот атрибут задает выравнивание данных и выключку текста в ячейке. Возможные значения: 
+
+<UL>
+<LI><SAMP>left:</SAMP> Выравнивание данных по левому краю/выключка текста влево. Это значение используется по умолчанию. </LI>
+
+<LI><SAMP>center:</SAMP> Выравнивание данных по центру/выключка текста по центру. Это значение используется по умолчанию в заголовках таблиц. </LI>
+
+<LI><SAMP>right:</SAMP> Выравнивание данных по правому краю/выключка текста вправо. </LI>
+
+<LI><SAMP>justify:</SAMP> Выключка по обоим краям. </LI>
+
+<LI><SAMP>char:</SAMP>Выравнивание текста вокруг указанного символа.</LI>
+</UL>
+</DD>
+
+<DT><A name="adef-valign"><SAMP class="adef">valign</SAMP></A> = <SAMP>top|middle|bottom|baseline</SAMP> <a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+</DT>
+
+<DD>Этот атрибут задает вертикальное положение данных в ячейке. Возможные значения: 
+
+<UL>
+<LI><SAMP>top:</SAMP> Данные ячейки сдвигаются вверх. 
+</LI>
+
+<LI><SAMP>middle:</SAMP> Данные ячейки центрируются вертикально. Это значение используется по умолчанию. </LI>
+
+<LI><SAMP>bottom:</SAMP> Данные в ячейке сдвигаются вниз. </LI>
+
+<LI><SAMP>baseline:</SAMP> Во всех ячейках строки, в которой находится ячейка, для которой установлен атрибут <SAMP>valign</SAMP>, текст должен располагаться так, чтобы первая строка оказывалась на базовой линии, общей для всех ячеек в строке. Это ограничение не применяется к последующим текстовым строкам в этой ячейке.</LI>
+</UL>
+</DD>
+
+<DT><A name="adef-char"><SAMP class="adef">char</SAMP></A> = <A href="types.html#type-character" tppabs="http://www.citforum.ru/internet/html40/types.html#type-character"><EM>символ</EM></A> <a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+</DT>
+
+<DD>Этот атрибут определяет отдельный символ во фрагменте текста, служащий осью для выравнивания. По умолчанию в качестве значения этого атрибута используется символ десятичной точки для текущего языка, установленного в соответствии с атрибутом <a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><SAMP class="ainst">lang</SAMP></a> (например, точка (".") в английском языке и запятая (",") во французском). Агенты пользователя не обязательно должны поддерживать этот атрибут.
+</DD>
+
+<DT><A name="adef-charoff"><SAMP class="adef">charoff</SAMP></A> = <A href="types.html#type-length" tppabs="http://www.citforum.ru/internet/html40/types.html#type-length"><EM>длина</EM></A> <a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+</DT> 
+
+<DD>Если этот атрибут задан, он определяет отступ первого экземпляра символа выравнивания в каждой строке. Если в строек нет символа выравнивания, она горизонтально сдвигается до конца в позиции выравнивания. 
+
+<P>Если для установления смещения символа выравнивания используется атрибут <a href="tables.html#adef-charoff" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-charoff" class="noxref"><SAMP class="ainst">charoff</SAMP></a>, направление смещения определяется текущим направлением текста (устанавливаемым атрибутом <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><SAMP class="ainst">dir</SAMP></a>). В текста, направленных слева направо (по умолчанию), смещение производится от левого поля. В текстах, направленных справа налево, смещение производится от правого поля. Агенты пользователей не обязательно должны поддерживать этот атрибут.</P>
+</DD>
+</DL>
+</DIV>
+
+<DIV class="example">
+<P>В этом примере денежные единицы выровнены по десятичной точке. Мы явно установили выравнивание по символу ".".
+</P>
+
+<PRE>
+&lt;TABLE border="1"&gt;
+&lt;COLGROUP&gt;
+&lt;COL&gt;&lt;COL align="char" char="."&gt;
+&lt;THEAD&gt;
+&lt;TR&gt;&lt;TH&gt;Овощи &lt;TH&gt;Цена за кг
+&lt;TBODY&gt;
+&lt;TR&gt;&lt;TD&gt;Lettuce        &lt;TD&gt;$1
+&lt;TR&gt;&lt;TD&gt;Silver carrots &lt;TD&gt;$10.50
+&lt;TR&gt;&lt;TD&gt;Golden turnips &lt;TD&gt;$100.30
+&lt;/TABLE&gt;
+</PRE>
+
+<P>Отформатированная таблица может выглядеть следующим образом:</P>
+
+<PRE>
+------------------------------
+|   Овощи      |Цена за кг   |
+|--------------|-------------|
+|Lettuce       |        $1   |
+|--------------|-------------|
+|Silver carrots|       $10.50|
+|--------------|-------------|
+|Golden turnips|      $100.30|
+------------------------------
+</PRE>
+</DIV>
+
+<P>Если в ячейке содержится несколько экземпляров символов выравнивания, заданных в атрибуте <a href="tables.html#adef-char" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-char" class="noxref"><samp class="ainst">char</samp></a>, и содержимое ячейки переносится на другую строку, поведение агента пользователя не определено.  Поэтому авторы должны внимательно использовать атрибут <a href="tables.html#adef-char" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-char" class="noxref"><samp class="ainst">char</samp></a>.
+
+<div class="note"><P>
+<em><strong>Примечание.</strong> Визуальные агенты пользователей обычно генерируют элементы <a href="tables.html#edef-TH" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TH" class="noxref"><samp class="einst">TH</samp></a> выровненными вертикально и горизонтально по центру с использованием полужирного шрифта.
+</em>
+</div>
+
+<H4><a name="alignment-inheritance">Наследование параметров выравнивания</a><a name="h-11.3.2.1">&nbsp;</a></H4>
+
+<P>Выравнивание содержимого ячейки могут задаваться для каждой ячейки или наследоваться от элементов верхнего уровня, таких как строка, столбец или сама таблица.</P>
+
+<P>Приоритет (от высшего к низшему) атрибутов <a href="tables.html#adef-align-TD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-align-TD" class="noxref"><SAMP class="ainst-TD">align</SAMP></a>, <a href="tables.html#adef-char" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-char" class="noxref"><SAMP class="ainst">char</SAMP></a> и <a href="tables.html#adef-charoff" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-charoff" class="noxref"><SAMP class="ainst">charoff</SAMP></a> следующий:</P>
+
+<OL>
+<LI>Атрибут выравнивания, установленный для элемента в данных ячейки (например, <a href="text.html#edef-P" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-P" class="noxref"><SAMP class="einst">P</SAMP></a>). </LI>
+
+<LI>Атрибут выравнивания, установленный в ячейке (<a href="tables.html#edef-TH" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TH" class="noxref"><SAMP class="einst">TH</SAMP></a> и <a href="tables.html#edef-TD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TD" class="noxref"><SAMP class="einst">TD</SAMP></a>). </LI>
+
+<LI>Атрибут выравнивания, установленный в элементе группировки столбцов (<a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><SAMP class="einst">COL</SAMP></a> и <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><SAMP class="einst">COLGROUP</SAMP></a>). Если ячейка является частью span из нескольких столбцов, свойство выравнивания наследуется от определения ячейки в начале span.
+</LI>
+
+<LI>Атрибут выравнивания, установленный в элементе строки или группировки строк(<a href="tables.html#edef-TR" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TR" class="noxref"><SAMP class="einst">TR</SAMP></a>, <a href="tables.html#edef-THEAD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-THEAD" class="noxref"><SAMP class="einst">THEAD</SAMP></a>, <a href="tables.html#edef-TFOOT" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TFOOT" class="noxref"><SAMP class="einst">TFOOT</SAMP></a> и <a href="tables.html#edef-TBODY" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TBODY" class="noxref"><SAMP class="einst">TBODY</SAMP></a>). Если ячейка является частью span из нескольких строк, свойство выравнивания наследуется от определения ячейки в начале span.
+</LI>
+
+<LI>Атрибут выравнивания, установленный в таблице(<a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><SAMP class="einst">TABLE</SAMP></a>). </LI>
+
+<LI>Значение выравнивания по умолчанию.</LI>
+</OL>
+
+<P>Приоритет (от высшего к низшему) атрибута <a href="tables.html#adef-valign" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-valign" class="noxref"><SAMP class="ainst">valign</SAMP></a> (а также других унаследованных атрибутов <a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><SAMP class="ainst">lang</SAMP></a>, <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><SAMP class="ainst">dir</SAMP></a> и <a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><SAMP class="ainst">style</SAMP></a>) следующий:</P>
+
+<OL>
+<LI>Атрибут, установленный для элемента в данных ячейки (например, <a href="text.html#edef-P" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-P" class="noxref"><SAMP class="einst">P</SAMP></a>). </LI>
+
+<LI>Атрибут, установленный для ячейки (<a href="tables.html#edef-TH" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TH" class="noxref"><SAMP class="einst">TH</SAMP></a> и <a href="tables.html#edef-TD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TD" class="noxref"><SAMP class="einst">TD</SAMP></a>). </LI>
+
+<LI>Атрибут, установленный для элемента строки или группировки строк (<a href="tables.html#edef-TR" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TR" class="noxref"><SAMP class="einst">TR</SAMP></a>, <a href="tables.html#edef-THEAD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-THEAD" class="noxref"><SAMP class="einst">THEAD</SAMP></a>, <a href="tables.html#edef-TFOOT" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TFOOT" class="noxref"><SAMP class="einst">TFOOT</SAMP></a> и <a href="tables.html#edef-TBODY" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TBODY" class="noxref"><SAMP class="einst">TBODY</SAMP></a>). Если ячейка является частью span из многих строк, значение атрибута наследуется от определения ячейки в начале span. </LI>
+
+<LI>Атрибут, установленный для элемента группировки столбцов (<a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><SAMP class="einst">COL</SAMP></a> и <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><SAMP class="einst">COLGROUP</SAMP></a>). Если ячейка является частью span из многих столбцов, значение атрибута наследуется от определения ячейки в начале span. 
+</LI>
+
+<LI>Атрибут, установленный для таблицы(<a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><SAMP class="einst">TABLE</SAMP></a>). </LI>
+
+<LI>Значение атрибута по умолчанию.</LI>
+</OL>
+
+<P>Кроме того, при генерации ячеек горизонтальное выравнивание определяется сначала для столбцов, а потом для строк, а вертикальное выравнивание - для строк, а потом для столбцов.</P>
+
+<P>Выравнивание ячеек по умолчанию зависит от агента пользователя. Однако агенты пользователя должны подставлять атрибут по умолчанию соответственно текущем направлению (то есть не просто "left" во всех случаях).
+</P>
+
+<P>Агенты пользователя, не поддерживающие значение "justify" атрибута <a href="tables.html#adef-align-TD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-align-TD" class="noxref"><SAMP class="ainst-TD">align</SAMP></a> должны использовать значение, соответствующее направлению.</P>
+
+<div class="note">
+<em><strong>Примечание.</strong> Помните, что ячейка может наследовать атрибут не от родителя, а от первой ячейки в span. Это является исключением из общих правил наследования атрибутов.</em>
+</div>
+
+<H3><a name="h-11.3.3">11.3.3</a> <span class="index-inst" title="white space::around table contents|table::cell margins"><A name="margins">Поля ячейки</A></span></H3>
+
+<DIV class="adef-list">
+<P><EM>Определения атрибутов</EM></P>
+
+<DL>
+<DT><A name="adef-cellspacing"><SAMP class="adef">cellspacing</SAMP></A> = <A href="types.html#type-length" tppabs="http://www.citforum.ru/internet/html40/types.html#type-length"><EM>длина</EM> </A><a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+</DT>
+
+<DD>Этот атрибут определяет пространство, которое агент пользователя должен оставить между левой стороной таблицы и левым краем крайнего левого столбца, верхней границей таблицы и верхним краем самой верхней строки и так далее для правой и нижней границ таблицы. Этот атрибут также определяет пространство между ячейками.
+</DD>
+
+<DT><A name="adef-cellpadding"><SAMP class="adef">cellpadding</SAMP></A> = <A href="types.html#type-length" tppabs="http://www.citforum.ru/internet/html40/types.html#type-length"><EM>длина</EM> </A> <a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+</DT>
+
+<DD>Этот атрибут определяет пространство между границей ячейки и ее содержимым. Если значение этого атрибута указано в пикселах, все четыре поля должны иметь этот размер. Если значение атрибута указано в процентах, верхнее и нижнее поля должны быть отделены от содержимого на одинаковый процент доступного вертикального пространства, а левое и правое поля должны быть отделены от содержимого на одинаковый процент доступного горизонтального пространства.</DD>
+</DL>
+</DIV>
+
+<P>Эти два атрибута управляют расстоянием между ячейками и внутри них. Они объясняются на следующей иллюстрации:</P>
+
+<P align="center">
+<img src="cellsppad.gif" tppabs="http://www.citforum.ru/internet/html40/images/cellsppad.gif" alt="Атрибуты cellspacing и cellpadding.">
+</P>
+
+<DIV class="example">
+<P>В следующем примере атрибут <a href="tables.html#adef-cellspacing" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-cellspacing" class="noxref"><SAMP class="ainst">cellspacing</SAMP></a> задает расстояние в двадцать пикселов между ячейками и от края таблицы. Атрибут <a href="tables.html#adef-cellpadding" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-cellpadding" class="noxref"><SAMP class="ainst">cellpadding</SAMP></a> определяет, что верхнее и нижнее поля ячейки отделяются от содержимого ячейки на 10% доступного вертикального пространства (всего 20%). Точно так же, левое и правое поле ячейки будут отделены от содержимого на 10% доступного горизонтального пространства (всего 20%).</P>
+
+<PRE>
+&lt;TABLE cellspacing="20" cellpadding="20%"&gt;
+&lt;TR&gt; &lt;TD&gt;Данные1 &lt;TD&gt;Данные2 &lt;TD&gt;Данные3
+&lt;/TABLE&gt;
+</PRE>
+
+</DIV>
+
+<P>Если таблица или данный столбец имеет фиксированную ширину, <a href="tables.html#adef-cellspacing" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-cellspacing" class="noxref"><SAMP class="ainst">cellspacing</SAMP></a> и <a href="tables.html#adef-cellpadding" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-cellpadding" class="noxref"><SAMP class="ainst">cellpadding</SAMP></a> могут занимать больше пространства, чем назначено. Агенты пользователей могут давать этим атрибутам приоритет над атрибутом <a href="tables.html#adef-width-TH" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-width-TH" class="noxref"><SAMP class="ainst-TH">width</SAMP></a> в случае конфликта, но они не обязательно должны это делать.</P>
+
+<H2><a name="h-11.4">11.4</a> <span class="index-inst" title="table::non-visual rendering of"> <a name="non-visual-rendering">Генерация таблиц невизуальными агентами пользователей</a></span></H2>
+
+<H3><a name="h-11.4.1">11.4.1</a> <a name="header-data">Связь информации заголовка с ячейками данных</a></H3>
+
+<P>Невизуальные агенты пользователей, такие как синтезаторы речи и устройства на базе азбуки Бройля, могут использовать следующие атрибуты элементов <a href="tables.html#edef-TD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TD" class="noxref"><samp class="einst">TD</samp></a> и <a href="tables.html#edef-TH" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TH" class="noxref"><samp class="einst">TH</samp></a> для более intuitive генерации ячеек таблицы:</P>
+
+<ul>
+<li>Для данной ячейки данных в атрибуте <a href="tables.html#adef-headers" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-headers" class="noxref"><samp class="ainst">headers</samp></a> перечислено, в каких ячейках находится pertinent информация заголовка. С этой целью каждая ячейка заголовка должна получить имя с использованием атрибута <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>. Помните, что не всегда возможно явно разделить ячейки на заголовки и данные. В таких ячейка следует использовать элемент <a href="tables.html#edef-TD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TD" class="noxref"><samp class="einst">TD</samp></a> вместе с атрибутами <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a> или <a href="tables.html#adef-scope" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-scope" class="noxref"><samp class="ainst">scope</samp></a>.
+
+<li>
+<span class="index-inst" title="header cell::scope of|scope::of table header cell"><a name="idx-header_cell-1">Для данной ячейки заголовка</a></span> атрибут<a href="tables.html#adef-scope" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-scope" class="noxref"><samp class="ainst">scope</samp></a> сообщает агенту пользователя ячейки данных, информация для которых указывается этим заголовком. Авторы могут использовать этот атрибут вместо <a href="tables.html#adef-headers" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-headers" class="noxref"><samp class="ainst">headers</samp></a> в зависимости от того, что более удобно; эти два атрибута имеют одну и ту же функцию. Атрибут <a href="tables.html#adef-headers" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-headers" class="noxref"><samp class="ainst">headers</samp></a> обычно нужен, если заголовки помещаются в нестандартном положении по отношению к данным, к которым они применяются.
+
+<li>
+<span class="index-inst" title="header cell::abbreviation"> Атрибут <a name="idx-header_cell-2" href="tables.html#adef-abbr" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-abbr" class="noxref"><samp class="ainst">abbr</samp></a></span> задает сокращенный заголовок для ячеек заголовков, так что агенты пользователя могут быстрее генерировать информацию заголовка.
+</ul>
+
+<DIV class="example">
+<P>В следующем примере мы назначаем информацию заголовка ячейкам, устанавливая атрибут <a href="tables.html#adef-headers" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-headers" class="noxref"><samp class="ainst">headers</samp></a>. Каждая ячейка в одном и том же столбце относится к одной и той же ячейке заголовка (с помощью атрибута <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>).
+
+<PRE>
+&lt;TABLE border="1" 
+       summary="В этой таблице приводится информация о том, сколько
+                чашек кофе выпивает каждый сенатор, о типа кофе
+                (без кофеина или обычный) и о сахаре."&gt;
+&lt;CAPTION&gt;Сколько чашек кофе выпивает каждый сенатор&lt;/CAPTION&gt;
+&lt;TR&gt;
+   &lt;TH id="t1"&gt;Имя&lt;/TH&gt;
+   &lt;TH id="t2"&gt;Сколько&lt;/TH&gt;
+   &lt;TH id="t3" abbr="Тип"&gt;Тип кофе&lt;/TH&gt;
+   &lt;TH id="t4"&gt;Сахар?&lt;/TH&gt;
+&lt;TR&gt;
+   &lt;TD headers="t1"&gt;Т. Секстон&lt;/TD&gt;
+   &lt;TD headers="t2"&gt;10&lt;/TD&gt;
+   &lt;TD headers="t3"&gt;Эспрессо&lt;/TD&gt;
+   &lt;TD headers="t4"&gt;Нет&lt;/TD&gt;
+&lt;TR&gt;
+   &lt;TD headers="t1"&gt;Дж. Диннен&lt;/TD&gt;
+   &lt;TD headers="t2"&gt;5&lt;/TD&gt;
+   &lt;TD headers="t3"&gt;Без кофеина&lt;/TD&gt;
+   &lt;TD headers="t4"&gt;Да&lt;/TD&gt;
+&lt;/TABLE&gt;
+</PRE>
+
+<P>Синтезатор речи может генерировать эту таблицу следующим образом:</P>
+
+<PRE>
+Заголовок: Сколько чашек кофе выпивает каждый сенатор
+Summary: В этой таблице приводится информация о том, сколько
+         чашек кофе выпивает каждый сенатор, о типа кофе
+         (без кофеина или обычный) и о сахаре.
+Имя: Т. Секстон,   Сколько: 10,   Тип: Эспрессо,    Сахар: Нет
+Имя: Дж. Диннен,   Сколько: 5,    Тип: Без кофеина, Сахар: Да
+</PRE>
+
+<P>Заметьте, что заголовок "Тип кофе" сокращается до "Тип" с помощью атрибута <a href="tables.html#adef-abbr" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-abbr" class="noxref"><SAMP class="ainst">abbr</SAMP></a>.</P>
+</DIV>
+
+<DIV class="example">
+<P>Вот тот же пример, использующий атрибут <a href="tables.html#adef-scope" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-scope" class="noxref"><samp class="ainst">scope</samp></a> вместо атрибута <a href="tables.html#adef-headers" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-headers" class="noxref"><samp class="ainst">headers</samp></a>. Обратите внимание на значение "col" для атрибута <a href="tables.html#adef-scope" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-scope" class="noxref"><samp class="ainst">scope</samp></a>, означающее "все ячейки в текущем столбце":</P>
+
+<PRE>
+&lt;TABLE border="1" 
+       summary="В этой таблице приводится информация о том, сколько
+                чашек кофе выпивает каждый сенатор, о типа кофе
+                (без кофеина или обычный) и о сахаре."&gt;
+&lt;CAPTION&gt;Сколько чашек кофе выпивает каждый сенатор&lt;/CAPTION&gt;
+&lt;TR&gt;
+   &lt;TH scope="col"&gt;Имя&lt;/TH&gt;
+   &lt;TH scope="col"&gt;Сколько&lt;/TH&gt;
+   &lt;TH scope="col" abbr="Тип"&gt;Тип кофе&lt;/TH&gt;
+   &lt;TH scope="col"&gt;Сахар?&lt;/TH&gt;
+&lt;TR&gt;
+   &lt;TD&gt;Т. Секстон&lt;/TD&gt;
+   &lt;TD&gt;10&lt;/TD&gt;
+   &lt;TD&gt;Эспрессо&lt;/TD&gt;
+   &lt;TD&gt;Нет&lt;/TD&gt;
+&lt;TR&gt;
+   &lt;TD&gt;Дж. Диннен&lt;/TD&gt;
+   &lt;TD&gt;5&lt;/TD&gt;
+   &lt;TD&gt;Без кофеина&lt;/TD&gt;
+   &lt;TD&gt;Да&lt;/TD&gt;
+&lt;/TABLE&gt;
+</PRE>
+</div>
+
+<div class="example" id="course-ex"><P>
+Ниже приводится несколько более сложный пример, в котором показаны другие значения атрибута <a href="tables.html#adef-scope" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-scope" class="noxref"><samp class="ainst">scope</samp></a>:</P>
+
+<pre>
+&lt;TABLE border="1" cellpadding="5" cellspacing="2"
+  summary="Исторические курсы, предлагаемые округа Бат,
+           упорядоченные по названию, преподавателю, описанию, 
+           коду и стоимости"&gt;
+  &lt;TR&gt;
+    &lt;TH colspan="5" scope="colgroup"&gt;Курсы - Бат, осень 1997 г.&lt;/TH&gt;
+  &lt;/TR&gt;
+  &lt;TR&gt;
+    &lt;TH scope="col" abbr="Название"&gt;Название курса&lt;/TH&gt;
+    &lt;TH scope="col" abbr="Преподаватель"&gt;Преподаватель курса&lt;/TH&gt;
+    &lt;TH scope="col"&gt;Описание&lt;/TH&gt;
+    &lt;TH scope="col"&gt;Код&lt;/TH&gt;
+    &lt;TH scope="col"&gt;Стоимость&lt;/TH&gt;
+  &lt;/TR&gt;
+  &lt;TR&gt;
+    &lt;TD scope="row"&gt;После Гражданской войны&lt;/TD&gt;
+    &lt;TD&gt;Доктор Джон Раутон&lt;/TD&gt;
+    &lt;TD&gt;
+       В этом курсе изучаются turbulent годы в Англии после 1646 года.
+    &lt;EM&gt;6 еженедельных занятий, начиная с понедельника, 13 октября.&lt;/EM&gt;
+    &lt;/TD&gt;
+    &lt;TD&gt;H27&lt;/TD&gt;
+    &lt;TD&gt;&amp;pound;32&lt;/TD&gt;
+  &lt;/TR&gt;
+  &lt;TR&gt;
+    &lt;TD scope="row"&gt;Англо-саксонская Англия - введение&lt;/TD&gt;
+    &lt;TD&gt;Марк Коттл&lt;/TD&gt;
+    &lt;TD&gt;
+       Однодневный курс - введение в раннесредневековый период
+       Реконструкции англо-саксонского общества. &lt;EM&gt;Суббота, 18
+       октября.&lt;/EM&gt;
+    &lt;/TD&gt;
+    &lt;TD&gt;H28&lt;/TD&gt;
+    &lt;TD&gt;&amp;pound;18&lt;/TD&gt;
+  &lt;/TR&gt;
+  &lt;TR&gt;
+    &lt;TD scope="row"&gt;Греция&lt;/TD&gt;
+    &lt;TD&gt;Валери Лоренц&lt;/TD&gt;
+    &lt;TD&gt;
+     Колыбель демократии, философии, сердце театра, родина аргумента. Это могли сделать римляне, если бы греки не опередили их. &lt;EM&gt;Субботняя школа 25 октября 1997 года&lt;/EM&gt;
+    &lt;/TD&gt;
+    &lt;TD&gt;H30&lt;/TD&gt;
+    &lt;TD&gt;&amp;pound;18&lt;/TD&gt;
+  &lt;/TR&gt;
+&lt;/TABLE&gt;
+</pre>
+
+<P>Графический агент пользователя может сгенерировать это следующим образом:</P>
+<P><img src="table2.gif" tppabs="http://www.citforum.ru/internet/html40/images/table2.gif" alt="Таблица с объединенными ячейками">
+
+<p>Обратите внимание на использование атрибута <a href="tables.html#adef-scope" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-scope" class="noxref"><samp class="ainst">scope</samp></a> со значением "row". Хотя первая ячейка в каждой строке содержит данные, а не заголовок, благодаря атрибуту <a href="tables.html#adef-scope" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-scope" class="noxref"><samp class="ainst">scope</samp></a> ячейки данных выглядят как ячейки заголовка строки. Это позволяет синтезаторам речи указывать соответствующее название курса по запросу или произносить его непосредственно перед содержимым ячейки.</P>
+</div>
+
+<H3><a name="h-11.4.2">11.4.2</a> <span class="index-inst" title="table::categorization of cells"> <a name="multi-dimension">Категоризация ячеек</a></span></H3>
+
+<p>Возможно, пользователи, просматривающие таблицу с использованием речевых агентов, захотят услышать пояснение к содержимым ячейки в дополнение к самой информации. Один из способов, которым агент пользователя может обеспечить пояснения, - произносить соответствующую заголовочную информацию перед произнесением информации, являющейся содержимым ячейки (см. раздел о <a href="#header-data">связи заголовочной информации с ячейками данных</a>).
+
+<P>Пользователям может также понадобиться информация о нескольких ячейках, и в этом случае заголовочная информация, заданная на уровне ячейки (с помощью <a href="tables.html#adef-headers" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-headers" class="noxref"><samp class="ainst">headers</samp></a>, <a href="tables.html#adef-scope" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-scope" class="noxref"><samp class="ainst">scope</samp></a>, и <a href="tables.html#adef-abbr" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-abbr" class="noxref"><samp class="ainst">abbr</samp></a>) может не соответствовать контексту. Рассмотрим следующую таблицу с классификацией расходов на еду, гостиницы и транспорт в двух пунктах (Сан-Хосе и Сиэтле) за несколько дней:</P>
+
+<P align="center">
+<IMG src="table1.gif" tppabs="http://www.citforum.ru/internet/html40/images/table1.gif" alt="Таблица с перечнем расходов на командировку в два пункта: Сан-Хосе и Сиэтл, по дате и категории (еда, гостиница и транспорт), показанная с подзаголовками" width="399" height="207">
+</P>
+
+<P>Пользователям понадобится извлечь информацию из таблицы в форме запросов:
+
+<ul>
+<li>"Сколько всего денег я потратил на еду?" 
+<li>"Сколько я потратил на еду 25 августа?" 
+<li>"Сколько всего денег я потратил в Сан-Хосе?" 
+</ul>
+
+<P>Каждый запрос подразумевает вычисления, выполняемые агентом пользователя, которые могут затрагивать несколько или ни одной ячейки. Чтобы определить, например, расходы на еду 25 августа, агент пользователя должен знать, какие ячейки таблицы относятся к "Еде" (все эти ячейки), а какая к "Датам" (25 августа), и найти пересечение этих двух наборов.
+
+<P>Для принятия запроса такого типа модель таблиц HTML 4.0 позволяет авторам помещать заголовки и данные ячеек в категории. Например, в таблице расходов на командировку автор может сгруппировать ячейки заголовков "Сан-Хосе" и "Сиэтл" в категорию "Пункт", заголовки "Еда", "Гостиницы" и "Транспорт" в категорию "Расходы", а четыре дня в категорию "Дата". Тогда предыдущие три вопроса будут иметь следующее значение:
+
+
+<ul>
+<li>"Сколько всего денег я потратил на еду?" означает "Все ячейки данных из категории "Расходы=Еда"?
+<li>"Сколько я потратил на еду 25 августа?" означает "Все ячейки данных из категорий "Расходы=Еда" и "Дата=25-авг-1997"?
+<li>"Сколько всего денег я потратил в Сан-Хосе?" означает "Все ячейки данных из категорий "Расходы=Еда, Гостиницы, Транспорт" и "Пункт=Сан-Хосе"?
+</ul>
+
+<P>Авторы определяют категории заголовков или ячеек данных, устанавливая для ячейки атрибут <a href="tables.html#adef-axis" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-axis" class="noxref"><samp class="ainst">axis</samp></a>. Например, в таблице расходов на командировку ячейка, содержащая информацию "Сан-Хосе" может быть помещена в категорию "Пункт" следующим образом:
+
+<pre class="example">
+  &lt;TH id="a6" axis="пункт"&gt;Сан-Хосе&lt;/TH&gt;
+</pre>
+
+<P>Любая ячейка, содержащая информацию, относящуюся к "Сан-Хосе", должна ссылаться на эту ячейку заголовка с помощью атрибута <a href="tables.html#adef-headers" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-headers" class="noxref"><samp class="ainst">headers</samp></a> или <a href="tables.html#adef-scope" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-scope" class="noxref"><samp class="ainst">scope</samp></a>. Таким образом, расходы на еду 25-авг-1997 должны иметь ссылку на атрибут <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a> (значение которого здесь - "a6") ячейки заголовка "Сан-Хосе":
+
+
+<PRE>  
+  &lt;TD headers="a6"&gt;37.74&lt;/TD&gt;
+</PRE>  
+ 
+<P>Каждый атрибут <a href="tables.html#adef-headers" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-headers" class="noxref"><samp class="ainst">headers</samp></a> содержит список ссылок <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>. Авторы таким образом могут определять категории для данной ячейки с помощью данного ряда способов (или along any number of "headers", hence the name).
+
+<P>Ниже в таблице командировочных расходов указана информация о категориях:
+
+<PRE class="example">
+&lt;TABLE border="1"
+          summary="В этой таблице приводятся сведения о 
+                   командировочных расходах в августе 
+                   в Сан-Хосе и Сиэтле"&gt;
+&lt;CAPTION&gt;
+  Отчет о командировочных расходах
+&lt;/CAPTION&gt;
+&lt;TR&gt;
+  &lt;TH&gt;&lt;/TH&gt;
+  &lt;TH id="a2" axis="расходы"&gt;Еда&lt;/TH&gt;
+  &lt;TH id="a3" axis="расходы"&gt;Гостиницы&lt;/TH&gt;
+  &lt;TH id="a4" axis="расходы"&gt;Транспорт&lt;/TH&gt;
+  &lt;TD&gt;итого&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;TR&gt;
+  &lt;TH id="a6" axis="пункт"&gt;Сан-Хосе&lt;/TH&gt;
+  &lt;TH&gt;&lt;/TH&gt;
+  &lt;TH&gt;&lt;/TH&gt;
+  &lt;TH&gt;&lt;/TH&gt;
+  &lt;TD&gt;&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;TR&gt;
+  &lt;TD id="a7" axis="дата"&gt;25-авг-97&lt;/TD&gt;
+  &lt;TD headers="a6 a7 a2"&gt;37.74&lt;/TD&gt;
+  &lt;TD headers="a6 a7 a3"&gt;112.00&lt;/TD&gt;
+  &lt;TD headers="a6 a7 a4"&gt;45.00&lt;/TD&gt;
+  &lt;TD&gt;&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;TR&gt;
+  &lt;TD id="a8" axis="дата"&gt;26-авг-97&lt;/TD&gt;
+  &lt;TD headers="a6 a8 a2"&gt;27.28&lt;/TD&gt;
+  &lt;TD headers="a6 a8 a3"&gt;112.00&lt;/TD&gt;
+  &lt;TD headers="a6 a8 a4"&gt;45.00&lt;/TD&gt;
+  &lt;TD&gt;&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;TR&gt;
+  &lt;TD&gt;итого&lt;/TD&gt;
+  &lt;TD&gt;65.02&lt;/TD&gt;
+  &lt;TD&gt;224.00&lt;/TD&gt;
+  &lt;TD&gt;90.00&lt;/TD&gt;
+  &lt;TD&gt;379.02&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;TR&gt;
+  &lt;TH id="a10" axis="пункт"&gt;Сиэтл&lt;/TH&gt;
+  &lt;TH&gt;&lt;/TH&gt;
+  &lt;TH&gt;&lt;/TH&gt;
+  &lt;TH&gt;&lt;/TH&gt;
+  &lt;TD&gt;&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;TR&gt;
+  &lt;TD id="a11" axis="дата"&gt;27-авг-97&lt;/TD&gt;
+  &lt;TD headers="a10 a11 a2"&gt;96.25&lt;/TD&gt;
+  &lt;TD headers="a10 a11 a3"&gt;109.00&lt;/TD&gt;
+  &lt;TD headers="a10 a11 a4"&gt;36.00&lt;/TD&gt;
+  &lt;TD&gt;&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;TR&gt;
+  &lt;TD id="a12" axis="дата"&gt;28-авг-97&lt;/TD&gt;
+  &lt;TD headers="a10 a12 a2"&gt;35.00&lt;/TD&gt;
+  &lt;TD headers="a10 a12 a3"&gt;109.00&lt;/TD&gt;
+  &lt;TD headers="a10 a12 a4"&gt;36.00&lt;/TD&gt;
+  &lt;TD&gt;&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;TR&gt;
+  &lt;TD&gt;итого&lt;/TD&gt;
+  &lt;TD&gt;131.25&lt;/TD&gt;
+  &lt;TD&gt;218.00&lt;/TD&gt;
+  &lt;TD&gt;72.00&lt;/TD&gt;
+  &lt;TD&gt;421.25&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;TR&gt;
+  &lt;TH&gt;Всего&lt;/TH&gt;
+  &lt;TD&gt;196.27&lt;/TD&gt;
+  &lt;TD&gt;442.00&lt;/TD&gt;
+  &lt;TD&gt;162.00&lt;/TD&gt;
+  &lt;TD&gt;800.27&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;/TABLE&gt;
+</PRE>
+
+<P>Обратите внимание на то, что такая разметка таблицы также позволяет агентам пользователей не сбивать пользователей с толку ненужной информацией. Например, если синтезатор речи должен был произнести все цифры из столбца "Еда" этой таблицы в ответ на запрос "Все расходы на еду?", пользователь не смог бы отличить дневные расходы от итоговой суммы. С помощью тщательной категоризации данных авторы позволяют агентам пользователей делать важные семантические различия при генерации.
+
+<P>Конечно, авторы не ограничены в категоризации информации в таблице. В таблице командировочных расходов, например, мы можем ввести дополнительные категории "итого" и "всего". 
+
+<P>Данная спецификация не выставляет требование к агентам пользователей по обработке информации, предоставляемой атрибутом <a href="tables.html#adef-axis" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-axis" class="noxref"><samp class="ainst">axis</samp></a>, а также не дает никаких рекомендаций относительно представления агентами пользователей информации из атрибута <a href="tables.html#adef-axis" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-axis" class="noxref"><samp class="ainst">axis</samp></a> или спецификации запросов пользователями этой информации у агентов.
+
+<P>
+<span class="index-inst" title="table::speaking cell data"><a name="idx-table-18"> Однако агенты пользователей, особенно синтезаторы речи,</a></span> могут выделять информацию, общую для нескольких ячеек, являющихся результатами запроса. Например, если пользователь спрашивает "Сколько всего денег я потратил на еду в Сан-Хосе?", агент пользователя должен определить соответствующие ячейки (25-авг-1997: 37.74, 26-авг-1997:27.28), а затем сгенерировать информацию.  Агент пользователя может произнести следующую информацию:
+
+
+<PRE class="example">
+   Пункт: Сан-Хосе. Дата: 25-авг-1997. Расходы, Еда: 37.74
+   Пункт: Сан-Хосе. Дата: 26-авг-1997. Расходы, Еда: 27.28
+</PRE>
+
+<P>или более компактно:
+
+<PRE class="example">
+   Сан-Хосе, 25-авг-1997, Еда: 37.74
+   Сан-Хосе, 26-авг-1997, Еда: 27.28
+</PRE>
+
+<P>Еще более экономичная генерация может выделить еще более общую информацию и переупорядочить ее:
+
+<PRE class="example">
+   Сан-Хосе, Еда, 25-авг-1997: 37.74
+                  26-авг-1997: 27.28
+</PRE>
+
+<P>Агенты пользователей, поддерживающие генерацию такого типа, должны обеспечивать средства настройки генерации (например, с помощью таблиц стилей).
+
+<H3><a name="h-11.4.3">11.4.3</a> <span class="index-inst" title="table::algorithm to find heading"><a name="idx-table-19"> Алгоритм поиска заголовочной информации</a></span></h3>
+
+<P>В отсутствии заголовочной информации в атрибуте <a href="tables.html#adef-scope" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-scope" class="noxref"><samp class="ainst">scope</samp></a> или <a href="tables.html#adef-headers" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-headers" class="noxref"><SAMP class="ainst">headers</SAMP></a> агенты пользователей могут составлять эту информацию в соответствии со следующим алгоритмом. Целью алгоритма является нахождение упорядоченного списка заголовков. (В следующем описании алгоритма принято <a href="#table-directionality">направление таблицы</a> слева направо.)</P>
+
+<UL>
+<LI>Сначала выполняется поиск влево от позиции ячейки для определения ячейки заголовка строки. Затем выполняется поиск вверх для определения ячейки заголовка столбца. Поиск в заданном направлении прекращается, если достигнут край таблицы или обнаружена ячейка данных после ячейки заголовка. </LI>
+
+<LI>Заголовки строк помещаются в список в том порядке, в котором они расположены в таблице. Для таблиц, направленных слева направо, заголовки помещаются слева направо.</LI>
+
+<LI>Заголовки столбцов помещаются после заголовков строк, в том порядке, в каком они расположены в таблице, сверху вниз.</LI>
+
+<LI>Если для ячейки заголовка установлен атрибут <a href="tables.html#adef-headers" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-headers" class="noxref"><SAMP class="ainst">headers</SAMP></a>, заголовки, на которые ссылается этот атрибут, помещаются в список, и поиск для текущего направления прекращается.
+</LI>
+
+<LI>Ячейки <a href="tables.html#edef-TD" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TD" class="noxref"><SAMP class="einst">TD</SAMP></a>, в которых устанавливается атрибут <a href="tables.html#adef-axis" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-axis" class="noxref"><SAMP class="ainst">axis</SAMP></a>, обрабатываются так же, как и ячейки заголовков. </LI>
+</UL>
+
+
+<H2><a name="h-11.5">11.5</a> <a name="sample">Пример таблицы</a></H2>
+
+<P>В этом примере показаны сгруппированные строки и столбцы. Пример взят из книги "Разработка интернационального программного обеспечения" Надин Кэно.
+</P>
+
+<DIV class="example">
+<P>В "формате ascii" следующая таблица:</P>
+
+<PRE>
+&lt;TABLE border="2" frame="hsides" rules="groups"
+          summary="Поддержка кодовых страниц в различных версиях MS Windows."&gt;
+&lt;CAPTION&gt;ПОДДЕРЖКА КОДОВЫХ СТРАНИЦ В MICROSOFT WINDOWS&lt;/CAPTION&gt;
+&lt;COLGROUP align="center"&gt;
+&lt;COLGROUP align="left"&gt;
+&lt;COLGROUP align="center" span="2"&gt;
+&lt;COLGROUP align="center" span="3"&gt;
+&lt;THEAD valign="top"&gt;
+&lt;TR&gt;
+&lt;TH&gt;ИД кодовой&lt;BR&gt;страницы
+&lt;TH&gt;Название
+&lt;TH&gt;ACP
+&lt;TH&gt;OEMCP
+&lt;TH&gt;Windows&lt;BR&gt;NT 3.1
+&lt;TH&gt;Windows&lt;BR&gt;NT 3.51
+&lt;TH&gt;Windows&lt;BR&gt;95
+&lt;TBODY&gt;
+&lt;TR&gt;&lt;TD&gt;1200&lt;TD&gt;Unicode (BMP of ISO/IEC-10646)&lt;TD&gt;&lt;TD&gt;&lt;TD&gt;X&lt;TD&gt;X&lt;TD&gt;*
+&lt;TR&gt;&lt;TD&gt;1250&lt;TD&gt;Windows 3.1 Восточноевропейская&lt;TD&gt;X&lt;TD&gt;&lt;TD&gt;X&lt;TD&gt;X&lt;TD&gt;X
+&lt;TR&gt;&lt;TD&gt;1251&lt;TD&gt;Windows 3.1 Кириллица&lt;TD&gt;X&lt;TD&gt;&lt;TD&gt;X&lt;TD&gt;X&lt;TD&gt;X
+&lt;TR&gt;&lt;TD&gt;1252&lt;TD&gt;Windows 3.1 США (ANSI)&lt;TD&gt;X&lt;TD&gt;&lt;TD&gt;X&lt;TD&gt;X&lt;TD&gt;X
+&lt;TR&gt;&lt;TD&gt;1253&lt;TD&gt;Windows 3.1 Греческая&lt;TD&gt;X&lt;TD&gt;&lt;TD&gt;X&lt;TD&gt;X&lt;TD&gt;X
+&lt;TR&gt;&lt;TD&gt;1254&lt;TD&gt;Windows 3.1 Турецкая&lt;TD&gt;X&lt;TD&gt;&lt;TD&gt;X&lt;TD&gt;X&lt;TD&gt;X
+&lt;TR&gt;&lt;TD&gt;1255&lt;TD&gt;Иврит&lt;TD&gt;X&lt;TD&gt;&lt;TD&gt;&lt;TD&gt;&lt;TD&gt;X
+&lt;TR&gt;&lt;TD&gt;1256&lt;TD&gt;Арабская&lt;TD&gt;X&lt;TD&gt;&lt;TD&gt;&lt;TD&gt;&lt;TD&gt;X
+&lt;TR&gt;&lt;TD&gt;1257&lt;TD&gt;Балтийская&lt;TD&gt;X&lt;TD&gt;&lt;TD&gt;&lt;TD&gt;&lt;TD&gt;X
+&lt;TR&gt;&lt;TD&gt;1361&lt;TD&gt;Корейская (Johab)&lt;TD&gt;X&lt;TD&gt;&lt;TD&gt;&lt;TD&gt;**&lt;TD&gt;X
+&lt;TBODY&gt;
+&lt;TR&gt;&lt;TD&gt;437&lt;TD&gt;США MS-DOS&lt;TD&gt;&lt;TD&gt;X&lt;TD&gt;X&lt;TD&gt;X&lt;TD&gt;X
+&lt;TR&gt;&lt;TD&gt;708&lt;TD&gt;Арабская (ASMO 708)&lt;TD&gt;&lt;TD&gt;X&lt;TD&gt;&lt;TD&gt;&lt;TD&gt;X
+&lt;TR&gt;&lt;TD&gt;709&lt;TD&gt;Арабская (ASMO 449+, BCON V4)&lt;TD&gt;&lt;TD&gt;X&lt;TD&gt;&lt;TD&gt;&lt;TD&gt;X
+&lt;TR&gt;&lt;TD&gt;710&lt;TD&gt;Арабская (Прозрачная арабская)&lt;TD&gt;&lt;TD&gt;X&lt;TD&gt;&lt;TD&gt;&lt;TD&gt;X
+&lt;TR&gt;&lt;TD&gt;720&lt;TD&gt;Арабская (Прозрачная ASMO)&lt;TD&gt;&lt;TD&gt;X&lt;TD&gt;&lt;TD&gt;&lt;TD&gt;X
+&lt;/TABLE&gt;
+</PRE>
+
+<P>может быть сгенерирована следующим образом:</P>
+
+<PRE>
+          ПОДДЕРЖКА КОДОВЫХ СТРАНИЦ В MICROSOFT WINDOWS 
+=================================================================================
+ИД кодовой| Название                       | ACP  OEMCP | Windows Windows Windows
+Страницы  |                                |            |  NT 3.1 NT 3.51    95
+---------------------------------------------------------------------------------
+   1200   | Unicode (BMP of ISO 10646)     |            |    X       X       *
+   1250   | Windows 3.1 Восточноевропейская|  X         |    X       X       X
+   1251   | Windows 3.1 Кириллица          |  X         |    X       X       X
+   1252   | Windows 3.1 США (ANSI)         |  X         |    X       X       X
+   1253   | Windows 3.1 Греческая          |  X         |    X       X       X
+   1254   | Windows 3.1 Турецкая           |  X         |    X       X       X
+   1255   | Иврит                          |  X         |                    X
+   1256   | Арабская                       |  X         |                    X
+   1257   | Балтийская                     |  X         |                    X
+   1361   | Корейская (Johab)              |  X         |            **      X
+-------------------------------------------------------------------------------
+    437   | США MS-DOS                     |        X   |    X       X       X
+    708   | Арабская (ASMO 708)            |        X   |                    X
+    709   | Арабская (ASMO 449+, BCON V4)  |        X   |                    X
+    710   | Арабская (Прозрачная арабская) |        X   |                    X
+    720   | Арабская (Прозрачная ASMO)     |        X   |                    X
+===============================================================================
+</PRE>
+
+<P>Графический агент пользователя может сгенерировать ее следующим образом:</P>
+<P><img src="table3.gif" tppabs="http://www.citforum.ru/internet/html40/images/table3.gif" alt="Таблица со сгруппированными строками и столбцами">
+
+<P>В данном примере показано, как можно использовать <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><SAMP class="einst">COLGROUP</SAMP></a> для группировки столбцов и установки выравнивания столбцов по умолчанию.  Точно так же <a href="tables.html#edef-TBODY" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TBODY" class="noxref"><SAMP class="einst">TBODY</SAMP></a> используется для группировки строк. Атрибуты <a href="tables.html#adef-frame" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-frame" class="noxref"><SAMP class="ainst">frame</SAMP></a> и <a href="tables.html#adef-rules" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-rules" class="noxref"><SAMP class="ainst">rules</SAMP></a> сообщают агенту пользователя, какие границы и rules должны генерироваться.</P>
+</DIV>
+<div class="navbar">
+<hr><center><a href="lists.html" tppabs="http://www.citforum.ru/internet/html40/struct/lists.html">назад</a> &nbsp; <a href="links.html" tppabs="http://www.citforum.ru/internet/html40/struct/links.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center></div>
+</BODY>
+</HTML>

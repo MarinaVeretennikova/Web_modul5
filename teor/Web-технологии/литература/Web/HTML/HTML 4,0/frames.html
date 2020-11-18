@@ -1,0 +1,817 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="ru">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Windows-1251">
+<title>Фреймы в документах HTML</title>
+<LINK rel="previous" href="graphics.html" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html">
+<LINK rel="next" href="forms.html" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html">
+<LINK rel="contents" href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">
+<LINK rel="STYLESHEET" href="tppmsgs/msgs0.htm#18" tppabs="http://www.citforum.ru/internet/html40/style/default.css" type="text/css">
+</head>
+<body>
+<div class="navbar">
+<center>&nbsp;<a href="graphics.html" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html">назад</a> &nbsp; <a href="forms.html" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center><hr>
+</div>
+
+<H1 align="center"><a name="h-16">16</a> Фреймы</H1>
+<div class="subtoc"><p><strong>Содержание</strong>
+<ol>
+<li><a href="#h-16.1"><span class="index-inst" title="frame::introduction to">
+Введение в фреймы</span></a>
+<li><a href="#h-16.2">Расположение фреймов</a>
+<ol>
+<li><a href="#h-16.2.1">Элемент <samp class="einst2">FRAMESET</samp></a>
+<ul>
+<li><a href="#h-16.2.1.1">Строки и столбцы</a>
+<li><a href="#h-16.2.1.2"><span class="index-inst" title="frameset::nested">
+Вложенные наборы фреймов</span></a>
+<li><a href="#h-16.2.1.3"><span class="index-inst" title="object::in HEAD|frameset::sharing
+data among">Разделение данных между фреймами</span></a>
+</ul>
+<li><a href="#h-16.2.2">Элемент <samp class="einst2">FRAME</samp></a>
+<ul>
+<li><a href="#h-16.2.2.1"><span class="index-inst" title="frame::initial contents of">
+Задание исходного содержимого фрейма</span></a>
+<li><a href="#h-16.2.2.2">Визуальное представление фрейма</a>
+</ul>
+</ol>
+<li><a href="#h-16.3">
+<span class="index-inst" title="frame::target of document|target
+frame::specification of">Определение цели фрейма</span></a>
+<ol>
+<li><a href="#h-16.3.1"><span class="index-inst" title="target
+frame::default|default::target frame|link::default target for">Установка цели по умолчанию для ссылок</span></a>
+<li><a href="#h-16.3.2">
+<span class="index-inst" title="target frame::semantics
+of|link::semantics with target frame">Семантика целей</span></a>
+</ol>
+<li><a href="#h-16.4">
+<span class="index-inst" title="frameset::alternate content 
+for|accessibility::and alternate frame content"> 
+Альтернативное содержимое</span></a>
+<ol>
+<li><a href="#h-16.4.1">Элемент <samp class="einst2">NOFRAMES</samp></a>
+<li><a href="#h-16.4.2"><span class="index-inst" title="accessibility::and long frame
+descriptions|frame::long description of|image::not directly in frame">
+Длинные описания фреймов</span></a>
+</ol>
+<li><a href="#h-16.5"><span class="index-inst" title="frame::inline|document::ways to
+include">Встроенные фреймы:</span> элемент <samp class="einst2">IFRAME</samp></a>
+</ol>
+</div>
+
+<h2><a name="h-16.1">16.1</a> <span class="index-inst" title="frame::introduction to"><a name="idx-frame">
+Введение в фреймы</a></span></h2>
+
+<p>Фреймы в HTML позволяют авторам представлять документы в нескольких разделах, которые могут быть независимыми или вложенными окнами. Это обеспечивает дизайнерам способ оставлять некоторую информацию видимой, в то время как другая информация прокручивается или заменяется. Например, в одном окне в одном фрейме может отображаться статический баннер, во втором навигационное меню, а в третьем - сам документ, который можно прокручивать или переходить к другому с помощью навигации во втором фрейме.
+
+<div class="example"><P>
+Вот простой документ с использованием фреймов:
+
+<pre>
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Frameset//EN"
+   "_THE_LATEST_VERSION_/frameset.dtd"&gt;
+&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;TITLE&gt;Простой документ с фреймами&lt;/TITLE&gt;
+&lt;/HEAD&gt;
+&lt;FRAMESET cols="20%, 80%"&gt;
+  &lt;FRAMESET rows="100, 200"&gt;
+      &lt;FRAME src="contents_of_frame1.html"&gt;
+      &lt;FRAME src="contents_of_frame2.gif"&gt;
+  &lt;/FRAMESET&gt;
+  &lt;FRAME src="contents_of_frame3.html"&gt;
+  &lt;NOFRAMES&gt;
+      &lt;P&gt;В этом документе содержится:
+      &lt;UL&gt;
+         &lt;LI&gt;&lt;A href="contents_of_frame1.html"&gt;Миленький текстик&lt;/A&gt;
+         &lt;LI&gt;&lt;IMG src="contents_of_frame2.gif" alt="Симпатичная картинка"&gt;
+         &lt;LI&gt;&lt;A href="contents_of_frame3.html"&gt;Еще славный текстик&lt;/A&gt;
+      &lt;/UL&gt;
+  &lt;/NOFRAMES&gt;
+&lt;/FRAMESET&gt;
+&lt;/HTML&gt;
+</pre>
+
+<P>это может привести примерно к следующей структуре экрана:
+
+<pre>
+ ---------------------------------------
+|         |                             |
+|         |                             |
+| Фрейм 1 |                             |
+|         |                             |
+|         |                             |
+|---------|                             |
+|         |          Фрейм 3            |
+|         |                             |
+|         |                             |
+|         |                             |
+| Фрейм 2 |                             |
+|         |                             |
+|         |                             |
+|         |                             |
+|         |                             |
+ ---------------------------------------
+</pre>
+</div>
+
+<P>Если агент пользователя не может представлять фреймы или сконфигурирован так, чтобы не делать этого, он должен генерировать содержимое элемента <a href="frames.html#edef-NOFRAMES" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-NOFRAMES" class="noxref"><samp class="einst">NOFRAMES</samp></a>.
+
+<h2><a name="h-16.2">16.2</a> Расположение фреймов</h2>
+
+<p>Документ HTML, в котором описывается компоновка фреймов (называемый <span
+class="index-def" title="frameset document"><a name="didx-frameset_document"><dfn>документом с фреймами</dfn></a></span>), выглядит не так, как документ HTML без фреймов. Атндартный документ имеет один раздел <a href="global.html#edef-HEAD" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HEAD" class="noxref"><samp class="einst">HEAD</samp></a> и один раздел <a href="global.html#edef-BODY" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-BODY" class="noxref"><samp class="einst">BODY</samp></a>. Документ с фреймами имеет раздел <a href="global.html#edef-HEAD" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HEAD" class="noxref"><samp
+class="einst">HEAD</samp></a> и раздел <a href="frames.html#edef-FRAMESET" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-FRAMESET" class="noxref"><samp class="einst">FRAMESET</samp></a>, который заменяет раздел <a href="global.html#edef-BODY" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-BODY" class="noxref"><samp class="einst">BODY</samp></a>.
+
+<P>В разделе <a href="frames.html#edef-FRAMESET" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-FRAMESET" class="noxref"><samp class="einst">FRAMESET</samp></a> задается расположение фреймов в основном окне агента пользователя.  Кроме того, в разделе <a href="frames.html#edef-FRAMESET" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-FRAMESET" class="noxref"><samp class="einst">FRAMESET</samp></a> может присутствовать элемент <a href="frames.html#edef-NOFRAMES" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-NOFRAMES" class="noxref"><samp class="einst">NOFRAMES</samp></a> с <a href="#alternate">альтернативным содержимым</a> для агентов пользователей, не поддерживающих фреймы или сконфигурированных так, чтобы их не показывать.
+
+<P>Элементы, обычно помещаемые в раздел <a href="global.html#edef-BODY" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-BODY" class="noxref"><samp class="einst">BODY</samp></a>, не должны присутствовать до первого элемента <a href="frames.html#edef-FRAMESET" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-FRAMESET" class="noxref"><samp class="einst">FRAMESET</samp></a>, иначе элемент <a href="frames.html#edef-FRAMESET" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-FRAMESET" class="noxref"><samp class="einst">FRAMESET</samp></a> будет игнорироваться.
+
+<h3><a name="h-16.2.1">16.2.1</a> Элемент <a name="edef-FRAMESET"><samp class="edef">FRAMESET</samp></a></h3>
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">
+&lt;![ <a href="loosedtd.html#HTML.Frameset" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#HTML.Frameset">%HTML.Frameset;</a> [
+&lt;!<a name="frameset">ELEMENT</a> <a href="frames.html#edef-FRAMESET" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-FRAMESET" class="noxref"><samp class="einst">FRAMESET</samp></a> - - ((FRAMESET|FRAME)+ & NOFRAMES?) - подразделение окон--&gt;
+&lt;!ATTLIST FRAMESET
+  <a href="loosedtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#coreattrs">%coreattrs;</a>                          -- <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id">id</a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class">class</a>, <a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style">style</a>, <a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title">title</a> --
+  <a href="frames.html#adef-rows-FRAMESET" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-rows-FRAMESET" class="noxref"><samp class="ainst-FRAMESET">rows</samp></a>        <a href="loosedtd.html#MultiLengths" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#MultiLengths">%MultiLengths;</a> #IMPLIED  -- список длин,
+                                          по умолчанию: 100% (1 строка) --
+  <a href="frames.html#adef-cols-FRAMESET" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-cols-FRAMESET" class="noxref"><samp class="ainst-FRAMESET">cols</samp></a>        <a href="loosedtd.html#MultiLengths" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#MultiLengths">%MultiLengths;</a> #IMPLIED  -- список длин,
+                                          по умолчанию: 100% (1 столбец) --
+  <a href="scripts.html#adef-onload" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onload" class="noxref"><samp class="ainst-FRAMESET">onload</samp></a>      <a href="loosedtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#Script">%Script;</a>       #IMPLIED  -- все фреймы загружены  -- 
+  <a href="scripts.html#adef-onunload" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onunload" class="noxref"><samp class="ainst-FRAMESET">onunload</samp></a>    <a href="loosedtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#Script">%Script;</a>       #IMPLIED  -- все фреймы удалены -- 
+  &gt;
+]]&gt;
+</PRE>
+</div>
+
+<div class="adef-list"><P>
+<em>Определения атрибутов</em><dl>
+
+<dt><a name="adef-rows-FRAMESET"><samp class="adef">rows</samp></a>
+ = <a href="types.html#type-multi-length" tppabs="http://www.citforum.ru/internet/html40/types.html#type-multi-length"><em>multi-length-list</em></a>
+<a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+
+<dd>Этот атрибут определяет расположение горизонтальных фреймов. Это разделенный запятыми список пикселов, процентов и относительных длин. По умолчанию используется 100%, что означат одну строку.
+
+<dt><a name="adef-cols-FRAMESET"><samp class="adef">cols</samp></a> =
+ = <a href="types.html#type-multi-length" tppabs="http://www.citforum.ru/internet/html40/types.html#type-multi-length"><em>multi-length-list</em></a>
+<a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+
+<dd>Этот атрибут определяет расположение вертикальных фреймов. Это разделенный запятыми список пикселов, процентов и относительных длин. По умолчанию используется 100%, что означат один столбец.
+
+</dl>
+</div>
+
+<div class="aref-list"><P>
+<em>Атрибуты, определяемые в другом месте</em> 
+<ul>
+<li><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><samp class="ainst">class</samp></a>
+    (<a href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа
+	   identifiers</a>) 
+<li><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a> (<a
+	     href="global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</a>) 
+<li><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><samp class="ainst">style</samp></a> (<a 
+    href="styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</a>) 
+<li><a href="scripts.html#adef-onload" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onload" class="noxref"><samp class="ainst">onload</samp></a>, <a href="scripts.html#adef-onunload" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onunload" class="noxref"><samp
+    class="ainst">onunload</samp></a> (<a
+    href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</a>)
+</ul>
+</div>
+
+
+<P><span class="index-inst" title="frameset::specifying layout of"> Элемент <a name="idx-frameset" href="frames.html#edef-FRAMESET" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-FRAMESET" class="noxref"><samp class="einst">FRAMESET</samp></a> определяет макет основного окна пользователя в виде прямоугольных пространств.</span>
+
+<h4>Строки и столбцы<a name="h-16.2.1.1">&nbsp;</a></h4>
+<p>Установка атрибута <a href="frames.html#adef-rows-FRAMESET" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-rows-FRAMESET" class="noxref"><samp class="ainst-FRAMESET">rows</samp></a> определяет число горизонтальных отрезков пространства в наборе фреймов. Устанвока атрибута <a href="frames.html#adef-cols-FRAMESET" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-cols-FRAMESET" class="noxref"><samp class="ainst-FRAMESET">cols</samp></a> определяет число вертикальных отрезков. Для создания сетки можно установить оба атрибута одновременно. 
+
+<P>Если атрибут <a href="frames.html#adef-rows-FRAMESET" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-rows-FRAMESET" class="noxref"><samp class="ainst-FRAMESET">rows</samp></a> не установлен, каждый столбец занимает всю длину страницы. Если атрибут <a href="frames.html#adef-cols-FRAMESET" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-cols-FRAMESET" class="noxref"><samp class="ainst-FRAMESET">cols</samp></a> не установлен, каждая строка занимает всю ширину страницы. Если не установлен ни один из этитх атрибутов, фрейм занимает всю страницу.
+
+<P>Фреймы создаются в направлении слева направо для столбцов и сверху вниз для строк. Если указаны оба атрибута, разделы окон создаются слева направо в верхней строке, слева направо во второй строке и т.д.
+
+<div class="example"><P>
+В первом примере экран разделяется горизонтально на две части (то есть создаются верхняя и нижняя части).
+
+<pre>
+&lt;FRAMESET rows="50%, 50%"&gt;
+<em>...продолжение определения...</em>
+&lt;/FRAMESET&gt;
+</pre>
+
+<P>В следующем примере создается три столбца: второй имеет фиксированную ширину 250 пикселов (это полезно, например, для представления изображения известной ширины). Первый фрейм получает 25% оставшегося пространства, а третий - 75%.
+
+<pre>
+&lt;FRAMESET cols="1*,250,3*"&gt;
+<em>...продолжение определения...</em>
+&lt;/FRAMESET&gt;
+</pre>
+
+<P>В следующем примере создается сетка 2x3.
+
+<pre>
+&lt;FRAMESET rows="30%,70%" cols="33%,34%,33%"&gt;
+<em>...продолжение определения...</em>
+&lt;/FRAMESET&gt;
+</pre>
+
+<P>Для следующего примера предположим, что окно браузера имеет высоту строго 1000 пикселов. Первый раздел получает 30% общей высоты (300 пикселов). Второй имеет высоту ровно 400 пикселов. Остается 300 пикселов на два другие фрейма. Для четвертого фрейма задана высота "2*", так что он должен быть вдвое выше третьего, для которого заданы высота "*" (эквивалентно 1*). Таким оразом, третий фрейм будет иметь высоту 100 пикселов, а четвертый - 200.
+
+
+<PRE>
+&lt;FRAMESET rows="30%,400,*,2*"&gt;
+<em>...продолжение определения...</em>
+&lt;/FRAMESET&gt;
+</PRE>
+</div>
+
+<p>Абсолютные длины, если они не дают в сумме 100% реально доступного пространства, должны корректироваться агентом пользователя. Если указана длина менее фактической, оставшееся пространство должно равномерно распределяться между всеми разделами. Если указана длина, превышающая фактическую, каждый раздел должен уменьшаться в зависимости от того, какую часть пространства он занимает.
+
+
+<h4><span class="index-inst" title="frameset::nested"><a name="idx-frameset-1">
+Вложенные наборы фреймов</a></span><a name="h-16.2.1.2">&nbsp;</a></h4>
+
+<p>Число уровней вложенности фреймов не ограничено. 
+
+<div class="example"><P>
+В следующем примере внешний элемент <a href="frames.html#edef-FRAMESET" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-FRAMESET" class="noxref"><samp
+class="einst">FRAMESET</samp></a> разделяет доступное пространство на три равных столбца. Внутренний элемент <a href="frames.html#edef-FRAMESET" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-FRAMESET" class="noxref"><samp class="einst">FRAMESET</samp></a> разделяет вторую область на две строки неравной высоты. 
+<pre>
+&lt;FRAMESET cols="33%, 33%, 34%"&gt;
+     <em>...содержимое первого фрейма...</em>
+     &lt;FRAMESET rows="40%, 50%"&gt;
+        <em>...содержимое второго фрейма, первая строка...</em>
+        <em>...содержимое второго фрейма, вторая строка...</em>
+     &lt;/FRAMESET&gt;
+     <em>...содержимое третьего фрейма...</em>
+&lt;/FRAMESET&gt;
+</pre>
+</div>
+
+<h4><span class="index-inst" title="object::in HEAD|frameset::sharing
+data among"><a name="sharing-frame-data">Разделение данных между фреймами</a></span><a name="h-16.2.1.3">&nbsp;</a></h4>
+
+<P>Авторы могут разделять данные между несколькими фреймами, включая эти данные с помощью элемента <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>. Элемент <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> следует включать в элемент <a href="global.html#edef-HEAD" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HEAD" class="noxref"><samp class="einst">HEAD</samp></a> документа с фреймами и давать ему имя с помощью атрибута <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>.  Любой документ, являющийся содержимым фрейма, может ссылаться на этот идентификатор.
+
+<div class="example"><P>
+В следующем примере показано обращение скрипта к элементу <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>, определенному для всего набора фреймов:
+
+<PRE>
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Frameset//EN"
+   "_THE_LATEST_VERSION_/frameset.dtd"&gt;
+&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;TITLE&gt;Это набор фреймов с элементом OBJECT в разделе HEAD&lt;/TITLE&gt;
+&lt;!-Этот элемент OBJECT не представляется! --&gt;
+&lt;OBJECT id="myobject" data="data.bar"&gt;&lt;/OBJECT&gt;
+&lt;/HEAD&gt;
+&lt;FRAMESET&gt;
+    &lt;FRAME src="bianca.html" name="bianca"&gt;
+&lt;/FRAMESET&gt;
+&lt;/HTML&gt;
+
+&lt;!-- In bianca.html --&gt;
+&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;TITLE&gt;Страница Бьянки&lt;/TITLE&gt;
+&lt;/HEAD&gt;
+&lt;BODY&gt;
+<em>...начало документа...</em>
+&lt;P&gt;
+&lt;SCRIPT type="text/javascript"&gt;
+parent.myobject.myproperty
+&lt;/SCRIPT&gt;
+<em>...продолжение документа...</em>
+&lt;/BODY&gt;
+&lt;/HTML&gt;
+</PRE>
+</div>
+
+<h3><a name="h-16.2.2">16.2.2</a> Элемент <a name="edef-FRAME"><samp class="edef">FRAME</samp></a></h3>
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">
+&lt;![ <a href="loosedtd.html#HTML.Frameset" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#HTML.Frameset">%HTML.Frameset;</a> [
+&lt;!-- зарезервированные имена фреймов начинаются с символа "_", остальные - с буквы --&gt;
+&lt;!<a name="frame">ELEMENT</a> <a href="frames.html#edef-FRAME" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-FRAME" class="noxref"><samp class="einst">FRAME</samp></a> - O EMPTY              -- вложенное окно --&gt;
+&lt;!ATTLIST FRAME
+  <a href="loosedtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#coreattrs">%coreattrs;</a>                          -- <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id">id</a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class">class</a>, <a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style">style</a>, <a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title">title</a> --
+  <a href="frames.html#adef-longdesc-FRAME" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-longdesc-FRAME" class="noxref"><samp class="ainst-FRAME">longdesc</samp></a>    <a href="loosedtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#URI">%URI;</a>          #IMPLIED  -- ссылка на длинное описание
+                                          (дополняет заголовок) --
+  <a href="frames.html#adef-name-FRAME" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-name-FRAME" class="noxref"><samp class="ainst-FRAME">name</samp></a>        <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata">CDATA</a>          #IMPLIED  -- имя целевого фрейма --
+  <a href="frames.html#adef-src-FRAME" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-src-FRAME" class="noxref"><samp class="ainst-FRAME">src</samp></a>         <a href="loosedtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#URI">%URI;</a>          #IMPLIED  -- исходный документ для фрейма --
+  <a href="frames.html#adef-frameborder" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-frameborder" class="noxref"><samp class="ainst-FRAME">frameborder</samp></a> (1|0)          1         -- нужны границы фрейма? --
+  <a href="frames.html#adef-marginwidth" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-marginwidth" class="noxref"><samp class="ainst-FRAME">marginwidth</samp></a> <a href="loosedtd.html#Pixels" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#Pixels">%Pixels;</a>       #IMPLIED  -- ширина полей в пикселах --
+  <a href="frames.html#adef-marginheight" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-marginheight" class="noxref"><samp class="ainst-FRAME">marginheight</samp></a> <a href="loosedtd.html#Pixels" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#Pixels">%Pixels;</a>      #IMPLIED  -- высота полей в пикселах --
+  <a href="frames.html#adef-noresize" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-noresize" class="noxref"><samp class="ainst-FRAME">noresize</samp></a>    (noresize)     #IMPLIED  -- разрешить пользователям изменять размер фреймов? --
+  <a href="frames.html#adef-scrolling" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-scrolling" class="noxref"><samp class="ainst-FRAME">scrolling</samp></a>   (yes|no|auto)  auto      -- наличией полосы прокрутки --
+  &gt;
+]]&gt;
+</PRE>
+</div>
+
+<div class="adef-list"><P>
+<em>Определения атрибутов</em><dl>
+
+<dt><a name="adef-name-FRAME"><samp class="adef">name</samp></a> =
+<a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata"><em>cdata</em></a>
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+
+<dd>Назначает имя текущему фрейму. Это имя может использоваться в качестве цели в последующих ссылках.
+
+<dt><a name="adef-longdesc-FRAME"><samp>longdesc</samp></a> =
+<A href="types.html#type-uri" tppabs="http://www.citforum.ru/internet/html40/types.html#type-uri"><EM>uri</EM></A>
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+
+<dd>Ссылка на длинное описание фрейма. Это объявление должно дополнять краткое описание, задаваемое атрибутом <a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a>, и может быть особенно полезно для невизуальных агентов пользователей.
+
+<dt><a name="adef-src-FRAME"><samp class="adef">src</samp></a> =
+<a href="types.html#type-uri" tppabs="http://www.citforum.ru/internet/html40/types.html#type-uri"><em>uri</em></a>
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+
+<dd>Определяет местонахождение начального содержимого фрейма. 
+
+<dt><a name="adef-noresize"><samp class="adef">noresize</samp></a>
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd>Если этот атрибут присутствует, он сообщает агенту пользователя, что размеры фрейма изменять нельзя. 
+
+<dt><a name="adef-scrolling"><samp class="adef">scrolling</samp></a> =
+<samp>auto|yes|no</samp>
+ <a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd>Этот атрибут задает информацию о прокрутке фрейма. Возможные значения
+<ul>
+<li><samp>auto:</samp> При необходимости предоставлять возможности прокрутки. Это значение используется по умолчанию.
+<li><samp>yes:</samp> Всегда предоставлять возможности прокрутки.
+<li><samp>no:</samp> Не предоставлять возможности прокрутки.
+</ul>
+
+<dt><a name="adef-frameborder"><samp class="adef">frameborder</samp></a>
+= <samp>1|0</samp>
+ <a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+<dd>
+<span class="index-inst" title="border::around a frame|frame::border of"><a name="idx-border">
+Этот атрибут</a></span> предоставляет агенту пользователя информацию о границе фрейма. Возможные значения:
+<ul>
+<li><samp>1:</samp> Агент пользователя должен изобразить разделитель между этим фреймам и всеми прилежащими фреймами. Это значение используется по умолчанию. 
+<li><samp>0:</samp> Агент пользователя не должен отображать разделитель. Обратите внимание, что разделители могут все равно отображаться, если они заданы в других фреймах.
+</ul>
+
+<dt><a name="adef-marginwidth"><samp
+class="adef">marginwidth</samp></a> = <a
+href="types.html#type-pixels" tppabs="http://www.citforum.ru/internet/html40/types.html#type-pixels"><em>пикселы</em></a> 
+<a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+
+<dd>
+<span class="index-inst" title="white space::around frame|frame::white
+space around"><a name="idx-white_space">Этот атрибут</a></span> задает пространство, оставляемое во фрейме в качестве левого и правого полей. Значение должно превышать один пиксел. Значение по умолчанию зависит от агента пользователя.
+
+<dt><a name="adef-marginheight"><samp
+class="adef">marginheight</samp></a> = <a
+href="types.html#type-pixels" tppabs="http://www.citforum.ru/internet/html40/types.html#type-pixels"><em>пикселы</em></a> 
+<a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+
+<dd>Этот атрибут определяет верхнее и нижнее поля в фрейме. Значение должно превышать один пиксел. Значение по умолчанию зависит от агента пользователя.
+</dl>
+</div>
+
+<div class="aref-list"><P>
+<em>Атрибуты, определяемые в другом месте</em> 
+<ul>
+<li><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><samp class="ainst">class</samp></a>
+    (<a href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</a>) 
+<li><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a> (<a
+	     href="global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</a>) 
+<li><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><samp class="ainst">style</samp></a> (<a 
+    href="styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</a>) 
+<li><a href="frames.html#adef-target" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-target" class="noxref"><samp class="ainst">target</samp></a> (<a
+href="frames.html#target-info" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#target-info">информация о целевом фрейме</a>)
+</ul>
+</div>
+
+<P>Элемент <a href="frames.html#edef-FRAME" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-FRAME" class="noxref"><samp class="einst">FRAME</samp></a> определяет содержимое и вид одного фрейма.
+
+<h4><span class="index-inst" title="frame::initial contents of"><a name="idx-frame-3">
+Задание исходного содержимого фрейма</a></span><a name="h-16.2.2.1">&nbsp;</a></h4>
+
+<P>Атрибут <a href="forms.html#adef-src" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-src" class="noxref"><samp class="ainst">src</samp></a> определяет исходный документ, содержащийся в фрейме. 
+
+<div class="example"><P>
+В следующем примере документа HTML:
+<pre>
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Frameset//EN"
+   "_THE_LATEST_VERSION_/frameset.dtd"&gt;
+&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;TITLE&gt;Документ с фреймами&lt;/TITLE&gt;
+&lt;/HEAD&gt;
+&lt;FRAMESET cols="33%,33%,33%"&gt;
+  &lt;FRAMESET rows="*,200"&gt;
+      &lt;FRAME src="contents_of_frame1.html"&gt;
+      &lt;FRAME src="contents_of_frame2.gif"&gt;
+  &lt;/FRAMESET&gt;
+  &lt;FRAME src="contents_of_frame3.html"&gt;
+  &lt;FRAME src="contents_of_frame4.html"&gt;
+&lt;/FRAMESET&gt;
+&lt;/HTML&gt;
+</pre>
+
+<P>должна создаваться примерно следующая страница:
+
+<pre>
+ ------------------------------------------
+|Фрейм 1     |Фрейм 3       |Фрейм 4       |
+|            |              |              |
+|            |              |              |
+|            |              |              |
+|            |              |              |
+|            |              |              |
+|            |              |              |
+|            |              |              |
+-------------|              |              |
+|Фрейм 2     |              |              |
+|            |              |              |
+|            |              |              |
+ ------------------------------------------
+</pre>
+
+<P>а агент пользователя должен загружать каждый файл в отдельный раздел. 
+</div>
+
+<P>Содержимое фрейма и его определение не должны находиться в одном документе.
+
+<div class="illegal-example"><P>
+<span class="example-title">ПРИМЕР НЕДОПУСТИМОГО ИСПОЛЬЗОВАНИЯ:</span><br>
+Следующее определение фреймов не является допустимым в HTML, поскольку содержимое второго фрейма находится в документе, описывающем набор фреймов.
+<pre>
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Frameset//EN"
+   "_THE_LATEST_VERSION_/frameset.dtd"&gt;
+&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;TITLE&gt;Документ с фреймами&lt;/TITLE&gt;
+&lt;/HEAD&gt;
+&lt;FRAMESET cols="50%,50%"&gt;
+  &lt;FRAME src="contents_of_frame1.html"&gt;
+  &lt;FRAME src="#anchor_in_same_document"&gt;
+  &lt;NOFRAMES&gt;
+  <em>...некоторый текст...</em>
+  &lt;H2&gt;&lt;A name="anchor_in_same_document"&gt;Important section&lt;/A&gt;&lt;/H2&gt;
+  <em>...некоторый текст...</em>
+  &lt;/NOFRAMES&gt;
+&lt;/FRAMESET&gt;
+&lt;/HTML&gt;
+</pre>
+</div>
+
+<h4>Визуальное представление фрейма<a name="h-16.2.2.2">&nbsp;</a></h4>
+
+<div class="example"><P>
+В следующем примере показано использование декоративных атрибутов <a href="frames.html#edef-FRAME" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-FRAME" class="noxref"><samp class="einst">FRAME</samp></a>.  Фрейм 1 не должен содержать полос прокрутки.  В фрейме 2 вокруг содержимого (изображения) останется пустое пространство, и размер фрейма нельзя будет изменять. Между фреймами 3 и 4 не будет границы. Границы (по умолчанию) будут присутствовать между фреймами 1, 2 и 3.
+
+<pre>
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Frameset//EN"
+   "_THE_LATEST_VERSION_/frameset.dtd"&gt;
+&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;TITLE&gt;Документ с фреймами&lt;/TITLE&gt;
+&lt;/HEAD&gt;
+&lt;FRAMESET cols="33%,33%,33%"&gt;
+  &lt;FRAMESET rows="*,200"&gt;
+      &lt;FRAME src="contents_of_frame1.html" scrolling="no"&gt;
+      &lt;FRAME src="contents_of_frame2.gif" 
+                marginwidth="10" marginheight="15"
+                noresize&gt;
+  &lt;/FRAMESET&gt;
+  &lt;FRAME src="contents_of_frame3.html" frameborder="0"&gt;
+  &lt;FRAME src="contents_of_frame4.html" frameborder="0"&gt;
+&lt;/FRAMESET&gt;
+&lt;/HTML&gt;
+</pre>
+</div>
+
+<h2><a name="h-16.3">16.3</a> 
+<span class="index-inst" title="frame::target of document|target
+frame::specification of"><a name="target-info">Определение цели фрейма</a></span></h2>
+
+<div class="note">
+<P><em><strong>Примечание.</strong>
+О том, как сейчас принято определять цель фрейма, Вы можете узнать в 
+<a href="notes.html#notes-frames" tppabs="http://www.citforum.ru/internet/html40/appendix/notes.html#notes-frames">замечаниях о фреймах</a> в приложении.</em>
+</div>
+
+<div class="adef-list"><P>
+<em>Определения атрибутов</em><dl>
+
+<dt><a name="adef-target"><samp class="adef">target</samp></a> 
+ = <a href="types.html#type-frame-target" tppabs="http://www.citforum.ru/internet/html40/types.html#type-frame-target"><em>frame-target</em></a>
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd>Задает имя фрейма, в котором должен открываться документ.
+</dl>
+</div>
+
+Назначая фрейму имя с помощью атрибута <a href="frames.html#adef-name-FRAME" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-name-FRAME" class="noxref"><samp class="ainst-FRAME">name</samp></a>, авторы могут ссылаться на него как на "target" для ссылок, определяемый другими элементами. Атрибут <a href="frames.html#adef-target" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-target" class="noxref"><samp class="ainst">target</samp></a> может устанавливаться для элементов, создающих ссылки (<a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a>, <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a>), навигационных карт (<a href="objects.html#edef-AREA" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-AREA" class="noxref"><samp class="einst">AREA</samp></a>) и форм (<a href="forms.html#edef-FORM" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-FORM" class="noxref"><samp class="einst">FORM</samp></a>).
+
+<P>Информацию о рспознаваемых именах фреймов Вы можете найти в разделе о <a href="types.html#type-frame-target" tppabs="http://www.citforum.ru/internet/html40/types.html#type-frame-target">именах целевых фреймов</a>.
+
+<div class="example"><P>
+В этом примере показано, как цели обеспечивают динамическое изменение содержимого фрейма. Сначала определим набор фреймов в показанном здесь документе <tt>frameset.html</tt>:
+
+<pre>
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Frameset//EN"
+   "_THE_LATEST_VERSION_/frameset.dtd"&gt;
+&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;TITLE&gt;Документ с фреймами&lt;/TITLE&gt;
+&lt;/HEAD&gt;
+&lt;FRAMESET rows="50%,50%"&gt;
+   &lt;FRAME name="fixed" src="init_fixed.html"&gt;
+   &lt;FRAME name="dynamic" src="init_dynamic.html"&gt;
+&lt;/FRAMESET&gt;
+&lt;/HTML&gt;
+</pre>
+
+<P>Затем в файле <tt>init_dynamic.html</tt> мы будем ссылаться на фрейм с именем "dynamic".
+
+<Pre>
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Frameset//EN"
+   "_THE_LATEST_VERSION_/frameset.dtd"&gt;
+&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;TITLE&gt;Документ с якорями с определенными целями&lt;/TITLE&gt;
+&lt;/HEAD&gt;
+&lt;BODY&gt;
+<em>...начало документа...</em>
+&lt;P&gt;Теперь можно перейти к 
+    &lt;A href="slide2.html" target="dynamic"&gt;слайду 2.&lt;/A&gt;
+<em>...продолжение документа...</em>
+&lt;P&gt;Все отлично. Переходим к 
+    &lt;A href="slide3.html" target="dynamic"&gt;слайду 3.&lt;/A&gt;
+&lt;/BODY&gt;
+&lt;/HTML&gt;
+</Pre>
+
+<P>Активизация любой из ссылок приведет к открытию нового документа в фрейме с именем "dynamic", в то время как в другом фрейме, "fixed", сохраняется исходное содержимое. 
+</div>
+
+<div class="note"><P>
+<span class="index-inst" title="frame::URI problems with"><a name="idx-frame-5">
+<em>
+<strong>Примечание.</strong> Определение набора фреймов никогда не изменяется,
+но содержимое одного из фреймов может изменяться. При изменении исходного содержимого одного из фреймов определение набора фреймов более не отражает текущего состояния фреймов.
+</em></a></span>
+
+<P><em>В настоящий момент невозможно кодировать полностью состояние набора фреймов в URI. Таким образом, многие агенты пользователей не позволяют пользователям вносить наборы фреймов в закладки.</em>
+
+<P>
+<span class="index-inst" title="frameset::navigation problems
+with"><a name="idx-frameset-3"><em>Наборы фреймов могут затруднять переход вперед или назад по списку просомтренных в агенте пользователя страниц.</em></a></span>
+</div>
+
+<h3><a name="h-16.3.1">16.3.1</a> <span class="index-inst" title="target
+frame::default|default::target frame|link::default target for"><a name="idx-target_frame-1">Установка цели по умолчанию для ссылок</a></span></h3>
+
+<p>Если во многих ссылках в документе используется одна и та же цель, можно указать ее один раз и использовать везде с помощью атрибута <a href="frames.html#adef-target" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-target" class="noxref"><samp class="ainst">target</samp></a> каждого элемента. Это делается с помощью утсановки атрибута <a href="frames.html#adef-target" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-target" class="noxref"><samp class="ainst">target</samp></a> элемента <a href="links.html#edef-BASE" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-BASE" class="noxref"><samp class="einst">BASE</samp></a>.
+
+<div class="example"><P>
+Вернемся к предыдущему примеру и определим информацию о цели в элементе <a href="links.html#edef-BASE" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-BASE" class="noxref"><samp class="einst">BASE</samp></a> и удалим ее из элементов <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a>.
+<pre>
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Frameset//EN"
+   "_THE_LATEST_VERSION_/frameset.dtd"&gt;
+&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;TITLE&gt;Документ с определением цели в элементе BASE&lt;/TITLE&gt;
+&lt;BASE href="http://www.mycom.com/Slides" target="dynamic"&gt;
+&lt;/HEAD&gt;
+&lt;BODY&gt;
+<em>...начало документа...</em>
+&lt;P&gt;Теперь Вы можете перейти к &lt;A href="slide2.html"&gt;слайду 2.&lt;/A&gt;
+<em>...продолжение документа...</em>
+&lt;P&gt;Все отлично. Переходим к 
+       &lt;A href="slide3.html"&gt;слайду 3.&lt;/A&gt;
+&lt;/BODY&gt;
+&lt;/HTML&gt;
+</pre>
+</div>
+
+<h3><a name="h-16.3.2">16.3.2</a> 
+<span class="index-inst" title="target frame::semantics
+of|link::semantics with target frame"><a name="idx-target_frame-2">Семантика целей</a></span></h3>
+
+<P>Агенты пользователей должны определять целевой фрейм, в который должен загружаться связанный ресурс в соответствии со следующими приоритетами (от высшего к низшему):
+
+<ol>
+<li>Если в элементе установлен атрибут <a href="frames.html#adef-target" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-target" class="noxref"><samp class="ainst">target</samp></a> и используется известный фрейм, при активизации элемента (то есть щелчке на ссылки или обработке формы) назначаемый элементом ресурс должен загружаться в указанном целевом фрейме.
+
+<LI>Если для элемента не установлен атрибут <a href="frames.html#adef-target" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-target" class="noxref"><samp class="ainst">target</samp></a>, а в элементе <a href="links.html#edef-BASE" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-BASE" class="noxref"><samp class="einst">BASE</samp></a> он установлен, фрейм определяется атрибутом <a href="frames.html#adef-target" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-target" class="noxref"><samp
+class="ainst">target</samp></a> элемента <a href="links.html#edef-BASE" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-BASE" class="noxref"><samp class="einst">BASE</samp></a>.
+
+<li>Если ни в самом элементе, ни в элементе  <a href="links.html#edef-BASE" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-BASE" class="noxref"><samp class="einst">BASE</samp></a> цель не указана, назначенный элементом ресурс должен загружаться во фрейм, в котором содержится сам элемент.
+
+<li>Если в атрибуте <a href="frames.html#adef-target" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-target" class="noxref"><samp class="ainst">target</samp></a> указан неизвестный фрейм <tt>F</tt>, агент пользователя должен создать новое окно и фрейм, назначить фрейму имя <tt>F</tt> и загрузить назначаемый элементом ресурс в новый фрейм.
+</ol>
+
+<P>Агенты пользователей могут обеспечивать для пользователей механизм переопределения атрибута <a href="frames.html#adef-target" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-target" class="noxref"><samp class="ainst">target</samp></a>.
+
+<h2><a name="h-16.4">16.4</a> 
+<span class="index-inst" title="frameset::alternate content 
+for|accessibility::and alternate frame content"> 
+<a name="alternate">Альтернативное содержимое</a></span></h2>
+
+<p>Авторы должны указывать альтернативное содержимое для агентов пользователей, не поддерживающих фреймы или сконфигурированных так, чтобы не отображать их.
+
+<h3><a name="h-16.4.1">16.4.1</a> Элемент <a name="edef-NOFRAMES"><samp class="edef">NOFRAMES</samp></a></h3>
+
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">
+&lt;![ <a href="loosedtd.html#HTML.Frameset" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#HTML.Frameset">%HTML.Frameset;</a> [
+&lt;!ENTITY % noframes.content "(BODY) -(NOFRAMES)"&gt;
+]]&gt;
+
+&lt;!ENTITY % noframes.content "(<a href="loosedtd.html#flow" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#flow">%flow;</a>)*"&gt;
+
+&lt;!<a name="noframes">ELEMENT</a> <a href="frames.html#edef-NOFRAMES" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-NOFRAMES" class="noxref"><samp class="einst">NOFRAMES</samp></a> - - <a href="loosedtd.html#noframes.content" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#noframes.content">%noframes.content;</a>
+ -- контейнер альтернативного содержимого для представления без фреймов --&gt;
+&lt;!ATTLIST NOFRAMES
+  <a href="loosedtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#attrs">%attrs;</a>                              -- <a href="loosedtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#coreattrs">%coreattrs</a>, <a href="loosedtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#i18n">%i18n</a>, <a href="loosedtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#events">%events</a> --
+  &gt;
+</PRE>
+</div>
+
+<P>Элемент <a href="frames.html#edef-NOFRAMES" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-NOFRAMES" class="noxref"><samp class="einst">NOFRAMES</samp></a> задает содержимое, которое должно отображаться, только если не отображаются фреймы. Агенты пользователей, поддерживающие фреймы, должны отображать содержимое объявления <a href="frames.html#edef-NOFRAMES" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-NOFRAMES" class="noxref"><samp class="einst">NOFRAMES</samp></a>, только если они сконфигурированы так, чтобы не отображать фреймы. Агенты пользователей, не поддерживающие фреймы, должны отображать содержимое элемента <a href="frames.html#edef-NOFRAMES" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-NOFRAMES" class="noxref"><samp class="einst">NOFRAMES</samp></a> в любом случае.
+
+<p>Элемент <a href="frames.html#edef-NOFRAMES" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-NOFRAMES" class="noxref"><samp class="einst">NOFRAMES</samp></a> можно использовать в разделе <a href="frames.html#edef-FRAMESET" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-FRAMESET" class="noxref"><samp class="einst">FRAMESET</samp></a> документа с фреймами. 
+
+<div class="example"><P>
+Например:
+
+<pre>
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Frameset//EN"
+     "_THE_LATEST_VERSION_"&gt;
+  &lt;HTML&gt;
+  &lt;HEAD&gt;
+  &lt;TITLE&gt;Документс фреймами и NOFRAMES&lt;/TITLE&gt;
+  &lt;/HEAD&gt;
+  &lt;FRAMESET cols="50%, 50%"&gt;
+     &lt;FRAME src="main.html"&gt;
+     &lt;FRAME src="table_of_contents.html"&gt;
+     &lt;NOFRAMES&gt;
+     &lt;P&gt;Это &lt;A href="main-noframes.html"&gt;
+              версия документа без фреймов.&lt;/A&gt; 
+     &lt;/NOFRAMES&gt;
+  &lt;/FRAMESET&gt;
+  &lt;/HTML&gt;
+</pre>
+
+</div>
+
+<h3><a name="h-16.4.2">16.4.2</a> <span class="index-inst" title="accessibility::and long frame descriptions|frame::long description of|image::not directly in frame"><a name="idx-accessibility-1">Длинные описания фреймов</a></span></h3>
+
+<P>Атрибут <a href="frames.html#adef-longdesc-FRAME" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-longdesc-FRAME" class="noxref"><samp class="ainst-FRAME">longdesc</samp></a> позволяет авторам сделать документы с использованием фреймов более доступными для людей, использующих невизуальные агенты. В этом атрибуте назначается ресурс, предоставляющий длинное описание фрейма. Авторам следует обратить внимание, что длинные описания, связанные с фреймами, прикрепляются к <em>фрейму</em>, а не к его содержимому. Поскольку содержимое может изменяться, исходное длинное описание, скорее всего, перестанет соответствовать содержимому фрейма. В частности, не следует включать изображение как единственное содержимое фрейма.
+
+<div class="example"><P>
+В следующем документе с фреймами описываются два фрейма. В левом фрейме находится содержание, а в правом сначала - изображение устрицы:</P>
+
+<pre>
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Frameset//EN"
+   "_THE_LATEST_VERSION_"&gt;
+&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;TITLE&gt;Плохо составленный документ с фреймами&lt;/TITLE&gt;
+&lt;/HEAD&gt;
+&lt;FRAMESET cols="20%, 80%"&gt;
+   &lt;FRAME src="table_of_contents.html"&gt;
+   &lt;FRAME src="ostrich.gif" longdesc="ostrich-desc.html"&gt;
+&lt;/FRAMESET&gt;
+&lt;/HTML&gt;
+</pre>
+
+<P>Обратите внимание, что изображение включено в фрейм независимо от любого элемента HTML, так что у автора нет другой возможности указать альтернативный текст, кроме атрибута <a href="frames.html#adef-longdesc-FRAME" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-longdesc-FRAME" class="noxref"><samp class="ainst-FRAME">longdesc</samp></a>. Если содержимое правого фрейма изменится (например, пользователь выберет в содержании змею), у пользователя не будет текстового доступа к новому содержимому фрейма.</P>
+
+<P>Таким образом, авторы не должны помещать изображение непосредственно в фрейм. Вместо этого изображение должно включаться в отдельный документ HTML и снабжаться там соответствующим альтернативным текстом:</P>
+
+<pre>
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Frameset//EN"
+   "_THE_LATEST_VERSION_"&gt;
+&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;TITLE&gt;Хорошо составленный документ с фреймами&lt;/TITLE&gt;
+&lt;/HEAD&gt;
+&lt;FRAMESET cols="20%, 80%"&gt;
+   &lt;FRAME src="table_of_contents.html"&gt;
+   &lt;FRAME src="ostrich-container.html"&gt;
+&lt;/FRAMESET&gt;
+&lt;/HTML&gt;
+</pre>
+
+<pre>
+&lt;!-Файл ostrich-container.html: --&gt;
+&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;TITLE&gt;Быстрая и мощная устрица&lt;/TITLE&gt;
+&lt;/HEAD&gt;
+&lt;P&gt;
+&lt;OBJECT data="ostrich.gif" type="image/gif"&gt;
+Эти устрицы здорово вкусные!
+&lt;/OBJECT&gt;
+&lt;/HTML&gt;
+</pre>
+</div>
+
+<h2><a name="h-16.5">16.5</a> <span class="index-inst" title="frame::inline|document::ways to
+include"><a name="idx-frame-7">Встроенные фреймы :</a></span> элемент <a name="edef-IFRAME"><samp class="edef">IFRAME</samp></a></h2>
+
+<div class="dtd-fragment">
+<PRE class="dtd-fragment">
+&lt;!<a name="iframe">ELEMENT</a> <a href="frames.html#edef-IFRAME" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-IFRAME" class="noxref"><samp class="einst">IFRAME</samp></a> - - (<a href="loosedtd.html#flow" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#flow">%flow;</a>)*         -- встроенное окно второго уровня --&gt;
+&lt;!ATTLIST IFRAME
+  <a href="loosedtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#coreattrs">%coreattrs;</a>                          -- <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id">id</a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class">class</a>, <a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style">style</a>, <a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title">title</a> --
+  <a href="frames.html#adef-longdesc-FRAME" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-longdesc-FRAME" class="noxref"><samp class="ainst-FRAME">longdesc</samp></a>    <a href="loosedtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#URI">%URI;</a>          #IMPLIED  -- ссылка на длинное описание
+                                          (дополняет заголовок) --
+  <a href="frames.html#adef-name-IFRAME" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-name-IFRAME" class="noxref"><samp class="ainst-IFRAME">name</samp></a>        <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata">CDATA</a>          #IMPLIED  -- имя целевого фрейма --
+  <a href="forms.html#adef-src" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-src" class="noxref"><samp class="ainst-IFRAME">src</samp></a>         <a href="loosedtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#URI">%URI;</a>          #IMPLIED  -- исходный документ для фрейма --
+  <a href="frames.html#adef-frameborder" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-frameborder" class="noxref"><samp class="ainst-IFRAME">frameborder</samp></a> (1|0)          1         -- запросить границы фрейма? --
+  <a href="frames.html#adef-marginwidth" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-marginwidth" class="noxref"><samp class="ainst-IFRAME">marginwidth</samp></a> <a href="loosedtd.html#Pixels" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#Pixels">%Pixels;</a>       #IMPLIED  -- ширина полей в пикселах --
+  <a href="frames.html#adef-marginheight" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-marginheight" class="noxref"><samp class="ainst-IFRAME">marginheight</samp></a> <a href="loosedtd.html#Pixels" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#Pixels">%Pixels;</a>      #IMPLIED  -- высота полей в пикселах --
+  <a href="frames.html#adef-scrolling" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-scrolling" class="noxref"><samp class="ainst-IFRAME">scrolling</samp></a>   (yes|no|auto)  auto      -- наличие полосы прокрутки --
+  <a href="graphics.html#adef-align" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html#adef-align" class="noxref"><samp class="ainst-IFRAME">align</samp></a>       <a href="loosedtd.html#IAlign" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#IAlign">%IAlign;</a>       #IMPLIED  -- вертикальное или горизонтальное выравнивание --
+  <a href="frames.html#adef-height-IFRAME" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-height-IFRAME" class="noxref"><samp class="ainst-IFRAME">height</samp></a>      <a href="loosedtd.html#Length" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#Length">%Length;</a>       #IMPLIED  -- высота фрейма --
+  <a href="frames.html#adef-width-IFRAME" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-width-IFRAME" class="noxref"><samp class="ainst-IFRAME">width</samp></a>       <a href="loosedtd.html#Length" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#Length">%Length;</a>       #IMPLIED  -- ширина фрейма --
+  &gt;
+</PRE>
+</div>
+
+<div class="adef-list"><P>
+<em>Определения атрибутов</em><dl>
+
+<dt><a name="adef-longdesc-IFRAME"><samp>longdesc</samp></a> =
+<A href="types.html#type-uri" tppabs="http://www.citforum.ru/internet/html40/types.html#type-uri"><EM>uri</EM></A>
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+
+<dd>Этот атрибут определяет ссылку на длинное описание фрейма. Это описание должно дополнять краткое описание, задаваемое атрибутом <a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a>, и особенно полезно для невизуальных агентов пользователей.
+
+<dt><a name="adef-name-IFRAME"><samp class="adef">name</samp></a> =
+<a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata"><em>cdata</em></a>
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+
+<dd>Этот атрибут назначает имя текущего фрейма. Имя может использоваться в качестве цели в ссылках.
+
+<dt><a name="adef-width-IFRAME"><samp class="adef">width</samp></a> =
+<a href="types.html#type-length" tppabs="http://www.citforum.ru/internet/html40/types.html#type-length"><em>длина</em></a> 
+<a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+
+<dd>Длина встроенного фрейма.
+
+<dt><a name="adef-height-IFRAME"><samp class="adef">height</samp></a>
+= <a href="types.html#type-length" tppabs="http://www.citforum.ru/internet/html40/types.html#type-length"><em>длина</em></a> 
+<a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+
+<dd>Высота встроенного фрейма.
+</dl>
+</div>
+
+<div class="aref-list"><P>
+<em>Атрибуты, определяемые в другом месте</em> 
+<ul>
+<li><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><samp class="ainst">class</samp></a> (<a href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</a>) 
+<li><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a> (<a href="global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</a>) 
+<li><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><samp class="ainst">style</samp></a> (<a href="styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</a>) 
+<li><a href="frames.html#adef-name-FRAME" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-name-FRAME" class="noxref"><samp class="ainst-FRAME">name</samp></a>, <a href="frames.html#adef-src-FRAME" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-src-FRAME" class="noxref"><samp class="ainst-FRAME">src</samp></a>,  <a href="frames.html#adef-frameborder" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-frameborder" class="noxref"><samp class="ainst-FRAME">frameborder</samp></a>, <a href="frames.html#adef-marginwidth" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-marginwidth" class="noxref"><samp class="ainst-FRAME">marginwidth</samp></a>, <a href="frames.html#adef-marginheight" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-marginheight" class="noxref"><samp class="ainst-FRAME">marginheight</samp></a>, <a href="frames.html#adef-scrolling" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-scrolling" class="noxref"><samp class="ainst-FRAME">scrolling</samp></a> (<a 
+href="#edef-FRAME">frame controls and decoration</a>)
+<li><a href="frames.html#adef-target" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-target" class="noxref"><samp class="ainst">target</samp></a> (<a href="frames.html#target-info" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#target-info">информация о целевом фрейме</a>)
+<li><a href="graphics.html#adef-align" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html#adef-align" class="noxref"><samp class="ainst">align</samp></a> (<a href="graphics.html#alignment" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html#alignment">выравнивание</a>)
+</ul>
+</div>
+
+Элемент <a href="frames.html#edef-IFRAME" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-IFRAME" class="noxref"><samp class="einst">IFRAME</samp></a> позволяет авторам вставлять фрейм в блок текста. Вставка встроенного фрейма в раздел текста скорее похожа на вставку объекта с помощью элемента <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>: оба они позволяют Вам вставить один документ HTML в другой, оба могут выравниваться относительно окружающего текста и т.д.
+
+<P>Встраиваемая инфомрация назначается атрибутом <a href="forms.html#adef-src" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-src" class="noxref"><samp class="ainst-IFRAME">src</samp></a> этого элемента. <em>Содержимое</em> элемента <a href="frames.html#edef-IFRAME" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-IFRAME" class="noxref"><samp class="einst">IFRAME</samp></a>, с другой стороны, должно отображаться только агентами пользователей, не поддерживающими фреймы или сконфигурированными так, чтобы не поддерживать их.
+
+<div class="example"><P>
+Для поддерживающих фреймы агентов пользователей в следующем примере в текст будет помещен отделенный границей встроенный фрейм.
+
+<PRE>
+  &lt;IFRAME src="foo.html" width="400" height="500"
+             scrolling="auto" frameborder="1"&gt;
+  [Ваш агент не поддерживает фреймы или сконфигурирован так, чтобы
+  не отображать их. Однако Вы можете просмотреть
+  &lt;A href="foo.html"&gt;этот документ.&lt;/A&gt;]
+  &lt;/IFRAME&gt;
+</PRE>
+</div>
+
+<p>Изменять размер встроенных фреймов нельзя (и поэтому у них нет атрибута 
+<a href="frames.html#adef-noresize" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-noresize" class="noxref"><samp class="ainst">noresize</samp></a>).
+
+<div class="note"><P> <em><strong>Примечание.</strong> Документы HTML могут также внедряться в другие документы HTML с помощью элемента <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>. Подробнее см. в разделе о <a
+href="objects.html#embedded-documents" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#embedded-documents">внедренных документах</a>.</em>
+</div>
+
+<div class="navbar">
+<hr><center><a href="graphics.html" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html">назад</a> &nbsp; <a href="forms.html" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center></div>
+</body>
+</html>
+

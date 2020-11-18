@@ -1,0 +1,58 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>get_object_vars</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="get-declared-classes.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="get-parent-class.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="get-object-vars">get_object_vars</A></H1><A NAME="AEN11199"></A><P>(PHP 4)</P>
+<p>get_object_vars - возвращает ассоциативный массив из свойств объекта.<A NAME="AEN11202"></A></p><H2>Описание</H2>
+<p>array <B>get_object_vars</B> (object obj)<P>Эта функция возвращает ассоциативный массив свойств определённого
+специфицированного объекта <TT><I>obj</I></TT>. Если переменным, объявленным в классе, экземпляром которого является
+<TT><I>obj</I></TT>, не присвоены значения, они не будут возвращены в этом массиве.<TABLE WIDTH="100%" BORDER="0"><TR>
+<TD><A NAME="AEN11213"></A><h5>Пример 1. Использование get_object_vars()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+class Point2D {
+    var $x, $y;
+    var $label;
+
+    function Point2D($x, $y) {
+        $this-&#62;x = $x;
+        $this-&#62;y = $y;
+    }
+
+    function setLabel($label) {
+        $this-&#62;label = $label;
+    }
+
+    function getPoint() {
+        return array("x" =&#62; $this-&#62;x,
+                     "y" =&#62; $this-&#62;y,
+                     "label" =&#62; $this-&#62;label);
+    }
+}
+
+// "$label" объявлена, но не определена
+$p1 = new Point2D(1.233, 3.445);
+print_r(get_object_vars($p1));
+
+$p1-&#62;setLabel("point #1");
+print_r(get_object_vars($p1));
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><p>Эта программа напечатает:</p>
+<TABLE BORDER="0"  BGCOLOR="#E0E0E0"CELLPADDING="5"><TR><TD><PRE>Array
+ (
+     [x] =&#62; 1.233
+     [y] =&#62; 3.445
+ )
+
+ Array
+ (
+     [x] =&#62; 1.233
+     [y] =&#62; 3.445
+     [label] =&#62; point #1
+ )</PRE></TD></TR></TABLE><P>См. также <A HREF="get-class-methods.html"><B>get_class_methods()</B></A> и
+<A HREF="get-class-vars.html"><B>get_class_vars()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="get-declared-classes.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="get-parent-class.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">get_declared_classes</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.classobj.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">get_parent_class</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

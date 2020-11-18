@@ -1,0 +1,115 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Система Автоматического Построения PHP</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="zend.layout.complex-types.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="zend.creating.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="zend.build">Глава 28. Система автоматического построения PHP</A></H1>
+<P>PHP 4.0 предлагает чрезвычайно гибкую систему автоматического построения/build.
+Все модули находятся в поддиректории <TT>ext</TT>.
+Помимо своих собственных ресурсов, каждый модуль состоит из файла M4 (например, см. 
+<A HREF="http://www.gnu.org/manual/m4/html_mono/m4.html" TARGET="_top">http://www.gnu.org/manual/m4/html_mono/m4.html</A>)
+о конфигурации и файле Makefile.in), который отвечает за компиляцию (результаты работы autoconf и automake; 
+см. <A HREF="http://sourceware.cygnus.com/autoconf/autoconf.html" TARGET="_top">http://sourceware.cygnus.com/autoconf/autoconf.html</A>
+и <A HREF="http://sourceware.cygnus.com/automake/automake.html" TARGET="_top">http://sourceware.cygnus.com/automake/automake.html</A>).</P>
+<P>Оба файла генерируются автоматически вместе с <TT>.cvsignore</TT> небольшим скриптом оболочки под названием
+<TT>ext_skel</TT>, который находится в директории <TT>ext</TT>. В качестве аргумента он принимает имя создаваемого модуля. Скрипт затем 
+создаёт директорию с тем же именем и соответствующие файлы <TT>config.m4</TT> и <TT>Makefile.in</TT>.</P>
+<P>Пошагово этот процесс выглядит так:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>root@dev:/usr/local/src/php4/ext &#62; ./ext_skel my_module
+Creating directory
+Creating basic files: config.m4 Makefile.in .cvsignore [done].
+
+To use your new extension, you will have to execute the following steps:
+
+    $ cd ..
+    $ ./buildconf
+    $ ./configure                 (your extension is automatically enabled)
+    $ vi ext/my_module/my_module.c
+    $ make
+
+Repeat the last two steps as often as necessary.</PRE></TD></TR></TABLE>
+<p>Эта инструкция создаёт вышеупомянутые файлы. Для того чтобы включить новый 
+модель в процесс автоматической конфигурации и построения,
+вы должны запустить <TT>buildconf</TT>, который регенерирует скрипт <TT>configure</TT> путём поиска в директории
+<TT>ext</TT> и включения всех найденных файлов <TT>config.m4</TT>.</p>
+<P>Наконец, запуск <TT>configure</TT> разбирает все опции конфигурации и генерирует makefile на основе этих опций и 
+опций, специфицированных в <TT>Makefile.in</TT>.</P>
+<P>В Листинге 9.1 показан сгенерированный <TT>Makefile.in</TT>:</P>
+<h5>
+<A NAME="AEN85334"></A>Рисунок 28-1. Листинг 9.1. Файл <TT>Makefile.in</TT> по умолчанию.</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE># $Id: Extending_Zend_Build.xml,v 1.1 2002/01/09 12:16:30 derick Exp $
+
+LTLIBRARY_NAME        = libmy_module.la
+LTLIBRARY_SOURCES     = my_module.c
+LTLIBRARY_SHARED_NAME = my_module.la
+
+include $(top_srcdir)/build/dynlib.mk</PRE></TD></TR></TABLE>
+<P>Тут мало что можно сказать: Он содержит имена входного и выходного файлов. Вы 
+можете также специфицировать build-инструкции для других файлов, если ваш 
+модуль строится из нескольких исходных файлов.</P>
+<P>Файл <TT>config.m4</TT> по умолчанию, показанный в Листинге 9.2, немного сложнее:</P>
+<h5>
+<A NAME="AEN85341"></A>Рисунок 28-2. Листинг 9.2. Файл <TT>config.m4</TT> по умолчанию.
+</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>dnl $Id: Extending_Zend_Build.xml,v 1.1 2002/01/09 12:16:30 derick Exp $
+dnl config.m4 for extension my_module
+dnl don't forget to call PHP_EXTENSION(my_module)
+
+dnl If your extension references something external, use with:
+
+PHP_ARG_WITH(my_module, for my_module support,
+dnl Make sure that the comment is aligned:
+[  --with-my_module             Include my_module support])
+
+dnl Otherwise use enable:
+
+PHP_ARG_ENABLE(my_module, whether to enable my_module support,
+dnl Make sure that the comment is aligned:
+[  --enable-my_module           Enable my_module support])
+
+if test "$PHP_MY_MODULE" != "no"; then
+  dnl Action..
+  PHP_EXTENSION(my_module, $ext_shared)
+fi</PRE></TD></TR></TABLE>
+<P>Если вы плохо знакомы с M4-файлами (теперь самое время познакомиться с ними 
+получше), всё это может вызвать некоторое замешательство; но в 
+действительности всё довольно просто.</P>
+<dl><dd><b>Примечание:</b> всё с префиксом <TT>dnl</TT> считается комментарием и не разбирается.</dd></dl>
+<P>Файл <TT>config.m4</TT> отвечает за разбор опций командной строки, передаваемых в <TT>configure</TT>
+на этапе конфигурирования. Это означает, что он должен проверять наличие 
+требуемых внешних файлов и выполнять схожие задачи по конфигурированию и установке.</P>
+<P>Файл по умолчанию создаёт две директивы конфигурирования в скрипте <TT>configure</TT>:
+<TT>--with-my_module</TT> и <TT>--enable-my_module</TT>.<br>
+Используйте первую опцию при обращении к внешним файлам (как с директивой <TT>--with-apache</TT>, которая обращается к директории Apache).<br>
+Используйте вторую опцию, когда пользователь должен просто решить, включать ли 
+ваше расширение. Независимо от используемой опции вы должны раскомментировать 
+другую опцию, ненужную; то есть, если вы используете <TT>--enable-my_module</TT>, вы должны удалить поддержку
+<TT>--with-my_module</TT>, и наоборот.</P><P>По умолчанию файл <TT>config.m4</TT>, созданный скриптом
+<TT>ext_skel</TT>, принимает обе директивы и автоматически включает ваше расширение. Включение 
+расширения выполняется путём использования макроса <TT>PHP_EXTENSION</TT>. Для изменения поведения по умолчанию и подключения вашего модуля в 
+исполняемый PHP, когда это нужно пользователю (явно специфицируя <TT>--enable-my_module</TT> или<TT><br>
+--with-my_module</TT>), измените test for <TT>$PHP_MY_MODULE</TT> на <TT>== "yes"</TT>:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>if test "$PHP_MY_MODULE" == "yes"; then
+  dnl Action..
+  PHP_EXTENSION(my_module, $ext_shared)
+fi</PRE></TD></TR></TABLE><p>Это может потребовать от вас использования <TT>--enable-my_module</TT>
+каждый раз при реконфигурировании и рекомпиляции PHP.</p>
+<dl><dd><b>Примечание:</b> не забывайте запускать <TT>buildconf</TT> каждый раз при изменении
+<TT>config.m4</TT>!</dd>  </dl><P>Далее в этой главе мы обсудим детали работы макросов M4, доступных вашим 
+скриптам конфигурирования. Пока же мы просто используем файлы по умолчанию. 
+Все примеры исходников на CD-ROM работают с файлами <TT>config.m4</TT>. Для включения их процесс построения PHP, просто скопируйте директории 
+исходников в вашу директорию <TT>ext</TT> РНР, запустите <TT>buildconf</TT>, а затем подключите сэмплы необходимых модулей путём использования 
+соответствующих директив<TT>--enable-*</TT> совместно с <TT>configure</TT>.</P></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="zend.layout.complex-types.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="zend.creating.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Сложные типы</TD>
+<th WIDTH="34%" VALIGN="top"><a href="zend.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Создание расширений</TD>
+</TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

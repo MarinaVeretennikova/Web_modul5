@@ -1,0 +1,895 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE></TITLE>
+<META content="TEXT/HTML; CHARSET=WINDOWS-1251" http-equiv=CONTENT-TYPE>
+<META content="Microsoft FrontPage 4.0" name=GENERATOR>
+<STYLE></STYLE>
+</HEAD>
+<body background=../fon.jpg>
+<ul>
+
+  <li><a href="#a"><font face="Times New Roman" size=3>Глава 9. PHP и
+    динамическое создание страниц</font></a> </li>
+  <ul>
+    <li><a href="#b"><font face="Times New Roman" size="3">Простые ссылки</font></a>
+    </li>
+    <li><a href="#c"><font face="Times New Roman" size="3">Файловые
+      компоненты(шаблоны)</font></a>
+      <ul>
+        <li><a href="#d"><font face="Times New Roman" size="3">include( ) и
+          require( )</font></a></li>
+        <li><a href="#e"><font face="Times New Roman" size="3">Функции</font></a></li>
+        <li><a href="#f"><font face="Times New Roman" size="3">Построение
+          компонентов</font></a></li>
+        <li><a href="#g"><font face="Times New Roman" size="3">Заголовок</font></a></li>
+        <li><a href="#h"><font face="Times New Roman" size="3">Колонтитул</font></a></li>
+        <li><a href="#i"><font face="Times New Roman" size="3">Основная
+          часть</font></a></li>
+        <li><a href="#j"><font face="Times New Roman" size="3">Все
+          вместе: заголовок, колонтитул и
+          основная часть</font></a></li>
+        <li><a href="#k"><font face="Times New Roman" size="3">Оптимизация
+          шаблонов</font></a></li>
+      </ul>
+    </li>
+    <li><a href="#l"><font face="Times New Roman" size="3">Проект:
+      генератор страниц</font></a>
+    </li>
+    <li><a href="#m"><font face="Times New Roman" size="3">Итоги</font></a>
+    </li>
+  </ul>
+</ul>
+<A NAME="a"></A>
+<p>&nbsp;</p>
+<p><font COLOR="#000000" face="Times New Roman" size="5">ГЛАВА 9</font></p>
+<p><font COLOR="#000000" face="Times New Roman" size="5">РНР и
+динамическое создание страниц</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Многие
+читатели в любой книге о компьютерах
+пролистывают все, что не представляет
+непосредственного интереса, и переходят к
+тому, что они действительно </font><i><font COLOR="#000000">хотят
+</font></i><font COLOR="#000000">знать. Лично я поступаю
+именно так. Впрочем, в этом нет ничего
+страшного — редко встречаются технические
+книги, которые необходимо читать от корки
+до корки. А может, вы именно так и поступили
+— пропустили восемь начальных глав и
+взялись за эту главу, потому что у нее было
+самое интересное название? Да и кому
+захочется тратить время на подробности,
+когда на работе «горит» очередной проект?</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">К счастью,
+подобная торопливость не помешает вам
+нормально усвоить материал второй части
+книги, посвященной использованию РНР для
+построения сайтов и взаимодействия с Web. В
+этой главе вы научитесь легко
+модифицировать содержимое web-страниц и
+осуществлять навигацию в Web при помощи
+ссылок и различных стандартных функций.
+Следующая глава дополнит изложенный
+материал - в ней подробно рассматриваются
+средства взаимодействия с пользователем в
+формах HTML В главе 11 описана организация
+интерфейса с базами данных. В остальных
+главах второй части рассматриваются
+нетривиальные аспекты web-программирования
+на РНР.</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Однако
+следует помнить о том, что материал части 1 </font><i><font COLOR="#000000">абсолютно
+необходим </font></i><font COLOR="#000000">для
+нормального владения РНР. Предполагается,
+что вы все же прочитали первую часть,
+поэтому в примерах будут использоваться
+многие из описанных ранее концепций. Итак,
+если вы пролистали часть книги, вам
+придется время от времени возвращаться к
+предыдущим главам и наверстывать упущенное.</font></font></p>
+<b>
+<p><A NAME="b"></A>
+<font color="#000000" face="Times New Roman" size="4">Простые
+ссылки</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">По ссылкам
+пользователь может переходить как на
+обычные страницы HTML, так и на страницы,
+содержащие код РНР:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;а href = &quot;date.php&quot;&gt;&lt;View
+today's date&lt;/a&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если
+щелкнуть на ссылке, в браузере будет
+загружена страница с именем date.php. Просто, не
+правда ли? Развивая приведенный пример,
+можно воспользоваться переменной для
+построения динамической ссылки:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$link = &quot;date.php&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;а href
+= \&quot;$link\&quot;&gt;View today's date&lt;/a&gt; &lt;br&gt;\n&quot;</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Вероятно, у
+вас возник вопрос — почему в коде ссылки
+перед кавычками (&quot;) ставится обратная
+косая черта (\)? Дело в том, что кавычки в РНР
+являются специальными символами и
+используются в качестве ограничителей
+строк. Следовательно, кавычки-литералы в
+строках должны экранироваться.</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="sovet.gif" align=left width="36" height="35">Если
+необходимость экранировать кавычки вас
+раздражает, просто включите режим magic_quotes_gpc
+в файле php.ini. В результате все апострофы,
+кавычки, обратные косые черты и нуль-символы.
+в тексте автоматически экранируются!</font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Разовьем
+приведенный пример. Для быстрого вывода
+списка ссылок в браузере можно
+воспользоваться массивом:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Создать
+массив разделов</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$contents - array(&quot;tutorials&quot;,
+&quot;articles&quot;, &quot;scripts&quot;, &quot;contact&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Перебрать
+и последовательно вывести каждый элемент
+массива</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">for ($i = 0; $i &lt; sizeof($contents;
+$i++)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot; &amp;#149;
+&lt;a href = \&quot;&quot;.$contents[$i].&quot;.php\&quot;&gt;&quot;.$contents[$i].&quot;&lt;/a&gt;&lt;br&gt;\n&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// &amp;#149; -
+специальное обозначение точки-маркера endfor;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<b>
+<p><A NAME="c"></A>
+<font color="#000000" face="Times New Roman" size="4">Файловые
+компоненты (шаблоны)</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Мы подошли к
+одной из моих любимых возможностей РНР.
+Шаблоном (применительно к web-программированию)
+называется часть web-документа, которую вы
+собираетесь использовать в нескольких
+страницах. Шаблоны, как и функции РНР,
+избавляют вас от лишнего копирования/вставки
+фрагментов содержания страницы и
+программного кода. С увеличением масштабов
+сайта значение шаблонов возрастает,
+поскольку они позволяют легко и быстро
+проводить модификации на уровне целого
+сайта. В этом разделе будут описаны
+некоторые возможности, которые открываются
+при использовании простейших шаблонов.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как правило,
+общие фрагменты содержания/кода (то есть
+шаблоны) сохраняются в отдельных файлах.
+При построении web-документа вы просто «включаете»
+эти файлы в соответствующие места страницы.
+В РНР для этого существуют две функции: include(
+) и require( ).</font></p>
+<p><A NAME="d"></A>
+<font color="#000000" face="Times New Roman" size="4">include( ) и require(
+)</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Одним из
+самых выдающихся аспектов РНР является
+возможность построения шаблонов и
+программных библиотек и их последующей
+вставки в новые сценарии. Применение
+библиотек экономит время и усилия по
+использованию общих функциональных
+возможностей на разных web-сайтах. Читатели,
+обладающие</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">опытом
+программирования на других языках (например,
+С, C++ или Java), хорошо знакомы с концепцией
+библиотек функций и их использованием в
+программах для расширения функциональных
+возможностей.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Включение
+одного или нескольких файлов в сценарий
+осуществляется стандартными функциями РНР
+require( ) и include( ). Как будет показано в
+следующем разделе, каждая из этих функций
+применяется в определенной ситуации.</font></p>
+<p><A NAME="e"></A>
+<font color="#000000" face="Times New Roman" size="4">Функции</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В РНР
+существуют четыре функции для включения
+файлов в сценарии РНР:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">include( );</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">include_once( );</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">require( );</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">require_once( ).</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Несмотря на
+сходство имен, эти функции решают разные
+задачи.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">include( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция include(
+) включает содержимое файла в сценарий.
+Синтаксис функции include( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">include (file </font></font><font size="3" face="Courier New"><font COLOR="#000000">файл]</font></font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">У функции
+include( ) есть одна интересная особенность —
+ее можно выполнять условно. Например, если
+вызов функции включен в блок команды if. то
+файл включается в программу лишь в том
+случае, если условие i f истинно. Если
+функция includeO используется в условной
+команде, то она </font><i><font COLOR="#000000">должна </font></i><font COLOR="#000000">быть
+заключена в фигурные скобки или в
+альтернативные ограничители. Сравните
+различия в синтаксисе листингов 9.1 и 9.2.</font></font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+9.1. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Неправильное
+использование include( )</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">if (some_conditional)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">include
+('text91a.txt'); else</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">include
+('text91b.txt');</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+9.2. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Правильное
+использование include( )</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">if (some_conditional) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">include
+('text91a.txt');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">include
+('text91b.txt');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Весь код
+РНР во включаемом файле </font><i><font COLOR="#000000">обязательно
+</font></i><font COLOR="#000000">заключается в теги РНР. Не
+стоит полагать, что простое сохранение
+команды РНР в файле обеспечит ее правильную
+обработку:</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;this is an
+invalid include file&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Вместо этого
+необходимо заключить команду в
+соответствующие теги, как показывает
+следующий пример:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;this is an
+invalid include file&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">include_once( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+include_once( ) делает то же, что и include( ), за одним
+исключением: прежде чем включать файл в
+программу, она проверяет, не был ли он
+включен ранее. Если файл уже был включен,
+вызов include_once( ) игнорируется, а если нет —
+происходит стандартное включение файла. Во
+всем остальном include_once( ) ничем не отличается
+от include( ). Синтаксис функции include_once( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">include_once (file </font></font><font size="3" face="Courier New"><font COLOR="#000000">файл)</font></font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">require ( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В целом
+функция require( ) похожа на include( ) — она тоже
+включает шаблон в тот файл, в котором
+находится вызов require( ). Синтаксис функции
+require( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">require (file </font></font><font size="3" face="Courier New"><font COLOR="#000000">файл)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Тем не менее,
+между функциями require( ) и include( ) существует
+одно важное различие. Файл, определяемый
+параметром require( ), включается в сценарий
+независимо от местонахождения require( ) в
+сценарии. Например, при вызове requi ге( ) в
+блоке if при ложном условии файл все равно
+будет включен в сценарий!</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Во многих
+ситуациях бывает удобно создать файл с
+переменными и другой информацией, которая
+используется в масштабах сайта, и затем
+подключать его по мере необходимости. Хотя
+имя этого файла выбирается произвольно, я
+обычно называю его init.tpl (сокращение от «initializaion.template»).
+В листинге 9.3 показано, как выглядит очень
+простой файл init.tpl. В листинге 9.4 содержимое
+init.tpl включается в сценарий командой require( ).</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+9.3. </font></font></i></b><font size="3" face="Times New Roman"><i><font COLOR="#000000">Пример
+инициализационного файла </font></i><font COLOR="#000000">&lt;?</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$site_title = &quot;РНР
+Recipes&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$contact_email = &quot;wjgilmore@hotmail.com&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$contact_name = &quot;WJ Gilmore&quot;;</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+9.4. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Использование
+файла init.tpl</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;? require ('init.tpl
+');?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;&lt;?
+print $site_title; ?&gt;&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;? print &quot;Welcome
+to $site_title. For questions, contact &lt;a href =</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">\&quot;mai1
+to:$contact_email\&quot;&gt;$contact_name&lt;/a&gt;.&quot;; ?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="sovet.gif" align=left width="36" height="35">Передача
+URL при вызове require( ) допускается лишь при
+включенном режиме «URL fopen wrappers» (этот режим
+включен по умолчанию).</font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">С
+увеличением размеров сайта может оказаться,
+что некоторые файлы включаются в сценарий
+по несколько раз. Иногда это не вызывает
+проблем, но в некоторых случаях повторное
+включение файла приводит к сбросу значений
+изменившихся переменных. Если во
+включаемом файле определяются функции,
+могут возникнуть конфликты имен. Учитывая
+сказанное, мы приходим к следующей функции
+— require_once( ).</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">require_once( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+require_once( ) гарантирует, что файл будет
+включаться в сценарий всего один раз. После
+вызова requi rе_оnсе( ) все дальнейшие попытки
+включения того же файла игнорируются.
+Синтаксис функции requiге_оnсе( ): </font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">require_once(file </font></font><font size="3" face="Courier New"><font COLOR="#000000">файл)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если не
+считать дополнительной проверки, в
+остальном эта функция аналогична</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">require( ).</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Вероятно, вы
+станете чаще использовать функции
+включения файлов по мере того, как ваши web-приложения
+начнут увеличиваться в размерах. Эти
+функции часто встречаются в примерах
+данной книги, чтобы сократить избыточность
+программного кода. Первые примеры
+рассматриваются в следующем разделе,
+посвященном принципам построения базовых
+шаблонов.</font></p>
+<p><A NAME="f"></A>
+<font color="#000000" face="Times New Roman" size="4">Построение
+компонентов</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">При
+определении структуры типичной web-страницы
+я обычно разбиваю ее на три части: заголовок,
+основную часть и колонтитул. Как правило, в
+большинстве правильно организованных web-сайтов
+присутствует заголовок, который
+практически не изменяется; в основной части
+выводится запрашиваемое содержание сайта,
+поэтому она часто изменяется; наконец,
+колонтитул содержит информацию об
+авторских правах и навигационные ссылки.
+Колонтитул, как и заголовок, обычно
+остается неизменным. Не поймите меня
+превратно — я вовсе не пытаюсь подавлять
+ваши творческие устремления. Мне
+встречалось немало великолепных сайтов, не
+следовавших этим принципам. Я всего лишь
+пытаюсь выработать общую структуру,
+которая может послужить отправной точкой
+для дальнейшей работы.</font></p>
+<p><A NAME="g"></A>
+<font color="#000000" face="Times New Roman" size="4">Заголовок</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Заголовочный
+файл (вроде приведенного в листинге 9.5)
+присутствует практически в каждом из моих
+web-сайтов с поддержкой РНР. В этом файле
+содержится</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">информация,
+действующая на уровне всего сайта, —
+например, заголовок, контактные данные и
+некоторые компоненты кода HTML-страницы.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+9.5. </font></font></i></b><font size="3" face="Times New Roman"><i><font COLOR="#000000">Пример
+файла заголовка </font></i></font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Файл: header.tpl</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+заголовочный файл для сайта PhpRecipes .</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Дата: 22
+августа 2000 г.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$site_name = &quot;PHPRecipes&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$site_email= &quot;wjgnmore@hotrnail.com&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$site_path = &quot;http://localhost/phprecipes&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt; &lt;?
+print $site_name; ?&gt; &lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=&quot;#7b8079&quot;
+text=&quot;#ffffff&quot; link=&quot;fe7d387&quot; alink=&quot;#e7d387&quot;
+vlink=&quot;#e7f0e4&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;table width=&quot;95%&quot; cellpadding=&quot;0&quot;
+cellspacing=&quot;0&quot; border=&quot;1&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td valign = &quot;top&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">PHPRecipes</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td valign = &quot;top&quot;
+align=&quot;right&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вывести
+текущую дату и время</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print date (&quot;F d,
+h:i a&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/table&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Довольно
+часто доступ к включаемым файлам со стороны
+посетителей ограничивается, особенно если
+эти файлы содержат конфиденциальную
+информацию (например, пароли). В Apache можно
+запретить просмотр некоторых файлов
+редактированием файлов http.conf или htaccess.
+Следующий пример показывает, как запретить
+просмотр всех файлов с расширением .tpl:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;Files &quot;*.tpl&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Order allow,deny</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Allow from 127.0.0.1</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Deny from all</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/Files&gt;</font></p>
+<p><img border="0" src="prim.gif" align=left width="36" height="35"><i><font COLOR="#000000">РНР
+и проблемы безопасности сайтов подробно
+описаны в главе 16.</font></p>
+</i>
+<p><font face="Times New Roman" size="4"><A NAME="h"></A>
+<font COLOR="#000000" size="4" face="Times New Roman">Колонтитул</font></font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Колонтитулом
+(footer) обычно называется информация,
+расположенная в нижней части страниц сайта,
+— контактные данные, ссылки и информация об
+авторских правах. Эту информацию можно
+разместить в отдельном файле и включать в
+качестве шаблона так же, как это делается с
+заголовком. Допустим, c наступлением
+нового года вам потребовалось изменить
+информацию об авторских правах и
+привести ее к виду «Copyright © 2000-2001». Есть два
+пути: потратить канун Рождества на
+лихорадочное редактирование сотен
+статических страниц </font><i><font COLOR="#000000">или </font></i><font COLOR="#000000">воспользоваться
+шаблоном наподобие приведенного в листинге
+9.6. Одно простое изменение — и вы можете
+возвращаться к праздничным хлопотам.</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman"><i><b>Листинг 9.6.</b>
+Пример файла колонтитула (footer.tpl)</i></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;table width=&quot;95%&quot;
+cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;1&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;tr&gt;&lt;td valign=&quot;top&quot;
+align=&quot;middle&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Copyright &amp;copy;
+2000 PHPRecipes. All rights reserved.&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href = &quot;mailto:&lt;?=$site_email;?&gt;&quot;&gt;contact&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> &lt;a href = &quot;&lt;?=$site_path:?&gt;/</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">privacy.php&quot;&gt;your
+privacy&lt;/a&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/table&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Обратите
+внимание на использование глобальной
+переменной $site_email в файле колонтитула.
+Значение этой переменной действует в
+масштабах всей страницы, а мы предполагаем,
+что файлы header.tpl и footer.tpl будут включены в
+одну итоговую страницу. Также обратите
+внимание на присутствие пути $site_path в ссылке
+Privacy (Конфиденциальность). Я всегда включаю
+в шаблоны полные пути ко всем ссылкам —
+если бы URL ссылки состоял из одного имени
+privacy.php, то файл колонтитула был бы жестко
+привязан к конкретному каталогу.</font></p>
+<p><font face="Times New Roman" size="4"><A NAME="i"></A>
+<font color="#000000">Основная
+часть</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В основной
+части страницы подключается содержимое
+заголовка и колонтитула. В сущности, именно
+основная часть содержит информацию,
+интересующую посетителей сайта. Заголовок
+эффектно выглядит, колонтитул содержит
+полезные сведения, но именно ради основной
+части страницы пользователи снова и снова
+возвращаются на сайт. Хотя я не смогу
+предоставить каких-либо рекомендаций по
+поводу конкретной структуры страниц,
+шаблоны, подобные приведенному в листинге
+9.7, основательно упрощают
+администрирование страниц.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+9.7.</font></font></i></b><font COLOR="#000000" size="3" face="Times New Roman"><i>
+</i></font><i><font size="3" face="Times New Roman"><font COLOR="#000000">Пример
+основной части страницы (index_body.tpl)</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;table width=&quot;95%&quot;
+cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;1&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td valign=&quot;top&quot;
+width=&quot;25%&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href =
+&quot;&lt;?=$site_path;?&gt;/tutorials.php&quot;&gt;tutorials&lt;/a&gt;&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> &lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href =
+&quot;&lt;?=$site_path:?&gt;/articles.php&quot;&gt;articles&lt;/a&gt;&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> &lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href =
+&quot;&lt;?=$site_path;?&gt;/scripts.php&quot;&gt;scripts&lt;/a&gt;&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> &lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href =
+&quot;&lt;?=$site_path;?&gt;/contact.php&quot;&gt;contact&lt;/a&gt;&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> &lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td valign=&quot;top&quot;
+width=&quot;75%&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Welcome to PHPRecipes.
+the starting place for PHP scripts, tutorials,&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> and information about gourmet
+cooking!</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/table&gt;</font></p>
+<p><A NAME="j"></A>
+<font color="#000000" face="Times New Roman" size="4">Все вместе:
+заголовок, колонтитул и основная часть</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Вероятно,
+мое настроение лучше всего выражается
+фразой полковника «Ганнибала» Смита (Джордж
+Пеппард) из знаменитого сериала «Команда А»:
+«Люблю, когда все становится на свои места».
+Я испытываю нечто подобное, когда
+разрозненные шаблоны объединяются и
+образуют полный web-документ. Комбинируя три
+секции документа: header.tpl, index_body.tpl и footer.tpl, —
+можно быстро построить простейшую страницу
+вроде той, что приведена в листинге 9.8.</font></p>
+<b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000"><i>Листинг
+9.8. </i> </font></font></b><i><font COLOR="#000000">Построение
+страницы index.php включением нескольких
+файлов</font></i></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Файл: index.php</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+домашняя страница PHPRecipes</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Дата: 23
+августа 2000 г.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вывести
+заголовок</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">include (&quot;header.tpl&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вывести
+основную часть</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">include (&quot;index_body.tpl&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вывести
+колонтитул</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">include (&quot;footer.tpl&quot;);</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Ну как? Три
+простые команды — и перед вами готовая
+страница. Текст итоговой страницы приведен
+в листинге 9.9.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+9.9. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Страница
+HTML, построенная в листинге 9.8 (index.php)</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;
+PHPRecipes &lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=&quot;#7b8079&quot;
+text=&quot;#ffffff&quot; link=&quot;#e7d387&quot; alink=&quot;#e7d387&quot;
+vlink=&quot;#e7f0e4&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;table width =
+&quot;95%&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; border=&quot;1&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td valign = &quot;top&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">PHP Recipes</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td valign = &quot;top&quot;
+align=&quot;right&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">August 23, 03:17 pm</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/table&gt;&lt;table
+width=&quot;95%&quot; cellspacing=&quot;0&quot; cellpadd1ng=&quot;0&quot; border=&quot;1&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td valign=&quot;top&quot;
+width=&quot;25%&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href = &quot;htfp://localriost/phprecipes/tutorials.php&quot;&gt;tutorials</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/a&gt; &lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href = &quot;http://localhost/phprecipes/articles.php&quot;&gt;articles</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/a&gt;</font> <font COLOR="#000000" size="3" face="Courier New">&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href = &quot;http://localhost/phprecipes/scripts.php&quot;&gt;scripts&lt;/a&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href = &quot;http://localhost/phprecipes/contact.php&quot;&gt;contact&lt;/a&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td valign=&quot;top&quot;
+width=&quot;75%&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Welcome to PHPRecipes,
+the starting place for PHP scripts, tutorials,&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> and gourmet cooking tips and
+recipes!</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/table&gt;&lt;table width=&quot;95%&quot;
+cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;1&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;tr&gt;&lt;td valign=&quot;top&quot;
+align=&quot;middle&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Copyright &amp;copy;
+2000 PHPRecipes. All rights reserved.&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href = &quot;mailto:wj@hotmail
+.com&quot;&gt;contact&lt;/a&gt; |&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> &lt;a href = &quot;http://localhost/phprecipes/</font><font COLOR="#000000" size="3" face="Courier New">privacy.php&quot;&gt;your
+privacy&lt;/a&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/table&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">На рис. 9.1
+показано, как полученная страница выглядит
+в браузере. Хотя я обычно не пользуюсь
+рамками таблиц, на этот раз я их вывел, чтобы
+на рисунке более наглядно выделялись три
+части страницы.</font></p>
+<p><img border="0" src="9.1.jpg" width="495" height="339"></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Рис. 9.1. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Внешний
+вид страницы, построенной в листинге 9.8</font></font></p>
+</i>
+<p><A NAME="k"></A>
+<font color="#000000" face="Times New Roman" size="4">Оптимизация
+шаблонов</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Во втором (на
+мой взгляд, более предпочтительном)
+варианте шаблоны оформляются в виде
+функций, находящихся в отдельном файле. Тем
+самым обеспечивается дополнительное
+структурирование ваших шаблонов. Я называю
+этот файл инициализационным файлом и храню
+в нем другую полезную информацию. Поскольку
+мы уже рассмотрели относительно длинные
+примеры заголовка и колонтитула,
+содержимое листингов 9.10 и 9.11 было слегка
+сокращено для наглядной демонстрации новой
+идеи.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+9.10. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Оптимизированный
+шаблон сайта (site_init.tpl)</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Файл:
+site_init.tpl</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+инициализационный файл PhpRecipes</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Дата: 22
+августа 2000 г.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$site_name = &quot;PHPRecipes&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$site_email = &quot;wjgilmore@hotmail.com&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$site_path = &quot;http://localhost/phprecipes/&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function show_header($site_name)
+{</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt; &lt;?
+print $site_name: ?&gt; &lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/tiead&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=&quot;#7b8079&quot;
+text=&quot;#ffffff&quot; link»&quot;#e7d387&quot; alink=&quot;#e7d387&quot;
+vlink=&quot;#e7f0e4&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">This is the header</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;hr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function show footer ()</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;hr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">This Is the footer</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<p><font color="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font color="#000000" size="3" face="Courier New">}</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+9.11. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Применение
+инициализационного файла</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Включить
+инициализационный файл</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">include(&quot;site_init.tpl&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вывести
+заголовок</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">show header ($site_name);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Содержимое
+основной части This is some body information</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вывести
+колонтитул Show_footer( );</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<b>
+<p><A NAME="l"></A>
+<font color="#000000" face="Times New Roman" size="4">Проект:
+генератор страниц</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Хотя в
+большинстве созданных мною web-сайтов
+основное содержимое страниц формировалось
+на основании информации, прочитанной из
+базы данных, всегда найдется несколько
+страниц, которые практически не изменяются.
+В частности, на них могут выводиться
+сведения о команде разработчиков,
+контактные данные, реклама и т. д. Я обычно
+храню эту «статическую» информацию в
+отдельной папке и использую сценарий РНР
+для ее загрузки при поступлении запроса.
+Конечно, у вас возникает вопрос — если это
+статическая информация, для чего нужен
+сценарий РНР? Почему бы не загружать
+обычные страницы HTML? Преимущество РНР
+заключается в том, что вы можете
+использовать шаблоны и вставлять
+статические фрагменты по мере
+необходимости.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Ссылки для
+загрузки различных статических файлов
+строятся динамически. В обобщенной форме
+ссылка выглядит так:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;а href =
+&quot;&lt;?=$site_path:?&gt;/static.php?content=$content&quot;&gt;Static Page
+Name&lt;/a&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Начнем с
+создания статических страниц. Для простоты
+я ограничусь тремя страницами, содержащими
+информацию о сайте (листинг 9.12), рекламу (листинг
+9.13) и контактные данные (листинг 9.14).</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+9.12. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Информация
+о сайте (about.html)</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;h3&gt;About
+PHPRecipes&lt;/h3&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">What programmer doesn't
+mix all night programming with gourmet cookies. Here at PHPRecipes. hardly a
+night goes by without one of our coders</font> <font COLOR="#000000" size="3" face="Courier New">mixing a little bit of HTML with a tasty
+plate of Portobello Mushrooms or even Fondue. So we decided to bring you the
+best of what we love most: PHP and food!</font></p>
+<p><font color="#000000" size="3" face="Courier New">&lt;p&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">That's right, readers.
+Tutorials, scripts, souffles and more. &lt;i&gt;0nly&lt;/i&gt; at PHPRecipes.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+9.13. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Рекламная
+информация (advert_info.html)</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;h3&gt;Advertising
+Information&lt;/h3&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Regardless of whether
+they come to learn the latest PHP techniques or for brushing up on how</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">to bake chicken, you
+can bet our readers are decision makers. They are the Industry</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">professionals who make
+decisions about what their company purchases.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">For advertising
+information, contact &lt;a href - &quot;mailto:ads@phprecipes.com</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&quot;&gt;ads@phprecipes.com&lt;/a&gt;.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+9.14. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Контактные
+данные (contact.html)</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;h3&gt;Contact Us&lt;/h3&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Have a coding tip? &lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Know the perfect topping for candied yams?&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Let us know! Contact the team at &lt;a href= &quot;mailto:theteam@phprecipes.com&quot;&gt;team@phprecipes.com&lt;/a&gt;.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Переходим к
+построению страницы static.php, которая выводит
+запрашиваемую статическую информацию. В
+этот файл (см. листинг 9.15) включаются
+компоненты страниц нашего сайта и
+инициализационный файл site_init.tpl.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+9.15. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Общий
+вывод статических страниц (static.php)</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Файл: static.php</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+отображение запрашиваемых статических
+страниц.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// ВНИМАНИЕ: предполагается, что
+файл &quot;site_init.tpl&quot; и все</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// статические
+файлы находятся в том же каталоге.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Загрузить
+функции и переменные include(&quot;site_init.tpl&quot;):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вывести
+заголовок show_header($site_name);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вывести
+запрашиваемое содержание include(&quot;$content.html&quot;):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вывести
+колонтитул show footer( );</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Теперь все
+готово к построению основного сценария.
+Просто включите в страницу</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">следующие
+ссылки:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;а href = &quot;static.php?content=about&quot;&gt;Static
+Page Name&lt;/a&gt;&lt;/br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href = &quot;static.php?content=advert_info&quot;&gt;Advertising
+Information&lt;/a&gt;&lt;/br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href = &quot;static.php?content=about&quot;&gt;Contact
+Us&lt;/a&gt;&lt;/br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если
+щелкнуть на любой из этих ссылок, в браузере
+загружается соответствующая статическая
+страница, внедренная в static.php!</font></p>
+<b>
+<p><A NAME="m"></A>
+<font color="#000000" face="Times New Roman" size="4">Итоги</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В этой главе
+вы познакомились с первоочередной задачей,
+для решения которой и создавался РНР, —
+динамическим построением web-страниц. Были
+рассмотрены следующие вопросы:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">обработка URL;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">построение
+динамического содержания;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">включение и
+построение базовых шаблонов.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Глава
+завершается генератором страниц —
+программой, которая загружает статические
+страницы в шаблон и позволяет легко
+организовать поддержку большого
+количества статических страниц HTML.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Следующая
+глава посвящена использованию РНР в
+сочетании с формами HTML, заметно повышающими
+степень интерактивности вашего сайта. А
+потом — взаимодействие с базами данных! Вам
+предстоит узнать много интересного.</font></p>
+
+</BODY></HTML>

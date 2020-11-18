@@ -1,0 +1,277 @@
+<html>
+<title>Введение в реляционные СУБД</title>
+<meta name=keywords content="СУБД реляционные базы данных SQL SELECT GROUP BY HAVING COUNT AVG SUM MIN MAX INSERT UPDATE DELETE">
+
+
+<body>
+<table align=center width=90%>
+<tr><td>
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c10.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c10.html">Основы реляционных баз данных </a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c10_sql.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c10_sql.html">Язык SQL</a>
+</table>
+
+<h3>Введение</h3> 
+ <p align="justify">
+  Тема баз данных применительно к сайтам в подавляющем количестве случаев не представляет особой
+  сложности. Большинство сайтов в Интернет не имеют базы данных и своего собственного программного
+  обеспечения. Для самого простейшего сайта типа "Визитная карточка" этого, как правило, и не 
+  требуется. А если все же Заказчик захочет гостевую книгу, опросник(голосование),
+   список рассылки, конференцию, счетчик посетителей или другой стандартный скрипт,
+  то такой CGI-скрипт можно позаимствовать с другого сервера, например, с 
+  <a href="javascript:if(confirm('http://itsoft.ru/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://itsoft.ru/'" tppabs="http://itsoft.ru/">itsoft.ru</a> ;-), где
+  вы найдете все эти сервисы. Такого рода сервисы легко интегрируются в веб-сайт, и для 
+  посетителей совсем не заметно, что CGI-программа находится на другом сервере Интернет. 
+  <br>
+  Очень небольшое количество сайтов в Интернет имеет собственную базу данных. Как правило,
+  это интерактивные веб-сайты, которые что-то продают или предоставляют какие-либо виды услуг.
+  Например, среди наших разработок это http://kapitan.ru, http://www.oxygensoftware.com, 
+  http://petek.ru/zippo/, http://test.itsoft.ru, http://gb.itsoft.ru и многие другие.
+  <br>
+  Теперь немного об архитектуре таких информационных систем.
+  Все эти сайты имеют три уровня доступа к базе данных, т.е. все HTML-формы можно поделить на три типа.
+  Первый уровень - пользовательский, предназначен для всех посетителей сайта без каких-либо ограничений.
+  Как правило, в большинстве случаев пользователю предоставляется возможность только читать базу данных, т.е.
+  CGI-скрипты выполняют инструкцию SELECT.
+  Второй уровень для зарегистрированных посетителей сайта, вход осуществляется по логину и паролю.
+  Во втором уровне доступа уже имеются ограниченные возможности редактирования и добавления данных.
+  И третий уровень доступа - администраторский, он самый защищенный, т.к. здесь проверяется не только 
+  логин и пароль, но и IP-адрес, с которого произошло соединение. Иногда администраторский доступ
+  находится на другом доменном имени, что позволяет ограничить к нему доступ средствами
+  веб-сервера. Если же это доменное имя вынести на отдельный IP-адрес или на другой сервер, например, 
+  во внутреннюю локальную сеть,
+  то доступ к нему можно ограничить firewoll'ом(брендмауером). Такого рода защита наиболее эффективная.
+  В третьем уровне администратор имеет полный доступ к базе и может не только изменять содержимое, но и
+  редактировать структуру базы.
+  <br>
+  Сайт kapitan.ru предоставляет турфирмам веб-интерфейс для регистрации фирмы в системе, а
+  также веб-интерфейс для размещения путевок. Посетители сайта могут осуществлять поиск по 
+  базе путевок. На сайте test.itsoft.ru вы можете создать свой тест по любой тематике, ввести 
+  в него свои вопросы, а далее разместить этот тест на любом сайте в Интернет. Посетители
+  вашего сайта смогут проходить тесты, а вы, как автор теста, можете добавлять, редактировать
+  и удалять вопросы, просматривать статистику. Все эти интерактивные веб-сайты основаны на
+  базах данных. Данные из HTML-формы передаются веб-серверу, веб-сервер передает их CGI-программе,
+  CGI-программа обрабатывает их и соединяется с СУБД. CGI-программа может вносить изменения в БД или
+  сделать запрос к базе, а затем полученные данные из базы передать веб-серверу.
+  <br>
+  Давайте рассмотрим подробнее вопрос: "Для чего необходимо использование базы данных 
+  при разработке веб-сайта подобного типа?". До сих пор находится много любителей изобретать
+  велосипед, которые говорят: "А зачем мне база данных? Мы и сами с усами!". 
+  Основное назначение базы данных - хранение данных, многопользовательский доступ 
+  к ним и операции над ними. 
+  <br>
+  В части III "Интерактивные веб-сайты или CGI" мы рассматривали программу чата.
+  В этой программе используются функции, которые пишут данные в текстовый файл на сервере.
+  Представьте ситуацию, когда в чат одновременно добавят сообщение два посетителя.
+  Сообщение одного из них не будет добавлено, т.к. файл на сервере уже открыт на запись 
+  и заблокирован, второй процесс не сможет открыть этот файл на запись.
+  Вероятность такого события, конечно, мала для редкопосещаемого сайта, но она возрастает
+  при росте количества посетителей, поэтому такую ситуацию нельзя не учитывать.
+  Часто начинающие веб-разработчики вместо того, чтобы использовать
+  уже готовое решение на основе какой-либо СУБД, начинают писать скрипты, которые работают
+  с данными в файле на сервере. Я утверждаю, что оправданным является только чтение данных
+  из конфигурационного файла на сервере. В таком файле можно сохранять, например, цвет и шрифт 
+  текста, которым выводится сообщение пользователям. Тем самым, ваш скрипт поддается настройкам
+  без модификации исходного кода. Достаточно по ftp залить новый конфигурационный файл на
+  сервер, и вы поменяете настройки CGI-программы. Если же вы напишите свои функции записи, удаления,
+  поиска, сортировки и выборки данных, которые будут работать в многопользовательском режиме, то
+  по сути изобретете велосипед - напишите еще одну Систему Управления Базами Данных.
+  <br>
+   В заключение данного параграфа надо сказать несколько слов о том, что представляет
+   собой СУБД и база данных. СУБД - это программное обеспечение, которое устанавливается
+   на сервер и осуществляет работу с отдельными базами данных. На одном сервере может
+   находится много баз данных. База данных в простейшем случае состоит из таблиц.
+   Таблица в реляционной БД является единицей информации. 
+   Результатом любого запроса к БД будет таблица. Таблица может состоять из одной записи
+   и одной ячейки, но, тем не менее, это именно таблица, а не отдельно взятая ячейка.
+   Здесь и далее мы рассматриваем только реляционные СУБД. Бывают и нереляционные модели, 
+   например, объектно-ориентированные. Для примера я сделал два снимка таблицы из MS Access.
+   
+   <center>
+   <img src="c10tbl.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/c10tbl.jpg"><br>
+   Таблица в режиме конструктора.<br><br><br>
+   <img src="c10tbl2.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/c10tbl2.jpg"><br>
+   Содержимое таблицы.
+   </center>
+   
+   <p align="justify">
+   Таблица состоит из записей(строк, кортежей) и колонок(столбцов, атрибутов). В скобках
+   даны другие названия, которые вы можете встретить в публикациях по данной тематике.
+   Каждый столбец имеет свое уникальное в пределах таблицы имя. Двух столбцов
+   с одинаковыми именами в одной таблице быть не может.
+   Данные в одном столбце имеют один тип. Типы данных бывают следующие:
+   <ul>
+    <li> char(n) - строка в точности из n символов, недостающие символы дополняются пробелами
+    <li> integer - целое
+    <li> date - дата
+    <li> varchar(n) - строка из меньше, чем n символов
+    <li> text - текст неопределенного размера
+   </ul>
+   <p align="justify">
+   Здесь перечислены не все типы. Список типов может варьироваться в зависимости от
+   используемой СУБД. Каждый столбец может иметь свойства: уникальности, непустой, значение
+   по умолчанию. Уникальность означает, что в одном столбце данной таблицы не может быть 
+   двух одинаковых ячеек. Например, такое свойство надо указывать для столбца, обозначающего
+   номер машины или страховки. Непустой (NOT NULL) означает, что в ячейках данного
+   столбца должно присутствовать какое-либо значение. Если это свойство не указано, то 
+   в столбце могут присутствовать пустые ячейки, см. рисунок "содержимое таблицы": в столбце
+   browser все ячейки пустые. 
+   Группа столбцов может образовывать первичный или внешний ключ.
+   В нашем случае первичный ключ образует один столбец с именем cnt_id. Первичный ключ
+   представляет собой набор ячеек, однозначно идентифицирующих запись, т.е. значение 
+   любой ячейки, не входящей в первичный ключ, должно зависеть от первичного ключа. 
+   Рассмотрим для примера таблицу сотрудников с полями: имя, фамилия, дата рождения, пол, должность.
+   <center>
+   <img src="c10tit.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/c10tit.jpg"><br>
+   Таблица сотрудников. 
+   </center>
+   <p align="justify">
+   В данной таблице первичным ключом будут два столбца: фамилия и дата рождения. Значение
+   всех остальных столбцов однозначно определяется по этому первичному ключу. Одной фамилии
+   или любой другой комбинации недостаточно, т.к. в компании могут работать отец и сын или
+   просто однофамильцы. Первичный ключ всегда уникален, двух записей в таблице с одинаковым первичным
+   ключом быть не может. Это пример вымышленный, он служит просто демонстрацией того, что первичный
+   ключ может состоять из нескольких полей. В действительности эти два поля не являются
+   первичным ключом, т.к. в одной компании могут работать два близнеца. О проектировании баз данных и о выборе
+   первичных ключей мы детальной поговорим в 14 главе.
+   <br>
+   Внешние ключи служат для связи таблиц. Например, в системе гостевых
+   книг необходимо иметь две таблицы.
+   
+   <center>
+   <img src="c10i3.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/c10i3.jpg"><br>
+   Таблицы информационной системы "Гостевые книги".
+   </center>
+   
+   
+   <p align="justify">
+   Первая таблица описывает гостевые книги и содержит поля:
+   gb_id - идентификатор книги - первичный ключ, http - URL сайта, name - имя владельца, email владельца,
+   описание гостевой книги, количество сообщений, выводимых на одну страницу, и
+   дата создания. Вторая таблица служит
+   для хранения сообщений и содержит поля: message_id - идентификатор сообщения - первичный ключ,
+   gb_id - ссылка на гостевую книгу - внешний ключ, имя автора сообщения,
+   email автора, тема сообщения и т.п.. На одну запись в таблице "гостевые книги"
+   приходится много записей в таблице сообщений, т.е. у каждой гостевой книги может быть несколько сообщений.
+   Такого рода связь между таблицами называется "один ко многим". Она реализуется посредством внешнего
+   ключа в таблице message. Для того чтобы получить все сообщения первой гостевой книги, в СУБД
+   делается запрос: SELECT * FROM message WHERE gb_id=1. Посмотреть эти гостевые книги вы можете
+   на наших сайтах http://itsoft.ru и http://perl.org.ru, а зарегистрировать свою гостевую книгу 
+   на сайте http://gb.itsoft.ru.
+   <br>
+  
+  
+  
+  
+  
+</td></tr>
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #1 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=0-698" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=0?698" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=0'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69019-bn=0-698" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=0?698"
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #2 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=1?Rnd_Num" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=1'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=1?Rnd_Num" 
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="erle.cgi-51599-698" tppabs="http://www.linkexchange.ru/cgi-bin/erle.cgi?51599?698" frameborder=0 
+    vspace=0 hspace=0 width=468 height=60 marginwidth=0 marginheight=0 scrolling=no>
+    <a href="javascript:if(confirm('http://www.linkexchange.ru/users/goto.map  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://www.linkexchange.ru/users/goto.map'" tppabs="http://www.linkexchange.ru/users/goto.map" target=_top>
+    <img src="rle.cgi-51599-698" tppabs="http://www.linkexchange.ru/cgi-bin/rle.cgi?51599?698" alt="RLE Banner Network" border=0 height=60 width=468></a>
+    </iframe>
+
+<!-- Russian LinkExchange code START - BANNER #1 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=0-698" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=0?698"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=0'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69021-bn=0-698" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=0?698"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+<!-- Russian LinkExchange code START - BANNER #2 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=1-698" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=1?698"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=1'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69021-bn=1-698" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=1?698"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+</td></tr>
+</table>
+
+</body>
+</html>

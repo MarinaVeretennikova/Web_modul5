@@ -1,0 +1,242 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0031)http://jsp.newmail.ru/les12.htm -->
+<HTML><HEAD><TITLE>Урок 12. Новые окна</TITLE>
+<META content="text/html; charset=windows-1251" http-equiv=Content-Type>
+<META 
+content="Самое толковое руководство по основам javascript на русском языке. Новые окна" 
+name=Description>
+<SCRIPT language=javascript>
+<!--
+if (document.images) {
+ar_r = new Image(33,33); ar_r.src = "i/ar_r.gif"; 
+ar_r1 = new Image(33,33); ar_r1.src = "i/ar_r1.gif"; 
+none = new Image(79,35); none.src = "i/none.gif"; 
+next = new Image(79,35); next.src = "i/next.gif"; 
+prev = new Image(79,35); prev.src = "i/prev.gif";
+ar_l = new Image(33,33); ar_l.src = "i/ar_l.gif";
+ar_l1 = new Image(79,35); ar_l1.src = "i/ar_l1.gif";
+}
+function swap(imgName,imgObjName) {
+if (document.images) {
+  document.images[imgName].src = eval(imgObjName + ".src");
+}}
+function openindex(){  
+var OpenWindow=window.open("", "newwin", "height=300,width=300");
+OpenWindow.document.write("<HTML>")
+OpenWindow.document.write("<TITLE>Новое окно</TITLE>")
+OpenWindow.document.write("<BODY BGCOLOR='white'>")
+OpenWindow.document.write("<CENTER>")
+OpenWindow.document.write("<font size=+1>Новое окно</font><P>")
+OpenWindow.document.write("<a href='http://jsp.newmail.ru' target='one'>Эта ссылка<br>откроется в главном окне</a><p>")
+OpenWindow.document.write("<P><HR><P>")
+OpenWindow.document.write("<a href='' onClick='self.close()'>Эта закроет окно</a><p>")
+OpenWindow.document.write("</CENTER>")
+OpenWindow.document.write("</HTML>")
+self.name="one"
+}
+function toc() {
+оpen=window.open('toc.html', 'toc', config='width=300,scrollbars=1,resizable=1,status=1')
+self.name="one"
+}
+//-->
+</SCRIPT>
+<LINK href="les12.files/blue.css" rel=STYLESHEET type=text/css>
+<META content="MSHTML 5.00.2614.3500" name=GENERATOR></HEAD>
+<BODY background=les12.files/Life_blue.gif bgColor=#334775 text=#334775>
+<DIV 
+style="HEIGHT: 35px; LEFT: 10px; POSITION: absolute; TOP: 10px; WIDTH: 160px"><A 
+href="http://jsp.newmail.ru/les11.htm" 
+onmouseout="swap('left','ar_l');swap('none','none')" 
+onmouseover="swap('left','ar_l1');swap('none','prev')"><IMG border=0 height=33 
+name=left src="les12.files/ar_l.gif" width=33></A>&nbsp;<A href="" 
+onmouseout="swap('left','ar_l');swap('right','ar_r')" 
+onmouseover="swap('left','ar_l1');swap('right','ar_r1')"><IMG border=0 height=35 
+name=none src="les12.files/none.gif" width=79></A>&nbsp;<A 
+href="http://jsp.newmail.ru/les13.htm" 
+onmouseout="swap('right','ar_r');swap('none','none')" 
+onmouseover="swap('right','ar_r1');swap('none','next')"><IMG border=0 height=33 
+name=right src="les12.files/ar_r.gif" width=33></A> </DIV>
+<H1 align=right>Урок 12<BR>Новые окна через функцию</H1>
+<P align=right><B><FONT color=#fb4462>красным цветом даны примечания 
+переводчика</FONT></B><BR><A 
+href="http://jsp.newmail.ru/les12.htm#concept">Концепция</A>__<A 
+href="http://jsp.newmail.ru/les12.htm#script">Скрипт</A>__<A 
+href="http://jsp.newmail.ru/les12.htm#effect">Эффект</A>__<A 
+href="http://jsp.newmail.ru/les12.htm#decon">Разбор скрипта</A>__<A 
+href="http://jsp.newmail.ru/les12.htm#assig">Задание</A></P>
+<P align=right><A href="http://jsp.newmail.ru/les12.htm#" 
+onclick=toc()>Оглавление (в новом окне)</A></P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="50%"><IMG height=13 
+      src="les12.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="30%">
+      <P align=right><IMG height=13 src="les12.files/b_t_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%">
+      <H2><A name=concept>Концепция</A></H2>
+      <P align=justify><B>В</B><A href="http://jsp.newmail.ru/les11.htm" id=l> 
+      Уроке 11</A> мы открывали окно с помощью команды window.open. Окно 
+      заполнялось другим документом HTML, который мы указывали в скобках.</P>
+      <P align=justify>Сейчас мы попробуем создать функцию, которая откроет 
+      новое окно, причем и новое окно, и все его содержимое будет вписано в тот 
+      же документ HTML. То есть в буквальном смысле слова мы вложим две страницы 
+      в одну.</P>
+      <H2><A name=script><B>Скрипт</B></A></H2>
+      <P class=cou>&lt;SCRIPT LANGUAGE="JavaScript"&gt;<BR>function 
+      openindex()<BR>{ <BR>var OpenWindow=window.open("", "newwin", 
+      "height=300,width=300");<BR>OpenWindow.document.write("&lt;HTML&gt;")<BR>OpenWindow.document.write("&lt;TITLE&gt;Новое 
+      окно&lt;/TITLE&gt;")<BR>OpenWindow.document.write("&lt;BODY 
+      BGCOLOR='white'&gt;")<BR>OpenWindow.document.write("&lt;CENTER&gt;")<BR>OpenWindow.document.write("&lt;font 
+      size=+1&gt;Новое 
+      окно&lt;/font&gt;&lt;P&gt;")<BR>OpenWindow.document.write("&lt;a href= 
+      'http://jsp.newmail.ru' target='main window'&gt; Эта 
+      ссылка&lt;BR&gt;откроется в главном 
+      окне&lt;/a&gt;&lt;p&gt;")<BR>OpenWindow.document.write("&lt;P&gt;&lt;HR&gt;&lt;P&gt;")<BR>OpenWindow.document.write("&lt;a 
+      href='' onClick='self.close()'&gt; Эта закроет 
+      окно&lt;/a&gt;&lt;p&gt;")<BR>OpenWindow.document.write("&lt;/CENTER&gt;")<BR>OpenWindow.document.write("&lt;/HTML&gt;")<BR>self.name="main 
+      window"<BR>}<BR>&lt;/SCRIPT&gt;</P>
+      <P><EM>...и в строке BODY:</EM></P>
+      <P class=cou>onLoad="openindex()"</P>
+      <P>Помните, текст в скобках должен находиться на одной строке.</P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd vAlign=bottom width="50%"><IMG height=13 
+      src="les12.files/b_b_l.gif" width=12></TD>
+    <TD bgColor=#cef3fd vAlign=bottom width="30%">
+      <P align=right><IMG height=13 src="les12.files/b_b_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P>
+<DIV align=right>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="85%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=30 vAlign=top width="50%"><IMG height=13 
+      src="les12.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd vAlign=top width="50%">
+      <P align=right><IMG height=13 src="les12.files/b_t_r.gif" 
+  width=13></P></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%">
+      <H2><A name=effect>Эффект</A> </H2>
+      <P align=justify><B>Э</B>ффект тот же, что и в <A 
+      href="http://jsp.newmail.ru/les11.htm" id=l>прошлом уроке</A>: открылось 
+      окно того же размера с теми же ссылками. Разница в том, что все это было 
+      написано на одной странице. Чтобы увидеть, как действует скрипт,<BR>
+      <FORM><INPUT onclick=openindex() type=button value="смотрите здесь"> 
+      </FORM></P>
+      <P align=justify>с одной разницей — здесь новое окно запускается кнопкой, 
+      а не командой onLoad.</P></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%"><IMG height=13 
+      src="les12.files/b_b_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%">
+      <P align=right><IMG height=13 src="les12.files/b_b_r.gif" 
+  width=13></P></TD></TR></TBODY></TABLE></DIV>
+<P>.</P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="50%"><IMG height=13 
+      src="les12.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="30%">
+      <P align=right><IMG height=13 src="les12.files/b_t_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%"><A 
+      name=decon>
+      <H2>Разбор скрипта</A> </H2>
+      <P align=justify><B>Г</B>лавная часть скрипта, содержащая функцию, 
+      помещается между командами &lt;HEAD&gt; и &lt;/HEAD&gt;, как большинство 
+      функций.</P>
+      <P align=justify>По самой обычной схеме функция получает имя openindex(). 
+      Теперь подходим к основному моменту. Создаем переменную OpenWindow, под 
+      которой скрывается команда window.open(). Вот так:</P>
+      <P align=center class=cou>var OpenWindow=window.open("", "newwin", 
+      "height=300,width=300');</P>
+      <P align=justify>Это было на <A href="http://jsp.newmail.ru/les11.htm" 
+      id=l>прошлом уроке</A>. Единственная разница в том, что вы не указываете 
+      URL. Видите пустые парные кавычки? Они говорят браузеру, что он должен 
+      искать информацию о новом окне. То же самое, что и не ставить URL в 
+      ссылку, которая закрывает окно. Оно бы не закрылось, если бы начала 
+      загружаться новая страница. Точно так же и тут. Браузер стал бы загружать 
+      новую страницу, а не выполнять скрипт.</P>
+      <P align=justify>Теперь начинаем писать страницу HTML, которая будет 
+      внутри нового окна. Вот первая строка текста:</P>
+      <P class=cou>OpenWindow.document.write("&lt;HTML&gt;")</P>
+      <P align=justify>Переменная OpenWindow (<I>то есть новое окно</I>) 
+      говорит, что этот текст должен быть вписан в документ.</P>
+      <P align=justify>Взгляните на скрипт. Каждая новая строка следует той же 
+      схеме. Можно написать сотню строк, создающих законченную страницу. Наш 
+      скрипт совсем небольшой, так как это наглядное пособие.</P>
+      <P align=justify><B>Помните:</B> когда вы пишете HTML внутри команды 
+      document.write, вместо двойных кавычек с подкомандами ставьте одинарные. 
+      Иначе будут проблемы.</P>
+      <P align=justify>Наконец командой onLoad в строке BODY запускается 
+      функция.</P>
+      <H2><A name=assig><B>Ваше задание</B></A></H2>
+      <P align=justify>Сегодня вам придется написать функцию, которая открыла бы 
+      окно с зеленым фоном и приветствием: «Привет, <I>имя пользователя</I>, вот 
+      твое окно!» Имя пользователя можно узнать с помощью запроса. Разумеется, 
+      допишите еще ссылку, которая закроет окно.</P>
+      <P>Возможный ответ <A href="http://jsp.newmail.ru/assig12.htm" 
+      id=l>здесь</A></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd vAlign=bottom width="50%"><IMG height=13 
+      src="les12.files/b_b_l.gif" width=12></TD>
+    <TD bgColor=#cef3fd vAlign=bottom width="30%">
+      <P align=right><IMG height=13 src="les12.files/b_b_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR></TBODY></TABLE>
+<P align=right><A 
+href="http://jsp.newmail.ru/les12.htm#concept">Концепция</A>__<A 
+href="http://jsp.newmail.ru/les12.htm#script">Скрипт</A>__<A 
+href="http://jsp.newmail.ru/les12.htm#effect">Эффект</A>__<A 
+href="http://jsp.newmail.ru/les12.htm#decon">Разбор скрипта</A>__<A 
+href="http://jsp.newmail.ru/les12.htm#assig">Задание</A> </P>
+<P align=right><FONT size=5><A href="http://jsp.newmail.ru/les13.htm">Вперед, на 
+Урок 13</A></FONT></P>
+<DIV align=right>
+<TABLE width="75%">
+  <TBODY>
+  <TR>
+    <TD><FONT color=#cef3fd>
+      <P align=justify class=small>авторы <A 
+      href="http://www.htmlgoodies.com/primers/jsp/me.html">Джо Бернс</A> и 
+      Эндри Грауни. <A href="http://www.htmlgoodies.com/">Оригинал и многое 
+      другое на английском языке</A> © <A 
+      href="http://www.earthweb.com/">EarthWeb Inc.</A> <BR>Перевод и оформление 
+      © Татьяна.</FONT></P></TD></TR></TBODY></TABLE></DIV><!-- HotLog -->
+<SCRIPT language=javascript>
+hotlog_js="1.0";hotlog_d=document; hotlog_n=navigator;hotlog_rn=Math.random();
+hotlog_n_n=(hotlog_n.appName.substring(0,3)=="Mic")?0:1;
+hotlog_r=""+hotlog_rn+"&s=15862&r="+escape(hotlog_d.referrer)+"&pg="+
+escape(window.location.href);
+hotlog_d.cookie="hotlog=1"; hotlog_r+="&c="+(hotlog_d.cookie?"Y":"N");
+hotlog_d.cookie="hotlog=1; expires=Thu, 01-Jan-70 00:00:01 GMT"</SCRIPT>
+
+<SCRIPT language=javascript1.1>
+hotlog_js="1.1";hotlog_r+="&j="+(navigator.javaEnabled()?"Y":"N")</SCRIPT>
+
+<SCRIPT language=javascript1.2>
+hotlog_js="1.2";hotlog_s=screen;
+hotlog_r+="&wh="+hotlog_s.width+'x'+hotlog_s.height+"&px="+((hotlog_n_n==0)?
+hotlog_s.colorDepth:hotlog_s.pixelDepth)</SCRIPT>
+
+<SCRIPT language=javascript1.3>hotlog_js="1.3"</SCRIPT>
+
+<SCRIPT language=javascript>hotlog_r+="&js="+hotlog_js;
+hotlog_d.write("<img src=\"http://hit2.hotlog.ru/cgi-bin/hotlog/count?"+
+hotlog_r+"&\" border=0 width=1 height=1>")</SCRIPT>
+<NOSCRIPT><IMG border=0 height=1 src="les12.files/count" width=1></NOSCRIPT> <!-- /HotLog --><!--webbot bot="HTMLMarkup" startspan ALT="Site Meter" -->
+<SCRIPT>var site="sm2jsp"</SCRIPT>
+
+<SCRIPT language=JavaScript1.2 src="les12.files/counter.js">
+</SCRIPT>
+<!-- Copyright (c) 1999-2000 Site Meter --><!--webbot
+bot="HTMLMarkup" endspan --></BODY></HTML>

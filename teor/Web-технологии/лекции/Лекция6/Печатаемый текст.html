@@ -1,0 +1,29 @@
+<HTML> 
+     <HEAD>
+            <TITLE>Печатаемая строка текста</TITLE>
+     </HEAD>
+<BODY onLoad="nabor()"> 
+      <DIV id="mywords" style="font:14pt; color:red">  
+      </DIV> 
+      <SCRIPT language="JavaScript">
+      //Определение строки для анимации
+      var textline="Печатаем текст";
+      //Определение счетчика символов
+      var i=0;
+      //Определение рекурсивной функции, запускаемой при загрузке и затем периодически вызываемой таймером 
+     function nabor() {i++;
+         if(i<textline.length)              {
+         //Вывод фрагмента строки в окно документа
+
+document.all.mywords.innerText=textline.substring(0,i);
+     }
+     //Сброс счетчика символов
+     else {document.all.mywords.innerText=" ";
+         i=0;
+         }
+     //Рекурсивный вызов функции таймером
+     setTimeout("nabor()",50);
+     } 
+     </SCRIPT>
+</BODY> 
+</HTML>

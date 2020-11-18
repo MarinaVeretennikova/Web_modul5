@@ -1,0 +1,108 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции YAZ</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="xslt-set-scheme-handlers.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="yaz-addinfo.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.yaz"></A>CVII. Функции YAZ</h1><A NAME="AEN83441"></A><H1><A NAME="yaz.intro">Введение</A></H1>
+<P>Это расширение предлагает интерфейс PHP с набором утилит YAZ, реализующим протокол Z39.50
+для получения информации. С помощью этого расширения вы легко сможете 
+реализовать Z39.50 origin (клиент), который ищет или сканирует Z39.50 targets (серверы) параллельно.</P>
+<P>YAZ доступен с <A HREF="http://www.indexdata.dk/yaz/" TARGET="_top">http://www.indexdata.dk/yaz/</A>.
+Вы можете найти новости, примеры скриптов и т.п. для этого расширения <A HREF="http://www.indexdata.dk/phpyaz/" TARGET="_top">http://www.indexdata.dk/phpyaz/</A>.</P>
+<P>Этот модуль скрывает сложную работу Z39.50 таким образом, что пользоваться 
+им достаточно легко. Он поддерживает постоянные бесстатусные соединения, очень 
+похожие на соединения, предлагаемые различными SQL API, доступными для PHP. 
+Это означает, что сессии являются бесстатусными, но используются совместно 
+несколькими пользователями, сохраняя таким образом соединение и шаги фазы инициализации в большинстве случаев.</P>
+<H1><A NAME="yaz.install">Установка</A></H1><P>Скомпилируйте YAZ и установите его. Постройте PHP с нужными модулями и
+добавьте опцию<br><TT><A HREF="../configure.html#install.configure.with-yaz">--with-yaz</A></TT>.
+Ваши действия будут выглядеть примерно так:<A NAME="AEN83457"></A></P><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>gunzip -c yaz-1.6.tar.gz|tar xf -
+gunzip -c php-4.0.X.tar.gz|tar xf -
+cd yaz-1.6
+./configure --prefix=/usr
+make
+make install
+cd ../php-4.0.X
+./configure --with-yaz=/usr/bin
+make
+make install</PRE></TD></TR></TABLE><H1><A NAME="yaz.example">Пример</A></H1>
+<P>PHP/YAZ отслеживает соединения с targets (Z-ассоциациями). Положительное целое число представляет ID конкретной
+ассоциации.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN83463"></A>
+  <h5>
+Пример 1. Параллельный поиск с использованием YAZ()</h5>
+<P>Этот скрипт показывает возможность параллельного поиска этого API. При вызове без аргументов он печатает форму запроса; или
+(аргументы предоставлены) ищет targets в хосте массива.</P><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$num_hosts = count ($host);
+if (empty($term) || count($host) == 0) {
+    echo '&#60;form method="get"&#62;
+    &#60;input type="checkbox"
+    name="host[]" value="bagel.indexdata.dk/gils"&#62;
+        GILS test
+    &#60;input type="checkbox"
+    name="host[]" value="localhost:9999/Default"&#62;
+        local test
+    &#60;input type="checkbox" checked="1"
+    name="host[]" value="z3950.bell-labs.com/books"&#62;
+        BELL Labs Library
+    &#60;br&#62;
+    RPN Query:
+    &#60;input type="text" size="30" name="term"&#62;
+    &#60;input type="submit" name="action" value="Search"&#62;
+    ';        
+} else {
+    echo 'You searced for ' . htmlspecialchars($term) . '&#60;br&#62;';
+    for ($i = 0; $i &#60; $num_hosts; $i++) {
+        $id[] = yaz_connect($host[$i]);
+        yaz_syntax($id[$i],"sutrs");
+        yaz_search($id[$i],"rpn",$term);
+    }
+    yaz_wait();
+    for ($i = 0; $i &#60; $num_hosts; $i++) {
+        echo '&#60;hr&#62;' . $host[$i] . ":";
+        $error = yaz_error($id[$i]);
+        if (!empty($error)) {
+            echo "Error: $error";
+        } else {
+            $hits = yaz_hits($id[$i]);
+            echo "Result Count $hits";
+        }
+        echo '&#60;dl&#62;';
+        for ($p = 1; $p &#60;= 10; $p++) {
+            $rec = yaz_record($id[$i],$p,"string");
+            if (empty($rec)) continue;
+            echo "&#60;dt&#62;&#60;b&#62;$p&#60;/b&#62;&#60;/dt&#62;&#60;dd&#62;";
+            echo ereg_replace("\n", "&#60;br&#62;\n",$rec);
+            echo "&#60;/dd&#62;";
+        }
+        echo '&#60;/dl&#62;';
+    }
+}</PRE></TD></TR></TABLE></TD></TR></TABLE><DL><DT><B>Содержание</B></DT>
+<DT><A HREF="yaz-addinfo.html">yaz_addinfo</A> - возвращает дополнительную информацию об ошибке</DT>
+<DT><A HREF="yaz-ccl-conf.html">yaz_ccl_conf</A> - конфигурирует CCL-разборщик</DT>
+<DT><A HREF="yaz-ccl-parse.html">yaz_ccl_parse</A> - вызывает CCL-разборщик</DT>
+<DT><A HREF="yaz-close.html">yaz_close</A> - закрывает YAZ-соединение</DT>
+<DT><A HREF="yaz-connect.html">yaz_connect</A> - готовит соединение и Z-ассоциацию для Z39.50 target</DT>
+<DT><A HREF="yaz-database.html">yaz_database</A> - специфицирует БД в сессии</DT>
+<DT><A HREF="yaz-element.html">yaz_element</A> -  специфицирует Element-Set Name для получения</DT>
+<DT><A HREF="yaz-errno.html">yaz_errno</A> - возвращает номер ошибки</DT>
+<DT><A HREF="yaz-error.html">yaz_error</A> - возвращает описание ошибки</DT>
+<DT><A HREF="yaz-hits.html">yaz_hits</A> - возвращает количество попаданий в последнем поиске</DT>
+<DT><A HREF="yaz-itemorder.html">yaz_itemorder</A> - готовит Z39.50 Item Order с пакетом ILL-Request</DT>
+<DT><A HREF="yaz-present.html">yaz_present</A> - готовит к получению (Z39.50 имеется)</DT>
+<DT><A HREF="yaz-range.html">yaz_range</A> - специфицирует максимальное количество записей для получения</DT>
+<DT><A HREF="yaz-record.html">yaz_record</A> - возвращает запись</DT>
+<DT><A HREF="yaz-scan-result.html">yaz_scan_result</A> - возвращает результат Scan Response</DT>
+<DT><A HREF="yaz-scan.html">yaz_scan</A> - готовит к сканированию</DT>
+<DT><A HREF="yaz-search.html">yaz_search</A> - готовит к поиску</DT>
+<DT><A HREF="yaz-sort.html">yaz_sort</A> - устанавливает критерий сортировки</DT>
+<DT><A HREF="yaz-syntax.html">yaz_syntax</A> - специфицирует предпочтительный синтаксис записи для получения</DT>
+<DT><A HREF="yaz-wait.html">yaz_wait</A> - ждёт запросы Z39.50 для выполнения</DT>
+</DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="xslt-set-scheme-handlers.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="yaz-addinfo.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">xslt_set_scheme_handlers</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">yaz_addinfo</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

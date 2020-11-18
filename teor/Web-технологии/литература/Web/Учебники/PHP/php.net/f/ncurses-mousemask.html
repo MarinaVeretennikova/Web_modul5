@@ -1,0 +1,43 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>ncurses_mousemask</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ncurses-mouseinterval.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="ncurses-move.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.ncurses-mousemask">ncurses_mousemask</A></H1><A NAME="AEN54819"></A><P>(PHP 4 &#62;= 4.2.0)</P>
+<p>ncurses_mousemask - устанавливает опции мыши.<A NAME="AEN54822"></A></p><H2>Описание</H2>
+<p>int <B>ncurses_mousemask</B> (int newmask, int oldmask)</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>Эта функция - ЭКСПЕРИМЕНТАЛЬНАЯ. Поведение, имя и всё остальное, что задокументировано для данной функции может быть изменено в будущих релизах РНР без предупреждения. Вы можете использовать эту функцию только на свой страх и риск.
+</P></TD></TR></TABLE><P>Функция <B>ncurses_mousemask()</B> установит события мыши, о которых сообщается. По умолчанию о событиях мыши не 
+сообщается. Функция <B>ncurses_mousemask()</B> возвращает маску, указывающую, о каких из событий в параметре 
+<TT><I>newmask</I></TT> можно сообщать. При полном обломе возвращает 0. В параметре <TT><I>oldmask</I></TT>, который передаётся по ссылке,
+<B>ncurses_mousemask()</B> возвращает предыдущее значение маски событий мыши. События мыши представлены NCURSES_KEY_MOUSE в потоке ввода
+<B>ncurses_wgetch()</B>. Для чтения событий мыши и выталкивания событий из очереди вызывайте
+<A HREF="ncurses-getmouse.html"><B>ncurses_getmouse()</B></A>.</P><P>Как побочный эффект, установка 0 маски мыши в
+<TT><I>newmask</I></TT> отключает указатель мыши. Установка ненулевого значения включает указатель 
+мыши.</P><P>Опции маски мыши можно устанавливать со следующими предопределёнными константами:
+<UL><LI><P>NCURSES_BUTTON1_PRESSED</P></LI><LI><P>NCURSES_BUTTON1_RELEASED</P></LI><LI><P>NCURSES_BUTTON1_CLICKED</P></LI>
+<LI><P>NCURSES_BUTTON1_DOUBLE_CLICKED</P></LI><LI><P>NCURSES_BUTTON1_TRIPLE_CLICKED</P></LI><LI><P>NCURSES_BUTTON2_PRESSED</P>
+</LI><LI><P>NCURSES_BUTTON2_RELEASED</P></LI><LI><P>NCURSES_BUTTON2_CLICKED</P></LI><LI><P>NCURSES_BUTTON2_DOUBLE_CLICKED</P>
+</LI><LI><P>NCURSES_BUTTON2_TRIPLE_CLICKED</P></LI><LI><P>NCURSES_BUTTON3_PRESSED</P></LI>
+<LI><P>NCURSES_BUTTON3_RELEASED</P></LI><LI><P>NCURSES_BUTTON3_CLICKED</P></LI>
+<LI><P>NCURSES_BUTTON3_DOUBLE_CLICKED</P></LI><LI><P>NCURSES_BUTTON3_TRIPLE_CLICKED</P></LI>
+<LI><P>NCURSES_BUTTON4_PRESSED</P></LI><LI><P>NCURSES_BUTTON4_RELEASED</P></LI>
+<LI><P>NCURSES_BUTTON4_CLICKED</P></LI><LI><P>NCURSES_BUTTON4_DOUBLE_CLICKED</P></LI>
+<LI><P>NCURSES_BUTTON4_TRIPLE_CLICKED</P></LI><LI><P>NCURSES_BUTTON_SHIFT</P></LI>
+<LI><P>NCURSES_BUTTON_CTRL</P></LI><LI><P>NCURSES_BUTTON_ALT</P></LI>
+<LI><P>NCURSES_ALL_MOUSE_EVENTS</P></LI><LI><P>NCURSES_REPORT_MOUSE_POSITION</P></LI></UL>
+<P>См. также <A HREF="ncurses-getmouse.html"><B>ncurses_getmouse()</B></A>,
+<A HREF="ncurses-ungetmouse.html"><B>ncurses_ungetmouse()</B></A>
+<B>ncurese_getch()</B>.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN54903"></A>
+<h5>Пример 1. ncurses_mousemask()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>$newmask = NCURSES_BUTTON1_CLICKED + NCURSES_BUTTON1_RELEASED;
+$mask = ncurses_mousemask($newmask, &#38;$oldmask);
+if ($mask &#38; $newmask){
+  printf ("All specified mouse options will be supported\n");
+}</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ncurses-mouseinterval.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ncurses-move.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ncurses_mouseinterval</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.ncurses.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ncurses_move</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

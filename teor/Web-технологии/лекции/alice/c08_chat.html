@@ -1,0 +1,292 @@
+<html>
+<title>Чат</title>
+<meta name=keywords content="">
+<meta name=description content="">
+
+<body>
+
+<table align=center width=90%>
+<tr><td>
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c08_pers.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c08_pers.html">Упражнение: Персонализация веб-сайта</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c08_vote.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c08_vote.html">Упражнение: Опросник</a>
+</table>
+
+<h3>Чат</h3></a>
+<p align="justify">
+Теперь рассмотрим функции работы с параметрами на стороне сервера, на примере двух программ
+для реализации чата. Функции, которые пишут информацию непосредственно на сервер,
+используется очень редко. Здесь мы рассматриваем программу чата, как учебный пример, чтобы 
+продемонстрировать функции чтения параметров. Почему это учебный пример и как правильно
+написать чат см. главу Часть IV "Базы данных".
+Основное назначение группы этих функций, именно читать информацию из конфигурационного
+файла на сервере, а также работать с параметрами, которые сохраняются в базе данных.
+<br>
+Чат представляет из себя три html-файла, одну программу, которая показывает
+последние 20 сообщений и одну программу, которая добавляет сообщения.
+В действие чат смотрите <a href="javascript:if(confirm('http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/chat.html  \n\nThis file was not retrieved by Teleport Pro, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/chat.html'" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/chat.html">chat.html</a>.
+
+<table width="100%" bgcolor="#E5E5E5">
+<tr><td>
+<pre>
+Код главной html-страницы чата выглядит следующим образом:
+
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Chat&lt;/title&gt;
+&lt;/head&gt;
+&lt;frameset rows="90%, 10%"&gt;
+  &lt;frame src="chat_show.html"&gt;
+  &lt;frame src="chat_add.html"&gt;
+&lt;/frameset&gt;
+&lt;/html&gt;
+Страница состоит из двух фреймов. 
+В верхнем отображаются сообщения. 
+В нижнем их можно добавлять.
+
+
+
+Показ сообщений - chat_show.html, обновляется каждые 30 секунд.
+&lt;html&gt;
+&lt;meta http-equiv="refresh" content="30; url=chat_show.html"&gt; 
+&lt;body&gt;
+&lt;!--#include virtual="/cgi-bin/chat"--&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+Добавление сообщения - chat_add.html
+&lt;html&gt;
+&lt;body&gt;
+&lt;form method=post action=/cgi-bin/chat_add&gt;
+Имя:&lt;input type=text name=name maxlenght=10 size=10&gt; 
+Сообщение:&lt;input type=text name=msg maxlenght=80 size=50&gt;
+&lt;input type=submit&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</table>
+
+
+Чат устроен предельно просто. На сервере имеется 20 параметров с именами 0, 1, 2, 3 и т.д.
+Значение каждого параметра есть некоторое сообщение чата. Когда добавляется новое сообщение, то
+20-е сообщение исчезает, его место занимает 19-е, на место 19-го становится 18-е и т.д.,
+на место нулевого - новое сообщение.
+Программа для вывода текущих сообщений выглядит следующим образом.
+
+<table width="100%" bgcolor="#E5E5E5">
+<tr><td>
+<pre>
+#include &lt;itcgi.h&gt;
+
+
+int main()
+{
+LString* str = CreateString();
+char buf[128];
+int i;
+
+printf("Content-type: text/html\n\n");  
+
+// в цикле читаем параметры на стороне сервера
+for(i=0;i&lt;20;i++)
+{
+ sprintf(buf, "%d", i); 
+ //следующая функция читает из конфигурационного файла
+ // из секции chat i-й параметр 
+ GetRCParam(0, "chat", buf, str);
+ printf("%s&lt;br&gt;\n", *str);
+}
+
+
+DeleteString(str);
+return 0;
+}
+
+=======Makefile======
+
+all: chat 
+
+
+chat: chat.c itcgi.a
+        gcc chat.c -L/usr/local/lib/mysql -I/usr/local/include/mysql \
+-L/usr/local/lib -I/usr/local/include \
+-o chat -lmysqlclient /usr/lib/itcgi.a -Wall -O3 
+        strip chat 
+        cp chat /www/members/cgi-bin/chat
+
+
+
+
+//программа добавления сообщения в чат
+//
+//
+#include &lt;itcgi.h&gt;
+
+
+
+
+int main()
+{
+LString* name = CreateString(); 
+LString* msg = CreateString();
+LString* str = CreateString();
+char buf[128];
+int i;
+
+// Считываем имя автора и само сообщение
+GetParamByName("name", name);
+GetParamByName("msg", msg);
+
+// в цикле переписываем значения параметров
+// i-й параметр принимает значение (i-1)-го параметра
+//
+for(i=20;i&gt;1;i--)
+{
+ sprintf(buf, "%d", i-2);       
+ GetRCParam(0, "chat", buf, str);
+ sprintf(buf, "%d", i-1);       
+ SetRCParam(0, "chat", buf, *str);
+}
+
+// на место 0-го параметра ставим только что полученное сообщение
+sprintf(buf, "%s: %s", *name, *msg);
+SetRCParam(0, "chat", "0", buf);
+
+// возвращаемся на страницу, с которой была вызвана
+// эта программа
+printf("Location: %s\n\n", getenv("HTTP_REFERER"));
+
+DeleteString(name);
+DeleteString(msg);
+DeleteString(str);
+return 0;
+}
+
+======Makefile======
+
+all: chat_add 
+
+
+chat_add: chat_add.c itcgi.a
+        gcc chat_add.c -L/usr/local/lib/mysql -I/usr/local/include/mysql \
+        -L/usr/local/lib -I/usr/local/include \
+-o chat_add -lmysqlclient /usr/lib/itcgi.a -Wall -O3 
+        strip chat_add
+        cp chat_add /www/members/cgi-bin/chat_add
+
+</table>
+
+
+
+
+</td></tr>
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #1 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=0-590" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=0?590" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=0'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69019-bn=0-590" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=0?590"
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #2 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=1?Rnd_Num" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=1'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=1?Rnd_Num" 
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="erle.cgi-51599-590" tppabs="http://www.linkexchange.ru/cgi-bin/erle.cgi?51599?590" frameborder=0 
+    vspace=0 hspace=0 width=468 height=60 marginwidth=0 marginheight=0 scrolling=no>
+    <a href="javascript:if(confirm('http://www.linkexchange.ru/users/goto.map  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://www.linkexchange.ru/users/goto.map'" tppabs="http://www.linkexchange.ru/users/goto.map" target=_top>
+    <img src="rle.cgi-51599-590" tppabs="http://www.linkexchange.ru/cgi-bin/rle.cgi?51599?590" alt="RLE Banner Network" border=0 height=60 width=468></a>
+    </iframe>
+
+<!-- Russian LinkExchange code START - BANNER #1 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=0-590" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=0?590"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=0'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69021-bn=0-590" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=0?590"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+<!-- Russian LinkExchange code START - BANNER #2 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=1-590" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=1?590"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=1'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69021-bn=1-590" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=1?590"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+</td></tr>
+</table>
+
+</body>
+</html>

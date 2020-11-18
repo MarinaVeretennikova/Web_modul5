@@ -1,0 +1,44 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>addcslashes</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="ref.strings.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="addslashes.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.addcslashes">addcslashes</A></H1><A NAME="AEN76926"></A><P>(PHP 4)</P>
+<p>addcslashes - мнемонизирует строку слэшами в стиле C.<A NAME="AEN76929"></A>
+<H2>Описание</H2>string <B>addcslashes</B> (string str, string charlist)<P>Возвращает строку с обратными слэшами перед теми символами, которые 
+перечислены в параметре <TT><I>charlist</I></TT>. Мнемонизирует/escape <TT>\n</TT>, <TT>\r</TT> 
+и др. в C-подобном стиле, символы с ASCII-кодом меньше 32 и выше
+126 конвертируются в восьмеричное представление.</P>
+<P>Будьте внимательны, если хотите мнемонизировать символы 0, a, b, f, n, r, 
+t и v. Они будут конвертированы в \0, \a, \b, \f, \n, \r, \t и \v. 
+В PHP только \0 (<TT><B>NULL</B></TT>), \r (carriage return/возврат каретки), \n (newline/новая строка) и \t (tab/табуляция) 
+являются предопределёнными escape-последовательностями, в то время как в C также 
+и все прочие являются предопределёнными escape-последовательностями.</P>
+<P><TT><I>charlist</I></TT> вроде "\0..\31&quot; будет
+мнемонизировать все символы с ASCII-кодами в диапазоне от 0 до 31.<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN76948"></A><h5>Пример 1. addcslashes()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$escaped = addcslashes($not_escaped, "\0..\37!@\177..\377");</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Когда вы определяете последовательность символов в аргументе charlist, 
+удостоверьтесь, какие символы идут между символами, которые вы установили в начале и в конце диапазона.
+<A NAME="AEN76953"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>echo addcslashes('foo[ ]', 'A..z');
+// вывод:  \f\o\o\[ \]
+// Все буквы в нижнем и верхнем регистрах (диапазона) будут мнемонизированы
+// ... кроме [\]^_` и любых tabs, line feeds, carriage returns, etc.</PRE></TD></TR></TABLE>
+<p>Также, если первый символ диапазона имеет меньшее ASCII-значение, чем второй 
+символ диапазона, диапазон не будет сконструирован. Будут только мнемонизированы начальный, конечный символы и тире. Используйте функцию
+<A HREF="ord.html"><B>ord()</B></A> для определения ASCII-значения символа.</p>
+<A NAME="AEN76956"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>echo addcslashes("zoo['.']", 'z..A');
+// вывод:  \zoo['\.']</PRE></TD></TR></TABLE><P>См. также <A HREF="stripcslashes.html">
+<B>stripcslashes()</B></A>, <A HREF="stripslashes.html"><B>stripslashes()</B></A>, 
+<A HREF="htmlspecialchars.html"><B>htmlspecialchars()</B></A> и
+<A HREF="quotemeta.html"><B>quotemeta()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ref.strings.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="addslashes.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Строковые функции</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.strings.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">addslashes</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

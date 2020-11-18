@@ -1,0 +1,42 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>DomNode-&#62;insert_before</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="domnode-has-child-nodes.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="domnode-is-blank-node.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.DomNode-insert-before">DomNode-&#62;insert_before</A></H1><A NAME="AEN20428"></A>
+<P>(unknown)</P>  <p>DomNode-&#62;insert_before - вставляет новый узел как потомок.<A NAME="AEN20431"></A></p>
+<H2>Описание</H2><p>object <B>DomNode-&#62;insert_before</B> (object newnode, object refnode)</p>
+<P>Эта функция вставляет новый узел <TT><I>newnode</I></TT> непосредственно перед узлом <TT><I>refnode</I></TT>. Возвращаемое значение это вставленный узел. Если вы планируете модифицировать
+присоединённого потомка, вы обязаны использовать возвращённый узел.</P>
+<P><A HREF="domnode-insert-before.html"><B>DomNode_insert_before()</B></A> очень напоминает
+<A HREF="domnode-append-child.html"><B>DomNode_append_child()</B></A>, как видно из следующего примера, где делается то же самое, что и в примере для
+<A HREF="domnode-append-child.html"><B>DomNode_append_child()</B></A>.</P><TABLE WIDTH="100%" BORDER="0"><TR>
+<TD><A NAME="AEN20450"></A><h5>Пример 1. Добавление потомка</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>include("example.inc");
+
+if(!$dom = domxml_open_mem($xmlstr)) {
+  echo "Error while parsing the document\n";
+  exit;
+}
+
+$elements = $dom-&#62;get_elements_by_tagname("informaltable");
+print_r($elements);
+$element = $elements[0];
+
+$newnode = $element-&#62;insert_before($element, $element);
+$children = $newnode-&#62;children();
+$attr = $children[1]-&#62;set_attribute("align", "left");
+
+echo "&#60;PRE&#62;";
+$xmlfile = $dom-&#62;dump_mem();
+echo htmlentities($xmlfile);
+echo "&#60;/PRE&#62;";</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также
+<A HREF="domnode-append-child.html"><B>DomNode_append_child()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="domnode-has-child-nodes.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A ></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="domnode-is-blank-node.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">DomNode-&#62;has_child_nodes</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.domxml.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">DomNode-&#62;is_blank_node</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

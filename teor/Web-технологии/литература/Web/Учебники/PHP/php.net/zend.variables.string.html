@@ -1,0 +1,54 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Строки</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="zend.variables.float.html">Назад</A></TD><th WIDTH="80%">Глава 34. Создание Переменных</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="zend.variables.boolean.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="zend.variables.string">Строки</a></H1>
+<P>Для работы со строками потребуется несколько больше усилий. Как указывалось 
+ранее, все строки, которые будут ассоциированы с структурами внутренних данных 
+Zend, должны быть ассоциированы с использованием собственных функций 
+менеджмента памяти Zend. Ссылки на статические строки или строки, размещённые 
+стандартными способами, не допускаются. Для присвоения строк вы должны получить доступ к структуре
+<TT>str</TT> в контейнере <TT>zval.value</TT>. Соответствующий тип это <TT>IS_STRING</TT>:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>zval *new_string;
+char *string_contents = "This is a new string variable";
+
+MAKE_STD_ZVAL(new_string);
+
+new_string-&#62;type = IS_STRING;
+new_string-&#62;value.str.len = strlen(string_contents);
+new_string-&#62;value.str.val = estrdup(string_contents);</PRE></TD></TR></TABLE>
+<p>Обратите внимание на использование <B>estrdup()</B> Zend'а.
+Конечно, вы можете также использовать предопределённый макрос <TT>ZVAL_STRING</TT>:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>zval *new_string;
+char *string_contents = "This is a new string variable";
+
+MAKE_STD_ZVAL(new_string);
+ZVAL_STRING(new_string, string_contents, 1);</PRE></TD></TR></TABLE>
+<p><TT>ZVAL_STRING</TT> принимает третий параметр, который указывает, должно ли содержимое строки 
+дублироваться (с использованием <B>estrdup()</B>). Установка этого параметра <TT>1</TT> вызывает дублирование строки;
+<TT>0</TT> просто использует предоставляемый указатель на содержимое переменной. Этот 
+особенно применимо, если вы хотите создать новую переменную, ссылающуюся на 
+строку, которая уже размещена во внутренней памяти Zend.</p>
+<P>Если вы хотите отсечь стоку, начиная с определённой позиции, или уже знаете её 
+длину, вы можете использовать <TT>ZVAL_STRINGL(zval, string, length, duplicate)</TT>, который принимает длину строки как установленную для новой строки. Этот 
+макрос быстрее, чем <TT>ZVAL_STRING</TT>, и работает безопасно в двоичном режиме.</P>
+<P>Для создания пустых строк установите длину строки <TT>0</TT> и используйте <TT>empty_string</TT> как содержимое:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>new_string-&#62;type = IS_STRING;
+new_string-&#62;value.str.len = 0;
+new_string-&#62;value.str.val = empty_string;</PRE></TD></TR></TABLE>
+<p>Конечно, для этого также имеется макрос (<TT>ZVAL_EMPTY_STRING</TT>):</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>MAKE_STD_ZVAL(new_string);
+ZVAL_EMPTY_STRING(new_string);</PRE></TD></TR></TABLE></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="zend.variables.float.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="zend.variables.boolean.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Double 
+    (Float)</TD>
+<th WIDTH="34%" VALIGN="top"><a href="zend.variables.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Булевы</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

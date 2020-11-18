@@ -1,0 +1,58 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>Протокол Отладчика</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR>
+<TR><TD WIDTH="10%"><AHREF="debugger-using.html">Назад</A></TD>
+<th WIDTH="80%">Приложение D. Отладка PHP</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="phpdevel.html">Вперёд</A></TD></TR></TABLE></TD></TR>
+<TR BGCOLOR="#333366"><TD><IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE>
+</TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD>
+<TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%"><H1><a name="debugger-protocol">Протокол Отладчика</a></H1>
+<P>Протокол отладчика PHP 3 имеет построчную базу. Каждая строка имеет <i>тип</i>, несколько строк образуют
+<I>сообщение\message</I>. Каждое сообщение стартует со строки типа <TT>start</TT> и заканчивается строкой
+типа <TT>end</TT>. PHP 3 может посылать одновременно строки нескольких сообщений.</P>
+<P>Вот формат строки:<A NAME="AEN88739"></A><P><TT><I>date</I></TT> <TT><I>time</I></TT><br>
+<TT><I>host</I></TT>(<TT><I>pid</I></TT>)<br><TT><I>type</I></TT>:<br><TT><I>message-data</I></TT></P>
+<DL><DT><TT><I>date</I></TT></DT><DD><P>Дата в формате ISO 8601 (<TT><I>yyyy</I></TT>-<TT><I>mm</I></TT>-<TT><I>dd</I></TT>)</P></DD><DT><TT><I>time</I></TT></DT><DD><P>Время, включая миллисекунды:
+<TT><I>hh</I></TT>:<TT><I>mm</I></TT>:<TT><I>uuuuuu</I></TT></P></DD><DT><TT><I>host</I></TT></DT><DD>
+<P>DNS-имя или IP-адрес хоста, на котором была сгенерирована ошибка скрипта.</P></DD><DT><TT><I>pid</I></TT>
+</DT><DD><P>PID (process id) на <TT><I>host</I></TT> процесса скрипта PHP 3, сгенерировавшего данную ошибку.</P>
+</DD><DT><TT><I>type</I></TT></DT><DD><P>Тип строки. Сообщает принимающей программе о том, что следующие данные нужно 
+рассматривать как:<A NAME="AEN88780"></A><h6>Таблица D-1. Типы Строк Отладчика</h6>
+<TABLE BORDER="1"><TR><TH >Имя</TH><TH >Значение</TH></TR>
+<TR><TD ><TT>start</TT></TD><TD >Сообщает принимающей программе, что
+здесь начинается сообщение отладчика. Содержимое <TT><I>data</I></TT> будет типом сообщения об ошибке (перечислены ниже).</TD></TR><TR><TD ><TT>message</TT></TD>
+<TD >Сообщение об ошибке PHP 3.</TD></TR><TR><TD ><TT>location</TT></TD>
+<TD >Имя файла и номер строки, где возникла ошибка. Первая строка <TT>location</TT>
+всегда содержит location верхнего уровня. <TT><I>data</I></TT> будет содержать <TT><I>file</I>:<TT><I>line</I></TT></TT>. Всегда будут строка <TT>location</TT> после <TT>message</TT> и после каждой
+<TT>function</TT>.</TD></TR><TR><TD > <TT>frames</TT></TD><TD >Количество
+фрэймов в следующем дампе/dump стэка. Если имеются 4 фрэйма,
+ожидается информация о 4 уровнях вызываемых функций.
+Если строка "frames" отсутствует, должна приниматься глубина 0 (ошибка возникла на верхнем уровне).</TD></TR>
+<TR><TD > <TT>function</TT></TD><TD >Имя функции, в которой возникла
+ошибка. Однократно повторяется для каждого уровня стэка вызова функций.</TD></TR><TR>
+<TD ><TT>end</TT></TD><TD > Сообщает принимающей программе, что здесь
+заканчивается сообщение отладчика.</TD></TR></TABLE></DD><DT><TT><I>data</I></TT></DT>
+<DD><P>Данные строчки.</P></DD></DL><A NAME="AEN88826"></A><h6>Таблица D-2. Типы Ошибок Отладчика</h6>
+<div align="center"><center><TABLE BORDER="1"><TR><TH >Отладчик</TH><TH >Внутренний PHP 3</TH></TR>
+<TR><TD >warning</TD><TD >E_WARNING</TD></TR><TR><TD >error</TD><TD >E_ERROR</TD></TR><TR><TD >parse</TD>
+<TD >E_PARSE</TD></TR><TR><TD >notice</TD><TD >E_NOTICE</TD></TR><TR><TD >core-error</TD><TD >E_CORE_ERROR</TD></TR><TR>
+<TD >core-warning</TD><TD >E_CORE_WARNING</TD></TR><TR><TD >unknown</TD><TD >(любое другое)</TD></TR></TABLE></center></div>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN88868"></A><h5>Пример D-1. Пример сообщения Отладчика</h5>
+<P>1998-04-05&nbsp;23:27:400966&nbsp;lucifer.guardian.no(20481)&nbsp;start:&nbsp;notice<br>
+1998-04-05&nbsp;23:27:400966&nbsp;lucifer.guardian.no(20481)&nbsp;message:&nbsp;Uninitialized&nbsp;variable<br>
+1998-04-05&nbsp;23:27:400966&nbsp;lucifer.guardian.no(20481)&nbsp;location:&nbsp;(<TT><B>NULL</B></TT>):7<br>
+1998-04-05&nbsp;23:27:400966&nbsp;lucifer.guardian.no(20481)&nbsp;frames:&nbsp;1<br>
+1998-04-05&nbsp;23:27:400966&nbsp;lucifer.guardian.no(20481)&nbsp;function:&nbsp;display<br>
+1998-04-05&nbsp;23:27:400966&nbsp;lucifer.guardian.no(20481)&nbsp;location:&nbsp;/home/ssb/public_html/test.php3:10<br>
+1998-04-05&nbsp;23:27:400966&nbsp;lucifer.guardian.no(20481)&nbsp;end:&nbsp;notice&nbsp;</P></TD></TR></TABLE>
+</P></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="debugger-using.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="phpdevel.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">Использование Отладчика</TD><th WIDTH="34%" VALIGN="top">
+<a href="debugger.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Расширение PHP</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

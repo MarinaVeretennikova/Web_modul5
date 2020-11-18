@@ -1,0 +1,375 @@
+<html>
+<title>Взаимодействие через ODBC c MS Access</title>
+<meta name=keywords content="ODBC MS Access SQL Visual C C++ MFC CDatabase CRecordset CGI">
+
+<body>
+<table align=center width=90%>
+<tr><td>
+
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c11_intro.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c11_intro.html">Введение в ODBC</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c11_add.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c11_add.html">Добавляем сообщения в базу</a>
+</table>
+
+
+
+<h3>Взаимодействие через ODBC c MS Access</h3>
+<p align="justify">
+В этом параграфе мы рассмотрим создание гостевой книги на основе СУБД MS Access
+и приложения на языке Си, разработанного в среде MS Visual C++ 6.0. 
+У вас должен быть запущен и настроен веб-сервер Apache, и работать веб-сайт
+с директорией /cgi-bin (см. 6 главу), также вам необходимо иметь MS Visual Studio 6.0 и библиотеку
+itcgi под windows, которую вы можете взять на нашем сайте http://itsoft.ru/. Библиотека itcgi
+представляет из себя два заголовочных файла - itcgi.h и lstring.h, которые необходимо скопировать
+в директорию C:\Program Files\Microsoft Visual Studio\VC98\Include и файла itcgi.lib, который
+необходимо положить в директорию C:\Program Files\Microsoft Visual Studio\VC98\Lib.
+Прежде, чем приступить
+к созданию базы данных и программированию, давайте создадим HTML-форму добавления сообщения в гостевую 
+книгу, а также шаблон для вывода сообщений из гостевой книги. Для добавления
+сообщений в гостевую книгу мы будем использовать следующую HTML-форму.
+
+<form method=post action="http://alice.stup.ac.ru/cgi-bin/gbadd">
+<input type="hidden" name="dsn" value="gb">
+<table>
+<tr><td width=20%>
+Ваше имя:
+</td><td width=80%>
+<input type="text" name="name" size="60" MAXLENGTH="80" >
+</td></tr>
+<tr><td width=20%>
+Email:
+</td><td width=80%>
+<input type="text" name="email" size="60" MAXLENGTH="80" ><br>
+</td></tr>
+<tr><td width=20%>
+http://
+</td><td width=80%>
+<input type="text" name="http" size="60" MAXLENGTH="80" ><br>
+</td></tr>
+<tr><td width=20%>
+Тема сообщения:
+</td><td width=80%>
+<input type="text" name="subj" size="60" MAXLENGTH="80" ><br>
+</td></tr>
+<tr><td width=100% colspan=2>
+<textarea name="it_text" wrap cols="66" rows="7" MAXLENGTH="1024"></textarea><br>
+<input type=radio checked name="smile" value="/images/smiles/icon1.gif"><img src="icon1-1.gif" tppabs="http://alice.stup.ac.ru/images/smiles/icon1.gif">
+<input type=radio name="smile" value="/images/smiles/icon2.gif"><img src="icon2-1.gif" tppabs="http://alice.stup.ac.ru/images/smiles/icon2.gif">
+<input type=radio name="smile" value="/images/smiles/icon3.gif"><img src="icon3-1.gif" tppabs="http://alice.stup.ac.ru/images/smiles/icon3.gif">
+<input type=radio name="smile" value="/images/smiles/icon4.gif"><img src="icon4-1.gif" tppabs="http://alice.stup.ac.ru/images/smiles/icon4.gif">
+<input type=radio name="smile" value="/images/smiles/icon5.gif"><img src="icon5-1.gif" tppabs="http://alice.stup.ac.ru/images/smiles/icon5.gif">
+<input type=radio name="smile" value="/images/smiles/icon6.gif"><img src="icon6-1.gif" tppabs="http://alice.stup.ac.ru/images/smiles/icon6.gif">
+<input type=radio name="smile" value="/images/smiles/icon7.gif"><img src="icon7-1.gif" tppabs="http://alice.stup.ac.ru/images/smiles/icon7.gif">
+<input type=radio name="smile" value="/images/smiles/icon8.gif"><img src="icon8-1.gif" tppabs="http://alice.stup.ac.ru/images/smiles/icon8.gif">
+<input type=radio name="smile" value="/images/smiles/icon9.gif"><img src="icon9-1.gif" tppabs="http://alice.stup.ac.ru/images/smiles/icon9.gif">
+<input type=radio name="smile" value="/images/smiles/icon10.gif"><img src="icon10-1.gif" tppabs="http://alice.stup.ac.ru/images/smiles/icon10.gif">
+<br>
+<input type=radio name="smile" value="/images/smiles/icon11.gif"><img src="icon11-1.gif" tppabs="http://alice.stup.ac.ru/images/smiles/icon11.gif">
+<input type=radio name="smile" value="/images/smiles/icon12.gif"><img src="icon12-1.gif" tppabs="http://alice.stup.ac.ru/images/smiles/icon12.gif">
+<input type=radio name="smile" value="/images/smiles/icon13.gif"><img src="icon13-1.gif" tppabs="http://alice.stup.ac.ru/images/smiles/icon13.gif">
+<input type=radio name="smile" value="/images/smiles/icon14.gif"><img src="icon14-1.gif" tppabs="http://alice.stup.ac.ru/images/smiles/icon14.gif">
+<input type=radio name="smile" value="/images/smiles/icon15.gif"><img src="icon15-1.gif" tppabs="http://alice.stup.ac.ru/images/smiles/icon15.gif">
+<input type=radio name="smile" value="/images/smiles/icon16.gif"><img src="icon16-1.gif" tppabs="http://alice.stup.ac.ru/images/smiles/icon16.gif">
+<input type=radio name="smile" value="/images/smiles/icon17.gif"><img src="icon17-1.gif" tppabs="http://alice.stup.ac.ru/images/smiles/icon17.gif">
+<input type=radio name="smile" value="/images/smiles/icon18.gif"><img src="icon18-1.gif" tppabs="http://alice.stup.ac.ru/images/smiles/icon18.gif">
+<input type=radio name="smile" value="/images/smiles/icon19.gif"><img src="icon19-1.gif" tppabs="http://alice.stup.ac.ru/images/smiles/icon19.gif">
+<input type=radio name="smile" value="/images/smiles/icon20.gif"><img src="icon20-1.gif" tppabs="http://alice.stup.ac.ru/images/smiles/icon20.gif">
+<br>
+<br><center>
+<input type="submit" value="Опубликовать">
+</center>
+</td></tr></table>
+</form>
+
+Ниже приведен ее HTML-код:
+<pre>
+&lt;form method=post action="/cgi-bin/gbadd"&gt;
+&lt;input type="hidden" name="dsn" value="gb"&gt;
+&lt;table&gt;
+&lt;tr&gt;&lt;td width=20%&gt;
+Ваше имя:
+&lt;/td&gt;&lt;td width=80%&gt;
+&lt;input type="text" name="name" size="60" MAXLENGTH="80" &gt;
+&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td width=20%&gt;
+Email:
+&lt;/td&gt;&lt;td width=80%&gt;
+&lt;input type="text" name="email" size="60" MAXLENGTH="80" &gt;&lt;br&gt;
+&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td width=20%&gt;
+http://
+&lt;/td&gt;&lt;td width=80%&gt;
+&lt;input type="text" name="http" size="60" MAXLENGTH="80" &gt;&lt;br&gt;
+&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td width=20%&gt;
+Тема сообщения:
+&lt;/td&gt;&lt;td width=80%&gt;
+&lt;input type="text" name="subj" size="60" MAXLENGTH="80" &gt;&lt;br&gt;
+&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td width=100% colspan=2&gt;
+&lt;textarea name="it_text" wrap cols="66" rows="7" MAXLENGTH="1024"&gt;&lt;/textarea&gt;&lt;br&gt;
+&lt;input type=radio checked name="smile" value="/images/smiles/icon1.gif"&gt;
+&lt;img src="/images/smiles/icon1.gif"&gt;
+&lt;input type=radio name="smile" value="/images/smiles/icon2.gif"&gt;
+&lt;img src="/images/smiles/icon2.gif"&gt;
+&lt;input type=radio name="smile" value="/images/smiles/icon3.gif"&gt;
+&lt;img src="/images/smiles/icon3.gif"&gt;
+&lt;input type=radio name="smile" value="/images/smiles/icon4.gif"&gt;
+&lt;img src="/images/smiles/icon4.gif"&gt;
+&lt;input type=radio name="smile" value="/images/smiles/icon5.gif"&gt;
+&lt;img src="/images/smiles/icon5.gif"&gt;
+&lt;input type=radio name="smile" value="/images/smiles/icon6.gif"&gt;
+&lt;img src="/images/smiles/icon6.gif"&gt;
+&lt;input type=radio name="smile" value="/images/smiles/icon7.gif"&gt;
+&lt;img src="/images/smiles/icon7.gif"&gt;
+&lt;input type=radio name="smile" value="/images/smiles/icon8.gif"&gt;
+&lt;img src="/images/smiles/icon8.gif"&gt;
+&lt;input type=radio name="smile" value="/images/smiles/icon9.gif"&gt;
+&lt;img src="/images/smiles/icon9.gif"&gt;
+&lt;input type=radio name="smile" value="/images/smiles/icon10.gif"&gt;
+&lt;img src="/images/smiles/icon10.gif"&gt;
+&lt;br&gt;
+&lt;input type=radio name="smile" value="/images/smiles/icon11.gif"&gt;
+&lt;img src="/images/smiles/icon11.gif"&gt;
+&lt;input type=radio name="smile" value="/images/smiles/icon12.gif"&gt;
+&lt;img src="/images/smiles/icon12.gif"&gt;
+&lt;input type=radio name="smile" value="/images/smiles/icon13.gif"&gt;
+&lt;img src="/images/smiles/icon13.gif"&gt;
+&lt;input type=radio name="smile" value="/images/smiles/icon14.gif"&gt;
+&lt;img src="/images/smiles/icon14.gif"&gt;
+&lt;input type=radio name="smile" value="/images/smiles/icon15.gif"&gt;
+&lt;img src="/images/smiles/icon15.gif"&gt;
+&lt;input type=radio name="smile" value="/images/smiles/icon16.gif"&gt;
+&lt;img src="/images/smiles/icon16.gif"&gt;
+&lt;input type=radio name="smile" value="/images/smiles/icon17.gif"&gt;
+&lt;img src="/images/smiles/icon17.gif"&gt;
+&lt;input type=radio name="smile" value="/images/smiles/icon18.gif"&gt;
+&lt;img src="/images/smiles/icon18.gif"&gt;
+&lt;input type=radio name="smile" value="/images/smiles/icon19.gif"&gt;
+&lt;img src="/images/smiles/icon19.gif"&gt;
+&lt;input type=radio name="smile" value="/images/smiles/icon20.gif"&gt;
+&lt;img src="/images/smiles/icon20.gif"&gt;
+&lt;br&gt;
+&lt;br&gt;&lt;center&gt;
+&lt;input type="submit" value="Опубликовать"&gt;
+&lt;/center&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/form&gt;
+</pre>
+
+Создайте директорию gb на вашем веб-сайте и в ней index.html, в котором и разместите 
+вышеприведенную HTML-форму.
+
+
+Каждое сообщение будет выведено в следующем шаблоне.
+<br><br>
+<table align="center" width="100%" bgcolor="#000000" cellspacing="1" cellpadding="2">
+<tr>
+    <td bgcolor="#EEEEEE"  width="85%"><img src="%%smile%%" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/%%smile%%"> %%subj%%
+    </td>
+</tr>
+
+<tr>
+   <td bgcolor="#FFFFFF">
+      <p align="justify">%%it_text%%
+      <div align="right">%%it_date%%<br>
+      <a href="mailto:%%email%%">%%name%%</a><br>
+      <a href="javascript:if(confirm('http://%%http%%/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://%%http%%/'" tppabs="http://%%http%%/" target="_parent">http://%%http%%</a>
+      </div>
+   </td>
+</tr>
+
+
+</table>
+
+<br><br><br><br>
+
+Вот его HTML-код:
+<pre>
+&lt;br&gt;&lt;br&gt;
+&lt;table align="center" width="100%" bgcolor="#000000" cellspacing="1" cellpadding="2"&gt;
+&lt;tr&gt;
+    &lt;td bgcolor="#EEEEEE"  width="85%"&gt;&lt;img src="%%smile%%"&gt; %%subj%%
+    &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+   &lt;td bgcolor="#FFFFFF"&gt;
+      &lt;p align="justify"&gt;%%it_text%%
+      &lt;div align="right"&gt;%%it_date%%&lt;br&gt;
+      &lt;a href="mailto:%%email%%"&gt;%%name%%&lt;/a&gt;&lt;br&gt;
+      &lt;a href="http://%%http%%" target="_parent"&gt;http://%%http%%&lt;/a&gt;
+      &lt;/div&gt;
+   &lt;/td&gt;
+&lt;/tr&gt;
+
+
+&lt;/table&gt;
+
+</pre>
+
+<p align="justify">
+Создайте в Access
+базу данных с именем gb - сокращение от guestbook, а в этой базе таблицу message. 
+
+<center>
+<img src="c12tbl0.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/c12tbl0.jpg">
+</center>
+Далее идет список полей таблицы.
+
+  <table border=1 cellspacing=0>
+  <tr><td>Название <td>Тип
+  <tr><td>subj <td> текстовый 64 символа
+  <tr><td>name <td>текстовый 32 символа
+  <tr><td>email <td>текстовый 64 символа
+  <tr><td>http <td>текстовый 32 символа
+  <tr><td>it_text <td>поле МЕМО
+  <tr><td>it_date <td>Дата/время
+  <tr><td>smile <td>текстовый 64 символа
+  <tr><td>id <td>счетчик, длинное целое, значения последовательные, совпадения не допускаются
+  <tr><td>ip <td>текстовый 16 символа
+  </table>
+
+В панели управления(меню Пуск->Настройки->Панель управления) выберите значок "Источники данных ODBC"
+и щелкните на нем дважды. У вас должно появиться следующее диалоговое окно.
+<center>
+<img src="c12odbc.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/c12odbc.jpg">
+</center>
+Перейдите на вкладку "Системный DSN".
+
+<center>
+<img src="c12dsn.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/c12dsn.jpg">
+</center>
+Нажмите кнопку "Добавить".
+
+<center>
+<img src="c12add.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/c12add.jpg">
+</center>
+<p align=justify>
+В появившемся диалоговом окне синим маркером должна выделяться запись 
+Microsoft Access Driver (*.mdb). Если это не так, то найдите такую запись и щелкните
+на ней мышкой. Затем нажмите кнопку "Готово". В появившемся диалоговом окне вам необходимо 
+указать "Имя источника данных" и нажать кнопку "Выбрать", чтобы указать саму базу данных.
+Имя источника данных задайте gb - сокращение от guestbook.
+В результате, это окно должно выглядеть примерно следующим образом.
+
+<center>
+<img src="c12drv.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/c12drv.jpg">
+</center>
+
+
+<p align=justify>
+В этом и следущем диалоговом окне нажмите кнопку "OK". Так вы создали DSN с помощью которого наши CGI-программы
+далее будут соединяться и работать с базой данных.
+
+
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #1 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=0-4056" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=0?4056" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=0'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69019-bn=0-4056" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=0?4056"
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #2 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=1?Rnd_Num" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=1'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=1?Rnd_Num" 
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="erle.cgi-51599-4056" tppabs="http://www.linkexchange.ru/cgi-bin/erle.cgi?51599?4056" frameborder=0 
+    vspace=0 hspace=0 width=468 height=60 marginwidth=0 marginheight=0 scrolling=no>
+    <a href="javascript:if(confirm('http://www.linkexchange.ru/users/goto.map  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://www.linkexchange.ru/users/goto.map'" tppabs="http://www.linkexchange.ru/users/goto.map" target=_top>
+    <img src="rle.cgi-51599-4056" tppabs="http://www.linkexchange.ru/cgi-bin/rle.cgi?51599?4056" alt="RLE Banner Network" border=0 height=60 width=468></a>
+    </iframe>
+
+<!-- Russian LinkExchange code START - BANNER #1 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=0-4056" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=0?4056"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=0'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69021-bn=0-4056" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=0?4056"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+<!-- Russian LinkExchange code START - BANNER #2 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=1-4056" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=1?4056"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=1'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69021-bn=1-4056" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=1?4056"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+</td></tr>
+</table>
+
+</body>
+</html>

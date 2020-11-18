@@ -1,0 +1,74 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>unset</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="unserialize.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="var-dump.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.unset">unset</A></H1><A NAME="AEN80937"></A><P>(unknown)</P>
+<p>unset - разустанавливает данную переменную.<A NAME="AEN80940"></A></p><H2>Описание</H2>
+<p>void <B>unset</B> (mixed var [, mixed var [, ...]])</p><BLOCKQUOTE><P><B>Примечание: </B>
+<B>unset()</B> это конструкция языка.</P></BLOCKQUOTE><P><B>unset()</B> разрушает специфицированные переменные. Заметьте, что в PHP 3
+<B>unset()</B> всегда возвращает <TT><B>TRUE</B></TT>(в действительности - integer значение 1). В PHP 4, однако,
+<B>unset()</B> это больше не true-функция: это теперь оператор. Поскольку никакое значение не 
+возвращается, попытка получить значение <B>unset()</B> даст ошибку разбора.</P><TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN80963"></A><h5>Пример 1. unset()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>// разрушить одну переменную
+unset ($foo);
+
+// разрушить один элемент массива
+unset ($bar['quux']);
+
+// разрушить более одной переменной
+unset ($foo1, $foo2, $foo3);</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Поведение <B>unset()</B> внутри функции может варьироваться в зависимости от тог, переменную какого 
+типы вы пытаетесь разрушить.</P><P>Если глобализированная переменная <B>unset()</B> внутри функции, то разрушается только локальная переменная.  Переменная в 
+вызывающем окружении останется с тем же значением, что и до вызова <B>unset()</B>.<A NAME="AEN80972"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>function destroy_foo() {
+    global $foo;
+    unset($foo);
+}
+
+$foo = 'bar';
+destroy_foo();
+echo $foo;</PRE></TD></TR></TABLE><p>Пример выведет:<A NAME="AEN80974"></A></p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>bar</PRE></TD></TR></TABLE><P>Если переменная, ПЕРЕДАННАЯ ПО ССЫЛКЕ,
+<B>unset()</B> внутри функции, то разрушается только локальная переменная.  Переменная в 
+вызывающем окружении останется с тем же значением, что и до вызова <B>unset()</B>.<A NAME="AEN80979"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>function foo(&#38;$bar) {
+    unset($bar);
+    $bar = "blah";
+}
+
+$bar = 'something';
+echo "$bar\n";
+
+foo($bar);
+echo "$bar\n";</PRE></TD></TR></TABLE><p>Пример выведет:<A NAME="AEN80981"></A></p>
+<TABLE  BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>something
+something</PRE></TD></TR></TABLE><P>Если static-переменная <B>unset()</B> внутри функции, <B>unset()</B> разрушает эту переменную все ссылки на неё.
+<A NAME="AEN80986"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>function foo() {
+    static $a;
+    $a++;
+    echo "$a\n";
+    unset($a);
+}
+
+foo();
+foo();
+foo();</PRE></TD></TR></TABLE><p>Пример выведет:<A NAME="AEN80988"></A></p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>1
+2
+3</PRE></TD></TR></TABLE><P>Если вы хотите <B>unset()</B> глобальную переменную внутри функции, вы можете использовать массив
+<TT>$GLOBALS</TT>:<A NAME="AEN80993"></A><TABLE BORDER="0"  BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>function foo() {
+    unset($GLOBALS['bar']);
+}
+
+$bar = "something";
+foo();</PRE></TD></TR></TABLE><P>См. также <A HREF="isset.html"><B>isset()</B></A> и
+<A HREF="empty.html"><B>empty()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="unserialize.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="var-dump.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">unserialize</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.variables.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">var_dump</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

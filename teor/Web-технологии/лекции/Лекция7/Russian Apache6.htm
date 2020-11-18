@@ -1,0 +1,1530 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+ <head>
+  <title>Russian Apache: Configuration</title>
+ </head>
+ <body bgcolor="#ffffff" vlink="#254d96" link="0000ff" text="#00114d">
+   <!--begin of Top100-->
+   <a href="http://counter.rambler.ru/top100/"><img src="http://counter.rambler.
+ru/top100.cnt?29788" alt="" width=1 height=1 border=0></a>
+   <!--end of Top100 code-->
+<center>
+   <table border="0" cellspacing="0" cellpadding="0" width=574> 
+    <tr><td>
+      <table border="0" cellspacing="0" cellpadding="0">
+       <tr valign="top">
+	<td width="436" rowspan="2" >
+		<img src="/buttons/m1.gif" width=436 height=81 border=0 alt="Russian Apache"></a></td>
+	<td colspan="2" width="138"><a href="/english/"><img src="/buttons/english.gif" width=138 height=28 border=0 alt="Switch to English"></a></td>
+       </tr>
+       <tr valign="top">
+	<td><a href="/"><img src="/buttons/russian.gif" width=85 height=53 border=0 
+	   alt="Switch to Russian" hspace=0 vspace=0></a></td
+	 >
+	<td><a href="http://apache.lexa.ru:8100/configure.html"><img src="/buttons/koi8-r.gif" width=53 height=15 border=0 alt="koi8-r"></a><br>
+	 <a href="http://apache.lexa.ru:8101/configure.html"><img src="/buttons/windows.gif" width=53 height=13 border=0 alt="windows=1251"></a><br>
+	 <a href="http://apache.lexa.ru:8102/configure.html"><img src="/buttons/cp-866.gif" width=53 height=12 border=0 alt="cp-866"></a><br>
+	 <a href="http://apache.lexa.ru:8103/configure.html"><img src="/buttons/iso.gif" width=53 height=13 border=0 alt="iso8859-5"></a></td>
+       </tr>
+      </table>
+    </tr>
+    <tr><td>
+   <table border="0" cellspacing="0" cellpadding="0" width=574>
+    <TR><TD>
+      <table border="0" cellspacing="0" cellpadding="0" width=574>
+       <tr valign="top">
+	<td width="76" height=40><a href="/index.html"><img src="/buttons/but-ra.gif" width=76 height=40 border=0 alt="Russian Apache"></a></td>
+	<td width="84"><a href="/internals.html"><img src="/buttons/but-how.gif" width=84 height=40 border=0 alt="Как это работает"></a></td>
+	<td width="78"><a href="/notes.html"><img src="/buttons/but-recomm.gif" width=78 height=40 border=0 alt="Рекоммендации"></a></td>
+	<td width="78"><a href="/getit.html"><img src="/buttons/but-where.gif" width=78 height=40 border=0 alt="Где взять"></a></td>
+	<td width="84"><a href="/install.html"><img src="/buttons/but-setup.gif" width=84 height=40 border=0 alt="Как установить"></a></td>
+	<td width="78"><a href="/configure.html"><img src="/buttons/but-config_.gif" width=78 height=40 border=0 alt="Как настроить"></a></td>
+	<td width="95"><a href="/support.html"><img src="/buttons/but-support.gif" width=95 height=40 border=0 alt="Статус и поддержка"></a></td>
+       </tr>
+       <tr valign=top>
+	<td><a href="/intro.html"><img src="/buttons/but-short.gif" width=76 height=38 border=0 alt="Краткий обзор"></a></td>
+	<td><a href="/faq.html"><img src="/buttons/but-faq.gif" width=84 height=38 border=0 alt="FAQ"></td>
+	<td><a href="/mail-archive/"><img src="/buttons/but-archive.gif" width=78 height=38 border=0 alt="Список рассылки"></a></td>
+	<td><a href="/thanks.html"><img src="/buttons/but-thanks.gif" width=78 height=38 border=0 alt="Благодарности"></a></td>
+	<td><a href="/srch.mhtml"><img src="/buttons/but-search.gif" width=84 height=38 border=0 alt="Поиск по серверу"></a></td>
+	<td colspan=2><a href="/powered.html"><img src="/buttons/but-power.gif" width=173 height=38 border=0 alt="Powered by Russian Apache"></a></td>
+       </tr>
+   </table>
+      </TD>
+    <TD>
+    </tr>
+   </table>
+      </TD>
+</TR></TABLE>
+  </center>
+
+  <CENTER>
+      <A NAME="part4">
+	<font size="+2">Как настроить (версия PL18 и выше)</font>
+      </A><br>
+   <img src="line.gif"><br>
+  </CENTER>
+  <center>
+   <a href="#charsets">[Настройка кодировок]</a>
+   <a href="#client">[Определение кодировки клиента]</a><br>
+   <a href="#server">[Правила обработки локальных файлов]</a>
+   <a href="#misc">[Разное]</a>
+   <a href="#env-vars">[Переменные окружения]</a>
+   </center>
+  <p>
+  <font size="+3">В</font>се 
+  <a href="intro.html">вышеперечисленные возможности сервера</a> 
+  настраиваются через конфигурационные файлы. Ниже приведено описание
+  используемых для этого директив. 
+  <font size="-1">(Описание конфигурации старых версий (PL16 и старше) 
+   вынесено в <a href="configure-old.html">отдельный документ</a>)</font>
+  <p>
+   <center>
+    <font size="+1">Некоторые замечания</font>
+   </center>
+  <ul>
+   <li>Все директивы, кроме <a href="#charsetdecl">CharsetDecl</a>,
+    <a href="#charsetrecodetable">CharsetRecodeTable</a> 
+    и <a href="#charsetwiderecodetable">CharsetWideRecodeTable</a> 
+    могут быть записаны 
+    где угодно - в конфигурации сервера, виртуального сервера, 
+    в &lt;Directory&gt;, &lt;Location&gt;, .htaccess. 
+    Директивы <b>CharsetDecl</b> и <b>CharsetRecodeTable</b>
+    могут быть указаны только в конфигурации сервера или виртуального сервера.
+    
+   <li> При использовании директив в &lt;Directory&gt;, &lt;Location&gt; 
+    или .htaccess действует следущее правило - если определена какая-то из
+    директив (скажем, <a href="#charsetagent">CharsetAgent</a>), то
+    все &quot;вышележащие&quot; директивы с этим именем не действуют. Это
+    отличается от стандартного поведения Apache (когда 
+    содержимое директив &quot;дописывается&quot; (merge) т.е. определение в
+    .htaccess работает абсолютно так же, как если бы эта директива стояла
+    сразу после директивы с тем же именем в httpd.conf). Отклонение от
+    стандарта объясняется очень просто - имея &quot;перезаписывание&quot;
+    сделать эмуляцию &quot;дописывания&quot; очень просто (нужно просто
+    скопировать нужные строчки из вышележащего .htaccess или из httpd.conf),
+    тогда как обратное неверно.
+  </ul>
+<table>
+<tr><td colspan=2 align=center><b>Все директивы</b></td></tr>
+<tr><td valign=top>
+<b>Объявление таблиц перекодировки:</b>
+</td><td valign=top>
+    <A HREF="#charsetdecl">CharsetDecl</A>
+    <A HREF="#charsetrecodetable">CharsetRecodeTable</a>
+    <A HREF="#charsetwiderecodetable">CharsetWideRecodeTable</a>
+    <A HREF="#charsetalias">CharsetAlias</A>
+</tr><tr><td valign=top>
+<b>Определение клиентской кодировки:</b>
+</td><td valign=top>
+    <A HREF="#charsetselectionorder">
+    <A HREF="#charsetpriority">CharsetPriority</A>
+    <A HREF="#charsetdefault">CharsetDefault</A>
+    <A HREF="#charsetbyport">CharsetByPort</a>
+    <A HREF="#charsetagent">CharsetAgent</A>
+    <A HREF="#charsetstricturimatch">CharsetStrictURIMatch</A>
+     <a href="#control-env-vars">переменная FORCE_CHARSET</a>
+</tr><tr><td valign=top>
+<b>Определение кодировки на сервере:</b>
+</td><td valign=top>
+    <A HREF="#charsetsourceenc">CharsetSourceEnc</A>
+    <A HREF="#charsetbyextension">CharsetByExtension</a>
+     <a href="#control-env-vars">переменная FORCE_SOURCE_CHARSET</a>
+</tr><tr><td valign=top>
+<tr><td valign=top>
+<b>Автоматический редирект:</b>
+</td><td valign=top>
+    <A HREF="#charsetautoredirect">CharsetAutoRedirect</a>
+    <A HREF="#charsetnormalizetourl">CharsetNormalizeToURL</a>
+    <A HREF="#charsetnormalizetypesl">CharsetNormalizeTypes</a>
+    <A HREF="#charsetredirectfromoriginalurl">CharsetRedirectFromOriginalURL</A>
+    <A HREF="#charsetnoautoredirectfordefaultcharset">CharsetNoAutoRedirectForDefaultCharset</A>
+</tr>
+<tr><td valign=top>
+<b>Разное:</b>
+</td><td valign=top>
+    <A HREF="#charsetprocesstype">CharsetProcessType</a>
+    <A HREF="#charsetbrokenaccept">CharsetBrokenAccept</a>
+    <A HREF="#charsetbadagent">CharsetBadAgent</A>
+    <A HREF="#charseterrreject">CharsetErrReject</a>
+    <A HREF="#charsetmatchlanguage">CharsetUseMultiViews</a>
+    <A HREF="#charsetrecodeheaders">CharsetRecodeHeaders</a>
+    <A HREF="#charsetturnoff">CharsetDisable</a>
+    <A HREF="#charsetrecodefilenames">CharsetRecodeFilenames</a>
+    <A HREF="#charsetsoftredirect">CharsetSoftRedirect</a>
+   <A HREF="#charsetsoftredirectpermanent">CharsetSoftRedirectPermanent</a>
+    <A HREF="#charsetsoftredirecttemp">CharsetSoftRedirectTemp</a>
+    <A HREF="#charsetoverrideexpires">CharsetOverrideExpires</a>
+    <A HREF="#charsetdisableforcedexpires">CharsetDisableForcedExpires</a>
+    <A HREF="#charsetrecodemethods">CharsetRecodeMethodsIn/Out</a>
+    <A HREF="#charsetrecodemultipartforms">CharsetRecodeMultipartForms</a>
+    <A HREF="#charsetdisableacceptcharset">CharsetDisableAcceptCharset</a>
+</td></tr></table>
+
+
+  <center>
+   <font size="+2"> Директивы, используемые для конфигурации</font>
+  </center>
+  <p>
+   <center><font size="+1">
+     <a name="charsets"></a>
+     <b>Объявления Charsets (кодировок) и таблиц перекодировки</b>
+    </font>
+   </center>
+  <DL>
+   <DT><A NAME="charsetdecl"><font size="+1">CharsetDecl</font></A></DT>
+   <DD>Служит для объявления character set (charset, в русском языке 
+    утвердился термин
+    &quot;кодировка&quot;) и указания соответствующего ему
+    Language. В дальнейших директивах в качестве имени charset можно
+    указывать только одно из объявленных ранее имен.<br>
+    <b>Context:</b> сервер, виртуальный сервер.<br>
+    <b>Default:</b> никаких умолчаний нет<br>
+    <b>Синтаксис:</b>
+    <PRE>
+       CharsetDecl CharsetName Language [Flags]
+    </PRE>
+    <DL>
+     <DT>CharsetName</DT>
+     <DD>Официальное название кодировки (например windows-1251, koi8-r, ibm866,
+      iso8859-5 и.т.д.). Используется в остальных директивах при ссылках
+      на данную кодировку и при выдаче документа клиенту в заголовке
+      <code>Content-type: text/html; charset=CharsetName</code></DD>
+     <DT>Language</DT>
+     <DD>
+      Название языка, к которому принадлежит данная кодировка. Это название
+      должно быть определено в conf/srm.conf в директивах AddLanguage и
+      LanguagePriority.
+     </DD>
+     <DT>Flags</DT>
+     <dd>
+     <b>Поддерживается начиная с PL22</b>. Необязательное поле, описывающее
+      параметры данного charset. Возможные значения:
+      <ol>
+       <li> S - (от Suppress) - подавить выдачу charset=... для данного 
+	Charset.
+      </ol>
+     </dd>
+     <DT>Примеры</DT>
+     <DD>
+      <PRE>
+ CharsetDecl iso-8859-5  ru
+ CharsetDecl ibm866  ru
+ CharsetDecl windows-1251  ru
+ CharsetDecl koi8-r  ru
+ CharsetDecl koi7 ru S
+      </PRE>
+     </DD>
+    </DL>
+    Каждая директива описывает только один charset. Если существует несколько
+    виртуальных серверов то каждый виртуальный сервер &quot;наследует&quot;
+    описания Charset от основного сервера только если в директиве
+    &lt;VirtualServer&gt; не описано ни одного 
+    <b>CharsetDecl</b> и нет ни одной 
+    директивы <a href="#charsetrecodetable">CharsetRecodeTable</a>.<br>
+    Директивы CharsetDecl должны находиться в конфигурационном файле раньше
+    всех прочих директив модуля.
+   </DD>
+
+   <dt><br></dt><dd></dd>
+    <A NAME="charsetrecodetable">
+     <font size="+1">CharsetRecodeTable</font>
+    </A>
+   </DT>
+   <DD>
+    Служит для описания правил перекодировки из одной кодировки в другую.<br>
+    <b>Context:</b> сервер, виртуальный сервер.<br>
+    <b>Default:</b> никаких умолчаний нет<br>
+    <b>Синтаксис:</b>
+    <PRE>
+ CharsetRecodeTable Charset1 Charset2 table_from [table_to]
+    </PRE>
+    <DL>
+     <DT>Charset1, Charset2</DT>
+     <DD>Два названия Charset (описанных ранее директивой Charset),
+      перекодировка между которыми описывается.</DD>
+     <DT>table_from</DT>
+     <DD>Имя файла с таблицей, описывающей перекодировку из Charset1 
+      в Charset2. Имя файла указывается относительно корневой директории
+      сервера ($SERVERROOT).</DD>
+     <DT>table_to</DT>
+     <DD>Имя файла с таблицей, описывающей перекодировку из Charset2 в
+      Charset1. Может отсутствовать, тогда сервер сгенерирует таблицу,
+      обратную table_from автоматически.
+    </DL>
+    Для каждой пары Charset возможно два описания <b>CharsetRecodeTable</b>,
+   которые являются эквивалентными. Две нижеприведенные директивы полностью 
+    одинаковы по своему эффекту:
+    <PRE>
+ CharsetRecodeTable koi8-r windows-1251 koi-win.tab win-koi.tab
+ CharsetRecodeTable windows-1251 koi8-r win-koi.tab koi-win.tab
+    </PRE>
+    Какую из них использовать - дело вкуса.
+    <p>
+     Если в конфигурации сервера указано несколько эквивалентных директив,
+     то в работе будет использована последняя из них.
+    <p>
+     Если в конфигурации виртуального сервера есть хотя бы одна директива
+     <a href="#charsetdecl">CharsetDecl</a> или <b>CharsetRecodeTable</b>, 
+    то описания CharsetDecl/CharsetRecodeTable 
+     <b>не наследуются от основного сервера</b>.
+   </DD>
+
+   <dt><br></dt><dd></dd>
+
+   <DT>
+    <A NAME="charsetwiderecodetable">
+     <font size="+1">CharsetWideRecodeTable</font>
+    </A>
+   </DT>
+   <DD>
+    Служит для описания правил перекодировки в формате 
+   <b>символ -&gt; строка</b>
+    (например для поддержки транслитерации).<br>
+    <b>Context:</b> сервер, виртуальный сервер.<br>
+    <b>Default:</b> никаких умолчаний нет<br>
+    <b>Синтаксис:</b>
+    <PRE>
+ CharsetWideRecodeTable CharsetFrom CharsetTo table
+    </PRE>
+    <DL>
+     <DT>CharsetFrom, CharsetTo</DT>
+     <DD>Два названия Charset (описанных ранее директивой Charset),
+      перекодировка между которыми описывается.</DD>
+     <DT>table</DT>
+     <DD>Имя файла с таблицей, описывающей перекодировку из Charset1 
+      в Charset2. Имя файла указывается относительно корневой директории
+      сервера ($SERVERROOT). Формат файла очень простой - на каждой строке
+      записывается перекодируемая буква и через пробел соответствующая ей
+      строка
+     </DD>
+    </DL>
+    Например:
+    <PRE>
+ CharsetWideRecodeTable koi8-r koi7 conf/koi-tran.tab
+    </PRE>
+    <p>
+     Если в конфигурации сервера указано несколько эквивалентных директив,
+     то в работе будет использована последняя из них.
+    <p>
+     В отличия от директивы  CharsetRecodeTable, таблица обратной перекодировки
+     (из CharsetTo в CharsetFrom) не строится автоматически.
+   </DD>
+
+
+   <dt><br></dt><dd></dd>
+
+   <DT><A NAME="charsetalias"><font size = "+1">CharsetAlias</font></A></DT>
+   <DD>Служит для описания имен псевдонимов указанных charset.<br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b> никаких умолчаний нет<br>
+    <b>Синтаксис:</b>
+    <PRE>
+ CharsetAlias Oficial_Name Alias1 Alias2 Alias3 ...
+    </PRE>
+    <DL>
+     <DT>Oficial_Name</DT>
+     <DD>Официальное имя описываемого charset. Должно быть определено
+      до данной директивы директивой <a href="#charsetdecl">CharsetDecl</a>.</DD>
+     <DT>Alias1 Alias2 ...</DT>
+     <DD>Имена псевдонимов для данного charset.</DD>
+     <DT>Примеры:</DT>
+     <DD>
+      <PRE>
+ CharsetAlias iso_8859-5:1988 iso-ir-144 iso_8859-5 cyrillic iso-8859-5
+ CharsetAlias iso_8859-5:1988 iso8859-5 iso-8859.5 iso8859.5 iso
+ CharsetAlias ibm866 csibm866 866 cp866 x-cp866 x-ibm866 cp-866 alt
+ CharsetAlias windows-1251 win x-cp1251 cp1251 cp-1251
+      </PRE>
+     </DD>
+    </DL>
+    Псевдонимы используются при определении кодировки клиента по заголовкам
+    Accept:, Accept-Charset:, по server-hostname prefix и по URI prefix 
+    (см. директиву <a href="#charsetselectionorder">CharsetSelectionOrder</a>).
+   </DD>
+  </DL>
+  <br>
+  <p>
+   <center>
+     <a name="client"></a>
+    <font size="+1">
+     <b>Директивы, отвечающие за определение клиентской кодировки</b>
+    </font>
+   </center>
+   
+  <DL>
+   <DT><A NAME="charsetselectionorder">
+     <font size="+1">CharsetSelectionOrder</font></A></DT>
+   <DD>
+    Директива определяет порядок применения правил определения charset, 
+    в котором документ будет отдан клиенту.<br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b>CharsetSelectionOrder Portnumber Hostname URIHostname EnvVariable Dirprefix 
+    Useragent<br>
+    <b>Синтаксис:</b>
+    <PRE>
+ CharsetSelectionOrder Rule1 Rule2 Rule3 ...
+    </PRE>
+    <DL>
+     <DT>Rule1, Rule2, Rule3</DT>
+     <DD>строка, определяющая порядок анализа различных параметров
+      запроса на предмет определения клиентских предпочтений.
+      В качестве имени Rule могут быть использованы:
+      <UL>
+       <LI><code>Portnumber</code> - определять charset по номеру порта к которому
+	обратились. Соответствие кодировки и номера порта описывается
+	директивой <a href="#charsetbyport">CharsetByPort</a>. Возможность
+	связать номер порта с кодировкой появилась начиная с версии PL20.2.
+       <LI><code>Hostname</code>  - определять charset по подстроке в hostname сервера.
+	Т.е. если hostname (до первой точки) сервера <b>начинается</b> 
+	с имени charset
+	или его alias, то в качестве клиентского charset будет выбран
+	именно он (т.е. при обращении к хосту win-www.domain будет выбрана
+	кодировка с именем/алиасом win).
+       <LI><code>URIHostname</code> - аналогично Hostname, но с именами charset сравнивается
+	не каноническое имя сервера, а имя, полученное в заголовке Host: от клиента
+	примеры использования можно посмотреть в разделе
+	<a href="notes.html#urihostname">рекомендации</a>.
+	<i>Это правило поддерживается начиная с PL26.0</i>.
+	<LI><code>EnvVariable</code> - предназначена для взаимодействия со 
+	внешними модулями определения кодировки. Такие модули должны присвоить
+	переменной окружения <code>FORCE_CHARSET</code> значение имени
+	необходимого charset. Примеры использования совместно с mod_rewrite
+	есть в разделе	<a href="notes.html#EnvVariable">рекомендации</a>.
+	<i>Это правило поддерживается начиная с PL26.0</i>.
+
+       <LI><code>Dirprefix</code> - определять charset по Directory prefix. Т.е.
+	если первая часть URI (между 1-м и 2-м '/' или между /~username/
+	и 3-м slash) совпадает с именем или алиасом какого-то charset,
+	то в качестве клиентского charset будет выбран именно этот charset.
+       <LI><code>Useragent</code> - определять charset по HTTP-заголовку User-Agent
+	(см директиву <a href="#charsetagent">CharsetAgent</a>).
+      </UL>
+    </DL>
+    <p><b>Замечания по использованию</b><br>
+     При определении charset, в котором документ будет отдан пользователю
+     сначала анализируются HTTP-заголовки Accept-Charset и Accept (второй - 
+     если  эта возможность включена при компиляции сервера, см 
+     <a href="install.html">рекомендации по установке</a>).
+     Если эти заголовки присутствуют и запрошенный
+     charset известен (виртуальному) серверу, то документ будет отдан в 
+     соответствии с просьбой клиента.
+     Если запрошенный charset серверу неизвестен и не запрашивается 
+     &quot;любой&quot;
+     charset (Accept-Charset: *), то поведение сервера зависит от наличия 
+     флага <a href="#charseterrreject">CharsetErrReject</a> - если он 
+     установлен, то сервер вернет пользователю ошибку.
+    <p>
+     
+     Если charset не может быть определен по Accept-Charset, то сервер
+     делает попытку определить его в соответствии с директивой 
+     <b>CharsetSelectionOrder</b>
+     в порядке, описанном этой директивой.<br>
+     Для определения (установки) по Hostname, первые символы hostname 
+     сервера (виртуального сервера) должны соответствовать имени или
+     <a href="#charsetalias">алиасу</A> какого-то из известных серверу 
+     charset.<br>
+     Для установки по Directory prefix, название или алиас какого-то из 
+     charset должны совпасть с первым элементом path в URL (для запроса вида
+     /~username/path/to/file.html - совпасть с первым элементом пути после
+     ~username).<br>
+     Для определения клиентского charset по HTTP-заголовку User-Agent (т.е.
+     по WWW-броузеру у пользователя) сервер ищет в заголовке User-Agent:
+     одну из подстрок, указанных в директиве 
+     <a href="#charsetagent">CharsetAgent</a>.
+   </DD>
+   <dt><br></dt><dd></dd>
+   
+   <DT><A NAME="charsetpriority"><font size="+1">CharsetPriority</font></A>
+   </DT>
+   <DD>Служит для определения приоритетов сконфигурированных charsets.
+    Может иметь значение если в запросе клиента указаны равные весовые
+    коэффициенты для различных charsets. <br>
+    Старший из описанных этой директивой charset будет использован как
+    &quot;charset по-умолчанию&quot; в том случае, когда такой charset не 
+    задан директивой <a href="#charsetdefault">CharsetDefault</a>.<br>
+    
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b> умолчаний нет<br>
+    <b>Синтаксис:</b>
+    <PRE>
+ CharsetPriority Charset1 Charset2 Charset3 ...
+    </PRE>
+    <DL>
+     <DT>Charset1 Charset2 ..</DT>
+     <DD>Имена charset в порядке убывания приоритета (самый левый имеет 
+      высший приоритет). Все имена Charset должны быть определены до 
+      этой директивы с помощью директивы 
+      <a href="#charsetdecl">CharsetDecl</a>.</DD>
+     <DT>Пример:</DT>
+     <DD>CharsetPriority windows-1251 koi8-r ibm866</DD>
+    </DL>
+    В именах charset должны использоваться только официальные имена, а не
+    псевдонимы.
+   </DD>
+
+   <dt><br></dt><dd></dd>
+
+   <DT><A NAME="charsetdefault"><font size="+1">CharsetDefault</font></A></DT>
+   <DD>Определяет имя charset по-умолчанию для данного сервера.<br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b>Если <b>CharsetDefault</b> не определен, но определен
+    <b>CharsetPriotity</b>, то будет использоваться charset с 
+    наибольшим приоритетом из <b>CharsetPriority</b><br>
+    <b>Синтаксис:</b>
+    <PRE>
+ CharsetDefault Charset_Name
+    </PRE>
+    <DL>
+     <DT>Charset_Name</DT>
+     <DD>Официальное имя charset по-умолчанию для данного сервера,
+      определенное директивой <a href="#charsetdecl">CharsetDecl</a>.</DD>
+    </DL>
+    Пример:
+    <PRE>
+ CharsetDefault koi8-r
+    </PRE>
+    Это тот charset, который будет выдаваться клиенту, если все другие
+    способы определения не сработают.
+   </DD>
+
+   <dt><br></dt><dd></dd>
+
+   <DT><A NAME="charsetbyport"><font size="+1">CharsetByPort</font>
+    </A> (работает начиная с PL20.2)</DT>
+   <DD>Директива позволяет связать номер TCP-порта с кодировкой.<br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default: </b>никакого<br>
+    <b>Синтаксис:</b>
+    <PRE>
+ CharsetByPort Charset_Name port_number
+    </PRE>
+    <DL>
+     <DT>Charset_Name</DT>
+     <DD>Имя charset, описанного директивой 
+      <a href="#charsetdecl">CharsetDecl</a></DD>
+     <DT>port_number</DT>
+     <DD>Номер порта</DD>
+    </DL>
+    Пример:
+    <pre>
+ CharsetByPort koi8-r 8101
+    </pre>
+    - при обращении к порту 8101 использовать кодировку koi8-r. <br>
+    Эта директива тесно коррелирует с директивой 
+    <a href="#charsetselectionorder">CharsetSelectionOrder</a>,
+    будте внимательны. Например, если у вас написано 
+    <b>CharsetSelectionOrder Hostname</b>, то директива <b>CharsetPort</b>
+    не оказывает никакого воздействия на поведение сервера (равно как и
+    CharsetAgent и т.п.).
+   </DD>
+
+   <dt><br></dt><dd></dd>
+
+   <DT><A NAME="charsetagent"><font size="+1">CharsetAgent</font></A></DT>
+   <DD>Определяет charset, который может быть использован при нахождении
+    в запросе клиента подстроки, идентифицирующей данного клиента.
+    Эта подстрока ищется в запросе клиента в поле User-Agent.<br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b> умолчаний нет<br>
+    <b>Синтаксис:</b>
+    <PRE>
+ CharsetAgent Charset_Name Pattern1 Pattern2 Pattern3 ...
+    </PRE>
+    <DL>
+     <DT>Charset_Name</DT>
+     <DD>Официальное имя charset</DD>
+     <DT>Pattern1 Pattern2 ...</DT>
+     <DD>Шаблоны для поиска в запросе клиента в поле User-Agent.</DD>
+     <DT>Примеры:</DT>
+     <DD><PRE>
+ CharsetAgent windows-1251 AIR_Mosaic IWENG/1 MSIE WinMosaic (Windows (WinNT;
+ CharsetAgent windows-1251 (Win16; (Win95; (16-bit)
+ CharsetAgent koi8-r Arena Ariadna Macintosh OmniWeb Sextant PRD (X11
+ CharsetAgent ibm866 DosLynx
+      </PRE>
+     </DD>
+    </DL>
+    Все Pattern являются подстроками, а не regexp выражениями. Если в 
+    заголовке User-Agent: содержится несколько подстрок, объявленных
+    директивой CharsetAgent, то &quot;сработает&quot; самое длинное
+    совпадение.
+   </DD>
+
+   <dt><br></dt><dd></dd>
+
+   <DT><A NAME="charsetstricturimatch"><font size="+1">CharsetStrictURIMatch</font></A> (работает начиная с Pl21.3)</DT>
+   <DD>Определяет &quot;строгость&quot; правил, по которым 
+    hostname/directory name
+    будут сравниваться с именами известных кодировок при выборе Charset
+    по Hostname/Dirprefix.<br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b>CharsetStrictURIMatch Off<br>
+    <b>Синтаксис:</b>
+    <PRE>
+CharsetStrictURIMatch On|Off
+    </PRE>
+    <DL>
+     <DT>Off</DT>
+     <DD>В режиме Off, кодировка по Hostname/Directory name будет выбрана,
+      если первые символы Hostname/dirname совпадают с именем/алиасом
+      какой-либо кодировки. Например, если серверу известна кодировка
+      &quot;win&quot;, то при обращении к директории /winnuke/ будет
+      выбрана именно эта кодировка (естественно, в соответствии с 
+      директивой <a href="#charsetselectionorder">CharsetSelectionOrder</a>
+     </dd>
+     <dt>On</dt>
+     <dd>В этом режиме поведение сервера более строгое. Он будет проверять
+      соответствие имени кодировки и полной host part в имени сервера/
+      полное название директории.
+      Т.е. при известной кодировке &quot;win&quot; и обращении к 
+      http://winnuke.somewhere.domain кодировка по hostname выбираться
+      не будет. С именами директорий - аналогично.
+      </dd>
+     </dl>
+   </DD>
+  </DL>
+  <br>
+  <p>
+   <center>
+    <a name="server"></a>
+    <font size="+1"><b>Правила обработки локальных файлов</b>
+    </font></center>
+  <DL>
+   <DT><A NAME="charsetsourceenc"><font size="+1">CharsetSourceEnc</font></A>
+   </DT>
+   <DD>
+    Определяет charset, в котором документы хранятся на диске.<br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b> умолчаний нет<br>
+    <b>Синтаксис:</b>
+    <PRE>
+ CharsetSourceEnc Charsetname
+    </PRE>
+    <DL>
+     <DT>Charsetname</DT>
+     <DD>Имя charset, описанное ранее директивой CharsetDecl</DD>
+    </DL>
+    Эта директива позволяет указать в какой кодировке находятся HTML/CGI/SSI
+    файлы на диске. Она может быть определена в том числе и в .htaccess,
+    что позволяет хранить дерево документов в произвольной смеси кодировок.
+    См. также директиву 
+    <a href="#charsetbyextension">CharsetByExtension</a> и описание
+    переменной окружения <a href="#force_source">FORCE_SOURCE_CHARSET</a>.
+    Если кодировку хранения файла определить не удается (т.е. директивы
+    <b>CharsetSourceEnc</b> и <b>CharsetByExtension</b> для данного
+    расширения не указаны), то сервер вернет клиенту сообщение об ошибке
+    и отругается в <i>error_log</i>.
+   </DD>
+
+   <dt><br></dt><dd></dd>
+
+   <DT><A NAME="charsetbyextension"><font size="+1">CharsetByExtension</font>
+    </A></DT>
+   <DD>
+    Позволяет переопределить charset хранения для файлов с каким-либо 
+    расширением.<br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b> умолчаний нет<br>
+    <b>Синтаксис:</b>
+    
+    <PRE>
+ CharsetByExtension Charsetname .ext1 .ext2 ....
+    </PRE>
+    <DL>
+     <DT>Charsetname</DT>
+     <DD>Имя charset, описанное ранее директивой CharsetDecl</DD>
+     <DT>ext1,ext2,...</DT>
+     <DD>Список расширений файлов, кодировкой хранения которых будет считаться
+      Charset. Начальную точку в расширении можно указывать, а можно
+      не указывать.
+     </DD>
+    </DL>
+    Эта директива позволяет указать в какой кодировке находятся 
+    файлы с определенным расширением. 
+    Директива имеет больший приоритет, чем CharsetSourceEnc. Если
+    для данной директории она не определена, то используется (с тем же более
+    высоким приоритетом) &quot;вышележащее&quot; определение (из .htaccess
+    директории более высокого уровня или из httpd.conf). Чтобы отключить
+    вышележащее определение нужно задать пустую директиву 
+    <b>CharsetByExtension</b>.
+    Расширение файла может содержать в себе любые символы, включая точку.
+    Использование 	символа '/' как части расширения лишено смысла т.к. 
+    Apache считает, что '/' не может быть частью имени файла.
+   </DD>
+
+   <dt><br></dt><dd></dd>
+
+
+   <DT><A NAME="charsetprocesstype"><font size="+1">CharsetProcessType</font></A>
+    (работает начиная с PL21.2)</DT>
+   <DD>
+    Позволяет указать серверу, что перекодировке следует подвергать какие-то
+    добавочные MIME-types, отличные от text/*.<br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b> умолчаний нет, но сервер всегда будет перекодировать тип 
+    text/*<br>
+    <b>Синтаксис:</b>
+
+    <PRE>
+ CharsetProcessType mime-type
+    </PRE>
+    <DL>
+     <DT>mime-type</DT>
+     <DD>MIME-type в виде type/ или type/subtype, который тоже нужно
+      перекодировать.
+     </DD>
+    </DL>
+    <p>
+     В редких случаях перекодировать нужно не только файлы с mime-type
+     text/*, но и что-то еще. В таком случае нужно перечислить  mime-type 
+     таких файлов этой директивой. В директиве можно указать как конкретный
+     тип (например, image/jpeg), так и целый класс (image/). Отрицание (тип,
+     который не нужно обрабатывать) задается символом ! ( !type/). 
+     Параметры обрабатываются слева направо, поэтому все исключения из
+     общего правила должны быть левее общего правила (как в примере ниже)
+    <p>
+     <b>Пример:</b>
+    <pre>
+ CharsetProcessType image/jpeg application/x-files application/php !application/ 
+    </pre>
+    
+   </DD>
+
+   <dt><br></dt><dd></dd>
+
+
+   <DT><A NAME="charsetbrokenaccept"><font size="+1">CharsetBrokenAccept
+     </font></A>
+    (работает начиная с PL21.2)</DT>
+   <DD>
+    Позволяет указать серверу комбинацию User-Agent/Accept-Charset, которую 
+    следует  игнорировать при определении клиентской кодировки.<br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b> умолчаний нет<br>
+    <b>Синтаксис:</b>
+    
+    <PRE>
+ CharsetBrokenAccept Agent-Substring accept_charset_string
+    </PRE>
+    <DL>
+     <DT>Agent-Substring</DT>
+     <DD>Подстрока в заголовке User-Agent (т.е. типе клиентского software).
+     </DD>
+     <DT>accept_chaeset_string</DT>
+     <DD>Полная строка из заголовка Accept-Charset от данного клиентского
+      software.
+     </DD>
+    </DL>
+    <p>
+     В случае когда в заголовке <b>User-Agent</b> находится подстрока 
+     <b>Agent-Substring</b> и заголовок <b>Accept-Charset</b>, полученный 
+     от  клиента полностью совпадает с <b>accept_charset_string</b>, сервер
+     будет игнорировать заголовок Accept-Charset полученный от клиента и будет
+     определять кодировку   по прочим признакам.
+    <p>
+     Эта директива стала необходимой с появлением Netscape Communicator 4.x -
+     по умолчанию эта программа посылает в заголовке Accept-Charset строку
+     &quot;iso-8859-1,*,utf-8&quot;. В случае, когда один из сконфигурированных
+     Charset имеет имя iso-8859-1, сервер всегда будет показывать клиенту эту
+     кодировку, что не всегда правильно.
+    <p>
+     <b>Пример:</b>
+    <pre>
+ CharsetBrokenAccept "Mozilla/4." "iso-8859-1,*,utf-8"
+    </pre>
+   </DD>
+
+   <dt><br></dt><dd></dd>
+
+
+   <DT><A NAME="stripmeta">
+     <font size="+1">AddHandler strip-meta-http</font></A></DT>
+   <DD>
+    Директива позволяет включить режим удаления тега 
+    &lt;META HTTP-EQUIV=..&gt; 	из HTML-файлов при передаче их
+    клиенту.<br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b> умолчаний нет<br>
+    <b>Синтаксис:</b>
+    <PRE>
+ AddHandler strip-meta-http .ext1 .ext2 .....
+    </PRE>
+    <DL>
+     <DT>AddHandler strip-meta-http</DT>
+     <DD> &quot;магические слова&quot;. На самом деле AddHandler - это
+      директива mime_module, а strip-meta-http - название обработчика.
+     <DD>
+     <DT>ext1, ext2</DT>
+     <DD>Список расширений файлов из которых нужно выкусывать 
+      &lt;META HTTP-EQUIV...&gt; Эти файлы будут обрабатываться как 
+      обычный plain HTML (т.е. не как CGI и не как .shtml, вне 
+      зависимости от расширений).
+     </DD>
+    </DL>
+    Директива предназначена для того, чтобы включить режим удаления 
+    тегов &lt;META HTTP-EQUIV...&gt; из документов, показываемых клиентам.
+    Эти теги вставляет, например, Microsoft FrontPage.
+    Рассуждениям на тему <b>почему</b> эти теги нужно выкусывать
+    посвящен <a href="meta-http.html">отдельный документ</a>).
+    Если для одного расширения указано несколько AddHandler обработчиков,
+    то какой из них сработает - зависит от конфигурации сервера.
+   </DD>
+  </DL><br>
+  <p>
+
+   <center>     
+    <a name="misc"></a><font size="+1"><b>Разное</b></font></center>
+
+  <DL>
+   <DT><A NAME="charsetbadagent"><font size="+1">CharsetBadAgent</font></A>
+   </DT>
+   <DD>Некоторые клиентские программы не могут адекватно реагировать
+    на MIME, например при получении заголовка
+    <PRE>
+ Content-type: text/html; charset=koi8-r; level=3
+    </PRE>
+    Чтобы сервер не выдавал таким клиентским программам charset=...
+    этих клиентов нужно описать директивой <b>CharsetBadAgent</b>.<br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b> умолчаний нет<br>
+    <b>Синтаксис:</b>
+    <PRE>
+ CharsetBadAgent Pattern1 Pattern2 Pattern3 ...
+    </PRE>
+    <DL>
+     <DT>Pattern1 Pattern2 ...</DT>
+     <DD>Подстрока в поле User-agent запроса клиента, при нахождении
+      которой сервер будет воздерживаться от выдачи charset=...
+     <DT>Пример:</DT>
+     <DD>BadAgent lynx/2.1 arena</DD>
+    </DL>
+    Все Pattern являются подстроками, а не regexp выражениями.
+    <p>
+     Как справедливо заметил 
+     <A HREF="mailto:ache@nagual.pp.ru">Andrey Chernov</a>,
+     указывать в этой директиве только название броузера, не указывая 
+     конкретной версии - значит нарываться на неприятности в будущем. 
+     К сожалению, до версии PL14 включительно, вместе с Apache-RUS
+     распространялся &quot;дистрибутивный&quot; конфигурационный
+     файл, в котором было сделано именно так (в BadAgent указаны lynx и 
+     MSIE). Начиная с версии PL15 это упущение исправлено. Правильная 
+     (на день написания этого текста) строка выглядит так:
+    <pre>
+ CharsetBadAgent arena Lynx/2.0 Lynx/2.1 Lynx/2.2 Lynx/2.3 Lynx/2.4 &quot;MSIE 2.0;&quot;
+    </pre>
+   </DD>
+
+   <dt><br></dt><dd></dd>
+
+   <DT><A NAME="charseterrreject"><font size="+1">CharsetErrReject</font>
+    </A></DT>
+   <DD>Директива служит для определения сервером действий при получении
+    в запросе клиента неизвестного charset.<br> 
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b>CharestErrReject Off<br>
+    <b>Синтаксис:</b>
+    <PRE>
+ CharsetErrReject On|Off
+    </PRE>
+    При установке этого параметра в On сервер не будет выдавать документ 
+    клиенту в случае невозможности удовлетворить запрос, полученный
+    в заголовках Accept/Accept-Charset, а будет сообщать клиенту об
+    ошибке в запросе.
+    При установке в Off - попытается определить charset по другим 
+    параметрам (см директиву 
+    <a href="#charsetselectionorder">CharsetSelectionOrder</a>)
+    и выдаст документ как сможет.
+   </DD>
+
+   <dt><br></dt><dd></dd>
+
+   <DT><A NAME="charsetmatchlanguage"><font size="+1">CharsetUseMultiViews (старое название - CharsetMatchLanguage, переименована в PL25.6)</font>
+    </A></DT>
+   <DD>Директива определяет случаи, в которых сервер будет выдавать
+    charset=xxx в заголовке Content-Type:.<br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default: </b>CharsetUseMultiViews Off (в версиях младше PL25.6 - On)<br>
+    <b>Синтаксис:</b>
+    <PRE>
+ CharsetUseMultiViews On|Off
+    </PRE>
+    При установке этого параметра в On (значение по умолчанию) сервер 
+    выдает charset=... в заголовке Content-Type при соблюдении всех трех
+    условий:
+    <OL>
+     <LI>Броузер клиента не является 
+      <a href="#charsetbadagent">&quot;bad agent&quot;</a>
+     <LI>Включена опция MultiViews 
+     <LI>Language, описанный для данного типа документа директивой
+      <b>AddLanguage</b> совпадает с language, описанным для выдаваемого
+      charset директивой <a href="#charsetdecl">CharsetDecl</a>
+    </OL>
+    При установке флага в Off сервер проверяет только первое условие 
+    (соответствие User-Agent/bad-agent list).
+   </DD>
+
+   <dt><br></dt><dd></dd>
+
+   <DT><A NAME="charsetrecodeheaders">
+     <font size="+1">CharsetRecodeHeaders</font>
+    </A> (работает начиная с PL20)
+   </DT>
+   <DD>Директива включает перекодировку заголовков выдаваемых в HTTP-response.
+    <br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default: </b>CharsetRecodeHeaders Off<br>
+    <b>Синтаксис:</b>
+    <PRE>
+ CharsetRecodeHeaders On|Off
+    </PRE>
+    При установке этого параметра в On будут перекодироваться выдаваемые
+    сервером заголовки. По-умолчанию такой перекодировки не производится
+    т.к. старые версии не перекодировали и возникают серьезные
+    проблемы с совместимостью. Директиву нужно использовать, если в 
+    заголовках может быть русский текст (скажем, Location: /some.cgi?Вася)
+   </DD>
+
+   <dt><br></dt><dd></dd>
+
+   <DT><A NAME="charsetturnoff"><font size="+1">CharsetDisable (старое название - 
+      CharsetTurnOff, переименована в PL25.0)</font>
+    </A> (работает начиная с PL20)</DT>
+   <DD>Директива выключает весь charset-processing module. Т.е. никакая
+    перекодировка для данной &lt;Directory&gt;, &lt;Location&gt; и т.п.
+    производиться не будет.<br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default: </b>CharsetDisable Off<br>
+    <b>Синтаксис:</b>
+    <PRE>
+ CharsetDisable On|Off
+    </PRE>
+    Эта директива выключает перекодировки и <code>AutoRedirect</code>.
+    При этом продолжают работать директивы <a href="#charsetsoftredirect">CharsetSoftRedirect*</a>
+    и установка переменных <code>CHARSET_HTTP_METHOD,CHARSET_SERVER_PORT,
+     CHARSET_SERVER_NAME</code>.
+   </DD>
+
+   <dt><br></dt><dd></dd>
+
+   <DT><A NAME="charsetrecodefilenames"><font size="+1">CharsetRecodeFilenames
+     </font>
+    </A> (работает начиная с PL21)</DT>
+   <DD>Директива включает перекодировку имен файлов в HTTP-запросе.<br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default: </b>CharsetRecodeFilenames On <i>(для совместимости с прошлыми
+     версиями)</i><br>
+    <b>Синтаксис:</b>
+    <PRE>
+ CharsetRecodeFilenames On|Off
+    </PRE>
+    При установке этого параметра в On будут перекодироваться имена файлов
+    в URL. По умолчанию эта перекодировка производится (для совместимости
+    с предыдущими версиями), однако эта перекодировка потенциально очень
+    вредна и &quot;странно&quot; работает (все директивы класса Alias,
+    Redirect и так далее получают неперекодированное имя, проверка прав
+    тоже производится для неперекодированного имени, а потом оно 
+    перекодируется), поэтому поведение по-умолчанию может быть изменено
+    после переходного периода.<br>
+    Использование перекодировки имен файлов не рекомендуется. См. также
+    <a href="notes.html#russianfiles">некоторые замечания на эту тему</A>.
+    
+   </DD>
+
+   <dt><br></dt><dd></dd>
+
+   <DT><A NAME="charsetsoftredirect"><font size="+1">CharsetSoftRedirect
+     </font>
+    </A> (работает начиная с PL21.1)</DT>
+   <DD>Директива предназначена для замены директивы <b>Redirect</b> (из mod_alias)
+    в случае работы с <i>&quot;перекодировкой по портам&quot;</i>.<br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b> никакого<br>
+    <b>Синтаксис:</b>
+    <PRE>
+ CharsetSoftRedirect [status] old-url new-url
+    </PRE>
+    <b>Параметры:</b>
+    <p>
+    <DL>
+     <DT>status</DT>
+     <dd>(необязательный параметр) - описывает HTTP status code, который
+      будет передан клиенту. Возможные значения:
+      <ul>
+       <li>permanent - Redirect возвращает статус 301 (permanent redirect)
+       <li>temp - Redirect вернет статус 302 (temporary redirect) -  это 
+	умолчание
+       <li>seeother - статус 303 (See Other)
+       <li>gone - статус 410 (Document removed) - указывает, что документа
+	больше нет. В этом случае третий аргумент (new_url) должен 
+	отсутствовать.
+	
+      </ul>
+     <DT>old-url</DT>
+     <dd>&quot;старый&quot; URL - который должен быть перенаправлен. 
+      Указывается относительно Server-Root</dd>
+     <dt>new-url</dt>
+     <dd>&quot;новый&quot; URL - тот, который должен быть указан 
+      вместо старого.
+     </dd>
+    </dl>
+    <p>
+     Эта директива предназначена для замены стандартной директивы 
+     <b>Redirect</b>
+     в случае использования &quot;перекодировки по портам&quot;. Проблема
+     стандартного Redirect заключается в том, что в качестве new-url нужно
+     указывать URL полностью - с указанием протокола, имени сервера и порта.
+     В то же время, при редиректах &quot;в пределах текущего сервера&quot;
+     ни протокол, ни имя сервера, ни порт обычно не меняются для одного 
+     клиента, но могут быть разными для разных. <b>CharsetSoftRedirect</b>
+     подставляет при редиректе текущие порт и hostname сервера.
+    <p>
+     <b>Пример:</b>
+    <pre>
+ CharsetSoftRedirect temp /index.html /new-index.html
+    </pre>
+   </DD>
+
+   <dt><br></dt><dd></dd>
+
+   <DT><A NAME="charsetsoftredirectpermanent">
+     <font size="+1">CharsetSoftRedirectPermanent
+     </font>
+    </A> (работает начиная с PL21.1)</DT>
+   <DD>Директива предназначена для замены директивы RedirectPermanent (из mod_alias)
+    в случае работы с <i>&quot;перекодировкой по портам&quot;</i>.<br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b> никакого<br>
+    <b>Синтаксис:</b>
+    <PRE>
+ CharsetSoftRedirectPermanent old-url new-url
+    </PRE>
+    <b>Параметры:</b>
+    <p>
+    <DL>
+     <DT>old-url</DT>
+     <dd>&quot;старый&quot; URL - который должен быть заредиректен. 
+      Указывается относительно Server-Root</dd>
+     <dt>new-url</dt>
+     <dd>&quot;новый&quot; URL - тот, который должен быть указан 
+      вместо старого.
+     </dd>
+    </dl>
+    <p>
+     Директива аналогична <a href="#charsetsoftredirect">CharsetSoftRedirect</a> permanent old-url new-url
+    <p>
+     <b>Пример:</b>
+    <pre>
+ CharsetSoftRedirectPermanent /index.html /new-index.html
+    </pre>
+   </DD>
+
+   <dt><br></dt><dd></dd>
+
+   <DT><A NAME="charsetsoftredirecttemp">
+     <font size="+1">CharsetSoftRedirectTemp
+     </font>
+    </A> (работает начиная с PL21.1)</DT>
+   <DD>Директива предназначена для замены директивы RedirectTemp (из mod_alias)
+    в случае работы с <i>&quot;перекодировкой по портам&quot;</i>.<br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b> никакого<br>
+    <b>Синтаксис:</b>
+    <PRE>
+ CharsetSoftRedirectTemp old-url new-url
+    </PRE>
+    <b>Параметры:</b>
+    <p>
+    <DL>
+     <DT>old-url</DT>
+     <dd>&quot;старый&quot; URL - который должен быть заредиректен. 
+      Указывается относительно Server-Root</dd>
+     <dt>new-url</dt>
+     <dd>&quot;новый&quot; URL - тот, который должен быть указан 
+      вместо старого.
+     </dd>
+    </dl>
+    <p>
+     Директива аналогична 
+     <a href="#charsetsoftredirect">CharsetSoftRedirect</a> temp old-url 
+     new-url
+    <p>
+     <b>Пример:</b>
+    <pre>
+ CharsetSoftRedirectTemp /index.html /new-index.html
+    </pre>
+   </DD>
+
+   <dt><br></dt><dd></dd>
+
+   <DT><A NAME="charsetoverrideexpires">
+     <font size="+1">CharsetOverrideExpires
+     </font>
+    </A> (работает начиная с PL21.2)</DT>
+   <DD>Директива определяет поведение сервера в случае, когда документ должен 
+    быть сделать некэшируемым с помощью выдачи заголовка Expires:, но этот 
+    заголовок уже поставлен каким-то другим модулем.
+    <br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b>On<br>
+    <b>Синтаксис:</b>
+    <PRE>
+CharsetOverrideExpires On|Off
+    </PRE>
+    В режиме On сервер  будет заменять значение заголовка Expires своим 
+    (обычно, 01 Jan 1970) в том случае, когда выдаваемый документ нужно 
+    сделать некэшируемым. В режиме Off будет оставаться значение, поставленное 
+    другими модулями или CGI-скриптом. <b>Если никакого заголовка Expires
+     другими модулями не поставлено и не включена директива <i>CharsetDisableForcedExpires On</i>, то сервер <i>выдаст</i> заголовок Expires: </b>
+   </DD>
+   <dt><br></dt><dd></dd>
+
+   <DT><A NAME="charsetdisableforcedexpires">
+     <font size="+1">CharsetDisableForcedExpires
+     </font>
+    </A> (работает начиная с PL24.0)</DT>
+   <DD>Директива запрещает выдачу заголовка Expires: 1 Jan 1970 модулем
+    русификации. 
+    <br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b>Off<br>
+    <b>Синтаксис:</b>
+    <PRE>
+CharsetDisableForcedExpires On|Off
+    </PRE>
+    В режиме Off (умолчание) сервер будет выдавать заголовок Expires: 1 Jan 1970
+    для всех документов, которые должны быть сделаны некэшируемыми (т.е. тех,
+    в определении кодировки которых принимали участие данные, полученные от
+    клиента - User-Agent или Accept-Charset не совпадающий с кодировкой,
+    определенной по URL). Это - нормальное поведение сервера, если оно
+    не устраивает для сервера в целом, то разумное решение проблемы описано в
+    <a href="faq.html">FAQ</a>.<br>
+    Однако Expires: бывает нужно запретить для отдельных документов, к ним
+    относятся формы и framesets (в противном случае при reload или back
+    пользователю будет показан начальный frameset или пустая форма).
+    Только для этого режима работы и предназначена данная директива - если
+    она включена для данного File/Location/etc, то Expires не выдается.
+    <b>Использование CharsetDisableForcedExpires для сервера/директории в
+     целом потенциально весьма разрушительно.</b>
+   </DD>
+   <dt><br></dt><dd></dd>
+
+   <DT><A NAME="charsetrecodemethods">
+     <font size="+1">CharsetRecodeMethodsIn &amp; CharsetRecodeMethodsOut
+     </font>
+    </A> (работает начиная с PL23)</DT>
+   <DD>Директивы включает/выключает перекодировку для индивидуальных типов запросов
+    (GET, POST, PUT) соответственно в направлении клиент-&gt;сервер и обратно.
+    <br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b>CharsetRecodeMethods* ALL<br>
+    <b>Синтаксис:</b>
+    <PRE>
+CharsetRecodeMethodsIn method1 [method2 [method3 [..]]]
+CharsetRecodeMethodsOut method1 [method2 [method3 [..]]]
+    </PRE>
+    methodN - одно из ключевых слов GET, POST, PUT, ALL, NONE.<p>
+
+     Вне зависимости от того, производятся ли реальные перекодировки или нет,
+     в запросе (CGI-скрипте) доступны переменные CHARSET - кодировка клиента
+     и SOURCE_CHARSET - &quot;кодировка сервера&quot;
+   </DD>
+   <dt><br></dt><dd></dd>
+
+   <DT><A NAME="charsetrecodemultipartforms">
+     <font size="+1">CharsetRecodeMultipartForms
+     </font>
+    </A> (работает начиная с PL23)</DT>
+   <DD>Директива включает/выключает перекодировку для запросов типа POST
+    с Content-Type: multipart/form-data. К таким запросам относится FileUpload,
+    который нельзя перекодировать, если клиент передает двоичные данные.
+    <br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b>On<br>
+    <b>Синтаксис:</b>
+    <PRE>
+CharsetRecodeMultipartForms On|Off
+    </PRE>
+    В режиме On сервер  будет перекодировать все запросы, в режиме Off - 
+    только запросы, Content-Type которых отличается от multipart/form-data.
+   </DD>
+   <dt><br></dt><dd></dd>
+
+   <DT><A NAME="charsetdisableacceptcharset">
+     <font size="+1">CharsetDisableAcceptCharset
+     </font>
+    </A> (работает начиная с PL27.0)</DT>
+   <DD>Директива запрещает обработку заголовка Accept-Charset и выдачу заголовка
+    Vary: accept-charset
+    <br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b>Off<br>
+    <b>Синтаксис:</b>
+    <PRE>
+CharsetDisableAcceptCharset On|Off
+    </PRE>
+    В режиме Off (умолчание) сервер будет обрабатывать получаемый от пользователя
+    заголовок Accept-Charset и выдавать документы в соответствии с ним. Одновременно
+    выдается заголовок Vary: accept-charset, что отвечает стандарту HTTP/1.1.
+    <p>
+     В режиме On заголовок Accept-Charset не обрабатывается, Vary не выдается.
+    <p><b>Назначение</b>. Директива предназначена для обхода ошибки в Microsoft Internet
+     Explorer 4.0x. Этот броузер считает некэшируемыми все документы в которых есть
+     Vary: accept-charset (что приемлемо, но слишком жестоко - документ не должен кэшироваться
+     если Accept-Charset сменился между запросами). Как следствие, если заполнить форму,
+     а потом нажать <b>Back</b>, то форма будет перезапрошена с сервера и пользователь
+     увидит ее пустой.
+    <p>
+    <b>Использование CharsetDisableAcceptCharset для сервера с автоматическим выбором
+      кодировки по броузеру клиента нарушает стандарты. Владельцы правильных броузеров
+      (с Accept-Charset) не будут видеть правильной кодировки.</b>
+   </DD>
+   <dt><br></dt><dd></dd>
+  </DL>
+   <center>
+<A NAME="redirect"></A>
+    <font size="+1">
+     <b>Автоматическое перенаправление (redirect) клиентов на URL без автоматического
+    выбора кодировки</b>
+    </font>
+   </center>
+  Автоматическое определение клиентской кодировки &quot;по броузеру&quot; удобно в эксплуатациии,
+  но порождает проблему - выдаваемые документы не кэшируются ни транзитными proxy-серверами
+  (почему нельзя кэшировать документы с определением кодировки по клиентскому броузеру
+  написано <a href="faq.html#expires">здесь</a>).<br>
+  Очевидно, что решением проблемы будет - определить клиентскую кодировку (по заданным 
+  директивой <a href="#charsetselectionorder">CharsetSelectionOrder</a> правилам)
+  и выдать HTTP-Redirect на документ в той же кодировке, но с правильным URL 
+  (например, с http://www.server.ru/ -&gt; http://www.server.ru/koi8-r/).
+  Эта возможность появилась в Russian Apache начиная с версии PL28.0, для настройки
+  такого поведения сервера используются следущие директивы:
+
+  <DL>
+   <DT><A NAME="charsetautoredirect">
+     <font size="+1">CharsetAutoRedirect</font>
+    </A> (работает начиная с PL28)</DT>
+   <DD>Директивы включает выдачу Redirect на URL, кодировка которых не зависит от
+    пользовательских броузеров.
+    <br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b>нету<br>
+    <b>Синтаксис:</b>
+    <PRE>
+CharsetAutoRedirect charset urlprefix
+    </PRE>
+    charset - одна из кодировок, известных серверу.<br>
+    urlprefix - то, что подставляется в начало запрошенного пользователем URL. 
+    Может иметь вид:
+    <ul>
+     <li> <code>http://server/dirprefix</code>
+     <li> <code>http://server:port/dirprefix</code>
+     <li> <code>:port</code>
+     <li> <code>/dirprefix</code>
+     <li> <code>none</code>
+    </ul>
+    Редирект можно запретить, установив переменную окружения CHARSET_NOREDIRECT
+    (например через BrowserMatch).<br>
+    Пример:
+<pre>
+CharsetAutoRedirect koi8-r http://server:8100/koi8-r/
+CharsetAutoRedirect windows-1251 http://server:8101
+CharsetAutoRedirect iso-8859-5  :8102
+CharsetAutoRedirect ibm866 /ibm866
+</pre>
+    Представим, что пришел запрос на http://server2/file.html. В этом случае,
+    в зависимости от кодировки клиента, сервер выдаст запрос на один из следующих URL:
+    <ul>
+     <li> http://server:8100/koi8-r/file.html - для кодировки KOI8-R
+     <li> http://server:8101/file.html - для кодировки Windows-1251
+     <li> http://server2:8102/file.html - для кодировки ISO-8859-5
+     <li> http://server2/ibm866/file.html - для кодировки IBM866
+    </ul>
+    Редирект выдается после определения клиентской кодировки, причем правила определения
+    кодировки не меняются (и задаются через <a href="#charsetselectionorder">CharsetSelectionOrder</a>). Поэтому такая вот конфигурация:
+<pre>
+CharsetSelectionOrder Portnumber Useragent
+CharsetByPort koi8-r 8101
+CharsetByPort windows-1251 8100
+CharsetAutoRedirect koi8-r :8100
+CharsetAutoRedirect windows-1251 :8101
+</pre>
+приведет к бесконечному зацикливанию. Если порт не указан, то он сохраняется при редиректе,
+поэтому если подразумевается порт по-умолчанию (80), то нужно явно писать
+<code>http://server:80/</code>.
+   </dd>
+   <dt><br></dt><dd></dd>
+
+   <DT><A NAME="charsetnormalizetourl">
+     <font size="+1">CharsetNormalizeToURL</font>
+    </A> (работает начиная с PL28)</DT>
+   <DD>Директива предназначена для &quot;нормализации&quot; URL объектов, содержащих
+    бинарные (т.е. неперекодируемые) данные. 
+    <br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b>нет<br>
+    <b>Синтаксис:</b>
+    <PRE>
+CharsetNormalizeToURL urlprefix [minimal-size]
+    </PRE>
+    urlprefix - URL с которого должен начинаться канонический URL бинарного документа.
+    <ul>
+     <li> <code>http://server/dirprefix</code>
+     <li> <code>http://server:port/dirprefix</code>
+     <li> <code>:port</code>
+     <li> <code>/dirprefix</code>
+     <li> <code>none</code>
+    </ul>
+    minimal-size - минимальный размер документа, для которого нужно производить
+    &quot;нормализацию&quot; URL. По-умолчанию, 0 байт.<br>
+    Редирект можно запретить, установив переменную окружения CHARSET_NOREDIRECT
+    (например через BrowserMatch).<br>
+    Пример:
+<pre>
+CharsetNormalizeToURL :80 200
+</pre>
+    Данная директива заставляет сервер выдавать редирект на все запросы к бинарным
+    (неперекодируемым) данным, размер которых больше 200 байт. Скажем, если был
+    запрос к http://server:8100/bigimage.gif, то будет выдан редирект на
+    http://server:80/bigimage.gif. Это нужно для того, чтобы бинарные данные не
+    оседали в кэшах во многих экземплярах.<br>
+    Если порт не указан, то он сохраняется при редиректе,
+    поэтому если подразумевается порт по-умолчанию (80), то нужно явно писать
+<code>http://server:80/</code>.<br>
+    С помощью этой директивы легко реализовать отдельный &quot;сервер картинок&quot;
+    т.е. перенаправить все запросы к картинкам на другую машину:
+<pre>
+CharsetNormalizeToURL http://images.mydomain.ru 
+</pre>
+    Редиректы выдаются только для MIME-types, описанных директивой
+    <a href="#charsetnormalizetypes">CharsetNormalizeTypes</a>.
+   </dd>
+   <dt><br></dt><dd></dd>
+
+
+   <DT><A NAME="charsetnormalizetypesl">
+     <font size="+1">CharsetNormalizeTypes</font>
+    </A> (работает начиная с PL28)</DT>
+   <DD>Определяет MIME-types, для которых будет выполняться нормализация URL 
+    (см.     <a href="#charsetnormalizetourl">CharsetNormalizeToURL</a>).
+
+    <br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b>нет<br>
+    <b>Синтаксис:</b>
+    <PRE>
+CharsetNormalizeTypes type1/ type2/subtype type3/ !type4/subtype type4/ type5/subtype !type5/
+    </PRE>
+    Синтаксис и логика перечисления mime-types аналогичны директиве 
+<a href="#charsetprocesstype">CharsetProcessType</a>.
+    Пример:
+<pre>
+CharsetNormalizeTypes application/zip video/mpeg image/
+</pre>
+   </dd>
+   <dt><br></dt><dd></dd>
+
+   <DT><A NAME="charsetredirectfromoriginalurl">
+     <font size="+1">CharsetRedirectFromOriginalURL</font>
+    </A> (работает начиная с PL28.7)</DT>
+   <DD>Определяет URL относительно которого будет производиться redirect.
+    Директива имеет смысл, если URL поменялся в процессе обработки 
+    каким-либо модулем Apache (например, mod_rewrite), если URL не менялся,
+    то никакого влияния не будет.
+    <br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b>Off<br>
+    <b>Синтаксис:</b>
+    <PRE>
+CharsetRedirectFromOriginalURL On|Off
+    </PRE>
+    Эта директива имеет значение, если в процессе обработки запроса
+    сервером оригинальный был изменен на какой-либо еще (например,
+    через RewriteRule с флагом PT). Если флаг <b>CharsetRedirectFromOriginalURL</b>
+    имеет значение Off, то редирект, определенный директивой 
+    <a href="#charsetautoredirect">CharsetAutoRedirect</a> будет производится относительно
+    нового (измененного) URL, если On, то относительно оригинального (введенного пользователем)
+    URL. 
+   </dd>
+   <dt><br></dt><dd></dd>
+
+   <DT><A NAME="charsetnoautoredirectfordefaultcharset">
+     <font size="+1">CharsetNoAutoRedirectForDefaultCharset</font>
+    </A> (работает начиная с PL28.16)</DT>
+   <DD>Определяет, производить ли AutoRedirect, если кодировка клиента определена
+    не по содержимому запроса (т.е. не по URL/AcceptCharset/UserAgent, а по
+    CharsetDefault/CharsetPriority).
+
+    <br>
+    <b>Context:</b> сервер, виртуальный сервер, &lt;Directory&gt;,
+    &lt;Location&gt;, .htaccess<br>
+    <b>Default:</b>Off<br>
+    <b>Синтаксис:</b>
+    <PRE>
+CharsetNoAutoRedirectForDefaultCharset On|Off
+    </PRE>
+    Назначение этой директивы - не производить редиректа, если клиент пришел
+    на URL c автоматическим выбором кодировки без заголовка Accept-Charset
+    и с неизвестным (не описанным директивой <a href="#charsetagent">CharsetAgent</a>)
+    User-Agent. Наиболее типичный пример - поисковая система. Если эта директива
+    включена, то такой клиент получит требуемый документ. Если выключена - 
+    редирект на &quot;кэшируемый&quot; URL с этим документом.
+    
+   </dd>
+   <dt><br></dt><dd></dd>
+
+   </DL>
+
+  <p>
+   <dt>&nbsp;</dt>
+   <center>
+<A NAME="control-env-vars"></A>
+    <font size="+1">
+     <b>Управление перекодировками из других модулей.</b>
+    </font>
+   </center>
+  <p>
+  При необходимости явно задать кодировку хранения документа (из которой производится
+  перекодирование), либо кодировку клиента (в которую производится перекодирование)
+  другие модули могут использовать такие переменные окружения (в r-&lt;subprocess_env):
+  <DL>
+   <DT>FORCE_CHARSET</DT>
+   <DD>
+    Устанавливает кодировку клиента, если это разрешено директивой конфигурации
+    <a href="#charsetselectionorder">CharsetSelectionOrder</a>.
+   </DD>
+   <DT>FORCE_SOURCE_CHARSET</DT>
+   <DD>
+    Устанавливает исходную (&quot;на диске&quot;) кодировку документа. Имеет
+    больший приоритет, чем <a href="#charsetsourceenc">CharsetSourceEnc</a> и
+    <a href="#charsetbyextension">CharsetByExtension</a>.
+    </DD>
+ </DL>
+
+   <dt>&nbsp;</dt>
+   <center>
+<A NAME="env-vars"></A>
+    <font size="+1">
+     <b>Дополнительные переменные окружения CGI-скриптов</b>
+    </font>
+   </center>
+  <p>
+  Для удобства написания нетривиальных CGI-скриптов, сервер добавляет
+  несколько дополнительных переменных окружения, доступных как для CGI,
+  так и для модулей.
+  <DL>
+   <DT>CHARSET</DT>
+   <DD>в этой переменной содержится &quot;официальное&quot; название
+    кодировки клиента т.е. той, в которой документ будет отдан после перекодировки.
+    </DD>
+   <DT>SOURCE_CHARSET</DT>
+   <DD>Кодировка исходного документа (по мнению сервера). Для CGI-скриптов это 
+    означает, что их вывод должен быть в этом charset.
+    </DD>
+   <DT>CHARSET_SERVER_NAME</DT>
+   <DD>Имя сервера и номер порта в формате www.domain:1234<br>
+    Эту переменную пришлось добавить т.к. в переменной HTTP_HOST содержится
+    то, что сервер получил в заголовке Host:, а в переменной SERVER_PORT -
+    номер порта, сконфигурированный директивой Port. Что никак не может устроить.
+    </DD>
+   <DT>CHARSET_SERVER_PORT</DT>
+    <DD>Номер порта к которому был текущий запрос</DD>
+   <DT>CHARSET_HTTP_METHOD</DT>
+   <DD>http:// или https://. Т.е. полный URL запроса восстанавливается как
+    ${CHARSET_HTTP_METHOD}${CHARSET_SERVER_NAME}${REQUEST_URI}
+   <DT>CHARSET_SAVED_QUERY_STRING</DT>
+   <DD>значение переменной QUERY_STRING до перекодировки</dd>
+   <DT>CHARSET_SAVED_PATH_INFO</DT>
+   <DD>значение переменной PATH_INFO до перекодировки</dd>
+  </DL>
+  Переменные CHARSET и SOURCE_CHARSET ставятся сервером только если mod_charset
+  &quot;включен&quot; (CharsetDisable Off), остальные три переменные ставятся
+  всегда. 
+
+  <hr size=3>
+
+<br>
+<br>
+
+<center>
+<table width=100%>
+<tr><td align=center>
+<font size="-1">
+   <a href="/index.html">[ <b>Russian Apache</b> ]</a>
+   <a href="/internals.html">[ Как это работает ]</a>
+   <a href="/notes.html">[ Рекомендации ]</a> 
+   <a href="/getit.html">[ Где взять ]</a> 
+   <a href="/install.html">[ Как установить ]</a>
+   <a href="/configure.html">[ Как настроить ]</a><br>
+   <a href="/support.html">[ Статус и поддержка ]</a>
+   <a href="/intro.html">[ Краткий обзор ]</a>
+   <a href="/faq.html">[ FAQ ]</a> 
+   <a href="/mail-archive/">[ Список рассылки ]</a>
+   <a href="/thanks.html">[ Благодарности ]</a>
+   <a href="/search.html">[ Поиск по серверу ]</a><br>
+   <a href="/powered.html">[ Powered by Russian Apache ]</a><br>
+</td></tr></table>
+<br>
+
+  <table width="800" border="0" cellspacing="0" cellpadding="0">
+   <tr>
+    <td align="CENTER">
+  <font size="-1"><b>"Russian Apache"</b> includes software developed 
+   by the Apache Group for use in the Apache HTTP server project 
+   (http://www.apache.org/) See 
+   <a href="/thanks.html#LICENSE">Apache LICENSE</a>.<br>
+   Copyright (C) 1995-2001 The Apache Group. All rights reserved.<br>
+   Copyright (C) 1996 Dm. Kryukov; Copyright (C)
+   1997-2002 <a href="http://www.lexa.ru/">Alex Tutubalin</a>. Design (C) 1998 Max Smolev.
+	    </font>
+	  </td>
+       <td width=10></td>   
+         <td valign=top>
+<a href="http://counter.rambler.ru/top100/"><FONT size=1>[AD]</FONT><AD- =0></a>
+          </td>    
+	</tr>
+      </table>
+</center>
+
+ </body>
+</html>
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: html3
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:t
+sgml-always-quote-attributes:t
+sgml-indent-step:1
+sgml-indent-data:t
+End:
+-->

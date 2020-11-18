@@ -1,0 +1,253 @@
+<html>
+<title>Обзор языков программирования, как средств разработки CGI-программ</title>
+<meta name=keywords content="CGI C PHP Perl Java Pascal Delphi shell C++ ASP">
+<meta name=description content="Сравнительный анализ различных средств разработки CGI-программ">
+
+<body>
+<table align=center width=90%>
+<tr><td>
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c08.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c08.html">Основы CGI </a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c10.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c10.html">Основы реляционных баз данных </a>
+</table>
+
+ <h3>Обзор языков программирования, как средств разработки CGI-программ</h3>
+
+<p align="justify">
+Целью данной главы является дать некоторый обзор различных языков программирования, 
+как инструментов для разработки CGI-скриптов. Показать их сильные и слабые стороны,
+а также просто те или иные их особенности. Для начала, рассмотрим общие требования
+к языку разработки CGI-скриптов. Для этого надо описать общую картину, рассказать о
+том, где и в каких условиях живут сайты в Интернет. Сайты живут на железных серверах, так
+называемых,
+системных блоках. На одном системном блоке живет несколько сотен сайтов. Наиболее
+распространенной платформой на сегодняшний день является Unix, а точнее две его
+разновидности: Linux и FreeBSD. Linux - это для детей, что-то наподобие Windows.
+Если хотите вдоволь натрахаться, увидить свой сервер повисшим, ломать голову, почему что-то работает
+не так, как должно, то Linux к вашим услугам. Сейчас в меня полетят камни линуксоидов, но
+простим им, ибо не ведают, что творят. Я сам когда-то был таким. Ну, а когда совсем пешком
+под стол ходил, так вообще про WinNT и дядю Билла кричал, все оттого, что ничего
+другого просто не видел. Так вот, самые продвинутые и умные работают 
+на FreeBSD. 
+Наш главный сервер с осени 1999 по весну 2001 года успешно проработал на машине с 
+процессором Pentium 120Mhz, 16Mb оперативной памяти и жестким диском 13Гб под управлением 
+FreeBSD3.3. На сервере было десятка два веб-сайтов с общей посещаемостью от 200 до 700 уникальных 
+посетителей в день. Сервер осуществлял доступ в Интернет для 15 машин. На данной машине 
+также находилось четыре модемных входных линии, через которые мы ходили в Интернет из дома. 
+Более 20 пользователей имели у нас почтовые ящики и ftp-доступ на 50Mb, а
+также на сервере были установлены firewall, DNS, MySQL, Perl, велись квоты на использование 
+жесткого диска. Средняя загрузка сервера составляла менее одного
+процента. И самое главное, он ни разу не повис и работал без перезагрузки по нескольку 
+месяцев. Перегружать его приходилось только по необходимости, например, из-за
+перекомпилирования ядра. Суточный трафик зависит от пропускной способности канала и 
+популярности размещенных сайтов. Вполне нормальным является трафик в 1-2Гб, а в один и тот же
+момент времени на сервере может находится 20-50 человек, что можно определить по числу
+запущенных копий Apache. Анализируя все вышесказанное, делаем выводы:
+<ol>
+<li> CGI-программа должна выполняться максимально быстро, чтобы не 
+загружать процессор. Помните, сайтов несколько сотен, на каждом сайте несколько 
+CGI-программ. Все они имеют равный приоритет и равное количество процессорного
+времени. 
+<li> Средство разработки должно позволять интегрироваться CGI-программе со внешней средой,
+получать доступ к переменным окружения, соединяться с базами данных, соединяться
+с другими серверами по сети и т.п..
+<li> В один и тот же момент времени может быть запущено
+несколько экземпляров одной и той же CGI-программы, поэтому средство разработки
+должно иметь возможность межпроцессорного взаимодействия. 
+<li> Важным фактором является переносимость, которая может быть 
+ от версии к версии операционной системы и сопутствующего ПО,
+например MySQL. Переносимость между клонами ОС FreeBSD <=> Linux.
+Переносимость на принципиально другую платформу Unix <=> Windows.
+</ol>
+ 
+На основании перечисленных требований составим сравнительную таблицу
+характеристик для различных средств разработки.
+
+<table border="1">
+<tr>
+ <td>Средство разработки</td> <td>1</td> <td>2</td> <td>3</td> <td>4</td>
+</tr>
+
+<tr>
+ <td>Си</td> <td>+</td> <td>+</td> <td>+</td> <td>-+</td>
+</tr>
+
+<tr>
+ <td>С++</td> <td>-+</td> <td>+</td> <td>+</td> <td>-+</td>
+</tr>
+
+<tr>
+ <td>MS VisualС</td> <td>+</td> <td>+</td> <td>+</td> <td>-</td>
+</tr>
+
+<tr>
+ <td>Delphi</td> <td>-+</td> <td>+</td> <td>+</td> <td>-</td>
+</tr>
+
+<tr>
+ <td>Java</td> <td>-</td> <td>-</td> <td>-</td> <td>+</td>
+</tr>
+
+<tr>
+ <td>Unix Shell</td> <td>-</td> <td>+</td> <td>-</td> <td>-</td>
+</tr>
+
+
+<tr>
+ <td>Perl</td> <td>-</td> <td>+</td> <td>+</td> <td>+</td>
+</tr>
+
+
+<tr>
+ <td>PHP</td> <td>-</td> <td>+</td> <td>-</td> <td>+</td>
+</tr>
+
+<tr>
+ <td>ASP</td> <td>-</td> <td>+</td> <td>-</td> <td>-</td>
+</tr>
+
+</table>
+<p align="justify">
+И мы получаем интересную картину, что наиболее подходящим средством для разработки
+CGI-приложений, являются чистый Си и Perl: причем, Си на первом месте. 
+Авторы многих книг по языку Perl упорно твердят,
+вторя друг другу, что Perl, именно Perl и только Perl, является самым подходящим средством
+для разработки программной составляющей веб-сайта. Такого рода авторы - технические писатели, 
+вероятно, не наблюдали, как один perl'овый форум может загружать до 60% ресурсов сервера.
+Теперь представьте еще раз ситуацию, что у вас сотня сайтов. Меньше никак нельзя, просто 
+нерентабельно - зарплата системного администратора, оплата канала Интернет, затраты на амортизацию оборудования.
+Если на нескольких сайтах одновременно начнется активность в форумах, то сервер 
+загнется.
+<br>
+ Сам я являюсь сторонником языка Си, считая все остальные языки менее пригодными для 
+ разработки CGI-программ. Это мнение, конечно, спорное. Есть программисты, которые считают,
+ что вообще все нужно писать на ассемблере или в машинных кодах. Это одна крайность.
+ Другие предпочитают объектно-ориентированный подход и признают только Delphi или С++. 
+ Это другая крайность. Выбор инструмента для разработки должен определяться постановкой задачи.
+ При разработке больших информационных систем
+ иногда имеет смысл использовать несколько языков программирования. Так, например,
+при разработке информационного портала Inforg (http://inforg.ru) мы применяли:
+MS Visual C++ для разработки офлайновой части программного обеспечения,
+Си для разр.аботки демона для FreeBSD и CGI-программ, Perl - для обработки
+документов.
+<br>
+ В данном параграфе  дан небольшой обзор и авторский взгляд
+ на инструменты разработки веб-сайтов. Популярность Perl или PHP так велика, что 
+ можно оспаривать правомерность их использования, но не умалчивать о них.
+Данная книга ставит задачей освятить общие 
+методы и технологии разработки веб-сайтов. Рассмотреть применение технологий со 
+всеми инструментальными средствами не представляется возможным.
+ Если вы захотите изучить какой-либо язык, то в конце книги есть список литературы 
+ и ссылки на Интернет-ресурсы. 
+ 
+</td></tr>
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #1 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=0-3356" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=0?3356" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=0'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69019-bn=0-3356" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=0?3356"
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #2 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=1?Rnd_Num" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=1'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=1?Rnd_Num" 
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="erle.cgi-51599-3356" tppabs="http://www.linkexchange.ru/cgi-bin/erle.cgi?51599?3356" frameborder=0 
+    vspace=0 hspace=0 width=468 height=60 marginwidth=0 marginheight=0 scrolling=no>
+    <a href="javascript:if(confirm('http://www.linkexchange.ru/users/goto.map  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://www.linkexchange.ru/users/goto.map'" tppabs="http://www.linkexchange.ru/users/goto.map" target=_top>
+    <img src="rle.cgi-51599-3356" tppabs="http://www.linkexchange.ru/cgi-bin/rle.cgi?51599?3356" alt="RLE Banner Network" border=0 height=60 width=468></a>
+    </iframe>
+
+<!-- Russian LinkExchange code START - BANNER #1 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=0-3356" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=0?3356"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=0'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69021-bn=0-3356" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=0?3356"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+<!-- Russian LinkExchange code START - BANNER #2 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=1-3356" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=1?3356"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=1'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69021-bn=1-3356" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=1?3356"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+</td></tr>
+</table>
+
+</body>
+</html>

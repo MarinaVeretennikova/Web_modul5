@@ -1,0 +1,56 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>sesam_fetch_array</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="sesam-execimm.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="sesam-fetch-result.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.sesam-fetch-array">sesam_fetch_array</A></H1><A NAME="AEN72707"></A><P>(только PHP 3 CVS)</P>
+<p>sesam_fetch_array - извлекает один ряд как ассоциативный массив.<A NAME="AEN72710"></A></p><H2>Описание</H2>
+<p>array <B>sesam_fetch_array</B> (string result_id [, int whence [, int offset]])</p>
+<P>Возвращает массив, соответствующий извлечённому ряду, или <TT><B>FALSE</B></TT>, если рядов больше нет.</P>
+<P><B>sesam_fetch_array()</B> это альтернативная версия <A HREF="sesam-fetch-row.html"><B>sesam_fetch_row()</B></A>. Вместо хранения данных в числовых индексах результирующего массива, она 
+хранит их в ассоциативных индексах, используя в качестве ключей имена полей.</P>
+<P><TT><I>result_id</I></TT> это правильный результирующий идентификатор, возвращаемый функцией
+<A HREF="sesam-query.html"><B>sesam_query()</B></A> (только запросы типа select!).</P>
+<P>О правильных значениях необязательных параметров <TT><I>whence </I>и</TT> <TT><I>offset</I></TT> см.
+<A HREF="sesam-fetch-row.html"><B>sesam_fetch_row()</B></A>.</P><P><B>sesam_fetch_array()</B> извлекает один ряд данных из результата, ассоциированного со специфицированным 
+результирующим идентификатором. Ряд возвращается как ассоциативный массив. Каждый столбец результата 
+хранится с ассоциативным индексом, равным имени столбца (поля). Имена столбцов конвертируются в нижний регистр.</P>
+<P>Столбцы без имени поля (например, результаты арифметических операций) и пустые поля не хранятся в этом массиве. Также,
+если два или более столбца результата имеют одинаковые имена столбцов, последний столбец имеет преимущество. В этой ситуации вызывайте
+<A HREF="sesam-fetch-row.html"><B>sesam_fetch_row()</B></A> или создайте псевдоним для столбца.<A NAME="AEN72740"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>SELECT TBL1.COL AS FOO, TBL2.COL AS BAR FROM TBL1, TBL2</PRE>
+</TD></TR></TABLE><P>Специальная обработка даёт возможность извлекать "multiple field/многопольные" столбцы
+(которые иначе все имели бы одинаковые имена столбцов).  Для каждого "multiple field"-столбца 
+конструируется имя индекса путём присоединения строки "(n)", где n это субиндекс multiple field-столбца, в диапазоне от 1 до объявленного фактора повтора.
+Эти индексы - НЕ на базе 0, чтобы соответствовать номенклатуре синтаксиса соответствующего запроса/query. Для столбца, объявленного:
+<A NAME="AEN72743"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>CREATE TABLE ... ( ... MULTI(3) INT )</PRE></TD></TR></TABLE>
+<p>ассоциативные индексы, используемые для отдельных "multiple field"-столбцов, будут <TT>"multi(1)"</TT>,
+<TT>"multi(2)"</TT> и <TT>"multi(3)"</TT> соответственно.</p><P>Последующие вызовы <B>sesam_fetch_array()</B> возвратят следующий (или предыдущий, или n'ный следующий/предыдущий, в 
+зависимости от атрибутов прокрутки) ряд результирующего набора, или <TT><B>FALSE</B></TT>, если рядов больше нет.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN72751"></A><h5>Пример 1. Массив извлечения SESAM</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$result = sesam_query ("SELECT * FROM phone\n".
+                       "  WHERE LASTNAME='".strtoupper($name)."'\n".
+                       "  ORDER BY FIRSTNAME", 1);
+if (!$result) {
+    ... error ...
+}
+// print the table:
+print "&#60;TABLE BORDER&#62;\n";
+while (($row = sesam_fetch_array ($result)) &#38;&#38; count ($row) &#62; 0) {
+    print " &#60;TR&#62;\n";
+    print " &#60;TD&#62;".htmlspecialchars ($row["firstname"])."&#60;/TD&#62;\n";
+    print " &#60;TD&#62;".htmlspecialchars ($row["lastname"])."&#60;/TD&#62;\n";
+    print " &#60;TD&#62;".htmlspecialchars ($row["phoneno"])."&#60;/TD&#62;\n";
+    print " &#60;/TR&#62;\n";
+}
+print "&#60;/TABLE&#62;\n";
+sesam_free_result ($result);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="sesam-fetch-row.html"><B>sesam_fetch_row()</B></A>, которая возвращает индексированный массив.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="sesam-execimm.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="sesam-fetch-result.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">sesam_execimm</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.sesam.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">sesam_fetch_result</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

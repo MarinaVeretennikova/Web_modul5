@@ -1,0 +1,105 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>OCINewDescriptor</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ocinewcursor.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ocinlogon.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>    
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="ocinewdescriptor">OCINewDescriptor</A></H1><A NAME="AEN58520"></A><P>(PHP 3&#62;= 3.0.7, PHP 4)</P>
+<p>OCINewDescriptor - инициализирует новый пустой LOB или FILE-дескриптор.<A NAME="AEN58523"></A></p><H2>Описание</H2>
+<p>string <B>OCINewDescriptor</B> (int connection [, int type])</p><P><B>OCINewDescriptor()</B> выделяет место для хранения дескрипторов или LOB-локаторов. Правильными 
+значениями для <TT><I>type</I></TT> являются OCI_D_FILE, OCI_D_LOB, OCI_D_ROWID.
+Для LOB-дескрипторов методы load, save и savefile ассоциированы с этим дескриптором, для BFILE имеется только метод load. См. примечания по 
+использованию во втором примере.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN58537"></A>
+<h5>Пример 1. OCINewDescriptor</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php   
+    /* Это скрипт разработан для вызова из HTML-формы.
+     * Он ожидает, что ему будут переданы из формы $user, $password, $table, $where
+     * и $commitsize. Затем скрипт удаляет выбранные ряды
+     * с использованием ROWID и подтверждает после каждой установки
+     * $commitsize-рядов. (Используйте осторожно, отката нет)
+     */
+    $conn = OCILogon($user, $password);
+    $stmt = OCIParse($conn,"select rowid from $table $where");
+    $rowid = OCINewDescriptor($conn,OCI_D_ROWID);
+    OCIDefineByName($stmt,"ROWID",&#38;$rowid);   
+    OCIExecute($stmt);
+    while ( OCIFetch($stmt) ) {      
+       $nrows = OCIRowCount($stmt);
+       $delete = OCIParse($conn,"delete from $table where ROWID = :rid");
+       OCIBindByName($delete,":rid",&#38;$rowid,-1,OCI_B_ROWID);
+       OCIExecute($delete);      
+       print "$nrows\n";
+       if ( ($nrows % $commitsize) == 0 ) {
+           OCICommit($conn);      
+       }   
+    }
+    $nrows = OCIRowCount($stmt);   
+    print "$nrows deleted...\n";
+    OCIFreeStatement($stmt);  
+    OCILogoff($conn);
+?&#62;</PRE></TD></TR></TABLE><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+    /* Этот скрипт демонстрирует загрузку файлов в LOB-столбцы
+     * Поле формы для этого примера выглядит так:
+     * &#60;form action="upload.php" method="post" enctype="multipart/form-data"&#62;
+     * &#60;input type="file" name="lob_upload"&#62;
+     * ...
+     */
+  if(!isset($lob_upload) || $lob_upload == 'none'){
+?&#62;
+&#60;form action="upload.php" method="post" enctype="multipart/form-data"&#62;
+Upload file: &#60;input type="file" name="lob_upload"&#62;&#60;br&#62;
+&#60;input type="submit" value="Upload"&#62; - &#60;input type="reset"&#62;
+&#60;/form&#62;
+&#60;?php
+  } else {
+
+     // $lob_upload содержит временное имя загружаемого файла.
+     // См. также раздел возможностей загрузки файлов,
+     // если вам нужно использовать безопасную загрузку.
+     
+     $conn = OCILogon($user, $password);
+     $lob = OCINewDescriptor($conn, OCI_D_LOB);
+     $stmt = OCIParse($conn,"insert into $table (id, the_blob) 
+               values(my_seq.NEXTVAL, EMPTY_BLOB()) returning the_blob into :the_blob");
+     OCIBindByName($stmt, ':the_blob', &#38;$lob, -1, OCI_B_BLOB);
+     OCIExecute($stmt, OCI_DEFAULT);
+     if($lob-&#62;savefile($lob_upload)){
+        OCICommit($conn);
+        echo "Blob successfully uploaded\n";
+     }else{
+        echo "Couldn't upload Blob\n";
+     }
+     OCIFreeDesc($lob);
+     OCIFreeStatement($stmt);
+     OCILogoff($conn);
+  }
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN58541"></A>
+<h5>Пример 2. OCINewDescriptor</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php   
+    /* Вызывается хранимые процедуры PL/SQL, содержащие clobs в качестве
+     * параметров ввода (PHP 4 &#62;= 4.0.6).
+     * Пример подписи хранимой процедуры PL/SQL выглядит так:
+     *
+     * PROCEDURE save_data
+     *   Имя аргумента                  Тип                    In/Out Default?
+     *   ------------------------------ ----------------------- ------ --------
+     *   KEY                            NUMBER(38)              IN
+     *   DATA                           CLOB                    IN
+     *
+     */
+
+    $conn = OCILogon($user, $password);
+    $stmt = OCIParse($conn, "begin save_data(:key, :data); end;");
+    $clob = OCINewDescriptor($conn, OCI_D_LOB);
+	OCIBindByName($stmt, ':key', $key);
+	OCIBindByName($stmt, ':data', $clob, -1, OCI_B_CLOB);
+	$clob-&#62;WriteTemporary($data);
+	OCIExecute($stmt, OCI_DEFAULT);
+	OCICommit($conn);
+	$clob-&#62;close();
+	$clob-&#62;free();
+	OCIFreeStatement($stmt);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ocinewcursor.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ocinlogon.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">OCINewCursor</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.oci8.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">OCINLogon</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

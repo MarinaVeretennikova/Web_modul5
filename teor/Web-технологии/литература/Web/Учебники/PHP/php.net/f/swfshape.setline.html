@@ -1,0 +1,71 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>SWFShape-&#62;setLine</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="swfshape.setleftfill.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="swfshape.setrightfill.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.swfshape.setline">SWFShape-&#62;setLine</A></H1><A NAME="AEN47923"></A><P>(unknown)</P>
+<p>SWFShape-&#62;setLine - устанавливает стиль линии фигуры.<A NAME="AEN47926"></A></p><H2>Описание</H2><p>void <B>swfshape-&#62;setline</B> (int width [, int red [, int green [, int blue [, int a]]]])</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD><P>Эта функция - ЭКСПЕРИМЕНТАЛЬНАЯ. Поведение, имя и всё остальное, что задокументировано для данной функции может быть изменено в будущих релизах РНР без предупреждения. Вы можете использовать эту функцию только на свой страх и риск.
+</P></TD></TR></TABLE><P><B>swfshape-&#62;setline()</B> устанавливает стиль линии фигуры. 
+<TT><I>width</I></TT> это толщина линии. Если <TT><I>width</I></TT> равна 0, стиль линии удаляется (тогда игнорируются все другие аргументы).
+Если <TT><I>width</I></TT> &#62; 0, то цвет линии устанавливается в <TT><I>red</I></TT>, <TT><I>green</I></TT>, <TT><I>blue</I></TT>.
+Последний параметр <TT><I>a</I></TT> не обязателен.</P><P><B>swfshape-&#62;setline()</B> принимает 1, 4 или 5 аргументов 
+(не 3 или 2).</P><P> Вы обязаны определить все стили линии до их использования (см. пример).</P>
+<P>В этом простом примере рисуется большой "!#%*@&quot; разными цветами и грациозным стилем.<TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN47962"></A><h5>Пример 1. swfshape-&#62;setline()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+  $s = new SWFShape();
+  $f1 = $s-&#62;addFill(0xff, 0, 0);
+  $f2 = $s-&#62;addFill(0xff, 0x7f, 0);
+  $f3 = $s-&#62;addFill(0xff, 0xff, 0);
+  $f4 = $s-&#62;addFill(0, 0xff, 0);
+  $f5 = $s-&#62;addFill(0, 0, 0xff);
+
+  // баг: нужно объявить все стили линии до их использования
+  $s-&#62;setLine(40, 0x7f, 0, 0);
+  $s-&#62;setLine(40, 0x7f, 0x3f, 0);
+  $s-&#62;setLine(40, 0x7f, 0x7f, 0);
+  $s-&#62;setLine(40, 0, 0x7f, 0);
+  $s-&#62;setLine(40, 0, 0, 0x7f);
+
+  $f = new SWFFont('Techno.fdb');
+
+  $s-&#62;setRightFill($f1);
+  $s-&#62;setLine(40, 0x7f, 0, 0);
+  $s-&#62;drawGlyph($f, '!');
+  $s-&#62;movePen($f-&#62;getWidth('!'), 0);
+
+  $s-&#62;setRightFill($f2);
+  $s-&#62;setLine(40, 0x7f, 0x3f, 0);
+  $s-&#62;drawGlyph($f, '#');
+  $s-&#62;movePen($f-&#62;getWidth('#'), 0);
+
+  $s-&#62;setRightFill($f3);
+  $s-&#62;setLine(40, 0x7f, 0x7f, 0);
+  $s-&#62;drawGlyph($f, '%');
+  $s-&#62;movePen($f-&#62;getWidth('%'), 0);
+
+  $s-&#62;setRightFill($f4);
+  $s-&#62;setLine(40, 0, 0x7f, 0);
+  $s-&#62;drawGlyph($f, '*');
+  $s-&#62;movePen($f-&#62;getWidth('*'), 0);
+
+  $s-&#62;setRightFill($f5);
+  $s-&#62;setLine(40, 0, 0, 0x7f);
+  $s-&#62;drawGlyph($f, '@');
+
+  $m = new SWFMovie();
+  $m-&#62;setDimension(3000,2000);
+  $m-&#62;setRate(12.0);
+  $i = $m-&#62;add($s);
+  $i-&#62;moveTo(1500-$f-&#62;getWidth("!#%*@")/2, 1000+$f-&#62;getAscent()/2);
+
+  header('Content-type: application/x-shockwave-flash');
+  $m-&#62;output();
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="swfshape.setleftfill.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="swfshape.setrightfill.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">SWFShape-&#62;setLeftFill</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.ming.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">SWFShape-&#62;setRightFill</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

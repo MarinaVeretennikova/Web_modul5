@@ -1,0 +1,43 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>ldap_get_attributes</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD><TABLE
+WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ldap-free-result.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="ldap-get-dn.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.ldap-get-attributes">ldap_get_attributes</A></H1><A NAME="AEN39147"></A><P>(PHP 3, PHP 4)</P>
+<p>ldap_get_attributes - получает атрибуты из вхождения результата поиска.<A NAME="AEN39150"></A></p>
+<H2>Описание</H2><p>array <B>ldap_get_attributes</B> (resource link_identifier, resource result_entry_identifier)</p>
+<P>Возвращает полную информацию о вхождении в виде многомерного массива при успехе, <TT><B>FALSE</B></TT> при ошибке.</P>
+<P><B>ldap_get_attributes()</B> используется для упрощения чтения атрибутов и значений из вхождения в 
+результате поиска.<br>return-значение это многомерный массив атрибутов и значений.</P>
+<P>Локализовав специфицированное вхождение в директории, вы можете 
+определить, какая информация содержится об этом вхождении при использовании 
+этого вызова. Вы можете использовать этот вызов для приложения, которое "просматривает"
+вхождения директории, и/или где вы не знаете структуру вхождений директории. 
+Во многих приложениях вы будете искать специфический атрибут, такой как email-адрес или surname,
+или другие данные.<A NAME="AEN39167"></A></P><P>return_value["count&quot;] = количество атрибутов во вхождении<br>
+return_value[0] = первый атрибут<br>
+return_value[n] = n'ный атрибут<br><br>return_value["attribute"]["count"] = количество значений атрибута<br>
+return_value["attribute"][0] = первое значение атрибута<br>return_value["attribute"][i] = (i+1)'ное значение атрибута</P><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN39169"></A>
+<h5>Пример 1. Показываем список атрибутов, содержащихся для определённого вхождения в директории</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>// $ds это идентификатор ссылки директории
+
+// $sr это правильный результат поиска из предшествующего вызова
+// одного из вызовов поиска в ldap-директории
+
+$entry = ldap_first_entry($ds, $sr);
+
+$attrs = ldap_get_attributes($ds, $entry);
+
+echo $attrs["count"]." attributes held for this entry:&#60;p&#62;";
+
+for ($i=0; $i&#60;$attrs["count"]; $i++)
+    echo $attrs[$i]."&#60;br&#62;";</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>См. также <A HREF="ldap-first-attribute.html"><B>ldap_first_attribute()</B></A> и
+<A HREF="ldap-next-attribute.html"><B>ldap_next_attribute()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="ldap-free-result.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="ldap-get-dn.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">ldap_free_result</TD><th WIDTH="34%" VALIGN="top"><A HREF="ref.ldap.html">Вверх</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ldap_get_dn</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

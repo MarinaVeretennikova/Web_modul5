@@ -1,0 +1,140 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Изображений</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="ob-iconv-handler.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="exif-imagetype.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><a NAME="ref.image"></a>XLII. Функции изображений</h1><a NAME="AEN30830"></a><H1>
+<A NAME="image.intro">Введение</A></H1><P>Вы можете использовать функции работы с изображениями в PHP для получения 
+размера изображений форматов JPEG, GIF , PNG , SWF , TIFF и JPEG2000.</P>
+<H1><A NAME="image.requirenments">Требования</A></H1><P>Если у вас есть библиотека GD (доступна с
+<A TARGET="_top">http://www.boutell.com/gd/</A>), вы также сможете создавать изображения и манипулировать ими.</P>
+<P>Формат изображений, с которыми вы можете работать, зависит от установленной у вас версии GD и любых других
+GD-библиотек, которые могут понадобиться для доступа к изображениям 
+этих форматов. Версии GD старше gd-1.6 поддерживают изображения gif и не поддерживают png, а версии новее gd-1.6
+поддерживают png, но не gif.</P><P>Если вы скомпилировали PHP с опцией <TT>--enable-exif</TT>, вы можете работать с информацией, хранимой в header'ах изображений JPEG 
+и TIFF . Эти функции не требуют библиотеки GD .</P><H1><A NAME="image.installation">Установка</A></H1>
+<P>Чтобы читать и записывать изображения в формате jpeg, вам нужно будет получить и установить jpeg-6b (находится на
+<A HREF="ftp://ftp.uu.net/graphics/jpeg/" TARGET="_top">ftp://ftp.uu.net/graphics/jpeg/</A>),
+а затем перекомпилировать GD на использование jpeg-6b. Вы должны будете также скомпилировать PHP с опцией 
+<TT>--with-jpeg-dir=/path/to/jpeg-6b</TT>.</P><P>Для добавления поддержки шрифтов Type 1, вы можете установить t1lib (находится 
+на <A HREF="ftp://sunsite.unc.edu/pub/Linux/libs/graphics/" TARGET="_top">ftp://sunsite.unc.edu/pub/Linux/libs/graphics/</A>), а затем добавить
+<TT>--with-t1lib[=dir]</TT>.</P><H1><a name="image.configuration">Конфигурация</a></H1>
+<P>Это расширение не определяет никаких директив конфигурации.</P><H1><A NAME="image.resources">Типы ресурсов</A></H1>
+<P>Это расширение не определяет никакие типы ресурсов.</P><H1><A NAME="image.constants">Предопределённые константы</A>
+</H1><P>Эти константы определены данным расширением и будут доступны только в том случае, если либо вкомпилированы в РНР, либо динамически загружены на этапе прогона.</P>
+<DL><DT><TT><B>IMG_GIF</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>IMG_JPG</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>IMG_JPEG</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>IMG_PNG</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>IMG_WBMP</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>IMG_XPM</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>IMG_COLOR_TILED</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>IMG_COLOR_STYLED</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>IMG_COLOR_BRUSHED</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>IMG_COLOR_STYLEDBRUSHED</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>IMG_COLOR_TRANSPARENT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>IMG_ARC_ROUNDED</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>IMG_ARC_PIE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>IMG_ARC_CHORD</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>IMG_ARC_NOFILL</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>IMG_ARC_EDGED</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT></DL><h5>&nbsp;</h5><h5>Содержание</h5>
+<DL><DT><A HREF="exif-imagetype.html">exif_imagetype</A> - определяет тип изображения</DT>
+<DT><A HREF="exif-read-data.html">exif_read_data</A> — читает шапки EXIF в JPEG или TIFF </DT>
+<DT><A HREF="exif-thumbnail.html">exif_thumbnail</A> - запрашивает внедрённую уменьшенную версию/thumbnail изображения TIFF или JPEG</DT>
+<DT><A HREF="getimagesize.html">getimagesize</A> - получает размер изображения</DT>
+<DT><A HREF="image2wbmp.html">image2wbmp</A> - выводит изображение в браузер или файл</DT>
+<DT><A HREF="imagealphablending.html">imagealphablending</A> - устанавливает режим смешения/blending изображения</DT>
+<DT><A HREF="imagearc.html">imagearc</A> - прорисовывает дугу</DT>
+<DT><A HREF="imagechar.html">imagechar</A> - прорисовывает символ горизонтально</DT>
+<DT><A HREF="imagecharup.html">imagecharup</A> - прорисовывает символ вертикально</DT>
+<DT><A HREF="imagecolorallocate.html">imagecolorallocate</A> - выделяет цвет для изображения</DT>
+<DT><A HREF="imagecolorat.html">imagecolorat</A> - получает индекс цвета пиксела</DT>
+<DT><A HREF="imagecolorclosest.html">imagecolorclosest</A> - получает индекс цвета, ближайшего к специфицированному цвету</DT>
+<DT><A HREF="imagecolorclosestalpha.html">imagecolorclosestalpha</A> - получает индекс цвета, ближайшего к специфицированному цвету + alpha</DT>
+<DT><A HREF="imagecolorclosesthwb.html">imagecolorclosesthwb</A> - получает индекс цвета, оттенок, белизну и черноту, ближайшие к данному цвету</DT>
+<DT><A HREF="imagecolordeallocate.html">imagecolordeallocate</A> - снимает выделение/размещение цвета для изображения</DT>
+<DT><A HREF="imagecolorexact.html">imagecolorexact</A> - получает индекс специфицированного цвета</DT>
+<DT><A HREF="imagecolorexactalpha.html">imagecolorexactalpha</A> - получает индекс специфицированного цвета + alpha</DT>
+<DT><A HREF="imagecolorresolve.html">imagecolorresolve</A> -  получает индекс специфицированного цвета или ближайшей возможной альтернативы</DT>
+<DT><A HREF="imagecolorresolvealpha.html">imagecolorresolvealpha</A> -  получает индекс специфицированного цвета + alpha или ближайшей возможной альтернативы</DT>
+<DT><A HREF="imagecolorset.html">imagecolorset</A> - устанавливает цвет для специфицированного индекса палитры</DT>
+<DT><A HREF="imagecolorsforindex.html">imagecolorsforindex</A> - получает цвет индекса</DT>
+<DT><A HREF="imagecolorstotal.html">imagecolorstotal</A> - определяет количество цветов в палитре изображения</DT>
+<DT><A HREF="imagecolortransparent.html">imagecolortransparent</A> - определяет цвет как прозрачный/transparent</DT>
+<DT><A HREF="imagecopy.html">imagecopy</A> - копирует часть изображения</DT>
+<DT><A HREF="imagecopymerge.html">imagecopymerge</A> - копирует и объединяет часть изображения</DT>
+<DT><A HREF="imagecopymergegray.html">imagecopymergegray</A> - копирует и объединяет часть изображения с серой шкалой</DT>
+<DT><A HREF="imagecopyresampled.html">imagecopyresampled</A> - копирует часть изображения и изменяет его размер путём пересэмплирования</DT>
+<DT><A HREF="imagecopyresized.html">imagecopyresized</A> - копирует часть изображения и изменяет его размер</DT>
+<DT><A HREF="imagecreate.html">imagecreate</A> - создаёт новую палитру на основе изображения</DT>
+<DT><A HREF="imagecreatefromgd2.html">imagecreatefromgd2</A> - создаёт новое изображение из GD2-файла или URL</DT>
+<DT><A HREF="imagecreatefromgd2part.html">imagecreatefromgd2part</A> - создаёт новое изображение из данной части GD2-файла или URL</DT>
+<DT><A HREF="imagecreatefromgd.html">imagecreatefromgd</A> - создаёт новое изображение из GD-файла или URL</DT>
+<DT><A HREF="imagecreatefromgif.html">imagecreatefromgif</A> - создаёт новое изображение из файла или URL</DT>
+<DT><A HREF="imagecreatefromjpeg.html">imagecreatefromjpeg</A> - создаёт новое изображение из файла или URL</DT>
+<DT><A HREF="imagecreatefrompng.html">imagecreatefrompng</A> - создаёт новое изображение из файла или URL</DT>
+<DT><A HREF="imagecreatefromstring.html">imagecreatefromstring</A> - создаёт новое изображение из потока изображения в строке</DT>
+<DT><A HREF="imagecreatefromwbmp.html">imagecreatefromwbmp</A> - создаёт новое изображение из файла или URL</DT>
+<DT><A HREF="imagecreatefromxbm.html">imagecreatefromxbm</A> - создаёт новое изображение из файла или URL</DT>
+<DT><A HREF="imagecreatefromxpm.html">imagecreatefromxpm</A> - создаёт новое изображение из файла или URL</DT>
+<DT><A HREF="imagecreatetruecolor.html">imagecreatetruecolor</A> - создаёт новое изображение true color</DT>
+<DT><A HREF="imagedashedline.html">imagedashedline</A> - прорисовывает пунктирную линию</DT>
+<DT><A HREF="imagedestroy.html">imagedestroy</A> - разрушает изображение</DT>
+<DT><A HREF="imageellipse.html">imageellipse</A> - прорисовывает эллипс</DT>
+<DT><A HREF="imagefill.html">imagefill</A> - заполняет заливкой</DT>
+<DT><A HREF="imagefilledarc.html">imagefilledarc</A> - прорисовывает часть эллипса и заполняет её</DT>
+<DT><A HREF="imagefilledellipse.html">imagefilledellipse</A> - прорисовывает заполненный эллипс</DT>
+<DT><A HREF="imagefilledpolygon.html">imagefilledpolygon</A> - прорисовывает заполненный многоугольник</DT>
+<DT><A HREF="imagefilledrectangle.html">imagefilledrectangle</A> - прорисовывает заполненный прямоугольник</DT>
+<DT><A HREF="imagefilltoborder.html">imagefilltoborder</A> - заполняет заливкой специфицированного цвета</DT>
+<DT><A HREF="imagefontheight.html">imagefontheight</A> - получает высоту шрифта</DT>
+<DT><A HREF="imagefontwidth.html">imagefontwidth</A> - получает ширину шрифта</DT>
+<DT><A HREF="imageftbbox.html">imageftbbox</A> - задаёт ограничивающий бокс текста, используя шрифты через freetype2</DT>
+<DT><A HREF="imagefttext.html">imagefttext</A> - записывает текст на изображение, используя шрифты с FreeType 2</DT>
+<DT><A HREF="imagegammacorrect.html">imagegammacorrect</A> - применяет коррекцию гаммы к GD-изображению</DT>
+<DT><A HREF="imagegd2.html">imagegd2</A> - выводит GD2-изображение в браузер или файл</DT>
+<DT><A HREF="imagegd.html">imagegd</A> - выводит GD-изображение в браузер или файл</DT>
+<DT><A HREF="imagegif.html">imagegif</A> - выводит изображение в браузер или файл</DT>
+<DT><A HREF="imageinterlace.html">imageinterlace</A> - включает или отключает interlace/вывод изображения полосами</DT>
+<DT><A HREF="imagejpeg.html">imagejpeg</A> - выводит изображение в браузер или файл</DT>
+<DT><A HREF="imageline.html">imageline</A> - прорисовывает линию</DT>
+<DT><A HREF="imageloadfont.html">imageloadfont</A> - загружает новый шрифт</DT>
+<DT><A  HREF="imagepalettecopy.html">imagepalettecopy</A> - копирует палитру из одного изображения в другое</DT>
+<DT><A HREF="imagepng.html">imagepng</A> - выводит PNG-изображение в браузер или файл</DT>
+<DT><A HREF="imagepolygon.html">imagepolygon</A> - прорисовывает многоугольник</DT>
+<DT><A HREF="imagepsbbox.html">imagepsbbox</A> - задаёт ограничивающий бокс прямоугольника текста, используя шрифты PostScript Type1</DT>
+<DT><A HREF="imagepscopyfont.html">imagepscopyfont</A> - делает копию уже загруженного шрифта для последующей модификации</DT>
+<DT><A HREF="imagepsencodefont.html">imagepsencodefont</A> - изменяет вектор кодировки символов шрифта</DT>
+<DT><A HREF="imagepsextendfont.html">imagepsextendfont</A> - расширяет или сжимает шрифт</DT>
+<DT><A HREF="imagepsfreefont.html">imagepsfreefont</A> - освобождает память, использованную шрифтом PostScript Type 1</DT>
+<DT><A HREF="imagepsloadfont.html">imagepsloadfont</A> - загружает шрифт PostScript Type 1 из файла</DT>
+<DT><A HREF="imagepsslantfont.html">imagepsslantfont</A> - наклоняет шрифт</DT>
+<DT><A HREF="imagepstext.html">imagepstext</A> - прорисовывает текстовую строку поверх изображения с использованием шрифтов PostScript Type1</DT>
+<DT><A HREF="imagerectangle.html">imagerectangle</A> - прорисовывает прямоугольник</DT>
+<DT><A HREF="imagesetbrush.html">imagesetbrush</A> - устанавливает изображение кисти для прорисовки линии</DT>
+<DT><A HREF="imagesetpixel.html">imagesetpixel</A> - устанавливает одиночный пиксел</DT>
+<DT><A HREF="imagesetstyle.html">imagesettyle</A> - устанавливает стиль прорисовки линии</DT>
+<DT><A HREF="imagesetthickness.html">imagesetthickness</A> - устанавливает толщину прорисовки линии</DT>
+<DT><A HREF="imagesettile.html">imagesettile</A> - устанавливает изображение, размножаемое для заполнения/tile</DT>
+<DT><A HREF="imagestring.html">imagestring</A> - прорисовывает строку горизонтально</DT>
+<DT><A HREF="imagestringup.html">imagestringup</A> - прорисовывает строку вертикально</DT>
+<DT><A HREF="imagesx.html">imagesx</A> - получает ширину изображения</DT>
+<DT><A HREF="imagesy.html">imagesy</A> - получает высоту изображения</DT>
+<DT><A HREF="imagetruecolortopalette.html">imagetruecolortopalette</A> - конвертирует изображение true color в палитровое/palette изображение</DT>
+<DT><A HREF="imagettfbbox.html">imagettfbbox</A> - задаёт ограничивающий бокс текста, используя шрифты TrueType</DT>
+<DT><A HREF="imagettftext.html">imagettftext</A> - записывает текст на изображение, используя шрифты TrueType</DT>
+<DT><A HREF="imagetypes.html">imagetypes</A> - возвращает типы изображений, поддерживаемые этим построением PHP</DT>
+<DT><A HREF="imagewbmp.html">imagewbmp</A> - выводит изображение в браузер или файл</DT>
+<DT><A HREF="iptcembed.html">iptcembed</A> - внедряет двоичные IPTC-данные в JPEG-изображение</DT>
+<DT><A HREF="jpeg2wbmp.html">jpeg2wbmp</A> - конвертирует файл JPEG-изображения в файл WBMP-изображения</DT>
+<DT><A HREF="png2wbmp.html">png2wbmp</A> - конвертирует файл PNG-изображения в файл WBMP-изображения</DT>
+<DT><A HREF="read-exif-data.html">read_exif_data</A> - читает header-информацию, хранимую в изображениях TIFF и JPEG</DT>
+</DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3">
+<TR><TD WIDTH="33%" VALIGN="top"><A HREF="ob-iconv-handler.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="exif-imagetype.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ob_iconv_handler</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">exif_imagetype</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

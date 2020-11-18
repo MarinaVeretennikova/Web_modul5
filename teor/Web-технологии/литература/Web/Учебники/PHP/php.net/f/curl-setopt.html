@@ -1,0 +1,104 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>curl_setopt</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="curl-init.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="curl-version.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="curl-setopt">curl_setopt</A></H1><A NAME="AEN14211"></A>
+<P>(PHP 4 &#62;= 4.0.2)</P><p>curl_setopt - устанавливает опции для CURL-трансфера/transfer.<A NAME="AEN14214"></A></p><H2>Описание</H2><p>bool <B>curl_setopt</B> (resource ch, string option, mixed value)</p>
+<P>Функция <B>curl_setopt()</B> устанавливает опции для CURL-сессии, идентифицируемой параметром <TT><I>ch</I></TT>.
+Параметр <TT><I>option</I></TT> является опцией, которую вы хотите установить, а <TT><I>value</I></TT> это значение опции
+<TT><I>option</I></TT>.</P><P>Параметр <TT><I>value</I></TT> должен быть long для следующих опций (специфицированных параметром
+<TT><I>option</I></TT>):
+<UL><LI><TT><I>CURLOPT_INFILESIZE</I></TT>: Если вы выгружаете файл на удалённый сайт, эта опция должна использоваться, 
+для того чтобы сообщит PHP, какой будет ожидаемый размер infile.</LI>
+<LI><TT><I>CURLOPT_VERBOSE</I></TT>: Установите эту опцию в ненулевое значение, если вы хотите, чтобы CURL 
+сообщала обо всех действиях.</LI>
+<LI><TT><I>CURLOPT_HEADER</I></TT>: Установите эту опцию в ненулевое значение, если вы хотите, чтобы шапка/header 
+включалась в вывод.</LI><LI><TT><I>CURLOPT_NOPROGRESS</I></TT>: Установите эту опцию в ненулевое значение, если вы не хотите, чтобы PHP 
+выводил индикатор процесса CURL-трансфера.<BLOCKQUOTE><P><B>Примечание: </B>
+PHP автоматически устанавливает эту опцию в ненулевое значение, изменять её необходимо лишь при отладке.</P></BLOCKQUOTE></LI>
+<LI><TT><I>CURLOPT_NOBODY</I></TT>: Установите эту опцию в ненулевое значение, если вы не хотите, чтобы тело/body 
+включалось в вывод.</LI><LI><TT><I>CURLOPT_FAILONERROR</I></TT>: Установите эту опцию в ненулевое значение, если вы хотите, чтобы PHP завершал 
+работу скрыто, если возвращаемый HTTP-код имеет значение выше 300.  По 
+умолчанию страница возвращается нормально с игнорированием кода.</LI>
+<LI><TT><I>CURLOPT_UPLOAD</I></TT>: Установите эту опцию в ненулевое значение, если вы хотите, чтобы PHP 
+подготавливал файл к выгрузке.</LI><LI><TT><I>CURLOPT_POST</I></TT>: Установите эту опцию в ненулевое значение, если вы хотите, чтобы PHP выполнял 
+регулярный HTTP POST. Этот POST имеет нормальный вид <TT>application/x-www-form-urlencoded</TT>, чаще всего используемый HTML-формами.
+</LI><LI><TT><I>CURLOPT_FTPLISTONLY</I></TT>: Установите эту опцию в ненулевое значение, и PHP будет выводит листинг имён FTP-директории.</LI>
+<LI><TT><I>CURLOPT_FTPAPPEND</I></TT>: Установите эту опцию в ненулевое значение, и PHP будет присоединять к 
+удалённому/remote файлу, вместо его перезаписи.</LI><LI><TT><I>CURLOPT_NETRC</I></TT>: Установите эту опцию в ненулевое значение, и PHP будет сканировать ваш файл
+<TT>~./netrc</TT> с целью поиска ваших username и password для удалённого сайта, с которым вы 
+устанавливаете соединение.</LI><LI><TT><I>CURLOPT_FOLLOWLOCATION</I></TT>: Установите эту опцию в ненулевое значение, чтобы следовать любому "Location: " header, 
+который сервер высылает как часть HTTP header'а (заметьте, 
+что это рекурсия, PHP будет следовать за всеми "Location: "-header'ами, которые высылаются.)</LI>
+<LI><TT><I>CURLOPT_PUT</I></TT>: Установите эту опцию в ненулевое значение, чтобы HTTP PUT файл.  Файл для PUT 
+обязан быть установлен с помощью CURLOPT_INFILE и CURLOPT_INFILESIZE.</LI>
+<LI><TT><I>CURLOPT_MUTE</I></TT>: Установите эту опцию в ненулевое значение, и PHP будет работать скрыто в 
+отношении CURL-функций.</LI><LI><TT><I>CURLOPT_TIMEOUT</I></TT>: Передаёт long как параметр, который содержит максимальное время в секундах, 
+которое вы отводите для работы CURL-функций.</LI><LI><TT><I>CURLOPT_LOW_SPEED_LIMIT</I></TT>: Передаёт long как параметр, который содержит скорость трансфера в байтах в 
+секунду, ниже которого трансфер должен работать в процессе выполнения
+CURLOPT_LOW_SPEED_TIME, в секундах, чтобы PHP считал его слишком медленным и прерывал его.</LI>
+<LI><TT><I>CURLOPT_LOW_SPEED_TIME</I></TT>: Передаёт long как параметр, который содержит время в секундах, ниже которого 
+трансфер должен работать в процессе выполнения CURLOPT_LOW_SPEED_LIMIT, 
+чтобы PHP считал его слишком медленным и прерывал его.</LI><LI>
+<P><TT><I>CURLOPT_RESUME_FROM</I></TT>: Передаёт long как параметр, который содержит смещение в байтах, с которого 
+трансфер должен стартовать.</LI>
+<LI><TT><I>CURLOPT_SSLVERSION</I></TT>: Передаёт long как параметр, который содержит используемую версию SSL (2 или 3).  
+По умолчанию PHP пытается определить это сам, хотя в некоторых случаях вы обязаны устанавливать это вручную.</LI>
+<LI><TT><I>CURLOPT_SSL_VERIFYHOST</I></TT>: Передаёт long, если
+CURL должна проверять Common-имя peer-сертификата в SSL handshake/&quot;рукопожатие&quot;.  Значение 1 указывает, что мы должны 
+проверить существование общего /common имени, значение 2 указывает, что мы 
+должны убедиться в совпадении с предоставленным hostname.</LI>
+<LI><TT><I>CURLOPT_TIMECONDITION</I></TT>: Передаёт long как параметр, который определяет, как рассматривается CURLOPT_TIMEVALUE.
+Вы можете установить этот параметр для TIMECOND_IFMODSINCE или
+TIMECOND_ISUNMODSINCE.  Это действует только для HTTP.</LI>
+<LI><TT><I>CURLOPT_TIMEVALUE</I></TT>: Передаёт long как параметр, который является временем в секундах, прошедшим 
+после 1 января 1970. Это время используется, как специфицировано опцией CURLOPT_TIMEVALUE, 
+или по умолчанию будет использоваться TIMECOND_IFMODSINCE.</LI>
+<LI><TT><I>CURLOPT_RETURNTRANSFER</I></TT>: Передаёт ненулевое значение, если вы хотите, чтобы CURL непосредственно 
+возвращала трансфер, вместо его печати напрямую.</LI></UL>
+<P>Параметр <TT><I>value</I></TT> должен быть строкой для следующих значений параметра <TT><I>option</I></TT>:
+<UL><LI><TT><I>CURLOPT_URL</I></TT>: Это URL, который PHP должен получать.  Вы можете также устанавливать эту 
+опцию при инициализации сессии функцией <A HREF="curl-init.html"><B>curl_init()</B></A>.</LI>
+<LI><TT><I>CURLOPT_USERPWD</I></TT>: Передаёт в РНР строку, отформатированную в виде [username]:[password], для 
+использования при соединении.</LI><LI><TT><I>CURLOPT_PROXYUSERPWD</I></TT>: Передаёт в РНР строку, отформатированную в виде [username]:[password], для 
+соединения с HTTP-прокси.</LI><LI><TT><I>CURLOPT_RANGE</I></TT>: Передаёт специфицированный вами диапазон.  Он должен быть в формате "X-Y", 
+где X или Y могут отсутствовать. HTTP-трансферы поддерживают также различные интервалы, разделённые запятыми, как, например, X-Y,N-M.
+</LI><LI><TT><I>CURLOPT_POSTFIELDS</I></TT>: Передаёт строку, содержащую полные данные для передачи операцией HTTP "POST".
+</LI><LI><TT><I>CURLOPT_REFERER</I></TT>: Передаёт строку, содержащую "referer/ссылающийся" header, используемый в HTTP-запросе.</LI>
+<LI><TT><I>CURLOPT_USERAGENT</I></TT>: Передаёт строку, содержащую "user-agent" header, используемый в HTTP-запросе.
+</LI><LI><TT><I>CURLOPT_FTPPORT</I></TT>: Передаёт строку, содержащую значение, которое будет использоваться для 
+получения IP-адреса для инструкции ftp "POST".  POST-инструкция указывает 
+удалённому серверу: соединиться со специфицированным IP-адресом.  Строка 
+может быть обычным IP-адресом, hostname/именем хоста, именем сетевого 
+интерфейса (под UNIX), ил просто обычным '-', используемым для системного IP-адреса по умолчанию.</LI>
+<LI><TT><I>CURLOPT_COOKIE</I></TT>: Передаёт строку с содержимым куки/cookie, установленным в HTTP header'е.</LI>
+<LI><TT><I>CURLOPT_SSLCERT</I></TT>: Передаёт строку, содержащую filename форматированного сертификата PEM.</LI>
+<LI><TT><I>CURLOPT_SSLCERTPASSWD</I></TT>: Передаёт строку, содержащую password, необходимый для работы сертификата CURLOPT_SSLCERT.
+</LI><LI><TT><I>CURLOPT_COOKIEFILE</I></TT>: Передаёт строку, содержащую имя файла с данными куки.
+Этот cookie-файл может иметь формат Netscape, или содержать обычные 
+шапки/headers в HTTP-стиле, забитые в файл.</LI><LI><TT><I>CURLOPT_CUSTOMREQUEST</I></TT>: Передаёт строку, используемую вместо
+<TT>GET</TT> или <TT>HEAD</TT> при выполнении HTTP-запроса.  Это делается для выполнения <TT>DELETE</TT> или других, более скрытых HTTP-запросов. Верными значениями являются
+<TT>GET</TT>, <TT>POST</TT> и так далее; то есть не вводите здесь полную строку HTTP-запроса. Например,
+ввод 'GET /index.html HTTP/1.0\r\n\r\n' будет некорректным.<BLOCKQUOTE><P><B>Примечание: </B>
+не делайте это, если не уверены, что ваш сервер поддерживает эту команду.</P></BLOCKQUOTE></LI>
+<LI><TT><I>CURLOPT_PROXY</I></TT>: Передаёт имя HTTP-прокси туннельным запросам.</LI>
+<LI><TT><I>CURLOPT_INTERFACE</I></TT>: Передаёт имя исходящего сетевого интерфейса для использования.  Это может 
+быть имя интерфейса, IP-адрес или имя хоста.</LI><LI><TT><I>CURLOPT_KRB4LEVEL</I></TT>: Передаёт KRB4 (Kerberos
+4) уровень секретности.  Это любая из следующих строк (в порядке от менее до более мощной): 'clear', 'safe',
+'confidential', 'private'.<br>Если эта строка не совпадает с какой-либо из указанных, то используется 'private'.
+Если вы установите здесь NULL, это отключит KRB4-безопасность. KRB4-безопасность работает в настоящее 
+время только с транзакциями FTP.</LI><LI><TT><I>CURLOPT_HTTPHEADER</I></TT>: Передаёт массив полей HTTP-header'а для установки.</P>
+</LI><LI><TT><I>CURLOPT_QUOTE</I></TT>: Передаёт массив FTP-команд для выполнения на сервере до выполнения FTP-запроса.</LI><LI><TT><I>CURLOPT_POSTQUOTE</I></TT>: Передаёт массив FTP-команд для выполнения на сервере после выполнения FTP-запроса.
+</LI></UL><P>Следующие опции ожидают дескриптора файла, который получается с помощью функции
+<A HREF="fopen.html"><B>fopen()</B></A>:
+<UL><LI><TT><I>CURLOPT_FILE</I></TT>: Файл, куда должен быть помещён вывод вашего трансфера, по умолчанию это STDOUT.
+</LI><LI><TT><I>CURLOPT_INFILE</I></TT>: Файл, из которого приходит ввод вашего трансфера.</LI>
+<LI><TT><I>CURLOPT_WRITEHEADER</I></TT>: Файл для записи header-части вывода.</LI>
+<LI><TT><I>CURLOPT_STDERR</I></TT>: Файл для записи ошибок, вместо stderr.</LI></UL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="curl-init.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="curl-version.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">curl_init</TD><th WIDTH="34%" VALIGN="top"><A HREF="ref.curl.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">curl_version</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

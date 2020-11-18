@@ -1,0 +1,37 @@
+<HTML> 
+    <HEAD>
+    <TITLE> Проверка при выходе из элемента</TITLE> 
+    <SCRIPT language="JavaScript"> 
+          function chkStr(){
+          //Определение объекта - элемента управления 
+          var x=document.all.age;
+          //Определение набора возможных символов 
+          var num="0123456789"; 
+          event.returnValue=true;
+          //Проверка введенной строки (состоит ли она только из цифр). 
+          //elem.value -   это введенная строка, а elem.value.length - длина строки 
+          for (var i=0; i<x.value.length; i++) 
+          //Если символ не является числом, 
+          //возвращается значение false 
+          if (-1== num.indexOf(x.value.charAt(i)))
+              event.returnValue=false;
+           //Сброс значения поля перед повторным вводом 
+           if (!event.returnValue) { 
+                 x.value="";
+                 alert("Повторите ввод."+'\n'+ 
+                 "Возраст должен набираться числом")}
+           else {
+                 if (x.value<15)
+                 alert("Этот сайт только для взрослых");
+                 if (x.value>70)
+                 alert("0! Любви все возрасты покорны")}
+            } 
+    </SCRIPT>
+</HEAD> 
+<BODY>
+  <H3> &laquo;Сайт знакомств&raquo; </H3>
+  <FONT face="ms sans serif, sans-serif">
+  Ваш возраст:</FONT>
+  <INPUT id="age" type=text size=3 title="ВВедите возраст"  onchange="chkStr()"> 
+</BODY> 
+</HTML>

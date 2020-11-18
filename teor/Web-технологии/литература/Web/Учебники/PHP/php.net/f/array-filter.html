@@ -1,0 +1,55 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>array_filter</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="array-fill.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="array-flip.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.array-filter">array_filter</A></H1><A NAME="AEN7052"></A>
+<P>(PHP 4 &#62;= 4.0.6)</P><p>array_filter - 
+фильтрует элементы массива с использованием callback-функции.<A NAME="AEN7055"></A>
+<H2>Описание</H2><p>array <B>array_filter</B> (array input [, mixed callback])</p>
+<P><B>array_filter()</B> возвращает массив, содержащий все элементы <TT><I>input</I></TT>, отфильтрованные в соответствии с callback-функцией. Если
+<TT><I>input</I></TT> это ассоциативный массив, ключи сохраняются.</P><TABLE WIDTH="100%" BORDER="0"><TR>
+<TD><A NAME="AEN7071"></A><h5>Пример 1. array_filter()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>function odd($var) {
+    return ($var % 2 == 1);
+}
+
+function even($var) {
+    return ($var % 2 == 0);
+}
+
+$array1 = array ("a"=&#62;1, "b"=&#62;2, "c"=&#62;3, "d"=&#62;4, "e"=&#62;5);
+$array2 = array (6, 7, 8, 9, 10, 11, 12);
+
+echo "Odd :\n";
+print_r(array_filter($array1, "odd"));
+echo "Even:\n";
+print_r(array_filter($array2, "even"));</PRE></TD></TR></TABLE>
+<P>Программа напечатает:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>Odd :
+Array
+(
+    [a] =&#62; 1
+    [c] =&#62; 3
+    [e] =&#62; 5
+)
+Even:
+Array
+(
+    [0] =&#62; 6
+    [2] =&#62; 8
+    [4] =&#62; 10
+    [6] =&#62; 12
+)</PRE></TD></TR></TABLE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>вместо имени функции массив может быть предоставлен массив, содержащий ссылку 
+на объект и имя метода.</P></BLOCKQUOTE>
+<P>Пользователи не могут  изменять сам массив в callback-функции 
+(добавлять/удалять элемент, unset массив, к которому применяется <B>array_filter()</B>. Если массив изменяется, поведение этой функции не определено.</P>
+<P>См. также <A HREF="array-map.html"><B>array_map()</B></A> и
+<A HREF="array-reduce.html"><B>array_reduce()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="array-fill.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="array-flip.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">array_fill</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.array.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">array_flip</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

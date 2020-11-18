@@ -1,0 +1,111 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>xslt_process</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="xslt-free.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="xslt-set-base.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.xslt-process">xslt_process</A></H1><A NAME="AEN83231"></A><P>(PHP 4 &#62;= 4.0.3)</P>
+<p>xslt_process - выполняет XSLT-трансформацию.<A NAME="AEN83234"></A></p><H2>Описание</H2>
+<p>mixed <B>xslt_process</B> (resource xh, string xml, string xsl [, string result [, array arguments [, array parameters]]])</p>
+<P><B>xslt_process()</B> это краеугольный камень нового расширения
+XSLT. Она даёт возможность выполнять XSLT-трансформацию с использованием почти всех типов источников ввода.  Это делается с помощью буферов аргументов -- 
+концепции, взятой из Sablotron XSLT-процессора (в настоящее время - единственного XSLT-процессора, который поддерживается
+данным расширением).</P><P>Самая простая трансформация функцией <B>xslt_process()</B> - это трансформация
+XML-файла XSLT-файлом с помещением результата в третий файл, содержащий новый XML (или HTML)-документ.  Сделать это с помощью sablotron действительно 
+довольно легко ...</P><TABLE= WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN83261"></A>
+<h5>Пример 1. Использование xslt_process() для трансформации XML-файла и<br>XSL-файла в новый XML-файл</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+// Разместить новый XSLT-процессор
+$xh = xslt_create();
+
+// Обработать документ
+if (xslt_process($xh, 'sample.xml', 'sample.xsl', 'result.xml')) {
+    print "SUCCESS, sample.xml was transformed by sample.xsl into result.xml";
+    print ", result.xml has the following contents\n&#60;br&#62;\n";
+    print "&#60;pre&#62;\n";
+    readfile('result.xml');
+    print "&#60;/pre&#62;\n";
+}
+else {
+    print "Sorry, sample.xml could not be transformed by sample.xsl into";
+    print "  result.xml the reason is that " . xslt_error($xh) . " and the ";
+    print "error code is " . xslt_errno($xh);
+}
+
+xslt_free($xh);
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Хотя эта функциональность великолепна, часто, особенно в окружении web, 
+вам понадобится выводить результату напрямую. Следовательно, если вы опустите третий аргумент для функции
+<B>xslt_process()</B> (или предоставите NULL-значение этого аргумента), она автоматически возвратит 
+значение XSLT-трансформации, вместо записи его в файл ...</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN83268"></A><h5>Пример 2. Использование xslt_process() для трансформации XML-файла и XSL-файла 
+в переменную, содержащую результирующие XML-данные</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>&#60;?php
+
+// Разместить новый XSLT-процессор
+$xh = xslt_create();
+
+// обработать документ, возвращая результат в переменной $result
+$result = xslt_process($xh, 'sample.xml', 'sample.xsl');
+if ($result) {
+    print "SUCCESS, sample.xml was transformed by sample.xsl into the \$result";
+    print " variable, the \$result variable has the following contents\n&#60;br&#62;\n";
+    print "&#60;pre&#62;\n";
+    print $result;
+    print "&#60;/pre&#62;\n";
+}
+else {
+    print "Sorry, sample.xml could not be transformed by sample.xsl into";
+    print "  the \$result variable the reason is that " . xslt_error($xh) . 
+    print " and the error code is " . xslt_errno($xh);
+}
+
+xslt_free($xh);
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Это были два простейших случая XSLT-транфсормации, и я могу с уверенностью 
+сказать - самые распространённые случаи, однако иногда вы получаете ваш XML и
+XSLT-код из внешних источников, таких как БД или сокет.  В этих случаях у 
+вас будут XML и/или XSLT-данные в переменной -- и в работающих приложениях 
+перегрузка при дампе их в файл может оказаться значительной.  Вместо файлов как аргументов XML и XSLT для
+<B>xslt_process()</B>, вы можете специфицировать "заглушки документов", которые затем замещаются 
+значениями из массива аргументов (5-й параметр функции <B>xslt_process()</B>).  
+Далее идёт пример процессинга XML и XSLT в результирующую переменную вообще без использования файлов.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN83276"></A><h5>Пример 3. Использование xslt_process() для трансформации переменной, содержащей XML-данные, 
+и переменной, содержащей XSL-данные, в переменную, содержащую результирующие XML-данные</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+// $xml и $xsl содержат XML и XSL-данные
+
+$arguments = array(
+     '/_xml' =&#62; $xml,
+     '/_xsl' =&#62; $xsl
+);
+
+// разместить новый XSLT-процессор
+$xh = xslt_create();
+
+// обработать документ
+$result = xslt_process($xh, 'arg:/_xml', 'arg:/_xsl', NULL, $arguments); 
+if ($result) {
+    print "SUCCESS, sample.xml was transformed by sample.xsl into the \$result";
+    print " variable, the \$result variable has the following contents\n&#60;br&#62;\n";
+    print "&#60;pre&#62;\n";
+    print $result;
+    print "&#60;/pre&#62;\n";
+}
+else {
+    print "Sorry, sample.xml could not be transformed by sample.xsl into";
+    print "  the \$result variable the reason is that " . xslt_error($xh) . 
+    print " and the error code is " . xslt_errno($xh);
+}
+xslt_free($xh);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Наконец, последний аргумент функции <B>xslt_process()</B> это любые параметры, которые вы хотите передать в XSLT-документ. Можно
+получить доступ к этим параметрам внутри ваших XSL-файлов с помощью 
+инструкции &#60;xsl:param name="parameter_name"&#62;.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+  <IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="xslt-free.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="xslt-set-base.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">xslt_free</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.xslt.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">xslt_set_base</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

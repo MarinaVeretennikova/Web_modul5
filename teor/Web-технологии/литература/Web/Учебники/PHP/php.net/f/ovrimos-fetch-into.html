@@ -1,0 +1,46 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>ovrimos_fetch_into</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ovrimos-execute.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ovrimos-fetch-row.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.ovrimos-fetch-into">ovrimos_fetch_into</A></H1><A NAME="AEN60460"></A><P>(PHP 4 &#62;= 4.0.3)</P>
+<p>ovrimos_fetch_into - извлекает ряд из результирующего набора.<A NAME="AEN60463"></A></p><H2>Описание</H2>
+<p>bool <B>ovrimos_fetch_into</B> (int result_id, array result_array [, string how [, int rownumber]])</p>
+<P><B>ovrimos_fetch_into()</B> извлекает ряд из результирующего набора в 'result_array', который должен 
+передаваться по ссылке. То, какой ряд извлекается, определяется двумя 
+последними параметрами. 'how' - это один из: 'Forward' (default), 'Назад', 'First',
+'Last', 'Absolute', соответствующих направлениям от текущей позиции вперёд, назад,
+вперёд от начала, назад от конца и абсолютной позиции от начала (эквивалент 'first', но требует 'rownumber'). Регистр не имеет значения. 'Rownumber' 
+это параметр по выбору, кроме абсолютного позиционирования, где необходим. Возвращает <TT><B>TRUE</B></TT> или <TT><B>FALSE</B></TT>.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN60487"></A><h5>Пример 1. Пример извлечения</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$conn=ovrimos_connect ("neptune", "8001", "admin", "password");
+if ($conn!=0) {
+    echo "Connection ok!";
+    $res=ovrimos_exec ($conn,"select table_id, table_name from sys.tables");
+    if ($res != 0) {
+        echo "Statement ok!";
+        if (ovrimos_fetch_into ($res, &#38;$row)) {
+            list ($table_id, $table_name) = $row;
+            echo "table_id=".$table_id.", table_name=".$table_name."\n";
+            if (ovrimos_fetch_into ($res, &#38;$row)) {
+                list ($table_id, $table_name) = $row;
+                echo "table_id=".$table_id.", table_name=".$table_name."\n";
+            } else {
+                echo "Next: error\n";
+            }
+        } else {
+            echo "First: error\n";
+        }
+        ovrimos_free_result ($res);
+    }
+    ovrimos_close($conn);
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>В этом примере извлекается ряд.</TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ovrimos-execute.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ovrimos-fetch-row.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ovrimos_execute</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.ovrimos.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ovrimos_fetch_row</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,60 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>array_keys</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="array-key-exists.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="array-map.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.array-keys">array_keys</A></H1><A NAME="AEN7189"></A><P>(PHP 4)</P>
+<p>array_keys - возвращает все ключи массива.<A NAME="AEN7192"></A><H2>Описание</H2>
+<p>array <B>array_keys</B> (array input [, mixed search_value])</p>
+<P><B>array_keys()</B> возвращает ключи, числовые и строковые, из массива ввода <TT><I>input</I></TT>.</P>
+<P>Если специфицировано необязательное <TT><I>search_value</I></TT>,
+то возвращаются только ключи для данного значения. Иначе возвращаются все ключи из <TT><I>input</I></TT>.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN7210"></A><h5>Пример 1. array_keys()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$array = array (0 =&#62; 100, "color" =&#62; "red");
+print_r(array_keys ($array));
+
+$array = array ("blue", "red", "green", "blue", "blue");
+print_r(array_keys ($array, "blue"));
+
+<font size="1">$array = array ("color" =&#62; array("blue", "red", "green"), "size" =&#62; array("small", "medium", "large"));</font>
+print_r(array_keys ($array));</PRE></TD></TR></TABLE><P>Вывод будет таким:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE CLASS="screen">Array
+(
+    [0] =&#62; 0
+    [1] =&#62; color
+)
+Array
+(
+    [0] =&#62; 0
+    [1] =&#62; 3
+    [2] =&#62; 4
+)
+Array
+(
+    [0] =&#62; color
+    [1] =&#62; size
+)</PRE></TD></TR></TABLE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+эта функция была введена в PHP 4, а ниже дана реализация для использования в PHP 3.
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN7218"></A><h5>
+Пример 2. Реализация array_keys() для пользователей PHP 3</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>function array_keys ($arr, $term="") {
+    $t = array();
+    while (list($k,$v) = each($arr)) {
+        if ($term &#38;&#38; $v != $term) {
+            continue;
+        }
+        $t[] = $k;
+    }
+    return $t;
+}</PRE></TD></TR></TABLE></TD></TR></TABLE></BLOCKQUOTE>
+<P>См. также <A HREF="array-values.html"><B>array_values()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="array-key-exists.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="array-map.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">array_key_exists</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.array.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">array_map</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

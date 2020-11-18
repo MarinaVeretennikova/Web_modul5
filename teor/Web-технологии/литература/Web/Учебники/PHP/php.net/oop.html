@@ -1,0 +1,142 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>Классы и Объекты</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="f/variable-functions.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="keyword.extends.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="language.oop">Глава 13. Классы и Объекты</A></H1>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="#keyword.class"><TT>class</TT></A></DT><DT>
+<A HREF="keyword.extends.html"><TT>extends</TT></A></DT><DT>
+<A HREF="constructor.html"><TT>Constructors</TT></A></DT><DT>
+<A HREF="keyword.paamayim-nekudotayim.html"><TT>::</TT></A></DT><DT>
+<A HREF="keyword.parent.html"><TT>parent</TT></A></DT>
+<DT><a href="serialization.html">Сериализация объектов - объекты сессий</a></DT>
+<DT><a href="magic-functions.html">Магические функции <TT>__sleep</TT> и <TT>__wakeup</TT></a>
+</DT><DT><a href="newref.html">Ссылки внутри конструктора</a></DT></DL>
+<H1><A NAME="keyword.class"><TT>class</TT></A></H1>
+<P>Класс это коллекция переменных и функций, работающих с этими переменными.  
+Класс определяется с использованием следующего синтаксиса:</p><A NAME="AEN5387"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+class Cart
+{
+    var $items;  //элементы в нашей shopping cart
+
+    // Добавить $num артикулов $artnr в cart
+
+    function add_item ($artnr, $num)
+    {
+        $this-&#62;items[$artnr] += $num;
+    }
+   
+    // Изъять $num артикулов $artnr из cart
+ 
+    function remove_item ($artnr, $num)
+    {
+        if ($this-&#62;items[$artnr] &#62; $num) {
+            $this-&#62;items[$artnr] -= $num;
+            return true;
+        } else {
+            return false;
+        }   
+    }
+}
+?&#62;</PRE></TD></TR></TABLE>
+<P>Здесь определён класс Cart, состоящий из ассоциативного массива артикулов/articles 
+в карте/cart и двух функций для добавления и удаления элементов этой cart.</P>
+<TABLE CLASS="caution" BORDER="1" WIDTH="100%"><TR><th>Внимание!</th></TR><TR><TD>
+<P>Это предупреждение верно для PHP 4.</P><P>Имя <TT>stdClass</TT> используется внутренне
+Zend-машиной и зарезервировано. Вы не можете иметь в РНР класс с именем
+<TT>stdClass</TT>.</P><P>Имена функций <TT>__sleep</TT> и <TT>__wakeup</TT> являются &quot;магическими&quot; в PHP-классах. Вы не можете иметь функции с такими же 
+именами в любом вашем классе, если только вам не нужна &quot;магическая&quot; 
+функциональность, ассоциированная с ними. См. далее.</P>
+<P>PHP резервирует все имена функций, начинающиеся с __ как магические.
+Рекомендуем не использовать в РНР имена функций с __ , если только 
+вам не нужна какая-нибудь задокументированная магическая функциональность.</P></TD></TR></TABLE>
+<BLOCKQUOTE><P><B>Примечание: </B>в PHP 4 только константные инициализаторы для <TT>var</TT>-переменных допустимы.
+Для инициализации переменных с неконстантными значениями 
+вам необходима функция инициализации, которая вызывается 
+автоматически, когда конструируется из класса. Такая функция называется конструктором (см. далее).</P>
+<A NAME="AEN5402"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+/* Это не будет работать в PHP 4. */
+class Cart
+{
+    var $todays_date = date("Y-m-d");
+    var $name = $firstname;
+    var $owner = 'Fred ' . 'Jones';
+    var $items = array("VCR", "TV");
+}
+
+/* Вот как это должно делаться. */
+class Cart
+{
+    var $todays_date;
+    var $name;
+    var $owner;
+    var $items;
+
+    function Cart()
+    {
+        $this-&#62;todays_date = date("Y-m-d");
+        $this-&#62;name = $GLOBALS['firstname'];
+        /* etc. . . */
+    }
+}
+?&#62;</PRE></TD></TR></TABLE></BLOCKQUOTE>
+<P>Классы это типы, то есть они являются шаблонами реальных переменных. Вы 
+должны создавать переменную нужного типа операцией <TT>new</TT>.</P>
+<A NAME="AEN5406"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$cart = new Cart;
+$cart-&#62;add_item("10", 1);
+
+$another_cart = new Cart;
+$another_cart-&#62;add_item("0815", 3);</PRE></TD></TR></TABLE>
+<P>Здесь создаются объекты $cart и $another_cart, оба от класса Cart. Функция add_item() 
+объекта $cart вызывается для добавления 1 элемента артикула номер 10 в
+$cart. 3 элемента артикула номер 0815 добавляются в $another_cart.</P>
+<P>И $cart, и $another_cart имеют функции add_item(),
+remove_item() и элементы переменных. Это разные функции и переменные. Вы 
+можете представить эти объекты как директории файловой системы. В файловой 
+системе вы можете иметь два разных файла README.TXT, если они находятся в разных 
+директориях. Как и с директориями, где необходимо вводить полный путь к 
+файлу, чтобы достичь его из директории верхнего уровня, вы должны 
+специфицировать полное имя функции, которую хотите вызвать: в терминологии PHP, 
+директория верхнего уровня это глобальное пространство имён/global namespace, а разделителем имён служит -&#62;. 
+Таким образом, имена $cart-&#62;items и $another_cart-&#62;items именуют 
+две различные переменные. Заметьте, что переменная именуется $cart-&#62;items, 
+а не $cart-&#62;$items, то есть имя переменной в PHP имеет только один знак dollar.</P>
+<A NAME="AEN5410"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>// корректно, один символ $
+$cart-&#62;items = array("10" =&#62; 1); 
+
+// неверно, поскольку $cart-&#62;$items становится $cart-&#62;""
+$cart-&#62;$items = array("10" =&#62; 1);
+
+// корректно, но может и не быть тем, что вы предполагаете:
+// $cart-&#62;$myvar становится $cart-&#62;items
+$myvar = 'items';
+$cart-&#62;$myvar = array("10" =&#62; 1);</PRE></TD></TR></TABLE>
+<P>Внутри определения класса вы не знаете, под каким именем объект будет 
+доступен в вашей программе: на момент написания класса Cart не было известно, что объект будет называться $cart или
+$another_cart. Таким образом, вы не можете написать $cart-&#62;items в самом 
+классе Cart. Вместо этого, чтобы иметь возможность доступа к переменным и 
+функциям внутри класса, можно использовать псевдопеременную $this, которая может читаться как 'моя собственная' или
+'текущий объект'. То есть '$this-&#62;items[$artnr] += $num' можно прочитать 
+как 'добавить $num к счётчику $artnr элемента моего собственного массива' 
+или 'добавить $num к счётчику $artnr элемента массива внутри текущего объекта'.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>
+  имеются отличные функции для работы с классами и объектами. Вы можете просмотреть их в разделе
+<A HREF="f/ref.classobj.html">Class/Object-функции.</A></P></BLOCKQUOTE>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="f/variable-functions.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="keyword.extends.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Функции переменных</TD>
+<th WIDTH="34%" VALIGN="top"><a href="langref.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><TT>extends</TT></TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

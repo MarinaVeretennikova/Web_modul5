@@ -1,0 +1,469 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="ru">
+
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=Windows-1251">
+<TITLE>Основные типы данных HTML</TITLE>
+<LINK rel="previous" href="charset.html" tppabs="http://www.citforum.ru/internet/html40/charset.html">
+<LINK rel="next" href="global.html" tppabs="http://www.citforum.ru/internet/html40/struct/global.html">
+<LINK rel="contents" href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">
+<LINK rel="STYLESHEET" href="tppmsgs/msgs0.htm#18" tppabs="http://www.citforum.ru/internet/html40/style/default.css" type="text/css">
+</HEAD>
+
+<BODY>
+<div class="navbar">
+<center>&nbsp;<a href="charset.html" tppabs="http://www.citforum.ru/internet/html40/charset.html">назад</a> &nbsp; <a href="global.html" tppabs="http://www.citforum.ru/internet/html40/struct/global.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center><hr>
+</div>
+
+<H1 align="center"><a name="h-6">6</a> Основные типы данных HTML</H1>
+<div class="subtoc"><p><strong>Содержание</strong>
+<ol>
+<li><a href="#h-6.1">Информация о регистре</a>
+<li><a href="#h-6.2">Основные типы SGML</a>
+<li><a href="#h-6.3">Текстовые строки</a>
+<li><a href="#h-6.4">URI</a>
+<li><a href="#h-6.5">Цвета</a>
+<ol>
+<li><a href="#h-6.5.1">Замечания об использовании цветов</a>
+</ol>
+<li><a href="#h-6.6">Длины</a>
+<li><a href="#h-6.7">Типы содержимого (типы MIME)</a>
+<li><a href="#h-6.8">Коды языков</a>
+<li><a href="#h-6.9">Кодировки символов</a>
+<li><a href="#h-6.10">Отдельные символы</a>
+<li><a href="#h-6.11">
+<span class="index-inst" title="date::format of|time::format of">
+Дата и время</span></a>
+<li><a href="#h-6.12">Типы ссылок</a>
+<li><a href="#h-6.13">Дескрипторы устройств</a>
+<li><a href="#h-6.14">
+<span class="index-inst" title="script::data">
+Данные сценариев</span></a>
+<li><a href="#h-6.15"><span class="index-inst" title="style sheet::data">
+Данные таблиц стилей</span></a>
+<li><a href="#h-6.16">Целевые имена кадров</a>
+</ol>
+</div>
+
+<P>В этом разделе спецификации описываются основные типы данных, которые могут быть содержимым элементов или значением атрибутов. 
+
+<P>Вводную информацию о чтении HTML DTD см. раздел <a href="sgmltut.html" tppabs="http://www.citforum.ru/internet/html40/intro/sgmltut.html">руководство по SGML</a>. 
+
+<H2><a name="h-6.1">6.1</a> <a name="case">Информация о регистре</a></H2>
+
+<P>Каждое определение атрибута включает информацию об <span
+class="index-inst" title="case::of attribute values"><a name="idx-case">
+учете регистра</a></span> его значениями. Информация о регистре представляется следующими ключами:<P>
+
+<dl>
+<dt><strong><a name="case-sensitive">CS</a></strong>
+<dd>Значение учитывает регистр (то есть агенты пользователя по-разному интерпретируют "a" и "A").</dd>
+<dt><strong><a name="case-insensitive">CI</a></strong>
+<dd>Значение не учитывает регистр (то есть агенты пользователя одинаково интерпретируют "a" и "A").</dd>
+<dt><strong><a name="case-neutral">CN</a></strong>
+<dd>Значение не зависит от регистра, например, потому что это число или символ из набора символов документа.</dd>
+<dt><strong><a name="case-attribute">CA</a></strong>
+<dd>Само определение элемента или атрибута дает информацию о регитсре.</dd>
+<dt><strong><a name="see-type-for-case">CT</a></strong>
+<dd>Подробнее об учете регистра см. в определении типа.</dd>
+</dl>
+
+<P>Если значением атрибута является список, ключи применяются к каждому значению в списке, если не указано обратное.
+
+<h2><a name="h-6.2">6.2</a> Основные типы SGML</h2>
+
+<P>В <a href="dtd.html" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html">определении типа документа</a> определяется синтаксис содержимого элемента HTML и значений атрибутов с использованием меток SGML (например, PCDATA, CDATA, NAME, ID и т.д.). Полные определения см. в <a rel="biblioentry" href="references.html#ref-ISO8879" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-ISO8879" class="normref">[ISO8879]</a>. Вот обобщенная информация о ключах:
+
+<ul>
+<li><span class="index-def" title="CDATA|data type::CDATA"> <a name="type-cdata"><strong>CDATA</strong></a></span> - это последовательность символов из набора символов документа, она может включать character entities. Агенты пользователей должны интерпретировать значения атрибутов следующим образом:
+
+<ul>
+<li>Заменять character entities на символы,
+<li>Игнорировать перевод строки,
+<li>Заменять каждый возврат каретки или табуляцию на один пробел.
+</ul>
+
+<P>Агенты пользователей могут игнорировать пробелы в начале и в конце значений атрибута CDATA (например, "&nbsp;&nbsp;&nbsp;myval&nbsp;&nbsp;&nbsp;" интерпретируется как "myval"). Авторы не должны объявлять значения атрибутов с пробелами в начала или в конце.
+
+<P>На некоторые атрибутов HTML 4.0 со значениями атрибутов CDATA спецификация налагает дополнительные ограничения на множество допустимых значений атрибутов, не выраженные в DTD.
+
+<p>Хотя элементы <a href="styles.html#edef-STYLE" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#edef-STYLE" class="noxref"><samp class="einst">STYLE</samp></a> и <a href="scripts.html#edef-SCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#edef-SCRIPT" class="noxref"><samp class="einst">SCRIPT</samp></a> используют CDATA для своей модели данных, для этих элементов агенты пользователей должны обрабатывать CDATA <span class="index-inst" title="CDATA::script and style data|user agent::processing script and style data"><a name="idx-CDATA-1"> по-другому</a></span>. Разметка и entities должны считаться текстом и передаваться в приложение как есть. Первое вхождение последовательности символов "&lt;/" (открывающий разделитель конечного тэга) считается концом содержимого элемента. В допустимых документах это будет конечный тэг элемента.
+
+<li>Метки <span class="index-inst" title="ID|data type::ID"><a name="type-id"><strong>ID</strong></a></span> и <span class="index-inst" title="NAME|data type::NAME"><a name="type-name"><strong>NAME</strong></a></span> должны начинаться с буквы ([A-Za-z]), за которой может следовать любое число букв, цифр ([0-9]), символов переноса ("-"), символов подчеркивания ("_"), двоеточий (":") и точек (".").
+
+<li><span class="index-inst" title="IDREF|data type::IDREF"> <a name="type-idref"><strong>IDREF</strong></a></span> и <span class="index-inst" title="IDREFS|data type::IDREFS"> <a name="type-idrefs"><strong>IDREFS</strong></a></span> - это ссылки на метки ID, определенные другими атрибутами. IDREF - одиночная метка, а IDREFS -разделенный пробелами список меток.
+
+<li>
+Метки <span class="index-inst" title="NUMBER|data type::NUMBER"> <a name="type-number"><strong>NUMBER</strong></a></span> должны содержать по крайней мере одну цифру ([0-9]).
+</ul>
+
+<h2><a name="h-6.3">6.3</a> <a name="type-text">Текстовые строки</a></h2> 
+
+<P>Ряд атрибутов (<span class="index-def" title="parameter entity::%Text;|%Text;"> <a name="didx-parameter_entity" href="dtd.html#Text" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Text">%Text;</a></span> в DTD) принимают текст, который предназначается для чтения людьми.  Вводную информацию об атрибутах Вы можете посмотреть в <a href="sgmltut.html#attributes" tppabs="http://www.citforum.ru/internet/html40/intro/sgmltut.html#attributes">обсуждении атрибутов</a>.
+
+<h2><a name="h-6.4">6.4</a> <a name="type-uri">URI</a></h2>
+
+<P>В этой спецификации термин URI используется, как определено в <a
+rel="biblioentry" href="references.html#ref-URI" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-URI" class="normref">[URI]</a> (см. также <a rel="biblioentry" href="references.html#ref-RFC1630" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC1630" class="informref">[RFC1630]</a>).
+
+<P>Помните, что URI включают URL (как определено в <a rel="biblioentry"
+href="references.html#ref-RFC1738" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC1738" class="normref">[RFC1738]</a> и
+<a rel="biblioentry" href="references.html#ref-RFC1808" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC1808" class="normref">[RFC1808]</a>).
+
+<P>Относительные URI разрешаются до полных URI с использованием основного URI. <a rel="biblioentry" href="references.html#ref-RFC1808" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC1808"
+class="normref">[RFC1808]</a>, раздел 3, где определен нормативный алгоритм этого процесса. Подробнее об основных URI см. в разделе <a href="links.html#edef-BASE" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-BASE">основные URI</a> в главе о <a
+href="links.html" tppabs="http://www.citforum.ru/internet/html40/struct/links.html">ссылках</a>.
+
+<P>URI представляются в DTD комбинацией символов <span class="index-def" title="parameter entity::%URI;|%URI;"> <a name="didx-parameter_entity-1" href="dtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#URI">%URI;</a></span>.
+
+<P>URI вообще <span class="index-inst" title="case::of URIs|URI::case of">
+<a name="idx-case-1" href="#case-sensitive">учитывают регистр.</a></span> Могут быть URI, или части URI, в которых регистр не имеет значения (например, имена машин), но идентификация их может быть непроста. Пользователи должны всегда считать, что URI учитывают регистр (чтобы не ошибиться).
+
+<P>Информацию о <a href="notes.html#non-ascii-chars" tppabs="http://www.citforum.ru/internet/html40/appendix/notes.html#non-ascii-chars">символах, не входящих в набор ASCII, в значениях атрибутов URI</a> см. в приложении.
+
+<h2><a name="h-6.5">6.5</a> <a name="type-color">Цвета</a></h2>
+
+<P>Значение атрибута типа "color" (<span class="index-def" title="parameter entity::%Color;|%Color;"><a name="didx-parameter_entity-2" href="loosedtd.html#Color" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#Color">%Color;</a></span>) относится к определениям цветов, как указано в <a rel="biblioentry" href="references.html#ref-SRGB" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-SRGB" class="normref">[SRGB]</a>. Значение цвета может быть шестнадцатеричным числом (которому предшествует знак диеза) или одним из следующих шестнадцати названий цветов. Названия цветов <span class="index-inst" title="case::of color names"> <a name="idx-case-2" href="#case-insensitive">учитывают регистр.</a></span></P>
+
+<table align="center" width="80%" border="0" cellspacing="10" cellpadding="0">
+<caption><b><span class="index-inst" title="color::names of"><a name="idx-color">
+Названия цветов</a></span> и значения RGB</b><br></caption><tr><td width="16"><img alt="" src="black.gif" tppabs="http://www.citforum.ru/internet/html40/images/black.gif"><td>Black  = "#000000"  <td width="16"><img alt="" src="green.gif" tppabs="http://www.citforum.ru/internet/html40/images/green.gif"><td>Green  = "#008000"<br></tr>
+<tr><td width="16"><img alt="" src="silver.gif" tppabs="http://www.citforum.ru/internet/html40/images/silver.gif"><td>Silver = "#C0C0C0"
+  <td width="16"><img alt="" src="lime.gif" tppabs="http://www.citforum.ru/internet/html40/images/lime.gif"><td>Lime   =  #00FF00"<br></tr> <tr><td width="16"><img alt="" src="gray.gif" tppabs="http://www.citforum.ru/internet/html40/images/gray.gif"><td>Gray   = "#808080"  <td width="16"><img alt="" src="olive.gif" tppabs="http://www.citforum.ru/internet/html40/images/olive.gif"><td>Olive  = "#808000"<br></tr> <tr><td width="16"><img alt="" src="white.gif" tppabs="http://www.citforum.ru/internet/html40/images/white.gif"><td>White  = "#FFFFFF"  <td width="16"><img alt="" src="yellow.gif" tppabs="http://www.citforum.ru/internet/html40/images/yellow.gif"><td>Yellow = "#FFFF00"<br></tr> <tr><td width="16"><img alt="" src="maroon.gif" tppabs="http://www.citforum.ru/internet/html40/images/maroon.gif"><td>Maroon = "#800000"
+  <td width="16"><img alt="" src="navy.gif" tppabs="http://www.citforum.ru/internet/html40/images/navy.gif"><td>Navy   =  #000080"<br></tr> <tr><td width="16"><img alt="" src="red.gif" tppabs="http://www.citforum.ru/internet/html40/images/red.gif"><td>Red    = "#FF0000"  <td width="16"><img alt="" src="blue.gif" tppabs="http://www.citforum.ru/internet/html40/images/blue.gif"><td>Blue   = "#0000FF"<br></tr> <tr><td width="16"><img alt="" src="purple.gif" tppabs="http://www.citforum.ru/internet/html40/images/purple.gif"><td>Purple = "#800080"  <td width="16"><img alt="" src="teal.gif" tppabs="http://www.citforum.ru/internet/html40/images/teal.gif"><td>Teal   = "#008080"<br></tr> <tr><td width="16"><img alt="" src="fuchsia.gif" tppabs="http://www.citforum.ru/internet/html40/images/fuchsia.gif"><td>Fuchsia  = "#FF00FF"  <td width="16"><img alt="" src="aqua.gif" tppabs="http://www.citforum.ru/internet/html40/images/aqua.gif"><td>Aqua   = "#00FFFF"<br></tr> </table>
+
+<P>То есть, значения "#800080" и "Purple" оба означают пурпурный цвет. 
+
+<h3><a name="h-6.5.1">6.5.1</a> Замечания об использовании цветов</h3>
+
+<P>Хотя цвета могут существенно добавлять информации в документ и повышать удобство чтения, при использовании цветов имейте в виду следующие основные принципы:
+
+<ul>
+
+<li>Использование элементов и атрибутов HTML для указания цвета <a
+href="conform.html#deprecated" tppabs="http://www.citforum.ru/internet/html40/conform.html#deprecated">нежелательно</a>. Вместо этого следует использовать <a href="styles.html" tppabs="http://www.citforum.ru/internet/html40/present/styles.html">таблицы стилей</a>.
+
+<li> Не используйте комбинации цветов, вызывающие проблемы у пользователей.
+
+<li> Если Вы используете изображение в качестве фона или устанавливаете цвет фона, не забудьте становить и цвета текста. 
+
+<li> Цвета, указанные в элементах <a href="global.html#edef-BODY" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-BODY" class="noxref"><samp class="einst">BODY</samp></a> и <a href="graphics.html#edef-FONT" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html#edef-FONT" class="noxref"><samp class="einst">FONT</samp></a> и в <a href="graphics.html#adef-bgcolor" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html#adef-bgcolor" class="noxref"><samp class="ainst">bgcolor</samp></a> в таблицах выгладят по-разному на разных платформах (на рабочих станциях, Mac, Windows и на панелях LCD и CRT), поэтому не рассчитывайте на определенный эффект. В будущем поддержка цветовой модели <a rel="biblioentry" href="references.html#ref-SRGB" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-SRGB" class="normref">[SRGB]</a> вместе с цветовыми профилями ICC должна устранить эти проблемы.
+
+<li> При возможности принимайте общие соглашения.
+</ul>
+
+<H2><a name="h-6.6">6.6</a> Длины</H2>
+
+<P>HTML определяет три типа значений длины для атрибутов:
+
+<ol>
+<li><a name="type-pixels"><strong>Пикселы</strong></a>: Значение (<span class="index-def" title="parameter entity::%Pixels;|%Pixels;"> <a name="didx-parameter_entity-3" href="dtd.html#Pixels" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Pixels">%Pixels;</a></span> в DTD) - это целое, представляющее число пикселов (на экране, на бумаге). Таким образом, значение "50" означает пятьдесят пикселов.  Нормативную информацию об определении <span class="index-def" title="pixel"><a name="didx-pixel">пиксела</a></span> см. в <a rel="biblioentry" href="references.html#ref-CSS1" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-CSS1" class="normref">[CSS1]</a>.
+
+<li><a name="type-length"><strong>Длина</strong></a>: Значение (<span class="index-def" title="parameter entity::%Length;|%Length;"> <a name="didx-parameter_entity-4" href="dtd.html#Length" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Length">%Length;</a></span> в DTD) может быть %Pixel; или доля вертикального или горизонтального расстояния в процентах. Таким образом, значение "50%" означает половину доступного пространства.
+
+<li><a name="type-multi-length"><strong>МультиДлина</strong></a>: Значение ( <span class="index-def" title="parameter entity::%MultiLength;|%MultiLength;"><a
+name="didx-parameter_entity-5" href="dtd.html#MultiLength" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#MultiLength">%MultiLength;</a></span> в DTD) может быть %Length; или <span class="index-def" title="relative length"><a name="didx-relative_length"><dfn>относительной длиной</dfn></a></span>.  Относительная длина имеет форму "i*", где "i" - целое число.  При распределении пространства между элементами, конкурирующими за это пространства, агенты пользователя сначала отводят место для длин, определенных в пикселах и процентах, а затем делят оставшееся место между относительными длинами. Каждая относительная длина получает часть доступного пространства, пропорциональную целому числу, предшествующему "*". Значение "*" эквивалентно "1*". Таким образом, если имеется 60 пикселов пространства после того, как агент пользователя распределит пространство для длин, определенных в пикселах и процентах, а конкурирующими относительными длинами являются 1*, 2* и 3*, 1* получит 10 пикселов, 2* - 20 пикселов, а 3* - 30 пикселов.
+</ol>
+
+<P>Значения длин <span class="index-inst" title="case::of length
+values"> <a name="idx-case-3" href="#case-neutral">не учитывают регистр.</a></span>
+
+<H2><a name="h-6.7">6.7</a> <a name="type-content-type">Типы содержимого (типы MIME)</a></H2> 
+
+<div class="note"><P> 
+<em><strong>Примечание.</strong> "Тип носителя" (определенный в <a
+rel="biblioentry" href="references.html#ref-RFC2045" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC2045" class="normref">[RFC2045]</a> и <a rel="biblioentry" href="references.html#ref-RFC2046" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC2046" class="normref">[RFC2046]</a>) указывает природу связанного ресурса. Эта спецификация использует термин "тип содержимого" вместо "типа носителя" в соответствии с его использованием. Более того, в этой спецификации "тип носителя" может означать <a href="#type-media-descriptors">носитель,</a> на котором агент пользователя генерирует документ.
+</em>
+</div>
+
+<P>Этот тип представлен в DTD с помощью <span class="index-def" title="parameter entity::%ContentType;|%ContentType;"> <a name="didx-parameter_entity-6" href="dtd.html#ContentType" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#ContentType">%ContentType;.</a></span>
+
+<P>Типы содержимого <span class="index-inst" title="case::of content
+types"> <a name="idx-case-4" href="#case-insensitive">учитывают регистр.</a></span>
+
+
+<P>Примеры типов содержимого включают "text/html", "image/png", "image/gif", "video/mpeg", "audio/basic", "text/tcl", "text/javascript" и "text/vbscript". Текущий  список зарегистрированных типов MIME см. в <a rel="biblioentry"
+href="references.html#ref-MIMETYPES" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-MIMETYPES" class="normref">[MIMETYPES].</a>
+
+<div class="note"><P> 
+<em><strong>Примечание.</strong> 
+Тип содержимого <span class="index-inst" title="content type::text/css|text/css"><a name="idx-content_type">"text/css",</a></span>, хотя он и не зарегистрирован в IANA, должен использоваться, если связываемым элементом является таблица стилей <a rel="biblioentry" href="references.html#ref-CSS1" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-CSS1" class="normref">[CSS1]</a>.
+</em>
+</div>
+
+<H2><a name="h-6.8">6.8</a> <a name="type-langcode">Коды языков</a></H2>
+
+<P>Значения атрибутов, типом которых является код языка (<span
+class="index-def" title="parameter entity::%LanguageCode;|%LanguageCode;"> <a
+name="didx-parameter_entity-7" href="dtd.html#LanguageCode" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#LanguageCode">%LanguageCode</a></span> в DTD), относится к коду языка, как указано в <a rel="biblioentry" href="references.html#ref-RFC1766" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC1766" class="normref">[RFC1766]</a>, раздел 2. Информацию об указании кодов языков в HTML см. в разделе <a
+href="dirlang.html#langcodes" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#langcodes">коды языков</a>.  В кодах языков пробелы недопустимы.
+
+<P>Коды языков <span class="index-inst" title="case::of language codes">
+<a name="idx-case-5" href="#case-insensitive">учитывают регистр.</a></span></P>
+
+<H2><a name="h-6.9">6.9</a> <a name="type-charset">Кодировки символов</a></H2>
+
+<P>Атрибуты "charset" (<span class="index-def" title="parameter
+entity::%Charset;|%Charset;"><a name="didx-parameter_entity-8" href="dtd.html#Charset" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Charset">%Charset</a></span> в DTD) относятся к <span class="index-inst" title="character encoding::names of"><a name="idx-character_encoding">кодировкам символов</a></span>, как описано в разделе <a href="charset.html#encodings" tppabs="http://www.citforum.ru/internet/html40/charset.html#encodings">кодировки символов</a>.  Значениями должны быть строки (например, "euc-jp") из реестра IANA (полный список см. в <a rel="biblioentry" href="references.html#ref-CHARSETS" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-CHARSETS" class="normref">[CHARSETS]</a>).
+
+<P>Имена кодировок символов <span class="index-inst" title="case::of character encodings"> <a name="idx-case-6" href="#case-insensitive">учитывают регистр.</a></span></P>
+
+<P>Агенты пользователей для определения кодировки символов внешнего ресурса должны выполнять шаги, описанные в разделе <a href="charset.html#spec-char-encoding" tppabs="http://www.citforum.ru/internet/html40/charset.html#spec-char-encoding">указание кодировок символов</a>.
+
+<H2><a name="h-6.10">6.10</a> <a name="type-character">Отдельные символы</a></H2>
+
+<P>Определенные атрибуты вызывают отдельный символ из <a
+href="charset.html#doc-char-set" tppabs="http://www.citforum.ru/internet/html40/charset.html#doc-char-set">набора символов документа</a>. Эти атрибуты имеют тип <span class="index-def" title="parameter entity::%Character;|%Character;"><a name="didx-parameter_entity-9" href="dtd.html#Character" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Character">%Character</a></span> в DTD.
+
+<P>Отдельные символы можно указать с помощью <a
+href="charset.html#entities" tppabs="http://www.citforum.ru/internet/html40/charset.html#entities">ссылок на символы</a> (например, "&amp;amp;").
+
+<H2><a name="h-6.11">6.11</a> 
+<span class="index-inst" title="date::format of|time::format of">
+<a name="type-datetime">Дата и время</a></span></H2>
+
+<P><A rel="biblioentry" href="references.html#ref-ISO8601" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-ISO8601"
+class="normref"> [ISO8601]</A> позволяет много вариантов представления даты и времени. Текущая спецификация использует один из форматов, описанных в профиле <a rel="biblioentry" href="references.html#ref-DATETIME" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-DATETIME" class="normref">[DATETIME]</a> для определения допустимых строк дата/время (<span class="index-def" title="parameter entity::%Datetime;|%Datetime;"> <a name="didx-parameter_entity-10" href="dtd.html#Datetime" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Datetime">%Datetime</a></span> в DTD).
+
+<P>Это следующий формат:</P>
+
+<PRE>
+  ГГГГ-ММ-ДДTчч:мм:ссУЧП
+</PRE>
+
+где: 
+
+<PRE>
+     ГГГГ = год из четырех цифр
+     ММ  = месяц из двух цифр (01=январь и т.д.)
+     ДД   = день из двух цифр (01 - 31)
+     чч   = две цифры часов (00 - 23) (до/пп НЕ допускается)
+     мм   = две цифры минут (00 - 59)
+     сс   = две цифры секунд (00 - 59)
+     УЧП  = указатель часового пояса
+</PRE>
+
+<P>Указатели часового пояса:</P>
+
+<DL>
+<DT><strong>Z</strong></DT>
+
+<DD>означает UTC (Общее скоординированное время). "Z" должно быть в верхнем регистре.</DD>
+
+<DT><strong>+чч:мм</strong></DT>
+
+<DD>указывает, что местное время отстоит на <SAMP>чч</SAMP> часов и <SAMP>мм</SAMP> минут от UTC вперед. </DD>
+
+<DT><strong>-чч:мм</strong></DT>
+
+<DD>указывает, что местное время отстает на <SAMP>чч</SAMP> часов и <SAMP>мм</SAMP> минут от UTC.</DD>
+</DL>
+
+<P>Указанные компоненты должны присутствовать в точности, с точно такой же пунктуацией. Помните, что буква <SAMP>"T"</SAMP> отображается в строке литерально (она должна быть в верхнем регистре), для указания начала времени, как описано в <A rel="biblioentry" href="references.html#ref-ISO8601" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-ISO8601" class="normref">[ISO8601]</A></P>
+
+<P>Если генерирующее приложение не знает времени с точностью до секунды, для секунд может использоваться значение "00" (при необходимости также для минут и для часов).</P>
+
+<div class="note"><P> <em><strong>Примечание.</strong> <a rel="biblioentry"
+href="references.html#ref-DATETIME" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-DATETIME" class="normref">[DATETIME]</a>
+не касается добавочных секунд.
+</em>
+</div>
+
+<H2><a name="h-6.12">6.12</a> <A name="type-links">Типы ссылок</A></H2>
+
+<P>Авторы могут использовать следующие распознаваемые <span class="index-inst" title="link type::list of recognized|link::type of"><a name="idx-link_type">типы ссылок,</a></span> перечисленные здесь вместе с условными интерпретациями. В DTD <a href="dtd.html#LinkTypes" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#LinkTypes">%LinkTypes</a> означает список типов ссылок, разделенных пробелами.  Символы пробелов в типах ссылок не допускаются.
+</P>
+
+<P>Эти типы ссылок <span class="index-inst" title="case::of link types|link type::case of"><a name="idx-case-7" href="#case-insensitive">не учитывают регистр,</a></span> т.е. "Alternate" означает то же, что и "alternate".
+
+<P>Агенты пользователей, поисковые машины и т.д. могут интерпретировать эти типы ссылок несколькими способами. Например, агенты пользователя могут предоставлять доступ к связанным документам с помощью навигационной панели.</P>
+
+<DL>
+<Dt><strong>Alternate</strong></DT>
+
+<DD>Обозначает альтернативные версии документа, в котором находится ссылка. Вместе с атрибутом <a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><SAMP class="ainst">lang</SAMP></a> означает переведенную версию документа.  Вместе с атрибутом <a href="styles.html#adef-media" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-media" class="noxref"><SAMP class="ainst">media</SAMP></a> означает версию, созданную для другого носителя.</DD>
+
+<DT><strong>Stylesheet</strong></DT>
+
+<DD>Обозначает внешнюю таблицу стилей. Подробнее см. раздел о <A href=
+"styles.html#style-external" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-external">внешних таблицах стилей</A>. Используется вместе с типом ссылки "Alternate" для таблиц стилей, выбираемых пользователем. 
+</DD>
+
+<DT><strong>Start</strong></DT>
+
+<DD>Обозначает первый документ в наборе. Этот тип ссылки сообщает поисковым машинам о том, какой документ автор считает началом набора. </DD>
+
+<DT><strong>Next</strong></DT>
+
+<DD>Обозначает следующий документ в линейной последовательности документов. Агенты пользователей могут предварительно загружать документ "next" для сокращения времени загрузки. </DD>
+
+<DT><strong>Prev</strong></DT>
+
+<DD>Обозначает предыдущий документ в упорядоченной серии документов.
+Некоторые агенты пользователей также поддерживают синоним "Previous".</DD>
+
+<DT><strong>Contents</strong></DT>
+
+<DD>Обозначает документ, служащий содержанием. Некоторые агенты пользователей также поддерживают синоним <em>ToC</em> (из "Table of Contents").</DD>
+
+<DT><strong>Index</strong></DT>
+
+<DD>Обозначает документ, являющийся указателем текущего документа. </DD>
+
+<DT><strong>Glossary</strong></DT>
+
+<DD>Обозначает документ - глоссарий терминов, относящихся к текущему документу. </DD>
+
+<DT><strong>Copyright</strong></DT>
+
+<DD>Обозначает замечание об авторском праве для текущего документа. </DD>
+
+<DT><strong>Chapter</strong></DT>
+
+<DD>Обозначает документ, являющийся главой в наборе документов. </DD>
+
+<DT><strong>Section</strong></DT>
+
+<DD>Обозначает документ, являющийся разделом в наборе документов. </DD>
+
+<DT><strong>Subsection</strong></DT>
+
+<DD>Обозначает документ, являющийся подразделом в наборе документов. </DD>
+
+<DT><strong>Appendix</strong></DT>
+
+<DD>Обозначает документ, являющийся приложением в наборе документов. </DD>
+
+<DT><strong>Help</strong></DT>
+
+<DD>Обозначает документ, содержащий справку (более подробная информация, ссылки на другие информационные ресурсы и т.д.) </DD>
+
+<DT><strong>Bookmark</strong></DT>
+
+<DD>Обозначает закладку. Закладка - это ссылка на ключевую точку в расширенном документе. Атрибут <a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><SAMP class="ainst">title</SAMP></a> может использоваться, например, для пометки закладки. Помните, что в каждом документе можно определить несколько закладок.</DD>
+</DL>
+
+<P>Авторы могут определить <span class="index-inst" title="link type::profiles for new"><a name="idx-link_type-2">дополнительные типы ссылок</a></span>, не описанные в этой спецификации. При этом они должны использовать <A href=
+"global.html#profiles" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#profiles">профиль</A> для указания соглашений, используемых для определения типов ссылок. Подробнее см. атрибут <a href="global.html#adef-profile" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-profile" class="noxref"><SAMP class="ainst">profile</SAMP></a> элемента <a href="global.html#edef-HEAD" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HEAD" class="noxref"><SAMP class="einst">HEAD</SAMP></a>.</P>
+
+<P>Дальнейшее обсуждение типов ссылок см. в разделе <a href="links.html" tppabs="http://www.citforum.ru/internet/html40/struct/links.html">ссылки в документах HTML</a>.
+
+<H2><a name="h-6.13">6.13</a> <a name="type-media-descriptors">Дескрипторы носителей</a></H2>
+
+<P>Ниже приведен список <span class="index-inst" title="media descriptor::list of recognized"><a name="idx-media_descriptor">распознаваемых дескрипторов носителей</a></span> (<span class="index-def" title="parameter entity::%MediaDesc;|%MediaDesc;"> <a name="didx-parameter_entity-11" href="dtd.html#MediaDesc" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#MediaDesc">%MediaDesc</a></span> в DTD).
+
+<dl>
+<dt><strong>screen</strong>
+<dd>Предназначен для экранов компьютеров, не разделенных на страницы.
+
+<dt><strong>tty</strong>
+<dd>Предназначен для носителя с фиксированной сеткой для символов, таких как телетайпы, терминалы или переносные устройства с ограниченными возможностями отображения.
+
+<dt><strong>tv</strong>
+<dd>Предназначен для устройств типа телевизора (низкое разрешение, цвета,
+ограниченные возможности прокрутки).
+
+<dt><strong>projection</strong>
+<dd>Предназначен для проекторов.
+
+<dt><strong>handheld</strong>
+<dd>Предназначен для карманных устройств (небольшой экран, монохромный,
+растровая графика, ограниченный диапазон).
+
+<dt><strong>print</strong>
+<dd>Предназначен для страничных, непрозрачных материалов и документов, просматриваемых на экране в режиме предварительного просмотра печати.
+
+<dt><strong>braille</strong>
+<dd>Предназначен для тактильных устройств с алфавитом Бройля.
+
+<dt><strong>aural</strong>
+<dd>Предназначен для синтезаторов речи.
+
+<dt><strong>all</strong>
+<dd>Для всех устройств.
+</dl>
+
+<P>В будущих версиях HTML могут быть введены новые значения и разрешены параметризованные значения.  Для упрощения введения этих расширений соответствующие спецификации агенты пользователя должны иметь возможность <span class="index-inst" title="media descriptor::parsing of"><a name="idx-media_descriptor-1">анализировать</a></span> значение атрибута <a href="styles.html#adef-media" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-media" class="noxref"><samp class="ainst">media</samp></a> следующим образом:</P>
+
+<ol>
+<li>Значение - это разделенный запятыми список элементов. Например,
+
+<pre>
+media="screen, 3d-glasses, print and resolution > 90dpi"
+</pre>
+
+<p>отображается в :
+
+<pre>
+"screen"
+"3d-glasses"
+"print and resolution > 90dpi"
+</pre>
+
+<li>Каждый элемент усекается перед первым символом, не являющимся буквой кодировки US ASCII [a-zA-Z] (десятичные коды Unicode 65-90, 97-122), цифрой [0-9] (шестнадцатеричные коды Unicode 30-39) или знаком переноса (45).
+В данном примере получается:
+
+<pre>
+"screen"
+"3d-glasses"
+"print"
+</pre>
+
+<li>Затем <span class="index-inst" title="case::of media descriptors|media descriptor::case of"><a name="idx-case-8" href="#case-insensitive">с учетом регистра</a></span> проводится сверка с набором определенных выше типов дескрипторов. Агенты пользователей могут игнорировать несовпадающие элементы. В данном примере останутся только элементы <tt>screen</tt> и <tt>print</tt>.
+</ol>
+
+<div class="note"><p> <em><strong>Примечание.</strong> Таблицы стилей могут включать вариации в зависимости от носителя (например, конструкция CSS <em>@media</em>). В таких случаях имеет смысл использовать "<a href="styles.html#adef-media" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-media" class="noxref"><samp class="ainst">media</samp></a>=all"</em>.
+</div>
+
+<H2><a name="h-6.14">6.14</a> 
+<span class="index-inst" title="script::data">
+<a name="type-script">Данные сценария</a></span></H2>
+
+<P>Данные сценария (<span class="index-def" title="parameter entity::%Script;|%Script;"> <a name="didx-parameter_entity-12" href="dtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Script">%Script;</a></span> в <a href="dtd.html" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html">DTD</a>) могут быть содержимым элемента <a href="scripts.html#edef-SCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#edef-SCRIPT" class="noxref"><SAMP
+CLASS="einst">SCRIPT</SAMP></a> и значением <a href="scripts.html#scripts" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#scripts">атрибутов внутренних событий</a>.
+Агенты пользователей не должны оценивать данные сценариев в разметке HTML, а должны передавать эти данные ядру сценариев.</p>
+
+<P><span class="index-inst" title="case::of script data"><a name="idx-case-9">
+Учет регистра</a></span> в данных сценариев зависит от языка сценариев.</P>
+
+<P>Помните, что данные сценариев, являющиеся содержимым элемента, не могут содержать <a href="charset.html#entities" tppabs="http://www.citforum.ru/internet/html40/charset.html#entities">ссылок на символы</a>, но данные сценария, являющиеся значением атрибута, могут.  В приложении приводится информация об <a href="notes.html#notes-specifying-data" tppabs="http://www.citforum.ru/internet/html40/appendix/notes.html#notes-specifying-data">указании данных, отличных от данных HTML</a>.
+
+<H2><a name="h-6.15">6.15</a> <span class="index-inst" title="style sheet::data">
+<a name="type-style">Данные таблиц стилей</a></span></H2>
+
+<P>Данные таблиц стилей (<a href="dtd.html#StyleSheet" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#StyleSheet">%StyleSheet;</a> в <a href="dtd.html" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html">DTD</a>) могут быть содержимым элемента <a href="styles.html#edef-STYLE" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#edef-STYLE" class="noxref"><SAMP CLASS="einst">STYLE</SAMP></a> и значением атрибута <a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><samp class="ainst">style</samp></a>.  Агенты пользователей не должны оценивать данные стилей в разметке HTML.</P>
+
+<P><span class="index-inst" title="case::of style data"><a name="idx-case-10">
+Учет регистра</a></span> данных стиля зависит от языка таблиц стилей.</P>
+
+<P>Помните, что данные таблиц стилей, являющиеся содержимым элемента, не могут включать <a href="charset.html#entities" tppabs="http://www.citforum.ru/internet/html40/charset.html#entities">ссылки на символы</a>, но данные таблиц стилей, являющиеся значением атрибута, могут включать их.  В приложении приводится дальнейшая информация об <a href="notes.html#notes-specifying-data" tppabs="http://www.citforum.ru/internet/html40/appendix/notes.html#notes-specifying-data">указании данных, отличных от данных HTML</a>.
+
+<h2><a name="h-6.16">6.16</a> <a name="type-frame-target">Целевые имена кадров</a></h2>
+
+<p>За исключением приведенных ниже зарезервированных имен, целевые имена кадров (<span class="index-def" title="parameter entity::%FrameTarget;|%FrameTarget;"><a name="didx-parameter_entity-13" href="loosedtd.html#FrameTarget" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#FrameTarget">%FrameTarget;</a></span> в DTD) должны начинаться с алфавитных символов (a-zA-Z). Агенты пользователей должны игнорировать все остальные имена.
+
+<p>Следующие <span class="index-inst" title="target frame::reserved names|frame::list of reserved target names"><a name="idx-target_frame">target
+names</a></span> зарезервированы и имеют специальные значения.
+
+<DL>
+<DT><strong>_blank</strong>
+<DD>Агенты пользователей должны загружать документ в новое окно без имени.
+
+<DT><strong>_self</strong>
+<DD>Агенты пользователей должны загружать документ в тот же кадр, в котором находится ссылающийся на него документ. 
+
+<DT><strong>_parent</strong>
+<DD>Агенты пользователей должны загружать документ в непосредственный родительский кадр этого кадра во <a href="frames.html#edef-FRAMESET" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-FRAMESET" class="noxref"><samp class="einst">FRAMESET</samp></a>. Это значение эквивалентно <tt>_self</tt>, если текущий кадр не имеет родительского кадра.
+
+<DT><strong>_top</strong>
+<DD>Агенты пользователей должны загружать документ в полное окно (закрывая все остальные кадры). Это значение эквивалентно <tt>_self</tt>, если у текущего кадра нет родительского кадра.
+</DL>  
+
+<div class="navbar">
+<hr><center><a href="charset.html" tppabs="http://www.citforum.ru/internet/html40/charset.html">назад</a> &nbsp; <a href="global.html" tppabs="http://www.citforum.ru/internet/html40/struct/global.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">индекс</a>
+</center></div>
+</BODY>
+</html>
+
+

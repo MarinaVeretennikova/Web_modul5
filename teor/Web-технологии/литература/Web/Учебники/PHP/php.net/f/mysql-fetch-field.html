@@ -1,0 +1,58 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>mysql_fetch_field</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="mysql-fetch-assoc.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="mysql-fetch-lengths.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.mysql-fetch-field">mysql_fetch_field</A></H1><A NAME="AEN51285"></A><P>(PHP 3, PHP 4)</P>
+<p>mysql_fetch_field - получает информацию столбца из результата и возвращает её как объект.<A NAME="AEN51288"></A></p>
+<H2>Описание</H2><p>object <B>mysql_fetch_field</B> (resource result [, int field_offset])</p>
+<P>Возвращает объект, содержащий информацию полей.</P><P><B>mysql_fetch_field()</B> может использоваться для получения информации о полях результата запроса. Если
+смещение поля не специфицировано, возвращается следующее поле, ещё не 
+запрошенное функцией <B>mysql_fetch_field()</B>.</P><P>Свойств объекта:<UL><LI><P>name - имя столбца</P></LI>
+<LI><P>table - имя таблицы, которой принадлежит столбец</P></LI><LI><P>max_length - максимальный размер столбца</P></LI>
+<LI><P>not_null - 1, если столбец не может быть <TT><B>NULL</B></TT></P></LI>
+<LI><P>primary_key - 1, если столбец является primary key/первичным ключом</P></LI>
+<LI><P>unique_key - 1, если столбец является уникальным ключом/unique key</P></LI>
+<LI><P>multiple_key - 1, если столбец является неуникальным ключом/non-unique key</P></LI>
+<LI><P>numeric - 1, если это числовой столбец</P></LI><LI><P>blob - 1, если столбец является BLOB</P></LI>
+<LI><P>type - тип столбца</P></LI><LI><P>unsigned - 1, если столбец является беззнаковым</P></LI>
+<LI><P>zerofill - 1, если столбец является заполняемым нулями/zero-filled</P></LI></UL>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN51330"></A><h5>Пример 1. mysql_fetch_field()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+mysql_connect('localhost:3306', $user, $password)
+    or die ("Could not connect");
+mysql_select_db("database");
+$result = mysql_query("select * from table")
+    or die("Query failed");
+/* получить метаданные столбца */
+$i = 0;
+while ($i &#60; mysql_num_fields($result)) {
+    echo "Information for column $i:&#60;br /&#62;\n";
+    $meta = mysql_fetch_field($result);
+    if (!$meta) {
+        echo "No information available&#60;br /&#62;\n";
+    }
+    echo "&#60;pre&#62;
+blob:         $meta-&#62;blob
+max_length:   $meta-&#62;max_length
+multiple_key: $meta-&#62;multiple_key
+name:         $meta-&#62;name
+not_null:     $meta-&#62;not_null
+numeric:      $meta-&#62;numeric
+primary_key:  $meta-&#62;primary_key
+table:        $meta-&#62;table
+type:         $meta-&#62;type
+unique_key:   $meta-&#62;unique_key
+unsigned:     $meta-&#62;unsigned
+zerofill:     $meta-&#62;zerofill
+&#60;/pre&#62;";
+    $i++;
+}
+mysql_free_result($result);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="mysql-field-seek.html"><B>mysql_field_seek()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="mysql-fetch-assoc.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="mysql-fetch-lengths.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">mysql_fetch_assoc</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.mysql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">mysql_fetch_lengths</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

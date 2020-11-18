@@ -1,0 +1,2104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE></TITLE>
+<META content="TEXT/HTML; CHARSET=WINDOWS-1251" http-equiv=CONTENT-TYPE>
+<META content="Microsoft FrontPage 4.0" name=GENERATOR>
+<STYLE></STYLE>
+</HEAD>
+<body background=../fon.jpg>
+<ul>
+
+  <li><a href="#a"><font face="Times New Roman" size=3>Глава 14. PHP и XML</font></a> </li>
+  <ul>
+    <li><a href="#b"><font face="Times New Roman" size="3">Разметка
+      текста</font></a>
+      <ul>
+        <li><a href="#c"><font face="Times New Roman" size="3">Язык SGML</font></a></li>
+        <li><a href="#d"><font face="Times New Roman" size="3">Пришествие
+          HTML</font></a></li>
+        <li><a href="#e"><font face="Times New Roman" size="3">XML как
+          неопровержимое свидетельство
+          эволюции</font></a></li>
+      </ul>
+    </li>
+    <li><a href="#f"><font face="Times New Roman" size="3">Знакомство
+      с синтаксисом XML</font></a>
+      <ul>
+        <li><a href="#g"><font face="Times New Roman" size="3">Определение
+          типа документа(DTD)</font></a></li>
+      </ul>
+    </li>
+    <li><a href="#h"><font face="Times New Roman" size="3">PHP и XML</font></a>
+      <ul>
+        <li><a href="#i"><font face="Times New Roman" size="3">Подключение
+          пользовательских функций к обработке
+          XML</font></a></li>
+        <li><a href="#j"><font face="Times New Roman" size="3">Функции
+          обработки кода XML</font></a></li>
+        <li><a href="#k"><font face="Times New Roman" size="3">Другие
+          полезные функции</font></a></li>
+        <li><a href="#l"><font face="Times New Roman" size="3">Параметры
+          анализатора XML</font></a></li>
+        <li><a href="#m"><font face="Times New Roman" size="3">Преобразование
+          XML в HTML</font></a></li>
+      </ul>
+    </li>
+    <li><a href="#n"><font face="Times New Roman" size="3">Несколько
+      слов о PHP и XML</font></a></li>
+    <li><a href="#o"><font face="Times New Roman" size="3">Итоги</font></a></li>
+  </ul>
+</ul>
+<b>
+<p>&nbsp;</p>
+</b>
+<p><A NAME="a"></A><font COLOR="#000000" face="Times New Roman" size="5">ГЛАВА 14</font></p>
+<p><font COLOR="#000000" face="Times New Roman" size="5">РНР и XML</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Бесспорно,
+развитие World Wide Web оказало заметное влияние
+на способы обмена информацией. Вследствие
+огромных размеров этой электронной сети
+соблюдение стандартов превратилось из
+простого удобства в обязательное
+требование — конечно, если ваша
+организация собирается в полной мере
+использовать потенциал Web. Одним из таких
+стандартов является язык XML (extensible Markup Language)
+— удобное средство обмена данными между
+организациями и приложениями.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В начале
+этой главы приведены общие сведения о XML,
+при этом особое внимание уделяется общему
+синтаксису языка. Второй раздел посвящен
+средствам РНР для работы с XML. Мы рассмотрим
+стандартные функции поддержки XML, а также
+схему общего процесса обработки файлов в
+формате XML. Этот материал позволит вам лучше
+понять, чем же так ценен XML и как РНР может
+применяться для разработки полезных и
+интересных приложений на базе XML.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Но прежде
+чем переходить к непосредственному
+описанию XML, я расскажу о том, как же
+развивались концепции, в конечном счете
+приведшие к возникновению формата XML.</font></p>
+<b>
+<p><A NAME="b"></A><font color="#000000" face="Times New Roman" size="4">Разметка
+текста</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Как
+нетрудно предположить по его названию, язык
+HTML (HyperText MarkUp Language) относится к числу так
+называемых </font><i><font COLOR="#000000">языков
+разметки текста </font></i><font COLOR="#000000">(markup languages).
+Под термином «разметка» понимается общая
+служебная информация, которая не выводится
+вместе с документом, но определяет; </font><i><font COLOR="#000000">как
+</font></i><font COLOR="#000000">должны выглядеть те или
+иные фрагменты документа. Например, вы
+можете потребовать, чтобы какое-либо слово
+выводилось </font><b><font COLOR="#000000">жирным </font></b><font COLOR="#000000">или
+</font><i><font COLOR="#000000">курсивным </font></i><font COLOR="#000000">шрифтом,
+вывести отдельный абзац особым шрифтом или
+оформлять заголовки увеличенным шрифтом.
+Текстовый редактор, в котором я ввожу этот
+абзац, тоже использует особую форму
+разметки для представления тех атрибутов
+форматирования, которые я выбираю. Таким
+образом, в нем тоже используется особая
+разновидность языка разметки. Короче
+говоря, язык разметки, используемый моим
+текстовым редактором, представляет собой
+средство для описания визуального
+оформления текста в моих документах.</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В наши дни
+существует множество разных языков
+разметки. Например, в коммуникационных
+программах особая форма разметки
+определяет смысл каждого пакета из нулей и
+единиц, пересылаемого в Интернете. Когда мы
+подчеркиваем слова в книге, это тоже можно
+считать своего рода разметкой. Впрочем,
+любой язык разметки должен решать две
+важные задачи:</font></p>
+<b>
+<ol>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Язык
+определяет синтаксис разметки. </font></b><font size="3" face="Times New Roman"><font COLOR="#000000">Например,
+в соответствии со спецификацией HTML
+конструкция &lt;b&gt;text&lt;/b&gt; определяет
+синтаксически правильную разметку текста,
+а конструкция &lt;xR5t&gt;text&lt;/x4rt&gt; считается
+неправильной из-за несовпадения
+открывающего и закрывающего тегов.</font></font></li>
+<b>
+<li><font COLOR="#000000" size="3" face="Times New Roman">Язык
+определяет смысл разметки. </font></b><font size="3" face="Times New Roman"><font COLOR="#000000">Конечно,
+вы знаете, что команда &lt;b&gt;text&lt;/b&gt; выводит
+слово text жирным шрифтом. В данном случае
+определяется смысл, связанный с
+объявлением некоторого </font></font><i><font COLOR="#000000" size="3" face="Times New Roman">компонента
+документа.</font></li>
+</ol>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Стремительное
+развитие Web за последние несколько лет
+наглядно показывает, что самым популярным
+языком разметки текста является HTML. Но как
+появился этот язык? Кто закрепил за тегами
+&lt;b&gt; и &lt;/b&gt; определенный смысл в
+документе? Чтобы ответить на этот вопрос,
+необходимо познакомиться с
+предшественником HTML — SGML (Standard Generalized Markup
+Language).</font></p>
+<p><A NAME="c"></A><font color="#000000" face="Times New Roman" size="4">Язык SGML</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">SGML
+представляет собой международный стандарт
+обмена электронной информацией между
+различными аппаратными и программными
+компонентами. По названию можно
+предположить, что SGML — это язык. На самом
+деле это не совсем так, поскольку SGML в
+действительности определяет
+формализованный набор правил для создания
+языков. На базе SGML были созданы два самых
+популярных языка разметки — HTML и XML. Как вы
+уже знаете, HTML — плат-форменно- и аппаратно-независимый
+язык, предназначенный для форматирования и
+отображения текста. То же самое можно
+сказать и о XML.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Появление
+стандарта SGML было обусловлено
+необходимостью совместного использования
+данных разными приложениями и
+операционными системами. Даже в далеких 60-х
+годах у пользователей компьютеров
+возникало немало проблем с совместимостью.
+Проанализировав недостатки многих
+нестандартных языков разметки, трое ученых
+из IBM — Чарльз Гольдфарб (Charles Goldfarb), Эд Мо-шер
+(Ed Mosher) и Рэй Лори (Ray Lorie) — сформулировали
+три общих принципа, обеспечивающих
+возможность совместной работы с
+документами в разных операционных системах:</font></p>
+<b>
+<ul>
+  <li><font size="3" face="Times New Roman"><font COLOR="#000000">Использование
+единых принципов форматирования во всех
+программах, выполняющих обработку
+документов. </font></font></b><font size="3" face="Times New Roman"><font COLOR="#000000">Вполне
+логичное требование — всем нам хорошо
+известно, как трудно договориться между
+собой людям, говорящим на разных языках.
+Наличие единого набора синтаксических
+конструкций и общей семантики заметно
+упрощает взаимодействие между программами.</font></font></li>
+<b>
+<li><font size="3" face="Times New Roman"><font COLOR="#000000">Специализация
+языков форматирования. </font></font></b><font size="3" face="Times New Roman"><font COLOR="#000000">Благодаря
+возможности построения
+специализированного языка на базе набора
+стандартных правил программист</font></font></li>
+<li><font COLOR="#000000" size="3" face="Times New Roman">перестает
+зависеть от внешних реализаций и их
+представлений о потребностях конечного
+пользователя</font></li>
+<b>
+<li><font COLOR="#000000" size="3" face="Times New Roman">Четкое
+определение формата документа.</font></b><font size="3" face="Times New Roman"><font COLOR="#000000">
+Правила, определяющие формат документа,
+задают количество и маркировку языковых
+конструкций, используемых в документе.
+Применение стандартного формата
+гарантирует, что пользователь будет точно
+знать структуру содержимого документа.
+Обратите внимание: речь идет не о формате </font><i><font COLOR="#000000">отображения
+</font></i><font COLOR="#000000">документа, а о его
+структурном формате. Набор правил,
+описывающих этот формат, называется «определением
+типа документа» (document type definition, DTD).</font></font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Эти три
+правила были заложены в основу
+предшественника SGML — GML (Generalized Markup Language).
+Исследования и разработка GML продолжались
+около десяти лет, пока в результате
+соглашения, заключенного международной
+группой разработчиков, не появился
+стандарт SGML.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В 1980-х годах
+необходимость в общих средствах обмена
+информацией непрерывно возрастала, и SGML
+вскоре превратился в отраслевой стандарт (в
+1986 году он был принят в качестве стандарта
+ISO). Даже в наши дни этот стандарт занимает
+достаточно сильные позиции, поскольку
+многие организации, работающие с огромными
+объемами информации, полагаются на SGML как
+на удобное и надежное средство хранения
+данных. Чтобы подкрепить сказанное, замечу,
+что Бюро патентов и товарных знаков США (<a href="http://www.uspto.gov">http://www.uspto.gov</a>),
+Служба внутренних сборов США (<a href="http://www.irs.gov">http://www.irs.gov</a>) и
+Библиотека Конгресса (<a href="http://lcweb.loc.gov">http://lcweb.loc.gov</a>)
+используют SGML в своих основных приложениях.
+Только представьте, какой объем
+документации проходит через эти
+организации за год!</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="prim.gif" align=left width="36" height="35">Одним
+из лучших ресурсов Интернета, посвященных
+SGML, XML и другим языкам раз-метки, является
+сайт Robin Cover/OASIS XML Cover Pages (<a href="http://www.oasis-open.org/cover">http://www.oasis-open.org/cover</a>).</font></i></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Идея
+передачи гипертекстовых документов через
+web-браузер, предложенная Тимом Бернерсом-Ли
+(Tim Berners-Lee), не требовала многих возможностей,
+поддерживаемых полной реализацией SGML. В
+результате появился известный язык
+разметки HTML.</font></p>
+<p><A NAME="d"></A><font color="#000000" face="Times New Roman" size="4">Пришествие
+HTML</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Концепция
+World Wide Web идеально соответствовала идее
+применения обобщенного языка разметки для
+упрощения обмена информацией в среде,
+содержащей множество разных аппаратных
+конфигураций, операционных систем и
+программных реализаций. Несомненно,
+Бернерс-Ли учитывал это обстоятельство,
+поскольку он смоделировал первую версию HTML
+на основе стандарта SGML. HTML унаследовал
+некоторые характеристики SGML, в том числе
+простой обобщенный набор тегов и особую
+роль угловых скобок. Простые документы в
+формате HTML можно прочитать в любой
+компьютерной системе, в которой
+предусмотрены средства для просмотра
+текстовых документов. Все остальное —
+история.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Тем не менее,
+у HTML имеется существенный недостаток: он не
+позволяет разработчику создавать
+собственные типы документов. Результатом
+стала «война браузеров», в ходе которой
+разработчики браузеров начали создавать
+свои собственные усовершенствования языка
+HTML. Эти модификации существенно
+отклонялись от идеи работы с единым
+стандартом HTML и вызвали настоящий хаос
+среди разработчиков, которые хотели
+создавать web-сайты, не зависящие от браузера.
+Более того, долгий период неопределенности
+в области стандартов привел к тому, что
+разработчики вывели язык из первоначально
+задуманных границ. Думаю, подавляющее
+большинство web-страниц современного
+Интернета вообще не соответствуют текущей
+спецификации HTML.</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Реакцией
+консорциума W3 (http://www.w3.org) на быстро
+ухудшающуюся ситуацию стала попытка
+вернуть развитие HTML на правильный путь —
+другими словами, вернуться к истокам SGML.
+Результатом </font><b><font COLOR="#000000">этих </font></b><font COLOR="#000000">усилий
+стал XML.</font></font></p>
+<p><A NAME="e"></A><font color="#000000" face="Times New Roman" size="4">XML как
+неопровержимое свидетельство эволюции</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">XML воплощает
+все усилия, предпринятые W3 в области
+выработки Интернет-стандарта, который бы
+соответствовал трем главным принципам SGML (см.
+предыдущий раздел). XML, как и SGML, не является
+языком; он также представляет собой набор
+рекомендаций, на базе которых создаются
+другие языки. Точнее говоря, XML является
+конгломератом из трех отдельных
+спецификаций:</font></p>
+<b>
+<ul>
+  <li><font size="3" face="Times New Roman"><font COLOR="#000000">XML (Extensible
+Markup Language) </font></font></b><font COLOR="#000000" size="3" face="Times New Roman">—
+спецификация, определяющая базовый
+синтаксис XML;</font></li>
+<b>
+<li><font size="3" face="Times New Roman"><font COLOR="#000000">XSL (Extensible
+Style Language) </font></font></b><font COLOR="#000000" size="3" face="Times New Roman">—
+спецификация, направленная на отделение
+визуального оформления страницы от ее
+содержимого за счет применения к документу
+стилей (style sheets), определяющих конкретные
+атрибуты форматирования;</font></li>
+<b>
+<li><font size="3" face="Times New Roman"><font COLOR="#000000">XLL (Extensible
+Linking Language) </font></font></b><font COLOR="#000000" size="3" face="Times New Roman">—
+спецификация, определяющая представление
+ссылок на другие ресурсы.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">XML не только
+позволяет разработчикам создавать
+специализированные языки для Интернет-приложений;
+он также обеспечивает возможность проверки
+этих документов на соответствие
+спецификации XML. Более того, XML
+действительно реализует концепцию данных,
+не зависящих от реализации, поскольку
+формат отображаемого документа можно точно
+описать при помощи XSL. Допустим, вы
+переформатировали свой web-сайт, чтобы он
+хранился в формате XML. После этого' вы
+сможете использовать один стиль для
+форматирования исходного текста XML на
+портативном компьютере типа Palm Pilot, а другой
+— для форматирования на мониторе обычного
+компьютера. В обоих случаях код XML остается
+одним и тем же, изменяется только его
+форматирование в соответствии с
+используемым устройством.</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="prim.gif" align=left width="36" height="35">Примером
+популярного языка, созданного на базе XML,
+является WML (Wireless Markup Language).</font></p>
+</i><b>
+<p><A NAME="f"></A><font color="#000000" face="Times New Roman" size="4">Знакомство с
+синтаксисом XML</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Для
+большинства читателей, знакомых с SGML или HTML,
+структура документов XML не содержит ничего
+нового. Пример простого документа XML
+приведен в листинге 14.1.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+14.1.</font></font></i></b><font COLOR="#000000" size="3" face="Times New Roman"><i>
+</i></font><i><font size="3" face="Times New Roman"><font COLOR="#000000">Пример
+документа XML</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?xml version=&quot;1.0&quot;?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!DOCTYPE cookbook
+SYSTEM &quot;cookbook.dtd&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;cookbook&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;recipe category=&quot;italian&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;Spaghetti alla Carbonara&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;description&gt;This
+traditional Italian dish is sure to please even the most discriminating</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">critic.&lt;/description&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;ingredients&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;ingredient&gt;2
+large eggs&lt;/ingredient&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;ingredient&gt;4
+strips of bacon&lt;/ingredient&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;ingredient&gt;l
+clove garlic&lt;/ingredient&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;ingredient&gt;12
+ounces spaghetti&lt;/ingredient&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;ingredient&gt;3
+tablespoons olive oil&lt;/ingredient&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/ingredients&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;process&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;step&gt;Combine oil
+and bacon in large skillet over medium heat. Cook until bacon is</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">brown and crisp.&lt;/step&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;step&gt;whisk eggs
+in bowl. Set aside.&lt;/step&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;step&gt;Cook pasta
+in large pot of boiling water to taste, stirring occasionally.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Add salt as necessary.&lt;/step&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;step&gt;Drain pasta
+and return to pot. adding whisked eggs. Stir over medium-low</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">heat for 2-3 minutes.&lt;/step&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;step&gt;Mix in
+bacon. Season with salt and pepper to taste.&lt;/step&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/process&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/recipe&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/cookbook&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Обратите
+внимание на основные компоненты, из которых
+состоит документ XML:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">пролог XML;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">теги;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">атрибуты;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">ссылки на
+сущности;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">инструкции
+по обработке;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">комментарии.</font></li>
+</ul>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Пролог XML</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Все
+документы XML начинаются с пролога (prolog).
+Пролог сообщает, что документ написан на XML,
+а также указывает, какая версия XML при этом
+использовалась.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Поскольку
+текущая версия XML имеет номер 1.0, все ваши
+документы XML должны начинаться со строки</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?xml version=&quot;1.0&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Следующая
+строка в листинге 14.1 указывает на внешний DTD.
+Пока не обращайте на нее внимания — DTD
+подробно рассматриваются в следующем
+разделе «Определение типа документа (DTD)»:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!DOCTYPE cookbook
+SYSTEM &quot;cookbook.dtd&quot;&gt;</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Оставшаяся
+часть листинга 14.1 состоит из элементов,
+очень похожих на элементы документов HTML.
+Первый элемент, cookbook, называется </font><i><font COLOR="#000000">корневым
+элементом </font></i><font COLOR="#000000">(root element),
+поскольку в эту пару тегов заключены все
+остальные теги документа. Конечно, вы
+можете присвоить корневому элементу любое
+имя по своему усмотрению. Главное, о чем
+следует помнить, — все остальные элементы
+должны находиться внутри пары корневых
+тегов.</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Пролог может
+содержать другие инструкции. Например,
+объявление можно расширить, указав, что
+документ является автономным:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?xml version=&quot;1.0&quot;
+standalone=&quot;yes&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Присваивание
+yes атрибуту standalone сообщает механизму
+обработки XML-кода о том, что документ не
+импортирует других файлов (например, DTD).</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Хотя это
+расширение, как и многие другие, приносит
+несомненную пользу, я сокращаю описание
+синтаксиса до минимума, чтобы лучше
+выделить основную тему этой главы —
+совместное использование РНР и XML.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Элементы</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Оставшаяся
+часть документа состоит в основном из
+различных служебных элементов и
+соответствующих данных. Служебные элементы
+легко узнать по угловым скобкам (как в
+разметке HTML). Элемент может быть пустым или
+содержащим информацию; в этом случае
+элемент содержит открывающий и закрывающий
+теги. Если элемент не пуст, то в теги
+включаются имена, описывающие природу
+данных. Как видно из листинга 14.1, эти теги
+очень похожи на теги документов HTML. Впрочем,
+следует помнить о некоторых важных
+различиях:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Непустые
+элементы должны содержать как открывающий,
+так и закрывающий тег. В элементах, которые
+логически не могут иметь закрывающего тега,
+используется альтернативная форма
+синтаксиса &lt;элемент /&gt;. Возникает вопрос
+— у каких элементов нет закрывающего тега?
+Достаточно вспомнить некоторые теги
+форматирования HTML — например, &lt;br&gt;, &lt;hr&gt;
+и &lt;img&gt;, у них нет парных тегов. Теги этого
+формата могут создаваться и в документах XML</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Элементы XML
+должны находиться на правильном уровне
+вложенности. Документ XML, приведенный в
+листинге 14.1, синтаксически правилен;
+другими словами, теги элементов не
+встречаются там, где их быть не должно.
+Например, следующий фрагмент недопустим:</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;Spaghetti
+alia Carbonara</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;ingredients&gt;&lt;/title&gt;</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">В элементах
+XML различается регистр символов. Некоторым
+читателям это наверняка не понравится.
+Например, в XML теги &lt;tag&gt;, &lt;Tag&gt; и &lt;TAG&gt;
+считаются разными тегами. Привыкайте
+поскорее — с непривычки это может свести
+вас с ума.</font></li>
+</ul>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Атрибуты</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Теги XML,
+по аналогии с тегами HTML, могут обладать
+атрибутами. </font><i><font COLOR="#000000">Атрибуты </font></i><font COLOR="#000000">содержат
+дополнительную информацию о содержании,
+которая в дальнейшем используется при
+форматировании или обработке XML. Значения
+атрибутов присваиваются в формате «имя=значение»,
+и, в отличие от HTML, атрибуты XML </font><i><font COLOR="#000000">должны
+</font></i><font COLOR="#000000">быть заключены в
+апострофы или кавычки. В листинге 14.1
+встречается пример использования атрибута:</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;recipe category=&quot;italian&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Атрибут
+сообщает, что данный рецепт (recipe) относится
+к категории «итальянской кухни» (italian).
+Наличие такой информации упрощает
+дальнейшую группировку и обработку данных.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Ссылки на
+сущности</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Концепция
+</font><i><font COLOR="#000000">сущности </font></i><font COLOR="#000000">(entity)
+упрощает сопровождение документа,
+обеспечивая возможность ссылки на
+некоторое содержание по ключевым словам.
+Ключевое слово может относиться как к
+простейшему фрагменту вроде расширения
+аббревиатуры, так и к совершенно новому
+фрагменту кода XML. Сущности удобны тем, что
+они могут многократно использоваться в
+документах XML. При последующей обработке
+документа все ссылки на сущность
+заменяются конкретным содержанием,
+указанным при объявлении сущности.
+Объявление сущности включается в DTD
+документа XML.</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Чтобы
+сослаться на некоторую сущность в
+документе HTML, следует указать ее имя с
+префиксом «амперсанд» (&amp;) и суффиксом «точка
+с запятой» (;). Допустим, вы объявили
+сущность с информацией об авторских правах.
+После этого на данную сущность можно
+ссылаться следующим образом:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&amp;Соруright:</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">При этом
+строка документа XML может выглядеть так:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;footer&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">...прочие
+данные колонтитула...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&amp;Copyright:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/footer&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Сущности,
+как и переменные и шаблоны, часто
+применяются в ситуациях, когда некоторая
+информация может измениться в будущем или
+документ содержит множество повторяющихся
+ссылок. Мы вернемся к проблемам объявления
+ссылок в разделе «Определение типа
+документа (DTD)».</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Инструкции
+по обработке</font></p>
+</b><i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Инструкции
+по обработке </font></i><font size="3" face="Times New Roman"><font COLOR="#000000">(processing
+instructions, PI) представляют собой внешние
+команды, которые выполняются приложением,
+работающим с документом XML.</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В общем
+случае синтаксис PI выглядит так:</font></p>
+<i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?приложение
+инструкции?&gt;</font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Атрибут
+приложение указывает, какой программе
+адресованы последующие инструкции.
+Например, для выполнения команды РНР в
+документе XML можно воспользоваться
+следующей конструкцией:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?php print &quot;Today's
+date is:&quot;.date(&quot;m-d-Y&quot;);?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Инструкции
+по обработке удобны тем, что они позволяют
+нескольким приложениям совместно работать
+с одним документом.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Комментарии</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Комментарии
+принадлежат к числу основных возможностей
+любого языка. В XML используется тот же
+синтаксис комментариев, что и в HTML:&nbsp;</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3"> &lt;!-</font></font><i><font size="3" face="Courier New"><font COLOR="#000000">комментарии
+-&gt;</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Итак, мы
+проанализировали структуру типичного
+документа XML. Но у документов XML существует
+еще один важный аспект — определение типа
+документа (DTD).</font></p>
+<p><A NAME="g"></A><font color="#000000" face="Times New Roman" size="4">Определение
+типа документа (DTD)</font></p>
+<i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">DTD </font></font></i><font size="3" face="Times New Roman"><font COLOR="#000000">представляет
+собой совокупность синтаксических правил,
+на основе которых проверяется структура
+документа XML. В DTD явно определяется
+структура документа XML, указываются
+элементы и их атрибуты, а также приводится
+другая информация, распространяющаяся на
+все документы XML, созданные на основе
+данного DTD.</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Учтите, что
+наличие DTD не является обязательным. Если DTD
+существует, система XML руководствуется им
+при интерпретации документа XML. Если DTD
+отсутствует, предполагается, что система XML
+должна интерпретировать документ по
+собственным правилам. Впрочем, для
+документов XML все же рекомендуется
+создавать DTD, поскольку это упрощает их
+интерпретацию и проверку структуры.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">DTD можно
+включить непосредственно в документ XML,
+сослаться на него по URL или использовать
+комбинацию этих двух способов. При
+непосредственном включении DTD в документ XML
+определение DTD располагается сразу же после
+пролога:</font></p>
+<p><font size="3" face="Courier New"><font COLOR="#000000">&lt;!DOCTYPE </font><i><font COLOR="#000000">имя_корневого_элемента
+</font></i><font COLOR="#000000">[&nbsp;</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> <i>...</i></font><i><font size="3" face="Courier New"><font COLOR="#000000">прочие
+объявления...</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">] &gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Атрибут имя_корневого_элемента
+соответствует имени корневого элемента в
+тегах, содержащих весь документ XML. В секции
+«прочих объявлений» находятся определения
+элементов, атрибутов и т. д.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Возможно, вы
+предпочитаете разместить DTD в отдельном
+файле, чтобы обеспечить модульную
+структуру программы. Давайте посмотрим, как
+выглядит ссылка на внешний DTD в документе XML.
+Задача решается одной простой командой:</font></p>
+<p><font size="3" face="Courier New"><font COLOR="#000000">&lt;!DOCTYPE </font><i><font COLOR="#000000">имя_корневого_элемента
+</font></i><font COLOR="#000000">SYSTEM </font></font><i><font size="3" COLOR="#000000" face="Times New Roman">&quot;some_dtd.dtd&quot;&gt;</font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как и в
+случае с внутренним объявлением DTD, имя_корневого_элемента
+должно соответствовать имени корневого
+элемента в тегах, содержащих весь документ
+XML. Атрибут SYSTEM указывает на то, что some_dtd.dtd
+находится на локальном сервере. Впрочем, на
+файл some_dtd.dtd также можно сослаться по его
+абсолютному URL. Наконец, в кавычках
+указывается URL внешнего DTD, расположенного
+на локальном или на удаленном сервере.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как же
+создать DTD для листинга 14.1? Во-первых, мы
+собираемся создать в документе XML ссылку на
+внешний DTD. Как упоминалось в предыдущем
+разделе, ссылка на DTD выглядит так:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!DOCTYPE cookbook
+SYSTEM &quot;cookbook.dtd&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Возвращаясь
+к листингу 14.1, мы видим, что cookbook является
+именем корневого элемента, a cookbook.dtd —
+именем DTD-файла. Содержимое DTD показано в
+листинге 14.2, а ниже приведены подробные
+описания всех строк.</font></p>
+<b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000"><i>Листинг
+14.2. </i> </font></font></b><i><font COLOR="#000000" size="3" face="Times New Roman">DTD
+для листинга 14.1 (cookbook.dtd)</font></i></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?xml version=&quot;1.0&quot;?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!DOCTYPE cookbook [</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ELEMENT cookbook (recipe+)&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ELEMENT recipe (title,
+description, ingredients, process)&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ELEMENT title (#PCDATA)&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ELEMENT
+description (#PCDATA)&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ELEMENT
+ingredients (ingredient+)&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ELEMENT ingredient (#PCDATA)&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ELEMENT process Cstep+)&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ELEMENT step (#PCDATA)&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ATTLIST recipe
+category CDATA #REQUIRED&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">] &gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Что же
+означает этот загадочный документ?
+Несмотря на внешнюю сложность, в
+действительности он довольно прост.
+Давайте переберем все содержимое листинга
+14.2:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?xml version=&quot;1.0&quot;?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Перед нами
+пролог XML, о котором уже говорилось выше.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!DOCTYPE cookbook [</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Вторая
+строка сообщает, что далее следует DTD с
+именем cookbook.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ELEMENT cookbook (recipe+)&gt;</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Третья
+строка описывает элемент XML, в данном случае
+— корневой элемент cookbook. После него следует
+слово recipe, заключенное в круглые скобки. Это
+означает, что в теги cookbook заключается
+вложенный тег с именем recipe. Знак + говорит о
+том, что в </font><i><font COLOR="#000000">родительских </font></i><font COLOR="#000000">тегах
+cookbook находится одна или несколько пар тегов
+recipe.&nbsp;</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> &lt;!ELEMENT recipe (title,
+description, ingredients. process)&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Четвертая
+строка описывает тег recipe. В ней сообщается,
+что в тег recipe входят четыре вложенных тега:
+title, description, ingredients и process. Поскольку после
+имен тегов не указываются признаки
+повторения (см. следующий раздел), внутри
+тегов recipe должна быть заключена ровно одна
+пара каждого из перечисленных тегов.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;! ELEMENT title (#PCDATA)&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Перед нами
+первое определение тега, который не
+содержит вложенных тегов. В соответствии с
+определением он содержит #PCDATA, то есть
+произвольные символьные данные, не
+считающиеся частью разметки.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ELEMENT
+ingredients (ingredient+)&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В
+соответствии с определением элемент ingredients
+содержит один или несколько тегов с именем
+ingredient. Обратитесь к листингу 14.1, и вы все
+поймете.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;! ELEMENT
+ingredient (#PCDATA)&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Поскольку
+элемент ingredient соответствует отдельному
+ингредиенту, вполне логично, что этот
+элемент содержит простые символьные данные.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;! ELEMENT process (step+)&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Элемент process
+содержит один или несколько экземпляров
+элемента step.&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> &lt;! ELEMENT step (#PCDATA)&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Элемент step,
+как и элемент ingredient, соответствует
+отдельному пункту в списке более высокого
+уровня. Следовательно, он должен содержать
+символьные данные.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ATTLIST recipe
+category CDATA #REQUIRED&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Обратите
+внимание: элемент recipe в листинге 14.1
+содержит атрибут. Этот атрибут, category,
+определяет общую категорию, к которой
+относится рецепт — в приведенном примере
+это категория «итальянская кухня» (Italian). В
+определении ATTLIST указывается как имя
+элемента, так и имя атрибута. Кроме того,
+отнесение каждого рецепта к определенной
+категории упрощает классификацию, поэтому
+атрибут объявляется обязательным (#REQUIRED).</font></p>
+<p><font color="#000000" size="3" face="Courier New">]&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Последняя
+строка просто завершает определение DTD.
+Определение всегда должно быть должным
+образом завершено, иначе произойдет ошибка.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В завершение
+этого раздела я приведу сводку основных
+компонентов типичного DTD-файла:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">объявления
+типов элементов;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">объявления
+атрибутов;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">ID, IDREF и IDREFS;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">объявления
+сущностей.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Некоторые из
+этих компонентов уже встречались нам в
+описании листинга 14.2. Далее каждый
+компонент будет описан более подробно.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Объявления
+элементов</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Все
+элементы, используемые в документе XML,
+должны быть определены в DTD, прилагаемом к
+документу. Мы уже встречались с двумя
+распространенными разновидностями
+определений: для элемента, содержащего
+другие элементы, и элемента, содержащего
+символьные данные. Данное определение
+свидетельствует, что элемент содержит
+только символьные данные:&nbsp; </font></font></p>
+<p><font size="3" face="Courier New"><font COLOR="#000000"> &lt;! ELEMENT </font><i><font COLOR="#000000">описание
+</font></i><font COLOR="#000000">(#РСDАТА)&gt;</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Следующее
+определение элемента process говорит о том, что
+он содержит ровно один вложенный элемент с
+именем step:&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> &lt;!ELEMENT process (step)&gt;</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Впрочем,
+процессы (process) из одного шага (step)
+встречаются довольно редко — скорее всего,
+шагов будет несколько. Чтобы указать, что
+элемент содержит </font><i><font COLOR="#000000">один или
+несколько </font></i><font COLOR="#000000">экземпляров
+вложенного элемента step, следует
+воспользоваться <i>признаком</i></font></font><i><font COLOR="#000000" size="3" face="Times New Roman">
+повторения:</font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ELEMENT process (step+)&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Количество
+вложенных элементов можно задать
+несколькими способами. Полный список
+операторов элементов приведен в табл. 14.1.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Таблица
+14.1. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Операторы
+элементов</font></font>
+</i></p>
+<table border="1" width="408">
+  <tr>
+    <td width="115" align="center"><b><font COLOR="#000000" size="3" face="Times New Roman">Признак</font><font size="3" face="Times New Roman"><font COLOR="#000000">&nbsp;&nbsp;</font></font></b></td>
+    <td width="277" align="center"><b><font size="3" face="Times New Roman"><font COLOR="#000000">Значение</font></font>
+</b>
+    </td>
+  </tr>
+  <tr>
+    <td width="115" align="center">?</td>
+    <td width="277"><font COLOR="#000000" size="3" face="Times New Roman"> Ноль или
+ровно один экземпляр&nbsp;</font></td>
+  </tr>
+  <tr>
+    <td width="115" align="center">*</td>
+    <td width="277"><font COLOR="#000000" size="3" face="Times New Roman">Ноль
+      или несколько экземпляров&nbsp;</font></td>
+  </tr>
+  <tr>
+    <td width="115" align="center">+</td>
+    <td width="277"><font COLOR="#000000" size="3" face="Times New Roman">Один
+      или несколько экземпляров</font></td>
+  </tr>
+  <tr>
+    <td width="115" align="center">&nbsp;</td>
+    <td width="277"><font COLOR="#000000" size="3" face="Times New Roman">Ровно один
+экземпляр&nbsp;</font></td>
+  </tr>
+  <tr>
+    <td width="115" align="center"><font COLOR="#000000" size="3" face="Times New Roman"> |</font></td>
+    <td width="277"><font COLOR="#000000" size="3" face="Times New Roman"> Один из элементов&nbsp;</font></td>
+  </tr>
+  <tr>
+    <td width="115" align="center">,</td>
+    <td width="277"><font COLOR="#000000" size="3" face="Times New Roman"> Перечисление
+элементов</font></td>
+  </tr>
+</table>
+<b>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если элемент
+будет содержать несколько вложенных
+элементов, их следует перечислить через
+запятую в определении родительского
+элемента:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ELEMENT recipe (title,
+description, ingredients, process)&gt;</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Поскольку
+признаки повторения не указаны, каждый тег
+должен встречаться </font></font><i><font COLOR="#000000" size="3" face="Times New Roman">ровно
+один раз.</font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Определение
+элемента уточняется при помощи логических
+операторов. Предположим, вы работаете с
+рецептами, в которые всегда входят макароны
+(pasta) с одним или несколькими типами сыра (cheese)
+или мяса (meat). В этом случае элемент ingredient
+определяется следующим образом:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ELEMENT ingredient
+(pasta+, (cheese | meat)+)&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Поскольку
+элемент pasta обязательно должен
+присутствовать в элементе ingredient, он
+указывается с признаком повторения +. Затем
+следует либо элемент cheese, либо элемент meat;
+мы разделяем альтернативы вертикальной
+чертой и заключаем их в круглые скобки со
+знаком +, поскольку в рецепт всегда входит
+либо одно, либо другое.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Существуют и
+другие разновидности определений
+элементов. Мы рассмотрели лишь простейшие
+случаи. Тем не менее, приведенного
+материала вполне достаточно для понимания
+примеров, приведенных в оставшейся части
+этой главы.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Объявления
+атрибутов</font></p>
+</b><i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Атрибуты
+элементов </font></i><font COLOR="#000000" size="3" face="Times New Roman">описывают
+значения, связываемые с элементами.
+Элементы XML, как и элементы HTML, могут иметь
+ноль, один или несколько атрибутов. Общий
+синтаксис объявления атрибутов выглядит
+следующим образом:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ATTLIST </font><i><font size="3" face="Courier New"><font COLOR="#000000">имя_элемента
+имя_атри6ута1 тип_данных1 флаг1</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Имя_элемента
+определяет имя элемента, включаемое в тег.
+Затем перечисляются атрибуты, связанные с
+данным элементом. Объявление каждого
+атрибута состоит из трех основных
+компонентов: имени, типа данных и флага,
+определяющего особенности данного
+атрибута. Вместо многоточия (...) могут быть
+расположены объявления других атрибутов.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Простое
+объявление атрибута уже встречалось нам в
+листинге 14.2:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ATTLIST recipe
+category CDATA #REQUIRED&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Тем не менее,
+как видно из приведенного общего
+определения, допускается одновременное
+объявление нескольких атрибутов. Допустим,
+в дополнение к атрибуту category вы хотите
+связать с элементом recipe дополнительный
+атрибут difficulty (сложность приготовления).
+Оба атрибута объявляются в одном списке:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ATTLIST recipe
+category CDATA #REQUIRED difficulty CDATA #REQUIRED&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Форматировать
+объявления подобным образом необязательно;
+тем не менее, многострочные объявления
+нагляднее однострочных. Кроме того,
+поскольку оба атрибута являются
+обязательными, тег reci ре не может
+ограничиться каким-нибудь одним атрибутом,
+он должен включать в себя оба атрибута
+сразу. Например, следующий тег будет
+считаться неверным: &lt;recipe difficulty=&quot;hard&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Почему?
+Потому что в нем отсутствует атрибут category.
+Правильный тег должен содержать оба
+атрибута:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;recipe category=&quot;Italian&quot;
+difficulty=&quot;hard&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Особые
+условия обработки атрибута описываются
+тремя флагами, перечисленными в табл. 14.2.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Таблица
+14.2.</font></font></i></b><font COLOR="#000000" size="3" face="Times New Roman"><i>
+</i></font><i><font size="3" face="Times New Roman"><font COLOR="#000000">Флаги
+атрибутов</font></font>
+</i></p>
+<table border="1" width="550">
+  <tr>
+    <td width="117" align="center"><b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Флаг</font></p>
+</b>
+    </td>
+    <td width="417" align="center"><b>
+<font COLOR="#000000" size="3" face="Times New Roman">Описание</font></b></td>
+  </tr>
+  <tr>
+    <td width="117"><font COLOR="#000000" size="3" face="Times New Roman">#FIXED</font></td>
+    <td width="417">
+<p><font COLOR="#000000" size="3" face="Times New Roman">&nbsp;Во всех
+экземплярах элемента в документе атрибуту
+может присваиваться</font> <font COLOR="#000000" size="3" face="Times New Roman">только одно
+конкретное значение</font></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="117"><font COLOR="#000000" size="3" face="Times New Roman">#IMPLIED</font></td>
+    <td width="417">
+<p><font COLOR="#000000" size="3" face="Times New Roman">&nbsp; Если
+атрибут не указан в элементе, используется
+значение по умолчанию&nbsp;</font></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="117"><font color="#000000" size="3" face="Times New Roman">#REQUIRED</font></td>
+    <td width="417">
+<p><font COLOR="#000000" size="3" face="Times New Roman">&nbsp;Атрибут
+является обязательным и должен
+присутствовать во всех экземплярах</font> <font COLOR="#000000" size="3" face="Times New Roman">элемента в
+документе</font></p>
+    </td>
+  </tr>
+</table>
+<b>
+</b>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Типы
+атрибутов</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Атрибут
+элемента может объявляться с определенным
+типом. Типы атрибутов описаны далее.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Атрибуты CDATA</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Очень часто
+атрибуты содержат общие символьные данные.
+Такие атрибуты называются атрибутами CDATA.
+Следующий пример уже встречался в начале
+этого раздела:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ATTLIST recipe
+category COATA #REQUIRED&gt;</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Атрибуты ID,
+IDREF и IDREFS</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Идея
+однозначного представления данных (например,
+информации о пользователе или товаре,
+хранящейся в базе данных) посредством
+идентификаторов неоднократно встречалась
+в предыдущих главах книги. Идентификаторы
+также часто используются в XML, поскольку
+перекрестные ссылки между документами
+применяются не только в общих задачах
+обработки данных, но и в World Wide Web (гиперссылки).</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Идентификаторы
+элементов присваиваются атрибуту ID.
+Допустим, вы хотите связать с каждым
+рецептом уникальный идентификатор.
+Соответствующий фрагмент DTD может
+выглядеть так:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ELEMENT recipe (title,
+description, ingredients, process)&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ATTLIST recipe
+recipe-id ID #REQUIRED&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ELEMENT recipe-ref
+EMPTY&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ATTLIST recipe-ref
+go IDREF #REQUIRED&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">После этого
+объявление элемента recipe в документе может
+выглядеть так:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;recipe recipe-id=&quot;ital003&quot;&gt;&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">
+&lt;title&gt;Spaghetti alla Carbonara&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Рецепт
+однозначно определяется идентификатором
+ital003. Следует помнить, что атрибут redpe-id
+относится к типу ID, поэтому ital003 не может
+использоваться в качестве значения
+атрибута recipe-id другого элемента, в
+противном случае документ будет считаться
+синтаксически неверным. Теперь допустим,
+что позднее вы захотели сослаться на этот
+рецепт из другого документа — скажем, из
+списка любимых рецептов пользователя.
+Именно здесь в игру вступают перекрестные
+ссылки и атрибут IDREF. Атрибуту IDREF
+присваивается идентификатор, используемый
+для ссылок на элемент, — по аналогии с тем,
+как URL используется для идентификации
+страницы в гиперссылке. Рассмотрим
+следующий фрагмент кода XML:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;favoriteRecipes&gt;&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">
+&lt;recipe-ref go=&quot;ital003&quot;&gt;&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> &lt;/favoriteRecipes&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В процессе
+обработки документа XML элемент заменяется
+более наглядной ссылкой на рецепт с
+указанным идентификатором (например,
+названием рецепта). Вероятно, он будет
+отформатирован в виде гиперссылки, чтобы
+упростить переход к указанному рецепту.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Перечисляемые
+атрибуты</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">При
+объявлении атрибута можно перечислить все
+допустимые значения, принимаемые атрибутом.
+В нашем примере это было бы удобно,
+поскольку вы можете</font> <font COLOR="#000000" size="3" face="Times New Roman">сразу
+определить список допустимых категорий.
+Приведенное выше объявление записывается в
+следующем виде:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ATTLIST recipe
+category (Italian | French | Japanese | Chinese) #REQUIRED difficulty (easy |
+medium | hard) #REQUIRED)</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Обратите
+внимание: при использовании списков
+допустимых значений включать в объявление
+тип CDATA не нужно, поскольку все
+перечисленные значения относятся к формату
+CDATA.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Перечисляемые
+атрибуты со значением по умолчанию</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Иногда
+бывает удобно объявить для атрибута
+значение по умолчанию. Скорее всего, вам уже
+приходилось делать это раньше при
+построении форм с раскрывающимися списками.
+Например, если большинство рецептов в вашей
+поваренной книге относится к итальянской
+кухне, атрибут recipe будет часто относиться к
+категории Italian. В этом случае категорию Italian
+можно назначить по умолчанию:&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> &lt;!ATTLIST recipe
+category (Italian | French | Japanese | Chinese) &quot;Itaian&quot;&gt;</font></p>
+<p><font size="3"><font COLOR="#000000" face="Times New Roman">Если атрибут
+category не задан явно, по умолчанию ему пр</font><font face="Times New Roman"><font COLOR="#000000">исваивается
+значение</font> <font COLOR="#000000">Italian.</font></font></font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Атрибуты ENTITY
+и ENTITIES</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Данные в
+документах XML не всегда являются текстовыми
+— документ может содержать и двоичную
+информацию (например, графику). На такие
+данные можно ссылаться при помощи атрибута
+entity. Например, в описании элемента description
+можно указать атрибут recipePicture с графическим
+изображением:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ATTLIST
+description recipePicture ENTITY #IMPLIED&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Также можно
+объявить сразу несколько сущностей,
+заменив ENTITY на ENTITIES. Значения разделяются
+пробелами.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Атрибуты
+NMTOKEN и NMTOKENS</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Атрибуты
+NMTOKEN представляют собой строки из символов,
+входящих в ограниченный набор. Объявление
+атрибута с типом NMTOKEN предполагает, что
+значение атрибута соответствует
+установленным ограничениям. Как правило,
+значение атрибута NMTOKEN состоит из одного
+слова:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ATTLIST recipe
+category NMTOKEN #REQUIRED&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Можно
+объявить сразу несколько атрибутов,
+заменив NMTOKEN на NMTOKENS. Значения разделяются
+пробелами.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Объявления
+сущностей</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Объявление
+сущности напоминает команду define в
+некоторых языках программирования, включая
+РНР. Ссылки на сущности кратко упоминались
+в предыдущем разделе «Знакомство с
+синтаксисом XML». На всякий случай напомню,
+что ссылка на сущность используется в
+качестве замены для другого фрагмента
+содержания. В процессе обработки документа
+XML все вхождения сущности заменяются
+содержанием, которое она представляет.
+Существует два вида сущностей: внутренние и
+внешние.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Внутренние
+сущности</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Внутренние
+сущности напоминают строковые переменные,
+связывающие имя с фрагментом текста.
+Например, если вы хотите определить имя для
+ссылки на информацию об авторских правах,
+можно объявить сущность следующего вида:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ENTITY Copyright
+&quot;Copyright 2000 YourCompanyName. All Rights Reserved.&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В процессе
+обработки документа все экземпляры &amp;Соруright
+заменяются текстом «Copyright 2000 YourCompanyName. All Rights
+Reserved». Весь код XML в заменяющем тексте
+обрабатывается так, словно он
+присутствовал в исходном документе.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Внутренние
+сущности удобны в ситуациях, когда вы
+планируете использовать сущность в
+относительно небольшом количестве
+документов XML. При большом количестве
+документов лучше воспользоваться внешними
+сущностями.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Внешние
+сущности</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Внешние
+сущности используются для ссылок на
+содержание, находящееся в другом файле.
+Сущности этого типа могут содержать
+текстовую информацию, но также могут
+ссылаться и на двоичные данные (например,
+графику). Возвращаясь к предыдущему примеру,
+допустим, что вы решили сохранить
+информацию об авторских правах в отдельном
+файле, чтобы упростить ее редактирование в
+будущем. Ссылка на созданный файл выглядит
+следующим образом:&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> &lt;!ENTITY Copyright SYSTEM &quot;http://yoursite.com/administer/copyright.xml&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">При
+последующей обработке документа XML все
+ссылки &amp;Соруright заменяются содержимым
+документа copyright.xml. Весь код XML в заменяющем
+тексте обрабатывается так, словно он
+присутствовал в исходном документе.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Внешние
+сущности также удобно использовать для
+ссылок на графические изображения.
+Например, если вы хотите включить в
+документ XML графический логотип, создайте
+внешнюю сущность:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;!ENTITY
+food_picture SYSTEM http://yoursite.com/food/logo.gif&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как и в
+предыдущем примере, все ссылки &amp;food_picture
+заменяются графическим изображением, на
+которое указывает ссылка. Поскольку данные
+являются двоичными, а не текстовыми, они не
+интерпретируются.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Ресурсы,
+посвященные XML</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Хотя
+приведенного выше материала вполне
+достаточно для понимания базовой структуры
+документов XML, данное описание не является
+полным. Ниже приведены ссылки на ресурсы
+Интернета, содержащие более подробную
+информацию:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.w3.org/XML">http://www.w3.org/XML</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.xml.com/pub/ArticlesByTopic">http://www.xml.com/pub/ArticlesByTopic</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://ww.ibm.com/developer/xml">http://ww.ibm.com/developer/xml</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.oasis-open.org.cover">http://www.oasis-open.org.cover</a>.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В оставшейся
+части главы рассказано о том, как
+использовать РНР для обработки документов
+XML. На первый взгляд задача кажется очень
+сложной (лексический анализ любых
+документов любого типа вызывает немало
+затруднений).</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Но стоит
+познакомиться с базовой стратегией работы
+с XML в РНР, и все оказывается на удивление
+просто.</font></p>
+<b>
+<p><A NAME="h"></A><font color="#000000" face="Times New Roman" size="4">РНР и ХМL</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Для работы с
+XML в РНР используется пакет Джеймса Кларка (James
+Clark) Expat (XML Parser Toolkit) — cm. http://www.jclark.com/xml. Expat
+включается в поставку Apache 1.3.7 и более
+поздних версий, поэтому вам не придется
+специально загружать его, если вы
+используете свежую версию Apache. Чтобы
+воспользоваться функциональными
+возможностями XML в РНР, необходимо
+настроить РНР с ключом -with-xml.</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="prim.gif" align=left width="36" height="35">Разработку
+Expat 2.0 в настоящее время ведет Кларк Купер (Clark
+Cooper). За дополни- тельной информацией
+обращайтесь по адресу <a href="http://expat.sourceforge.net">http://expat.sourceforge.net</a>.</font>
+</i>
+</p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">На первый
+взгляд задача обработки данных XML на РHР (или
+на любом другом языке) выглядит устрашающе,
+но на самом деле большая часть работы
+выполняется за вас стандартными средствами
+РНР. Вам остается лишь определить новые
+функции для своих DTD и затем применить их в
+несложном процессе обработки кода XML.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Прежде чем
+переходить к рассмотрению функций РНР,
+предназначенных для работы с XML, необходимо
+познакомиться с основными компонентами
+документа XML. Это поможет вам лучше понять,
+почему эти функции являются незаменимой
+частью любой программы обработки XML-кода. На
+самом общем уровне документ XML содержит
+компоненты девяти видов:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">открывающие
+теги;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">атрибуты;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">символьные
+данные;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">закрывающие
+теги;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">инструкции
+по обработке;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">синтаксические
+объявления;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">внешние
+ссылки на сущности;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">необработанные
+сущности;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">прочие
+компоненты (комментарии, объявления XML и т. д.).</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Для
+эффективной обработки документов XML
+необходимо определить пользовательские
+функции-обработчики (handlers), обрабатывающие
+каждый из перечисленных компонентов.
+Определенные функции подключаются к
+процессу обработки XML стандартными
+средствами РНР. Общий процесс обработки
+кода XML в РНР состоит из пяти этапов:</font></p>
+<ol>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Определите
+пользовательские функции. Разумеется, если
+вы собираетесь постоянно работать с
+документами XML, эти функции достаточно
+написать всего один раз и в дальнейшем лишь
+вносить в них необходимые изменения.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Создайте
+анализатор (parser) кода XML, который будет
+использоваться для обработки документа.
+Анализатор создается вызовом функции
+xml_parser_create( ).</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">При помощи
+стандартных функций зарегистрируйте свои
+функции в анализаторе XML.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Откройте
+файл XML, прочитайте содержащиеся в нем
+данные и передайте их анализатору XML.
+Обработка данных выполняется простым
+вызовом xml_parse( )! В процессе своей работы эта
+функция обеспечивает косвенный вызов всех
+определенных вами обработчиков.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Уничтожьте
+анализатор XML, чтобы освободить
+задействованные им ресурсы.</font></li>
+</ol>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Задача
+решается функцией xml_parser_free( ). Смысл всех
+перечисленных этапов разъясняется в
+следующем разделе.</font></p>
+<p><A NAME="i"></A><font color="#000000" face="Times New Roman" size="4">Подключение
+пользовательских функций к обработке XML</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В РНР
+существует восемь стандартных функций для
+регистрации пользовательских функций,
+обрабатывающих различные компоненты
+документов XML.</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Следует
+помнить, что вы обязательно </font><i><font COLOR="#000000">должны
+</font></i><font COLOR="#000000">определить все
+пользовательские функции; в противном
+случае произойдет ошибка. В этом разделе
+перечислены все стандартные функции
+регистрации и приведены спецификации всех
+пользовательских функций.</font></font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">xml_set_character_data_handler()</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+регистрирует пользовательскую функцию для
+работы с символьными данными. Синтаксис:</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int xml_set_character
+data_handler(int </font></font><font size="3" face="Courier New"><font COLOR="#000000">анализатор,
+string обработчик_символьных_данных)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Первый
+параметр определяет анализатор XML, а второй
+— имя пользовательской функции,
+используемой при обработке символьных
+данных. Определение функции-обработчика
+должно выглядеть так:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function обработчик_символьных_данных
+(int анализатор, string данные) { </font></p>
+<p><font color="#000000" size="3" face="Courier New">...</font></p>
+<p><font color="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Первый
+параметр определяет анализатор XML, а второй
+— символьные данные, подлежащие обработке.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">xml_set_default_handler(
+)</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+регистрирует пользовательскую функцию для
+всех незарегистрированных компонентов
+документа XML. В частности, к числу таких
+компонентов относятся пролог XML и
+комментарии. Синтаксис:</font></p>
+<i>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font></i><font COLOR="#000000" size="3" face="Times New Roman">xml_set_default_handler(int
+</font><i><font size="3" face="Courier New"><font COLOR="#000000">анализатор,
+string обработчик_по_умолчанию)</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Первый
+параметр определяет анализатор XML, а второй
+— имя пользовательской функции,
+используемой по умолчанию. Определение
+функции-обработчика должно выглядеть так:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function обработчик_по_умолчанию
+(int анализатор, string данные) { </font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Первый
+параметр определяет анализатор XML, а второй
+— символьные данные, подлежащие обработке.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">xml_set_element_handler(
+)</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+регистрирует пользовательские функции для
+обработки открывающих и закрывающих тегов
+элементов. Синтаксис:</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int xml_set_element_handler(int
+анализатор, string
+обработчик_открывающих_тегов, string
+обработчик_закрывающих_тегов) </font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Первый
+параметр определяет анализатор XML. Второй и
+третий параметры определяют имена функций,
+используемых для обработки, соответственно,
+открывающих и закрывающих тегов.
+Определение обработчика открывающих тегов
+должно выглядеть так:</font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">function обработчик_открывающих_тегов
+(int анализатор, string имя_тега,&nbsp; </font></p>
+<p><font COLOR="#000000" face="Courier New" size="3"> string атрибуты[
+]) {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Первый
+параметр определяет анализатор XML, второй —
+имя открывающего тега для анализируемого
+элемента, а третий содержит массив
+атрибутов соответствующего тега.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Обработчик
+закрывающих тегов определяется следующим
+образом:</font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">function обработчик_закрывающих_тегов
+(int анализатор, string имя_тега)
+{ </font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Первый
+параметр определяет анализатор XML, второй —
+имя закрывающего тега для анализируемого
+элемента.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">xml_set_external_entity_ref_handler(
+)</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+регистрирует пользовательскую функцию для
+обработки внешних ссылок на сущности.
+Синтаксис:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">int xml_set_external_entity_ref_handler(int
+анализатор,
+string обработчик_внешних_ссылок) </font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Первый
+параметр определяет анализатор XML, а второй
+— имя пользовательской функции,
+используемой при обработке внешних ссылок.
+Определение функции-обработчика должно
+выглядеть так:</font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">function обработчик_внешних_ссылок
+(int анализатор, string ссылка, string база. string
+системный_идентификатор, string открытый_идентификатор)
+{ </font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Первый
+параметр определяет анализатор XML. Второй
+параметр определяет имя ссылки, четвертый
+— системный идентификатор ссылки на
+сущность, а пятый — открытый идентификатор
+ссылки. Третий параметр, база, в настоящее
+время не используется, однако его
+объявление все равно обязательно.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">xml_set_notation_decl_handler
+( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+регистрирует пользовательскую функцию для
+обработки синтаксических объявлений.
+Синтаксис:</font></p>
+<i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">int </font></i><font COLOR="#000000" size="3" face="Times New Roman">xml_set_notation_decl_handler(int
+</font><i><font size="3" face="Times New Roman"><font COLOR="#000000">анализатор,
+string обработчик_синтаксических_обьявлений)</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Первый
+параметр определяет анализатор XML, а второй
+— имя пользовательской функции,
+используемой при обработке синтаксических
+объявлений. Определение функции-обработчика
+должно выглядеть так:</font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">function обработчик_синтаксических_обьявлений
+(int анализатор, string ссылка, string база, string
+системный_идентификатор, string открытый_идентификатор)
+{ </font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Первый
+параметр определяет анализатор XML. Второй
+параметр определяет имя объявления,
+четвертый — системный идентификатор, а
+пятый — открытый идентификатор объявления.
+Третий параметр, база, в настоящее время не
+используется, однако его объявление все
+равно обязательно.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">xml_set_object( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+ассоциирует анализатор XML с некоторым
+объектом. Синтаксис:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">void xml_set_object(int анализатор,
+object &amp;о6ъект) </font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Первый
+параметр определяет анализатор XML, а второй
+содержит ссылку на объект, методы которого
+будут использоваться для обработки
+компонентов XML. Таким образом, функция
+xml_set_object связывает анализатор с объектом.
+Как правило, она вызывается в конструкторе
+объекта перед определениями функций-обработчиков:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class xmlDB {&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> VAR $xmlparser:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function xmlDB( ) {&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">
+$this-&gt;xmlparser = xml_parser_create();&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> // Связать
+анализатор с объектом&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> xml_set_object($this-&gt;xmlparser.
+&amp;$this);&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> // Определить функции-обработчики</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">xml_set_element_handler($this-&gt;xmlparser,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&quot;startTag&quot;,&quot;endTag&quot;);</font></p>
+<p><font color="#000000" size="3" face="Courier New">xml_set_character_data($this-&gt;xmlparser,&quot;characterData&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">...
+Определения функций-обработчиков startTag. endTag.
+characterData и т.д. ...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">} // class xmlDB</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В порядке
+эксперимента попробуйте закомментировать
+вызов xml_set_object( ). Вы увидите, что при
+выполнении этого фрагмента выводятся
+сообщения об ошибках, в которых говорится о
+невозможности обращения к методам объекта.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">xml_set_processing_instruction_handler(
+)</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+регистрирует пользовательскую функцию для
+работы с Pi-инструкциями.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Синтаксис:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">int xml_set_processing_instruction_handler(int
+анализатор,
+string обработчик_инструкций) </font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Первый
+параметр определяет анализатор XML, а второй
+— имя пользовательской функции,
+используемой при обработке Pi-инструкций.
+Определение функции-обработчика должно
+выглядеть так:</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">f</font><font COLOR="#000000" size="3" face="Courier New">unction
+обработчик_инструкций
+(int анализатор, string приложение, string
+инструкция) { </font></p>
+<p><font color="#000000" size="3" face="Courier New">...</font></p>
+<p><font color="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Первый
+параметр определяет анализатор XML, второй —
+имя приложения, выполняющего инструкции, а
+третий — инструкцию, передаваемую
+приложению.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">xml_set_unparsed_entity_decl_handler(
+)</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+регистрирует пользовательскую функцию для
+необработанных внешних ссылок на сущности.
+Синтаксис:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">int xml_set_external_entity_ref_handler(int
+анализатор,
+string обработчик_внешних_ссылок) </font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Первый
+параметр определяет анализатор XML, а второй
+— имя пользовательской функции,
+используемой для обработки необработанных
+внешних ссылок. Определение функции-обработчика
+должно выглядеть так:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function обработчик_внешних_ссылок
+(int анализатор, string сущность, string база, string
+системный_идентификатор. string открытый_идентификатор,
+string имя_объявления) { </font></p>
+<p><font color="#000000" size="3" face="Courier New">...</font></p>
+<p><font color="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Первый
+параметр определяет анализатор XML. Второй
+параметр определяет имя ссылки, четвертый
+— системный идентификатор ссылки на
+сущность, а пятый — открытый идентификатор
+ссылки. Третий параметр, база, в настоящее
+время не используется, однако его
+объявление все равно обязательно. Наконец,
+последний параметр определяет имя
+синтаксического объявления.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">На этом
+завершается наше краткое знакомство с
+обработчиками и функциями регистрации.
+Впрочем, для эффективной обработки
+документов XML вам понадобятся и другие
+функции. В следующем разделе представлены
+остальные функции РНР, связанные с
+обработкой кода XML.</font></p>
+<p><A NAME="j"></A><font color="#000000" face="Times New Roman" size="4">Функции
+обработки кода XML</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Хотя
+реализация всех функций-обработчиков не
+обязательна (документы XML не обязаны
+содержать элементы всех типов), по крайней
+мере три функции должны присутствовать во
+всех сценариях, работающих с XML.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">xml_parser_create( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Перед
+обработкой документа XML необходимо
+предварительно создать анализатор.
+Синтаксис:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">int xml_parser_create([stnng
+кодировка]) </font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Необязательный
+параметр определяет кодировку исходного
+текста. В настоящее время поддерживаются
+три варианта кодировки:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">UTF-8;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">US-ASCII;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">ISO-8859-1 (используется
+по умолчанию).</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">По аналогии
+с тем, как функция fopen( ) возвращает
+манипулятор открытого файла, функция
+xml_parser_create( ) также возвращает манипулятор,
+используемый для вызова различных функций
+в процессе обработки XML. При одновременной
+обработке нескольких документов можно
+создать сразу несколько анализаторов.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">xml_parse()</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+xml_parse( ) выполняет обработку документа XML.
+Синтаксис:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">int xml_parse(int анализатор,
+string данные [int завершение]) </font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Первый
+параметр определяет анализатор XML (используется
+значение, возвращаемое при вызове xml_parser_create(
+)). Если необязательный параметр завершение
+равен TRUE, передаваемый фрагмент данных
+является последним. Как правило, это
+происходит при достижении конца
+обрабатываемого файла.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">xml_parser_free( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+освобождает ресурсы, выделенные для работы
+анализатора. Синтаксис:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">int xml_parser_free(int анализатор) </font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Параметр
+функции определяет анализатор XML.</font></p>
+<p><A NAME="k"></A><font color="#000000" face="Times New Roman" size="4">Другие
+полезные функции</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В РНР также
+существуют другие функции, упрощающие
+процесс обработки кода XML.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">utf8_decode( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+преобразует данные в кодировку ISO-8859-1.
+Предполагается, что преобразуемые данные
+находятся в кодировке UTF-8. Синтаксис:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">string utf8_decode(string данные) </font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Параметр
+данные содержит преобразуемые данные в
+кодировке UTF-8.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">utf8_encode( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+преобразует данные из кодировки ISO-8859-1 в
+кодировку UTF-8. Синтаксис:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">string utf8_decode(string данные) </font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Параметр
+данные содержит преобразуемые данные в
+кодировке ISO-8859-1.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">xml_get_error_code( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+xm1_get_error_code( ) получает код ошибки, возникшей
+в процессе обработки XML. Код ошибки
+передается функции xml_error_string( ) (см. ниже) для
+интерпретации. Синтаксис:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">int xml_error_code(int анализатор) </font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Параметр
+функции определяет анализатор XML. Пример
+использования приведен ниже, в описании
+функции xml_get_current_line_number( ).</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">xml_error_string( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Ошибкам,
+возникающим в процессе анализа кода XML,
+присваиваются числовые коды. Функция
+xml_error_string( ) возвращает текстовое описание
+ошибки по ее коду. Синтаксис:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">string xml_error_string(int
+код) </font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В параметре
+функции передается код ошибки (вероятно,
+полученный при вызове функции xml_get_error_code( )).
+Пример использования функции приведен ниже,
+в описании функции xml_get_current_line_number( ).</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">xml_get_current_line_number(
+)</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+возвращает номер текущей строки,
+обрабатываемой анализатором XML. Синтаксис:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">int xml_get_current_line_number(int
+анализатор) </font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Параметр
+функции определяет анализатор XML. Пример
+использования функции:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while ($line - fread($fh.
+4096)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (! xml_parse($xml_parser.
+$line. feof($fh)));</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$err_string -
+xml_error_string(xml_get_error_code($xml_parser));&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> $line_number -
+xml_get_current_line_number($xml_parser);&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> print &quot;Error! [Line Sline_number]:
+$err_string&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Например,
+если ошибка была обнаружена в шестой строке
+файла, определяемого манипулятором $fh,
+сообщение будет выглядеть примерно так:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Error! [Line 6]:mi
+snatched tag</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">xml_get_current_column_number(
+)</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+xml_get_current_colunin_number( ) может использоваться в
+сочетании с xml_get_current_line_number( ) для
+определения точного местонахождения
+ошибки в документе XML. Синтаксис:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">int xml_get_current_column_number(int
+анализатор) </font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Параметр
+функции определяет анализатор XML. Давайте
+усовершенствуем предыдущий пример:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while ($line = fread($fh.
+4096)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (! xml_parse($xml_parser,
+$line, feof($fh))):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$err_string =
+xml_error_string(xml_get_error_code($xml_parser));&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> $line_number =
+xml_get_current_line_number($xml_parser);&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> $column_number =
+xml_get_current_column_number($xml_parser)&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> print &quot;Error! [Line
+$line_nuimber, Column $column_number]: $err_string&quot;;&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Например,
+если ошибка была обнаружена в шестой строке
+файла, определяемого манипулятором $fh,
+сообщение будет выглядеть примерно так:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Error! [Line 6 Column
+2]:mismatched tag</font></p>
+<p><A NAME="l"></A><font color="#000000" face="Times New Roman" size="4">Параметры
+анализатора XML</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В настоящее
+время в РНР поддерживаются два параметра,
+влияющих на работу анализатора XML:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">XML_OPTION_CASE_FOLDING
+— автоматическое преобразование имен
+тегов к верхнему регистру;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">XML_OPTION_TARGET_ENCODING
+— кодировка документа на выходе
+анализатора XML. В настоящее
+время поддерживаются кодировки UTF-8, ISO-8859-1 и
+US-ASCII.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Для
+получения текущих значений и модификации
+этих параметров применяются,
+соответственно, функции xml_parser_get_option( ) и
+xml_parser_set_option( ).</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">xml_parser_get_option(
+)</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+xml_parser_get_option( ) получает текущее значение
+параметра анализатора XML. Синтаксис:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">int xml_parser_get_option(int
+анализатор, int параметр) </font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Первый
+параметр функции определяет анализатор XML,
+а второй — имя интересующего вас параметра.
+Пример:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$setting =
+xml_parser_get_option($xml_parser, XML_OPTION_CASE_FOLDING);&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> print &quot;Case
+Folding: $setting&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если
+параметру XML_OPTION_CASE_FOLDING не присваивалось
+другое значение, функция вернет значение по
+умолчанию. В этом случае будет выведен
+следующий результат:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Case Folding: 1</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">xml_parser_set_option(
+)</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+xml_parser_set_option() задает значение параметра
+анализатора XML. Синтаксис:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">int xml_parser_set_option(int
+анализатор,
+int параметр, mixed значение) </font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Первый
+параметр функции определяет анализатор XML,
+второй — имя интересующего вас параметра, а
+третий — его новое значение. Пример:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$setting =
+xml_parser_set_option($xml_parser, XML_OPTION_TARGER_ENCODING.&quot;UTF-8&quot;):</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В результате
+выполнения этой команды выходная кодировка
+документа изменяется с ISO-8859-1 на UTF-8.</font></p>
+<p><A NAME="m"></A><font color="#000000" face="Times New Roman" size="4">Преобразование
+XML в HTML</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Предположим,
+у вас имеется документ XML bookmarks.xml,
+содержащий список ссылок. Он выглядит
+примерно так:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?xml version=&quot;1.0&quot;?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;website&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;Epicurious&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;url&gt;http://www.epicurious.com&lt;/url&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;description&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Epicurious is a great
+online cooking resource, providing tutorials.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">recipes, forums and more.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/description&gt;
+&lt;/website&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Допустим, вы
+хотите преобразовать bookmarks.xml и вывести его
+содержимое в формате, совместимом с
+форматом браузера вашего компьютера.
+Программа, приведенная в листинге 14.3,
+преобразует файл к нужному формату.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+14.3. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Преобразование
+XML в HTML</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">Class XMLHTML {</font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">VAR $xmlparser:
+VAR $tagcolor =&quot;#800000&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">VAR $datacolor =&quot;#0000ff&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function XMLHTML( ) {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$this-&gt;xmlparser =
+xml_parser_create();</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">xml_set_object($this-&gt;xmlparser. &amp;$this);&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">xml_set_element_handler($this-&gt;xmlparser, &quot;startTag&quot;, &quot;endTag&quot;);&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">xml_set_character_data_handler($this-&gt;xmlparser. &quot;characterData&quot;);</font></p>
+<p><font color="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Функция
+отвечает за обработку всех открывающих
+тегов.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function startTag($parser,
+$tagname, $attributes) {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">GLOBAL $tagcolor;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;font
+size=\&quot;-2\&quot; color=\&quot;$this-&gt;tagcolor\&quot; face=\&quot;arial,&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">
+verdana\ &quot;&gt;&amp;1 t ; $tagname&amp;gt ; &lt;/f ont&gt; &lt;br&gt;&quot;
+;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Функция
+отвечает за обработку всех символьных
+данных.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function characterData($parser.
+$characterData) {&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> GLOBAL $datacplor;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;font
+size=\&quot;-2\&quot; color=\&quot;$this-&gt;datacolor\&quot; face=\&quot;arial,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">verdana\ &quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; $characterData&lt;/font&gt;
+&lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Функция
+отвечает за обработку всех закрывающих
+тегов.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function endTag(Sparser,
+$tagname) {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">GLOBAL Stagcolor;</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">print &quot;&lt;font
+size=\&quot;-2\&quot; color=\&quot;$this-&gt;tagcolor\&quot; face=\&quot;arial,</font>
+<font COLOR="#000000" size="3" face="Times New Roman">verdana\&quot;&gt;&amp;lt;/&nbsp;</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> $tagname&amp;gt;&lt;/font&gt; &lt;br&gt;&quot;;</font></p>
+<p><font color="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function.parse($fp) {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// xml_parse($this-&gt;xm1parser,$data);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Обработать
+файл XML</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while ( $line = fread($fp.
+4096) ) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// При
+возникновении ошибки прервать обработку //
+и вывести сообщение об ошибке.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ( ! xml_parse($this-&gt;xmlparser,
+$line, feof($fp))) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">die(sprintf(&quot;XML
+error: <i>%s </i>at line %d&quot;,&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">xml_error_sthng(xml_get_error_code($this-&gt;xmlparser)),&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">xml_get_curren_line_number($this-&gt;xml
+parser)));&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font color="#000000" size="3" face="Courier New">}</font></p>
+<p><font color="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Открыть
+файл XML для обработки&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> $xml_file = &quot;bookmarks. xml&quot;;&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">
+$fp = f open ($xml_flie, &quot;r&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Создать
+новый объект&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> $xml_parser = new XMLHTML;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Обработать
+$xml_file&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> $xml_parser-&gt;parse($fp);</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В результате
+преобразования файл bookmarks.xml выводится в
+браузере в следующем виде:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;WEBSITE&gt;&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> &lt;TITLE&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Epicurious&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> &lt;/TITLE&gt;&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">
+&lt;URL&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">http : //www.epicurious.com&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">
+&lt;/URL&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;DESCRIPTION&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Epicurious is a great
+online cooking resource,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">providing tutorials,
+recipes, forums and more.&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> &lt;/DESCRIPTION&gt;&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">
+&lt;/WEBSITE&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Конечно,
+результат не такой уж впечатляющий — мы
+всего лишь добились, чтобы файл XML
+отображался в браузере. Внеся небольшие
+изменения в листинг 14.3, можно преобразовать
+URL в работающие гиперссылки, оформить
+данные между парой тегов &lt;TITLE&gt;...&lt;/TITLE&gt;
+жирным шрифтом и т. д. Как видно из листинга
+14.3, я использую шрифт двух разных цветов,
+чтобы продемонстрировать возможность
+форматирования текста в браузере.</font></p>
+<b>
+<p><A NAME="n"></A><font color="#000000" face="Times New Roman" size="4">Несколько
+слов о РНР и XML</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В этой главе
+мы познакомились с XML и различными
+функциями РНР, предназначенными для
+обработки документов в формате XML.
+Поскольку основной темой книги является
+РНР, я описал лишь одну из трех спецификаций
+стандарта XML и не упомянул о том, как
+работают XSL и XLL. Конечно, полноценное
+отделение содержания от представления
+требует использования всех трех
+компонентов или по меньшей мере XML и XSL.</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">К
+сожалению, на момент написания книги РНР
+еще не обладал возможностями, которые бы
+позволяли работать </font><i><font COLOR="#000000">с </font></i><font COLOR="#000000">XML
+исключительно средствами РНР. Конечно,</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">возможности
+РНР продолжают расширяться, и в будущем эта
+проблема обязательно будет решена.</font></p>
+<b><i></i></b><i>
+<p><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="prim.gif" align=left width="36" height="35">Особого
+внимания в этой области заслуживает XSL-процессор
+Sablotron, разработанный компанией Ginger Alliance Lts. (http://www.gingerall.com).
+12 октября 2000 года было объявлено о том, что
+РНР 4.03 отныне распространяется с модулем
+расширения Sablotron для платформ Linux и Windows.
+Обязательно проследите за дальнейшим
+развитием событий.</font></p>
+</i><b>
+<p><A NAME="o"></A><font color="#000000" face="Times New Roman" size="4">Итоги</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В этой главе
+был изложен довольно обширный материал,
+касающийся XML и возможностей обработки кода
+XML в РНР. Глава начинается с краткой истории
+языков разметки. Читатель знакомится с XML и
+его основными преимуществами, после чего
+приводится сводка синтаксических
+конструкций языка. Оставшаяся часть главы
+посвящена стандартным функциям РНР для
+работы с кодом XML. В завершение приводятся
+примеры использования РНР для обработки и
+вывода данных XML. В частности,
+рассматриваются следующие вопросы:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">краткое
+описание языков разметки текста;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">SGML;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">общие
+сведения о XML;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">синтаксис XML;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">описание
+типа документа (DTD);</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">РНР и XML.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В главе 15
+рассматриваются две перспективные
+технологии, JavaScript и СОМ (Component Object Model), и
+возможности их использования в РНР.</font></p>
+</BODY></HTML>

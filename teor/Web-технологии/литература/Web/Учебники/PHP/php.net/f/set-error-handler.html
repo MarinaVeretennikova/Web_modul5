@@ -1,0 +1,150 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>set_error_handler</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="restore-error-handler.html">Назад</A></TD><TD WIDTH="80%"></TD><TD  WIDTH="10%" ALIGN="right">
+<A HREF="trigger-error.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="set-error-handler">set_error_handler</A></H1><A NAME="AEN21279"></A><P>(PHP 4 &#62;= 4.0.1)</P>
+<p>set_error_handler - устанавливает пользовательский обработчик ошибок.<A NAME="AEN21282"></A></p>
+<H2>Описание</H2><p>string <B>set_error_handler</B> (string error_handler)</p>
+<P>Устанавливает пользовательскую функцию (<TT><I>error_handler</I></TT>) для обработки ошибок в скрипте.  Возвращает ранее определённый обработчик 
+ошибок (если имеется), <TT><B>FALSE</B></TT> при ошибке. Эта функция может использоваться для определения вашего 
+собственного способа обработки ошибок на этапе прогона, например, в 
+приложениях, в которых вам нужно зачистить данные/файлы при возникновении критических ошибок,
+или если вам нужно переключить ошибку при определённых условиях (использую
+<A HREF="trigger-error.html"><B>trigger_error()</B></A>).</P>
+<P>Пользовательская функция должна принимать 2 параметра: error-код и строку 
+с описанием ошибки. Начиная с PHP 4.0.2, предоставляются дополнительные 3 
+параметра: имя файла, в котором появилась ошибка, номер строчки, в которой 
+появилась ошибка, и контекст, в котором появилась ошибка (массив, указывающий 
+на активную таблицу символов в точке возникновения ошибки).</P>
+<BLOCKQUOTE><P><B>Примечание: </B>
+следующие типы ошибок не могут быть обработаны пользовательской функцией: <TT><B>E_ERROR</B></TT>,
+<TT><B>E_PARSE</B></TT>, <TT><B>E_CORE_ERROR</B></TT>, <TT><B>E_CORE_WARNING</B></TT>,
+<TT><B>E_COMPILE_ERROR</B></TT> и <TT><B>E_COMPILE_WARNING</B></TT>.</P></BLOCKQUOTE>
+<P>Следующий пример показывает обработку внутренних исключений путём переключения ошибок и обработки их пользовательской функцией:
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN21304"></A><h5>Пример 1. 
+Обработка ошибок с помощью set_error_handler() и
+<A HREF="trigger-error.html">trigger_error()</A></h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;?php
+
+// переопределить константы пользовательских ошибок - только PHP 4
+define (FATAL,E_USER_ERROR);
+define (ERROR,E_USER_WARNING);
+define (WARNING,E_USER_NOTICE);
+
+// установить уровень серьёзности ошибок для данного скрипта
+error_reporting (FATAL | ERROR | WARNING);
+
+// функция обработчика ошибок
+function myErrorHandler ($errno, $errstr, $errfile, $errline) {
+  switch ($errno) {
+  case FATAL:
+    echo "&#60;b&#62;FATAL&#60;/b&#62; [$errno] $errstr&#60;br&#62;\n";
+    echo "  Fatal error in line ".$errline." of file ".$errfile;
+    echo ", PHP ".PHP_VERSION." (".PHP_OS.")&#60;br&#62;\n";
+    echo "Aborting...&#60;br&#62;\n";
+    exit 1;
+    break;
+  case ERROR:
+    echo "&#60;b&#62;ERROR&#60;/b&#62; [$errno] $errstr&#60;br&#62;\n";
+    break;
+  case WARNING:
+    echo "&#60;b&#62;WARNING&#60;/b&#62; [$errno] $errstr&#60;br&#62;\n";
+    break;
+    default:
+    echo "Unkown error type: [$errno] $errstr&#60;br&#62;\n";
+    break;
+  }
+}
+
+// функция для проверки обработки ошибок
+function scale_by_log ($vect, $scale) {
+  if ( !is_numeric($scale) || $scale &#60;= 0 )
+    trigger_error("log(x) for x &#60;= 0 is undefined, you used: scale = $scale",
+      FATAL);
+  if (!is_array($vect)) {
+    trigger_error("Incorrect input vector, array of values expected", ERROR);
+    return null;
+  }
+  for ($i=0; $i&#60;count($vect); $i++) {
+    if (!is_numeric($vect[$i]))
+      trigger_error("Value at position $i is not a number, using 0 (zero)", 
+        WARNING);
+    $temp[$i] = log($scale) * $vect[$i];
+  }
+  return $temp;
+}
+
+// установить в пользовательский обработчик ошибок
+$old_error_handler = set_error_handler("myErrorHandler");
+
+// переключить некоторые ошибки; сначала определить смешанный
+// массив с нецифровыми элементами
+echo "vector a\n";
+$a = array(2,3,"foo",5.5,43.3,21.11);
+print_r($a);
+
+// теперь сгенерировать второй массив, генерируя предупреждение
+echo "----\nvector b - a warning (b = log(PI) * a)\n";
+$b = scale_by_log($a, M_PI);
+print_r($b);
+
+// это проблема, мы передаём строку вместо массива
+echo "----\nvector c - an error\n";
+$c = scale_by_log("not array",2.3);
+var_dump($c);
+
+// это критическая ошибка, log нуль или отрицательное число не определено
+echo "----\nvector d - fatal error\n";
+$d = scale_by_log($a, -2.5);
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>А когда вы запустите это скрипт-сэмпл:<A NAME="AEN21309"></A></p><TABLE  BORDER="0" CELLPADDING="5" BGCOLOR="#E0E0E0">
+<TR><TD><PRE>vector a
+Array
+(
+    [0] =&#62; 2
+    [1] =&#62; 3
+    [2] =&#62; foo
+    [3] =&#62; 5.5
+    [4] =&#62; 43.3
+    [5] =&#62; 21.11
+)
+----
+vector b - a warning (b = log(PI) * a)
+&#60;b&#62;WARNING&#60;/b&#62; [1024] Value at position 2 is not a number, using 0 (zero)&#60;br&#62;
+Array
+(
+    [0] =&#62; 2.2894597716988
+    [1] =&#62; 3.4341896575482
+    [2] =&#62; 0
+    [3] =&#62; 6.2960143721717
+    [4] =&#62; 49.566804057279
+    [5] =&#62; 24.165247890281
+)
+----
+vector c - an error
+&#60;b&#62;ERROR&#60;/b&#62; [512] Incorrect input vector, array of values expected&#60;br&#62;
+NULL
+----
+vector d - fatal error
+&#60;b&#62;FATAL&#60;/b&#62; [256] log(x) for x &#60;= 0 is undefined, you used: scale = -2.5&#60;br&#62;
+  Fatal error in line 36 of file trigger_error.php, PHP 4.0.2 (Linux)&#60;br&#62;
+Aborting...&#60;br&#62;</PRE></TD></TR></TABLE>
+<P>Важно помнить, что стандартный обработчик ошибок РНР полностью игнорируется. Установки
+<A HREF="error-reporting.html"><B>error_reporting()</B></A> не будут иметь эффекта, и ваш обработчик будет вызываться независимо - однако 
+вы можете читать текущее значение из <A HREF="../configuration.html#ini.error-reporting">error_reporting</A>
+и поступать соответственно. Особенно важно то, что это значение будет 0, если 
+оператор, вызвавший ошибку, имел префикс <A HREF="../operators.errorcontrol.html">@</A>.</P>
+<P>Отметьте также, что вы отвечаете за <A HREF="die.html"><B>die()</B></A>, если это необходимо. Если возвращает функция обработки ошибок, выполнение 
+скрипта будет продолжено со следующего оператора после оператора, вызвавшего ошибку.</P>
+<P>См. также <A HREF="error-reporting.html"><B>error_reporting()</B></A>,
+<A HREF="restore-error-handler.html"><B>restore_error_handler()</B></A>,
+<A HREF="trigger-error.html"><B>trigger_error()</B></A>, <A HREF="user-error.html"><B>user_error()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="restore-error-handler.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="trigger-error.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">restore_error_handler</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.errorfunc.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">trigger_error</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

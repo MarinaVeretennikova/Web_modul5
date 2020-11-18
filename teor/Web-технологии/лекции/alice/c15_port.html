@@ -1,0 +1,242 @@
+<html>
+<title>Переносимость</title>
+<meta name=keywords content="Проектирование информационных систем Программирование Отладка Тестирование Производительность Переносимость Надежность и качество">
+<body>
+<table align=center width=90%>
+<tr><td>
+
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c15_prod.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c15_prod.html">Производительность</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c15_qa.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c15_qa.html">Надежность и качество</a>
+</table>
+
+
+<h3>Переносимость</h3>
+<p align=justify>
+Как известно абсолютно переносимой программой является "Hello, World!". Любые другие
+программы имеют какую-либо зависимость от внешней среды. Рассмотрение вопроса переносимости
+мы начнем с ответа на вопрос: "Зачем?". Казалось бы, сделали, работает и ладно. Но вдруг нам понадобилось
+открыть зеркало сайта на другом континенте, а там другая версия Unix. Хуже того, у вас система работала
+на FreeBSD, а там Linux. А бывает так, что возникает необходимость интегрировать систему, написанную
+под Unix, c офисной базой данных на MS Access. Еще один важный аспект, который является
+следствием переносимого кода - повышенная надежность программы. При переносе программы на другую
+платформу выявляются дополнительные ошибки, которые не были обнаружены ранее.
+Важно отметить, что и внешняя среда, даже на одной и той же платформе, меняется со временем,
+поэтому нежелательно каким-либо образом привязываться к текущей версии операционной системы, СУБД
+или какого-либо еще внешнего программного продукта. Переносимость также играет очень
+существенную роль для серийных программных продуктов, например, наша библиотека ITCGI.
+Если бы она была не переносима, то распространение и развитие ее было бы сильно осложнено.
+<br>
+Рассмотрев причины, по которым программы должны обладать как можно лучшей переносимостью,
+давайте рассмотрим методы, которые помогут достичь этой самой переносимости. 
+Конечно, такие языки, как Perl и PHP, сами по себе обладают, практически, стопроцентной переносимостью.
+Хотя это не совсем так. Сам язык Perl переносим, но вот библиотеки функций не все.
+Это, впрочем, вполне естественно. Если библиотека работает под Unix, то совершенно необязательно, что
+она также должна работать и под Windows. 
+Поскольку главный упор в книге сделан на язык Си, то мы будем рассматривать именно этот язык
+программирования.
+Стандарт языка Си говорит, что программа может быть как переносимой, так и не переносимой в случае,
+если она использует системные функции операционной системы. Подавляющее большинство CGI-программ
+от операционной системы не зависят. Куда больше они зависят от СУБД и веб-сервера. Но перенос с одной СУБД
+на другую - это отдельный вопрос. От веб-сервера зависят переменные окружения CGI-программ.
+Так, например, в Windows в Internet Information Server путь на диске к директории, где лежит
+веб-сайт, определяется переменной окружения PATH_TRANSLATED, а для веб-сервера Apache это
+значение содержится в переменной окружения DOCUMENT_ROOT. Специально для этих целей
+в ITCGI включили следующую функцию.
+<pre>
+char* GetWebServerRoot()
+{
+ if(getenv("PATH_TRANSLATED")!=NULL)
+  return getenv("PATH_TRANSLATED");
+ else if(getenv("DOCUMENT_ROOT")!=NULL)
+  return getenv("DOCUMENT_ROOT");       
+ else
+   return NULL;
+}
+</pre>
+<p align=justify>
+При разработке CGI-программ и переносе их из Unix в Windows и обратно нам приходилось сталкиваться
+с различным названием даже стандартных функций. Например, snprintf в Windows в среде Visual C
+надо писать со знаком подчеркивания. Но это, вероятно, связано с тем, что под Windows
+мы использовали также MFC, и там компилятор С++. Это уже к вопросу переносимости кода с Си
+на С++. Иногда функции есть в стандартной библиотеке одной системы, но их нет в другой.
+Например, библиотека stdarg.h имеет различия в реализации под Unix и Windows, вследствие
+чего пришлось писать следующий код для функции LString_Format:
+<pre>
+void LString_Format(LString* p, const char* fmt, ...)
+////////////////////
+{
+#ifdef __AFX_H__ 
+ CString inside;
+ va_list argList;
+ va_start(argList, fmt);
+ inside.FormatV(fmt, argList);
+ va_end(argList);
+ LString_SetString(p,inside);
+#else
+ va_list ap;
+ char * inside;
+ va_start(ap,fmt);
+ vasprintf(&inside,fmt,ap);
+ LString_SetString(p,inside);
+ free(inside);
+ va_end(ap);
+#endif
+}
+</pre>
+<p align=justify>
+Особо хочется отметить работу с текстовыми файлами. Проблема в том, что в Windows
+в текстовом файле строка заканчивается двумя символами: '\r' - возврат каретки и '\n' - 
+перевод строки. В Unix строка заканчивается одним символом '\n'. На эти
+грабли мы наступали и будем наступать. Проблема в том, что если вы на вход откомпилированной
+программы под Windows подадите файл из системы Unix, то программа может завершиться некорректно.
+Хотя вы пользуетесь системными функциями. 
+
+<p align=justify>
+
+ Большой интерес представляет старение техники и программного обеспечения. Такая проблема
+актуальна для любого программного обеспечения. Но для информационных систем 
+она куда более актуальна, чем для операционных систем или клиентских программ.
+Основная проблема заключается в отсутствии финансирования. Клиентские небольшие программы, типа "The Bat",
+и операционные системы продаются миллионными тиражами. Каждый день дорабатываются с учетом
+новых потребностей пользователей, т.е. они идут в ногу со временем. Информационные системы
+зачастую делаются в одном единственном экземпляре для потребностей одной компании. 
+И здесь, полный застой после сдачи в эксплуатацию. Для веб-сайтов
+это абсолютно верное утверждение. Только очень крупные компании, бизнес которых
+связан непосредственно с информационными системами в Интеренет, могут позволить себе
+держать команду разработчиков, которая будет постоянно развивать свои решения.
+Такого рода компании делают деньги на рекламе на порталах, поисковых серверах,
+серверах по учету посетителей сайтов. Итак, резюмируя вышесказанное, планируйте
+хранение данных на долгосрочную перспективу. Через несколько лет, скорее всего,
+придется разрабатывать новую структуру для базы данных и новые CGI-скрипты.
+Не используйте ненадежные технологии. Сколько нововведений появлялось и стремительно
+исчезало через 1-2 года. Одна из самых известных технологий, на которую просто был бум
+в середине 90х, это технология разработки платформенно-независимых программ Java.
+Совсем недавно корпорация Microsoft объявила о том, что прекращает поддерживать эту технологию.
+Вспомните самый популярный броузер середины 90х - Netscape. Вспомните Netscape Communications
+Corporation, которая сделала этот броузер. Корпорация Netscape Communications ввела немало
+новых технологий. Какие-то из них прижились, какие-то нет. Например JavaScript живет, а вот
+фреймы и DHTML почти нет. Сам броузер Netscape приказал долго жить, на сегодняшний день
+им пользуются около 1% пользователей. Если еще полгода назад мы с большим вниманием относились
+к тому, что сайт должен практически одинаково выглядеть во всех броузерах, т.е. мы проверяли не
+только в MS Explorer, но и в Netscape, и в Oper'e, то сейчас обращать внимание на Netscape - это
+тоже самое, что делать сайт для людей с текстовыми броузерами. Причина не в том, что мы такие
+нехорошие, а в том, что это самым обыкновенным образом экономически нецелесообразно. 
+Определенное количество человекочасов затратить необходимо, а заказчик не готов их оплачивать. 
+
+
+
+ 
+ 
+
+</td></tr>
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #1 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=0-4686" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=0?4686" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=0'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69019-bn=0-4686" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=0?4686"
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #2 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=1?Rnd_Num" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=1'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=1?Rnd_Num" 
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="erle.cgi-51599-4686" tppabs="http://www.linkexchange.ru/cgi-bin/erle.cgi?51599?4686" frameborder=0 
+    vspace=0 hspace=0 width=468 height=60 marginwidth=0 marginheight=0 scrolling=no>
+    <a href="javascript:if(confirm('http://www.linkexchange.ru/users/goto.map  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://www.linkexchange.ru/users/goto.map'" tppabs="http://www.linkexchange.ru/users/goto.map" target=_top>
+    <img src="rle.cgi-51599-4686" tppabs="http://www.linkexchange.ru/cgi-bin/rle.cgi?51599?4686" alt="RLE Banner Network" border=0 height=60 width=468></a>
+    </iframe>
+
+<!-- Russian LinkExchange code START - BANNER #1 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=0-4686" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=0?4686"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=0'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69021-bn=0-4686" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=0?4686"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+<!-- Russian LinkExchange code START - BANNER #2 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=1-4686" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=1?4686"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=1'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69021-bn=1-4686" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=1?4686"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+</td></tr>
+</table>
+
+</body>
+</html>

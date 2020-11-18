@@ -1,0 +1,43 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>pspell_new_personal</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="pspell-new-config.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="pspell-new.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="pspell-new-personal">pspell_new_personal</A></H1><A NAME="AEN70010"></A><P>(PHP 4 &#62;= 4.0.2)</P>
+<p>pspell_new_personal - загружает новый словарь с персональным списком слов/personal wordlist.<A NAME="AEN70013"></A></p>
+<H2>Описание</H2><p>int <B>pspell_new_personal</B> (string personal, string language [, string spelling [, string jargon [, string encoding [, int mode]]]])</p>
+<P><B>pspell_new_personal()</B> открывает новый словарь с персональным wordlist и возвращает идентификатор 
+ссылки на словарь для использования другими pspell-функциями. Список слов может быть модифицирован и сохранён функцией
+<A HREF="pspell-save-wordlist.html"><B>pspell_save_wordlist()</B></A>, если необходимо. Однако замещающие пары не сохраняются. Для сохранения
+замещающих пар вы должны создать config с использованием <A HREF="pspell-config-create.html"><B>pspell_config_create()</B></A>,
+установить файл персонального списка слов функцией <A HREF="pspell-config-personal.html"><B>pspell_config_personal()</B></A>, 
+установить файл для замещающих пар функцией <A HREF="pspell-config-repl.html"><B>pspell_config_repl()</B></A> и открыть новый словарь с помощью
+<A HREF="pspell-new-config.html"><B>pspell_new_config()</B></A>.</P>
+<P>Параметр personal специфицирует файл, где добавляемые в персональный список слова сохраняются. Это должен быть абсолютный путь к файлу, 
+начинающийся с '/', так как иначе он будет относительным к $HOME, который является "/root" для большинства систем, что, вероятно, не то, что 
+вам нужно.</P><P>Параметр language это код языка, состоящий из двухбуквенного кода языка ISO 639 и необязательного двухбуквенного кода страны ISO
+3166 после тире или символа подчёркивания.</P><P>Параметр spelling это запрашиваемая проверка орфографии языков с более чем 
+одним вариантом правописания, таких как English. Известные значения: 'american', 'british' и 'canadian'.</P>
+<P>Параметр jargon содержит дополнительную информацию для различения двух списков слов, имеющих одинаковые параметры language и
+spelling.</P><P>Параметр encoding это кодировка, кpв которой, как ожидается, слова написаны. Правильные значения: 'utf-8', 'iso8859-*', 'koi8-r',
+'viscii', 'cp1252', 'machine unsigned 16', 'machine unsigned 32'. Этот параметр недостаточно проверен, поэтому будьте внимательны при его 
+использовании</P><P>Параметр mode это режим работы проверщика орфографии. Доступны режимы:<UL>
+<LI><P><TT><B>PSPELL_FAST</B></TT> - быстрый режим (меньше вариантов исправления)</P></LI>
+<LI><P><TT><B>PSPELL_NORMAL</B></TT> - нормальный режим (больше вариантов исправления)</P></LI>
+<LI><P><TT><B>PSPELL_BAD_SPELLERS</B></TT> - медленный режим (много вариантов исправления)</P></LI>
+<LI><P><TT><B>PSPELL_RUN_TOGETHER</B></TT> - рассматривать объединённые слова как правильные. То есть, "thecat" будет 
+правильным, хотя между артиклем и словом должен быть пробел. Изменение этой установки влияет только на результаты функции
+<A HREF="pspell-check.html"><B>pspell_check()</B></A>; <A HREF="pspell-suggest.html"><B>pspell_suggest()</B></A> будет продолжать выдавать варианты исправления.</P></LI></UL>
+<p>Mode это битовая маска, сконструированная из различных перечисленных выше констант. Однако <TT><B>PSPELL_FAST</B></TT>,
+<TT><B>PSPELL_NORMAL</B></TT> и <TT><B>PSPELL_BAD_SPELLERS</B></TT> взаимоисключающи, поэтому вы должны выбирать только одну из них.</p>
+<P>Дополнительную информацию и примеры см. в учебнике pspell на web-сайте&nbsp; <A HREF="http://aspell.net/" TARGET="_top">http://aspell.net/</A></P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN70070"></A><h5>Пример 1. pspell_new_personal()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$pspell_link = pspell_new_personal ("/var/dictionaries/custom.pws", 
+        "en", "", "", "", PSPELL_FAST|PSPELL_RUN_TOGETHER));</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="pspell-new-config.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="pspell-new.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">pspell_new_config</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.pspell.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">pspell_new</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

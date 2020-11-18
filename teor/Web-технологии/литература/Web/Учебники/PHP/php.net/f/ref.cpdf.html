@@ -1,0 +1,227 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции ClibPDF</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><AHREF="method-exists.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="cpdf-add-annotation.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.cpdf"></A>X. Функции ClibPDF</h1><A NAME="AEN11312"></A><H1><A NAME="cpdf.intro">Введение</A>
+</H1><P>Библиотека ClibPDF даёт возможность создавать PDF-документы с помощью PHP. 
+Её можно загрузить с <A HREF="http://www.fastio.com/" TARGET="_top">FastIO</A>, но необходимо приобрести лицензию для коммерческого использования.
+Функциональность и API  ClibPDF аналогичны <A HREF="ref.pdf.html">PDFlib</A>.</P>
+<P>Этот документ необходимо читать вместе с учебником ClibPDF, поскольку там 
+библиотека рассматривается более детально.</P><P>Многие функции в модулях ClibPDF и PHP, а также в
+<A HREF="ref.pdf.html">PDFlib</A>, называются одинаково. Все функции, за исключением <A HREF="cpdf-open.html">
+<B>cpdf_open()</B></A>, принимают в качестве первого параметра дескриптор документа.</P>
+<P>В настоящее время этот дескриптор не используется внутренне, поскольку ClibPDF 
+не поддерживает одновременное создание нескольких PDF-документов.
+И даже не пытайтесь сделать это - результат будет непредсказуем. Невозможно
+предсказать, какие последствия этого могут быть во многопоточной среде. По
+соглашению с автором ClibPDF мы изменим это в одном из последующих релизов (на момент написания имелась версия 1.10).
+Если вам нужна эта функциональность, используйте модуль pdflib.</P>
+<P>Прекрасной возможностью ClibPDF (и <A HREF="ref.pdf.html">PDFlib</A>) является способность создавать pdf-документ полностью в памяти без 
+использования временных файлов. Имеется также возможность передавать 
+координаты в предопределённых единицах измерения. (Эта возможность симулируется также функцией
+<A HREF="pdf-translate.html"><B>pdf_translate()</B></A> при использовании <A HREF="ref.pdf.html">PDFlib</A>
+-функций.)</P><P>Другим важным свойством ClibPDF является то, что любая страница может быть 
+модифицирована в любое время, даже если уже открыта новая страница. Функция
+<A HREF="cpdf-set-current-page.html"><B>cpdf_set_current_page()</B></A> позволяет оставить текущую страницу и продолжить модификацию другой страницы.</P>
+<P>Большинство функций использовать довольно легко. Возможно, самое сложное - 
+это создание самого простого PDF-документа. Следующий пример должен помочь вам 
+начать. Он создаёт документ из одной страницы. Эта страница содержит текст "Times-Roman", 
+выведенный шрифтом в 30pt. Текст подчёркнут.</P><H1><a name="cpdf.constants">Предопределённые константы</a></H1>
+<P>Эти константы определены данным расширением и будут доступны только в том случае, если либо вкомпилированы в РНР, либо динамически загружены на этапе прогона.</P>
+<P></P><DL><DT><TT><B>CPDF_PM_NONE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CPDF_PM_OUTLINES</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CPDF_PM_THUMBS</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CPDF_PM_FULLSCREEN</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CPDF_PL_SINGLE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CPDF_PL_1COLUMN</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CPDF_PL_2LCOLUMN</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CPDF_PL_2RCOLUMN</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT></DL>
+<H1><a name="cpdf.examples">Примеры</a></H1><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN11384"></A>
+<h5>Пример 1. Простой пример с использованием ClibPDF</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+$cpdf = cpdf_open(0);
+cpdf_page_init($cpdf, 1, 0, 595, 842, 1.0);
+cpdf_add_outline($cpdf, 0, 0, 0, 1, "Page 1");
+cpdf_begin_text($cpdf);
+cpdf_set_font($cpdf, "Times-Roman", 30, "WinAnsiEncoding");
+cpdf_set_text_rendering($cpdf, 1);
+cpdf_text($cpdf, "Times Roman outlined", 50, 750);
+cpdf_end_text($cpdf);
+cpdf_moveto($cpdf, 50, 740);
+cpdf_lineto($cpdf, 330, 740);
+cpdf_stroke($cpdf);
+cpdf_finalize($cpdf);
+Header("Content-type: application/pdf");
+cpdf_output_buffer($cpdf);
+cpdf_close($cpdf);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Дистрибутив pdflib содержит&nbsp;&nbsp; более сложный пример, в котором 
+создаются серии страниц с аналоговыми часами. Здесь приведён пример, 
+конвертированный в PHP с использованием расширения ClibPDF:</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN11388"></A><h5>Пример 2. pdfclock из дистрибутива pdflib 2.0</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$radius = 200;
+$margin = 20;
+$pagecount = 40;
+
+$pdf = cpdf_open(0);
+cpdf_set_creator($pdf, "pdf_clock.php3");
+cpdf_set_title($pdf, "Analog Clock");
+  
+while($pagecount-- &#62; 0) {
+  <font size="1">cpdf_page_init($pdf, $pagecount+1, 0, 2 * ($radius + $margin), 2 * ($radius + $margin), 1.0);</font>
+  
+  cpdf_set_page_animation($pdf, 4, 0.5, 0, 0, 0);  /* wipe */
+  
+  cpdf_translate($pdf, $radius + $margin, $radius + $margin);
+  cpdf_save($pdf);
+  cpdf_setrgbcolor($pdf, 0.0, 0.0, 1.0);
+  
+  /* отсчёт минут */
+  cpdf_setlinewidth($pdf, 2.0);
+  for ($alpha = 0; $alpha &#60; 360; $alpha += 6)
+    {
+    cpdf_rotate($pdf, 6.0);
+    cpdf_moveto($pdf, $radius, 0.0);
+    cpdf_lineto($pdf, $radius-$margin/3, 0.0);
+    cpdf_stroke($pdf);
+    }
+  
+  cpdf_restore($pdf);
+  cpdf_save($pdf);
+ 
+  /* отсчёт пятиминуток */
+  cpdf_setlinewidth($pdf, 3.0);
+  for ($alpha = 0; $alpha &#60; 360; $alpha += 30)
+  {
+    cpdf_rotate($pdf, 30.0);
+    cpdf_moveto($pdf, $radius, 0.0);
+    cpdf_lineto($pdf, $radius-$margin, 0.0);
+    cpdf_stroke($pdf);
+  }
+
+  $ltime = getdate();
+
+  /* прорисовка часовой стрелки */
+  cpdf_save($pdf);
+  cpdf_rotate($pdf, -(($ltime['minutes']/60.0) + $ltime['hours'] - 3.0) * 30.0);
+  cpdf_moveto($pdf, -$radius/10, -$radius/20);
+  cpdf_lineto($pdf, $radius/2, 0.0);
+  cpdf_lineto($pdf, -$radius/10, $radius/20);
+  cpdf_closepath($pdf);
+  cpdf_fill($pdf);
+  cpdf_restore($pdf);
+
+  /* прорисовка минутной стрелки */
+  cpdf_save($pdf);
+  cpdf_rotate($pdf, -(($ltime['seconds']/60.0) + $ltime['minutes'] - 15.0) * 6.0);
+  cpdf_moveto($pdf, -$radius/10, -$radius/20);
+  cpdf_lineto($pdf, $radius * 0.8, 0.0);
+  cpdf_lineto($pdf, -$radius/10, $radius/20);
+  cpdf_closepath($pdf);
+  cpdf_fill($pdf);
+  cpdf_restore($pdf);
+
+  /* прорисовка секундой стрелки */
+  cpdf_setrgbcolor($pdf, 1.0, 0.0, 0.0);
+  cpdf_setlinewidth($pdf, 2);
+  cpdf_save($pdf);
+  cpdf_rotate($pdf, -(($ltime['seconds'] - 15.0) * 6.0));
+  cpdf_moveto($pdf, -$radius/5, 0.0);
+  cpdf_lineto($pdf, $radius, 0.0);
+  cpdf_stroke($pdf);
+  cpdf_restore($pdf);
+
+  /* прорисовка небольшого кружка в центре */
+  cpdf_circle($pdf, 0, 0, $radius/30);
+  cpdf_fill($pdf);
+
+  cpdf_restore($pdf);
+
+  cpdf_finalize_page($pdf, $pagecount+1);
+}
+
+cpdf_finalize($pdf);
+Header("Content-type: application/pdf");
+cpdf_output_buffer($pdf);
+cpdf_close($pdf);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><H1><a name="cpdf.seealso">См. также</a></H1>
+<P>документацию расширения <A HREF="ref.pdf.html">PDFlib</A>.</P><DL><DT><B>Содержание</B></DT><DT>
+<A HREF="cpdf-add-annotation.html">cpdf_add_annotation</A> - добавляет аннотацию</DT>
+<DT><A HREF="cpdf-add-outline.html">cpdf_add_outline</A> - добавляет закладку на текущей странице</DT>
+<DT><A HREF="cpdf-arc.html">cpdf_arc</A> - прорисовывает дугу</DT>
+<DT><A HREF="cpdf-begin-text.html">cpdf_begin_text</A> - начинает текстовый раздел</DT>
+<DT><A HREF="cpdf-circle.html">cpdf_circle</A> - прорисовывает круг</DT>
+<DT><A HREF="cpdf-clip.html">cpdf_clip</A> - обрезает текущий путь</DT>
+<DT><A HREF="cpdf-close.html">cpdf_close</A> - закрывает pdf-документ</DT>
+<DT><A HREF="cpdf-closepath-fill-stroke.html">cpdf_closepath_fill_stroke</A> - закрывает, заполняет и выравнивает текущий путь/path</DT>
+<DT><A HREF="cpdf-closepath-stroke.html">cpdf_closepath_stroke</A> - закрывает путь и прорисовывает линию вдоль пути</DT>
+<DT><A HREF="cpdf-closepath.html">cpdf_closepath</A> - закрывает путь</DT>
+<DT><A HREF="cpdf-continue-text.html">cpdf_continue_text</A> - выводит текст в следующей строчке</DT>
+<DT><A HREF="cpdf-curveto.html">cpdf_curveto</A> - прорисовывает кривую</DT>
+<DT><A HREF="cpdf-end-text.html">cpdf_end_text</A> - заканчивает текстовый раздел</DT>
+<DT><A HREF="cpdf-fill-stroke.html">cpdf_fill_stroke</A> - заполняет и выравнивает текущий путь</DT>
+<DT><A HREF="cpdf-fill.html">cpdf_fill</A> - заполняет текущий путь</DT>
+<DT><A HREF="cpdf-finalize-page.html">cpdf_finalize_page</A> - заканчивает страницу</DT>
+<DT><A HREF="cpdf-finalize.html">cpdf_finalize</A> - заканчивает документ</DT>
+<DT><A HREF="cpdf-global-set-document-limits.html">cpdf_global_set_document_limits</A> - устанавливает границы для любого pdf-документа</DT>
+<DT><A HREF="cpdf-import-jpeg.html">cpdf_import_jpeg</A> - открывает JPEG-изображение</DT>
+<DT><A HREF="cpdf-lineto.html">cpdf_lineto</A> - прорисовывает линию</DT>
+<DT><A HREF="cpdf-moveto.html">cpdf_moveto</A> - устанавливает текущую точку</DT>
+<DT><A HREF="cpdf-newpath.html">cpdf_newpath</A> - начинает новый путь</DT>
+<DT><A HREF="cpdf-open.html">cpdf_open</A> - открывает pdf-документ</DT>
+<DT><A HREF="cpdf-output-buffer.html">cpdf_output_buffer</A> - выводит pdf-документ в буфере памяти</DT>
+<DT><A HREF="cpdf-page-init.html">cpdf_page_init</A> - начинает новую страницу</DT>
+<DT><A HREF="cpdf-place-inline-image.html">cpdf_place_inline_image</A> - помещает изображение на страницу</DT>
+<DT><A HREF="cpdf-rect.html">cpdf_rect</A> - прорисовывает прямоугольник</DT>
+<DT><A HREF="cpdf-restore.html">cpdf_restore</A> - восстанавливает ранее сохранённое окружение</DT>
+<DT><A HREF="cpdf-rlineto.html">cpdf_rlineto</A> - прорисовывает линию</DT>
+<DT><A HREF="cpdf-rmoveto.html">cpdf_rmoveto</A> - устанавливает текущую точку</DT>
+<DT><A HREF="cpdf-rotate-text.html">cpdf_rotate_text</A> - устанавливает угол поворота текста</DT>
+<DT><A HREF="cpdf-rotate.html">cpdf_rotate</A> - устанавливает поворот</DT>
+<DT><A HREF="cpdf-save-to-file.html">cpdf_save_to_file</A> - записывает pdf-документ в файл</DT>
+<DT><A HREF="cpdf-save.html">cpdf_save</A> - сохраняет текущее окружение</DT>
+<DT><A HREF="cpdf-scale.html">cpdf_scale</A> - устанавливает масштабирование</DT>
+<DT><A HREF="cpdf-set-action-url.html">cpdf_set_action_url</A> - устанавливает гиперссылку</DT>
+<DT><A HREF="cpdf-set-char-spacing.html">cpdf_set_char_spacing</A> - устанавливает расстояние между символами/character spacing</DT>
+<DT><A HREF="cpdf-set-creator.html">cpdf_set_creator</A> - устанавливает поле автора/creator в pdf-документе</DT>
+<DT><A HREF="cpdf-set-current-page.html">cpdf_set_current_page</A> - устанавливает текущую страницу</DT>
+<DT><A HREF="cpdf-set-font-directories.html">cpdf_set_font_directories</A> - устанавливает директории для поиска при использовании внешних шрифтов</DT>
+<DT><A HREF="cpdf-set-font-map-file.html">cpdf_set_font_map_file</A> - устанавливает fontname в filename карты отображения при использовании 
+внешних шрифтов</DT><DT><A HREF="cpdf-set-font.html">cpdf_set_font</A> - выбирает текущий шрифт и его размер</DT>
+<DT><A HREF="cpdf-set-horiz-scaling.html">cpdf_set_horiz_scaling</A> - устанавливает масштабирование текста по горизонтали</DT>
+<DT><A HREF="cpdf-set-keywords.html">cpdf_set_keywords</A> - устанавливает поле keywords в pdf-документе</DT>
+<DT><A HREF="cpdf-set-leading.html">cpdf_set_leading</A> - устанавливает расстояние между строчками текста</DT>
+<DT><A HREF="cpdf-set-page-animation.html">cpdf_set_page_animation</A> - устанавливает интервал между страницами</DT>
+<DT><A HREF="cpdf-set-subject.html">cpdf_set_subject</A> - устанавливает поле subject в pdf-документе</DT>
+<DT><A HREF="cpdf-set-text-matrix.html">cpdf_set_text_matrix</A> - устанавливает текстовую матрицу</DT>
+<DT><A HREF="cpdf-set-text-pos.html">cpdf_set_text_pos</A> - устанавливает позицию текста</DT>
+<DT><A HREF="cpdf-set-text-rendering.html">cpdf_set_text_rendering</A> - определяет отображение текста</DT>
+<DT><A HREF="cpdf-set-text-rise.html">cpdf_set_text_rise</A> - устанавливает возвышение текста</DT>
+<DT><A HREF="cpdf-set-title.html">cpdf_set_title</A> - устанавливает поле title в pdf-документе</DT>
+<DT><A HREF="cpdf-set-viewer-preferences.html">cpdf_set_viewer_preferences</A> - как показывать документ в просмотрщике/viewer</DT>
+<DT><A HREF="cpdf-set-word-spacing.html">cpdf_set_word_spacing</A> - устанавливает расстояние между словами</DT>
+<DT><A HREF="cpdf-setdash.html">cpdf_setdash</A> - устанавливает патэрн из тире</DT>
+<DT><A HREF="cpdf-setflat.html">cpdf_setflat</A> - устанавливает ровность</DT>
+<DT><A HREF="cpdf-setgray-fill.html">cpdf_setgray_fill</A> - устанавливает цвет заполнения - значение gray</DT>
+<DT><A HREF="cpdf-setgray-stroke.html">cpdf_setgray_stroke</A> — устанавливает цвет прорисовки - значение gray</DT>
+<DT><A HREF="cpdf-setgray.html">cpdf_setgray</A> — устанавливает цвет прорисовки и заполнения - значение gray</DT>
+<DT><A HREF="cpdf-setlinecap.html">cpdf_setlinecap</A> - устанавливает параметр linecap</DT>
+<DT><A HREF="cpdf-setlinejoin.html">cpdf_setlinejoin</A> - устанавливает параметр linejoin</DT>
+<DT><A HREF="cpdf-setlinewidth.html">cpdf_setlinewidth</A> - устанавливает ширину линии</DT>
+<DT><A HREF="cpdf-setmiterlimit.html">cpdf_setmiterlimit</A> - устанавливает miter-границу</DT>
+<DT><A HREF="cpdf-setrgbcolor-fill.html">cpdf_setrgbcolor_fill</A> - устанавливает цвет заполнения - значение rgb</DT>
+<DT><A HREF="cpdf-setrgbcolor-stroke.html">cpdf_setrgbcolor_stroke</A> — устанавливает цвет прорисовки - значение rgb</DT>
+<DT><A HREF="cpdf-setrgbcolor.html">cpdf_setrgbcolor</A> — устанавливает цвет прорисовки и заполнения - значение rgb</DT>
+<DT><A HREF="cpdf-show-xy.html">cpdf_show_xy</A> - выводит текст в данной позиции</DT>
+<DT><A HREF="cpdf-show.html">cpdf_show</A> - выводит текст в текущей позиции</DT>
+<DT><A HREF="cpdf-stringwidth.html">cpdf_stringwidth</A> - Возвращает ширину текста при текущем шрифте</DT>
+<DT><A HREF="cpdf-stroke.html">cpdf_stroke</A> - прорисовывает линию вдоль пути</DT>
+<DT><A HREF="cpdf-text.html">cpdf_text</A> - выводит текст с параметрами</DT>
+<DT><A HREF="cpdf-translate.html">cpdf_translate</A> - устанавливает исходную току системы координат</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="method-exists.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="cpdf-add-annotation.html">Вперёд</A></TD></TR>
+<TR><TD WIDTH="33%" VALIGN="top">method_exists</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="funcref.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">cpdf_add_annotation</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

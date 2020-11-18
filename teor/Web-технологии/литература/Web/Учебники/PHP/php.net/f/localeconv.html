@@ -1,0 +1,74 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>localeconv</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="levenshtein.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="ltrim.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.localeconv">localeconv</A></H1><A NAME="AEN77594"></A><P>(PHP 4 &#62;= 4.0.5)</P>
+<p>localeconv - получает информацию о форматировании чисел.<A NAME="AEN77597"></A></p><H2>Описание</H2>
+<p>array <B>localeconv</B> (void)</p><P>Возвращает ассоциативный массив, содержащий локализованную информацию о 
+форматировании чисел и валюте.</P><P><B>localeconv()</B> возвращает данные на основе текущих локальных установок, как установлено 
+функцией <A HREF="setlocale.html"><B>setlocale()</B></A>. Ассоциативный массив содержит следующие поля:<A NAME="AEN77607"></A><TABLE BORDER="1"><TR><TH>Элемент массива</TH><TH>Описание</TH></TR><TBODY><TR>
+<TD>decimal_point</TD><TD>Символ десятичной точки</TD></TR><TR><TD>thousands_sep</TD><TD>Разделитель тысяч</TD></TR>
+<TR><TD>grouping</TD><TD>Массив, содержащий группировки чисел</TD></TR><TR><TD>int_curr_symbol</TD>
+<TD>Международное обозначение валюты, (например, USD)</TD></TR><TR><TD>currency_symbol</TD>
+<TD>Локальный символ валюты (например, $)</TD></TR><TR><TD>mon_decimal_point</TD>
+<TD>Символ денежной десятичной точки</TD></TR><TR><TD>mon_thousands_sep</TD>
+<TD>Денежный разделитель тысяч</TD></TR><TR><TD>mon_grouping</TD>
+<TD>Массив, содержащий валютные группировки</TD></TR><TR><TD>positive_sign</TD>
+<TD>Знак для положительных значений</TD></TR><TR><TD>negative_sign</TD>
+<TD>Знак для отрицательных значений</TD></TR><TR><TD>int_frac_digits</TD>
+<TD>Международные цифры дробей</TD></TR><TR><TD>frac_digits</TD>
+<TD>Локальные цифры дробей</TD></TR><TR><TD>p_cs_precedes</TD>
+<TD><TT><B>TRUE</B></TT>, если currency_symbol предшествует положительному значению, <TT><B>FALSE</B></TT>,
+если следует за ним</TD></TR><TR><TD>p_sep_by_space</TD><TD><TT><B>TRUE</B></TT>, если пробел отделяет currency_symbol от положительного значения,
+<TT><B>FALSE</B></TT> в ином случае</TD></TR><TR><TD>n_cs_precedes</TD><TD><TT><B>TRUE</B></TT>, если currency_symbol предшествует положительному значению,
+<TT><B>FALSE</B></TT>, если следует за ним</TD></TR><TR><TD>n_sep_by_space</TD><TD><TT><B>TRUE</B></TT>, если пробел отделяет currency_symbol от отрицательного значения,
+<TT><B>FALSE</B></TT>, в ином случае</TD></TR><TR><TD VALIGN="TOP">p_sign_posn</TD>
+<TD VALIGN="TOP"><TABLE BORDER="0"><TBODY><TR><TD>0</TD><TD> Скобки окружают quantity и currency_symbol</TD></TR>
+<TR><TD>1</TD><TD> Строка знака предшествует quantity и currency_symbol</TD></TR><TR><TD>2</TD>
+<TD> Строка знака следует за quantity и currency_symbol</TD></TR><TR><TD>3</TD>
+<TD> Строка знака непосредственно предшествует currency_symbol</TD></TR><TR><TD>4</TD>
+<TD> Строка знака непосредственно следует за currency_symbol</TD></TR></TBODY></TABLE></TD></TR>
+<TR><TD VALIGN="TOP">n_sign_posn</TD><TD VALIGN="TOP"><TABLE BORDER="0"><TBODY><TR><TD>0</TD>
+<TD> Скобки окружают quantity и currency_symbol</TD></TR><TR><TD>1</TD>
+<TD> Строка знака предшествует quantity и currency_symbol</TD></TR><TR><TD>2</TD>
+<TD> Строка знака следует за quantity и currency_symbol</TD></TR><TR><TD>3</TD>
+<TD> Строка знака непосредственно предшествует currency_symbol</TD></TR><TR><TD>4</TD>
+<TD> Строка знака непосредственно следует за currency_symbol</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>Поля группировки содержат массивы, которые определяют способ группирования 
+чисел. Например, поле группировки для en_US будет содержать массив из 2 элементов со значениями 3 и 3.
+Чем выше индекс массива, тем левее будет точка группировки.  Если элемент 
+массива равен CHAR_MAX, в дальнейшем группировка не выполняется. Если элемент 
+массива равен 0, должен использоваться предыдущий элемент.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN77699"></A><h5>Пример 1. localeconv()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>setlocale(LC_ALL, "en_US");
+
+$locale_info = localeconv();
+
+echo "&#60;PRE&#62;\n";
+echo "------------------------------------------------\n";
+echo "  Валютная информация для текущей локализации:  \n";
+echo "------------------------------------------------\n\n";
+=
+echo "int_curr_symbol:   {$locale_info["int_curr_symbol"]}\n";
+echo "currency_symbol:   {$locale_info["currency_symbol"]}\n";
+echo "mon_decimal_point: {$locale_info["mon_decimal_point"]}\n";
+echo "mon_thousands_sep: {$locale_info["mon_thousands_sep"]}\n";
+echo "positive_sign:     {$locale_info["positive_sign"]}\n";
+echo "negative_sign:     {$locale_info["negative_sign"]}\n";
+echo "int_frac_digits:   {$locale_info["int_frac_digits"]}\n";
+echo "frac_digits:       {$locale_info["frac_digits"]}\n";
+echo "p_cs_precedes:     {$locale_info["p_cs_precedes"]}\n";
+echo "p_sep_by_space:    {$locale_info["p_sep_by_space"]}\n";
+echo "n_cs_precedes:     {$locale_info["n_cs_precedes"]}\n";
+echo "n_sep_by_space:    {$locale_info["n_sep_by_space"]}\n";
+echo "p_sign_posn:       {$locale_info["p_sign_posn"]}\n";
+echo "n_sign_posn:       {$locale_info["n_sign_posn"]}\n";
+echo "&#60;/PRE&#62;\n";</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Константа CHAR_MAX определена также для всего вышеприведённого использования.</P>
+<P>См. также <A HREF="setlocale.html"><B>setlocale()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="levenshtein.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ltrim.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">levenshtein</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.strings.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ltrim</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

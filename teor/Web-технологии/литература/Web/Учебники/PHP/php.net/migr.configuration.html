@@ -1,0 +1,57 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Перенос Файлов Конфигурации</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR>
+<TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR>
+<TR><TD WIDTH="10%"><A HREF="php4.with.php3.html">Назад</A></TD>
+<th WIDTH="80%">Приложение B. Переход от PHP 3 к PHP 4</th><TD WIDTH="10%" ALIGN="right">
+<A HREF="parser.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR>
+<TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="migration4.configuration">Перенос файлов конфигурации</a></H1>
+<P>Глобальный файл конфигурации, <TT>php3.ini</TT>, изменил название на <TT>php.ini</TT>.</P>
+<P>В файле конфигурации сервера Apache есть ещё небольшие изменения. MIME-типы, 
+распознаваемые PHP-модулем, изменены.<A NAME="AEN88448"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>application/x-httpd-php3        --&#62;    application/x-httpd-php
+application/x-httpd-php3-source --&#62;    application/x-httpd-php-source</PRE></TD></TR></TABLE>
+<P>Ваши файлы конфигурации могут работать в обеих версиях PHP (в зависимости 
+от того, какая в данный момент скомпилирована на сервере), используя следующий синтаксис:<A NAME="AEN88451"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>AddType  application/x-httpd-php3        .php3
+AddType  application/x-httpd-php3-source .php3s
+
+AddType  application/x-httpd-php         .php
+AddType  application/x-httpd-php-source  .phps</PRE></TD></TR></TABLE>
+<P>Кроме того,  имена директив PHP для Apache изменены.</P>
+<P>Начиная с PHP 4.0, имеются только 4 директивы Apache, имеющие отношение к PHP:<A NAME="AEN88455"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>php_value [PHP directive name] [value]
+php_flag [PHP directive name] [On|Off]
+php_admin_value [PHP directive name] [value]
+php_admin_flag [PHP directive name] [On|Off]</PRE></TD></TR></TABLE>
+<P>Есть два отличия между Admin-значениями и не-Аdmin-значениями:</P>
+<UL><LI><P>Admin-значения (или флаги) могут появляться только в общих серверных файлах 
+конфигурации Аpache (например, httpd.conf).</P></LI>
+<LI><P>Стандартные значения (или флаги) не могут управлять некоторыми директивами PHP, например - 
+в безопасном режиме/safe mode (если вы сможете переопределить настройки safe mode 
+в файлах .htaccess, это разрушит предназначение режима safe-mode).  В 
+отличие от этого, Admin-значения могут модифицировать любые директивы PHP.</P></LI></UL>
+<P>Для облегчения процесса переноса, PHP 4 в имеются скрипты, которые 
+конвертируют вашу конфигурацию Apache и файлы .htaccess для работы как в PHP 3, 
+так и в PHP 4. Эти скрипты НЕ конвертируют строки с mime-типами! Вы должны сделать это сами.</P>
+<P>Для конвертации ваших файлов конфигурации Apache запустите скрипт apconf-conv.sh (находится 
+в директории scripts/apache/). Например:<A NAME="AEN88465"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>~/php4/scripts/apache:#  ./apconf-conv.sh /usr/local/apache/conf/httpd.conf</PRE></TD></TR></TABLE>
+<P>Ваш оригинальный файл конфигурации будет сохранён как httpd.conf.orig.</P>
+<P>Для конвертации ваших .htaccess-файлов запустите скрипт aphtaccess-conv.sh (также 
+находится в директории scripts/apache/):<A NAME="AEN88469"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>~/php4/scripts/apache:#  find / -name .htaccess -exec ./aphtaccess-conv.sh {} \;</PRE></TD></TR>
+</TABLE><P>И так же ваши старые .htaccess-файлы будут сохранены с расширением .orig.</P>
+<P>Скрипт конвертации требует наличия установленного awk.</P></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR>
+<TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="php4.with.php3.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="parser.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Конкурентный запуск<br>
+PHP 3 и PHP 4</TD><th WIDTH="34%" VALIGN="top"><a href="appendix.migration4.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Поведение разборщика</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

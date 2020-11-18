@@ -1,0 +1,33 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>mysql_insert_id</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="mysql-info.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="mysql-list-dbs.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.mysql-insert-id">mysql_insert_id</A></H1><A NAME="AEN51695"></A><P>(PHP 3, PHP 4)</P>
+<p>mysql_insert_id - получает id, сгенерированный предыдущей операцией INSERT.<A NAME="AEN51698"></A></p>
+<H2>Описание</H2><p>int <B>mysql_insert_id</B> ([resource link_identifier])</p>
+<P><B>mysql_insert_id()</B> возвращает ID, сгенерированный для столбца AUTO_INCREMENT предыдущим запросом INSERT, 
+с использованием данного <TT><I>link_identifier</I></TT>. Если <TT><I>link_identifier</I></TT> не специфицирован, принимается последняя открытая ссылка.</P>
+<P><B>mysql_insert_id()</B> возвращает 0, если предыдущий запрос не генерирует значение AUTO_INCREMENT. Если 
+вам нужно сохранить значение на будущее, вызовите <B>mysql_insert_id()</B> сразу после запроса, генерирующего это значение.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>значение MySQL-функции <TT>LAST_INSERT_ID()</TT> всегда содержит самое последнее сгенерированное значение AUTO_INCREMENT и не
+восстанавливается между запросами.</P></BLOCKQUOTE><TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B>
+</th></TR><TR><TD><P><B>mysql_insert_id()</B> конвертирует return-тип внутренней MySQL C API-функции
+<TT>mysql_insert_id()</TT> в тип <TT>long</TT> (называемый в РНР <A HREF="../types.integer.html"><B>int</B></A>).
+Если ваш столбец AUTO_INCREMENT имеет тип столбца BIGINT, значение, возвращаемое функцией <B>mysql_insert_id(),</B> будет некорректным. Тогда используйте внутреннюю MySQL SQL-функцию
+<TT>LAST_INSERT_ID()</TT> в SQL-запросе.</P></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN51724"></A><h5>Пример 1. mysql_insert_id</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>&#60;?php
+    mysql_connect("localhost", "mysql_user", "mysql_password") or
+        die("could not connect");
+    mysql_select_db("mydb");
+
+    mysql_query("INSERT INTO mytable (product) values ('kossu')");
+    printf ("Last inserted record has id %d\n", mysql_insert_id());
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="mysql-query.html"><B>mysql_query()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="mysql-info.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="mysql-list-dbs.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">mysql_info</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.mysql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">mysql_list_dbs</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

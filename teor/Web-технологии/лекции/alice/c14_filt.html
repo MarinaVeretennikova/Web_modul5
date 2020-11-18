@@ -1,0 +1,186 @@
+<html>
+<title>Фильтрация и форматирование HTML-документов</title>
+
+<body>
+<table align=center width=90%>
+<tr><td>
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c14.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c14.html">Безопасность CGI</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c14_str.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c14_str.html">Переполнение буфера и работа со строками.</a>
+</table>
+
+
+
+<h3>Фильтрация и форматирование HTML-документов</h3>
+<p align="justify">
+Пожалуй, это самая распространенная проблема, в особенности для начинающих веб-программистов, хотя
+и опытные специалисты часто забывают или не совсем правильно обращаются с HTML-кодом. Данная проблема
+связана со скриптами, которые выдают заголовок Content-type: text/html\n\n и соответственно
+генерируют HTML-код. Для всех остальных CGI-программ данной проблемы не существует! Обратите внимание,
+что HTML-код необходимо фильтровать именно на выходе. Очень часто делают ошибку, когда фильтруют HTML-код
+перед тем, как сохранить его на сервере в файле или базе данных. Это неправильно. Поясним ситуацию на 
+примере чата, рассмотренного в восьмой главе. Любой пользователь может в качестве сообщения ввести
+HTML-команды. Если он решил немного раскрасить свой текст, то, конечно, ничего страшного в этом нет,
+при условии, что он умеет пользоваться командами font, b, i, u и другими. Теперь представьте ситуацию, когда
+он либо не умеет ими пользоваться, либо просто забыл поставить закрывающую команду или угловую скобочку - &gt;,
+или же это злоумышленник, который вполне отдает себе отчет в том, что делает. Итак, в чат могут
+ввести что-нибудь типа:
+<pre>
+=====Пример №1======
+&lt;/table&gt;
+====================
+
+=====Пример №2======
+&lt;img src="http://mysite.ru/very_big_image.jpg" width=10000 height=10000&gt;
+====================
+
+
+=====Пример №3======
+&lt;script language="JavaScript"&gt;
+window.open('http://mysite.ru','_top');
+&lt;/script&gt;
+====================
+</pre>
+<p align="justify">
+Можно дальше сочинять, но думаю этого достаточно, в особенности для тех, кто тут же решит
+попробовать себя в роли злоумышленника. Возможно стоит прокомментировать примеры. В примере номер
+один дана команда закрыть таблицу, которая скорее всего приведет к тому, что чат, гостевая книга или
+форум будут отображаться некорректно в броузере пользователя. Во втором примере загружается картинка
+очень большого объема. Скорее всего, пользователь не дождется загрузки страницы, а  если и дождется, то
+увидит опять что-то непотребное. Ну и в третьем примере, пользователь будет сразу же переброшен
+на веб-сайт злоумышленника. Для того чтобы такого рода ситуации исключить, необходимо фильтровать
+HTML-код, когда CGI-программа выдает его пользователю. В нашем случае необходимо заменять все
+&lt; и &gt; на &amp;lt; и &amp;gt; соответственно. В библиотеке ITCGI имеется функция ReplaceLTGT.
+В результате, пользователю выдастся следующий безобидный текст, который броузером не будет воспринят, как
+HTML-команды, а будет отображен, как обычный текст.
+<pre>
+=====Пример №1======
+&amp;lt;/table&amp;gt;
+====================
+
+=====Пример №2======
+&amp;lt;img src="http://mysite.ru/very_big_image.jpg" width=10000 height=10000&amp;gt;
+====================
+
+
+=====Пример №3======
+&amp;lt;script language="JavaScript"&amp;gt;
+window.open('http://mysite.ru','_top');
+&amp;lt;/script&amp;gt;
+====================
+</pre>
+
+
+<p align="justify">
+С фильтрацией не переусердствуйте, помните, что не стоит фильтровать все в подряд, а только
+то, что может быть введено злоумышленником. Иначе может получится, что вместо оформленной части
+HTML-документа пользователь увидит исходный HTML-код. Иногда ставится задача не полной фильтрации
+HTML-команд, т.е. когда при написании сообщений в чат, гостевую книгу или форум разрешается пользователям использовать ограниченный список
+HTML-команд с ограниченным множеством атрибутов и ограниченным диапазоном значений этих атрибутов.
+Сама по себе такая задача непростая и выходит за рамки этой книги, если вы не уверены в своих
+силах и не можете просчитать все варианты использования дозволенных HTML-команд, то лучше не беритесь за подобного рода задачи, т.к.
+будет большая  вероятность взлома вашего веб-сайта. Помните еще одну простую формулу: безопасность обратно пропорциональна удобству.
+Или же лучшее - враг хорошего.
+<br><br>
+ Помимо фильтрации HTML-кода еще существует проблема форматирования текста в сообщениях гостевых книг и форумов.
+ Поясним задачу. Допустим пользователь ввел в поле ввода:
+ <p>
+ 1. Лайтмэпинг в OpenGL. В случае если видюха поддерживает мультитекстуринг, то все понятно, но в случае если нет?..
+Я так думаю нужно использовать Alpha blending, но в таком случае лайтмэпы будут только grayscalовые.... Может кто подскажет как сделать правильнее?<br>
+2. Каким образом и откуда импортируются функции расширений OpenGL? Например у меня ни как не получилось импортировать из opengl32.dll функции glLockArraysEXT и glUnlockArraysEXT, хотя видеокарта их поддерживает (кстати в opengl32.dll этих функций и нет, но есть они в gfxglicd.dll - входящий в комплект дровов моей I740, но т.к. это частный случай, то я думаю есть универсальный метод импорта этих функций).<br>
+3. Последний вопрос. При создании портального движка необходимо определять видимость объектов (их BoundingBox-ов) через BoundingRectangle проекции портала. Кто знает как это лучше (быстрее) всего сделать в OpenGL? (я так думаю что-то с FeedBack буфером?) <br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Дата: 11-16-2001 на 21:04 
+</p>
+ 
+ <p align="justify">
+ Если данный текст не форматировать перед выводом, то его вид получится отвратительным - не будет переносов
+ на новую строку, несколько пробелов сольются в один, а если в тексте имеется очень длинное слово, 
+ то ширина HTML-документа будет выровнена по ширине этого слова и скорее всего окажется больше,
+ чем запланирована. Обычно таких слов не встречается, однако злоумышленники могут
+ написать что-нибудь типа aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa и т.д.
+ Форматирование текста в отличии от фильтрации HTML-команд не ведет к неправильной работе
+ того или иного раздела веб-сайта, а лишь сказывается на оформление текста. В связи с вышеизложенными проблемами необходимо:
+ <ol>
+ <li> \n заменять на &lt;br&gt;
+ <li> два пробела на пробел&amp;nbsp;
+ <li> через каждые n символов без пробела вставлять пробел, чтобы таблица не расползлась
+ </ol>
+ В библиотеке ITCGI для этого есть функции FormatText и FilterBR.
+ 
+ 
+
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?7009  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?7009'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?7009" target=_top>
+    <img src="itsoft-7009" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?7009" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?7009  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?7009'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?7009" target=_top>
+    <img src="itsoft-7009" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?7009" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="itsoft-7009-1" tppabs="http://rb1.rotabanner.com/cgi-bin/iframe/itsoft?7009"
+ width=468 height=60 marginwidth=0 marginheight=0 scrolling=no 
+ frameborder=0><a href="javascript:if(confirm('http://rb1.rotabanner.com/cgi-bin/href/itsoft?7009  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb1.rotabanner.com/cgi-bin/href/itsoft?7009'" tppabs="http://rb1.rotabanner.com/cgi-bin/href/itsoft?7009" 
+ target=_top><img src="itsoft-7009-2" tppabs="http://rb1.rotabanner.com/cgi-bin/banner/itsoft?7009" 
+ alt="RB1" width=468 height=60 border=0 ismap></a></iframe>
+
+</body>
+</html>

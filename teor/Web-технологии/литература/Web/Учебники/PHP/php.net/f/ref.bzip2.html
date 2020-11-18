@@ -1,0 +1,61 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Bzip2-Компрессии</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="bcsub.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="bzclose.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.bzip2"></A>V. Функции Bzip2-компрессии</h1><A NAME="AEN9307"></A><H1><A NAME="bzip2.intro">Введение</A></H1>
+<P>Функции компрессии bzip2 используются для прозрачного чтения и записи сжатых файлов bzip2 (.bz2).</P>
+<H1><a name="bzip2.requirements">Требования</a></H1><P>Этот модуль использует функции библиотеки
+<A HREF="http://sources.redhat.com/bzip2/" TARGET="_top">bzip2</A>, которую создал Julian Seward.</P>
+<H1><a name="bzip2.installation">Инсталяция</a></H1><P>Поддержка bzip2 в PHP по умолчанию не включена. Вам необходимо
+использовать опцию конфигурации <A HREF="../configure.html#install.configure.with-bz2">--with-bz2</A> при компиляции PHP, чтобы включить поддержку bzip2. Этот модуль требует bzip2/libbzip2 
+версии &#62;= 1.0.x.</P><H1><a name="bzip2.configuration">Конфигурация времени выполнения</a></H1>
+<P>Это расширение не определяет никаких директив конфигурации.</P><H1><a name="bzip2.resources">Типы ресурсов</a></H1>
+<P>Это расширение определяет один тип ресурсов: указатель файла, идентифицирующий bz2-файл для работы с ним.</P>
+<H1><a name="bzip2.constants">Предопределённые константы</a></H1>
+<P>Это расширение не определяет никаких констант.</P><H1><a name="bzip2.examples">Примеры</a></H1>
+<P>Этот пример открывает временный файл и записывает в него тестовую строку, 
+затем печатает на вывод содержимое файла.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN9331"></A>
+<h5>Пример 1. Небольшой bzip2</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;?php
+
+$filename = "/tmp/testfile.bz2";
+$str = "This is a test string.\n";
+
+// открыть файл для записи
+$bz = bzopen($filename, "w");
+
+// записать строку в файл
+bzwrite($bz, $str);
+
+// закрыть файл
+bzclose($bz);
+
+// открыть файл для чтения
+$bz = bzopen($filename, "r");
+
+// прочитать 10 символов
+print bzread($bz, 10);
+
+// выводить до достижения конца файла (или следующего 1024 char) и закрыть файл.  
+print bzread($bz);
+
+bzclose($bz);
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><DL><DT><B>Содержание</B></DT>
+<DT><A HREF="bzclose.html">bzclose</A> - закрыть bzip2-указатель на файл</DT>
+<DT><A HREF="bzcompress.html">bzcompress</A> - сжать строку в bzip2-кодированные данные</DT>
+<DT><A HREF="bzdecompress.html">bzdecompress</A> - развернуть bzip2-кодированные данные</DT>
+<DT><A HREF="bzerrno.html">bzerrno</A> - возвращает номер ошибки bzip2</DT>
+<DT><A HREF="bzerror.html">bzerror</A> - возвращает номер ошибки bzip2 строку ошибки в массиве</DT>
+<DT><A HREF="bzerrstr.html">bzerrstr</A> - возвращает строку ошибки bzip2</DT>
+<DT><A HREF="bzflush.html">bzflush</A> - форсирует запись всех буферизованных данных</DT>
+<DT><A HREF="bzopen.html">bzopen</A> - открывает bzip2-сжатый файл</DT>
+<DT><A HREF="bzread.html">bzread</A> - Binary safe/безопасное в двоичном режиме чтение bzip2-файла</DT>
+<DT><A HREF="bzwrite.html">bzwrite</A> - Binary safe запись bzip2-файла</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%"  BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="bcsub.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%"  ALIGN="right" VALIGN="top"><A HREF="bzclose.html">Вперёд</A></TD></TR>
+<TR><TD WIDTH="33%" VALIGN="top">bcsub</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">bzclose</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

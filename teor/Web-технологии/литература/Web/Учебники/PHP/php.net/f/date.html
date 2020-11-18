@@ -1,0 +1,91 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>date</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="checkdate.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="getdate.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.date">date</A></H1><A NAME="AEN15580"></A><P>(PHP 3, PHP 4)</P>
+<p>date - формат локального времени/даты.<A NAME="AEN15583"></A></p><H2>Описание</H2>
+<p>string <B>date</B> (string format [, int timestamp])</p>
+<P>Возвращает строку, отформатированную в соответствии со строкой формата с 
+использованием заданного целочисленного <TT><I>timestamp</I></TT> или текущего локального времени, если timestamp/&quot;штамп времени&quot; не задан.
+<BLOCKQUOTE><P><B>Примечание: </B>правильный диапазон значений для timestamp обычно: с Fri, 13 Dec
+1901 20:45:54 GMT до Tue, 19 Jan 2038 03:14:07 GMT. (Это даты, 
+соответствующие максимальному и минимальному значениям 32-битного целого 
+числа). В windows этот диапазон ограничен датами от 01-01-1970 до 19-01-2038.</P>
+<P>Для генерации timestamp из строки, представляющей дату, вы можете использовать
+<A HREF="strtotime.html"><B>strtotime()</B></A>. Кроме того, некоторые базы данных имеют функции для конвертации их форматов 
+даты в timestamp'ы (такие как функция MySQL'а UNIX_TIMESTAMP).</P></BLOCKQUOTE>
+<P>В строке формата распознаются следующие символы:
+<UL><LI>a - "am" или "pm"</LI><LI>A - "AM" или "PM"</LI><LI>B - время Swatch Internet</LI>
+<LI>d - день (число) месяца, 2 цифры с ведущим нулём, если необходимо; т. е. от "01" до "31"</LI>
+<LI>D - день недели, буквенный, 3 буквы; например, "Fri"</LI><LI>F - месяц, буквенный, long; например, "January"</LI>
+<LI>g - час, 12-часовой формат без ведущих нулей; т.е. от "1" до "12"</LI>
+<LI>G - час, 24-часовой формат без ведущих нулей; т.е. от "0" до "23"</LI>
+<LI>h - час, 12-часовой формат; т.е. от "01" до "12"</LI><LI>H - час, 24-часовой формат; т.е. от "00" до "23"</LI>
+<LI>i - минуты; т.е. от "00" до "59"</LI><LI>I (заглавная i) - "1", если Daylight Savings Time, "0" - в противном
+случае.</LI><LI>j - день (число) месяца без ведущих нулей; т.е. от "1" до "31"</LI>
+<LI>l ('L' в нижнем регистре) - день недели, буквенный, long; например, "Friday"</LI>
+<LI>L - boolean, указывающее, високосный ли год; т.е. "0" или "1"</LI>
+<LI>m - месяц; т.е. от "01" до "12"</LI><LI>M - месяц, буквенный, 3 буквы; например, "Jan"</LI>
+<LI>n - месяц без ведущих нулей; т.е. от "1" до "12"</LI>
+<LI>O - Разница с временем по Гринвичу, в часах; например, "+0200"</LI>
+<LI>r - RFC 822 формат даты; например, "Thu, 21 Dec 2000 16:01:07 +0200" (введён в PHP 4.0.4)</LI>
+<LI>s - секунды; т.е. от "00" до "59"</LI><LI>S - простой английский суффикс для дня (числа) месяца, 2 символа;
+т.е. "st", "nd", "rd" или "th"</LI><LI>t - количество дней в данном месяце; т.е. от "28" до "31"</LI>
+<LI>T - установка Timezone/Часовой пояс на данной машине; например, "EST" или "MDT"</LI>
+<LI>U - секунды эпохи Unix Epoch (начиная с January 1 1970 00:00:00 GMT)</LI>
+<LI>w - день недели, числовой, т.е. от "0" (Sunday) до "6" (Saturday)</LI>
+<LI>W - ISO-8601 номер недели в году, недели начинаются с понедельника/Monday (введено в PHP 4.1.0)</LI>
+<LI>Y - год, 4 цифры; например, "1999"</LI><LI>y - год, 2 цифры; например, "99"</LI>
+<LI>z - день года; т.е. от "0" до "365"</LI><LI>Z - смещение часового пояса, в секундах (т.е. от "-43200" до "43200").
+Смещение часовых поясов к западу от UTC всегда отрицательное, а для поясов в 
+востоку от UTC - всегда положительное.</LI></UL>
+Нераспознаваемые символы в строке формата печатаются как есть.  Формат "Z" всегда возвращает "0" при использовании
+<A HREF="gmdate.html"><B>gmdate()</B></A>.<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN15666"></A><h5>Пример 1. date()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>echo date ("l dS of F Y h:i:s A");
+echo "July 1, 2000 is on a " . date ("l", mktime(0,0,0,7,1,2000));</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Вы можете предотвратить развёртывание распознаваемого символа в строке 
+формата, мнемонизируя (заменяя) его вставкой перед ним обратного слэша (\). 
+Если символ с обратным слэшем уже является специальной последовательностью, 
+вам может понадобиться также мнемонизировать и обратный слэш.<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN15671"></A><h5>Пример 2. Escap-ирование символов в date()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>echo date("l \\t\h\e jS"); // печатает что-нибудь вроде 'Saturday the 8th'</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Имеется возможность совместного использования <B>date()</B> и
+<A HREF="mktime.html"><B>mktime()</B></A> для поиска дат в будущем или в прошлом.
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN15678"></A><h5>Пример 3. date() и<B>
+<A HREF="mktime.html">mktime()</A></B></h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$tomorrow  = mktime (0,0,0,date("m")  ,date("d")+1,date("Y"));
+$lastmonth = mktime (0,0,0,date("m")-1,date("d"),  date("Y"));
+$nextyear  = mktime (0,0,0,date("m"),  date("d"),  date("Y")+1);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<BLOCKQUOTE><P><B>Примечание: </B>это может оказаться более надёжным, чем просто добавление или вычитание 
+числа секунд из дня или месяца, в timestamp, из-за использования перехода на летнее время.</P></BLOCKQUOTE>
+<P>Далее идут некоторые примеры форматирования <B>date()</B>. Заметьте, что вы должны 
+мнемонизировать любые другие символы, так как те из 
+них, которые имеют в настоящее время специальное значение, будут давать 
+нежелательный результат, а другие символы могут получить особое значение в будущих версиях PHP.
+При мнемонизировании убедитесь в использовании одинарных кавычек для 
+предотвращения использования символов вроде \n как символов новой строки/newlines.<TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN15687"></A><h5>Пример 4. Форматирование date()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>/* Сегодня March 10th, 2001, 5:16:18 pm */
+$today = date("F j, Y, g:i a");                 // March 10, 2001, 5:16 pm
+$today = date("m.d.y");                         // 03.10.01
+$today = date("j, n, Y");                       // 10, 3, 2001
+$today = date("Ymd");                           // 20010310
+$today = date('h-i-s, j-m-y, it is w Day z ');  // 05-16-17, 10-03-01, 1631 1618 6 Fripm01
+$today = date('\i\t \i\s \t\h\e jS \d\a\y.');   // Это 10-е число.
+$today = date("D M j G:i:s T Y");               // Sat Mar 10 15:16:08 MST 2001
+$today = date('H:m:s \m \i\s\ \m\o\n\t\h');     // 17:03:17 m это месяц
+$today = date("H:i:s");                         // 17:16:17</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Для форматирования дат на других языках вы должны использовать функции
+<A HREF="setlocale.html"><B>setlocale()</B></A> и <A HREF="strftime.html"><B>strftime()</B></A>.</P>
+<P>См. также <A HREF="getlastmod.html"><B>getlastmod()</B></A>,
+<A HREF="gmdate.html"><B>gmdate()</B></A>, <A HREF="mktime.html"><B>mktime()</B></A>,
+<A HREF="strftime.html"><B>strftime()</B></A> и <A HREF="time.html"><B>time()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="checkdate.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="getdate.html">Вперёд</A></TD></TR>
+<TR><TD WIDTH="33%" VALIGN="top">checkdate</TD><th WIDTH="34%" VALIGN="top"><A HREF="ref.datetime.html">Вверх</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top">getdate</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

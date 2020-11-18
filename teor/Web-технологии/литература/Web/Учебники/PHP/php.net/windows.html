@@ -1,0 +1,267 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Установка на Системах Windows</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="unix.html">Назад</A></TD><th WIDTH="80%">Глава 2. Инсталяция</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="inst.commandline.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="install.windows">Установка на системах Windows</A></H1>
+<P>Этот раздел относится к Windows 95/98/Me и Windows NT/2000/XP. Не ждите, что PHP будет работать на
+16-битных платформах, таких как Windows 3.1. Иногда мы называем поддерживаемые Windows-платформы Win32.</P>
+<P>Есть два основных способа установки PHP под Windows: 
+<a href="#install.windows.manual">вручную</a>, либо инсталятором <A HREF="#install.windows.installer">InstallShield</A>.</P>
+<P>Если у вас имеется Microsoft Visual Studio, вы можете также 
+<A HREF="#install.windows.build">build</A>/построить PHP из оригинального исходного кода.</P>
+<P>После установки PHP на вашей системе Windows вы можете также
+<a href="#install.windows.extensions">загрузить различные расширения</a> для добавления функциональности.</P>
+<H2><ANAME="install.windows.installer">Windows InstallShield</A></H2>
+<P>Windows PHP-инсталятор, доступный со страницы downloads по адресу 
+<A HREF="http://www.php.net/" TARGET="_top">http://www.php.net/</A>, устанавливает CGI-версию PHP и, для IIS, PWS и Xitami, конфигурирует также и web-сервер.<br>
+Заметьте также, что, хотя инсталятор InstallShield облегчает установку PHP, 
+он имеет и ограничения по многим параметрам. Так, например, не 
+поддерживается автоматическая установка расширений.</P>
+<P>Установите избранный вами HTTP-сервер в вашей системе и убедитесь, что он работает.</P>
+<P>Запустите exe-инсталятор и следуйте указаниям. Поддерживаются два типа инсталяции -
+стандартная, со всеми установками по умолчанию, и продвинутая, которая 
+выдаёт запросы на выполнение определённых действий.</P>
+<P>Помощник установки/installation wizard собирает необходимую информацию для настройки файла 
+<TT>php.ini</TT> и конфигурирует web-сервер для использования PHP.<br>
+Для IIS и PWS на NT Workstation выводится список всех узлов сервера с 
+показом установок отображения скриптов, и вы можете выбрать те узлы, в 
+которые хотите добавить отображение PHP-скриптов.</P>
+<P>После завершения инсталяции installer проинформирует вас, если нужно 
+рестартовать систему, рестартовать сервер или просто начать работу с PHP.</P>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>Учтите, что эта установка РНР не защищена. Если вам необходима защищённая 
+установка PHP, вам лучше делать её вручную и устанавливать отдельно каждую опцию.<br>
+Данная автоматическая установка даст вам полноценный работающий PHP, 
+но она не предназначена для использования в online-серверах.</P></TD></TR></TABLE>
+<H2><a name="install.windows.manual">Ручная установка</a></H2>
+<P>Этот справочник поможет вам вручную установить и сконфигурировать
+PHP на вашем Windows web-сервере. Вам нужно загрузить zip binary дистрибутив со страницы downloads 
+<A HREF="http://www.php.net/" TARGET="_top">http://www.php.net/</A>.<br>
+Оригинальную версию этого справочника скомпилировал <A HREF="mailto:bob_silva@mail.umesd.k12.or.us" TARGET="_top">Bob Silva</A>,
+и её можно найти по адресу <A HREF="http://www.umesd.k12.or.us/php/win32install.html" TARGET="_top">http://www.umesd.k12.or.us/php/win32install.html</A></P>
+<P>Здесь дана поддержка установки на:
+<UL><LI>Personal Web Server 3 и 4 или новее</LI><LI>Internet Information Server 3 и 4 или новее</LI>
+<LI>Apache 1.3.x</LI><LI>OmniHTTPd 2.0b1 и новее</LI><LI>Oreilly Website Pro</LI>
+<LI>Xitami</LI><LI>Netscape Enterprise Server, iPlanet</LI></UL>
+<P>PHP 4 для Windows поставляется в двух вариантах - CGI executable (php.exe) 
+и несколько SAPI-модулей (например: php4isapi.dll). Последняя форма является 
+новой в PHP 4 и предоставляет значительное ускорение работы и некоторую новую функциональность.</P>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>SAPI-модули были значительно усовершенствованы в версии 4.1, 
+но вы может обнаружить, что в старых ОС возникают ошибки сервера или 
+неудачи в работе других серверных модулей, таких как ASP.</P></TD></TR></TABLE>
+<P>Если вы выбрали один из SAPI-модулей и используете Windows 95, не забудьте 
+загрузить обновление DCOM со страницы
+<A HREF="http://download.microsoft.com/msdownload/dcom/95/x86/en/dcom95.exe" TARGET="_top">Microsoft DCOM</A>.
+Для ISAPI-модуля необходим Web-сервер, соответствующий ISAPI 4.0 
+(проверено на IIS 4.0, PWS 4.0 и IIS 5.0). IIS 3.0 <i>НЕ</i> поддерживается. 
+Вы должны загрузить и установить Windows NT 4.0 Option Pack с IIS 4.0, если вам необходима встроенная поддержка PHP.</P>
+<P>При всех вариантах установки должны быть выполнены следующие шаги до специфичных серверных инструкций.
+<UL><LI>Распаковать дистрибутив в нужную директорию. <TT>c:\php\</TT> это хорошее начало. Лучше не использовать путь с пробелами (например: c:\program files\php это не очень). Некоторые web-серверы при этом завалятся.</LI><LI>Необходимо убедиться, что DLL, используемые PHP, можно найти. Конкретные DLL зависят от используемого web-сервера и от того, запускаете вы PHP как CGI или как серверный модуль. <TT>php4ts.dll</TT> используется всегда.<br>
+Если вы используете серверный модуль (например, ISAPI или Apache), то вам 
+понадобятся соответствующие DLL-библиотеки из папки <TT>sapi</TT>. Если вы используете любое DLL-расширение РНР, они вам также понадобятся.<br>
+Чтобы убедиться, что DLL можно найти, вы должны либо скопировать их в системную директорию (<TT>winnt/system32</TT>
+или <TT>windows/system</TT>), либо убедиться, что они находятся в той же директории, что и главный PHP
+executable или DLL, используемые вашим сервером (например, <TT>php.exe</TT>, <TT>php4apache.dll</TT>).</P>
+<P>Двоичный PHP, SAPI-модули и некоторые расширения требуют для своей 
+работы наличия некоторых внешних DLL-библиотек. Убедитесь, что эти DLL 
+дистрибутива расположены в директории, которая находится в Windows PATH.
+Лучше всего скопировать нижеуказанные файлы в системную директорию, которая обычно:
+<TABLE BORDER="0"><TR><TD><TT>c:\windows\system</TT> в Windows 9x/ME</TD></TR><TR><TD>
+<TT>c:\winnt\system32</TT> в Windows NT/2000</TD></TR><TR><TD><TT>c:\windows\system32</TT> в Windows XP</TD></TR></TABLE>
+<p>Нужно скопировать файлы:</p><TABLE BORDER="0"><TR><TD><TT>php4ts.dll;</TT> если он уже есть, перезаписать его</TD>
+</TR><TR><TD>Файлы из директории 'dlls' дистрибутива. Если они уже установлены в вашей системе, перезаписывайте их только 
+в том случае, если что-то работает некорректно (до перезаписи 
+неплохо было бы скопировать их или переместить в другую папку - на случай каких-либо неприятностей).</TD></TR></TABLE>
+<P>Загрузите последнюю версию Microsoft Data Access Components
+(MDAC) для вашей платформы, особенно если вы используете Microsoft Windows
+9x/NT4. MDAC находится по адресу <A HREF="http://www.microsoft.com/data/" TARGET="_top">http://www.microsoft.com/data/</A>
+</P></LI><LI><P>Скопируйте выбранный вами ini-файл (см. ниже) в директорию 
+'%WINDOWS%' - в ОС Windows 9x/Me, или в директорию 
+'%SYSTEMROOT%' - в Windows NT/2000/XP и переименуйте его в <TT>php.ini</TT>. Ваша директория 
+'%WINDOWS%' или '%SYSTEMROOT%' это обычно:<br><TABLE BORDER="0"><TR><TD><TT>c:\windows</TT> в Windows 9x/ME/XP</TD>
+</TR><TR><TD><TT>c:\winnt</TT> или <TT>c:\winnt40</TT> в NT/2000-серверах</TD></TR></TABLE>
+<P>В zip-файле есть два ini-файла, <TT>php.ini-dist</TT> и <TT>php.ini-optimized</TT>.<br>
+Мы рекомендуем использовать <TT>php.ini-optimized</TT>,
+поскольку мы оптимизировали в этом файле значения по умолчанию для 
+обеспечения соответствующей производительности и безопасности. Лучше изучить все
+<A HREF="configuration.html#configuration.file">ini-настройки</A> и самостоятельно настроить каждый элемент.
+Если вам нужна повышенная безопасность, то этот путь - для вас, хотя PHP прекрасно работает и с установками по умолчанию ini-файла.</P>
+</LI><LI><P>Отредактируйте ваш новый <TT>php.ini</TT>:<UL><LI>
+<P>Вам нужно будет изменить установку 'extension_dir', чтобы она 
+указывала на вашу директорию с установленным РНР, либо на местонахождение ваших <TT>php_*.dll</TT>-файлов.
+Пример: <TT>c:\php\extensions</TT></P></LI><LI>
+<P>Если вы используете OmniHTTPd, не выполняйте этот шаг. Установите, чтобы 'doc_root' указывал на
+document_root вашего web-сервера. Например: <TT>c:\apache\htdocs</TT> или <TT>c:\webroot</TT></P></LI>
+<LI><P>Определите, какие расширения подключать при старте PHP. См. в разделе
+<A HREF="#install.windows.extensions">Windows-расширения</A> о том, как их устанавливать и что уже построено. Заметьте, что при
+первоначальной инсталяции мы советуем сначала протестировать PHP без каких либо расширений, а затем подключить их в
+<TT>php.ini</TT>.</P></LI><LI><P>В PWS и IIS вы можете установить, чтобы <TT>browscap.ini</TT> указывал на:
+<TT>c:\windows\system\inetsrv\browscap.ini</TT> - в Windows 9x/Me, <TT>c:\winnt\system32\inetsrv\browscap.ini</TT>
+- в NT/2000 и <TT>c:\windows\system32\inetsrv\browscap.ini</TT> - в XP.</P></LI>
+<LI><P>Обратите внимание, что директория <TT>mibs</TT>, поставляемая с дистрибутивом Windows, содержит файлы поддержки
+SNMP. Эта директория должна быть перемещена на <TT>DRIVE:\usr\mibs</TT> (<TT>DRIVE</TT> это диск, на котором установлен PHP).</P>
+</LI><LI><P>Если вы используете NTFS в Windows NT, 2000 или XP, убедитесь, что 
+пользователь, запускающий web-сервер, имеет допуск к <TT>php.ini</TT> (например, сделайте его доступным для чтения для Everyone).</P>
+</LI></UL></LI><LI><P>Для PWS выдайте разрешение для webroot:<UL><LI><P>Стартовать PWS Web Manager</P></LI>
+<LI><P>Редактировать Properties "Contents&quot;-директории</P></LI><LI><P>Отмечать "execute&quot;-переключатель</P>
+</LI></UL></LI></UL><H2><a name="install.windows.build">Построение из исходного кода</a></H2>
+<P>Перед началом хорошо бы ответить на вопрос: "Почему построение/building в Windows такое сложное?".</P>
+<P>Для этого есть две причины:</P><OL TYPE="1"><LI><P>Windows (ещё) не поддерживается большим сообществом разработчиков, желающих 
+свободно использовать свои ресурсы. Как следствие, соответствующие 
+вложения в инфраструктуру, необходимые для поддержки такой работы, не делаются. Более того, всё, что имеется, стало доступным благодаря соответствующим утилитам Unix. Не удивляйтесь, если иногда это будет заметно.</P></LI><LI><P>Вероятнее всего, все последующие инструкции являются вариантами "установил и забыл". Поэтому наберитесь терпения и следуйте дальнейшим указаниям максимально точно.</P></LI></OL>
+<H3><a name="install.windows.build.prepare">Подготовка</a></H3>
+<P>Прежде чем начать, многое придётся загрузить...</P><UL><LI>
+<P>Начинающие, получите Cygwin toolkit с ближайшего сайта
+<A HREF="http://sources.redhat.com/cygwin/download.html" TARGET="_top">cygwin</A>. Здесь вы получите
+самые популярные GNU-утилиты, используемые при построении/build.</P></LI>
+<LI><P>Загрузите остальные build-утилиты с PHP-сайта <A HREF="http://www.php.net/extra/win32build.zip" TARGET="_top">http://www.php.net/extra/win32build.zip</A>
+</P></LI><LI><P>Получите исходный код DNS name resolver', используемого PHP, по адресу
+<A HREF="http://www.php.net/extra/bindlib_w32.zip" TARGET="_top">http://www.php.net/extra/bindlib_w32.zip</A>.
+Это замена библиотеки <TT>resolv.lib</TT>, включённой в <TT>win32build.zip</TT></P></LI><LI>
+<P>Если у вас ещё нет unzip-утилиты, достаньте её. Бесплатная версия находится на
+<A HREF="http://www.cdrom.com/pub/infozip/UnZip.html" TARGET="_top">InfoZip</A>.</P></LI></UL>
+<P>Наконец, вам нужен сам исходник PHP 4. Вы можете получить последнюю версию с использованием
+<A HREF="http://www.php.net/anoncvs.php" TARGET="_top">anonymous CVS</A>. Если вы получили
+<A HREF="http://snaps.php.net/" TARGET="_top">snapshot</A> или <a href="http://www.php.net/downloads.php">исходный</a> tar-файл, вы
+должны не только untar и ungzip его, но и конвертировать символы bare linefeeds в crlf в файлах
+<TT>*.dsp</TT> и <TT>*.dsw</TT>, прежде чем Microsoft Visual C++ сможет что-либо с ними делать.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>поместите директории <TT>Zend</TT> и <TT>TSRM</TT> внутрь директории
+<TT>php4</TT>, чтобы проекты можно было найти в процессе построения.</P></BLOCKQUOTE>
+<H3><a name="install.windows.build.install">Объедините всё это</a></H3><UL><LI>
+<P>Следуйте инструкциям по установке unzip-утилиты.</P></LI><LI><P>Запустите <TT>setup.exe</TT>
+и следуйте инструкциям.  Если вы решили установить в каталог, отличный от
+<TT>c:\cygnus</TT>, дайте знать процессу построения, установив переменную окружения Cygwin. В Windows 95/98 
+установка переменной окружения выполняется путём внесения строки в файл <TT>autoexec.bat</TT>. В Windows NT перейдите в My
+Computer =&#62; Control Panel =&#62; System и выберите вкладку environment/окружение.</P></LI></UL>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>Создайте временную директорию для Cygwin, иначе многие команды (особенно bison) потерпят неудачу. В Windows 95/98,
+<TT><B>mkdir C:\TMP</B></TT>. В Windows NT, <TT><B>mkdir %SystemDrive%\tmp</B></TT>.</P></TD></TR></TABLE>
+<UL><LI><P>Создайте директорию и unzip в неё <TT>win32build.zip</TT>.</P></LI><LI>
+<P>Запустите Microsoft Visual C++ и выберите меню Tools =&#62; Options. Выберите вкладку
+directories. Последовательно измените ниспадающие списки Executables, Includes 
+и Library-файлов и убедитесь, что <TT>cygwin\bin</TT>, <TT>win32build\include</TT> и
+<TT>win32build\lib</TT> находятся в списках, соответственно. (Чтобы добавить вхождение, выберите пустую строку в 
+конце списка и впишите).  Обычно вхождения выглядят так:</P>
+<UL><LI><P><TT>c:\cygnus\bin</TT></P></LI><LI><P><TT>c:\php-win32build\include</TT></P></LI>
+<LI><P><TT>c:\php-win32build\lib</TT></P></LI></UL>
+<P>Нажмите OK и выйдите из Visual C++.</P></LI><LI>
+<P>Создайте другую директорию и unzip в неё <TT>bindlib_w32.zip</TT>. Решите, нужны ли будут вам символы отладки
+(bindlib - Win32 Debug) или нет (bindlib - Win32 Release). Постройте соответствующую конфигурацию:</P>
+<UL><LI><P>Для пользователей GUI. Запустите VC++, а затем выберите File =&#62; Open
+Workspace и bindlib.  Затем выберите Build=&#62;Set Active Configuration и желаемую конфигурацию.
+Наконец, выберите Build=&#62;Rebuild All.</P></LI><LI>
+<P>Для пользователей командной строки. Убедитесь, что у вас 
+зарегистрированы переменные окружения C++, или запустите <B>vcvars.bat</B>, а затем выполните одно из:</P>
+<UL><LI><P><TT ><B>msdev bindlib.dsp /MAKE "bindlib - Win32 Debug"</B></TT></P></LI>
+<LI><P><TT><B>msdev bindlib.dsp /MAKE "bindlib - Win32 Release"</B></TT></P></LI></UL></LI>
+<LI><P>Теперь у вас должна быть <TT>resolv.lib</TT> в поддиректории <TT>Debug</TT> или <TT>Release</TT>.
+Скопируйте этот файл в директорию <TT>win32build\lib</TT>, переписав файл с тем же именем.</P></LI></UL></LI>
+</UL><H3><a name="install.windows.build.compile">Компиляция</a></H3>
+<P>Лучший способ начать работу - построить отдельный файл/CGI-версию.</P>
+<UL><LI><P>Для пользователей GUI, запустите VC++, а затем выберите File =&#62; Open
+Workspace и php4ts. Затем выберите Build=&#62;Set Active
+Configuration и нужную конфигурацию. Затем Build=&#62;Rebuild All.</P></LI>
+<LI><P>Для пользователей командной строки. Убедитесь, что у вас 
+зарегистрированы переменные окружения C++, или запустите <B>vcvars.bat</B>, а затем выполните одно из:</P>
+<UL><LI><P><TT><B>msdev php4ts.dsp /MAKE "php4ts - Win32 Debug_TS"</B></TT></P></LI>
+<LI><P><TT><B>msdev php4ts.dsp /MAKE "php4ts - Win32 Release_TS"</B></TT></P></LI>
+<LI><P>Теперь у вас должен быть <TT>php.exe</TT> в поддиректории <TT>Debug_TS</TT> или <TT>Release_TS</TT>.</P>
+</LI></UL></LI></UL><P>Повторите предыдущие шаги с <TT>php4isapi.dsp</TT> (который находится в
+<TT>sapi\isapi</TT>), чтобы построить код, необходимый для интеграции PHP с Microsoft IIS.</P>
+<H2><A NAME="install.windows.extensions">Установка Windows-расширений</A></H2>
+<P>После установки PHP и web-сервера на Windows вы, возможно, захотите 
+установить расширения для получения дополнительной функциональности.
+В следующей таблице описаны некоторые имеющиеся расширения. Вы можете 
+выбрать, какие расширения загружать при старте PHP, раскомментировав строки: 'extension=php_*.dll' в файле
+<TT>php.ini</TT>. Вы можете также динамически загружать модуль в скрипте, используя
+<A HREF="f/dl.html"><B>dl()</B></A>.</P>
+<P>DLL-библиотеки для PHP-расширений имеют префикс 'php_' в PHP 4 (и 
+'php3_' в PHP 3). Это предотвращает неоднозначность между PHP-расширениями и поддерживаемыми библиотеками.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>в PHP 4.0.6 BCMath, Calendar, COM, FTP, MySQL, ODBC, PCRE, 
+Session, WDDX и XML имеют <i>встроенную поддержку</i>. Вам не нужно загружать никакие дополнительные расширения, чтобы 
+использовать эти функции. См. в дистрибутиве файл <TT>README.txt</TT> или <TT>install.txt</TT>, где
+дан список встроенных модулей.</P></BLOCKQUOTE><BLOCKQUOTE><P><B>Примечание: </B>
+  некоторые расширения требуют дополнительных DLLs для своей работы. Две 
+из них можно найти в дистрибутиве в папке 'dlls', но некоторые, например, Oracle (php_oci8.dll), 
+требуют наличия DLLs, которые отсутствуют в дистрибутиве.</P>
+<P>Скопируйте связанные DLLs из папки 'DLLs' в ваш Windows PATH. Надёжные места:
+<TABLE BORDER="0"><TR><TD>c:\windows\system в Windows 9x/Me</TD></TR><TR>
+<TD>c:\winnt\system32 в Windows NT/2000</TD></TR><TR><TD>c:\windows\system32 в Windows XP</TD></TR></TABLE>
+<p>Если они уже установлены у вас в системе, перепишите их только в том 
+случае, если что-то работает неверно (прежде чем перезаписать,
+сделайте резервные копии или переместите их в другие папки - на случай, если что-то пойдёт не так).</p></BLOCKQUOTE>
+<A NAME="AEN564"></A><h6>Таблица 2-1. Расширения PHP</h6><TABLE BORDER="1" width="100%"><TR>
+<TH width="30%">Расширение</TH><TH width="40%">Описание</TH><TH width="30%">Примечание</TH></TR><TR>
+<TD>php_bz2.dll</TD><TD><A HREF="f/ref.bzip2.html">bzip2</A> функции сжатия</TD><TD>Нет</TD></TR><TR>
+<TD>php_calendar.dll</TD><TD><A HREF="f/ref.calendar.html">Calendar</A> функции конвертации</TD>
+<TD>Встроены, начиная с PHP 4.0.3</TD></TR><TR><TD>php_cpdf.dll</TD>
+<TD>функции <A HREF="f/ref.cpdf.html">ClibPDF</A></TD><TD>Нет</TD></TR><TR>
+<TD>php_crack.dll</TD><TD>функции <A HREF="f/ref.crack.html">Crack</A></TD><TD>Нет</TD></TR><TR>
+<TD>php3_crypt.dll</TD><TD>функции Crypt</TD><TD>не известны</TD></TR><TR><TD>php_ctype.dll</TD>
+<TD>функции семейства <A HREF="f/ref.ctype.html">ctype</A></TD><TD>Нет</TD></TR><TR><TD>php_curl.dll</TD>
+<TD><A HREF="f/ref.curl.html">CURL</A>, функции библиотеки Client URL</TD><TD>Требует: libeay32.dll, ssleay32.dll (связанной)</TD>
+</TR><TR><TD>php_cybercash.dll</TD><TD><A HREF="f/ref.cybercash.html">Cybercash</A> функции платежей</TD>
+<TD>Нет</TD></TR><TR><TD>php_db.dll</TD><TD><A HREF="f/ref.dbm.html">DBM</A>-функции</TD>
+<TD>Не рекомендуется. Используйте DBA (php_dba.dll)</TD></TR><TR><TD>php_dba.dll</TD><TD>
+<A HREF="f/ref.dba.html">DBA</A>: DataBase (dbm-стиль) Функции слоёв абстракции</TD>
+<TD>Нет</TD></TR><TR><TD>php_dbase.dll</TD><TD>функции <A HREF="f/ref.dbase.html">dBase</A></TD>
+<TD>Нет</TD></TR><TR><TD>php3_dbm.dll</TD><TD>Berkeley DB2-библиотека</TD><TD>не известны</TD></TR><TR>
+<TD>php_domxml.dll</TD><TD>функции <A HREF="f/ref.domxml.html">DOM XML</A></TD>
+<TD>Требует: libxml2.dll (связанной)</TD></TR><TR><TD>php_dotnet.dll</TD>
+<TD>функции <A HREF="f/ref.dotnet.html">.NET</A></TD><TD>Нет</TD></TR><TR><TD>php_exif.dll</TD>
+<TD><A HREF="f/read-exif-data.html">Read EXIF</A> headers/шапки из JPEG</TD><TD>Нет</TD></TR><TR>
+<TD>php_fbsql.dll</TD><TD>функции <A HREF="f/ref.fbsql.html">FrontBase</A></TD><TD>Нет</TD></TR><TR>
+<TD>php_fdf.dll</TD><TD><A HREF="f/ref.fdf.html">FDF</A>: функции Forms Data Format.</TD>
+<TD>Требует: fdftk.dll (связанной)</TD></TR><TR><TD>php_filepro.dll</TD>
+<TD>функции <A HREF="f/ref.filepro.html">filePro</A></TD><TD>Доступ только-для-чтения</TD></TR><TR>
+<TD>php_ftp.dll</TD><TD>функции <A HREF="f/ref.ftp.html">FTP</A></TD>
+<TD>Встроены, начиная с PHP 4.0.3</TD></TR><TR><TD>php_gd.dll</TD>
+<TD><A HREF="f/ref.image.html">GD</A> библиотека функции изображений</TD><TD>Нет</TD></TR><TR>
+<TD>php_gettext.dll</TD><TD>функции <A HREF="f/ref.gettext.html">Gettext</A></TD>
+<TD>Требует: gnu_gettext.dll (связанной)</TD></TR><TR><TD>php_hyperwave.dll</TD>
+<TD>функции <A HREF="f/ref.hyperwave.html">HyperWave</A></TD><TD>Нет</TD></TR><TR><TD>php_iconv.dll</TD>
+<TD><A HREF="f/ref.iconv.html">ICONV</A> characterset-конвертация</TD><TD>Требует: iconv-1.3.dll (связанной)</TD>
+</TR><TR><TD>php_ifx.dll</TD><TD>функции <A HREF="f/ref.ifx.html">Informix</A></TD>
+<TD>Требует: библиотек Informix</TD></TR><TR><TD>php_iisfunc.dll</TD><TD>IIS функции менеджмента</TD>
+<TD>Нет</TD></TR><TR><TD>php_imap.dll</TD><TD><A HREF="f/ref.imap.html">IMAP</A> функции POP3 и NNTP</TD>
+<TD>PHP 3: php3_imap4r1.dll</TD></TR><TR><TD>php_ingres.dll</TD><TD>функции <A HREF="f/ref.ingres.html">Ingres II</A>
+</TD><TD>Требует: библиотек Ingres II</TD></TR><TR><TD>php_interbase.dll</TD>
+<TD>функции <A HREF="f/ref.ibase.html">InterBase</A></TD><TD>Требует: gds32.dll (связанной)</TD></TR>
+<TR><TD>php_java.dll</TD><TD>расширение <A HREF="f/ref.java.html">Java</A></TD><TD>Требует: jvm.dll (связанной)</TD>
+</TR><TR><TD>php_ldap.dll</TD><TD>функции <A HREF="f/ref.ldap.html">LDAP</A></TD>
+<TD>Требует: libsasl.dll (связанной)</TD></TR><TR><TD>php_mhash.dll</TD>
+<TD>функции <A HREF="f/ref.mhash.html">Mhash</A></TD><TD>Нет</TD></TR><TR><TD>php_ming.dll</TD>
+<TD>функции <A HREF="f/ref.ming.html">Ming</A> для Flash</TD><TD>Нет</TD></TR><TR><TD>php_msql.dll</TD>
+<TD>функции <A HREF="f/ref.msql.html">mSQL</A></TD><TD>Требует: msql.dll (связанной)</TD></TR><TR>
+<TD>php3_msql1.dll</TD><TD>mSQL 1-клиент</TD><TD>не известны</TD></TR><TR><TD>php3_msql2.dll</TD>
+<TD>mSQL 2-клиент</TD><TD>не известны</TD></TR><TR><TD>php_mssql.dll</TD>
+<TD>функции <A HREF="f/ref.mssql.html">MSSQL</A></TD><TD>Требует: ntwdblib.dll (связанной)</TD></TR><TR>
+<TD>php3_mysql.dll</TD><TD>функции <A HREF="f/ref.mysql.html">MySQL</A></TD><TD>Встроены в PHP 4</TD></TR>
+<TR><TD>php3_nsmail.dll</TD><TD>Netscape mail-функции</TD><TD>не известны</TD></TR><TR><TD>php3_oci73.dll</TD>
+<TD>функции Oracle</TD><TD>не известны</TD></TR><TR><TD>php_oci8.dll</TD>
+<TD>функции <A HREF="f/ref.oci8.html">Oracle 8</A></TD><TD>Требует: клиентских библиотек Oracle 8</TD></TR>
+<TR><TD>php_openssl.dll</TD><TD>функции <A HREF="f/ref.openssl.html">OpenSSL</A></TD>
+<TD>Требует: libeay32.dll (связанной)</TD></TR><TR><TD>php_oracle.dll</TD>
+<TD>функции <A HREF="f/ref.oracle.html">Oracle</A></TD><TD>Требует: клиентских библиотек Oracle 7</TD></TR>
+<TR><TD>php_pdf.dll</TD><TD>функции <A HREF="f/ref.pdf.html">PDF</A></TD><TD>Нет</TD></TR><TR>
+<TD>php_pgsql.dll</TD><TD>функции <A HREF="f/ref.pgsql.html">PostgreSQL</A></TD><TD>Нет</TD></TR><TR>
+<TD>php_printer.dll</TD><TD>функции <A HREF="f/ref.printer.html">Printer</A></TD><TD>Нет</TD></TR><TR>
+<TD>php_xslt.dll</TD><TD>функции <A HREF="f/ref.xslt.html">XSLT</A></TD><TD>Требует: sablot.dll (связанной)</TD>
+</TR><TR><TD>php_snmp.dll</TD><TD><A HREF="f/ref.snmp.html">SNMP</A> функции get и walk</TD><TD>Только NT!</TD>
+</TR><TR><TD>php_sybase_ct.dll</TD><TD>функции <A HREF="f/ref.sybase.html">Sybase</A></TD>
+<TD>Требует: клиентских библиотек Sybase</TD></TR><TR><TD>php_yaz.dll</TD>
+<TD>функции <A HREF="f/ref.yaz.html">YAZ</A></TD><TD>Нет</TD></TR><TR><TD>php_zlib.dll</TD>
+<TD><A HREF="f/ref.zlib.html">ZLib</A> функции сжатия</TD><TD>Нет</TD></TR></TABLE></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="unix.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="inst.commandline.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Установка на системах UNIX</TD>
+<th WIDTH="34%" VALIGN="top"><a href="inst.installation.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Серверы CGI/Командная строка</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

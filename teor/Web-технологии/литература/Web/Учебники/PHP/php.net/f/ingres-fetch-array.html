@@ -1,0 +1,44 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>ingres_fetch_array</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ingres-connect.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ingres-fetch-object.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.ingres-fetch-array">ingres_fetch_array</A></H1><A NAME="AEN37529"></A><P>(PHP 4 &#62;= 4.0.2)</P>
+<p>ingres_fetch_array - извлекает ряд из результата в массив.<A NAME="AEN37532"></A></p><H2>Описание</H2>
+<p>array <B>ingres_fetch_array</B> ([int result_type [, resource link]])</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD><P>Эта функция - ЭКСПЕРИМЕНТАЛЬНАЯ. Поведение, имя и всё остальное, что задокументировано для данной функции может быть изменено в будущих релизах РНР без предупреждения. Вы можете использовать эту функцию только на свой страх и риск.
+</P></TD></TR></TABLE><P><B>ingres_fetch_array()</B> возвращает массив, соответствующий извлечённому ряду, или
+<TT><B>FALSE</B></TT>, если рядов больше нет.</P><P>Эта функция является расширенной версией
+<A HREF="ingres-fetch-row.html"><B>ingres_fetch_row()</B></A>. В дополнение к сохранению данных в числовых индексах результирующего массива, 
+она также сохраняет данные в ассоциативных индексах, используя имена полей в качестве ключей.</P>
+<P>Если два или более столбца результата имеют одинаковые имена полей, последний столбец будет иметь преимущество. Для доступа к другим столбцам с 
+тем же именем вы обязаны использовать числовой индекс столбца или создать псевдоним столбца.<A NAME="AEN37552"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>ingres_query(select t1.f1 as foo t2.f1 as bar from t1, t2);
+$result = ingres_fetch_array();
+$foo = $result["foo"];
+$bar = $result["bar"];</PRE></TD></TR></TABLE><P><TT><I>result_type</I></TT> может быть INGRES_NUM для перечислимого массива, INGRES_ASSOC для 
+ассоциативного массива или INGRES_BOTH (по умолчанию).</P><P>По скорости работы функция идентична
+<A HREF="ingres-fetch-object.html"><B>ingres_fetch_object()</B></A> и почти так же быстра, как
+<A HREF="ingres-fetch-row.html"><B>ingres_fetch_row()</B></A> (разница несущественна).</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN37560"></A><h5>Пример 1. ingres_fetch_array()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+ingres_connect ($database, $user, $password);
+
+ingres_query ("select * from table");
+while ($row = ingres_fetch_array()) {
+    echo $row["user_id"];  # использование ассоциативного массива
+    echo $row["fullname"];
+    echo $row[1];          # использование перечислимого массива
+    echo $row[2];
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="ingres-query.html"><B>ingres_query()</B></A>,
+<A HREF="ingres-num-fields.html"><B>ingres_num_fields()</B></A>, <A HREF="ingres-field-name.html"><B>ingres_field_name()</B></A>,
+<A HREF="ingres-fetch-object.html"><B>ingres_fetch_object()</B></A> и
+<A HREF="ingres-fetch-row.html"><B>ingres_fetch_row()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ingres-connect.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ingres-fetch-object.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ingres_connect</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.ingres.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ingres_fetch_object</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

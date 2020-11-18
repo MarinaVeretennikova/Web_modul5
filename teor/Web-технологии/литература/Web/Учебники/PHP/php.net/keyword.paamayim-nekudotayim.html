@@ -1,0 +1,73 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>::</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="constructor.html">Назад</A></TD>
+<th WIDTH="80%">Глава 13. Классы и Объекты</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="keyword.parent.html">Вперёд</A></TD></TR></TABLE></TD>
+</TR><TR BGCOLOR="#333366"><TD><IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD>
+</TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD>
+<TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%"><H1><TT><A NAME="keyword.paamayim-nekudotayim">::</A>(два
+двоеточия)</TT></H1><P></P><TABLE CLASS="caution" BORDER="1" WIDTH="100%"><TR><th>Предупреждение!</th>
+</TR><TR><TD><P>Следующая информация верна только по отношению к PHP 4.</P></TD></TR></TABLE>
+<P>Иногда удобно обращаться к функциям или переменным в базовых классах или 
+обратиться к функциям в классах, которые ещё не имеют экземпляров. Операция :: 
+используется именно для этого.</P><A NAME="AEN5475"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE
+>class A
+{
+    function example()
+    {
+        echo "I am the original function A::example().&#60;br&#62;\n";
+    }
+}
+
+class B extends A
+{
+    function example()
+    {
+        echo "I am the redefined function B::example().&#60;br&#62;\n";
+        A::example();
+    }
+}
+
+// нет объекта класса A.
+// будет напечатано
+//   I am the original function A::example().&#60;br&#62;
+A::example();
+
+// создаётся объект класса B.
+$b = new B;
+
+// будет напечатано
+//   I am the redefined function B::example().&#60;br&#62;
+//   I am the original function A::example().&#60;br&#62;
+$b-&#62;example();</PRE></TD></TR></TABLE>
+<P>Вышеприведённый пример вызывает функцию example() в классе A, но объектов 
+класса A нет, поэтому мы не можем записать $a-&#62;example() или что-нибудь 
+подобное. Вместо этого мы вызываем example() как 'функцию класса', то есть как 
+функцию самого класса, а не объекта этого класса.</P>
+<P>Имеются функции класса, но нет переменных класса.
+Фактически в момент вызова объектов вообще нет.
+Таким образом, функция класса не может использовать переменные объектов (но 
+может использовать локальные или глобальные переменные) и вообще не может использовать $this.</P>
+<P>В приведённом примере class B переопределяет функцию example(). 
+Оригинальное определение в class A скрывается и больше не доступно, если  только 
+вы не обратитесь специально к реализации example() в class A с 
+использованием операции ::. Запишите A::example() для этого (фактически вы 
+должны записать parent::example(), как показано в предыдущем разделе).</P>
+<P>В этом контексте имеется текущий объект, и он может иметь переменные 
+объекта. Таким образом, при использовании ВНУТРИ функции объекта, вы может использовать $this и переменные объекта.</P>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="constructor.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="keyword.parent.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">Конструкторы</TD><th WIDTH="34%" VALIGN="top">
+<a href="oop.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<TT>parent</TT></TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

@@ -1,0 +1,68 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Строение Исходного Кода</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="zend.possibilities.engine.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="zend.layout.macros.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="zend.layout">Глава 27. Строение Исходного Кода</A></H1>
+<DL><DT><B>Содержание</B></DT><DT><a href="#zend.layout.conventions">Соглашения по расширениям</a></DT>
+<DT><a href="zend.layout.macros.html">Макросы</a></DT>
+<DT><a href="zend.layout.memory-management.html">Работа с памятью</a></DT>
+<DT><a href="zend.layout.dir-and-file.html">Функции работы с файлами и директориями</a></DT>
+<DT><a href="zend.layout.string-handling.html">Работа со строками</a></DT>
+<DT><a href="zend.layout.complex-types.html">Сложные типы</a></DT></DL>
+<TABLE BORDER="1" CELLPADDING="5"><TR><TD><A NAME="AEN85133"></A>
+<P><B>Предварительные условия. </B>Прежде чем работать с остальной частью этой главы, вы должны запросить чистые, 
+немодифицированные исходные деревья вашего любимого Web-сервера.<br>
+Мы работаем с Apache (доступен с <A HREF="http://www.apache.org" TARGET="_top">http://www.apache.org</A>)
+и, конечно, с PHP (доступен с <A HREF="http://www.php.net" TARGET="_top">http://www.php.net</A>).</P>
+<P>Альтернативно вы можете использовать архивы исходников на
+CD-ROM, сопровождающим эту книгу. Все примеры в этой книге работают 
+с архивами исходников с CD-ROM; мы не можем гарантировать это для каждой 
+версии, полученной из Net. Однако, поскольку программное обеспечение Open Source разрабатывается очень быстро,
+велики шансы того, что версии на CD-ROM уже устарели и не имеют 
+всей необходимой функциональности. Если вы не можете получить с 
+соответствующих Web-сайтов официальные архивы для работы,  поэкспериментируйте с архивами на CD-ROM.</P>
+<P>Убедитесь, что вы можете скомпилировать рабочее окружение PHP самостоятельно!<br>
+Мы здесь не углубляемся в этот вопрос, поскольку вы уже изучали базовые возможности в этой главе.</P></TD>
+</TR></TABLE><P>Прежде чем начинать обсуждение кода, вы должны познакомиться с исходным 
+деревом, чтобы быстро перемещаться по PHP-файлам. Это необходимо для реализации и отладки расширений.</P>
+<P>После извлечения PHP-архива вы увидите структуру директорий, примерно как на Рисунке 9.2.</P>
+<A NAME="AEN85143"></A><h5>Рисунок 27-1. Рисунок 9.2. Структура основных директорий исходного дерева PHP.</h5>
+<P><IMG SRC="imag/Zend_1a_Directory_Layout.png" width="107" height="225"></P>
+<P>В таблице описано содержимое большинства этих директорий.</P>
+<A NAME="AEN85147"></A><TABLE BORDER="1"><TR><th WIDTH="21%">Директория</th>
+<th WIDTH="79%">Содержимое</th></TR><TR><TD WIDTH="21%"><TT>php-4</TT></TD><TD WIDTH="79%">Главные исходные файлы PHP и главные header-файлы; здесь вы найдёте все 
+определения API РНР, макросов etc. (это важно).</TD></TR><TR><TD WIDTH="21%"><TT>ext</TT></TD>
+<TD WIDTH="79%">Хранилище динамических и встроенных модулей; по умолчанию это "официальные" 
+модули PHP, которые интегрированы в главное исходное дерево. В PHP 4.0 
+можно компилировать эти стандартные расширения как динамически загружаемые модули (как минимум те,
+которые это поддерживают).</TD></TR><TR><TD WIDTH="21%"><TT>pear</TT></TD><TD WIDTH="79%">Директория для хранения классов PHP.
+На момент написания она была всё ещё в стадии разработки, 
+но здесь делается попытка создания чего-либо подобного CPAN для Perl.</TD></TR><TR>
+<TD WIDTH="21%"><TT>sapi</TT></TD><TD WIDTH="79%">Содержит код для различных абстрактных слоёв сервера.</TD></TR>
+<TR><TD WIDTH="21%"><TT>TSRM</TT></TD><TD WIDTH="79%">Местонахождение "Thread SafeResource Manager" (TSRM) для Zend и PHP.</TD>
+</TR><TR><TD WIDTH="21%"><TT>Zend</TT></TD><TD WIDTH="79%">Местонахождение файла Zend; здесь вы найдёте все определения Zend API, макросов etc. (это 
+важно).</TD></TR></TABLE><P>Рассмотрение всех файлов, входящих в пакет PHP выходит за рамки этой главы.
+Однако вы должны хотя бы кратко просмотреть следующие файлы:<UL><LI><P><TT>php.h</TT>, размещённый в главной директории PHP. Это файл содержит определения 
+большинства макросов и API РНР.</P></LI><LI><P><TT>zend.h</TT>, размещённый в главной директории Zend. Это файл содержит большинство макросов 
+и определений Zend'а.</P></LI><LI><P><TT>zend_API.h</TT>, также размещённый в директории Zend, который определяет API Zend'а.</P>
+</LI></UL>Вы должны также проследовать по некоторым включениям в эти файлы; например, 
+относящимся к Zend executor, поддержке файлов инициализации PHP, и подобным. 
+После чтения этих файлов выделите время для просмотра пакета, чтобы увидеть 
+взаимосвязи файлов и модулей - как они соотносятся и, особенно, как они 
+используют друг друга. Это также поможет вам приспособиться к стилю 
+кодирования, в котором авторизован PHP. Для расширения PHP вы должны быстро приспособиться к этому стилю.
+<H1><a name="zend.layout.conventions">Соглашения по расширениям</a></H1>
+<P>Zend построен с использованием определённых соглашений; чтобы исключить 
+нарушение стандартов Zend, вы должны следовать правилам, описанным в следующих разделах.</P></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="zend.possibilities.engine.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="zend.layout.macros.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Zend-машина</TD>
+<th WIDTH="34%" VALIGN="top"><a href="zend.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Макросы</TD>
+</TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

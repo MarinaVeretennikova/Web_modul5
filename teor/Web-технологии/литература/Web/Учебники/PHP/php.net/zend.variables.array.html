@@ -1,0 +1,131 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Массивы</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="zend.variables.boolean.html">Назад</A></TD><th WIDTH="80%">Глава 34. Создание Переменных</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="zend.variables.object.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="zend.variables.array">Массивы</a></H1>
+<P>Массивы хранятся с использованием внутренних хэш-таблиц Zend, доступ к которым 
+может быть получен с помощью <B>zend_hash_*()</B> API. Для каждого создаваемого вами массива вам понадобится дескриптор новой 
+хэш таблицы, который хранится в члене <TT>ht</TT> контейнера <TT>zval.value</TT>.</P>
+<P>Имеется API, предназначенный исключительно для создания массивов.<br>
+Для создания нового массива вы вызываете <B>array_init()</B>.<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>zval *new_array;
+
+MAKE_STD_ZVAL(new_array);
+
+if(array_init(new_array) != SUCCESS)
+{
+    // здесь обработка ошибок
+}</PRE></TD></TR></TABLE><p>Если <B>array_init()</B> не смогла создать новый массив, она возвращает
+<TT>FAILURE</TT>.</p><P>Для добавления в массив новых элементов вы можете использовать многочисленные 
+функции, в зависимости от того, что нужно сделать. В Таблицах 9.8, 9.9 и 9.10 описаны 
+эти функции. Все функции возвращают <TT>FAILURE</TT> при неудаче и <TT>SUCCESS</TT> при успешном выполнении.</P>
+<A NAME="AEN86399"></A><h6>Рисунок 34-3. Таблица 9.8. Zend's API для ассоциативных массивов</h6>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>Примечание: Все функции в Таблице 9.8 работают с массивом "array" с ключом
+"key". Строка ключа не должна находиться во внутренней памяти Zend;
+она будет дублироваться API.</PRE></TD></TR></TABLE><br><A NAME="AEN86402"></A><TABLE BORDER="1" width="728">
+<TR><th WIDTH="376">Функция</th><th WIDTH="336">Описание</th></TR><TR><TD WIDTH="376">
+<B>add_assoc_long(zval *array, char *key, longn);()</B></TD><TD WIDTH="336">Добавляет элемент типа <TT>long</TT>.</TD></TR>
+<TR><TD WIDTH="376"><B>add_assoc_unset(zval *array, char *key);()</B></TD><TD WIDTH="336">Добавляет unset-элемент.</TD>
+</TR><TR><TD WIDTH="376"><B>add_assoc_bool(zval *array, char *key, int b);()</B></TD>
+<TD WIDTH="336">Добавляет Булев элемент.</TD></TR><TR><TD WIDTH="376">
+<B>add_assoc_resource(zval *array, char *key,<br>int r);()</B></TD><TD WIDTH="336">Добавляет ресурс к массиву.</TD>
+</TR><TR><TD WIDTH="376"><B>add_assoc_double(zval *array, char *key,<br>double d);()</B></TD>
+<TD WIDTH="336">Добавляет значение с плавающей точкой.</TD></TR><TR><TD WIDTH="376">
+<B>add_assoc_string(zval *array, char *key,<br>char *str, int duplicate);()</B></TD>
+<TD WIDTH="336">Добавляет строку к массиву. Флаг <TT>duplicate</TT> специфицирует, копируется ли содержимое строки во внутреннюю память Zend.</TD>
+</TR><TR><TD WIDTH="376"><B>add_assoc_stringl(zval *array, char *key,<br>char *str, uint length, int duplicate);()</B>
+</TD><TD WIDTH="336">Добавляет строку необходимого размера <TT>length</TT> к массиву. Иначе поведение как у
+<B>add_assoc_string()()</B>.</TD></TR></TABLE><A NAME="AEN86442"></A>
+<h6>Рисунок 34-4. Таблица 9.9. Zend's API для индексированных массивов , Часть 1</h6>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>Примечание: Все функции в Таблице 9.9 работают с массивом "array" с индексом
+"idx". Индекс - всегда integer.</PRE></TD></TR></TABLE><br><A NAME="AEN86445"></A><TABLE BORDER="1"><TR>
+<th WIDTH="50%">Функция</th><th WIDTH="50%">Описание</th></TR><TR><TD WIDTH="50%">
+<B>add_index_long(zval *array, uint idx, long n);()</B></TD><TD WIDTH="50%">Добавляет элемент типа <TT>long</TT>.</TD>
+</TR><TR><TD WIDTH="50%"><B>add_index_unset(zval *array, uint idx);()</B></TD><TD WIDTH="50%">Добавляет unset-элемент.</TD>
+</TR><TR><TD WIDTH="50%"><B>add_index_bool(zval *array, uint idx, int b);()</B></TD><TD WIDTH="50%">Добавляет Булев элемент.</TD>
+</TR><TR><TD WIDTH="50%"><B>add_index_resource(zval *array, uint idx,<br>int r);()</B></TD>
+<TD WIDTH="50%">Добавляет ресурс к массиву.</TD></TR><TR><TD WIDTH="50%">
+<B>add_index_double(zval *array, uint idx,<br>double d);()</B></TD><TD WIDTH="50%">Добавляет значение с плавающей точкой.</TD></TR>
+<TR><TD WIDTH="50%"><B>add_index_string(zval *array, uint idx,<br>char *str, int duplicate);()</B></TD>
+<TD WIDTH="50%">Добавляет строку к массиву. Флаг <TT>duplicate</TT> специфицирует, копируется ли содержимое строки во внутреннюю память Zend.</TD></TR>
+<TR><TD WIDTH="50%"><B>add_index_stringl(zval *array, uint idx,<br>char *str, uint length, int duplicate);()</B></TD>
+<TD WIDTH="50%">Добавляет строку необходимого размера <TT>length</TT> к массиву. Эта функция работает быстрее и безопасна в бинарном режиме. Иначе 
+поведение как у <B>add_index_string()()</B>.</TD></TR></TABLE><A NAME="AEN86485"></A>
+<h6>Рисунок 34-5. Таблица 9.10. Zend's API для индексированных массивов , Часть 2</h6>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>Примечание: Все функции в Таблице 9.10 работают с массивом "array".
+Эти функции автоматически генерируют новый индекс на основе наибольшего
+индекса, найденного в массиве.</PRE></TD></TR></TABLE><br><A NAME="AEN86488"></A><TABLE BORDER="1"><TR>
+<th WIDTH="50%">Функция</th><th WIDTH="50%">Описание</th></TR><TR><TD WIDTH="50%">
+<B>add_next_index_long(zval *array, long n);()</B></TD><TD WIDTH="50%">Добавляет элемент типа <TT>long</TT>.</TD>
+</TR><TR><TD WIDTH="50%"><B>add_next_index_unset(zval *array);()</B></TD><TD WIDTH="50%">Добавляет unset-элемент.</TD></TR>
+<TR><TD WIDTH="50%"><B>add_next_index_bool(zval *array, int b);()</B></TD><TD WIDTH="50%">Добавляет Булев элемент.</TD></TR>
+<TR><TD WIDTH="50%"><B>add_next_index_resource(zval *array, int r);()</B></TD><TD WIDTH="50%">Добавляет ресурс к массиву.</TD></TR>
+<TR><TD WIDTH="50%"><B>add_next_index_double(zval *array,<br>double d);()</B></TD><TD WIDTH="50%">Добавляет значение с плавающей точкой.</TD></TR>
+<TR><TD WIDTH="50%"><B>add_next_index_string(zval *array, char *str, int duplicate);()</B></TD>
+<TD WIDTH="50%">Добавляет строку к массиву. Флаг <TT>duplicate</TT> специфицирует, копируется ли содержимое строки во внутреннюю память Zend.</TD></TR>
+<TR><TD WIDTH="50%"><B>add_next_index_stringl(zval *array, char *str, uint length, int duplicate);()</B></TD>
+<TD WIDTH="50%">Добавляет строку необходимого размера <TT>length</TT> к массиву. Эта функция работает быстрее и безопасна в бинарном режиме. Иначе 
+поведение как у <B>add_index_string()()</B>.</TD></TR></TABLE>
+<P>Все эти функции предоставляют удобную абстракцию API внутреннего хэша Zend. 
+Разумеется, вы можете также использовать функции хэша напрямую - например, если у вас уже есть размещённый
+<TT>zval</TT>-контейнер, который вы хотите вставить в массив. Это делается с помощью
+<B>zend_hash_update()()</B> для ассоциативный массивов (см. Листинг 9.12) и <B>zend_hash_index_update()</B>
+- для индексированных массивов (см. Листинг 9.13):<A NAME="AEN86532"></A><h5>Рисунок 34-6. Листинг 9.12. Добавление элемента в ассоциативный массив.</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>zval *new_array, *new_element;
+char *key = "element_key";
+
+MAKE_STD_ZVAL(new_array);
+MAKE_STD_ZVAL(new_element);
+
+if(array_init(new_array) == FAILURE)
+{
+    // здесь обработка ошибок
+}
+
+ZVAL_LONG(new_element, 10);
+
+<font size="1">if(zend_hash_update(new_array-&#62;value.ht, key, strlen(key) + 1, (void *)&#38;new_element, sizeof(zval *), NULL) == FAILURE)</font>
+{
+    // здесь обработка ошибок
+}</PRE></TD></TR></TABLE><A NAME="AEN86535"></A>
+<h5>Рисунок 34-7. Листинг 9.13. Добавление элемента в индексированный массив.</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>zval *new_array, *new_element;
+int key = 2;
+
+MAKE_STD_ZVAL(new_array);
+MAKE_STD_ZVAL(new_element);
+
+if(array_init(new_array) == FAILURE)
+{
+    // здесь обработка ошибок
+}
+
+ZVAL_LONG(new_element, 10);
+
+<font size="1">if(zend_hash_index_update(new_array-&#62;value.ht, key, (void *)&#38;new_element, sizeof(zval *), NULL) == FAILURE)</font>
+{
+    // здесь обработка ошибок
+}</PRE></TD></TR></TABLE></P><P>Для эмуляции функциональности <B>add_next_index_*()</B> вы можете использовать:</P>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>zend_hash_next_index_insert(ht, zval **new_element, sizeof(zval *), NULL)</PRE></TD></TR></TABLE>
+<dl><dd><b>Примечание:</b> для возвращения массивов из функций используйте <B>array_init()</B> и все
+последующие акции с предопределённой переменной <TT>return_value</TT> (заданной в качестве аргумента
+в вашей экспортируемой функции; см. ранее обсуждение интерфейса вызова). Вы не должны использовать при этом
+<TT>MAKE_STD_ZVAL</TT>.</dd></dl><P><b><I>Подсказка:</I></b> чтобы исключить необходимость каждый раз записывать
+<TT>new_array-&#62;value.ht</TT>, вы можете использовать <TT>HASH_OF(new_array)</TT>, что рекомендуется
+также по соображениям стиля и обеспечения совместимости.</P></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="zend.variables.boolean.html">Назад</A></TD><th WIDTH="34%"  VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="zend.variables.object.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Booleans/Булевы</TD>
+<th WIDTH="34%" VALIGN="top"><a href="zend.variables.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+Объекты</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

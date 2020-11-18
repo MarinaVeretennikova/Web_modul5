@@ -1,0 +1,31 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Ora_Bind</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ref.oracle.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ora-close.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.ora-bind">Ora_Bind</A></H1><A NAME="AEN59818"></A><P>(PHP 3, PHP 4)</P>
+<p>Ora_Bind - связывает PHP-переменную с Oracle-параметром.<A NAME="AEN59821"></A></p><H2>Описание</H2><p>int <B>ora_bind</B> (int cursor, string PHP variable name, string SQL parameter name, int length [, int type])</p>
+<P>Возвращает <TT><B>TRUE</B></TT>, если связывание прошло, иначе <TT><B>FALSE</B></TT>. Детали об ошибке можно запросить функциями
+<A HREF="ora-error.html"><B>ora_error()</B></A> и <A HREF="ora-errorcode.html"><B>ora_errorcode()</B></A>.</P>
+<P>Эта функция связывает именованную PHP-переменную с SQL-параметром. SQL-параметр обязан иметь форму ":name". С помощью необязательного 
+параметра type вы можете определять, является ли SQL-параметр in/out (0, по умолчанию), in (1) или out (2). Как и в PHP
+3.0.1, вы можете использовать константы ORA_BIND_INOUT, ORA_BIND_IN и ORA_BIND_OUT вместо чисел.</P>
+<P>ora_bind обязана вызываться после <A HREF="ora-parse.html"><B>ora_parse()</B></A> и до
+<A HREF="ora-exec.html"><B>ora_exec()</B></A>. Вводимые значения могут задаваться путём присвоения связанным PHP-переменным; 
+после вызова <A HREF="ora-exec.html"><B>ora_exec()</B></A> связанные PHP-переменные содержат значения вывода, если доступны.
+<A NAME="AEN59851"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;?php
+ora_parse($curs, "declare tmp INTEGER; begin tmp := :in; :out := tmp; :x := 7.77; end;");
+ora_bind($curs, "result", ":x", $len, 2);
+ora_bind($curs, "input", ":in", 5, 1);
+ora_bind($curs, "output", ":out", 5, 2);
+$input = 765;
+ora_exec($curs);
+echo "Result: $result&#60;BR&#62;Out: $output&#60;BR&#62;In: $input";
+?&#62;</PRE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ref.oracle.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ora-close.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Функции Oracle</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.oracle.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Ora_Close</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

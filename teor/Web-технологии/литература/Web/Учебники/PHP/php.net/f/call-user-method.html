@@ -1,0 +1,52 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>call_user_method</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="call-user-method-array.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="class-exists.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.call-user-method">call_user_method</A></H1><A NAME="AEN11044"></A>
+<P>(PHP 3&#62;= 3.0.3, PHP 4)</P><p>call_user_method - 
+вызывает пользовательский метод на специфицированном объекте [не рекомендуется применять].<A NAME="AEN11047"></A><H2>Описание</H2><p>mixed <B>call_user_method</B> (string method_name, object obj [, mixed parameter [, mixed ...]])</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th>Предупреждение!</th></TR><TR><TD>
+<P>Функцию <B>call_user_method()</B> применять не рекомендуется, начиная с PHP 
+4.1.0, используйте вместо неё вариант <A HREF="call-user-func.html"><B>call_user_func()</B></A> с синтаксисом
+<TT>array(&#38;$obj, "method_name")</TT>.</P></TD></TR></TABLE>
+<P>Вызывает метод, на который ссылается <TT><I>method_name</I></TT>, пользовательского объекта <TT><I>obj</I></TT>. Пример использования дан ниже, где мы определяем класс, инстанциируем 
+(создаём экземпляр) объект и используем <B>call_user_method()</B> для непрямого вызова метода
+<TT>print_info</TT> этого объекта.<A NAME="AEN11074"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+class Country {
+    var $NAME;
+    var $TLD;
+    
+    function Country($name, $tld) {
+        $this-&#62;NAME = $name;
+        $this-&#62;TLD = $tld;
+    }
+
+    function print_info($prestr="") {
+        echo $prestr."Country: ".$this-&#62;NAME."\n";
+        echo $prestr."Top Level Domain: ".$this-&#62;TLD."\n";
+    }
+}
+
+$cntry = new Country("Peru","pe");
+
+echo "* Вызов метода объекта напрямую\n";
+$cntry-&#62;print_info();
+
+echo "\n* Непрямой вызов того же самого метода\n";
+call_user_method ("print_info", $cntry, "\t");
+?&#62;</PRE></TD></TR></TABLE><P>См. также <A HREF="call-user-func-array.html">
+<B>call_user_func_array()</B></A>,
+<A HREF="call-user-func.html"><B>call_user_func()</B></A> и
+<A HREF="call-user-method-array.html"><B>call_user_method_array()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="call-user-method-array.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="class-exists.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">call_user_method_array</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.classobj.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">class_exists</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,160 @@
+<html>
+<title>Программирование</title>
+<meta name=keywords content="Проектирование информационных систем Программирование Отладка Тестирование Производительность Переносимость Надежность и качество">
+<body>
+<table align=center width=90%>
+<tr><td>
+
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c15_proj.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c15_proj.html">Проектирование информационных систем</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c15_debug.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c15_debug.html">Отладка</a>
+</table>
+
+<h3>Программирование</h3>
+<p align=justify>
+  Начать этот параграф хочется с давно избитых правил. В настоящее время программистом
+кого только ни называют, и кто только себя ни называет. Можно даже встретить высказывания,
+ что оформление
+текста в HTML - есть программирование. Давно избитые правила относятся к тем, кто пишет программы,
+в которых никто, кроме них самих, а часто и они, сами после некоторого периода времени,
+разобраться не могут. Код программы должен быть написан так, чтобы любой другой программист
+с минимальными затратами времени и энергии
+мог его прочитать и разобраться, как он работает, и как его модифицировать.
+Итак, вот список основных правил:
+<dl>
+<dt> <b>стремитесь к простоте</b>
+     <dd> Не стоит писать на птичьем языке типа *p[i++] = ++n; или f1() && f2(); 
+     или for(i=0,p=5,&s=*p;exp1()&&exp2&&exp3()||exp4();i++,p++);
+     Многие не помнят, в каком порядке происходят вычисления инкремента и не догадываются,
+     что вы хотели вызвать функцию f2, если f1 вернула не ноль. Не заставляйте
+     программиста, читающего вашу программу думать. Разбивайте сложные конструкции на несколько строк,
+     расставляйте скобки.
+<br><br>     
+     
+<dt> <b>имена переменных и функций должны быть осмысленными</b>
+   <dd>   ;-) Везде это пишут и, все равно, как только не называют.
+<br><br>   
+<dt> <b>исходный текст программы должен быть отформатирован</b>
+    <dd> Делайте отступы, переходы на новую строку, не надо экономить
+     место на диске. Программа должна легко читаться человеком.
+<br><br>    
+    
+<dt> <b>делайте одинаковое одинаковым</b>
+   <dd> Если вы ставите фигурную скобку на новой строке или пробел после if,
+   то будьте последовательны в своих действиях.
+<br><br>
+
+   
+<dt> <b>иногда необходимо писать комментарии</b>
+    <dd> В большинстве случаев хороший код не нуждается в комментариях, т.к.
+    и так все ясно. Но все, же иногда, комментарии нужны. Если вам потребовалось 
+    слишком много комментариев, то стоит задуматься над тем, что ваш код безнадежно
+    плохо написан, и стоило бы его переписать.
+<br><br>
+    
+<dt> <b>пишите историю модификации исходного кода</b>
+    <dd> В самом начале файла ставьте дату и пишите, что было сделано
+      и почему. 
+</dl>
+
+<p align=justify>
+ Далее идут рекомендации общего характера применительно к разработке CGI-программ.
+ Повторное использование уже написанного ранее кода у вас будет значительно выше, чем в других
+ проектах. Во многом это определяется вышерассмотренным правилом: "на каждую HTML-форму свой CGI-скрипт".
+ Общие функции для нескольких CGI-программ выносите в отдельную  библиотеку инструментов, именно так, у нас появилась
+ библиотека ITCGI. CGI-программа должна быть максимально независима от дизайна и HTML-кода.
+ Например, нижние и верхние колонтитулы мы считываем из файлов /include/head.inc и /include/footer.inc.
+ Если CGI-программа должна выдавать данные, оформленные в определенном дизайне, то HTML-код
+ лучше вынести в отдельный файл, а места, куда надо вставить данные, пометить, как ##имя_переменной##.
+ В CGI-программе надо будет считать этот файл и выполнить соответствующую замену. В таком подходе
+ есть недостаток, т.к. это несколько замедляет работу. При каждом вызове CGI-программы она должна
+ считывать внешний файл и делать в нем замену. Но в таком подходе есть и свои плюсы, т.к. 
+ верстальщик, без непосредственного взаимодействия с программистом, может настраивать вывод
+ CGI-скрипта. Еще очень важным моментом при разработке CGI-программ является
+ хранение параметров в файле на сервере. Имеет смысл хранить параметры в файле с расширением
+ .cfg, только в Apache обязательно запретите чтение этих файлов внешними пользователями.
+ Это делается следующими строчками в файле httpd.conf:
+ <pre>
+ &lt;Files ~ "*.cfg"&gt;
+ Order allow,deny
+ Deny from all
+&lt;/Files&gt;
+</pre>
+ В библиотеке ITCGI есть ряд функций для работы с параметрами на стороне сервера.
+ 
+</td></tr>
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?2205  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?2205'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?2205" target=_top>
+    <img src="itsoft-2205" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?2205" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?2205  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?2205'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?2205" target=_top>
+    <img src="itsoft-2205" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?2205" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="itsoft-2205-1" tppabs="http://rb1.rotabanner.com/cgi-bin/iframe/itsoft?2205"
+ width=468 height=60 marginwidth=0 marginheight=0 scrolling=no 
+ frameborder=0><a href="javascript:if(confirm('http://rb1.rotabanner.com/cgi-bin/href/itsoft?2205  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb1.rotabanner.com/cgi-bin/href/itsoft?2205'" tppabs="http://rb1.rotabanner.com/cgi-bin/href/itsoft?2205" 
+ target=_top><img src="itsoft-2205-2" tppabs="http://rb1.rotabanner.com/cgi-bin/banner/itsoft?2205" 
+ alt="RB1" width=468 height=60 border=0 ismap></a></iframe>
+
+</body>
+</html>

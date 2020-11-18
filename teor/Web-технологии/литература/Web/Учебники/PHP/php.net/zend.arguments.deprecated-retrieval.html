@@ -1,0 +1,44 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Старый Способ Запроса Аргументов (не рекомендуется)</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="zend.arguments.retrieval.html">Назад</A></TD><th WIDTH="80%">Глава 33. Приём аргументов</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="zend.arguments.variable.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="zend.arguments.deprecated-retrieval">Старый способ запроса аргументов</A><br>
+<A NAME="zend.arguments.deprecated-retrieval">(не рекомендуется)</A></H1>
+<BLOCKQUOTE><P><B>Не рекомендуемый API разбора параметров: </B>
+Этот API не рекомендуется использовать. Вместо него имеется новый ZEND API разбора параметров.</P></BLOCKQUOTE>
+<P>После проверки количества аргументов вам необходимо получить доступ к самим 
+аргументам. Это делается с помощью <B>zend_get_parameters_ex()</B>:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>zval **parameter;
+
+if(zend_get_parameters_ex(1, &#38;parameter) != SUCCESS)
+    WRONG_PARAM_COUNT;</PRE></TD></TR></TABLE><p>Все аргументы хранятся в контейнере <TT>zval</TT>,
+на который нужно указать <i>дважды</i>. Показанный код пытается получить 
+один аргумент и сделать его доступным нам через указатель <TT>parameter</TT>.</p>
+<P><B>zend_get_parameters_ex()</B> принимает как минимум два аргумента. Первый аргумент это количество получаемых 
+аргументов (которое должно совпадать с количеством аргументов, с которыми 
+функция вызывается; именно поэтому важно проверять корректность синтаксиса 
+вызова). Второй аргумент (и все последующие аргументы) это указатели на указатели на указатели на
+<TT>zval</TT>'ы. (Малопонятно, не правда ли?) Все эти указатели необходимы, поскольку Zend работает внутренне с
+<TT>**zval</TT>; для уточнения местного <TT>**zval</TT> в нашей функции,<B> zend_get_parameters_ex()</B>
+требует указатель на него.</P><P>return-значением <B>zend_get_parameters_ex()</B> может быть
+<TT>SUCCESS</TT> или <TT>FAILURE</TT>, указывая на успех или неудачу процессинга аргументов. Неудача чаще всего 
+связана с некорректным количеством специфицированных аргументов, и тогда вы вы должны выйти с
+<TT>WRONG_PARAM_COUNT</TT>.</P><P>Для получения более одного аргумента вы можете использовать похожий код:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>zval **param1, **param2, **param3, **param4;
+
+if(zend_get_parameters_ex(4, &#38;param1, &#38;param2, &#38;param3, &#38;param4) != SUCCESS)
+    WRONG_PARAM_COUNT;</PRE></TD></TR></TABLE><P><B>zend_get_parameters_ex()</B> проверяет только то,
+не пытаетесь ли вы запросить слишком много параметров. 
+Если функция вызывается с пятью аргументами, но вы запросили в <B>zend_get_parameters_ex()</B>
+только три, вы получите не ошибку, а первые три параметра. Последующие вызовы
+<B>zend_get_parameters_ex()</B> не запросят остальные аргументы, а получать снова те же самые аргументы.</P></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="zend.arguments.retrieval.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="zend.arguments.variable.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Получение аргументов</TD>
+<th WIDTH="34%" VALIGN="top"><a href="zend.arguments.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Работа с переменным количеством аргументов/ параметров-опций</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

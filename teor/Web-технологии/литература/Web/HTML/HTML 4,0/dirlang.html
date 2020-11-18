@@ -1,0 +1,465 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="ru">
+
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=Windows-1251">
+<TITLE>Информация о языке и направление текста</TITLE>
+<LINK rel="previous" href="global.html" tppabs="http://www.citforum.ru/internet/html40/struct/global.html">
+<LINK rel="next" href="text.html" tppabs="http://www.citforum.ru/internet/html40/struct/text.html">
+<LINK rel="contents" href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">
+<LINK rel="STYLESHEET" href="tppmsgs/msgs0.htm#18" tppabs="http://www.citforum.ru/internet/html40/style/default.css" type="text/css">
+</HEAD>
+<BODY>
+<div class="navbar">
+<center>&nbsp;<a href="global.html" tppabs="http://www.citforum.ru/internet/html40/struct/global.html">назад</a> &nbsp; <a href="text.html" tppabs="http://www.citforum.ru/internet/html40/struct/text.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center><hr>
+</div>
+
+<H1 align="center"><a name="h-8">8</a> Информация о языке и направление текста</H1>
+<div class="subtoc"><p><strong>Содержание</strong>
+<ol>
+<li><a href="#h-8.1">Задание языка содержимого: атрибут <samp>lang</samp></a>
+<ol>
+<li><a href="#h-8.1.1"><span class="index-def" title="language::codes to specify"> Коды языков</span></a>
+<li><a href="#h-8.1.2">Наследование кодов языков</a>
+<li><a href="#h-8.1.3">Интерпретация кодов языков</a>
+</ol>
+<li><a href="#h-8.2">Указание направления текста и таблиц: атрибут <samp>dir</samp></a>
+<ol>
+<li><a href="#h-8.2.1"><span class="index-inst" title="bidirection::Unicode
+algorithm|Unicode bidirectional algorithm">Введение в двунаправленный алгоритм</span></a>
+<li><a href="#h-8.2.2">
+<span class="index-inst" title="block-level::and
+bidirection|direction::inheritance of for nested elements">Наследование информации о направлении текста</span></a>
+<li><a href="#h-8.2.3">Установка направления внедренного текста</a>
+<li><a href="#h-8.2.4">Приоритет над двунаправленным алгоритмом: элемент <samp class="einst2">BDO</samp></a>
+<li><a href="#h-8.2.5"><span class="index-inst" title="character reference::for
+directionality"> Ссылки на символы для управления направлением и объединением</span></a>
+<li><a href="#h-8.2.6"><span class="index-inst" title="style sheet::and
+bidirection|bidirection::and style sheets">Таблицы стилей и двунаправленность</span></a>
+</ol>
+</ol>
+</div>
+
+<P>В этом разделе документа обсуждаются два важных вопроса интернационализации HTML: задание языка (атрибут <a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a>) и направления (атрибут <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a>) текста в документе.
+
+<h2><a name="h-8.1">8.1</a> <a name="language-info">Задание языка содержимого: атрибут <samp>lang</samp></a></h2>
+
+<div class="adef-list">
+<em>Определения атрибутов</em>
+
+<dl>
+<dt><a name="adef-lang"><samp class="adef">lang</samp></a>
+ = <a href="types.html#type-langcode" tppabs="http://www.citforum.ru/internet/html40/types.html#type-langcode"><em>код языка</em></a>
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+
+<dd>Этот атрибут указывает основной язык значений атрибутов элементов и секстового содержимого. По умолчанию значение этого атрибута не установлено.
+</dl>
+</div>
+
+<p>
+<span class="index-inst" title="language::of text"><a name="idx-language-1">
+Информация о языке,</a></span> указанная с помощью атрибута <a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a>, может использоваться агентом пользователя для управления генерацией изображения различными способами. Некоторые ситуации, в которых указываемая автором информация а языке, может быть полезна:
+
+
+<ul>
+<li>Помощь поисковым машинам
+<li>Помощь синтезаторам речи
+<li>Помощь агентам пользователей в выборе вариантов глифов для высококачественной типографии
+<li>Помощь агенту пользователя в выборе набора кавычек
+<li>Помощь агенту пользователя в вопросах <a href="text.html#hyphenation" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#hyphenation">переноса</a>, лигатур и интервалов
+<li>Помощь программа проверки грамматики и орфографии
+</ul>
+
+<P>Атрибут <a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a> указывает код содержимого элемента и значений атрибутов; <span class="index-inst" title="lang attribute::when applicable"><a name="idx-lang_attribute">относится</a></span> ли он к данному атрибуту, зависит от синтаксиса и семантики атрибута и от операции.
+
+<P>Атрибут <a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a> предназначен для того, чтобы позволить агентам пользователей более осмысленно генерировать изображение на основе принятой культурной практики для данного языка. Это не подразумевает, что агенты пользователей должны генерировать символы, не являющиеся типичными для конкретного языка, менее осмысленным способом; агенты пользователей должны пытаться <span class="index-inst" title="characters::best
+effort to render"><a name="idx-characters">сгенерировать се символы</a></span>, независимо от значения, указанного в атрибуте <a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a>.
+
+<div class="example"><P>
+Например, если в русском тексте должен появиться символ греческого алфавита:
+
+<PRE>
+&lt;P&gt;&lt;Q lang="ru"&gt;"Эта супермощность была результатом &amp;gamma;-радиации,&lt;/Q&gt; объяснил он.&lt;/P&gt;
+</PRE>
+
+<P>агент пользователя (1) должен попытаться сгенерировать русский текст соответствующим образом (например, в соответствующих кавычках) и (2)
+попытаться сгенерировать символ &gamma;, даже если это не русский символ.
+
+<P>Дополнительную информацию см. в разделе о <a
+href="charset.html#undisplayable" tppabs="http://www.citforum.ru/internet/html40/charset.html#undisplayable">неотображаемых символах</a>.
+</div>
+
+<H3><a name="h-8.1.1">8.1.1</a> <span class="index-def" title="language::codes to specify"> <a name="langcodes">Коды языков</a></span></H3>
+
+<p>Значением атрибута <a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a> является код языка, идентифицирующий естественный разговорный язык, который устно, письменно или иным образом 
+используется для передачи информации между людьми. Компьютерные языки явным образом исключены из кодов языков.
+
+<p>В документе <a rel="biblioentry" href="references.html#ref-RFC1766" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC1766" class="normref">[RFC1766]</a> определены и описаны все коды языков, которые должны использоваться в документах на языке HTML.
+
+<P>Кратко говоря, коды языков состоят из первичного кода и ряда подкодов, который может быть пустым:
+
+<pre>
+        код-языка = первичный-код ( "-" подкод )*
+</pre>
+
+<div class="example"><P>
+Вот несколько примеров кодов языков:
+<ul>
+<li>"en": английский
+<li>"en-US": американская версия английского.
+<li>"en-cockney": кокни (диалект английского).
+<li>"i-navajo": навахо (язык американских индейцев).
+<li>"x-klingon": Первичный код "x" обозначает экспериментальный код языка
+</ul>
+</div>
+
+<p>Двухбуквенные первичные коды зарезервированы для сокращений языков по стандарту <a rel="biblioentry" href="references.html#ref-ISO639" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-ISO639" class="normref">[ISO639]</a>.  Сюда входят коды fr (французский), de (немецкий), it (итальянский), nl (голландский), el (греческий), es (испанский), pt (португальский), ar (арабский), he (иврит), ru (русский), zh (китайский), ja (японский), hi (хинди), ur (урду) и sa (санскрит).
+
+<P>Любой двухбуквенный подкод считается кодом страны в стандарте <a rel="biblioentry" href="references.html#ref-ISO3166" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-ISO3166" class="normref">[ISO3166]</a>.
+
+<h3><a name="h-8.1.2">8.1.2</a> Наследование кодов языков</h3>
+
+<p>Элемент наследует информацию о коде языка в следующем порядке старшинства (от высшего к низшему):
+
+<ul>
+<li>Атрибут <a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a>, установленный для самого элемента.
+
+<li>Самый близкий родительский элемент, для которого установлено значение атрибута <a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a> (то есть атрибут <a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a> наследуется).
+
+<li>Заголовок HTTP "Content-Language" (который может конфигурироваться на сервере). Например:
+
+<pre>
+Content-Language: en-cockney
+</pre>
+   
+<li>Значения по умолчанию и настройки агента пользователя.
+</ul>
+
+<div class="example"><P> 
+В этом примере первичным языком документа является французский ("fr"). Один абзац объявлен на испанском языке ("es"), после чего язык снова становится французским. В следующий абзац включена японская фраза ("ja"), после чего язык опять изменяется на французский.
+
+<pre>
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+   "http://www.w3.org/TR/REC-html40/strict.dtd"&gt;
+&lt;HTML lang="fr"&gt;
+&lt;HEAD&gt;
+&lt;TITLE&gt;Un document multilingue&lt;/TITLE&gt;
+&lt;/HEAD&gt;
+&lt;BODY&gt;
+<em>...текст интерпретируется как французский...</em>
+&lt;P lang="es"&gt;<em>... текст интерпретируется как испанский...</em>
+&lt;P&gt;<em>... текст опять интерпретируется как французский...</em>
+&lt;P&gt;<em>...французский текст, в котором попадается </em>&lt;EM lang="ja"&gt;фрагмент на японском&lt;/EM&gt;<em>, а здесь опять начинается французский...</em>
+&lt;/BODY&gt;
+&lt;/HTML&gt;
+</pre>
+</div>
+
+<div class="note">
+<em><strong>Примечание.</strong> Ячейки таблицы могут наследовать значения атрибута <a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp
+class="ainst">lang</samp></a> не от родителя, а из первой ячейки объединения. Подробнее см. в разделе <a href="tables.html#alignment-inheritance" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#alignment-inheritance">наследование выравнивания</a>.
+</em>
+</div>
+
+<h3><a name="h-8.1.3">8.1.3</a> Интерпретация кодов языков</h3> 
+
+<p>В контексте HTML код языка должен интерпретироваться агентами пользователя как иерархия знаков, а не один знак. Если агент пользователя генерирует изображение в соответствии с информацией о языке (скажем, сравнивая языковые коды в таблицах стилей и значения атрибута <a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a>), он всегда должен находить точное соответствие, но должен также принимать во внимание первичные коды. Таким образом, если значение атрибута <a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp
+class="ainst">lang</samp></a> "en-US" установлено для элемента <a href="global.html#edef-HTML" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HTML" class="noxref"><samp class="einst">HTML</samp></a>, агент пользователя должен сначала выбрать информацию о стиле, совпадающую с "en-US", а затем сгенерировать более общее значение "en".
+
+<div class="note"><P>
+<em><strong>Примечание.</strong> 
+Иерархия кодов языков не гарантирует понимания всех языков с общими префиксами людьми, бегло говорящими на одном или нескольких из этих языков. Она помогает пользователю запросить эту общность, когда для пользователя она является истинной.</em>
+</div>
+
+<h2><a name="h-8.2">8.2</a> <a name="bidirection">Указание направления текста и таблиц: атрибут <samp>dir</samp></a></h2>
+
+<div class="adef-list"><P>
+<em>Определения атрибутов</em><dl>
+
+<dt><a name="adef-dir"><samp class="adef">dir</samp></a> =
+<samp>LTR</samp> | <samp>RTL</samp> 
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+
+<dd>Этот атрибут задает основное направление нейтрального в смысле направления текста (например, текста, который не наследует направленность, как определено в <a rel="biblioentry" href="references.html#ref-UNICODE" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-UNICODE" class="normref">[UNICODE]</a>) и <a href="tables.html#table-directionality" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#table-directionality">направление таблиц</a>. Возможные значения:
+
+<ul>
+<li><samp>LTR</samp>: Слева направо.
+<li><samp>RTL</samp>: Справа налево.
+</ul>
+</dl>
+</div>
+
+<P>Кроме задания языка документа с помощью атрибута <a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a>, авторы могут указать <span class="index-inst" title="text::direction of|direction::of text"><a name="idx-text">
+основное направление</a></span> (слева направо или справа налево) частей текста, таблицы и т.д. Это делается с помощью атрибута <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a>.
+
+<P>Спецификация <a rel="biblioentry" href="references.html#ref-UNICODE" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-UNICODE"
+class="normref">[UNICODE]</a> назначает направление символам и определяет (сложный) алгоритм для определения соответствующего направления текста. Если документ не содержит отображаемых справа налево символов, агент пользователя не должен использовать двунаправленный алгоритм <a rel="biblioentry" href="references.html#ref-UNICODE" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-UNICODE" class="normref">[UNICODE]</a>. Если документ содержит такие символы, и если агент пользователя и отображает, он должен использовать двунаправленный алгоритм.
+
+<P>Хотя в Unicode определены специальные символы, отвечающие за направление текста, HTML предлагает конструкции разметки высшего уровня, выполняющие те же функции: атрибут <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> (не спутайте с элементом <a href="lists.html#edef-DIR" tppabs="http://www.citforum.ru/internet/html40/struct/lists.html#edef-DIR" class="noxref"><samp class="einst">DIR</samp></a>) и элемент <a href="dirlang.html#edef-BDO" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#edef-BDO" class="noxref"><samp
+class="einst">BDO</samp></a>. Таким образом, чтобы привести цитату на иврите, проще написать
+
+<PRE>
+&lt;Q lang="he" dir="rtl"&gt;<em>...цитата на иврите...</em>&lt;/Q&gt;
+</PRE>
+
+<P>чем с эквивалентными ссылками Unicode:
+
+<PRE>
+&amp;#x202B;&amp;#x05F4;<em>...цитата на иврите...</em>&amp;#x05F4;&amp;#x202C;
+</PRE>
+
+<p>Агенты пользователей <strong>не</strong> должны использовать атрибут 
+<span class="index-inst" title="lang attribute::not for direction"><a name="idx-lang_attribute-1" href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a></span> для определения направления текста.
+
+<p>Атрибут <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> наследуется, и его можно переопределить. Подробнее см. в разделе о <a href="#blocklevel-bidi">наследовании информации о направлении текста</a>.
+
+<h3><a name="h-8.2.1">8.2.1</a> <span class="index-inst" title="bidirection::Unicode algorithm|Unicode bidirectional algorithm"><a name="idx-bidirection">Введение в двунаправленный алгоритм</a></span></h3>
+
+<p>В следующем примере проиллюстрировано ожидаемое поведение двунаправленного алгоритма. В нем показаны английский текст слева направо и текст на иврите справа налево.
+
+<div class="example"><P>
+Рассмотрите следующий текст:
+
+<pre>
+  английский1 ИВРИТ2 английский3 ИВРИТ4 английский5 ИВРИТ6
+</pre>
+
+<P>Символы в этом примере (и во всех реплицированных примерах) хранятся в компьютере в том же виде, в каком они отображаются здесь: первый символ - "а", второй - "н", последний "6".
+
+<P>Предположим, для содержащего этот абзац документа определен английский язык. Это означает, что основным направлением является направление слева направо. Корректное представление этой строки:
+
+<pre>
+английский1 2ТИРВИ английский3 4ТИРВИ английский5 6ТИРВИ
+            &lt;-----             &lt;-----             &lt;-----
+               H                H                H
+----------------------------------------------------&gt;
+                         E
+</pre>
+
+<P>Строки точек указывают структуру предложения: основным языком является английский, но встроены некоторые элементы на иврите. Для получения корректного представления не нужно никакой дополнительной разметки, поскольку фрагменты на иврите корректно обращаются агентами пользователя, применяющими двунаправленный алгоритм.
+
+<P>С другой стороны, если для документа определен язык иврит, основным будет направление справа налево. Корректное представление, таким образом, будет:
+
+<pre>
+6ТИРВИ английский5 4ТИРВИ английский3 2ТИРВИ английский1
+        -------&gt;           -------&gt;           -------&gt;
+            E                E                E
+&lt;-------------------------------------------------
+                       H
+</pre>
+
+<P>В это случае все предложение представляется справа налево, а фрагменты на английском языке обращаются двунаправленным алгоритмом.
+</div>
+
+<h3><a name="h-8.2.2">8.2.2</a><span class="index-inst" title="block-level::and
+bidirection|direction::inheritance of for nested elements"><a name="blocklevel-bidi"> Наследование информации о направлении текста</a></span></h3>
+
+<p>Для двунаправленного алгоритма Unicode необходимо основное направление текста для текстовых блоков. Чтобы указать основное направление элементов уровня блока, установите для этого элемента атрибута <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a>.
+Значением атрибута <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a>, устанавливаемым по умолчанию, является "ltr" (слева направо).
+
+<P>Если атрибут <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> установлен для элемента уровня блока, он действует на протяжении всего элемента и для всех вложенных элементов уровня блока. Установка атрибута <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> для вложенного элемента имеет приоритет по отношению к наследуемому значению.
+
+<P>Чтобы установить основное направление текста для всего документа, установите атрибут <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> в элементе <a href="global.html#edef-HTML" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HTML" class="noxref"><samp class="einst">HTML</samp></a>.
+
+<div class="example"><P>
+Например:
+
+<pre>
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+   "http://www.w3.org/TR/REC-html40/strict.dtd"&gt;
+&lt;HTML dir="RTL"&gt;
+&lt;HEAD&gt;
+&lt;TITLE&gt;<em>...заголовок справа налево...</em>&lt;/TITLE&gt;
+&lt;/HEAD&gt;
+<em>...текст справа налево...</em>
+&lt;P dir="ltr"&gt;<em>...текст слева направо...</em>&lt;/P&gt;
+&lt;P&gt;<em>...опять текст справа налево...</em>&lt;/P&gt;
+&lt;/HTML&gt;
+</pre>
+</div>
+
+<P>Встроенные элементы, с другой стороны, не наследуют атрибут <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a>. Это означает, что встроенный элемент без атрибута <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> <strong>не</strong> открывает дополнительного уровня внедрения в соответствии с двунаправленным алгоритмом. (Здесь элементом считается элемент уровня блока или встроенный элемент на основе представления по умолчанию. Помните, что элементы <a href="text.html#edef-ins" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-ins" class="noxref"><samp class="einst">INS</samp></a> и <a href="text.html#edef-del" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-del" class="noxref"><samp class="einst">DEL</samp></a> могут быть элементами уровня блока или встраиваемыми элементами в зависимости от контекста.)
+
+
+
+<h3><a name="h-8.2.3">8.2.3</a> Установка направления внедренного текста</h3>
+
+<p>Двунаправленный алгоритм <a rel="biblioentry" href="references.html#ref-UNICODE" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-UNICODE" class="normref">[UNICODE]</a> автоматически обращает последовательности внедренных символов в соответствии с наследуемым направлением (как показано в предыдущих примерах). Однако в общем в расчет принимается только один уровень внедрения. Для того, чтобы изменения направления достигали дополнительных уровней, используйте атрибут <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a>
+во встроенном элементе.
+
+<div class="example"><P>
+Рассмотрите текст предыдущего примера:
+
+<pre>
+английский1 ИВРИТ2 английский3 ИВРИТ4 английский5 ИВРИТ6
+</pre>
+
+<P>Предположим, основным языком для документа, содержащего этот абзац, является английский. В этом английском предложении содержится фрагмент на иврите, продолжающийся от ИВРИТ2 до ИВРИТ4, и в нем содержится англоязычный фрагмент (английский3). Таким образом, желаемое представление текста:
+
+<pre>
+английский1 4ТИРВИ английский3 2ТИРВИ английский5 6ТИРВИ
+                    -------&gt;
+                       А
+            &lt;-----------------------
+                       И
+----------------------------------------------------&gt;
+                       А
+</pre>
+
+<P>Для изменения направления текста двух внедренных фрагментов необходимо задать дополнительную информацию, что мы и делаем, явно разделяя второе внедрение. В этом примере мы используем для разметки текста элемент <a href="global.html#edef-SPAN" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-SPAN" class="noxref"><samp class="einst">SPAN</samp></a> и атрибут <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a>:
+
+<pre>
+английский1 &lt;SPAN dir="RTL"&gt;ИВРИТ2 английский3 ИВРИТ4&lt;/SPAN&gt; английский5 ИВРИТ6
+</pre>
+</div>
+
+<p> Авторы также могут использовать для изменения направления нескольких внедренных фрагментов символы Unicode. Для указания направления слева направо во внедряемом фрагменте окружите текст символами LEFT-TO-RIGHT EMBEDDING ("LRE", шестнадцатеричный код 202A) и POP DIRECTIONAL FORMATTING ("PDF", шестнадцатеричный код 202C). Для указания направления справа налево во внедряемом фрагменте окружите текст символами RIGHT-TO-LEFT EMBEDDING ("RTE", шестнадцатеричный код 202B) и PDF.
+
+<div class="note"><P> 
+<em><strong>Использование разметки направленности HTML с символами Unicode.</strong> Авторы и разработчики средств создания HTML-документов
+должны знать о возможных конфликтах, возникающих при использовании атрибута <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp
+class="ainst">dir</samp></a> со встроенными элементами (включая <a href="dirlang.html#edef-BDO" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#edef-BDO" class="noxref"><samp class="einst">BDO</samp></a>) одновременно с соответствующими символами форматирования <a rel="biblioentry" href="references.html#ref-UNICODE" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-UNICODE" class="normref">[UNICODE]</a>. Предпочтительнее использовать только один метод. Метод с использованием разметки гарантирует структурную целостность документа и устраняет некоторые проблемы с редактированием двунаправленного текста HTML в простых текстовых редакторах, но некоторое программное обеспечение может лучше использовать символы <a rel="biblioentry" href="references.html#ref-UNICODE" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-UNICODE" class="normref">[UNICODE]</a>. Если используются оба метода, следует хорошо позаботиться о правильном вложении разметки и символов, иначе результаты могут быть непредсказуемыми.</em>
+</div>
+
+
+<h3><a name="h-8.2.4">8.2.4</a> Приоритет над двунаправленным алгоритмом: элемент <a name="edef-BDO"><samp class="edef">BDO</samp></a></h3>
+
+<div class="dtd-fragment">
+<pre class="dtd-fragment">
+&lt;!ELEMENT <a href="dirlang.html#edef-BDO" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#edef-BDO" class="noxref"><samp class="einst">BDO</samp></a> - - (<a href="dtd.html#inline" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#inline">%inline;</a>)*          -- приоритет над I18N BiDi --&gt;
+&lt;!ATTLIST BDO
+  <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs;</a>                          -- <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id">id</a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class">class</a>, <a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style">style</a>, <a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title">title</a> --
+  <a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a>        <a href="dtd.html#LanguageCode" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#LanguageCode">%LanguageCode;</a> #IMPLIED  -- код языка --
+  <a href="dirlang.html#adef-dir-BDO" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir-BDO" class="noxref"><samp class="ainst-BDO">dir</samp></a>         (ltr|rtl)      #REQUIRED -- направление --
+  &gt;
+</pre>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>обязателен</strong></em></p>
+
+<div class="adef-list"><P>
+<em>Определения атрибутов</em><dl>
+
+<dt><a name="adef-dir-BDO"><samp class="adef">dir</samp></a> =
+<samp>LTR</samp> | <samp>RTL</samp> 
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+
+<dd>Этот обязательный атрибут указывает основное направление текстового содержимого элемента. Это направление имеет приоритет по отношению к наследуемому направлению символов, как определено в <a rel="biblioentry"
+href="references.html#ref-UNICODE" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-UNICODE" class="normref">[UNICODE]</a>. Возможные значения:
+
+<ul>
+<li><samp>LTR</samp>: Направление слева направо.
+<li><samp>RTL</samp>: Направление справа налево.
+</ul>
+</dl>
+</div>
+
+<div class="aref-list"><P>
+<em>Атрибуты, определяемые в любом другом месте</em> 
+<ul>
+<li><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a> (<a href="#language-info">информация о языке</a>)
+</ul>
+</div>
+
+<p>Двунаправленного алгоритма и атрибута <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> обычно достаточно для управления изменением направления внедренного текста. Однако в некоторых ситуациях двунаправленный алгоритм может привести к некорректному представлению. Элемент <a href="dirlang.html#edef-BDO" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#edef-BDO" class="noxref"><samp class="einst">BDO</samp></a> позволяет авторам <span class="index-inst" title="bidirection::override of"><a name="idx-bidirection-1">
+отключать</a></span> двунаправленный алгоритм для выбранных фрагментов текста.
+
+<div class="example"><P>
+Рассмотрите документ с тем же текстовым фрагментом: 
+
+<pre>
+английский1 ИВРИТ2 английский3 ИВРИТ4 английский5 ИВРИТ6
+</pre>
+
+<P>но предположите, что этот текст уже представлен в нужном порядке.
+Одной причиной этого может быть то, что стандарт MIME (<a rel="biblioentry" href="references.html#ref-RFC2045" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC2045" class="normref">[RFC2045]</a>, <a rel="biblioentry" href="references.html#ref-RFC1556" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC1556" class="normref">[RFC1556]</a>) благоприятствует визуальному порядку, то есть последовательности с направлением справа налево вставляются в байтовый поток с направлением справа налево. В электронной почте это может форматироваться, включая перевод строки, например:
+
+<PRE>
+английский1 2ТИРВИ английский3
+4ТИРВИ английский5 6ТИРВИ
+</PRE>
+        
+<P>Это конфликтует с двунаправленным алгоритмом <a rel="biblioentry"
+href="references.html#ref-UNICODE" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-UNICODE" class="normref">[UNICODE]</a>, поскольку этот алгоритм инвертирует <tt>2ТИРВИ</tt>, <tt>4ТИРВИ</tt>и <tt>6ТИРВИ</tt> во второй раз, так что слова на иврите отображаются слева направо, а не справа налево.
+
+<P>В этом случае решением будет переопределить действие двунаправленного алгоритма, поместив выдержку Email в элемент <a href="text.html#edef-PRE" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-PRE" class="noxref"><samp class="einst">PRE</samp></a> (для сохранения переводов строки) и каждую строку, для которой атрибут <a href="dirlang.html#adef-dir-BDO" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir-BDO" class="noxref"><samp class="ainst-BDO">dir</samp></a> установлен в <samp>LTR</samp>, в элемент <a href="dirlang.html#edef-BDO" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#edef-BDO" class="noxref"><samp class="einst">BDO</samp></a>:
+
+<PRE>
+&lt;PRE&gt;
+&lt;BDO dir="LTR"&gt;английский1 2ТИРВИ английский3&lt;/BDO&gt;
+&lt;BDO dir="LTR"&gt;4ТИРВИ английский5 6ТИРВИ&lt;/BDO&gt;
+&lt;/PRE&gt;
+</PRE>
+
+<P>Двунаправленному алгоритму выдается команда "Я должен быть слева направо!", что приведет к нужному представлению: 
+
+<pre>
+английский1 2ТИРВИ английский3
+4ТИРВИ английский5 6ТИРВИ
+</pre>
+</div>
+
+<P>Элемент <a href="dirlang.html#edef-BDO" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#edef-BDO" class="noxref"><samp class="einst">BDO</samp></a> следует использовать в сценариях, где необходим абсолютный контроль над последовательностью (например, многоязыковые номера частей). Атрибут <a href="dirlang.html#adef-dir-BDO" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir-BDO" class="noxref"><samp class="ainst-BDO">dir</samp></a> для этого элемента является обязательным.
+
+<P>Авторы могут также использовать специальные символы Unicode для того, чтобы избежать использования двунаправленного алгоритма -- LEFT-TO-RIGHT OVERRIDE (202D) или RIGHT-TO-LEFT OVERRIDE (шестнадцатеричный код 202E). Символ POP DIRECTIONAL FORMATTING
+(шестнадцатеричный код 202C) заканчивает любую последовательность, используемую для обхода двунаправленного алгоритма.
+
+<div class="note"><P>
+<em><strong>Примечание.</strong>
+Помните, что при использовании атрибута <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> во встроенных элементах
+(включая <a href="dirlang.html#edef-BDO" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#edef-BDO" class="noxref"><samp class="einst">BDO</samp></a>) одновременно с соответствующими символами форматирования <a rel="biblioentry" href="references.html#ref-UNICODE" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-UNICODE" class="normref">[UNICODE]</a>, могут возникать конфликты.</em>
+</div>
+
+<div class="note"><P> 
+<em>
+<span class="index-inst" title="bidirection::and character encoding|character encoding::and bidirection"> <strong><a name="bidi88598">Двунаправленность и кодировка символов</a></strong></span> В соответствии с <a rel="biblioentry"
+href="references.html#ref-RFC1555" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC1555" class="normref">[RFC1555]</a> и <a rel="biblioentry" href="references.html#ref-RFC1556" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC1556" class="normref">[RFC1556]</a> существуют специальные соглашения относительно использования значений параметра "charset" для указания обработки двунаправленности в почте MIME, в частности для отличия визуальной, явной и неявной направленности. Значение параметра "ISO-8859-8" (для иврита) обозначает визуальную кодировку, "ISO-8859-8-i" обозначает неявную двунаправленность, а "ISO-8859-8-e" обозначает явную направленность.</em>
+
+<P><em>Поскольку HTML использует двунаправленный алгоритм Unicode, соответствующие документы, использующие кодировку ISO 8859-8, должны помечаться как "ISO-8859-8-i". Явное управление направлением в HTML также возможно, но его нельзя выразить в ISO 8859-8, поскольку не следует использовать "ISO-8859-8-e".</em>
+
+<P><em>Значение "ISO-8859-8" подразумевает, что документ отформатирован визуально, и некоторая разметка будет использоваться неправильно (например, <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><samp class="einst">TABLE</samp></a> с выравниванием по правому краю без разбивки строк), чтобы гарантировать правильное отображение для более старых агентов пользователя, не поддерживающих двунаправленность. Такие документы не удовлетворяют настоящей спецификации. При необходимости их можно изменить (и одновременно они будут корректно отображаться в старых версиях агентов пользователей), добавив, где нужно, разметку <a href="dirlang.html#edef-BDO" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#edef-BDO" class="noxref"><samp class="einst">BDO</samp></a>.</em>
+
+<em>Вопреки сказанному в <a rel="biblioentry" href="references.html#ref-RFC1555" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC1555" class="normref">[RFC1555]</a> и <a rel="biblioentry" href="references.html#ref-RFC1556" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC1556" class="normref">[RFC1556]</a>, кодировка ISO-8859-6 (арабская) <strong>не</strong> представляет визуального порядка.</em>
+</div>
+
+<h3><a name="h-8.2.5">8.2.5</a> <span class="index-inst" title="character reference::for directionality"><a name="idx-character_reference"> Ссылки на символы для управления направлением и объединением</a></span></H3>
+
+<P>Поскольку иногда возникает двусмысленность относительно некоторых символов (например, символов пунктуации), спецификация <a rel="biblioentry"
+href="references.html#ref-UNICODE" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-UNICODE" class="normref">[UNICODE]</a> включает символы для правильного определения назначения. Спецификация Unicode также включает некоторые символы для управления объединением при необходимости (например, в некоторых ситуациях с арабскими символами).  HTML 4.0 включает для этих символов <a href="entities.html" tppabs="http://www.citforum.ru/internet/html40/sgml/entities.html">ссылки на символы</a>.
+
+<P>Следующее DTD определяет представление некоторых объектов направления:
+
+<pre>
+   &lt;!ENTITY zwnj CDATA "&amp;#8204;"--=нулевая ширина без объединения --&gt;
+   &lt;!ENTITY zwj  CDATA "&amp;#8205;"--=объединитель нулевой ширины--&gt;
+   &lt;!ENTITY lrm  CDATA "&amp;#8206;"--=метка слева направо--&gt;
+   &lt;!ENTITY rlm  CDATA "&amp;#8207;"--=метка справа налево--&gt;
+</pre>
+
+<p>Объект <samp>zwnj</samp> используется для блокировки объединения в тех контекстах, где объединение произойдет, но оно происходить не должно.  Объект <samp>zwj</samp> имеет обратное действие; он производит объединение в случае, когда оно не предполагается, но должно произойти. Например, арабская буква "HEH" используется для сокращения "Hijri", названия исламской системы летоисчисления. Поскольку отдельный иероглиф "HEH" в арабской письменности выглядит как цифра пять, для того, чтобы не путать букву "HEH" с последней цифрой пять в годе, используется исходная форма буквы "HEH". Однако, нет последующего контекста (например, буквы для объединения), с которым можно объединить "HEH".  Символ <samp>zwj</samp> предоставляет такой контекст.
+
+<p>Точно так же в персидских текстах буква может иногда объединяться с последующей буквой, в то время как в рукописном тексте этого быть не должно. Символ <samp>zwnj</samp> используется для блокировки объединения в таких случаях.
+
+<p>Символы порядка, <samp>lrm</samp> и <samp>rlm</samp>, используются для определения направления нейтральных по отношению к направлению символов. Например, если двойные кавычки ставятся между арабской (справа налево) и латинской (слева направо) буквами, направление кавычек неясно (относятся ли они к арабскому или к латинскому тексту?). Символы <samp>lrm</samp> и <samp>rlm</samp> имеют свойство направления, но не имеют свойств ширины и разделения слов/строк. Подробнее см. <a rel="biblioentry" href="references.html#ref-UNICODE" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-UNICODE" class="normref">[UNICODE]</a>.
+
+<div class="note">
+<P><em><strong>Отражение глифов символов.</strong>
+Вообще двунаправленный алгоритм не отражает глифы символов и не влияет на них.  Исключением являются такие символы как скобки (см. <a rel="biblioentry" href="references.html#ref-UNICODE" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-UNICODE" class="normref">[UNICODE]</a>, таблица 4-7). Если отражение желательно, например, для египетских иероглифов, греческих знаков или специальных эффектов дизайна, можно сделать это с помощью стилей.</em>
+</div>
+
+<h3><a name="h-8.2.6">8.2.6</a> 
+<span class="index-inst" title="style sheet::and
+bidirection|bidirection::and style sheets"><a name="style-bidi">Таблицы стилей и двунаправленность</a></span></h3>
+
+<p>Вообще использование таблиц стилей для изменения визуального представления элемента с уровня блока до встроенного и наоборот используется в прямом направлении. Однако, поскольку двунаправленный алгоритм использует <a href="#blocklevel-bidi">различия встроенных элементов/элементов уровня блока</a>, во время преобразования нужно быть внимательным.
+
+<P>Если встроенный элемент, не имеющий атрибута <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir,</samp></a> преобразуется в стиль элемента уровня блока с помощью таблицы стилей, для определения основного направления блока он наследует атрибут <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> от ближайшего родительского элемента блока.
+
+<P>Если элемент блока, не имеющий атрибута a <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir,</samp></a> преобразуется к стилю встроенного элемента с помощью таблицы стилей, результирующее представление должно быть эквивалентным, в терминах двунаправленного форматирования, форматированию, получаемому путем явного добавления атрибута <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> (которому назначено унаследованное значение) преобразованному элементу.
+
+<div class="navbar">
+<hr><center><a href="global.html" tppabs="http://www.citforum.ru/internet/html40/struct/global.html">назад</a> &nbsp; <a href="text.html" tppabs="http://www.citforum.ru/internet/html40/struct/text.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center></div>
+</body>
+</html>
+

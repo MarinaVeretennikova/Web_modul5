@@ -1,0 +1,286 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0030)http://jsp.newmail.ru/les6.htm -->
+<HTML><HEAD><TITLE>Урок 6. Запрос пользователю</TITLE>
+<META content="text/html; charset=windows-1251" http-equiv=Content-Type>
+<META 
+content="Самое толковое руководство по основам javascript на русском языке. Запрос пользователю" 
+name=Description>
+<SCRIPT language=javascript>
+<!--
+if (document.images) {
+ar_r = new Image(33,33); ar_r.src = "i/ar_r.gif"; 
+ar_r1 = new Image(33,33); ar_r1.src = "i/ar_r1.gif"; 
+none = new Image(79,35); none.src = "i/none.gif"; 
+next = new Image(79,35); next.src = "i/next.gif"; 
+prev = new Image(79,35); prev.src = "i/prev.gif";
+ar_l = new Image(33,33); ar_l.src = "i/ar_l.gif";
+ar_l1 = new Image(79,35); ar_l1.src = "i/ar_l1.gif";
+}
+function swap(imgName,imgObjName) {
+if (document.images) {
+  document.images[imgName].src = eval(imgObjName + ".src");
+}}
+function toc() {
+OpenWindow=window.open('toc.html', 'toc', config='width=300,scrollbars=1,resizable=1,status=1')
+self.name="one"
+}
+//-->
+</SCRIPT>
+<LINK href="les6.files/blue.css" rel=STYLESHEET type=text/css>
+<META content="MSHTML 5.00.2614.3500" name=GENERATOR></HEAD>
+<BODY aLink=#d0550b background=les6.files/Life_blue.gif bgColor=#334775 
+link=#fbbcac text=#334775 vLink=#fbbcac>
+<DIV 
+style="HEIGHT: 35px; LEFT: 10px; POSITION: absolute; TOP: 10px; WIDTH: 160px"><A 
+href="http://jsp.newmail.ru/les5.htm" 
+onmouseout="swap('left','ar_l');swap('none','none')" 
+onmouseover="swap('left','ar_l1');swap('none','prev')"><IMG border=0 height=33 
+name=left src="les6.files/ar_l.gif" width=33></A>&nbsp;<A href="" 
+onmouseout="swap('left','ar_l');swap('right','ar_r')" 
+onmouseover="swap('left','ar_l1');swap('right','ar_r1')"><IMG border=0 height=35 
+name=none src="les6.files/none.gif" width=79></A>&nbsp;<A 
+href="http://jsp.newmail.ru/les7.htm" 
+onmouseout="swap('right','ar_r');swap('none','none')" 
+onmouseover="swap('right','ar_r1');swap('none','next')"><IMG border=0 height=33 
+name=right src="les6.files/ar_r.gif" width=33></A> </DIV>
+<H1 align=right>Урок 6<BR>Запрос пользователю и переменные</H1>
+<P align=right><B><FONT color=#fb4462>красным цветом даны примечания 
+переводчика</FONT></B><BR><A 
+href="http://jsp.newmail.ru/les6.htm#concept">Концепция</A>__<A 
+href="http://jsp.newmail.ru/les6.htm#script">Скрипт</A>__<A 
+href="http://jsp.newmail.ru/les6.htm#effect">Эффект</A>__<A 
+href="http://jsp.newmail.ru/les6.htm#decon">Разбор скрипта</A>__<A 
+href="http://jsp.newmail.ru/les6.htm#assig">Задание</A></P>
+<P align=right><A href="http://jsp.newmail.ru/les6.htm#" 
+onclick=toc()>Оглавление (в новом окне)</A></P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="50%"><IMG height=13 
+      src="les6.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="30%">
+      <P align=right><IMG height=13 src="les6.files/b_t_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%">
+      <H2><A name=concept>Концепция</A></H2>
+      <P align=justify><B>В</B> этом уроке у меня две концепции. Одна только для 
+      тех случаев, когда вы решите запросить у пользователя информацию. Вторая, 
+      создание переменных, останется с вами на всю вашу жизнь в 
+      JavaScript.<BR>Между прочим, научившись добавлять события к HTML, мы 
+      возвращаемся к полным скриптам, поэтому нам снова понадобится стандартный 
+      формат от &lt;SCRIPT LANGUAGE="javascript"&gt; дo &lt;/SCRIPT&gt;. Вот что 
+      мы собираемся сделать: мы спросим у пользователя, как его зовут, и 
+      присвоим этому имени переменную. Как только переменная будет присвоена, мы 
+      сможем ввести ее в строку document.write, которая напечатает это имя на 
+      странице.</P>
+      <P align=justify>Скажу вам наперед, сегодняшний урок довольно длинный, так 
+      как мне хотелось немного задержаться и повторить то, что мы уже 
+      изучили.</P>
+      <H2><A name=script>Скрипт</A></H2>
+      <P class=cou>&lt;SCRIPT LANGUAGE="javascript"&gt;</P>
+      <P class=cou>/* Скрипт предназначен для того, чтобы получить <BR>от 
+      пользователя информацию и поместить ее на страницу */<BR><BR>var user_name 
+      = prompt ("Напишите свое имя","Здесь");<BR>document.write("Привет, " + 
+      user_name + "! Милости просим!");</P>
+      <P class=cou>&lt;/SCRIPT&gt;</P>
+      <P align=center><I>Текст в скобках должен располагаться на одной 
+      строке.</I></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd vAlign=bottom width="50%"><IMG height=13 
+      src="les6.files/b_b_l.gif" width=12></TD>
+    <TD bgColor=#cef3fd vAlign=bottom width="30%">
+      <P align=right><IMG height=13 src="les6.files/b_b_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P>
+<DIV align=right>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="85%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=30 vAlign=top width="50%"><IMG height=13 
+      src="les6.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd vAlign=top width="50%">
+      <P align=right><IMG height=13 src="les6.files/b_t_r.gif" 
+  width=13></P></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%">
+      <H2><A name=effect>Эффект</A> </H2>
+      <P align=center>
+      <SCRIPT language=javascript>
+/* Скрипт предназначен для того, чтобы получить информацию 
+от пользователя и поместить ее на страницу */
+var user_name = prompt ("Напишите свое имя","Здесь");
+document.write("Привет, " + user_name + "! Милости просим!");
+</SCRIPT>
+      </P></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%"><IMG height=13 
+      src="les6.files/b_b_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%">
+      <P align=right><IMG height=13 src="les6.files/b_b_r.gif" 
+  width=13></P></TD></TR></TBODY></TABLE></DIV>
+<P>.</P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="50%"><IMG height=13 
+      src="les6.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="30%">
+      <P align=right><IMG height=13 src="les6.files/b_t_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%"><A 
+      name=decon>
+      <H2>Разбор скрипта</A> </H2>
+      <P><B>Стоп! Что это такое /* */?</B></P>
+      <P align=justify><B>Д</B>а, я вставил еще одну новую команду. Эти штуки 
+      означают комментарий внутри скрипта. Если помните, урока три назад я уже 
+      показывал вам двойную дробь //, отделяющую текст вашего комментария от 
+      скрипта. Это то же самое, но лучше. Двойную дробь необходимо ставить в 
+      начале каждой новой строки. Эти же команды годятся для пространных 
+      комментариев. Нужно поставить /* в начале и */ в конце, и все, что 
+      окажется между этими знаками, останется комментарием и не войдет в 
+      скрипт.</P>
+      <P><B>Создание переменной</B></P>
+      <P align=justify><B>П</B>еременные имеют первостепенное значение в 
+      JavaScript. Вам необходимо научиться создавать их. В двух словах: вы 
+      назначаете имя, состоящее из одного слова, функции JavaScript. Помните, 
+      как мы помещали дату на страницу с помощью метода getDate()? В строке 
+      document.write мы написали метод getDate() целиком. Сделать это один раз 
+      было не так уж трудно. Но что если нужно было бы написать это десять раз 
+      на одной и той же странице? Писать и писать одно и то же порядком 
+      надоедает.<BR>Потому мы и вводим переменную, которая должна представлять 
+      окончательный результат метода. Возьмем, к примеру, переменную d. Тогда 
+      нам нужно будет только однажды написать getDate() и назначить методу 
+      переменную d. И на протяжении всего оставшегося скрипта будем просто 
+      писать d там, где нужно поставить дату. Это понятно? Вернемся к 
+      примеру:</P>
+      <P align=justify>Вот строка из скрипта, которая назначает переменную:</P>
+      <P align=center class=cou>var user_name = prompt ("Напишите свое 
+      имя","Здесь")</P>
+      <P align=justify>Переменная была создана по следующей схеме:</P>
+      <UL>
+        <LI><B>var</B> <FONT color=red>(от variable, переменная)</FONT> 
+        объявляет, что следующим словом будет имя переменной. 
+        <LI><B>user_name</B> <FONT color=red>(имя пользователя)</FONT> — имя 
+        переменной. Я его придумал. Оно необязательно должно быть таким длинным. 
+        По правде, я мог бы назвать ее N, если б захотел. Просто удобнее так 
+        называть переменные, чтобы легко было вспомнить, о чем идет речь. 
+        <LI>Помните, что регистр имеет значение для JavaScript, следовательно, 
+        если вы назвали переменную Dog, то буква D каждый раз должна быть 
+        заглавной, иначе браузер посчитает их за два разных слова. 
+        <LI>Здесь нет никаких кавычек, просто ставьте одно слово за другим, как 
+        показано выше. 
+        <LI>Знак равенства = указывает на то, что переменная будет равна 
+        результату следующей команды. 
+        <LI>В нашем случае переменная будет представлять результат, полученный с 
+        помощью окна запроса. </LI></UL>
+      <P><B>Команда Prompt</B></P>
+      <P align=justify><B>В </B>данном примере я воспользовался новой командой 
+      prompt <FONT color=red>(запрос)</FONT>. Это метод, вызывающий окно, 
+      которое вы видели, заходя на страницу. Если хотите снова его увидеть, 
+      перезагрузите страницу. Вот формат запроса:</P>
+      <P align=center class=cou>var variable_name = prompt("Текст в окне","Текст 
+      в строке ввода")</P>
+      <P align=justify>Вы увидите, что имя переменной включенo в схему скрипта, 
+      иначе вы получили бы запрос, но полученные им данные никуда бы не 
+      пошли.</P>
+      <P align=center><I>Если вам интересно...</I></P>
+      <UL>
+        <LI>Чтобы строка ввода оставалась чистой, ничего не пишите между второй 
+        парой кавычек. 
+        <LI>Если вы не укажете в скобках второй пары кавычек, в строке появится 
+        слово undefined. 
+        <LI>Если вы написали что-либо в строке ввода и пользователь выберет ОК, 
+        ничего не меняя, на странице появится то, что вы написали. 
+        <LI>Если в строке ввода ничего нет и пользователь выберет OK, ничего не 
+        вписав, на странице появится слово null. </LI></UL>
+      <P><B>Вернемся к разбору</B></P>
+      <P align=justify><B>Т</B>еперь, когда вы знаете все составляющие, перейдем 
+      к основной части:</P>
+      <P class=cou>var user_name = prompt ("Напишите свое имя","Здесь"); 
+      <BR>document.write("Привет, " + user_name + "! Милости просим!");</P>
+      <UL>
+        <LI>Имя переменной user_name присвоено результату запроса. 
+        <LI>prompt просит пользователя написать свое имя. 
+        <LI>В строке ввода читаем: "Здесь." 
+        <LI>Точка с запятой в конце строки. 
+        <LI>document.write вызывает текст "Привет, ". 
+        <LI>Знак плюс + отмечает, что все элементы идут друг за другом. 
+        <LI>user_name вводит результат запроса. Никаких кавычек — эти слова не 
+        нужны нам на странице. 
+        <LI>Еще плюс. 
+        <LI>"! Милости просим!" завершает текст. 
+        <LI>Точка с запятой. </LI></UL>
+      <P align=justify>Пожалуйста, постарайтесь хорошенько понять концепцию 
+      переменных. В этом языке они используются постоянно. Без них не 
+      обойтись.</P>
+      <H2><A name=assig><B>Ваше задание</B></A></H2>
+      <P><I>...повтор пройденного.</I></P>
+      <P align=justify><B>O</B>тлично, мы прошли шесть уроков. Пора приниматься 
+      за скрипты потруднее. Моя цель не сбить вас с толку, а показать, что у вас 
+      уже достаточно знаний для создания шикарных эффектов посредством команд 
+      JavaScript. Сегодня я хочу, чтобы вы посмотрели на скрипт, указанный ниже, 
+      и объяснили, как работает каждая его часть. Вы удивитесь тому, как легко 
+      эти чудовища раскладываются на понятные элементы, как только возьмете в 
+      толк, что происходит.</P>
+      <P><A href="http://jsp.newmail.ru/assig6.htm" id=l>Здесь пример 
+      JavaScript</A></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd vAlign=bottom width="50%"><IMG height=13 
+      src="les6.files/b_b_l.gif" width=12></TD>
+    <TD bgColor=#cef3fd vAlign=bottom width="30%">
+      <P align=right><IMG height=13 src="les6.files/b_b_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR></TBODY></TABLE>
+<P align=right><A 
+href="http://jsp.newmail.ru/les6.htm#concept">Концепция</A>__<A 
+href="http://jsp.newmail.ru/les6.htm#script">Скрипт</A>__<A 
+href="http://jsp.newmail.ru/les6.htm#effect">Эффект</A>__<A 
+href="http://jsp.newmail.ru/les6.htm#decon">Разбор скрипта</A>__<A 
+href="http://jsp.newmail.ru/les6.htm#assig">Задание</A> </P>
+<P align=right><FONT size=5><A href="http://jsp.newmail.ru/les7.htm">Вперед, на 
+Урок 7</A></FONT></P>
+<DIV align=right>
+<TABLE width="75%">
+  <TBODY>
+  <TR>
+    <TD><FONT color=#cef3fd>
+      <P align=justify class=small>авторы <A 
+      href="http://www.htmlgoodies.com/primers/jsp/me.html">Джо Бернс</A> и 
+      Эндри Грауни. <A href="http://www.htmlgoodies.com/">Оригинал и многое 
+      другое на английском языке</A> © <A 
+      href="http://www.earthweb.com/">EarthWeb Inc.</A> <BR>Перевод, оформление 
+      и верстка © Татьяна.</FONT></P></TD></TR></TBODY></TABLE></DIV><!-- HotLog -->
+<SCRIPT language=javascript>
+hotlog_js="1.0";hotlog_d=document; hotlog_n=navigator;hotlog_rn=Math.random();
+hotlog_n_n=(hotlog_n.appName.substring(0,3)=="Mic")?0:1;
+hotlog_r=""+hotlog_rn+"&s=15862&r="+escape(hotlog_d.referrer)+"&pg="+
+escape(window.location.href);
+hotlog_d.cookie="hotlog=1"; hotlog_r+="&c="+(hotlog_d.cookie?"Y":"N");
+hotlog_d.cookie="hotlog=1; expires=Thu, 01-Jan-70 00:00:01 GMT"</SCRIPT>
+
+<SCRIPT language=javascript1.1>
+hotlog_js="1.1";hotlog_r+="&j="+(navigator.javaEnabled()?"Y":"N")</SCRIPT>
+
+<SCRIPT language=javascript1.2>
+hotlog_js="1.2";hotlog_s=screen;
+hotlog_r+="&wh="+hotlog_s.width+'x'+hotlog_s.height+"&px="+((hotlog_n_n==0)?
+hotlog_s.colorDepth:hotlog_s.pixelDepth)</SCRIPT>
+
+<SCRIPT language=javascript1.3>hotlog_js="1.3"</SCRIPT>
+
+<SCRIPT language=javascript>hotlog_r+="&js="+hotlog_js;
+hotlog_d.write("<img src=\"http://hit2.hotlog.ru/cgi-bin/hotlog/count?"+
+hotlog_r+"&\" border=0 width=1 height=1>")</SCRIPT>
+<NOSCRIPT><IMG border=0 height=1 src="les6.files/count" width=1></NOSCRIPT> <!-- /HotLog --><!--webbot bot="HTMLMarkup" startspan ALT="Site Meter" -->
+<SCRIPT>var site="sm2jsp"</SCRIPT>
+
+<SCRIPT language=JavaScript1.2 src="les6.files/counter.js">
+</SCRIPT>
+<!-- Copyright (c) 1999-2000 Site Meter --><!--webbot
+bot="HTMLMarkup" endspan --></BODY></HTML>

@@ -1,0 +1,86 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>Сериализация Объектов -Объекты в Сессиях</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="keyword.parent.html">Назад</A></TD>
+<th WIDTH="80%">Глава 13. Классы и Объекты</th><TD WIDTH="10%" ALIGN="right">
+<A HREF="magic-functions.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="language.oop.serialization">Сериализация объектов - объекты в сессиях</A></H1>
+<BLOCKQUOTE><P><B>Примечание: </B>
+в PHP 3 объекты теряют ассоциацию со своим классом в процессе сериализации и десериализации. 
+Результирующая переменная будет объектом типа, но не имеет класса и 
+методов, и, таким образом, будет бесполезна (она станет похожа на массив со странным синтаксисом).</P></BLOCKQUOTE>
+<TABLE CLASS="caution" BORDER="1" WIDTH="100%"><TR><th>Внимание!</th></TR><TR><TD>
+<P>Следующая информация верна только для PHP 4.</P></TD></TR></TABLE>
+<P><A HREF="f/serialize.html"><B>serialize()</B></A> возвращает строку,
+содержащую представление в виде потока байтов любой переменной, которая может храниться в PHP.<br>
+<B><A HREF="f/unserialize.html">unserialize()</A></B> может использовать эту строку для
+воссоздания оригинальных значений переменной. 
+Использование serialize для сохранения объекта сохранит все переменные 
+объекта. Функции объекта не сохраняются, только имя класса.</P>
+<P>Чтобы иметь возможность <A HREF="f/unserialize.html"><B>unserialize()</B></A> объект,
+должен быть определён класс этого объекта. То есть, если у вас имеется 
+объект $a класса A в файле page1.php и вы его сериализуете, вы получите 
+строку, которая ссылается на класс A и содержит все значения переменных, 
+содержащихся в $a. Если вы хотите unserialize это в файле page2.php,
+воссоздав $a класса A, определение класса A обязано иметься в page2.php. Это 
+можно сделать, например, сохранив определение класса A в include-файле и 
+подключив этот файл и в page1.php, и в page2.php.</P><A NAME="AEN5502"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>classa.inc:
+  class A 
+  {
+      var $one = 1;
+    
+      function show_one()
+      {
+          echo $this-&#62;one;
+      }
+  }
+  
+page1.php:
+  include("classa.inc");
+  
+  $a = new A;
+  $s = serialize($a);
+  // сохраняем $s там, где page2.php может его найти.
+  $fp = fopen("store", "w");
+  fputs($fp, $s);
+  fclose($fp);
+
+page2.php:
+  // это необходимо для правильной работы десериализации.
+  include("classa.inc");
+
+  $s = implode("", @file("store"));
+  $a = unserialize($s);
+
+  // теперь используем функцию show_one() объекта $a.  
+  $a-&#62;show_one();</PRE></TD></TR></TABLE>
+<P>Если вы используете сессии и <A HREF="f/session-register.html"><B>session_register()</B></A>
+для регистрации объектов, эти объекты сериализуются автоматически в конце 
+каждой PHP-страницы и десериализуются автоматически на каждой последующей 
+странице. Это означает, что эти объекты могут появиться на любой странице, после того как стали частью вашей сессии.</P>
+<P>Настоятельно рекомендуем включать определение классов всех таких 
+зарегистрированных объектов во все ваши страницы, даже если вы и<span lang="en-us">
+</span>не 
+используете эти классы во всех ваших страницах. Если вы этого не сделаете и 
+объект десериализуется в отсутствие определения класса, он потеряет 
+ассоциацию с этим классом и станет объектом класса <TT>stdClass</TT> без всяких функций вообще,
+то есть станет практически бесполезен.</P>
+<P>Итак, если в вышеприведённом примере $a стало частью сессии через запуск <TT>session_register("a")</TT>,
+вы должны включить/include файл <TT>classa.inc</TT> во все ваши страницы, а не только в page1.php и page2.php.</P>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="keyword.parent.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="magic-functions.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">
+<TT>parent</TT></TD><th WIDTH="34%"  VALIGN="top"><a href="oop.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Магические функции<TT><br>__sleep</TT> и <TT>__wakeup</TT></TD>
+</TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

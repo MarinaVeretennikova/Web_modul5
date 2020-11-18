@@ -1,0 +1,47 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>mktime</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="microtime.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="strftime.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="mktime">mktime</A></H1><A NAME="AEN15899"></A><P>(PHP 3, PHP 4)</P>
+<p>mktime - получает UNIX timestamp даты.<A NAME="AEN15902"></A></p><H2>Описание</H2>
+<p>int <B>mktime</B> (int hour, int minute, int second, int month, int day, int year [, int is_dst])</p>
+<P><b><I>Предупреждение!:</I></b> Обратите внимание на необычный порядок аргументов, который отличается от 
+порядка аргументов в обычном вызове UNIX mktime() и который не выстраивает параметры справа налево (см. далее). 
+Обычной ошибкой является смешивание этих значений в скрипте.</P>
+<P>Возвращает Unix timestamp, соответствующий заданным аргументам. Этот timestamp 
+является длинным целым/long integer, содержащим количество секунд между 
+началом Unix Epoch (January 1 1970) и специфицированным временем.</P>
+<P>Аргументы могут быть пропущены в порядке справа налево; любой пропущенный 
+аргумент получит текущее значение в соответствии с локальной датой и временем.</P>
+<P><TT><I>is_dst</I></TT> может быть установлен в 1, если это период с поправкой на летнее время, в 0 - 
+если нет, или -1 (по умолчанию), если не известно, находится данное время в 
+периоде с поправкой на летнее время или нет. Если это не известно, PHP 
+пытается определить это сам. Это может привести к неожиданным (но не некорректным) результатам.</P>
+<BLOCKQUOTE><P><B>Примечание: </B><TT><I>is_dst</I></TT> был введён в версии 3.0.10.</P></BLOCKQUOTE>
+<P><B>mktime()</B> используется для перевода даты в арифметическое значение и проверки, поскольку 
+автоматически будет вычисляться корректное значение для ввода вне диапазона 
+значений. Например, каждая из следующих строк произведёт строку "Jan-01-1998".<TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN15939"></A><h5>Пример 1. mktime()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>echo date ("M-d-Y", mktime (0,0,0,12,32,1997));
+echo date ("M-d-Y", mktime (0,0,0,13,1,1997));
+echo date ("M-d-Y", mktime (0,0,0,1,1,1998));
+echo date ("M-d-Y", mktime (0,0,0,1,1,98));</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p><TT><I>Year</I></TT> может быть двух- или 4-значным значением со значениями 0-69, отображающимися 
+как 2000-2069, и 70-99 - как 1970-1999 (в системах, где time_t это 32-битное знаковое целое, как в 
+большинстве современных систем, правильным диапазоном <TT><I>year</I></TT> будет примерно 1902-2037).</p>
+<P>Последний день данного месяца может быть выражен как "0" следующего месяца, 
+а не как -1. Оба следующих примера дадут строку &quot;The last day in Feb 2000 is: 29".<TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN15946"></A><h5>Пример 2. Последний день следующего месяца</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$lastday = mktime (0,0,0,3,0,2000);
+echo strftime ("Last day in Feb 2000 is: %d", $lastday);
+     
+$lastday = mktime (0,0,0,4,-31,2000);
+echo strftime ("Last day in Feb 2000 is: %d", $lastday);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Дата с year, month и day, равными нулю, рассматривается как недопустимая.</P>
+<P>См. также <A HREF="date.html"><B>date()</B></A> и <A HREF="time.html"><B>time()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="microtime.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="strftime.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">microtime</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.datetime.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">strftime</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

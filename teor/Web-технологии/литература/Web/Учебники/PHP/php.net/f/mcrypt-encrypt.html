@@ -1,0 +1,37 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>mcrypt_encrypt</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="mcrypt-enc-self-test.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="mcrypt-generic-deinit.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.mcrypt-encrypt">mcrypt_encrypt</A></H1><A NAME="AEN44600"></A><P>(PHP 4 &#62;= 4.0.2)</P>
+<p>mcrypt_encrypt - шифрует обычный текст с данными параметрами.<A NAME="AEN44603"></A></p><H2>Описание</H2>
+<p>string <B>mcrypt_encrypt</B> (string cipher, string key, string data, string mode [, string iv])</p>
+<P><B>mcrypt_encrypt()</B> шифрует данные и возвращает шифрованные данные.</P>
+<P><TT><I>Cipher</I></TT> эта одна из констант MCRYPT_ciphername имени алгоритма как строки.</P>
+<P><TT><I>Key</I></TT> это ключ, с которым данные зашифрованы. Если он меньше необходимого размера 
+ключа, он заполняется '<TT>\0</TT>'. Лучше не использовать ASCII-строки в качестве ключей. Рекомендуется 
+использовать mhash-функции для создания ключа из строки.</P><P><TT><I>Data</I></TT> это данные, шифрованные с заданным шифром и режимом.<br>
+Если размер данных не равен n * blocksize, данные будут заполнены '<TT>\0</TT>'. Возвращаемый зашифрованный текст может быть больше размера данных
+<TT><I>data</I></TT>.</P><P><TT><I>Mode</I></TT> эта одна из констант MCRYPT_MODE_modename из "ecb", "cbc", "cfb", "ofb", "nofb" 
+или "stream".</P><P>Параметр <TT><I>IV</I></TT> используется для инициализации в режимах CBC, CFB, OFB и некоторых алгоритмах 
+режима STREAM. Если вы не предоставляете IV, когда он необходим для алгоритма, 
+функция выдаёт предупреждение и использует IV со всеми байтами, установленными в '<TT>\0</TT>'.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN44640"></A><h5>Пример 1. mcrypt_encrypt()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+    <font size="1">$iv = mcrypt_create_iv (mcrypt_get_iv_size (MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND);
+</font>    $key = "This is a very secret key";
+    $text = "Meet me at 11 o'clock behind the monument.";
+    echo strlen ($text)."\n";
+
+    $crypttext = mcrypt_encrypt (MCRYPT_RIJNDAEL_256, $key, $text, MCRYPT_MODE_ECB, $iv);
+    echo strlen ($crypttext)."\n";
+?&#62;</PRE></TD></TR></TABLE><P>Этот пример напечатает:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>42
+64</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также в <A HREF="mcrypt-module-open.html"><B>mcrypt_module_open()</B></A> более продвинутый API
+и пример.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="mcrypt-enc-self-test.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="mcrypt-generic-deinit.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">mcrypt_enc_self_test</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.mcrypt.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">mcrypt_generic_deinit</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,73 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Использование Register_Globals</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR>
+<TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="error-message.html">Назад</A></TD><th WIDTH="80%">Глава 4. Безопасность</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="sec.variables.html">Вперёд</A></TD></TR></TABLE>
+</TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD>
+</TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="security.registerglobals">Использование Register_Globals</A></H1>
+<P>Для повышения безопасности работы PHP можно сконфигурировать PHP с опцией
+<A HREF="configuration.html#ini.register-globals">register_globals</A> = off.
+Отключив таким образом возможность внедрения отправленных пользователем 
+переменных в PHP-код, вы можете уменьшить количество заражённых переменных, 
+которые потенциальный взломщик может попытаться направить вам. Для подделки 
+отправляемой информации понадобится дополнительное время, а ваши внутренние 
+переменные будут эффективно изолированы от отправляемых пользователем данных.</P>
+<P>Хотя понадобятся некоторые дополнительные усилия при работе с PHP, но 
+преимущества от этой работы с лихвой окупят эти затраты.<TABLE WIDTH="100%" BORDER="0"><TR>
+<TD>
+<h5><A NAME="AEN3304"></A>Пример 4-14. Работа без register_globals=off</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+if ($username) {  // может быть подделана пользователем в get/post/куках
+    $good_login = 1;
+}
+
+if ($good_login == 1) { // может быть подделана пользователем в get/post/куках
+    fpassthru ("/highly/sensitive/data/index.html");
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<h5>
+<A NAME="AEN3307"></A>Пример 4-15. Работа с register_globals = off</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+if($_COOKIE['username']){
+    // может прийти только от куки, подделанной или нет
+    $good_login = 1;
+    fpassthru ("/highly/sensitive/data/index.html");
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Разумно пользуясь этим, можно даже делать предварительную проверку и 
+предупреждать в случае попытки подделки кода. Если вы наперёд знаете, откуда должна прийти переменная,
+вы можете проверять, не пришли ли данные несоответствующего вида. Поскольку 
+нет гарантии, что данные не были подделаны, взломщику необходимо придумывать нужный вид подделки.</p>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+  <h5><A NAME="AEN3310"></A>
+  Пример 4-16. Определение заражения простой переменной</h5>
+  <TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+if ($_COOKIE['username'] &#38;&#38;
+    !$_POST['username'] &#38;&#38;
+    !$_GET['username'] ) {
+    // выполнить проверку имени пользователя ...
+    $good_login = 1;
+    fpassthru ("/highly/sensitive/data/index.html");
+} else {
+   mail("admin@example.com", "Possible breaking attempt", $_SERVER['REMOTE_ADDR']);
+   echo "Security violation, admin has been alerted.";
+   exit;
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Конечно, простое отключение register_globals не означает, что код 
+безопасен. Каждый блок передаваемых данных необходимо проверять дополнительно.
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="error-message.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="sec.variables.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Сообщение об ошибке</TD>
+<th WIDTH="34%" VALIGN="top"><a href="security.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Данные, отправляемые пользователем</TD>
+</TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

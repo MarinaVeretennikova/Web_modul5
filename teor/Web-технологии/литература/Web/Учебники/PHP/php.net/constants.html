@@ -1,0 +1,67 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>Константы</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR>
+<TR><TD WIDTH="10%"><A HREF="variables.external.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="constants.predefined.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="language.constants">Глава 8. Константы</A></H1>
+<DL><DT><B>Содержание</B></DT><DT><a href="#language.constants.syntax">Синтаксис</a></DT>
+<DT><a href="constants.predefined.html">Предопределённые константы</a></DT></DL>
+<P>Константа это идентификатор (имя) для простого значения. Как следует из 
+названия, это значение не может изменяться в процессе исполнения скрипта.  ('Магические 
+константы' <TT><B>__FILE__</B></TT> и <TT><B>__LINE__</B></TT> являются исключением из этого правила, но они в действительности не являются 
+константами.) По умолчанию константа чувствительна к регистру символов. По 
+соглашению идентификаторы констант вводятся в верхнем регистре.</P>
+<P>Имя константы соблюдает те же правила, что и любая метка PHP. Правильное имя 
+константы начинается с буквы (латинской) или символа подчёркивания, за 
+которой\-ым может следовать любое количество букв, цифр или символов 
+подчёркивания. Как регулярное выражение, константа должна выражаться так:
+<TT>[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*</TT></P>
+<BLOCKQUOTE><P><B>Примечание: </B>здесь, для наших потребностей, буква это a-z, A-Z и ASCII-символы от 127 
+до 255 (0x7f-0xff).</P></BLOCKQUOTE><P>Область видимости константы является глобальной - вы можете получать к ней 
+доступ в любой части скрипта, независимо от области видимости.</P>
+<H1><a name="language.constants.syntax">Синтаксис</a></H1>
+<P>Вы можете определить константу функцией <A HREF="f/define.html"><B>define()</B></A>.
+После того как константа определена, она не может быть изменена или разопределена/undefined.</P>
+<P>Только скалярные данные (<A HREF="types.boolean.html"><B>boolean</B></A>,
+<A HREF="types.integer.html"><B>integer</B></A>, 
+<A HREF="types.float.html"><B>float</B></A> и <A HREF="types.string.html"><B>string</B></A>) могут содержаться в константах.</P>
+<P>Вы можете получить значение константы, просто специфицировав её имя.
+В отличие от переменных, вы <i>не</i> должны вводить перед константой символ <TT>$</TT>.
+Вы можете также использовать функцию <A HREF="f/constant.html"><B>constant()</B></A>
+для чтения значения константы, если вы получаете имя константы динамически. 
+Используйте <A HREF="f/get-defined-constants.html"><B>get_defined_constants()</B></A>
+для получения списка всех определённых констант.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>константы и (глобальные) переменные находятся в разных пространствах 
+имён. Это подразумевает, что, например, <TT><B>TRUE</B></TT> и <TT>$TRUE</TT> в общем случае различны.</P></BLOCKQUOTE>
+<P>Если вы используете неопределённую/undefined константу, PHP принимает, что 
+вы обозначаете имя самой константы. Уведомление/<A HREF="error-handling.html">notice</A>
+будет выдано в этом случае. Используйте функцию <B>
+<A HREF="f/defined.html">defined()</A></B>, если вы хотите знать, установлено ли значение константы.</P>
+<P>Между константами и переменными имеются отличия:<UL><LI><P>Перед именем константы нет знака dollar (<TT>$</TT>);</P></LI><LI><P>Константы могут быть определены только через использование функции
+<A HREF="f/define.html"><B>define()</B></A>, но не простым присвоением;</P></LI>
+<LI><P>Константы могут быть определены, и доступ к ним может быть получен, в 
+любом месте, вне зависимости от правил области видимости переменных;</P></LI>
+<LI><P>Константы не могут быть переопределены или разопределены после своего определения; и</P></LI>
+<LI><P>Константы могут вычисляться только в скалярные значения.</P></LI></UL>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN4349"></A><h5>Пример 8-1. Определение констант</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+define("CONSTANT", "Hello world.");
+echo CONSTANT; // выводит "Hello world."
+echo Constant; // выводит "Constant" и уведомление.
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="variables.external.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="constants.predefined.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Переменные вне PHP</TD>
+<th WIDTH="34%" VALIGN="top"><a href="langref.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Предопределённые константы</TD>
+</TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

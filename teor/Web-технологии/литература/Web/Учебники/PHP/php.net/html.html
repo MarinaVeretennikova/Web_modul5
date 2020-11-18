@@ -1,0 +1,130 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>PHP и HTML</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="using.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="com.html">Вперёд</A></TD></TR></TABLE></TD></TR>
+<TR BGCOLOR="#333366"><TD><IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE>
+</TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD>
+<TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%"><H1><A NAME="faq.html">Глава 51. PHP и HTML</A></H1>
+<P>PHP и HTML тесно связаны: PHP генерирует HTML, а HTML содержит информацию , которая высылается&nbsp; в PHP.</P>
+<DL><DT>1. <A HREF="#faq.html.encoding">Какое кодирование/декодирование я должен выполнять при
+передаче значения в HTМL-форме? А через URL?</A></DT>
+<DT>2. <A HREF="#faq.html.form-image">Я пытаюсь использовать тэг &lt;input type=&quot;image&quot;&gt;,
+но переменные $foo.x и $foo.y недоступны. Где они?</A></DT>
+<DT>3. <A HREF="#faq.html.arrays">Как мне создать массивы в HTML-тэге &lt;form&gt;?</A></DT>
+<DT>4. <A HREF="#faq.html.select-multiple">Как мне получит все результаты из HTML-тэга множественного
+выбора select?</A></DT></DL><B><P><A NAME="faq.html.encoding"></A>1. Какое кодирование/декодирование я
+должен выполнять при передаче значения в HTМL-форме? А через URL?</P></B>
+<P>Есть несколько этапов, когда кодировка имеет важное значение. Предположим, у вас имеется переменная
+<A HREF="types.string.html"><B>string</B></A> <TT>$data</TT>, содержащая строку,
+которую вы хотите передать некодированным способом. Тогда необходимые шаги:<UL><LI>
+<P>HTML-интерпретация. Чтобы специфицировать произвольную строку, вы <i>
+обязаны</i> заключить её в двойные кавычки, а htmlspecialchars - всё значение.</P></LI>
+<LI><P>URL: URL состоит из нескольких частей. Если вы хотите, чтобы ваши 
+данные интерпретировались как один элемент, вы <i>обязаны</i> кодировать их с помощью
+<A HREF="f/urlencode.html"><B>urlencode()</B></A>.</P></LI></UL>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN88102"></A><h5>Пример 51-1. Элемент hidden HTML-формы</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+    echo "&#60;input type=hidden value=\"" . htmlspecialchars($data) . "\"&#62;\n";
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+  неверным будет <A HREF="f/urlencode.html"><B>urlencode()</B></A>
+<TT>$data</TT>, поскольку за <A HREF="f/urlencode.html"><B>urlencode()</B></A> данных
+отвечает браузер. Все популярные браузеры делают это корректно. 
+Заметьте, что это делается независимо от метода (GET или POST). Вы увидите это 
+только при методе GET, поскольку POST-запросы обычно скрыты/hidden.</P></BLOCKQUOTE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN88110"></A><h5>Пример 51-2. Данные,
+редактируемые пользователем</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;?php
+    echo "&#60;textarea name=mydata&#62;\n";
+    echo htmlspecialchars($data)."\n";
+    echo "&#60;/textarea&#62;";
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+  эти данные будут выведены в браузере так, как задумано, поскольку 
+браузер будет интерпретировать заменённые (escaped) html-символы.</P>
+<P>При отправке, через GET или POST, данные будут url-кодированы браузером 
+для передачи и непосредственно url-декодированы в PHP. Поэтому в результате 
+вам ничего не нужно urlencodе/urldecodе самостоятельно, всё необходимое выполняется автоматически.</P></BLOCKQUOTE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN88116"></A><h5>Пример 51-3. В URL</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+    echo "&#60;a href=\"" . htmlspecialchars("/nextpage.php?stage=23&#38;data=" .
+        urlencode($data)) . "\"&#62;\n";
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+  фактически вы обходите HTML GET-запрос, поэтому нужно вручную <A HREF="f/urlencode.html">
+<B>urlencode()</B></A> данные.</P></BLOCKQUOTE><BLOCKQUOTE><P><B>Примечание: </B>
+  вы должны <A HREF="f/htmlspecialchars.html"><B>htmlspecialchars()</B></A> весь URL, поскольку
+URL появляется как значение HTML-атрибута. В этом случае браузер сначала де-<A HREF="f/htmlspecialchars.html">
+<B>htmlspecialchars()</B></A> значение, а затем передаёт URL. PHP поймёт URL корректно, так как вы
+<B>urlencoded()</B> данные.</P><P>Вы увидите, что символ <TT>&#38;</TT> в URL будет заменён на
+<TT>&#38;amp;</TT>. Хотя большинство браузеров исправят ситуацию, если вы забудете сделать это, 
+это не всегда возможно. Поэтому, даже если даже ваш URL не является динамическим, вы <i>должны</i>
+<A HREF="f/htmlspecialchars.html"><B>htmlspecialchars()</B></A> URL.</P></BLOCKQUOTE>
+<B><P><A NAME="faq.html.form-image"></A><B>2. </B>
+Я пытаюсь использовать тэг &lt;input type=&quot;image&quot;&gt;, но переменные $foo.x и $foo.y недоступны. Где они?</P></B>
+<P>При отправке формы можно использовать с тэгом изображение вместо стандартной кнопки submit, как здесь:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;input type="image" src="image.gif" name="foo"&#62;</PRE></TD></TR></TABLE>
+<p>Когда пользователь щёлкает по изображению, соответствующая форма будет 
+передана на сервер с двумя дополнительными переменными: foo.x и foo.y.</p>
+<P>Поскольку $foo.x и $foo.y являются неверными именами переменных в PHP, 
+они автоматически конвертируются в $foo_x и $foo_y.  То есть, точки заменяются на символы подчёркивания.</P>
+<B><P><A NAME="faq.html.arrays"></A><B>3. </B>Как мне создать массивы в HTML-тэге &lt;form&gt;?</P></B>
+<P>Чтобы получить результат вашей &#60;form&#62;, отправленный как
+<a href="types.array.html">массив</a> в ваш PHP-скрипт, вы 
+именуете элементы &#60;input&#62;, &#60;select&#62; или &#60;textarea&#62; таким образом:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;input name="MyArray[]"&#62;
+&#60;input name="MyArray[]"&#62;
+&#60;input name="MyArray[]"&#62;
+&#60;input name="MyArray[]"&#62;</PRE></TD></TR></TABLE>
+<p>Обратите внимание на квадратные скобки после имён переменных, это то, 
+что делает их массивом. Вы можете группировать элементы в разные массивы, присвоив одно имя разным элементам:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;input name="MyArray[]"&#62;
+&#60;input name="MyArray[]"&#62;
+&#60;input name="MyOtherArray[]"&#62;
+&#60;input name="MyOtherArray[]"&#62;</PRE></TD></TR></TABLE>
+<p>Это создаст два массива - MyArray и MyOtherArray, которые будут 
+отправлены PHP-скрипту.  Можно также присвоить вашим массивам специфические ключи:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;input name="AnotherArray[]"&#62;
+&#60;input name="AnotherArray[]"&#62;
+&#60;input name="AnotherArray[email]"&#62;
+&#60;input name="AnotherArray[phone]"&#62;</PRE></TD></TR></TABLE>
+<p>Массив AnotherArray теперь будет содержать ключи 0, 1, email и phone.</p><BLOCKQUOTE>
+<P><B>Примечание: </B>специфицирование ключей массива делается в HTML по выбору. Если вы не 
+специфицируете ключи, массив заполняется элементами в порядке их появления на 
+форме.  Массив нашего первого примера будет содержать ключи 0, 1, 2&nbsp; 3.</P></BLOCKQUOTE>
+<P>См. также <a href="f/ref.array.html">Функции массива</a> и
+<a href="variables.external.html">Переменные за пределами PHP</a>.</P>
+<B><P><A NAME="faq.html.select-multiple"></A><B>4. </B>
+Как мне получит все результаты из HTML-тэга множественного выбора select?</P></B>
+<P>Тэг select multiple в HTML позволяет пользователю делать выбор нескольких 
+позиций в списке. Эти позиции передаются затем обработчику акции формы. Проблема 
+в том, что они все передаются с одним и тем же именем. Например:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;select name="var" multiple&#62;</PRE>
+</TD></TR></TABLE><p>Каждая выбранная опция дойдёт до обработчика акции как:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>var=option1
+var=option2
+var=option3</PRE></TD></TR></TABLE>
+<p>Каждая опция будет перезаписывать содержимое предыдущей переменной <TT>$var</TT>. Решением будет
+использование "массива элемента form" РНР. Нужно использовать следующее:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;select name="var[]" multiple&#62;</PRE>
+</TD></TR></TABLE><p>Это говорит PHP, что переменную <TT>$var</TT> нужно считать массивом, и
+каждое присвоение значения var[] добавляет элемент в этот массив. Первый элемент будет <TT>$var[0]</TT>,
+следующий - <TT>$var[1]</TT> и т.д. Функция <A HREF="f/count.html"><B>count()</B></A>
+может использоваться для определения количества выбранных опций, а функция <A HREF="f/sort.html">
+<B>sort()</B></A> - для сортировки массива опций, если необходимо.</p>
+<P>Обратите внимание, что, если вы используете JavaScript, наличие <TT>[]</TT> в имени
+элемента может создать проблемы, если вы попытаетесь обратиться к 
+элементу по имени. Вместо имени используйте id элемента формы или заключите имя 
+переменной в одинарные кавычки и используйте его как индекс в массиве элементов, например:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>variable = documents.forms[0].elements['var[]'];</PRE>
+</TD></TR></TABLE></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR>
+<TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="using.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="com.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">Использование PHP</TD><th WIDTH="34%" VALIGN="top">
+<a href="faq.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">PHP и COM</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

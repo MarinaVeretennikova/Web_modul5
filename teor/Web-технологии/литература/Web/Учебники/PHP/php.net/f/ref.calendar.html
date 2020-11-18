@@ -1,0 +1,68 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Календаря</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="bzwrite.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="cal-days-in-month.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.calendar"></A>VI. Функции календаря</h1><A NAME="AEN9585"></A>
+<H1><a name="calendar.intro">Введение</a></H1><P>Расширение calendar представляет серию функций для упрощения конвертации 
+различных календарных форматов.  В основе лежит стандарт Julian Day Count/Юлианское 
+летосчисление.  Julian Day Count считает дни, начиная с 1 января 4713 до н.э.<br>
+Для конвертации между календарными системами вы обязаны сначала конвертировать 
+дату в Julian Day Count, а затем в календарную систему по вашему выбору.  Julian Day Count
+<b>значительно отличается</b> от юлианского календаря! Для получения дополнительной 
+информации о Julian Day Count посетите сайт
+<A HREF="http://serendipity.magnet.ch/hermetic/cal_stud/jdn.htm" TARGET="_top">http://serendipity.magnet.ch/hermetic/cal_stud/jdn.htm</A>.
+О календарных системах см. <A HREF="http://genealogy.org/~scottlee/cal-overview.html" TARGET="_top">http://genealogy.org/~scottlee/cal-overview.html</A>.
+Выдержки с этих страниц включены в данные инструкции и заключены в кавычки.</P><H1><a name="calendar.installation">Инсталяция</a></H1>
+<P>Чтобы эти функции работали, вы должны скомпилировать PHP с опцией <TT>--enable-calendar</TT>.</P>
+<H1><a name="calendar.configuration">Конфигурация времени выполнения</a></H1>
+<P>Это расширение не определяет никаких директив конфигурации.</P>
+<H1><a name="calendar.resources">Типы ресурсов</a></H1><P>Это расширение не определяет никаких типов ресурсов.</P>
+<H1><a name="calendar.constants">Предопределённые константы</a></H1>
+<P>Эти константы определены данным расширением и будут доступны только в том случае, когда расширение скомпилировано вместе с PHP или динамически 
+загружается на этапе прогона.</P><DL><DT><TT><B>CAL_GREGORIAN</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CAL_JULIAN</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CAL_JEWISH</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CAL_FRENCH</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CAL_NUM_CALS</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CAL_DOW_DAYNO</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CAL_DOW_SHORT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CAL_DOW_LONG</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CAL_MONTH_GREGORIAN_SHORT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CAL_MONTH_GREGORIAN_LONG</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CAL_MONTH_JULIAN_SHORT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CAL_MONTH_JULIAN_LONG</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CAL_MONTH_JEWISH</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CAL_MONTH_FRENCH</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT></DL>
+<P>Следующие константы доступны, начиная с <TT>PHP</TT> 4.3.0 :</P>
+<DL><DT><TT><B>CAL_EASTER_DEFAULT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CAL_EASTER_ROMAN</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CAL_EASTER_ALWAYS_GREGORIAN</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CAL_EASTER_ALWAYS_JULIAN</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT></DL>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="cal-days-in-month.html">cal_days_in_month</A> - возвращает количество дней в месяце для данного года и календаря</DT>
+<DT><A HREF="cal-from-jd.html">cal_from_jd</A> - конвертирует из Julian Day Count в поддерживаемый календарь и 
+возвращает расширенную информацию</DT>
+<DT><A HREF="cal-info.html">cal_info</A> - возвращает информацию об определённом календаре</DT>
+<DT><A HREF="cal-to-jd.html">cal_to_jd</A> - конвертирует из поддерживаемого календаря в Julian Day Count</DT>
+<DT><A HREF="easter-date.html">easter_date</A> - получает UNIX timestamp для полуночи Easter данного года</DT>
+<DT><A HREF="easter-days.html">easter_days</A> - получает количество дней после 21 марта до дня, на который выпадает Easter, 
+для данного года</DT><DT><A HREF="frenchtojd.html">FrenchToJD</A> - конвертирует дату из French Republican Calendar в Julian
+Day Count</DT><DT><A HREF="gregoriantojd.html">GregorianToJD</A> - конвертирует Григорианскую дату в Julian Day Count</DT>
+<DT><A HREF="jddayofweek.html">JDDayOfWeek</A> - возвращает день недели</DT>
+<DT><A HREF="jdmonthname.html">JDMonthName</A> - возвращает название месяца</DT>
+<DT><A HREF="jdtofrench.html">JDToFrench</A> - конвертирует Julian Day Count во French Republican Calendar</DT>
+<DT><A HREF="jdtogregorian.html">JDToGregorian</A> - конвертирует Julian Day Count в Григорианскую дату</DT>
+<DT><A HREF="jdtojewish.html">JDToJewish</A> - конвертирует Julian Day Count в Еврейский календарь</DT>
+<DT><A HREF="jdtojulian.html">JDToJulian</A> - конвертирует Julian Day Count в дату Юлианского календаря</DT>
+<DT><A HREF="jdtounix.html">jdtounix</A> - конвертирует Julian Day Count в UNIX timestamp</DT>
+<DT><A HREF="jewishtojd.html">JewishToJD</A> - конвертирует дату Еврейского календаря в Julian Day Count</DT>
+<DT><A HREF="juliantojd.html">JulianToJD</A> - конвертирует дату Julian Calendar в Julian Day Count</DT>
+<DT><A HREF="unixtojd.html">unixtojd</A> - конвертирует UNIX timestamp в Julian Day Count</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%"  BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="bzwrite.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="cal-days-in-month.html">Вперёд</A></TD></TR>
+<TR><TD WIDTH="33%" VALIGN="top">bzwrite</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">cal_days_in_month</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

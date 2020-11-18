@@ -1,0 +1,54 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции CCVS API</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" CELLPADDING="3" BORDER="0"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="unixtojd.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="ccvs-add.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.ccvs"></A>VII. Функции CCVS API</h1><A NAME="AEN10110"></A><H1><A NAME="ccvs.intro">Введение</A>
+</H1><P>Эти функции интерфейса CCVS API дают возможность работать напрямую с CCVS 
+из ваших PHP-скриптов.  CCVS это <A HREF="http://www.redhat.com/" TARGET="_top">RedHat</A>-решение для "middle-man"
+в процессинге кредитных карт.  Оно позволяет вам непосредственно адресовать 
+клиринговые дома кредитных карт с помощью вашего *nix box и модема.  Используя CCVS-модуль 
+для PHP, вы можете работать с кредитными картами напрямую через CCVS в ваших PHP-скриптах.  
+Далее этот процесс будет рассмотрен.</P><BLOCKQUOTE><P><B>Примечание: </B>
+CCVS больше не разрабатывается Red Hat, и отсутствуют планы выпуска новых 
+ключей и поддержки контрактов. Желающие могут рассмотреть в качестве возможной замены 
+<A HREF="http://www.mcve.com/" TARGET="_top">MCVE фирмы Main Street Softworks</A>. Эта система похожа по дизайну и имеет задокументированную поддержку
+PHP!</P></BLOCKQUOTE><H1><a name="ccvs.installation">Установка</a></H1>
+<P>Чтобы включить поддержку CCVS в PHP, проверьте сначала директорию вашей 
+инсталяции CCVS.  Затем вам нужно будет сконфигурировать PHP с опцией <TT>--with-ccvs</TT>. Если вы используете эту опцию без специфицирования пути к вашей инсталяции CCVS, PHP
+попытается искать в директории по умолчанию для установки CCVS (/usr/local/ccvs). Если CCVS находится в нестандартном месте, запустите
+configure с опцией <TT>--with-ccvs=$ccvs_path</TT>, где $ccvs_path это путь к вашей инсталяции CCVS.  Обратите внимание, что 
+поддержка CCVS требует, чтобы существовали $ccvs_path/lib и $ccvs_path/include, 
+а также включите cv_api.под include-директорией и libccvs.a под lib-директорией.</P>
+<P>Кроме того, процесс ccvsd должен запускаться в конфигурации, которую вы 
+предполагаете использовать в своих скриптах PHP. Необходимо также обеспечить 
+запуск PHP-процессов под тем же логином/user, что и при инсталяции CCVS (например, 
+если вы установили CCVS как пользователь 'ccvs', ваши PHP-процессы обязаны также работать под 'ccvs'.)</P>
+<H1><a name="ccvs.seealso">См. также</a></H1><P>Дополнительную информацию о CCVS можно найти в
+<A HREF="http://www.redhat.com/products/ccvs" TARGET="_top">http://www.redhat.com/products/ccvs</A>. RedHat обслуживает несколько устаревшую, но всё же полезную документацию по 
+адресу <A HREF="http://www.redhat.com/products/ccvs/support/CCVS3.3docs/ProgPHP.html" TARGET="_top">http://www.redhat.com/products/ccvs/support/CCVS3.3docs/ProgPHP.html</A>.</P>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="ccvs-add.html">ccvs_add</A> - добавляет данные в транзакцию</DT>
+<DT><A HREF="ccvs-auth.html">ccvs_auth</A> - выполняет проверку авторизации кредита в транзакции</DT>
+<DT><A HREF="ccvs-command.html">ccvs_command</A> - выполняет команду, которая специфична для данного протокола, и,
+следовательно, недоступна в общем CCVS API</DT>
+<DT><A HREF="ccvs-count.html">ccvs_count</A> - определяет, сколько транзакций данного типа хранится в системе</DT>
+<DT><A HREF="ccvs-delete.html">ccvs_delete</A> - удаляет транзакцию</DT>
+<DT><A HREF="ccvs-done.html">ccvs_done</A> - прерывает работу CCVS-машины и выполняет зачистку</DT>
+<DT><A HREF="ccvs-init.html">ccvs_init</A> - инициализирует CCVS</DT>
+<DT><A HREF="ccvs-lookup.html">ccvs_lookup</A> - находит элемент определённого типа в database #</DT>
+<DT><A HREF="ccvs-new.html">ccvs_new</A> - создаёт новую пустую транзакцию</DT>
+<DT><A HREF="ccvs-report.html">ccvs_report</A> - возвращает статус фонового процесса коммуникации</DT>
+<DT><A HREF="ccvs-return.html">ccvs_return</A> - переводит фонды от продавца владельцу кредитной карты</DT>
+<DT><A HREF="ccvs-reverse.html">ccvs_reverse</A> - выполняет полную отмену уже проведённой авторизации</DT>
+<DT><A HREF="ccvs-sale.html">ccvs_sale</A> - переводит фонды от владельца кредитной карты продавцу</DT>
+<DT><A HREF="ccvs-status.html">ccvs_status</A> - проверяет статус накладной</DT>
+<DT><A HREF="ccvs-textvalue.html">ccvs_textvalue</A> - получает текстовое return-значение предыдущего вызова функции</DT>
+<DT><A HREF="ccvs-void.html">ccvs_void</A> - выполняет полный откат завершённой транзакции</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="unixtojd.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="ccvs-add.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">unixtojd</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">ccvs_add</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

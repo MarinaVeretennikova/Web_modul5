@@ -1,0 +1,125 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>Конструкторы</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="keyword.extends.html">Назад</A></TD>
+<th WIDTH="80%">Глава 13. Классы и Объекты</th><TD WIDTH="10%" ALIGN="right">
+<A HREF="keyword.paamayim-nekudotayim.html">Вперёд</A></TD></TR></TABLE></TD></TR>
+<TR BGCOLOR="#333366"><TD><IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR>
+</TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD>
+<TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%"><H1><A NAME="language.oop.constructor">Конструкторы</A></H1><TABLE CLASS="caution" BORDER="1" WIDTH="100%"><TR><th>Внимание!</th></TR><TR>
+<TD><P>В PHP 3 и PHP 4 конструкторы ведут себя по-разному. Предпочтительна исключительно семантика PHP 4.</P></TD>
+</TR></TABLE><P>Конструкторы это функции класса, которые автоматически вызываются при 
+создании нового экземпляра класса операцией <TT>new</TT>. В PHP 3 функция становится конструктором, когда она имеет то же имя, что и 
+класс. В PHP 4 функция становится конструктором, когда она имеет то же имя, 
+что и класс, в котором она определена - разница незаметна, но существенна (см. далее).</P>
+<A NAME="AEN5443"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>// Работа с PHP 3 и PHP 4.
+class Auto_Cart extends Cart
+{
+    function Auto_Cart()
+    {
+        $this-&#62;add_item ("10", 1);
+    }
+}</PRE></TD></TR></TABLE><P>Здесь определяется класс Auto_Cart, который является Cart плюс конструктор, 
+который инициализирующий cart одним элементом  номер "10" всякий раз, 
+когда новый Auto_Cart создаётся с помощью &quot;new". Конструкторы могут принимать 
+аргументы, и эти аргументы не обязательны, что делает эти конструкторы более 
+используемыми. Чтобы иметь возможность использовать класс без параметров, все 
+параметры конструкторов нужно сделать необязательными/optional, предоставив значения по умолчанию.</P>
+<A NAME="AEN5446"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>// Работа в PHP 3 и в PHP 4.
+class Constructor_Cart extends Cart
+{
+    function Constructor_Cart($item = "10", $num = 1)
+    {
+        $this-&#62;add_item ($item, $num);
+    }
+}
+ 
+// Использовать ту же заглушку.
+
+$default_cart = new Constructor_Cart;
+ 
+// Создать новый ...
+ 
+$different_cart = new Constructor_Cart("20", 17);</PRE></TD></TR></TABLE>
+<P>Вы можете также использовать операцию <TT>@</TT> для <i>подавления</i> ошибок, возникающих в конструкторе, например,
+<TT>@new</TT>.</P><TABLE CLASS="caution" BORDER="1" WIDTH="100%"><TR><th>Внимание!</th></TR><TR><TD>
+<P>В PHP 3 получаемые классы и конструкторы имеют некоторые ограничения. 
+Следующие примеры нужно внимательно разобрать, чтобы понять эти ограничения.</P></TD></TR></TABLE><br>
+<A NAME="AEN5454"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>class A
+{
+    function A()
+    {
+      echo "I am the constructor of A.&#60;br&#62;\n";
+    }
+}
+
+class B extends A
+{
+    function C()
+    {
+        echo "I am a regular &#60;br&#62;\n";
+    }
+}
+
+// в PHP 3 конструктор не вызывается.
+$b = new B;</PRE></TD></TR></TABLE>
+<P>В PHP 3 никакой конструктор в вышеприведённом примере не вызывается.
+Правило PHP 3 таково: 'Конструктор это функция с тем же именем, что и класс'.
+Имя класса - B, а функции с именем B() в классе B нет. Ничего не происходит.</P>
+<P>Это исправлено в PHP 4 путём введения нового правила: если класс не имеет 
+конструктора, вызывается конструктор базового класса, если он имеется. В РНР 4 
+предыдущий пример выведет 'I am the constructor of A.&#60;br&#62;'.</P>
+<A NAME="AEN5458"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>class A
+{
+    function A()
+    {
+        echo "I am the constructor of A.&#60;br&#62;\n";
+    }
+
+    function B()
+    {
+        echo "I am a regular function named B in class A.&#60;br&#62;\n";
+        echo "I am not a constructor in A.&#60;br&#62;\n";
+    }
+}
+
+class B extends A
+{
+    function C()
+    {
+        echo "I am a regular &#60;br&#62;\n";
+    }
+}
+
+// Это вызов B() как конструктора.
+$b = new B;</PRE></TD></TR></TABLE>
+<P>В PHP 3 функция B() в классе A станет конструктором в классе B, хотя это никак не предполагается.
+Правило PHP 3: 'Конструктор это функция с тем же именем, что и класс'. PHP 3 
+не заботиться о том, определяется ли функция в классе B или наследуется.</P>
+<P>Это изменено в PHP 4 путём модификации правила: 'Конструктор это функция с 
+тем же именем, что и класс, в котором она определяется'. Таким образом, в PHP 4 
+класс B может не иметь собственной функции-конструктора, и будет вызван 
+конструктор базового класса, печатая 'I am the constructor of A.&#60;br&#62;'.</P>
+<TABLE CLASS="caution" BORDER="1" WIDTH="100%"><TR><th>Внимание!</th></TR><TR><TD>
+<P>Ни PHP 3, ни PHP 4 не вызывают конструктор базового класса автоматически 
+из конструктора получаемого класса. Вы сами должны поместить вызовы конструкторов в нужных местах.</P></TD></TR>
+</TABLE><BLOCKQUOTE><P><B>Примечание: </B>в PHP 3 и PHP 4 нет деструкторов. Вы можете использовать
+<A HREF="f/register-shutdown-function.html"><B>register_shutdown_function()</B></A>
+для симуляции большей части работы деструкторов.</P></BLOCKQUOTE>
+<P>Деструкторы это функции, вызываемые автоматически при уничтожении объекта в процессе работы функции
+<A HREF="f/unset.html"><B>unset()</B></A> или просто при выходе за пределы области видимости. В PHP нет деструкторов.</P>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="keyword.extends.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="keyword.paamayim-nekudotayim.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">
+<TT>extends</TT></TD><th WIDTH="34%" VALIGN="top"><a href="oop.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><TT>::</TT></TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

@@ -1,0 +1,36 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>pfpro_process_raw</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="pfpro-init.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="pfpro-process.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="pfpro-process-raw">pfpro_process_raw</A></H1><A NAME="AEN63603"></A><P>(PHP 4 &#62;= 4.0.2)</P>
+<p>pfpro_process_raw - обрабатывает сырую/raw транзакцию с помощью Payflow Pro.<A NAME="AEN63606"></A></p><H2>Описание</H2>
+<p>string <B>pfpro_process_raw</B> (string parameters [, string address [, int port [, int timeout [, string proxy address [, int proxy port [, string proxy logon [, string proxy password]]]]]]])</p>
+<P>Возвращает строку с ответом.</P><P><B>pfpro_process_raw()</B> обрабатывает сырую строку транзакции с помощью Payflow Pro. Вы должны 
+использовать в действительности <A HREF="pfpro-process.html"><B>pfpro_process()</B></A> вместо неё, поскольку правила кодирования этих транзакций нестандартны.</P>
+<P>Первый параметр в этом случае является строкой, содержащей запрос сырой транзакции. Все другие параметр - те же, что и у
+<A HREF="pfpro-process.html"><B>pfpro_process()</B></A>. return-значением является строка, содержащая сырой ответ.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>прочтите в Payflow Pro Developers Guide полную информацию о требуемых 
+параметрах и правилах кодирования. Вместо этой функции лучше использовать <A HREF="pfpro-process.html"><B>pfpro_process()</B></A>.</P></BLOCKQUOTE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN63644"></A><h5>Пример 1. Сырой Payflow Pro</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+pfpro_init();
+
+<font size="1">$response = pfpro_process("USER=mylogin&#38;PWD[5]=m&#38;ndy&#38;TRXTYPE=S&#38;TENDER=C&#38;AMT=1.50&#38;ACCT=4111111111111111&#38;EXPDATE=0904");</font>
+
+if (!$response) {
+  die("Couldn't establish link to Verisign.\n");
+}
+
+echo "Verisign raw response was ".$response;
+
+pfpro_cleanup();
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="pfpro-init.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="pfpro-process.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">pfpro_init</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.pfpro.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">pfpro_process</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

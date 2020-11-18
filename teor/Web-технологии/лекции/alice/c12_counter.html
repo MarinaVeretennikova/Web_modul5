@@ -1,0 +1,840 @@
+<html>
+<title>Анализ посетителей веб-сайта</title>
+<meta name=keywords content="СУБД MySQL mysqladmin mysqlshow phpMySQLadmin C API">
+
+<body>
+<table align=center width=90%>
+<tr><td>
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c12_sql.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c12_sql.html">Выполняем SQL-запросы к базе данных </a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c12_ex1.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c12_ex1.html">Упражнение: Доработать скрипт анализа посетителей веб-сата.</a>
+</table>
+
+
+<h3>Анализ посетителей веб-сайта</h3>
+  <p align=justify>
+  Рассмотрим одни из самых простейших и первых скриптов, которые
+  появились на веб-сайтах - это учет и анализ посетителей сайта. Этим скриптам 
+  необходимо сохранять, редактировать и удалять
+  информацию на сервере, поэтому без СУБД никак не обойтись. Каждый раз при заходе посетителя
+  на страницу, 
+  будет вызываться CGI-скрипт счетчика,
+  который будет записывать информацию об одном посещении в нашу базу. 
+  Ниже приведена таблица, где мы будем хранить информацию о посещении
+  пользователем страницы нашего сайта:
+  <pre>
+  CREATE TABLE hit (
+  owner_id int unsigned NOT NULL default '0', // id счетчика
+  it_date datetime default NULL,              // дата посещения
+  
+  shref varchar(255) default NULL, // сервер, с которого пользователь
+                                   // пришел на нашу страницу
+
+  href varchar(255) default NULL,  // страница сервера, с которой
+                                   // пользователь пришел на нашу 
+                                   // страницу
+                                                
+  ip varchar(16) default NULL,     // ip-адрес пользователя
+  os varchar(32) default NULL,     // операционная система
+  browser varchar(32) default NULL,// броузер
+  version varchar(32) default NULL,// версия броузера
+  x int unsigned default NULL,     // разрешение экрана по горизонтали
+  y int unsigned default NULL,     // разрешение экрана по вертикали
+  depth int unsigned default NULL, // количество цветов (глубина цвета)
+  cookie enum('0','1') default '0',// поддерживается ли механизм Cookie
+  java enum('0','1') default '0',  // поддерживается ли java
+  spage varchar(255) default NULL, // url посещаемого сервера
+  page varchar(255) default NULL,  // url посещаемой страницы
+  frame enum('0','1') default '0', // страница с фреймом или без
+  js char(3) default '0'           // версия javascript
+) 
+  </pre>
+  
+Данная информация собирается простым кодом на JavaScript, см. главу пять, ниже
+приведен код счетчика:
+<pre>  
+&lt;script language="JavaScript"&gt;js=10;&lt;/script&gt;&lt;script language="JavaScript1.1"&gt;
+js=11;&lt;/script&gt;&lt;script language="JavaScript1.2"&gt;js=12&lt;/script&gt;
+&lt;script language="JavaScript1.3"&gt;js=13;&lt;/script&gt;
+
+
+&lt;script language="JavaScript"&gt;
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('&lt;img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'"&gt;');
+&lt;/script&gt;
+</pre>
+  
+  <p align=justify>
+  Обратите внимание, что код на JavaScript состоит из двух блоков. В первом определяется 
+  версия JavaScript, а во втором идет код самого счетчика. Самым последним параметром передается случайное
+  число, оно не используется, но необходимо, чтобы броузеры и прокси-сервера не кэшировали
+  наш счетчик. Если бы этого случайного числа не было, то скрипт счетчика вызывался бы только
+  один раз, при первом заходе пользователя, а в остальных случаях броузер или прокси-сервер
+  выдавал бы прозрачный GIF из кэша.
+  <br>
+  
+  Нас интересуют отчеты, которые показывают: количество уникальных посетителей сайта, общее количество
+  запрошенных страниц, среднее количество страниц, запрашиваемых одним пользователем, самые
+  популярные страницы нашего сайта,
+  страницы, с которых пользователи приходят на наш сайт, динамика визитов, операционные системы 
+  и броузеры пользователей.
+  <br>
+  Сам скрипт counter, который вносит в таблицу hit новую запись об очередном открытии
+  нашей страницы, очень прост. Но он отличается от CGI-скриптов, рассмотренных ранее тем, что
+  выдает прозрачный GIF-файл размером 1х1 пиксел. Все счетчики устроены по такому принципу, т.к.
+  единственная возможность вызвать CGI-скрипт одновременно с загрузкой HTML-страницы - это
+  вызвать его в команде img.
+  
+<pre>
+/*
+ * (c) Copyright 1995-2000, Igor Tarasov
+ * http://itsoft.ru
+ * FidoNet: 2:5020/370.2 620.20 1103.5
+ * email: igor@itsoft.ru itarasov@rtuis.miem.edu.ru
+ * Phone: (095)916-89-51 916-89-63
+ */
+
+#include &lt;stdio.h&gt;
+#include &lt;mysql/mysql.h&gt;
+#include &lt;itcgi.h&gt;
+
+
+
+int main()
+{
+
+MYSQL* pDB;
+
+LString* sref = CreateString();
+LString* pref = CreateString();
+LString* spage = CreateString();
+LString* ppage = CreateString();
+
+LString* id = CreateString();
+LString* ref = CreateString();
+LString* browser = CreateString();
+LString* version = CreateString();
+LString* cookie = CreateString();
+LString* frame = CreateString();
+LString* java = CreateString();
+LString* x = CreateString();
+LString* y = CreateString();
+LString* depth = CreateString();
+LString* js = CreateString();
+LString* os = CreateString();
+char str[4096];
+
+
+
+pDB = mysql_init(NULL);
+ 
+ if(!pDB)
+  {
+   printError(mysql_error(pDB));
+   return -1;
+  }
+  
+//получаем значения CGI-параметров,
+//сформированных javascript'ом, приведенным выше  
+GetParamByName("id", id);
+GetParamByName("r", ref);
+GetParamByName("n", browser);
+GetParamByName("v", version);
+GetParamByName("c", cookie);
+GetParamByName("f", frame);
+GetParamByName("j", java);
+GetParamByName("x", x);
+GetParamByName("y", y);
+GetParamByName("d", depth);
+GetParamByName("js", js);
+GetParamByName("o", os);
+
+//соединяемся с базой
+if( !mysql_real_connect(pDB, NULL, "counter", "хххххх", "counter", 0, NULL, 0) )
+ {
+  printError("mysql_real_connect: %s\n", mysql_error(pDB));
+  goto LABEL_END;
+ }
+
+//получаем адрес сайта, на который пришел пользователь
+//эти адреса будут различаться в случае, если ваш счетчик 
+//установлен на несколько ваших веб-сайтов
+GetServer(getenv("HTTP_REFERER"), spage);
+//получаем адрес страницы сайта, на которую пришел пользователь
+GetPage(getenv("HTTP_REFERER"), ppage);
+
+//получаем адрес сайта, с которого пришел пользователь
+GetServer(*ref, sref);
+//получаем адрес страницы сайта, с которой пришел пользователь
+GetPage(*ref, pref);
+
+
+//формируем строку SQL-запроса 
+//обратите внимание, что мы используем функцию snprintf
+//застраховавшись от переполнения буфера
+ snprintf(str, 4096, "INSERT INTO hit ( owner_id, shref, href, browser, version, \
+ cookie, frame, java, x, y, depth, js, os, ip, spage, page, it_date) VALUES (\
+ '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', \
+ '%s', '%s', '%s', '%s', NOW())",
+ *id, *sref, *pref, *browser, *version, *cookie, *frame, *java, *x, *y, *depth, 
+ *js, *os, getenv("REMOTE_ADDR"), *spage, *ppage);
+
+//вставляем новую запись в таблицу hit
+if( mysql_query(pDB, str) )
+ {
+  printError("mysql_query: SQL=%s&lt;br&gt; %s\n", str,  mysql_error(pDB));   
+  goto LABEL_END;
+ }
+
+
+//выдаем прозрачный GIF размером 1х1 пиксел
+printf("Content-type: image/gif\n\n");
+fwrite("GIF89a  ?  яяя   !щ    ,      @D ;", 1, 43, stdout);
+
+LABEL_END:
+//закрываем соединение с базой
+mysql_close(pDB);
+
+
+//освобождаем память
+DeleteString(sref);
+DeleteString(pref);
+DeleteString(spage);
+DeleteString(ppage);
+
+DeleteString(id);
+DeleteString(ref);
+DeleteString(browser);
+DeleteString(version);
+DeleteString(cookie);
+DeleteString(frame);
+DeleteString(java);
+DeleteString(x);
+DeleteString(y);
+DeleteString(depth);
+DeleteString(js);
+DeleteString(os);
+
+return 0;
+}
+
+
+
+******Makefile***********
+all: counter 
+
+
+counter: counter.c itcgi.a
+        gcc counter.c -L/usr/local/lib/mysql \
+-L/usr/local/lib -I/usr/local/include \
+-o counter -lmysqlclient /usr/lib/itcgi.a -Wall -O3 
+        strip counter 
+
+</pre>
+
+
+<p align=justify>
+Создайте базу данных counter, а в ней таблицу hit, приведенную выше. Соберите данный
+CGI-скрипт и разместите код счетчика на ваших страницах. 
+<br>
+Далее мы напишем программу построения отчетов.
+<br>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;mysql/mysql.h&gt;
+#include &lt;itcgi.h&gt;
+
+
+
+int main()
+{
+MYSQL* pDB;
+MYSQL_RES* res;
+MYSQL_ROW row;  
+
+//переменные для хранения дня, за который строится отчет, и запроса
+LString* day = CreateString();
+LString* sql_query = CreateString();
+
+pDB = mysql_init(NULL);
+
+ if(!pDB)
+ {
+  printError("Внимание! Ошибка!!!", mysql_error(pDB));
+  return -1;
+ }
+
+
+
+if( !mysql_real_connect(pDB, NULL, "counter", "xxxx", "counter", 0, NULL, 0) )
+ {
+  printError("Внимание! Ошибка!!!", "mysql_real_connect: %s\n", mysql_error(pDB));
+  goto LABEL_END;
+ }
+
+
+//выдаем HTTP-заголовок
+printf("Content-type: text/html; charset=windows-1251\n\n");
+
+//получаем день
+GetParamByName("day", day);
+if(!strlen(*day))
+{
+ //если из CGI-параметров день не удалось получить,
+ //берем текущую дату
+ //CURDATE() вернет дату в виде 2002-01-08, т.е. 8 января 2002 года
+ LString_Format(sql_query, "SELECT CURDATE()");
+ mysql_query(pDB, *sql_query);
+ res = mysql_store_result(pDB);  
+ row = mysql_fetch_row(res);    
+ LString_SetString(day, row[0]); 
+ mysql_free_result(res);
+}
+
+//Создаем ссылки для навигации по дням.
+//Этот код непосредственно к отчетам не имеет отношения,
+//поэтому его комментировать не будем.
+LString_Format(sql_query, 
+"SELECT DATE_SUB('%s', INTERVAL 1 DAY), DATE_ADD('%s', INTERVAL 1 DAY)", *day, *day);
+mysql_query(pDB, *sql_query);
+res = mysql_store_result(pDB);  
+row = mysql_fetch_row(res);
+printf("&lt;table border=0 width=95%%&gt;&lt;tr&gt;&lt;td align=left&gt; \
+&lt;a href=/common/report?day=%s&gt;Предыдущий день&lt;/a&gt; \
+&lt;td align=center&gt; %s
+&lt;td align=right&gt;&lt;a href=/common/report?day=%s&gt;Следующий день&lt;/a&gt;&lt;/table&gt;",
+row[0], *day, row[1]);
+mysql_free_result(res);
+
+
+
+//далее идут отчеты
+
+//сначала печатаем заголовок
+printf("&lt;h4&gt;Общее количество хостов и хитов&lt;/h4&gt;"); 
+//затем результат SQL-запроса
+printTable(pDB, "SELECT COUNT(DISTINCT ip) as host, COUNT(*) as hit FROM hit");
+
+printf("&lt;h4&gt;Динамика визитов по дням&lt;/h4&gt;"); 
+printTable(pDB, "SELECT count(distinct ip) as host, COUNT(*) as hit, \
+DATE_FORMAT(it_date, '%Y-%m-%d') as date FROM hit \
+GROUP BY date");
+
+printf("&lt;h4&gt;Распределение хитов и хостов по часам&lt;/h4&gt;"); 
+LString_Format(sql_query, "SELECT count(distinct ip) as host, COUNT(*) as hit, \
+DATE_FORMAT(it_date, '%%H') as hour FROM hit \
+WHERE DATE_FORMAT(it_date, '%%Y-%%m-%%d')='%s' \
+GROUP BY hour", *day);
+printTable(pDB, *sql_query);
+
+
+
+printf("&lt;h4&gt;Страницы - распределение хостов и хитов по страницам&lt;/h4&gt;"); 
+LString_Format(sql_query,
+"SELECT  COUNT(DISTINCT ip) as host, COUNT(*) as hit, \
+CONCAT(spage,page) as url FROM hit \
+WHERE DATE_FORMAT(it_date, '%%Y-%%m-%%d')='%s' \
+GROUP BY url ORDER BY host DESC, hit DESC LIMIT 0,20", *day);
+printTable(pDB, *sql_query);
+
+printf("&lt;h4&gt;Страницы - распределение по доменным именам&lt;/h4&gt;"); 
+LString_Format(sql_query, 
+"SELECT  COUNT(DISTINCT ip) as host, COUNT(*) as hit, spage FROM hit \
+WHERE DATE_FORMAT(it_date, '%%Y-%%m-%%d')='%s' \
+GROUP BY spage ORDER BY host DESC, hit DESC  LIMIT 0,20", *day);
+printTable(pDB, *sql_query);
+
+
+printf("&lt;h4&gt;Ссылки - распределение по страницам&lt;/h4&gt;"); 
+LString_Format(sql_query, "SELECT  COUNT(*) as q, shref, href FROM hit \
+WHERE DATE_FORMAT(it_date, '%%Y-%%m-%%d')='%s'   \
+GROUP BY shref, href ORDER BY q DESC LIMIT 0,20", *day);
+printTable(pDB, *sql_query);
+
+
+printf("&lt;h4&gt;Ссылки - распределение по доменным именам&lt;/h4&gt;"); 
+LString_Format(sql_query, "SELECT  COUNT(*) as q, shref FROM hit \
+WHERE DATE_FORMAT(it_date, '%%Y-%%m-%%d')='%s' \
+GROUP BY shref ORDER BY q DESC LIMIT 0,20", *day);
+printTable(pDB, *sql_query);
+
+
+printf("&lt;h4&gt;Распределение хитов по хостам&lt;/h4&gt;"); 
+LString_Format(sql_query, "CREATE TEMPORARY TABLE IF NOT EXISTS hh \
+SELECT COUNT(*) as hit, ip FROM hit \
+WHERE DATE_FORMAT(it_date, '%%Y-%%m-%%d')='%s' \
+GROUP BY ip ORDER BY hit DESC", *day);
+
+mysql_query(pDB, *sql_query);
+printTable(pDB, "SELECT * FROM hh LIMIT 0,20");
+
+printf("&lt;h4&gt;Среднее количество страниц, открываемых одним пользователем&lt;/h4&gt;"); 
+printTable(pDB, "SELECT AVG(hit) FROM hh");
+
+printf("&lt;h4&gt;Распределение по операционным системам &lt;/h4&gt;"); 
+printTable(pDB, "SELECT COUNT(*) as q, os FROM hit \
+GROUP BY os ORDER BY q DESC");
+
+
+printf("&lt;h4&gt;Распределение по броузерам&lt;/h4&gt;"); 
+printTable(pDB, "SELECT COUNT(*) as q, browser FROM hit \
+GROUP BY browser ORDER BY q DESC");
+
+
+printf("&lt;h4&gt;Распределение по версиям броузеров&lt;/h4&gt;"); 
+printTable(pDB, "SELECT COUNT(*) as q, browser, version FROM hit \
+GROUP BY browser, version ORDER BY q DESC ");
+
+
+printf("&lt;h4&gt;Распределение по разрешению экрана&lt;/h4&gt;"); 
+printTable(pDB, "SELECT COUNT(*) as q, CONCAT(x, 'x', y) as res FROM hit \
+GROUP BY res ORDER BY q DESC ");
+
+
+printf("&lt;h4&gt;Распределение по количеству цветов&lt;/h4&gt;"); 
+printTable(pDB, "SELECT COUNT(*) as q, depth FROM hit GROUP BY depth ORDER BY q DESC");
+
+printf("&lt;h4&gt;Распределение по версиям javascript&lt;/h4&gt;"); 
+printTable(pDB, "SELECT COUNT(*), js FROM hit GROUP BY js ORDER BY 1 DESC");
+
+
+printf("&lt;h4&gt;Распределение по наличию java&lt;/h4&gt;"); 
+printTable(pDB, "SELECT count(*), java FROM hit GROUP BY java ORDER BY 1 DESC");
+
+
+printf("&lt;h4&gt;Распределение по наличию cookie&lt;/h4&gt;"); 
+printTable(pDB, "SELECT count(*), cookie FROM hit GROUP BY cookie ORDER BY 1 DESC");
+
+
+/*
+printf("&lt;h4&gt;&lt;/h4&gt;"); 
+printTable(pDB, "");
+*/
+
+
+LABEL_END:
+mysql_close(pDB);
+
+DeleteString(day);
+DeleteString(sql_query);
+return 0;
+}
+
+=========Makefile==========
+all: report
+
+
+report: report.c itcgi.a
+        gcc report.c -L/usr/local/lib/mysql \
+-L/usr/local/lib -I/usr/local/include \
+-o report -lmysqlclient /usr/lib/itcgi.a -Wall -O3 
+        strip report
+
+
+</pre>
+
+Имеет смысл обратить особое внимание на следующий код.
+<pre>
+printf("&lt;h4&gt;Распределение хитов по хостам&lt;/h4&gt;"); 
+LString_Format(sql_query, "CREATE TEMPORARY TABLE IF NOT EXISTS hh \
+SELECT COUNT(*) as hit, ip FROM hit \
+WHERE DATE_FORMAT(it_date, '%%Y-%%m-%%d')='%s' \
+GROUP BY ip ORDER BY hit DESC", *day);
+
+mysql_query(pDB, *sql_query);
+printTable(pDB, "SELECT * FROM hh LIMIT 0,20");
+
+printf("&lt;h4&gt;Среднее количество страниц, открываемых одним пользователем&lt;/h4&gt;"); 
+printTable(pDB, "SELECT AVG(hit) FROM hh");
+</pre>
+<p align=justify>
+Во-первых, обратите внимание на то, как формируется строка SQL-запроса.
+При использовании LString_Format вы застрахованы от переполнения буфера и имеете
+возможность формировать строку с заранее неизвестным размером. Во-вторых, обратите внимание
+на сам SQL-запрос. Мы сначала создаем временную таблицу hh, а затем выполняем для нее
+два SQL-запроса. Необходимость использовать временную таблицу вызвана тем, что получить
+одним запросом среднее количество страниц, открываемых одним пользователем, невозможно.
+Мы сначала должны посчитать сколько страниц открыл каждый пользователь, а затем посчитать
+среднее арифметическое. Временная таблица уничтожается автоматически, после завершения
+соединения с базой либо же после явного вызова DROP TABLE. Помните об этом!
+
+<br><br>
+
+Результат работы CGI-скрипта report за 7 января 2002 года представлен ниже.
+<br>
+
+<table border=0 width=95%><tr><td align=left> <a href="javascript:if(confirm('http://alice.stup.ac.ru/common/report?day=2002-01-06  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/common/report?day=2002-01-06'" tppabs="http://alice.stup.ac.ru/common/report?day=2002-01-06">Предыдущий день</a> <td align=center> 2002-01-07
+<td align=right><a href="javascript:if(confirm('http://alice.stup.ac.ru/common/report?day=2002-01-08  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/common/report?day=2002-01-08'" tppabs="http://alice.stup.ac.ru/common/report?day=2002-01-08">Следующий день</a></table><h4>Общее количество хостов и хитов</h4><table border=1 cellspacing=0 cellpadding=0>
+<tr bgcolor="#CCCCFF">
+<td>host</td><td>hit</td></tr>
+<tr bgcolor="#EEEEEE">
+<td>1189</td><td>13490</td></table><h4>Динамика визитов по дням</h4><table border=1 cellspacing=0 cellpadding=0>
+<tr bgcolor="#CCCCFF">
+<td>host</td><td>hit</td><td>date</td></tr>
+<tr bgcolor="#EEEEEE">
+<td>0</td><td>3</td><td>(null)</td><tr bgcolor="#CCCCCC">
+<td>312</td><td>5016</td><td>2002-01-05</td><tr bgcolor="#EEEEEE">
+<td>314</td><td>2529</td><td>2002-01-06</td><tr bgcolor="#CCCCCC">
+<td>345</td><td>3241</td><td>2002-01-07</td><tr bgcolor="#EEEEEE">
+<td>326</td><td>2701</td><td>2002-01-08</td></table><h4>Распределение хитов и хостов по часам</h4><table border=1 cellspacing=0 cellpadding=0>
+<tr bgcolor="#CCCCFF">
+<td>host</td><td>hit</td><td>hour</td></tr>
+<tr bgcolor="#EEEEEE">
+<td>20</td><td>94</td><td>00</td><tr bgcolor="#CCCCCC">
+<td>30</td><td>118</td><td>01</td><tr bgcolor="#EEEEEE">
+<td>20</td><td>113</td><td>02</td><tr bgcolor="#CCCCCC">
+<td>17</td><td>113</td><td>03</td><tr bgcolor="#EEEEEE">
+<td>8</td><td>73</td><td>04</td><tr bgcolor="#CCCCCC">
+<td>8</td><td>24</td><td>05</td><tr bgcolor="#EEEEEE">
+<td>5</td><td>18</td><td>06</td><tr bgcolor="#CCCCCC">
+<td>7</td><td>90</td><td>07</td><tr bgcolor="#EEEEEE">
+<td>7</td><td>32</td><td>08</td><tr bgcolor="#CCCCCC">
+<td>11</td><td>22</td><td>09</td><tr bgcolor="#EEEEEE">
+<td>9</td><td>35</td><td>10</td><tr bgcolor="#CCCCCC">
+<td>20</td><td>104</td><td>11</td><tr bgcolor="#EEEEEE">
+<td>15</td><td>79</td><td>12</td><tr bgcolor="#CCCCCC">
+<td>21</td><td>204</td><td>13</td><tr bgcolor="#EEEEEE">
+<td>25</td><td>89</td><td>14</td><tr bgcolor="#CCCCCC">
+<td>18</td><td>215</td><td>15</td><tr bgcolor="#EEEEEE">
+<td>21</td><td>119</td><td>16</td><tr bgcolor="#CCCCCC">
+<td>32</td><td>207</td><td>17</td><tr bgcolor="#EEEEEE">
+<td>21</td><td>172</td><td>18</td><tr bgcolor="#CCCCCC">
+<td>19</td><td>171</td><td>19</td><tr bgcolor="#EEEEEE">
+<td>24</td><td>376</td><td>20</td><tr bgcolor="#CCCCCC">
+<td>30</td><td>244</td><td>21</td><tr bgcolor="#EEEEEE">
+<td>22</td><td>425</td><td>22</td><tr bgcolor="#CCCCCC">
+<td>22</td><td>104</td><td>23</td></table><h4>Страницы - распределение хостов и хитов по страницам</h4><table border=1 cellspacing=0 cellpadding=0>
+<tr bgcolor="#CCCCFF">
+<td>host</td><td>hit</td><td>url</td></tr>
+<tr bgcolor="#EEEEEE">
+<td>73</td><td>140</td><td>www.opengl.org.ru/</td><tr bgcolor="#CCCCCC">
+<td>50</td><td>61</td><td>www.perl.org.ru/</td><tr bgcolor="#EEEEEE">
+<td>37</td><td>85</td><td>photo.itsoft.ru/</td><tr bgcolor="#CCCCCC">
+<td>35</td><td>46</td><td>www.perl.org.ru/download/software.html</td><tr bgcolor="#EEEEEE">
+<td>29</td><td>36</td><td>www.opengl.org.ru/download/libraries.html</td><tr bgcolor="#CCCCCC">
+<td>27</td><td>42</td><td>www.opengl.org.ru/download/</td><tr bgcolor="#EEEEEE">
+<td>24</td><td>49</td><td>www.perl.org.ru/documentation/</td><tr bgcolor="#CCCCCC">
+<td>20</td><td>21</td><td>www.opengl.org.ru/download/docs.html</td><tr bgcolor="#EEEEEE">
+<td>19</td><td>64</td><td>www.opengl.org.ru/books/open_gl/</td><tr bgcolor="#CCCCCC">
+<td>18</td><td>32</td><td>www.perl.org.ru/cgi-bin/forum/UltraBoard.cgi</td><tr bgcolor="#EEEEEE">
+<td>18</td><td>25</td><td>www.opengl.org.ru/cgi-bin/ultra/UltraBoard.cgi</td><tr bgcolor="#CCCCCC">
+<td>17</td><td>24</td><td>www.opengl.org.ru/download/examples.html</td><tr bgcolor="#EEEEEE">
+<td>17</td><td>19</td><td>www.opengl.org.ru/download/programs.html</td><tr bgcolor="#CCCCCC">
+<td>16</td><td>57</td><td>www.opengl.org.ru/cgi-bin/ultra/UltraBoard.cgi?action=Headlines&BID=1&SID=</td><tr bgcolor="#EEEEEE">
+<td>16</td><td>35</td><td>www.opengl.org.ru/books/open_gl/index.html</td><tr bgcolor="#CCCCCC">
+<td>15</td><td>17</td><td>www.opengl.org.ru/docs/</td><tr bgcolor="#EEEEEE">
+<td>14</td><td>17</td><td>www.opengl.org.ru/books/open_gl/chapter1.1.html</td><tr bgcolor="#CCCCCC">
+<td>12</td><td>13</td><td>www.opengl.org.ru/index.html</td><tr bgcolor="#EEEEEE">
+<td>11</td><td>13</td><td>www.opengl.org.ru/download/libs_html/opengl_st1.html</td><tr bgcolor="#CCCCCC">
+<td>10</td><td>28</td><td>photo.itsoft.ru/l1.html?cn=human&rus=ЧЕЛОВЕК</td></table><h4>Страницы - распределение по доменным именам</h4><table border=1 cellspacing=0 cellpadding=0>
+<tr bgcolor="#CCCCFF">
+<td>host</td><td>hit</td><td>spage</td></tr>
+<tr bgcolor="#EEEEEE">
+<td>138</td><td>996</td><td>www.opengl.org.ru</td><tr bgcolor="#CCCCCC">
+<td>88</td><td>395</td><td>www.perl.org.ru</td><tr bgcolor="#EEEEEE">
+<td>41</td><td>1587</td><td>photo.itsoft.ru</td><tr bgcolor="#CCCCCC">
+<td>26</td><td>47</td><td>nit.itsoft.ru</td><tr bgcolor="#EEEEEE">
+<td>24</td><td>78</td><td>itsoft.ru</td><tr bgcolor="#CCCCCC">
+<td>10</td><td>32</td><td>futuris.itsoft.ru</td><tr bgcolor="#EEEEEE">
+<td>10</td><td>12</td><td>gb.itsoft.ru</td><tr bgcolor="#CCCCCC">
+<td>9</td><td>12</td><td>mobile.org.ru</td><tr bgcolor="#EEEEEE">
+<td>8</td><td>30</td><td>learning.itsoft.ru</td><tr bgcolor="#CCCCCC">
+<td>6</td><td>20</td><td>linux.itsoft.ru</td><tr bgcolor="#EEEEEE">
+<td>4</td><td>4</td><td>www.yandex.ru</td><tr bgcolor="#CCCCCC">
+<td>4</td><td>4</td><td>members.itsoft.ru</td><tr bgcolor="#EEEEEE">
+<td>3</td><td>17</td><td>miem.itsoft.ru</td><tr bgcolor="#CCCCCC">
+<td>1</td><td>5</td><td>world.altavista.com</td><tr bgcolor="#EEEEEE">
+<td>1</td><td>2</td><td>www.ya.ru</td></table><h4>Ссылки - распределение по страницам</h4><table border=1 cellspacing=0 cellpadding=0>
+<tr bgcolor="#CCCCFF">
+<td>q</td><td>shref</td><td>href</td></tr>
+<tr bgcolor="#EEEEEE">
+<td>382</td><td></td><td></td><tr bgcolor="#CCCCCC">
+<td>166</td><td>www.opengl.org.ru</td><td>/</td><tr bgcolor="#EEEEEE">
+<td>105</td><td>photo.itsoft.ru</td><td>/</td><tr bgcolor="#CCCCCC">
+<td>72</td><td>www.opengl.org.ru</td><td>/books/open_gl/</td><tr bgcolor="#EEEEEE">
+<td>70</td><td>www.perl.org.ru</td><td>/</td><tr bgcolor="#CCCCCC">
+<td>52</td><td>www.opengl.org.ru</td><td>/cgi-bin/ultra/UltraBoard.cgi</td><tr bgcolor="#EEEEEE">
+<td>49</td><td>www.opengl.org.ru</td><td>/books/open_gl/index.html</td><tr bgcolor="#CCCCCC">
+<td>45</td><td>www.perl.org.ru</td><td>/documentation/</td><tr bgcolor="#EEEEEE">
+<td>37</td><td>itsoft.ru</td><td>/</td><tr bgcolor="#CCCCCC">
+<td>31</td><td>photo.itsoft.ru</td><td>/l1.html?cn=human&rus=а427а415а41Bа41Eа412а415а41A</td><tr bgcolor="#EEEEEE">
+<td>30</td><td>www.opengl.org.ru</td><td>/download/</td><tr bgcolor="#CCCCCC">
+<td>24</td><td>www.yandex.ru</td><td>/yandsearch?text=opengl</td><tr bgcolor="#EEEEEE">
+<td>19</td><td>photo.itsoft.ru</td><td>/l1.html?cn=animals&rus=а416а418а412а41Eа422а41Dа42Bа415</td><tr bgcolor="#CCCCCC">
+<td>19</td><td>photo.itsoft.ru</td><td>/l1.html?cn=other&rus=а414а420а423а413а41Eа415</td><tr bgcolor="#EEEEEE">
+<td>19</td><td>www.opengl.org.ru</td><td>/docs/pg/index.html</td><tr bgcolor="#CCCCCC">
+<td>18</td><td>www.perl.org.ru</td><td>/cgi-bin/forum/UltraBoard.cgi</td><tr bgcolor="#EEEEEE">
+<td>18</td><td>www.opengl.org.ru</td><td>/docs/</td><tr bgcolor="#CCCCCC">
+<td>16</td><td>photo.itsoft.ru</td><td>/l1.html?cn=landscape&rus=а41Bа410а41Dа414а428а410а424а422а42B</td><tr bgcolor="#EEEEEE">
+<td>16</td><td>www.opengl.org.ru</td><td>/download/examples.html</td><tr bgcolor="#CCCCCC">
+<td>15</td><td>www.opengl.org.ru</td><td>/cgi-bin/ultra/UltraBoard.cgi?action=Headlines&BID=1&SID=</td></table><h4>Ссылки - распределение по доменным именам</h4><table border=1 cellspacing=0 cellpadding=0>
+<tr bgcolor="#CCCCFF">
+<td>q</td><td>shref</td></tr>
+<tr bgcolor="#EEEEEE">
+<td>1515</td><td>photo.itsoft.ru</td><tr bgcolor="#CCCCCC">
+<td>644</td><td>www.opengl.org.ru</td><tr bgcolor="#EEEEEE">
+<td>382</td><td></td><tr bgcolor="#CCCCCC">
+<td>262</td><td>www.perl.org.ru</td><tr bgcolor="#EEEEEE">
+<td>121</td><td>www.yandex.ru</td><tr bgcolor="#CCCCCC">
+<td>82</td><td>itsoft.ru</td><tr bgcolor="#EEEEEE">
+<td>24</td><td>www.google.com</td><tr bgcolor="#CCCCCC">
+<td>20</td><td>nit.itsoft.ru</td><tr bgcolor="#EEEEEE">
+<td>15</td><td>www.ya.ru</td><tr bgcolor="#CCCCCC">
+<td>14</td><td>learning.itsoft.ru</td><tr bgcolor="#EEEEEE">
+<td>14</td><td>catalog.aport.ru</td><tr bgcolor="#CCCCCC">
+<td>14</td><td>yandex.ru</td><tr bgcolor="#EEEEEE">
+<td>13</td><td>futuris.itsoft.ru</td><tr bgcolor="#CCCCCC">
+<td>11</td><td>miem.itsoft.ru</td><tr bgcolor="#EEEEEE">
+<td>10</td><td>search.rambler.ru</td><tr bgcolor="#CCCCCC">
+<td>10</td><td>ya.ru</td><tr bgcolor="#EEEEEE">
+<td>8</td><td>linux.itsoft.ru</td><tr bgcolor="#CCCCCC">
+<td>8</td><td>list.mail.ru</td><tr bgcolor="#EEEEEE">
+<td>7</td><td>vbstreets.ru</td><tr bgcolor="#CCCCCC">
+<td>5</td><td>world.altavista.com</td></table><h4>Распределение хитов по хостам</h4><table border=1 cellspacing=0 cellpadding=0>
+<tr bgcolor="#CCCCFF">
+<td>hit</td><td>ip</td></tr>
+<tr bgcolor="#EEEEEE">
+<td>477</td><td>194.67.67.194</td><tr bgcolor="#CCCCCC">
+<td>319</td><td>195.42.120.42</td><tr bgcolor="#EEEEEE">
+<td>140</td><td>159.148.175.76</td><tr bgcolor="#CCCCCC">
+<td>102</td><td>195.62.129.22</td><tr bgcolor="#EEEEEE">
+<td>96</td><td>212.199.23.199</td><tr bgcolor="#CCCCCC">
+<td>60</td><td>195.250.65.226</td><tr bgcolor="#EEEEEE">
+<td>58</td><td>217.70.107.198</td><tr bgcolor="#CCCCCC">
+<td>50</td><td>212.38.113.239</td><tr bgcolor="#EEEEEE">
+<td>47</td><td>195.151.42.2</td><tr bgcolor="#CCCCCC">
+<td>46</td><td>62.118.128.1</td><tr bgcolor="#EEEEEE">
+<td>44</td><td>195.13.227.39</td><tr bgcolor="#CCCCCC">
+<td>43</td><td>194.27.68.220</td><tr bgcolor="#EEEEEE">
+<td>42</td><td>213.247.140.169</td><tr bgcolor="#CCCCCC">
+<td>38</td><td>194.190.217.17</td><tr bgcolor="#EEEEEE">
+<td>37</td><td>195.239.77.249</td><tr bgcolor="#CCCCCC">
+<td>32</td><td>128.112.71.29</td><tr bgcolor="#EEEEEE">
+<td>31</td><td>212.49.3.180</td><tr bgcolor="#CCCCCC">
+<td>30</td><td>193.193.211.37</td><tr bgcolor="#EEEEEE">
+<td>30</td><td>195.22.231.224</td><tr bgcolor="#CCCCCC">
+<td>29</td><td>195.34.32.11</td></table><h4>Среднее количество страниц, открываемых одним пользователем</h4><table border=1 cellspacing=0 cellpadding=0>
+<tr bgcolor="#CCCCFF">
+<td>AVG(hit)</td></tr>
+<tr bgcolor="#EEEEEE">
+<td>9.3942</td></table><h4>Распределение по операционным системам </h4><table border=1 cellspacing=0 cellpadding=0>
+<tr bgcolor="#CCCCFF">
+<td>q</td><td>os</td></tr>
+<tr bgcolor="#EEEEEE">
+<td>13301</td><td>Win32</td><tr bgcolor="#CCCCCC">
+<td>66</td><td>LinuxELF2.2</td><tr bgcolor="#EEEEEE">
+<td>63</td><td>X11</td><tr bgcolor="#CCCCCC">
+<td>44</td><td>Linux i686</td><tr bgcolor="#EEEEEE">
+<td>5</td><td>Linux</td><tr bgcolor="#CCCCCC">
+<td>4</td><td>MacPPC</td><tr bgcolor="#EEEEEE">
+<td>4</td><td></td><tr bgcolor="#CCCCCC">
+<td>3</td><td>(null)</td><tr bgcolor="#EEEEEE">
+<td>2</td><td>SunOS5.5.1</td><tr bgcolor="#CCCCCC">
+<td>1</td><td>IRIX6.5</td></table><h4>Распределение по броузерам</h4><table border=1 cellspacing=0 cellpadding=0>
+<tr bgcolor="#CCCCFF">
+<td>q</td><td>browser</td></tr>
+<tr bgcolor="#EEEEEE">
+<td>12948</td><td>Microsoft Internet Explorer</td><tr bgcolor="#CCCCCC">
+<td>401</td><td>Netscape</td><tr bgcolor="#EEEEEE">
+<td>74</td><td>Opera</td><tr bgcolor="#CCCCCC">
+<td>63</td><td>Konqueror</td><tr bgcolor="#EEEEEE">
+<td>3</td><td>(null)</td><tr bgcolor="#CCCCCC">
+<td>3</td><td>Microsoft</td><tr bgcolor="#EEEEEE">
+<td>1</td><td></td></table><h4>Распределение по версиям броузеров</h4><table border=1 cellspacing=0 cellpadding=0>
+<tr bgcolor="#CCCCFF">
+<td>q</td><td>browser</td><td>version</td></tr>
+<tr bgcolor="#EEEEEE">
+<td>4482</td><td>Microsoft Internet Explorer</td><td>4.0 (compatible; MSIE 5.5; Windo</td><tr bgcolor="#CCCCCC">
+<td>3504</td><td>Microsoft Internet Explorer</td><td>4.0 (compatible; MSIE 5.0; Windo</td><tr bgcolor="#EEEEEE">
+<td>3232</td><td>Microsoft Internet Explorer</td><td>4.0 (compatible; MSIE 5.01; Wind</td><tr bgcolor="#CCCCCC">
+<td>1380</td><td>Microsoft Internet Explorer</td><td>4.0 (compatible; MSIE 6.0; Windo</td><tr bgcolor="#EEEEEE">
+<td>261</td><td>Microsoft Internet Explorer</td><td>4.0 (compatible; MSIE 4.01; Wind</td><tr bgcolor="#CCCCCC">
+<td>88</td><td>Netscape</td><td>4.04 [en] (Win95; I)</td><tr bgcolor="#EEEEEE">
+<td>55</td><td>Netscape</td><td>4.76 [en] (Win98; U)</td><tr bgcolor="#CCCCCC">
+<td>54</td><td>Microsoft Internet Explorer</td><td>4.0 (compatible; MSIE 6.0b; Wind</td><tr bgcolor="#EEEEEE">
+<td>50</td><td>Netscape</td><td>4.76 [ru] (X11; U; Linux 2.2.18-</td><tr bgcolor="#CCCCCC">
+<td>44</td><td>Netscape</td><td>5.0 (X11; en-US)</td><tr bgcolor="#EEEEEE">
+<td>33</td><td>Netscape</td><td>5.0 (Windows; en-US)</td><tr bgcolor="#CCCCCC">
+<td>32</td><td>Opera</td><td>5.12 (Windows 98; U)</td><tr bgcolor="#EEEEEE">
+<td>30</td><td>Konqueror</td><td>5.0 (compatible; Konqueror/2.1;</td><tr bgcolor="#CCCCCC">
+<td>26</td><td>Konqueror</td><td>5.0 (compatible; Konqueror/2.1.1</td><tr bgcolor="#EEEEEE">
+<td>26</td><td>Netscape</td><td>4.77 [en] (Windows NT 5.0; U)</td><tr bgcolor="#CCCCCC">
+<td>24</td><td>Netscape</td><td>4.7 [en] (Win98; I)</td><tr bgcolor="#EEEEEE">
+<td>23</td><td>Opera</td><td>6.0 (Windows 98; U)</td><tr bgcolor="#CCCCCC">
+<td>15</td><td>Opera</td><td>6.0 (Windows 2000; U)</td><tr bgcolor="#EEEEEE">
+<td>15</td><td>Microsoft Internet Explorer</td><td>4.0 (compatible; MSIE 5.0; MSNIA</td><tr bgcolor="#CCCCCC">
+<td>15</td><td>Netscape</td><td>4.7 [ru] (Win95; I)</td><tr bgcolor="#EEEEEE">
+<td>12</td><td>Netscape</td><td>4.04 [en] (Win95; I ;Nav)</td><tr bgcolor="#CCCCCC">
+<td>10</td><td>Netscape</td><td>5.0 (Windows 98; U)</td><tr bgcolor="#EEEEEE">
+<td>8</td><td>Netscape</td><td>4.61 [en] (Win98; I)</td><tr bgcolor="#CCCCCC">
+<td>7</td><td>Microsoft Internet Explorer</td><td>4.0 (compatible; MSIE 4.0; Windo</td><tr bgcolor="#EEEEEE">
+<td>7</td><td>Konqueror</td><td>5.0 (compatible; Konqueror/2.2-1</td><tr bgcolor="#CCCCCC">
+<td>6</td><td>Netscape</td><td>4.75 [en] (X11; U; Linux 2.2.16-</td><tr bgcolor="#EEEEEE">
+<td>6</td><td>Netscape</td><td>4.74 [en] (Win98; U)</td><tr bgcolor="#CCCCCC">
+<td>5</td><td>Microsoft Internet Explorer</td><td>4.0 (compatible; MSIE 5.0; Linux</td><tr bgcolor="#EEEEEE">
+<td>4</td><td>Opera</td><td>6.0 (Windows ME; U)</td><tr bgcolor="#CCCCCC">
+<td>4</td><td>Netscape</td><td>4.77 [en] (X11; U; Linux 2.2.12</td><tr bgcolor="#EEEEEE">
+<td>4</td><td>Microsoft Internet Explorer</td><td>4.0 (compatible; MSIE 5.0; AOL 6</td><tr bgcolor="#CCCCCC">
+<td>3</td><td>Netscape</td><td>4.72 [en] (X11; U; Linux 2.2.14-</td><tr bgcolor="#EEEEEE">
+<td>3</td><td>Netscape</td><td>4.78 [en] (Win98; U)</td><tr bgcolor="#CCCCCC">
+<td>3</td><td>Netscape</td><td>4.76 [en] (X11; U; Linux 2.4.2-2</td><tr bgcolor="#EEEEEE">
+<td>3</td><td>Microsoft</td><td></td><tr bgcolor="#CCCCCC">
+<td>3</td><td>(null)</td><td>(null)</td><tr bgcolor="#EEEEEE">
+<td>2</td><td>Microsoft Internet Explorer</td><td>4.0 (compatible; MSIE 5.0; Macin</td><tr bgcolor="#CCCCCC">
+<td>2</td><td>Netscape</td><td>4.73 [en] (X11; I; SunOS 5.8 sun</td><tr bgcolor="#EEEEEE">
+<td>2</td><td>Netscape</td><td>4.6 [en] (WinNT; I)</td><tr bgcolor="#CCCCCC">
+<td>2</td><td>Microsoft Internet Explorer</td><td>4.0 (compatible; MSIE 5.01; AOL</td><tr bgcolor="#EEEEEE">
+<td>1</td><td>Netscape</td><td>4.7 [en] (Win95; I)</td><tr bgcolor="#CCCCCC">
+<td>1</td><td>Netscape</td><td>4.76 [en]C-CCK-MCD QXW03200  (Wi</td><tr bgcolor="#EEEEEE">
+<td>1</td><td>Netscape</td><td>4.75 [en] (X11; U; IRIX64 6.5 IP</td><tr bgcolor="#CCCCCC">
+<td>1</td><td></td><td></td><tr bgcolor="#EEEEEE">
+<td>1</td><td>Netscape</td><td>4.72 [en] (WinNT; I)</td><tr bgcolor="#CCCCCC">
+<td>1</td><td>Netscape</td><td>4.75C-CCK-MCD {C-UDP; EBM-APPLE}</td><tr bgcolor="#EEEEEE">
+<td>1</td><td>Netscape</td><td>4.78 (Macintosh; U; PPC)</td><tr bgcolor="#CCCCCC">
+<td>1</td><td>Netscape</td><td>4.7 [ru] (WinNT; I)</td></table><h4>Распределение по разрешению экрана</h4><table border=1 cellspacing=0 cellpadding=0>
+<tr bgcolor="#CCCCFF">
+<td>q</td><td>res</td></tr>
+<tr bgcolor="#EEEEEE">
+<td>6468</td><td>800x600</td><tr bgcolor="#CCCCCC">
+<td>5519</td><td>1024x768</td><tr bgcolor="#EEEEEE">
+<td>812</td><td>1152x864</td><tr bgcolor="#CCCCCC">
+<td>434</td><td>1280x1024</td><tr bgcolor="#EEEEEE">
+<td>78</td><td>640x480</td><tr bgcolor="#CCCCCC">
+<td>76</td><td>960x720</td><tr bgcolor="#EEEEEE">
+<td>43</td><td>1280x960</td><tr bgcolor="#CCCCCC">
+<td>31</td><td>1600x1200</td><tr bgcolor="#EEEEEE">
+<td>8</td><td>720x480</td><tr bgcolor="#CCCCCC">
+<td>7</td><td>1280x768</td><tr bgcolor="#EEEEEE">
+<td>6</td><td>1400x1050</td><tr bgcolor="#CCCCCC">
+<td>4</td><td>0x0</td><tr bgcolor="#EEEEEE">
+<td>3</td><td>(null)</td><tr bgcolor="#CCCCCC">
+<td>2</td><td>1152x900</td><tr bgcolor="#EEEEEE">
+<td>1</td><td>512x384</td><tr bgcolor="#CCCCCC">
+<td>1</td><td>2048x1120</td></table><h4>Распределение по количеству цветов</h4><table border=1 cellspacing=0 cellpadding=0>
+<tr bgcolor="#CCCCFF">
+<td>q</td><td>depth</td></tr>
+<tr bgcolor="#EEEEEE">
+<td>5369</td><td>16</td><tr bgcolor="#CCCCCC">
+<td>4717</td><td>32</td><tr bgcolor="#EEEEEE">
+<td>3309</td><td>24</td><tr bgcolor="#CCCCCC">
+<td>76</td><td>8</td><tr bgcolor="#EEEEEE">
+<td>9</td><td>1</td><tr bgcolor="#CCCCCC">
+<td>5</td><td>0</td><tr bgcolor="#EEEEEE">
+<td>5</td><td>4</td><tr bgcolor="#CCCCCC">
+<td>3</td><td>(null)</td></table><h4>Распределение по версиям javascript</h4><table border=1 cellspacing=0 cellpadding=0>
+<tr bgcolor="#CCCCFF">
+<td>COUNT(*)</td><td>js</td></tr>
+<tr bgcolor="#EEEEEE">
+<td>13118</td><td>13</td><tr bgcolor="#CCCCCC">
+<td>365</td><td>12</td><tr bgcolor="#EEEEEE">
+<td>4</td><td></td><tr bgcolor="#CCCCCC">
+<td>3</td><td>10</td><tr bgcolor="#EEEEEE">
+<td>3</td><td>0</td></table><h4>Распределение по наличию java</h4><table border=1 cellspacing=0 cellpadding=0>
+<tr bgcolor="#CCCCFF">
+<td>count(*)</td><td>java</td></tr>
+<tr bgcolor="#EEEEEE">
+<td>13274</td><td>1</td><tr bgcolor="#CCCCCC">
+<td>215</td><td>0</td><tr bgcolor="#EEEEEE">
+<td>4</td><td></td></table><h4>Распределение по наличию cookie</h4><table border=1 cellspacing=0 cellpadding=0>
+<tr bgcolor="#CCCCFF">
+<td>count(*)</td><td>cookie</td></tr>
+<tr bgcolor="#EEEEEE">
+<td>13366</td><td>1</td><tr bgcolor="#CCCCCC">
+<td>121</td><td>0</td><tr bgcolor="#EEEEEE">
+<td>6</td><td></td></table>
+
+На основании полученной статистики любопытно отметить, что абсолютное большинство
+пользователей наших сайтов работает на платформе Win32 в броузере Internet Explorer,
+имеют разрешение экрана не меньше 800х600, а каждый второй имеет не меньше 1024х768,
+количество цветов не менее 65 тысяч и у них поддерживаются технологии Java, JavaScript и
+ Cookie.
+
+
+
+</td></tr>
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?9229  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?9229'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?9229" target=_top>
+    <img src="itsoft-9229" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?9229" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?9229  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?9229'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?9229" target=_top>
+    <img src="itsoft-9229" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?9229" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="itsoft-9229-1" tppabs="http://rb1.rotabanner.com/cgi-bin/iframe/itsoft?9229"
+ width=468 height=60 marginwidth=0 marginheight=0 scrolling=no 
+ frameborder=0><a href="javascript:if(confirm('http://rb1.rotabanner.com/cgi-bin/href/itsoft?9229  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb1.rotabanner.com/cgi-bin/href/itsoft?9229'" tppabs="http://rb1.rotabanner.com/cgi-bin/href/itsoft?9229" 
+ target=_top><img src="itsoft-9229-2" tppabs="http://rb1.rotabanner.com/cgi-bin/banner/itsoft?9229" 
+ alt="RB1" width=468 height=60 border=0 ismap></a></iframe>
+
+</body>
+</html>

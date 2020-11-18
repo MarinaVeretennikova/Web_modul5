@@ -1,0 +1,71 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>DomNode-&#62;append_child</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="domelement-tagname.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="domnode-append-sibling.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.DomNode-append-child">DomNode-&#62;append_child</A></H1><A NAME="AEN20271"></A>
+<P>(unknown)</P><p>DomNode-&#62;append_child - добавляет нового потомка/child в конец списка потомков.<A NAME="AEN20274"></A></p><H2>Описание</H2><p>object <B>DomNode-&#62;append_child</B> (object newnode)</p>
+<P>Эта функция присоединяет потомка к списку потомков или создаёт новый 
+список. Потомок может&nbsp; быть создан, например, функцией
+<A HREF="domdocument-create-element.html"><B>DomDocument_create_element()</B></A>,
+<B>DomDocument_create_text()</B> etc. или просто путём использования другого узла.</P>
+<P>Перед присоединением потомок сначала дублируется. Следовательно, новый 
+потомок является совершенно новой копией, которая может изменяться без влияния 
+на узел, который был передан этой функции. Если передаваемый узел сам имеет 
+потомков, они также продублируются, что позволяет довольно легко дублировать большие части xml-документа.<br>
+return-значение это присоединённый потомок. Если вы планируете в дальнейшем 
+модифицировать присоединённый потомок, вы обязаны использовать возвращаемый узел.</P>
+<P>В следующем примере узел нового элемента добавляется в документ, и&nbsp; 
+атрибут "align" получает значение "left".<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN20287"></A>
+<h5>Пример 1. Добавление потомка</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;?php
+$doc = domxml_new_doc("1.0");
+$node = $doc-&#62;create_element("para");
+$newnode = $doc-&#62;append_child($node);
+$newnode-&#62;set_attribute("align", "left");
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Этот пример можно также записать так:</p><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN20290"></A>
+<h5>Пример 2. Добавление потомка</h5><TABLE BORDER="0"  BGCOLOR="#E0E0E0"CELLPADDING="5"><TR><TD>
+<PRE>&#60;?php
+$doc = domxml_new_doc("1.0");
+$node = $doc-&#62;create_element("para");
+$node-&#62;set_attribute("align", "left");
+$newnode = $doc-&#62;append_child($node);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Далее идёт более сложный пример. Сначала ищется определённый элемент, 
+затем он вместе с потомками дублируется и прибавляется как родственник/sibling.
+Наконец, новый атрибут добавляется к одному из потомков нового родственника и весь документ дампируется.</p>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN20293"></A><h5>Пример 3. Добавление потомка</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+include("example.inc");
+
+if(!$dom = domxml_open_mem($xmlstr)) {
+  echo "Error while parsing the document\n";
+  exit;
+}
+
+$elements = $dom-&#62;get_elements_by_tagname("informaltable");
+print_r($elements);
+$element = $elements[0];
+
+$parent = $element-&#62;parent_node();
+$newnode = $parent-&#62;append_child($element);
+$children = $newnode-&#62;children();
+$attr = $children[1]-&#62;set_attribute("align", "left");
+
+echo "&#60;PRE&#62;";
+$xmlfile = $dom-&#62;dump_mem();
+echo htmlentities($xmlfile);
+echo "&#60;/PRE&#62;";
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><p>Этот пример может быть сделан также с помощью
+<A HREF="domnode-insert-before.html"><B>DomNode_insert_before()</B></A> вместо
+<A HREF="domnode-append-child.html"><B>DomNode_append_child()</B></A>.</p>
+<P>См. также <A HREF="domnode-insert-before.html"><B>DomNode_insert_before()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="domelement-tagname.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="domnode-append-sibling.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">DomElement-&#62;tagname</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.domxml.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">DomNode-&#62;append_sibling</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

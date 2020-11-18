@@ -1,0 +1,48 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Mhash</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="mdecrypt-generic.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="mhash-count.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.mhash"></A>LVI. Функции Mhash</h1><A NAME="AEN45202"></A>
+<P>Эти функции предназначены для работы <A HREF="http://mhash.sourceforge.net/" TARGET="_top">mhash</A>.</P>
+<P>Это интерфейс с библиотекой mhash.<br>mhash поддерживает разнообразные хэш-алгоритмы, такие как MD5, SHA1, GOST и многие другие.</P>
+<P>Для использования этих функций загрузите дистрибутив mhash с <A HREF="http://mhash.sourceforge.net/" TARGET="_top">этого web-сайта</A>
+и следуйте инструкциям по установке. Вам нужно скомпилировать PHP с параметром
+<TT>--with-mhash</TT>, чтобы подключить это расширение.</P>
+<P>Mhash можно использовать для создания checksums/контрольной суммы, 
+сообщений-дайджестов, кодов аутентификации сообщений и многого другого.</P><TABLE WIDTH="100%" BORDER="0"><TR>
+<TD><A NAME="AEN45211"></A><h5>Пример 1. Обсчёт MD5-дайджеста и hmac и печать их как hex-значений</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$input = "what do ya want for nothing?";
+$hash = mhash (MHASH_MD5, $input);
+print "The hash is ".bin2hex ($hash)."&#60;br /&#62;\n";
+$hash = mhash (MHASH_MD5, $input, "Jefe");
+print "The hmac is ".bin2hex ($hash)."&#60;br /&#62;\n";
+?&#62;</PRE></TD></TR></TABLE><P>Это даст:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>The hash is d03cb659cbf9192dcd066272249f8412 
+The hmac is 750c783e6ab0b503eaa86e310a5db738</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Полный список поддерживаемых хэшей см. в документации по mhash. Общее 
+правило: вы можете получить доступ к хэш-алгоритму из PHP через MHASH_HASHNAME. 
+Например, для доступа к TIGER вы используете PHP-константу MHASH_TIGER.</p>
+<P>Вот список хэшей, поддерживаемых mhash на данный момент. Если хэш здесь не 
+указан, но перечислен в mhash как поддерживаемый, вы можете быть уверены, что наша документация уже устарела.
+<UL><LI><P><TT><B>MHASH_MD5</B></TT></P></LI><LI><P><TT><B>MHASH_SHA1</B></TT></P></LI>
+<LI><P><TT><B>MHASH_HAVAL256</B></TT></P></LI><LI><P><TT><B>MHASH_HAVAL192</B></TT></P></LI>
+<LI><P><TT><B>MHASH_HAVAL160</B></TT></P></LI><LI><P><TT><B>MHASH_HAVAL128</B></TT></P></LI>
+<LI><P><TT><B>MHASH_RIPEMD160</B></TT></P></LI><LI><P><TT><B>MHASH_GOST</B></TT></P></LI>
+<LI><P><TT><B>MHASH_TIGER</B></TT></P></LI><LI><P><TT><B>MHASH_CRC32</B></TT></P></LI>
+<LI><P><TT><B>MHASH_CRC32B</B></TT></P></LI></UL>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="mhash-count.html">mhash_count</A> - получает наивысший доступный hash id</DT>
+<DT><A HREF="mhash-get-block-size.html">mhash_get_block_size</A> - получает размер блока специфицированного хэша</DT>
+<DT><A HREF="mhash-get-hash-name.html">mhash_get_hash_name</A> - получает имя специфицированного хэша</DT>
+<DT><A HREF="mhash-keygen-s2k.html">mhash_keygen_s2k</A> - генерирует ключ</DT>
+<DT><A HREF="mhash.html">mhash</A> - вычисляет хэш</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="mdecrypt-generic.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="mhash-count.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">mdecrypt_generic</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">mhash_count</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

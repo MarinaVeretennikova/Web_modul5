@@ -1,0 +1,52 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>dir</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="f/chroot.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="f/closedir.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="class.dir">dir</A></H1><A NAME="AEN18756"></A><P>(PHP 3, PHP 4)</P>
+    <p>dir 
+    - класс директории/каталога.<A NAME="AEN18759"></A></p>
+    <H2>Описание</H2><pre>class dir {
+dir(string directory);
+string path;
+string read();
+void rewind();
+void close();
+}</pre><P>Псевдо-объектно-ориентированный механизм для чтения директории. Открывается директория
+<TT><I>directory</I></TT>. После открытия доступны два свойства. Свойство handle можно использовать с 
+другими функциями работы с директорией, такими как <A HREF="f/readdir.html"><B>readdir()</B></A>,
+<A HREF="f/rewinddir.html"><B>rewinddir()</B></A> и <A HREF="f/closedir.html">
+<B>closedir()</B></A>. Свойство path содержит путь к открытой директории. Доступны три метода: read, 
+rewind и close.</P><P>В следующем примере обратите внимание на оформление, в котором возвращаемое <B>dir()</B> значение
+проверяется. Мы явным образом проверяем,
+идентично ли return-значение (равно и того же типа, что и - см.
+<a href="operators.comparison.html">Операции Сравнения</a>) <TT><B>FALSE</B></TT>, так
+как любое вхождение директории, вычисляемое в <TT><B>FALSE</B></TT>, остановит работу цикла.
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN18794"></A><h5>Пример 1. dir()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$d = dir("/etc");
+echo "Handle: ".$d-&#62;handle."&#60;br&#62;\n";
+echo "Path: ".$d-&#62;path."&#60;br&#62;\n";
+while (false !== ($entry = $d-&#62;read())) {
+    echo $entry."&#60;br&#62;\n";
+}
+$d-&#62;close();</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<BLOCKQUOTE><P><B>Примечание: </B>порядок возвращения вхождений директорий методом read зависит от 
+операционной системы.</P></BLOCKQUOTE><BLOCKQUOTE><P><B>Примечание: </B>здесь определяется внутренний класс
+<B>Directory</B>, и это означает, что вы не сможете определять ваши собственные классы с таким 
+именем. Полный список предопределённых классов PHP см. в разделе
+<a href="classes.html">Предопределённые Классы</a>.</P></BLOCKQUOTE></TD><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="f/chroot.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="f/closedir.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">chroot</TD><th WIDTH="34%" VALIGN="top"><a href="f/ref.dir.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">closedir</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

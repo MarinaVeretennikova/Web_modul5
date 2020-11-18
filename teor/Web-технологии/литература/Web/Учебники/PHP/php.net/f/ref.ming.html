@@ -1,0 +1,160 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Ming для Flash</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0"  WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="mssql-select-db.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="ming-setcubicthreshold.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.ming"></A>LIX. Функции Ming для Flash</h1><A NAME="AEN46016"></A>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>Это расширение является ЭКСПЕРИМЕНТАЛЬНЫМ. Поведение этого расширения, имена его функций и всё, что задокументировано, может измениться в последующих релизах РНР без предупреждения. Вы предупреждены и можете использовать это расширение только под вашу ответственность.</P></TD></TR></TABLE>
+<H1><A NAME="ming.intro">Введение</A></H1><P>Ming это открытый ресурс - библиотека (LGPL), которая позволяет создавать 
+клипы формата SWF ("Flash"). Ming поддерживает почти все возможности Flash 4,
+включая: фигуры/shapes, градиенты/gradients, растры/bitmaps (pngs и jpegs), morphs ("shape
+tweens"), текст, кнопки, акции/actions, спрайты/sprites ("movie clips"), 
+потоковый mp3 и трансформации цвета - единственное, что не поддерживается - звуковые события.</P>
+<P>Ming это не акроним.</P><P>Обратите внимание, что все значения, специфицирующие длину, расстояние, 
+размер и т.и., даны в "twips", 
+twenty units per pixel/20 единиц на пиксел. Это, однако, довольно 
+приблизительные величины, поскольку player масштабирует клип до размера 
+пиксела, специфицированного в тэге embed/object, или всего фрэйма, если не внедрён.</P>
+<P>Ming имеет преимущества по сравнению с существующим модулем PHP/libswf.
+Вы можете использовать Ming везде, где компилируется код, в то время как libswf 
+это ресурс, доступный только для некоторых платформ, и Windows не входит в 
+их число.  Ming несколько изолирует от некоторых деталей формата файлов SWF, 
+предоставляя РНР объекты-оболочки для элементов клипа.  Также Ming 
+продолжает поддерживаться; если есть какая-то возможность, которой вы не 
+нашли, просто дайте знать по адресу<A HREF="mailto:ming@opaque.net" TARGET="_top"> ming@opaque.net</A>.</P>
+<P>Ming были введены в PHP 4.0.5.</P><H1><A NAME="ming.install">Установка</A></H1>
+<P>Для использования Ming с PHP вам сначала нужно построить и установить Ming-библиотеку.  
+Исходный код и инструкции находятся на домашней странице Ming
+<A  HREF="http://www.opaque.net/ming/" TARGET="_top">http://www.opaque.net/ming/</A> вместе с примерами, небольшим учебником и последними новостями.</P>
+<P>Загрузите архив ming. Распакуйте его. Перейдите в директорию Ming. make. make install.</P>
+<P>Это построит <TT>libming.so</TT> и установит его в <TT>/usr/lib/</TT> и скопирует <TT>ming.h</TT> в
+<TT>/usr/include/</TT>. Отредактируйте строку <TT>PREFIX=</TT> в <TT>Makefile</TT> для изменения директории инсталяции.</P>
+<H2><A NAME="ming.install.php.unix">встраивание в php (unix)</A><A NAME="AEN46043"></A></H2><P><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mkdir&nbsp;&#60;phpdir&#62;/ext/ming<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cp&nbsp;php_ext/*&nbsp;&#60;phpdir&#62;/ext/ming<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cd&nbsp;&#60;phpdir&#62;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;./buildconf<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;./configure&nbsp;--with-ming&nbsp;&#60;другие 
+опции конфигурации&#62;<br>
+<br>Постройте и установите РНР как обычно, рестартуйте web-сервер, если нужно.</P>
+<H2><A NAME="ming.install.php-module.unix">встраивание в php (unix)</A></H2><P>Загрузите <TT>php_ming.so.gz</TT>, распакуйте и скопируйте в вашу директорию РНР-модулей.
+(Вы можете найти вашу директорию РНР-модулей, запустив <B>php-config --extension-dir</B>).
+Теперь либо просто добавьте <TT>extension=php_ming.so</TT> в ваш файл <TT>php.ini</TT>, либо поместите 
+<TT>dl('php_ming.so');</TT> в самом начале ваших Ming-скриптов.</P><H1><A NAME="ming.use">Как использовать Ming</A>
+</H1><P>Ming вводит в РНР 13 новых объектов с соответствующими атрибутами и 
+методами. Для использования их вам необходимо знать об
+<a href="../oop.html">объектах</a>.</P><UL><LI><P><A HREF="swfmovie.html"><B>swfmovie()</B>
+</A></P></LI><LI><P><A HREF="swfshape.html"><B>swfshape()</B></A></P></LI>
+<LI><P><A HREF="swfdisplayitem.html"><B>swfdisplayitem()</B></A></P></LI><LI><P>
+<A HREF="swfgradient.html"><B>swfgradient()</B></A></P></LI><LI><P>
+<A HREF="swfbitmap.html"><B>swfbitmap()</B></A></P></LI><LI><P>
+<A HREF="swffill.html"><B>swffill()</B></A></P></LI><LI><P>
+<A HREF="swfmorph.html"><B>swfmorph()</B></A></P></LI><LI><P>
+<A HREF="swftext.html"><B>swftext()</B></A></P></LI><LI><P>
+<A HREF="swffont.html"><B>swffont()</B></A></P></LI><LI><P>
+<A HREF="swftextfield.html"><B>swftextfield()</B></A></P></LI><LI><P>
+<A HREF="swfsprite.html"><B>swfsprite()</B></A></P></LI><LI><P>
+<A HREF="swfbutton.html"><B>swfbutton()</B></A></P></LI><LI><P>
+<A HREF="swfaction.html"><B>swfaction()</B></A></P></LI></UL>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="ming-setcubicthreshold.html">ming_setcubicthreshold</A> - устанавливает cubic threshold (?)</DT>
+<DT><A HREF="ming-setscale.html">ming_setscale</A> - устанавливает масштаб (?)</DT>
+<DT><A HREF="ming-useswfversion.html">ming_useswfversion</A> - использует SWF-версию (?)</DT>
+<DT><A HREF="swfaction.html">SWFAction</A> - создаёт новую Action/Акцию</DT>
+<DT><A HREF="swfbitmap.getheight.html">SWFBitmap-&#62;getHeight</A> — возвращает высоту растра</DT>
+<DT><A HREF="swfbitmap.getwidth.html">SWFBitmap-&#62;getWidth</A> — возвращает ширину растра</DT>
+<DT><A HREF="swfbitmap.html">SWFBitmap</A> - загружает Bitmap-объект</DT>
+<DT><A HREF="swfbutton-keypress.html">swfbutton_keypress</A> — возвращает флаг акции для keyPress(char)</DT>
+<DT><A HREF="swfbutton.addaction.html">SWFbutton-&#62;addAction</A> - добавляет акцию</DT>
+<DT><A HREF="swfbutton.addshape.html">SWFbutton-&#62;addShape</A> - добавляет фигуру кнопке</DT>
+<DT><A HREF="swfbutton.setaction.html">SWFbutton-&#62;setAction</A> - устанавливает акцию</DT>
+<DT><A HREF="swfbutton.setdown.html">SWFbutton-&#62;setdown</A> - псевдоним для addShape(shape, SWFBUTTON_DOWN)</DT>
+<DT><A HREF="swfbutton.sethit.html">SWFbutton-&#62;setHit</A> - псевдоним для addShape(shape, SWFBUTTON_HIT)</DT>
+<DT><A HREF="swfbutton.setover.html">SWFbutton-&#62;setOver</A> - псевдоним для addShape(shape, SWFBUTTON_OVER)</DT>
+<DT><A HREF="swfbutton.setup.html">SWFbutton-&#62;setUp</A> - псевдоним для addShape(shape, SWFBUTTON_UP)</DT>
+<DT><A HREF="swfbutton.html">SWFbutton</A> - создаёт новую кнопку</DT>
+<DT><A HREF="swfdisplayitem.addcolor.html">SWFDisplayItem-&#62;addColor</A> - добавляет данный цвет к трансформации цвета данного элемента</DT>
+<DT><A HREF="swfdisplayitem.move.html">SWFDisplayItem-&#62;move</A> - перемещает объект в относительных координатах</DT>
+<DT><A HREF="swfdisplayitem.moveto.html">SWFDisplayItem-&#62;moveTo</A> - перемещает объект в глобальных координатах</DT>
+<DT><A HREF="swfdisplayitem.multcolor.html">SWFDisplayItem-&#62;multColor</A> - умножает трансформацию цвета элемента</DT>
+<DT><A HREF="swfdisplayitem.remove.html">SWFDisplayItem-&#62;remove</A> - удаляет объект из клипа</DT>
+<DT><A HREF="swfdisplayitem.rotate.html">SWFDisplayItem-&#62;Rotate</A> - поворачивает объект в относительных координатах</DT>
+<DT><A HREF="swfdisplayitem.rotateto.html">SWFDisplayItem-&#62;rotateTo</A> - поворачивает объект в глобальных координатах</DT>
+<DT><A HREF="swfdisplayitem.scale.html">SWFDisplayItem-&#62;scale</A> - масштабирует объект в относительных координатах</DT>
+<DT><A HREF="swfdisplayitem.scaleto.html">SWFDisplayItem-&#62;scaleTo</A> - масштабирует объект в глобальных координатах</DT>
+<DT><A HREF="swfdisplayitem.setdepth.html">SWFDisplayItem-&#62;setDepth</A> - устанавливает z-порядок (в стэке)</DT>
+<DT><A HREF="swfdisplayitem.setname.html">SWFDisplayItem-&#62;setName</A> - устанавливает имя объекта</DT>
+<DT><A HREF="swfdisplayitem.setratio.html">SWFDisplayItem-&#62;setRatio</A> - устанавливает пропорцию объекта</DT>
+<DT><A HREF="swfdisplayitem.skewx.html">SWFDisplayItem-&#62;skewX</A> - устанавливает X-наклон</DT>
+<DT><A HREF="swfdisplayitem.skewxto.html">SWFDisplayItem-&#62;skewXTo</A> - устанавливает X-наклон</DT>
+<DT><A HREF="swfdisplayitem.skewy.html">SWFDisplayItem-&#62;skewY</A> - устанавливает Y-наклон</DT>
+<DT><A HREF="swfdisplayitem.skewyto.html">SWFDisplayItem-&#62;skewYTo</A> - устанавливает Y-наклон</DT>
+<DT><A HREF="swfdisplayitem.html">SWFDisplayItem</A> - создаёт новый объект displayitem</DT>
+<DT><A HREF="swffill.moveto.html">SWFFill-&#62;moveTo</A> - перемещает fill-источник</DT>
+<DT><A HREF="swffill.rotateto.html">SWFFill-&#62;rotateTo</A> - устанавливает fill-поворот</DT>
+<DT><A HREF="swffill.scaleto.html">SWFFill-&#62;scaleTo</A> - устанавливает fill-масштаб</DT>
+<DT><A HREF="swffill.skewxto.html">SWFFill-&#62;skewXTo</A> - устанавливает fill x-наклон</DT>
+<DT><A HREF="swffill.skewyto.html">SWFFill-&#62;skewYTo</A> - устанавливает fill y-наклон</DT>
+<DT><A HREF="swffill.html">SWFFill</A> - загружает SWFFill-объект</DT>
+<DT><A HREF="swffont.getwidth.html">swffont-&#62;getwidth</A> — возвращает ширину строки</DT>
+<DT><A HREF="swffont.html">SWFFont</A> - загружает определение шрифта</DT>
+<DT><A HREF="swfgradient.addentry.html">SWFGradient-&#62;addEntry</A> - добавляет вхождение в gradient-список</DT>
+<DT><A HREF="swfgradient.html">SWFGradient</A> - создаёт gradient-объект</DT>
+<DT><A HREF="swfmorph.getshape1.html">SWFMorph-&#62;getshape1</A> - получает дескриптор для начальной фигуры</DT>
+<DT><A HREF="swfmorph.getshape2.html">SWFMorph-&#62;getshape2</A> - получает дескриптор для конечной фигуры</DT>
+<DT><A HREF="swfmorph.html">SWFMorph</A> - создаёт новый SWFMorph-объект</DT>
+<DT><A HREF="swfmovie.add.html">SWFMovie-&#62;add</A> - добавляет тип и данные в клип</DT>
+<DT><A HREF="swfmovie.nextframe.html">SWFMovie-&#62;nextframe</A> - перемещает на следующий фрэйм анимации</DT>
+<DT><A HREF="swfmovie.output.html">SWFMovie-&#62;output</A> - выполняет дамп вашего любовно приготовленного клипа</DT>
+<DT><A HREF="swfmovie.remove.html">SWFMovie-&#62;remove</A> - удаляет экземпляр объекта из display-списка</DT>
+<DT><A HREF="swfmovie.save.html">SWFMovie-&#62;save</A> - сохраняет ваш клип в файле</DT>
+<DT><A HREF="swfmovie.setbackground.html">SWFMovie-&#62;setbackground</A> - устанавливает цвет фона</DT>
+<DT><A HREF="swfmovie.setdimension.html">SWFMovie-&#62;setdimension</A> - устанавливает ширину и высоту клипа</DT>
+<DT><A HREF="swfmovie.setframes.html">SWFMovie-&#62;setframes</A> - устанавливает общее количество фрэймов в анимации</DT>
+<DT><A HREF="swfmovie.setrate.html">SWFMovie-&#62;setrate</A> - устанавливает класс фрэйма анимации</DT>
+<DT><A HREF="swfmovie.streammp3.html">SWFMovie-&#62;streammp3</A> - запускает поток MP3-файла</DT>
+<DT><A HREF="swfmovie.html">SWFMovie</A> - создаёт новый movie-объект, представляющий клип SWF версии 4</DT>
+<DT><A HREF="swfshape.addfill.html">SWFShape-&#62;addFill</A> - добавляет сплошную заливку фигуре</DT>
+<DT><A HREF="swfshape.drawcurve.html">SWFShape-&#62;drawCurve</A> - рисует кривую (относительно)</DT>
+<DT><A HREF="swfshape.drawcurveto.html">SWFShape-&#62;drawCurveTo</A> - рисует кривую</DT>
+<DT><A HREF="swfshape.drawline.html">SWFShape-&#62;drawLine</A> - рисует линию (относительно)</DT>
+<DT><A HREF="swfshape.drawlineto.html">SWFShape-&#62;drawLineTo</A> - рисует линию</DT>
+<DT><A HREF="swfshape.movepen.html">SWFShape-&#62;movePen</A> - перемещает карандаш фигуры (относительно)</DT>
+<DT><A HREF="swfshape.movepento.html">SWFShape-&#62;movePenTo</A> - перемещает карандаш фигуры</DT>
+<DT><A HREF="swfshape.setleftfill.html">SWFShape-&#62;setLeftFill</A> - устанавливает левый цвет растра</DT>
+<DT><A HREF="swfshape.setline.html">SWFShape-&#62;setLine</A> - устанавливает стиль линии фигуры</DT>
+<DT><A HREF="swfshape.setrightfill.html">SWFShape-&#62;setRightFill</A> - устанавливает правый цвет растра</DT>
+<DT><A HREF="swfshape.html">SWFShape</A> - создаёт новый shape-объект</DT>
+<DT><A HREF="swfsprite.add.html">SWFSprite-&#62;add</A> - добавляет объект в спрайт</DT>
+<DT><A HREF="swfsprite.nextframe.html">SWFSprite-&#62;nextframe</A> - перемещает к следующему фрэйму анимации</DT>
+<DT><A HREF="swfsprite.remove.html">SWFSprite-&#62;remove</A> - удаляет объект из спрайта</DT>
+<DT><A HREF="swfsprite.setframes.html">SWFSprite-&#62;setframes</A> - устанавливает общее количество фрэймов в анимации</DT>
+<DT><A HREF="swfsprite.html">SWFSprite</A> - создаёт клип (спрайт)</DT>
+<DT><A HREF="swftext.addstring.html">SWFText-&#62;addString</A> - рисует строку</DT>
+<DT><A HREF="swftext.getwidth.html">SWFText-&#62;getWidth</A> - вычисляет ширину строки</DT>
+<DT><A HREF="swftext.moveto.html">SWFText-&#62;moveTo</A> - перемещает карандаш</DT>
+<DT><A HREF="swftext.setcolor.html">SWFText-&#62;setColor</A> - устанавливает текущий цвет шрифта</DT>
+<DT><A HREF="swftext.setfont.html">SWFText-&#62;setFont</A> - устанавливает текущий шрифт</DT>
+<DT><A HREF="swftext.setheight.html">SWFText-&#62;setHeight</A> - устанавливает высоту текущего шрифта</DT>
+<DT><A HREF="swftext.setspacing.html">SWFText-&#62;setspacing</A> - устанавливает spacing текущего шрифта</DT>
+<DT><A HREF="swftext.html">SWFText</A> - создаёт новый SWFText-объект</DT>
+<DT><A HREF="swftextfield.addstring.html">SWFTextField-&#62;addstring</A> - объединяет данную строку с текстовым полем</DT>
+<DT><A HREF="swftextfield.align.html">SWFTextField-&#62;align</A> - устанавливает выравнивание текстового поля</DT>
+<DT><A HREF="swftextfield.setbounds.html">SWFTextField-&#62;setbounds</A> - устанавливает ширину и высоту текстового поля</DT>
+<DT><A HREF="swftextfield.setcolor.html">SWFTextField-&#62;setcolor</A> - устанавливает цвет текстового поля</DT>
+<DT><A HREF="swftextfield.setfont.html">SWFTextField-&#62;setFont</A> - устанавливает шрифт текстового поля</DT>
+<DT><A HREF="swftextfield.setheight.html">SWFTextField-&#62;setHeight</A> - устанавливает высоту шрифта данного текстового поля</DT>
+<DT><A HREF="swftextfield.setindentation.html">SWFTextField-&#62;setindentation</A> - устанавливает отступ первой строчки абзаца</DT>
+<DT><A HREF="swftextfield.setleftmargin.html">SWFTextField-&#62;setLeftMargin</A> - устанавливает ширину левого поля текстового поля</DT>
+<DT><A HREF="swftextfield.setlinespacing.html">SWFTextField-&#62;setLineSpacing</A> - устанавливает межстрочный интервал текстового поля</DT>
+<DT><A HREF="swftextfield.setmargins.html">SWFTextField-&#62;setMargins</A> - устанавливает ширину полей текстового поля</DT>
+<DT><A HREF="swftextfield.setname.html">SWFTextField-&#62;setname</A> - устанавливает имя переменной</DT>
+<DT><A HREF="swftextfield.setrightmargin.html">SWFTextField-&#62;setrightMargin</A> - устанавливает ширину правого поля текстового поля</DT>
+<DT><A HREF="swftextfield.html">SWFTextField</A> - создаёт объект текстового поля</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0"  WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3">
+<TR><TD WIDTH="33%" VALIGN="top"><A HREF="mssql-select-db.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ming-setcubicthreshold.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">mssql_select_db</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ming_setcubicthreshold</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

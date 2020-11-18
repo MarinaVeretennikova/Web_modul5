@@ -1,0 +1,119 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Установка под Unix/Mac OS X</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="linux.html">Назад</A></TD><th WIDTH="80%">Глава 2. Инсталяция</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="openbsd.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1>Установка под <A NAME="install.macosx">Unix/Mac OS X</A></H1>
+<P>Этот раздел содержит информацию об установке PHP на Mac OS X Server.</P>
+<H2><a name="install.macosx.packages">Использование пакетов</a></H2>
+<P>Есть несколько предварительно упакованных и предварительно скомпилированных версий PHP для
+Mac OS X. Это поможет при установке со стандартной конфигурацией, но, если вам нужен другой набор возможностей
+(таких как secure server или другой драйвер БД), вам может понадобиться 
+построить PHP и/или ваш web-сервер самостоятельно. Если вы не знакомы с 
+построением и компиляцией вашего программного обеспечения, лучше найти 
+того, кто уже строил упакованную версию PHP с нужными вам возможностями.</P>
+<H2><A NAME="install.macosx.compile">Компиляция для сервера OS X</A></H2>
+<P>Есть две незначительно отличающиеся версии Mac OS X, клиентская и серверная. 
+Следующая информация касается OS X Server.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<h5>
+<A NAME="install.macosx.compile.example"></A>Пример 2-2. Установка на Mac OS X server</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>1. Получите последние дистрибутивы Apache и PHP
+2. Untar их и запустите программу конфигурирования Apache, например, так.
+    ./configure --exec-prefix=/usr \ 
+    --localstatedir=/var \ 
+    --mandir=/usr/share/man \ 
+    --libexecdir=/System/Library/Apache/Modules \ 
+    --iconsdir=/System/Library/Apache/Icons \ 
+    --includedir=/System/Library/Frameworks/Apache.framework/Versions/1.3/Headers \ 
+    --enable-shared=max \ 
+    --enable-module=most \ 
+    --target=apache 
+
+4. Вы можете также добавить такую строку:
+    setenv OPTIM=-O2 
+    если хотите, чтобы компилятор выполнял оптимизацию.
+
+5. Далее, перейдите в исходную директорию PHP 4 и сконфигурируйте её.
+    ./configure --prefix=/usr \ 
+    --sysconfdir=/etc \ 
+    --localstatedir=/var \ 
+    --mandir=/usr/share/man \ 
+    --with-xml \ 
+    --with-apache=/src/apache_1.3.12 
+
+    Если у вас есть другие дополнения (MySQL, GD, etc.), добавьте их здесь.
+    Для строки --with-apache введите путь к вашей исходной
+    директории Аpache, например "/src/apache_1.3.12".
+6. make
+7. make install    
+    Это добавит директорию к вашей исходной директории Apache под
+    src/modules/php4.
+
+8. Теперь переконфигурируйте Apache для построения PHP 4.
+    ./configure --exec-prefix=/usr \ 
+    --localstatedir=/var \ 
+    --mandir=/usr/share/man \ 
+    --libexecdir=/System/Library/Apache/Modules \ 
+    --iconsdir=/System/Library/Apache/Icons \ 
+    --includedir=/System/Library/Frameworks/Apache.framework/Versions/1.3/Headers \ 
+    --enable-shared=max \ 
+    --enable-module=most \ 
+    --target=apache \ 
+    --activate-module=src/modules/php4/libphp4.a 
+
+    Вы можете получить сообщение о том, что libmodphp4.a вне данных.
+    Тогда перейдите в директорию src/modules/php4 в исходной директории Аpache
+    и запустите на выполнение такую команду:
+
+    ranlib libmodphp4.a 
+
+    Затем вернитесь в root/корень исходной директории Аpache запустите снова
+    вышеприведённую команду конфигурирования. Всё это обновит таблицу ссылок.
+
+9. make
+
+10. make install
+
+11. copy и rename файл php.ini-dist в вашу директорию "bin" из исходной
+    директории PHP 4:
+    cp php.ini-dist /usr/local/bin/php.ini
+
+    или (если у вас нет локальной директории)
+
+    cp php.ini-dist /usr/bin/php.ini</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Другие примеры для <A HREF="http://www.stepwise.com/Articles/Workbench/Apache-1.3.14-MacOSX.html" TARGET="_top">Mac OS X client</A>
+и <A HREF="http://www.stepwise.com/Articles/Workbench/Apache-1.3.14-MacOSX.html" TARGET="_top">Mac OS X server</A>
+находятся на сайте <A HREF="http://www.stepwise.com/" TARGET="_top">Stepwise</A>.</P>
+<H2><A NAME="install.macosx.client">Компиляция для MacOS X client</A></H2>
+<P>Эти заметки любезно предоставлены <A HREF="http://www.entropy.ch/software/macosx/" TARGET="_top">Marc'ом Liyanage'ем</A>.</P>
+<P>PHP-модуль для сервера Apache включён в Mac OS X. Эта версия имеет поддержку для БД MySQL и PostgreSQL.</P>
+<dl>
+  <dd><b>Примечание:</b> будьте внимательны, вы можете повредить ваш Apache web-сервер!</dd>
+</dl>
+<P>Для инсталяции:<UL><LI><P>1. Откройте окно терминала.</P></LI><LI>
+<P>2. Введите "wget http://www.diax.ch/users/liyanage/software/macosx/libphp4.so.gz&quot; 
+и подождите до окончания загрузки.</P></LI><LI><P>3. Введите "gunzip libphp4.so.gz"</P></LI>
+<LI><P>4. Введите "sudo apxs -i -a -n php4 libphp4.so"</P></LI></UL>
+<p>Теперь введите "<TT>sudo open -a TextEdit /etc/httpd/httpd.conf</TT>"<br>
+TextEdit откроется с файлом конфигурации web-сервера. Найдите следующие 
+две строки: (Используйте команду Find)</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>#AddType application/x-httpd-php .php 
+   #AddType application/x-httpd-php-source .phps</PRE></TD></TR></TABLE>
+<p>Удалите два знака хэша (<TT>#</TT>), затем сохраните файл и закройте TextEdit.</p>
+<P>Наконец, введите "<TT>sudo apachectl graceful</TT>" для рестарта web-сервера.</P>
+<P>PHP должен теперь работать. Вы можете протестировать его, перетащив файл "test.php&quot; 
+в вашу папку "Sites". В этом файле запишите такую строку: "<TT>&#60;?php phpinfo() ?&#62;</TT>".</P>
+<P>Теперь откройте <TT>127.0.0.1/~your_username/test.php</TT> в вашем web-браузере.
+Вы должны увидеть таблицу статуса с информацией о PHP-модуле.</P></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="linux.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="openbsd.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Установка под Unix/Linux</TD>
+<th WIDTH="34%" VALIGN="top"><a href="inst.installation.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Установка под Unix/OpenBSD</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

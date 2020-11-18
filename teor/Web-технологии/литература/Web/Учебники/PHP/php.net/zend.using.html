@@ -1,0 +1,47 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Использование Расширений</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="zend.creating.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="zend.troubleshooting.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="zend.using">Глава 30. Использование расширений</A></H1>
+<P>В зависимости от избранного вами процесса построения/build, вы должны либо 
+выполнить ваш новый исполняемый PHP как связанный с вашим Web-сервером (или 
+запускать как CGI), либо как файл .so (shared object/совместно используемого 
+объекта). Если вы скомпилировали файл примера <TT>first_module.c</TT> как shared object, ваш результирующий файл должен быть
+<TT>first_module.so</TT>. Для его использования вы должны сначала скопировать его в место, из которого 
+он доступен для PHP. Для простого тестирования вы можете скопировать его в вашу директорию <TT>htdocs</TT>
+и испытать его с исходником из Листинга 9.4.<br>
+Если вы скомпилировали его в исполняемый файл PHP,
+исключите вызов <A HREF="f/dl.html"><B>dl()</B></A>, так как функциональность модуля постоянно
+доступна вашим скриптам.</p><TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th>Предупреждение!</th></TR><TR><TD>
+<p>Из соображений безопасности вы <i>не должны</i> помещать ваши динамические 
+модули в публично доступные директории. Хотя это и <i>возможно</i> и 
+упрощает тестирование, вы должны помещать эти модули в отдельную директорию в рабочей среде.</TD></TR></TABLE>
+<A NAME="AEN85457"></A><h5>Рисунок 30-1. Листинг 9.4. Тестовый файл для first_module.so</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+//dl("first_module.so");
+
+$param = 2;
+$return = first_module($param);
+
+print("We sent \"$param\" and got \"$return\"");
+
+?&#62;</PRE></TD></TR></TABLE>
+<P>Вызов этого PHP-файла в вашем Web-браузере должен дать вывод, показанный на Рисунке 9.3.<A NAME="AEN85461"></A><h5>Рисунок 30-2. Рисунок 9.3. Вывод first_module.php.</h5>
+<P><IMG SRC="imag/Zend_2_firstmod_output.png" width="347" height="193"></P>
+<P>Если необходимо, динамически загружаемый модуль загружается с помощью вызова 
+функции <A HREF="f/dl.html"><B>dl()</B></A>. Эта функция ищет специфицированный совместно используемый/shared объект, 
+загружает его и делает его функциональность доступной для PHP. Этот модуль экспортирует функцию <B>first_module()</B>,
+которая принимает единственный параметр, конвертирует его в integer и возвращает результат конвертации.</P>
+<P>Если у вас всё получилось, наши поздравления! Вы построили ваше первое расширение PHP.</P></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="zend.creating.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="zend.troubleshooting.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Создание расширений</TD>
+<th WIDTH="34%" VALIGN="top"><a href="zend.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Решение проблем</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

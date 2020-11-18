@@ -1,0 +1,78 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>list</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ksort.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="natcasesort.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.list">list</A></H1><A NAME="AEN8502"></A><P>(unknown)</P><p>list - 
+присваивает значения переменным, как если бы они были массивом.<A NAME="AEN8505"></A></p><H2>Описание</H2>
+<p>void <B>list</B> (mixed ...)</p><P>Как и <A HREF="array.html"><B>array()</B></A>, это в действительности не функция, а конструкция языка.
+<B>list()</B> используется для присвоения списку переменных за одну операцию.</P><BLOCKQUOTE><P><B>Примечание: </B>
+<B>list()</B> работает только с числовыми массивами и принимает, что числовые индексы начинаются с 0.</P></BLOCKQUOTE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN8520"></A><h5>Пример 1. list()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+$info = array('coffee', 'brown', 'caffeine');
+
+// Листинг всех переменных
+list($drink, $color, $power) = $info;
+print "$drink is $color and $power makes it special.\n";
+
+// Листинг некоторых из них
+list($drink, , $power) = $info;
+print "$drink has $power.\n";
+
+// Или пропустим все, кроме третьей
+list( , , $power) = $info;
+print "I need $power!\n";
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN8525"></A>
+<h5>Пример 2. Пример использования list()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;table&#62;
+ &#60;tr&#62;
+  &#60;th&#62;Employee name&#60;/th&#62;
+  &#60;th&#62;Salary&#60;/th&#62;
+ &#60;/tr&#62;
+
+&#60;?php
+
+$result = mysql_query ("SELECT id, name, salary FROM employees",$conn);
+while (list ($id, $name, $salary) = mysql_fetch_row ($result)) {
+    print (" &#60;tr&#62;\n".
+           "  &#60;td&#62;&#60;a href=\"info.php?id=$id\"&#62;$name&#60;/a&#62;&#60;/td&#62;\n".
+           "  &#60;td&#62;$salary&#60;/td&#62;\n".
+           " &#60;/tr&#62;\n");
+}
+
+?&#62;
+
+&#60;/table&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><br>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P><B>list()</B> присваивает значения переменным, начиная с самого правого 
+параметра. Если вы используете обычные переменные, вам не нужно ни о чём 
+беспокоиться. Но если вы используете массивы с индексами, вы обычно ожидаете, 
+что порядок индексов в массиве будет тот же, что записан вами в
+<B>list()</B> - слева направо; что в действительности не так. Присвоение идёт в обратном порядке.</P></TD></TR></TABLE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN8534"></A><h5>Пример 3. Использование list() с индексами массива</h5>
+<TABLE BORDER="0"  BGCOLOR="#E0E0E0"CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+$info = array('coffee', 'brown', 'caffeine');
+
+list($a[0], $a[1], $a[2]) = $info;
+
+var_dump($a);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Это даёт на выводе следующее (обратите внимание на порядок элементов по 
+сравнению с порядком, в котором они записаны в <B>list()</B>):</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>array(3) {
+  [2]=&#62;
+  string(8) "caffeine"
+  [1]=&#62;
+  string(5) "brown"
+  [0]=&#62;
+  string(6) "coffee"
+}</PRE></TD></TR></TABLE><P>См. также <A HREF="each.html"><B>each()</B></A>, <A HREF="array.html"><B>array()</B></A>
+и <A HREF="extract.html"><B>extract()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ksort.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="natcasesort.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ksort</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.array.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">natcasesort</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

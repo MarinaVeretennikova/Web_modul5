@@ -1,0 +1,55 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>pcntl_signal</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="pcntl-fork.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="pcntl-waitpid.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.pcntl-signal">pcntl_signal</A></H1><A NAME="AEN68134"></A><P>(PHP 4 &#62;= 4.1.0)</P>
+<p>pcntl_signal - инсталирует обработчик сигнала.<A NAME="AEN68137"></A></p><H2>Описание</H2><p>bool <B>pcntl_signal</B> (int signo, mixed handler)</p>
+<P>Функция <B>pcntl_signal()</B> устанавливает новый обработчик сигнала для сигнала <TT><I>signo</I></TT>.
+Обработчик сигнала устанавливается в <TT><I>handler</I></TT>, который может быть именем функции, созданной пользователем, или одной из двух 
+глобальных констант: SIG_IGN или SIG_DFL.</P><P><B>pcntl_signal()</B> возвращает <TT><B>TRUE</B></TT> при успехе,
+<TT><B>FALSE</B></TT> при неудаче.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN68156"></A>
+<P>Пример 1. pcntl_signal()</P><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+// функция обработчика сигнала
+function sig_handler($signo) {
+
+     switch($signo) {
+         case SIGTERM:
+             // обработка задач shutdown
+             exit;
+             break;
+         case SIGHUP:
+             // обработка задач restart
+             break;
+         case SIGUSR1:
+             print "Caught SIGUSR1...\n";
+             break;
+         default:
+             // обработка всех других сигналов
+     }
+
+}
+
+print "Installing signal handler...\n";
+
+// установка обработчиков сигналов
+pcntl_signal(SIGTERM, "sig_handler");
+pcntl_signal(SIGHUP, "sig_handler");
+pcntl_signal(SIGUSR1, "sig_handler");
+
+print "Generating signal SIGTERM to self...\n";
+
+// отправка SIGUSR1 текущему process id
+posix_kill(posix_getpid(), SIGUSR1);
+
+print "Done\n"
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="pcntl-fork.html"><B>pcntl_fork()</B></A> и
+<A HREF="pcntl-waitpid.html"><B>pcntl_waitpid()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="pcntl-fork.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="pcntl-waitpid.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">pcntl_fork</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.pcntl.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">pcntl_waitpid</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

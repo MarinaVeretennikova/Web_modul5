@@ -1,0 +1,420 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>SWFAction</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ming-useswfversion.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="swfbitmap.getheight.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.swfaction">SWFAction</A></H1><A NAME="AEN46143"></A><P>(PHP 4 &#62;= 4.0.5)</P>
+<p>SWFAction - создаёт новую Action/Акцию.<A NAME="AEN46146"></A></p><H2>Описание</H2>
+<p>new <B>swfaction</B> (string script)</p><TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR>
+<th><B>Предупреждение!</B></th></TR><TR><TD><P>Эта функция - ЭКСПЕРИМЕНТАЛЬНАЯ. Поведение, имя и всё остальное, что задокументировано для данной функции может быть изменено в будущих релизах РНР без предупреждения. Вы можете использовать эту функцию только на свой страх и риск.
+</P></TD></TR></TABLE><P><B>swfaction()</B> создаёт новую Action и компилирует данный скрипт в SWFAction-объект.</P>
+<P>Синтаксис скрипта основан на языке C, но большими изъятиями - машина SWF-байтокода очень сильно упрощена. 
+К примеру, мы не может реализовать вызовы функции без большого объёма 
+дополнительной работы, поскольку jump-байтокод имеет жёстко кодированное 
+значение смещения. Без push вашего вызывающего адреса в стэк и возвращения - 
+каждой функции необходимо будет знать точно, куда возвращать.</P>
+<P>Что же осталось? Компилятор распознаёт следующие лексемы:
+<UL><LI><P>break</P></LI><LI><P>for</P></LI><LI><P>continue</P></LI><LI><P>if</P></LI><LI><P>else</P></LI>
+<LI><P>do</P></LI><LI><P>while</P></LI></UL>
+<P>Типизированные данные отсутствуют; все значения в SWF action-машине хранятся как строки.<br>
+Следующие функции можно использовать в выражениях:<DL><DT>time()</DT><DD>
+<P>Возвращает количество миллисекунд (?), прошедших после старта клипа.</P></DD>
+<DT>random(seed)</DT><DD><P>Возвращает псевдо-случайное число в диапазоне 0-посеянное.</P></DD>
+<DT>length(expr)</DT><DD><P>Возвращает длину данного выражения.</P></DD>
+<DT>int(number)</DT><DD><P>Возвращает данное число, округлённое в сторону уменьшения до ближайшего integer.</P></DD>
+<DT>concat(expr, expr)</DT><DD><P>Возвращает конкатенацию данных выражений.</P></DD>
+<DT>ord(expr)</DT><DD><P>Возвращает ASCII-код данного символа</P></DD>
+<DT>chr(num)</DT><DD><P>Возвращает символ с данным ASCII-кодом</P></DD>
+<DT>substr(string, location, length)</DT><DD><P>Возвращает подстроку длиной length в точке location данной строки string</P></DD></DL>
+<P>Кроме того, можно использовать следующие команды:
+<DL><DT>duplicateClip(clip, name, depth)</DT><DD><P>Дублирует именованный movie-клип (как sprite/спрайт). Новый movie-клип 
+имеет имя name и глубину depth.</P></DD>
+<DT>removeClip(expr)</DT><DD><P>Удаляет именованный movie-клип.</P></DD>
+<DT>trace(expr)</DT><DD><P>Записывает данное выражение в trace log. Сомнительно, что
+plugin браузера сделает с ним что-нибудь.</P></DD>
+<DT>startDrag(target, lock, [left, top, right, bottom])</DT><DD>
+<P>Начинает перетаскивание целевого movie-клипа. Аргумент lock указывает, блокируется ли мышь (?) - 0 (<TT><B>FALSE</B></TT>)
+или 1 (<TT><B>TRUE</B></TT>). Необязательные параметры определяют границы области для перетаскивания.</P></DD>
+<DT>stopDrag()</DT><DD><P>Остановить перетаскивание movie-клипа.</P></DD>
+<DT>callFrame(expr)</DT><DD><P>Вызвать именованный кадр как</P></DD>
+<DT>getURL(url, target, [method])</DT><DD><P>Загрузить данный URL в именованный target. Аргумент target 
+соответствует целям HTML-документа (таким как "_top" или "_blank").
+Необязательный аргумент method может быть POST или GET, если вы хотите отправить переменные обратно на сервер.</P></DD>
+<DT>loadMovie(url, target)</DT><DD><P>Загружает данный URL в именованный target. Аргументом target может 
+быть имя кадра (я думаю) или одно из магических значений: "_level0" (заместить 
+текущий клип) или "_level1" (загрузить новый movie поверх текущего movie).</P></DD>
+<DT>nextFrame()</DT><DD><P>Перейти в следующему кадру.</P></DD>
+<DT>prevFrame()</DT><DD><P>Перейти к последнему (или всё же - к предыдущему?) кадру.</P></DD>
+<DT>play()</DT><DD><P>Начать проигрывание movie.</P></DD>
+<DT>stop()</DT><DD><P>Остановить проигрывание movie.</P></DD>
+<DT>toggleQuality()</DT><DD><P>Переключает между высоким и низким качеством.</P></DD>
+<DT>stopSounds()</DT><DD><P>Остановить проигрывание всех звуков.</P></DD>
+<DT>gotoFrame(num)</DT><DD><P>Перейти к кадру номер num. Номера кадров начинаются с 0.</P></DD>
+<DT>gotoFrame(name)</DT><DD><P>Перейти к именованному кадру name. Что даёт много хорошего, если я ещё 
+не добавил ярлыки кадров.</P></DD>
+<DT>setTarget(expr)</DT><DD><P>Устанавливает контекст акции. Или, как говорится - я не знаю, что&nbsp; 
+она действительно делает.</P></DD></DL>
+<p>Есть и ещё нечто сверхъестественное. Выражение frameLoaded(num) может 
+использоваться в операторах if и циклах while для проверки того, может ли 
+данный кадр с номером быть загружен.<br>
+Это предполагается, ноя не тестировал её и сильно сомневаюсь, что она 
+действительно работает. Вместо этого вы можете использовать просто /:framesLoaded.
+<P>Movie-клипы (с этого момента всё это - спрайты) имеют свойства. Вы можете 
+читать все их и устанавливать некоторые из них:
+<UL><LI><P>x</P></LI><LI><P>y</P></LI><LI><P>xScale</P></LI><LI><P>yScale</P></LI><LI><P>currentFrame - (read-only)</P></LI>
+<LI><P>totalFrames - (read-only)</P></LI><LI><P>alpha - уровень прозрачности</P></LI><LI><P>visible - 1=on, 0=off (?)</P></LI>
+<LI><P>width - (read-only)</P></LI><LI><P>height - (read-only)</P></LI><LI><P>rotation</P></LI>
+<LI><P>target - (read-only) (???)</P></LI><LI><P>framesLoaded - (read-only)</P></LI><LI><P>name</P></LI>
+<LI><P>dropTarget - (read-only) (???)</P></LI><LI><P>url - (read-only) (???)</P></LI>
+<LI><P>highQuality - 1=high, 0=low (?)</P></LI><LI><P>focusRect - (???)</P></LI><LI><P>soundBufTime - (???)</P></LI></UL>
+<p>Так, можно установить позицию x спрайта как <TT>/box.x = 100;</TT>. 
+Но почему слэш перед box? Таким способом flash отслеживает спрайты в клипе, 
+точно как в файловой системе unix - здесь показано, что box находится на 
+верхнем уровне. Если именованный бокс спрайта имел внутри себя другой 
+именованный спрайт, вы можете установить его x-позицию: /box/biff.x = 100;. 
+Как минимум, я так думаю; исправьте меня, если это не так <i>(здесь и далее в 
+этом файле это комментарии автора - прим. перев.)</i>.
+<P>Этот простой пример перемещает красный квадрат через окно.<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN46324"></A><h5>Пример 1. swfaction()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+ $s = new SWFShape();
+  $f = $s-&#62;addFill(0xff, 0, 0);
+  $s-&#62;setRightFill($f);
+
+  $s-&#62;movePenTo(-500,-500);
+  $s-&#62;drawLineTo(500,-500);
+  $s-&#62;drawLineTo(500,500);
+  $s-&#62;drawLineTo(-500,500);
+  $s-&#62;drawLineTo(-500,-500);
+
+  $p = new SWFSprite();
+  $i = $p-&#62;add($s);
+  $i-&#62;setDepth(1);
+  $p-&#62;nextFrame();
+
+  for($n=0; $n&#60;5; ++$n)
+  {
+    $i-&#62;rotate(-15);
+    $p-&#62;nextFrame();
+  }
+
+  $m = new SWFMovie();
+  $m-&#62;setBackground(0xff, 0xff, 0xff);
+  $m-&#62;setDimension(6000,4000);
+
+  $i = $m-&#62;add($p);
+  $i-&#62;setDepth(1);
+  $i-&#62;moveTo(-500,2000);
+  $i-&#62;setName("box");
+
+  $m-&#62;add(new SWFAction("/box.x += 3;"));
+  $m-&#62;nextFrame();
+  $m-&#62;add(new SWFAction("gotoFrame(0); play();"));
+  $m-&#62;nextFrame();
+
+  header('Content-type: application/x-shockwave-flash');
+  $m-&#62;output();
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Следующий простой пример отслеживает вашу мышь на экране.<TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN46329"></A><h5>Пример 2. swfaction()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+
+  $m = new SWFMovie();
+  $m-&#62;setRate(36.0);
+  $m-&#62;setDimension(1200, 800);
+  $m-&#62;setBackground(0, 0, 0);
+
+  /* спрайт трэкинга мыши - пустой, но следует за мышью, так что мы можем
+     получить её x и y координаты */
+
+  $i = $m-&#62;add(new SWFSprite());
+  $i-&#62;setName('mouse');
+
+  $m-&#62;add(new SWFAction("
+    startDrag('/mouse', 1); /* '1' означает блокировать спрайт на мыши */
+  "));
+
+  /* можно также отключить antialiasing, поскольку это просто квадраты */
+
+  $m-&#62;add(new SWFAction("
+    this.quality = 0;
+  "));
+
+  /* morphing box */
+  $r = new SWFMorph();
+  $s = $r-&#62;getShape1();
+
+  /* Заметьте, это backwards нормальных фигур. Не знаю, зачем. */
+  $s-&#62;setLeftFill($s-&#62;addFill(0xff, 0xff, 0xff));
+  $s-&#62;movePenTo(-40, -40);
+  $s-&#62;drawLine(80, 0);
+  $s-&#62;drawLine(0, 80);
+  $s-&#62;drawLine(-80, 0);
+  $s-&#62;drawLine(0, -80);
+
+  $s = $r-&#62;getShape2();
+
+  $s-&#62;setLeftFill($s-&#62;addFill(0x00, 0x00, 0x00));
+  $s-&#62;movePenTo(-1, -1);
+  $s-&#62;drawLine(2, 0);
+  $s-&#62;drawLine(0, 2);
+  $s-&#62;drawLine(-2, 0);
+  $s-&#62;drawLine(0, -2);
+
+  /* контейнер спрайта для morphing box -
+     это просто timeline w/ box morphing */
+
+  $box = new SWFSprite();
+  $box-&#62;add(new SWFAction("
+    stop();
+  "));
+  $i = $box-&#62;add($r);
+
+  for($n=0; $n&#60;=20; ++$n)
+  {
+    $i-&#62;setRatio($n/20);
+    $box-&#62;nextFrame();
+  }
+
+  /* этот спрайт-контейнер даёт нам возможность использовать
+     один код акции многократно */
+
+  $cell = new SWFSprite();
+  $i = $cell-&#62;add($box);
+  $i-&#62;setName('box');
+
+  $cell-&#62;add(new SWFAction("
+
+    setTarget('box');
+
+    /* ...x обозначает x-координату parent, т.е. (..).x */
+    dx = (/mouse.x + random(6)-3 - ...x)/5;
+    dy = (/mouse.y + random(6)-3 - ...y)/5;
+    gotoFrame(int(dx*dx + dy*dy));
+
+  "));
+
+  $cell-&#62;nextFrame();
+  $cell-&#62;add(new SWFAction("
+
+    gotoFrame(0);
+    play();
+
+  "));
+
+  $cell-&#62;nextFrame();
+
+  /* наконец, добавим пачку ячеек в movie */
+
+  for($x=0; $x&#60;12; ++$x)
+  {
+    for($y=0; $y&#60;8; ++$y)
+    {
+      $i = $m-&#62;add($cell);
+      $i-&#62;moveTo(100*$x+50, 100*$y+50);
+    }
+  }
+
+  $m-&#62;nextFrame();
+
+  $m-&#62;add(new SWFAction("
+
+    gotoFrame(1);
+    play();
+
+  "));
+
+  header('Content-type: application/x-shockwave-flash');
+  $m-&#62;output();
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Вот то же, что и выше, но более красиво раскрашенные шарики ...<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN46334"></A><h5>Пример 3. swfaction()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+
+  $m = new SWFMovie();
+  $m-&#62;setDimension(11000, 8000);
+  $m-&#62;setBackground(0x00, 0x00, 0x00);
+
+  $m-&#62;add(new SWFAction("
+
+this.quality = 0;
+/frames.visible = 0;
+startDrag('/mouse', 1);
+
+  "));
+
+  // спрайт трэкинга мыши
+  $t = new SWFSprite();
+  $i = $m-&#62;add($t);
+  $i-&#62;setName('mouse');
+
+  $g = new SWFGradient();
+  $g-&#62;addEntry(0, 0xff, 0xff, 0xff, 0xff);
+  $g-&#62;addEntry(0.1, 0xff, 0xff, 0xff, 0xff);
+  $g-&#62;addEntry(0.5, 0xff, 0xff, 0xff, 0x5f);
+  $g-&#62;addEntry(1.0, 0xff, 0xff, 0xff, 0);
+
+  // градиент фигуры
+  $s = new SWFShape();
+  $f = $s-&#62;addFill($g, SWFFILL_RADIAL_GRADIENT);
+  $f-&#62;scaleTo(0.03);
+  $s-&#62;setRightFill($f);
+  $s-&#62;movePenTo(-600, -600);
+  $s-&#62;drawLine(1200, 0);
+  $s-&#62;drawLine(0, 1200);
+  $s-&#62;drawLine(-1200, 0);
+  $s-&#62;drawLine(0, -1200);
+
+  // нужно сделать это спрайтом, чтобы мы могли multColor его
+  $p = new SWFSprite();
+  $p-&#62;add($s);
+  $p-&#62;nextFrame();
+
+  // поместить фигуры здесь, каждый кадр своим цветом
+  $q = new SWFSprite();
+  $q-&#62;add(new SWFAction("gotoFrame(random(7)+1); stop();"));
+  $i = $q-&#62;add($p);
+
+  $i-&#62;multColor(1.0, 1.0, 1.0);
+  $q-&#62;nextFrame();
+  $i-&#62;multColor(1.0, 0.5, 0.5);
+  $q-&#62;nextFrame();
+  $i-&#62;multColor(1.0, 0.75, 0.5);
+  $q-&#62;nextFrame();
+  $i-&#62;multColor(1.0, 1.0, 0.5);
+  $q-&#62;nextFrame();
+  $i-&#62;multColor(0.5, 1.0, 0.5);
+  $q-&#62;nextFrame();
+  $i-&#62;multColor(0.5, 0.5, 1.0);
+  $q-&#62;nextFrame();
+  $i-&#62;multColor(1.0, 0.5, 1.0);
+  $q-&#62;nextFrame();
+
+  // наконец, код акции
+  $p = new SWFSprite();
+  $i = $p-&#62;add($q);
+  $i-&#62;setName('frames');
+  $p-&#62;add(new SWFAction("
+
+dx = (/:mousex-/:lastx)/3 + random(10)-5;
+dy = (/:mousey-/:lasty)/3;
+x = /:mousex;
+y = /:mousey;
+alpha = 100;
+
+  "));
+  $p-&#62;nextFrame();
+
+  $p-&#62;add(new SWFAction("
+
+this.x = x;
+this.y = y;
+this.alpha = alpha;
+x += dx;
+y += dy;
+dy += 3;
+alpha -= 8;
+
+  "));
+  $p-&#62;nextFrame();
+
+  $p-&#62;add(new SWFAction("prevFrame(); play();"));
+  $p-&#62;nextFrame();
+
+  $i = $m-&#62;add($p);
+  $i-&#62;setName('frames');
+  $m-&#62;nextFrame();
+
+  $m-&#62;add(new SWFAction("
+
+lastx = mousex;
+lasty = mousey;
+mousex = /mouse.x;
+mousey = /mouse.y;
+
+++num;
+
+if(num == 11)
+  num = 1;
+
+removeClip('char' &#38; num);
+duplicateClip(/frames, 'char' &#38; num, num);
+
+  "));
+
+  $m-&#62;nextFrame();
+  $m-&#62;add(new SWFAction("prevFrame(); play();"));
+
+  header('Content-type: application/x-shockwave-flash');
+  $m-&#62;output();
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Следующий простой пример обрабатывает акции клавиатуры.
+(Вам, возможно нужно щёлкнуть на окне для передачи ему фокуса.
+И, возможно, вы должны будете также оставить мышь в кадре.
+Если вы знаете, как передавать фокус кнопкам программно, это не обязательно.)<TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN46339"></A><h5>Пример 4. swfaction()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+
+  /* спрайт имеет одну букву на кадр */
+
+  $p = new SWFSprite();
+  $p-&#62;add(new SWFAction("stop();"));
+
+  $chars = "abcdefghijklmnopqrstuvwxyz".
+       "ABCDEFGHIJKLMNOPQRSTUVWXYZ".
+           "1234567890!@#$%^&#38;/*()_+-=/[]{}|;:,.&#60;&#62;?`~";
+
+  $f = new SWFFont("_sans");
+
+  for($n=0; $nremove($i);
+    $t = new SWFTextField();
+    $t-&#62;setFont($f);
+    $t-&#62;setHeight(240);
+    $t-&#62;setBounds(600,240);
+    $t-&#62;align(SWFTEXTFIELD_ALIGN_CENTER);
+    $t-&#62;addString($c);
+    $i = $p-&#62;add($t);
+    $p-&#62;labelFrame($c);
+    $p-&#62;nextFrame();
+  }
+
+  /* захватить область для кнопки - весь кадр */
+
+  $s = new SWFShape();
+  $s-&#62;setFillStyle0($s-&#62;addSolidFill(0, 0, 0, 0));
+  $s-&#62;drawLine(600, 0);
+  $s-&#62;drawLine(0, 400);
+  $s-&#62;drawLine(-600, 0);
+  $s-&#62;drawLine(0, -400);
+
+  /* проверка нажатия клавиши кнопки, отправка спрайта в кадр */
+
+  $b = new SWFButton();
+  $b-&#62;addShape($s, SWFBUTTON_HIT);
+
+  for($n=0; $naddAction(new SWFAction("
+
+setTarget('/char');
+gotoFrame('$c');
+
+    "), SWFBUTTON_KEYPRESS($c));
+  }
+
+  $m = new SWFMovie();
+  $m-&#62;setDimension(600,400);
+  $i = $m-&#62;add($p);
+  $i-&#62;setName('char');
+  $i-&#62;moveTo(0,80);
+
+  $m-&#62;add($b);
+
+  header('Content-type: application/x-shockwave-flash');
+  $m-&#62;output();
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+</TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE  WIDTH="100%" BORDER="0"CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ming-useswfversion.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="swfbitmap.getheight.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ming_useswfversion</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.ming.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">SWFBitmap-&#62;getHeight</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

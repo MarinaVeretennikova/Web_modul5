@@ -1,0 +1,95 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Вызов Пользовательских Функций</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="zend.startup-and-shutdown.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="zend.ini-file-support.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="zend.calling-user-functions">Глава 39. Вызов пользовательских функций</A></H1>
+<P>Вы можете вызывать пользовательские функции из ваших модулей, что очень удобно 
+при реализации callbacks/обратных вызовов; например, для прохода по массиву, 
+поиска или просто для программ на базе событий.</P>
+<P>Пользовательские функции можно вызывать функцией <B>call_user_function_ex()</B>. Необходимы: hash-значение для таблицы функции, доступ к которой вы хотите 
+получить, указатель на объект (если хотите вызвать метод), имя функции, return-значение, количество аргументов,
+массив аргументов и флаг, указывающий, хотите ли вы использовать zval-сепарацию.
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>ZEND_API int call_user_function_ex(HashTable *function_table, zval *object,
+                                   zval *function_name, zval **retval_ptr_ptr,
+                                   int param_count, zval **params[],
+                                   int no_separation);</PRE></TD></TR></TABLE>
+<p>Заметьте, что вы не должны специфицировать и <TT>function_table</TT>, и <TT>object</TT>;
+нужен только один из них. Если вы хотите вызвать метод, вы должны предоставить 
+объект, который содержит этот метод, при этом <B>call_user_function() </B>автоматически устанавливает таблицу функции на таблицу функции этого объекта. 
+Иначе вам необходимо специфицировать только <TT>function_table</TT> и можно установить <TT>object</TT>
+в <TT>NULL</TT>.</p><P>Обычно по умолчанию таблица функции это таблица "корневой" функции, содержащая 
+вхождения всех функций. Эта таблица функции является частью глобалов 
+компилятора, и доступ к ней может быть обеспечен макросом <TT>CG</TT>. Для введения глобалов компилятора в вашу функцию, вызовите однократно макрос
+<TT>CLS_FETCH</TT>.</P><P>Имя функции специфицируется в <TT>zval</TT>-контейнере. На первый взгляд это может показаться необычным, но это довольно 
+логичный шаг, поскольку в большинстве случаев вы будете принимать имена 
+функций как параметры вызывающих функций в вашем скрипте, которые в свою 
+очередь также содержаться в <TT>zval</TT>-контейнерах. Таким образом, вы должны лишь передать ваши аргументы этой
+функции. Этот <TT>zval</TT> обязан иметь тип <TT>IS_STRING</TT>.</P>
+<P>Следующий аргумент это указатель на return-значение. Вы не должны выделять 
+память для этого контейнера; функция сделает это сама. Однако вы должны 
+уничтожить этот контейнер (используя <B>zval_dtor()</B>) впоследствии!</P>
+<P>Затем идёт целочисленный parameter_count и массив, содержащий все необходимые 
+параметры.  Последний аргумент специфицирует, должна ли функция выполнять zval-сепарацию - 
+он должен всегда быть установлен в <TT>0</TT>. Если он установлен в <TT>1</TT>, функция потребляет меньше памяти, но терпит неудачу, если любой из параметров 
+требует сепарации.</P><P>Листинг 9.16 и Рисунок 9.11 показывают вызов пользовательской функции. Этот код 
+вызывает функцию, которая предоставлена как аргумент, и непосредственно 
+передаёт return-значение этой функции как своё собственное return-значение.
+Обратите внимание на использование вызовов конструктора и деструктора в конце - 
+это может быть и не обязательно здесь (так как они являются раздельными 
+значениями, и присвоение проходит безопасно), но так 100-процентно надёжнее.</P>
+<A NAME="AEN87120"></A><h5>Рисунок 39-1. Листинг 9.16. Вызов пользовательской функции.</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>zval **function_name;
+zval *retval;
+
+if((ZEND_NUM_ARGS() != 1) || (zend_get_parameters_ex(1, &#38;function_name) != SUCCESS))
+{
+    WRONG_PARAM_COUNT;
+}
+
+if((*function_name)-&#62;type != IS_STRING)
+{
+    zend_error(E_ERROR, "Функция requires string argument");
+}
+
+CLS_FETCH();
+
+<font size="1">if(call_user_function_ex(CG(function_table), NULL, *function_name, &#38;retval, 0, NULL, 0) != SUCCESS)</font>
+{
+    zend_error(E_ERROR, "Функция call failed");
+}
+
+zend_printf("We have %i as type&#60;br&#62;", retval-&#62;type);
+
+*return_value = *retval;
+zval_copy_ctor(return_value);
+zval_ptr_dtor();</PRE></TD></TR></TABLE>&nbsp;<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;?php
+
+dl("call_userland.so");
+
+function test_function()
+{
+
+    print("We are in the test function!&#60;br&#62;");
+
+    return("hello");
+
+}
+
+$return_value = call_userland("test_function");
+
+print("Return value: \"$return_value\"&#60;br&#62;");
+?&#62;</PRE></TD></TR></TABLE><P><IMG SRC="imag/Zend_11_userland.png" width="255" height="178"></P>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="zend.startup-and-shutdown.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="zend.ini-file-support.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">Функции старта и останова</TD><th WIDTH="34%" VALIGN="top"><a href="zend.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Поддержка файла инициализации</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

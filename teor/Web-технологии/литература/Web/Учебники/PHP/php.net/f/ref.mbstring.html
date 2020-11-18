@@ -1,0 +1,271 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Мультибайтных Строк</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="tanh.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="mb-convert-encoding.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.mbstring"></A>LIII. Функции мультибайтных строк</h1><A NAME="AEN41429"></A>
+<H1><A NAME="mb-intro">Введение</A></H1>
+<P>Во многих языках символы могут выражаться одним байтом. Многобайтные коды 
+символов используются для выражения символов многих других языков.<br><TT>mbstring</TT> разработано для работы с японскими символами. Однако многие функции
+<TT>mbstring</TT> могут работать с иными кодировками, не только с японской.</P>
+<P>Многобайтная кодировка символов представляет один символ несколькими 
+последовательными байтами. Некоторые кодировки имеют shift(escape)-последовательности 
+для начала/окончания строк многобайтных символов. Следовательно, многобайтная 
+строка может быть разрушена при разделении и/или обсчёте, если не использовать 
+метод надёжного кодирования многобайтных символов. Данный модуль предоставляет 
+функции сохранения много байтных символов и другие вспомогательные функции, такие как функции конвертации.</P>
+<P>Поскольку PHP в основе своей разработан для ISO-8859-1, некоторые 
+многобайтные кодировки плохо работают в PHP. Следовательно, важно 
+устанавливать <TT>mbstring.internal_encoding</TT> для кодировки, работающей с PHP.</P>
+<P>Требования Кодировки Символов PHP4</P>
+<UL><LI><P> побайтное кодирование</P></LI><LI><P>однобайтные символы находятся в диапазоне <TT>00h-7fh</TT>,
+что совместимо с <TT>ASCII</TT></P></LI><LI><P>многобайтное кодирование - вне диапазона <TT>00h-7fh</TT></P></LI>
+</UL><P>Вот примеры внутренней кодировки символов, которые работают и НЕ работают с PHP.<A NAME="AEN41451"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>Работающие в PHP кодировки:
+ISO-8859-*, EUC-JP, UTF-8. Кодировки, НЕ работающие в PHP:
+JIS, SJIS</PRE></TD></TR></TABLE><P>Кодировки символов, не работающие с PHP, могут быть конвертированы с 
+помощью функции конвертации HTTP-ввода/вывода модуля <TT>mbstring</TT>.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>SJIS не должна использоваться для внутреннего кодирования, если читатель 
+не знаком достаточно хорошо с вопросами работы разборщика/компилятора и кодирования символов.</P></BLOCKQUOTE>
+<BLOCKQUOTE><P><B>Примечание: </B>если вы используете БД с PHP, рекомендуется использовать одну кодировку 
+для БД и <TT>internal encoding/внутреннего кодирования</TT> для облегчения использования и повышения производительности.</P>
+<P>Если вы используете PostgreSQL, он поддерживает кодировки символов, 
+которые отличаются от backend-кодировки. См. детали в учебнике PostgreSQL.</P></BLOCKQUOTE>
+<H2><A NAME="mb-enable">Как подключить mbstring</A></H2><P><TT>mbstring</TT> это модуль расширения. Вы обязаны подключить его скриптом
+<TT>configure</TT>. См. детали в разделе <a href="../inst.installation.html">Инсталяция</a>.</P>
+<P>Следующие опции конфигурации имеют отношение к модулю <TT>mbstring:</TT></P>
+<UL><LI><P><TT>--enable-mbstring</TT> : включает функции <TT>mbstring</TT>. Эта опция нужна для использования
+<TT>mbstring</TT>-функций.</P></LI><LI><P><TT>--enable-mbstr-enc-trans</TT> : включает конвертацию кодировки символов HTTP-ввода с использованием
+<TT>mbstring</TT>-машины конвертации. Если эта возможность включена, кодировка символов HTTP-ввода 
+может быть автоматически конвертирована в <TT>mbstring.internal_encoding</TT>.</P></LI></UL>
+<H2><A NAME="mb-conv">HTTP ввод и вывод</A></H2><P>Конвертация кодировки символов HTTP-ввода/вывода может конвертировать 
+также двоичные данные. Пользователям предлагается контролировать конвертацию 
+кодировки символов, если бинарные данные используются для ввода/вывода HTTP.</P>
+<P>Если <TT>enctype</TT> для HTML-формы установлен <TT>multipart/form-data</TT>,
+<TT>mbstring</TT> не конвертирует кодировку символов в POST-данных. Если это так, строки должны 
+конвертироваться во внутреннюю кодировку символов.</P><UL><LI><P>HTTP-ввод</P>
+<P>Нет способов управлять конвертацией символов HTTP-ввода из PHP-скрипта. 
+Отключение конвертации символов HTTP-ввода нужно сделать в <TT>php.ini</TT>.<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN41494"></A><h5>Пример 1. Отключение конвертации символов HTTP-ввода в <TT>php.ini</TT></h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>;; Отключить конвертацию HTTP Input
+mbstring.http_input = pass</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>При использовании PHP как Apache-модуля можно переопределять PHP ini-установку на уровне Virtual Host в
+<TT>httpd.conf</TT> или на уровне директории в <TT> .htaccess</TT>. Обратитесь к разделу <a href="../configuration.html">Конфигурация</a> и
+учебнику Apache.</P></LI><LI><P>HTTP-вывод</P><P>Есть несколько способов включить конвертацию кодировки символов вывода.
+Один - это использование <TT>php.ini</TT>, другой - функция <A HREF="ob-start.html"><B>ob_start()</B></A> с
+<A HREF="mb-output-handler.html"><B>mb_output_handler()</B></A> как <TT>ob_start</TT> callback-функция.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>Для пользователей PHP3-i18n: конвертация вывода <TT>mbstring</TT> отличается от PHP3-i18n. Кодировка символов конвертируется с использованием 
+буфера вывода.</P></BLOCKQUOTE></LI></UL><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN41513"></A>
+<h5>Пример 2. Установки <TT>php.ini</TT></h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>;; Включить конвертацию кодировки символов для всех страниц PHP
+
+;; Включить буферизацию вывода
+output_buffering    = On
+
+;; Установить mb_output_handler для включения конвертации вывода
+output_handler      = mb_output_handler</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR>
+<TD><A NAME="AEN41518"></A><h5>Пример 3. Пример скрипта</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+
+// Включить конвертацию кодировки символов только для данной страницы
+
+// Установить кодировку символов HTTP-вывода для SJIS
+mb_http_output('SJIS');
+
+// Начать буферизацию и специфицировать "mb_output_handler" как
+// callback-функцию
+ob_start('mb_output_handler');
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><H2><a name="mb-code">Поддерживаемые кодировки символов</a></H2>
+<P>В настоящее время модуль <TT>mbstring</TT> поддерживает нижеследующие кодировки символов. Кодировка символов может быть 
+специфицирована параметром <TT>encoding</TT> функций модуля <TT>mbstring</TT>.</P>
+<P>Вот кодировки, поддерживаемые данным расширением PHP:</P><P><TT>UCS-4</TT>, <TT>UCS-4BE</TT>,
+<TT>UCS-4LE</TT>, <TT>UCS-2</TT>, <TT>UCS-2BE</TT>, <TT>UCS-2LE</TT>, <TT>UTF-32</TT>, <TT>UTF-32BE</TT>,
+<TT>UTF-32LE</TT>, <TT>UCS-2LE</TT>, <TT>UTF-16</TT>, <TT>UTF-16BE</TT>, <TT>UTF-16LE</TT>, <TT>UTF-8</TT>,
+<TT>UTF-7</TT>, <TT>ASCII</TT>, <TT>EUC-JP</TT>, <TT>SJIS</TT>, <TT>eucJP-win</TT>, <TT>SJIS-win</TT>,
+<TT>ISO-2022-JP</TT>, <TT>JIS</TT>, <TT>ISO-8859-1</TT>, <TT>ISO-8859-2</TT>, <TT>ISO-8859-3</TT>,
+<TT>ISO-8859-4</TT>, <TT>ISO-8859-5</TT>, <TT>ISO-8859-6</TT>, <TT>ISO-8859-7</TT>, <TT>ISO-8859-8</TT>,
+<TT>ISO-8859-9</TT>, <TT>ISO-8859-10</TT>, <TT>ISO-8859-13</TT>, <TT>ISO-8859-14</TT>, <TT>ISO-8859-15</TT>,
+<TT>byte2be</TT>, <TT>byte2le</TT>, <TT>byte4be</TT>, <TT>byte4le</TT>, <TT>BASE64</TT>, <TT>7bit</TT>,
+<TT>8bit</TT> и <TT>UTF7-IMAP</TT>.</P><P>Вхождение в <TT>php.ini</TT>, принимающее имя кодировки,
+принимает также "<TT>auto</TT>" и "<TT>pass</TT>".<TT><br>mbstring</TT> функции, принимающие имя кодировки, принимают и
+"<TT>auto</TT>".</P><P>Если "<TT>pass</TT>" установлено, никакая конвертация кодировки символов не выполняется.</P>
+<P>Если "<TT>auto</TT>" установлено, оно расширяется до "<TT>ASCII,JIS,UTF-8,EUC-JP,SJIS</TT>".</P>
+<P>См. также <A HREF="mb-detect-order.html"><B>mb_detect_order()</B></A></P>
+<BLOCKQUOTE><P><B>Примечание: </B>"поддерживаемые кодировки символов" не означает, что это работает как внутренний код символа.</P></BLOCKQUOTE>
+<H2><A NAME="mb-ini">Установки <TT>php.ini</TT></A></H2><UL><LI><P><TT>mbstring.internal_encoding</TT> определяет внутреннюю кодировку символов по умолчанию</P>
+</LI><LI><P><TT>mbstring.http_input</TT> определяет кодировку символов по умолчанию HTTP-ввода</P></LI>
+<LI><P><TT>mbstring.http_output</TT> определяет кодировку символов по умолчанию HTTP-вывода</P></LI>
+<LI><P><TT>mbstring.detect_order</TT> определяет порядок определения кодировки символов по умолчанию. См. также
+<A HREF="mb-detect-order.html"><B>mb_detect_order()</B></A></P></LI><LI><P><TT>mbstring.substitute_character</TT> определяет символы для замещения неправильных кодировок символов</P>
+</LI></UL><P>Web-браузерам предлагается использовать ту же кодировку при отправку форм. 
+Однако браузеры могут не использовать ту же кодировку символов. См. <A HREF="mb-http-input.html"><B>mb_http_input()</B></A> для определения кодировки браузера.</P>
+<P>Если <TT>enctype</TT> имеет установленное значение <TT>multipart/form-data</TT> в HTML-формах,
+<TT>mbstring</TT> не конвертирует кодировку символов в POST-данных. Пользователь обязан сделать 
+это в скрипте, если конвертация нужна.</P>
+<P>Одновременно браузеры достаточно наворочены, чтобы определять кодировку символов в HTML. <TT>charset</TT> лучше установить в HTTP-шапке/header. Измените
+<TT>default_charset</TT> в соответствии с кодировкой символов.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN41618"></A><h5>Пример 4. Установки <TT>php.ini</TT></h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>;; Установить внутреннюю кодировку по умолчанию
+;; Примечание: Используйте кодировку символов, которая работает с PHP
+mbstring.internal_encoding    = UTF-8  ; Установить внутреннюю кодировку UTF-8
+
+;; Установить кодировку символов по умолчанию для HTTP-ввода
+;; Примечание: Скрипт не может изменить установку http_input
+mbstring.http_input           = pass    ; Нет конвертации 
+mbstring.http_input           = auto    ; Установить HTTP-ввод в auto
+                                ; "auto" расширяется до "ASCII,JIS,UTF-8,EUC-JP,SJIS"
+mbstring.http_input           = SJIS    ; Установить HTTP2-ввод в SJIS
+mbstring.http_input           = UTF-8,SJIS,EUC-JP ; Специфицировать порядок
+
+;; Установить кодировку символов по умолчанию для HTTP-вывода
+mbstring.http_output          = pass    ; Нет конвертации
+mbstring.http_output          = UTF-8   ; Установить кодировку HTTP-вывода в UTF-8
+
+;; Установить порядок определения кодировки символов по умолчанию
+mbstring.detect_order         = auto    ; Установить порядок определения в auto
+mbstring.detect_order         = ASCII,JIS,UTF-8,SJIS,EUC-JP ; Специфицировать порядок
+
+;; Установить замещающий символ по умолчанию
+mbstring.substitute_character = 12307   ; Специфицировать значение Unicode
+mbstring.substitute_character = none    ; Не печатать символ
+mbstring.substitute_character = long    ; Long-Пример: U+3000,JIS+7E7E</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN41623"></A><h5>Пример 5. Установки <TT>php.ini</TT> для пользователей
+<TT>EUC-JP</TT></h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>;; Отключить буферизацию вывода
+output_buffering      = Off
+
+;; Установить HTTP header набора символов
+default_charset       = EUC-JP    
+
+;; Установить конвертацию кодировки HTTP-ввода в auto
+mbstring.http_input   = auto 
+
+;; Конвертировать HTTP-вывод в EUC-JP
+mbstring.http_output  = EUC-JP    
+
+;; Установить внутреннюю кодировку EUC-JP
+mbstring.internal_encoding = EUC-JP    
+
+;; Не печатать неправильные символы
+mbstring.substitute_character = none</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN41629"></A><h5>Пример 6. Установки <TT>php.ini</TT> для пользователей <TT>SJIS</TT></h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>;; Включить буферизацию вывода
+output_buffering     = On
+
+;; Установить mb_output_handler для включения конвертации вывода
+output_handler       = mb_output_handler
+
+;; Установить HTTP header набора символов
+default_charset      = Shift_JIS
+
+;; Установить конвертацию кодировки http-ввода в auto
+mbstring.http_input  = auto 
+
+;; Конвертировать в SJIS
+mbstring.http_output = SJIS    
+
+;; Установить внутреннюю кодировку EUC-JP
+mbstring.internal_encoding = EUC-JP    
+
+;; Не печатать неправильные символы
+mbstring.substitute_character = none</PRE></TD></TR></TABLE></TD></TR></TABLE><H2>Перегрузка/<A NAME="mb-overload">Overload строковых функций PHP mbstring-функциями с поддержкой многобайтных 
+символов</A></H2><P>Поскольку большинство приложений PHP написаны на языках, использующих 
+однобайтную кодировку символов, имеются некоторые трудности при работе с 
+многобайтными строками, в том числе с японскими. Большинство строковых PHP-функций, 
+таких как <A HREF="substr.html"><B>substr()</B></A>, не поддерживают многобайтные строки.</P>
+<P>Многобайтное расширение (mbstring) имеет строковые РНР-функции с 
+поддержкой многобайтных символов (например, <A HREF="substr.html"><B>substr()</B></A> поддерживает
+<A HREF="mb-substr.html"><B>mb_substr()</B></A>).</P>
+<P>Многобайтное расширение (mbstring) также поддерживает 'перегрузку функций' 
+для добавления функциональности многобайтных строк без модификации кода. 
+Используя перегрузку функций, некоторые строковые функции PHP будут перегружены многобайтными строковыми функциями.
+Например, <A HREF="mb-substr.html"><B>mb_substr()</B></A> вызывается вместо
+<A HREF="substr.html"><B>substr()</B></A>, если перегрузка функций включена. Перегрузка функций облегчает перенос 
+приложений, поддерживая только однобайтные кодировки для многобайтных приложений.</P>
+<P><TT>mbstring.func_overload</TT> в <TT>php.ini</TT> должно иметь некоторое положительное значение для использования перегрузки функций.
+Это значение должно специфицировать категорию перегружающей функции: 1 
+включает перегрузку функции mail; 2 - строковые функции, 4 - функции 
+регулярных выражений. Например, если установлена 7, mail, strings и regex 
+функции должны перегружаться. Список перегружаемых функций дан в таблице.<A NAME="AEN41647"></A>
+<h6>Таблица 1. Перегружаемые функции</h6><TABLE BORDER="1"><TR><TH>значение mbstring.func_overload</TH>
+<TH>функция-оригинал</TH><TH>перегруженная функция</TH></TR><TBODY><TR><TD>1</TD><TD>
+<A HREF="mail.html"><B>mail()</B></A></TD><TD><A HREF="mb-send-mail.html"><B>mb_send_mail()</B>
+</A></TD></TR><TR><TD>2</TD><TD><A HREF="strlen.html"><B>strlen()</B></A></TD><TD>
+<A HREF="mb-strlen.html"><B>mb_strlen()</B></A></TD></TR><TR><TD>2</TD><TD>
+<A HREF="strpos.html"><B>strpos()</B></A></TD><TD><A HREF="mb-strpos.html"><B>mb_strpos()</B>
+</A></TD></TR><TR><TD>2</TD><TD><A HREF="strrpos.html"><B>strrpos()</B></A></TD><TD>
+<A HREF="mb-strrpos.html"><B>mb_strrpos()</B></A></TD></TR><TR><TD>2</TD><TD>
+<A HREF="substr.html"><B>substr()</B></A></TD><TD><A HREF="mb-substr.html"><B>mb_substr()</B>
+</A></TD></TR><TR><TD>4</TD><TD><A HREF="ereg.html"><B>ereg()</B></A></TD><TD>
+<A HREF="mb-ereg.html"><B>mb_ereg()</B></A></TD></TR><TR><TD>4</TD><TD>
+<A HREF="eregi.html"><B>eregi()</B></A></TD><TD><A HREF="mb-eregi.html"><B>mb_eregi()</B></A>
+</TD></TR><TR><TD>4</TD><TD><A HREF="ereg-replace.html"><B>ereg_replace()</B></A></TD>
+<TD><A HREF="mb-ereg-replace.html"><B>mb_ereg_replace()</B></A></TD></TR><TR><TD>4</TD><TD>
+<A HREF="eregi-replace.html"><B>eregi_replace()</B></A></TD><TD><A HREF="mb-eregi-replace.html"><B>mb_eregi_replace()</B>
+</A></TD></TR><TR><TD>4</TD><TD><A HREF="split.html"><B>split()</B></A></TD><TD>
+<A HREF="mb-split.html"><B>mb_split()</B></A></TD></TR></TBODY></TABLE>
+<H2><A NAME="mb-ja-basic">Основы многобайтной японской кодировки символов</A></H2>
+<P>Большинство японских символов для своего представления требуют более 
+одного байта на символ. Кроме того, в японском окружении используются разные 
+схемы кодировки. Существуют кодировки EUC-JP, Shift_JIS(SJIS) и
+ISO-2022-JP(JIS). По мере приобретения популярности Unicode начинает 
+использоваться также UTF-8. при разработке Web-приложений для японской среды 
+важно использовать набор символов, соответствующих текущей задаче - HTTP ввод/вывод, RDBMS и E-mail.</P>
+<UL><LI><P>Для хранения символа можно использовать до 6 байтов.</P></LI>
+<LI><P>Многобайтный символ обычно в два раза шире однобайтного. Более широкие символы называются
+"zen-kaku" - что означает &quot;полная ширина&quot;, более узкие называются "han-kaku" - 
+что означает &quot;половина ширины&quot;. "zen-kaku" имеют обычно фиксированную ширину.</P></LI>
+<LI><P>Некоторые кодировки определяют shift(escape)-последовательность для входа/выхода в/из многобайтных строк.</P>
+</LI><LI><P>ISO-2022-JP обязан использоваться для SMTP/NNTP.</P></LI><LI><P>"i-mode" web-сайт предполагается использовать с SJIS.</P>
+</LI></UL><H2><a name="mb-ref">Ссылки</a></H2><P>Многобайтные кодировки и связанные с ними вопросы очень сложны.
+Невозможно рассмотреть их здесь достаточно подробно. Дополнительно просмотрите следующие ресурсы.
+<UL><LI><P>Unicode/UTF/UCS/etc</P><P><TT>http://www.unicode.org/</TT></P></LI><LI>
+<P>информация о символах Japanese/Korean/Chinese</P><P><TT>ftp://ftp.ora.com/pub/examples/nutshell/ujip/doc/cjk.inf
+</TT></P></LI></UL><DL><DT><B>Содержание</B></DT>
+<DT><A HREF="mb-convert-encoding.html">mb_convert_encoding</A> - конвертирует кодировку символов</DT>
+<DT><A HREF="mb-convert-kana.html">mb_convert_kana</A> - конвертирует "kana" из одной в другую ("zen-kaku" ,"han-kaku" и другие)</DT>
+<DT><A HREF="mb-convert-variables.html">mb_convert_variables</A> - конвертирует код символа в переменной(-ых)</DT>
+<DT><A HREF="mb-decode-mimeheader.html">mb_decode_mimeheader</A> - декодирует строку в поле MIME header</DT>
+<DT><A HREF="mb-decode-numericentity.html">mb_decode_numericentity</A> - декодирует HTML-ссылку на числовую строку в символ</DT>
+<DT><A HREF="mb-detect-encoding.html">mb_detect_encoding</A> - определяет кодировку символов</DT>
+<DT><A HREF="mb-detect-order.html">mb_detect_order</A> - устанавливает/получает порядок определения кодировки символов</DT>
+<DT><A HREF="mb-encode-mimeheader.html">mb_encode_mimeheader</A> - кодирует строку для MIME header'а</DT>
+<DT><A HREF="mb-encode-numericentity.html">mb_encode_numericentity</A> - кодирует символ в HTML-ссылку на числовую строку</DT>
+<DT><A HREF="mb-ereg-match.html">mb_ereg_match</A> - совпадение с регулярным выражением для многобайтной строки</DT>
+<DT><A HREF="mb-ereg-replace.html">mb_ereg_replace</A> - замещает регулярное выражение многобайтной поддержкой</DT>
+<DT><A HREF="mb-ereg-search-getpos.html">mb_ereg_search_getpos</A> - возвращает стартовую точку следующего совпадения регулярного выражения</DT>
+<DT><A HREF="mb-ereg-search-getregs.html">mb_ereg_search_getregs</A> - запрашивает результат из последнего совпадения многобайтного регулярного выражения</DT>
+<DT><A HREF="mb-ereg-search-init.html">mb_ereg_search_init</A> - настраивает строку и регулярное выражение для совпадения с регулярным выражением</DT>
+<DT><A HREF="mb-ereg-search-pos.html">mb_ereg_search_pos</A> - возвращает позицию и длину совпавшей части многобайтного регулярного выражения для предопределённой многобайтной строки</DT>
+<DT><A HREF="mb-ereg-search-regs.html">mb_ereg_search_regs</A> - возвращает совпавшую часть многобайтного регулярного выражения</DT>
+<DT><A HREF="mb-ereg-search-setpos.html">mb_ereg_search_setpos</A> - устанавливает стартовую точку следующего совпадения регулярного выражения</DT>
+<DT><A HREF="mb-ereg-search.html">mb_ereg_search</A> - совпадение многобайтного регулярного выражения для предопределённой многобайтной строки</DT>
+<DT><A HREF="mb-ereg.html">mb_ereg</A> - совпадение с регулярным выражением, с многобайтной поддержкой</DT>
+<DT><A HREF="mb-eregi-replace.html">mb_eregi_replace</A> - заменяет регулярное выражение с многобайтной поддержкой, игнорируя регистр</DT>
+<DT><A HREF="mb-eregi.html">mb_eregi</A> - совпадение с регулярным выражением, игнорируя регистр, с многобайтной поддержкой</DT>
+<DT><A HREF="mb-get-info.html">mb_get_info</A> - получает внутренние настройки mbstring</DT>
+<DT><A HREF="mb-http-input.html">mb_http_input</A> - определяет кодировку символов HTTP-ввода</DT>
+<DT><A HREF="mb-http-output.html">mb_http_output</A> - устанавливает/получает кодировку символов HTTP-вывода</DT>
+<DT><A HREF="mb-internal-encoding.html">mb_internal_encoding</A> - устанавливает/получает внутреннюю кодировку кодировку символов</DT>
+<DT><A HREF="mb-language.html">mb_language</A> - устанавливает/получает текущий язык</DT>
+<DT><A HREF="mb-output-handler.html">mb_output_handler</A> - Callback-функция конвертирует кодировку символов в буфере вывода</DT>
+<DT><A HREF="mb-parse-str.html">mb_parse_str</A> - разбирает GET/POST/COOKIE данные и устанавливает глобальную переменную</DT>
+<DT><A HREF="mb-preferred-mime-name.html">mb_preferred_mime_name</A> - получает строку MIME charset</DT>
+<DT><A HREF="mb-regex-encoding.html">mb_regex_encoding</A> - возвращает текущую кодировку для многобайтного regex как строку</DT>
+<DT><A HREF="mb-send-mail.html">mb_send_mail</A> - отправляет кодированную mail</DT>
+<DT><A HREF="mb-split.html">mb_split</A> - делит многобайтную строку с использованием регулярного выражения</DT>
+<DT><A HREF="mb-strcut.html">mb_strcut</A> - получает часть строки</DT>
+<DT><A HREF="mb-strimwidth.html">mb_strimwidth</A> - получает усечённую строку специфицированной ширины</DT>
+<DT><A HREF="mb-strlen.html">mb_strlen</A> - получает длину строки</DT>
+<DT><A HREF="mb-strpos.html">mb_strpos</A> - находит позицию первого вхождения строки в строке</DT>
+<DT><A HREF="mb-strrpos.html">mb_strrpos</A> - находит позицию последнего вхождения строки в строке</DT>
+<DT><A HREF="mb-strwidth.html">mb_strwidth</A> - возвращает ширину строки</DT>
+<DT><A HREF="mb-substitute-character.html">mb_substitute_character</A> - устанавливает/получает замещающий символ</DT>
+<DT><A HREF="mb-substr.html">mb_substr</A> - получает часть строки</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="tanh.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="mb-convert-encoding.html">Вперёд</A></TD>
+</TR><TR><TD WIDTH="33%" VALIGN="top">tanh</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">mb_convert_encoding</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

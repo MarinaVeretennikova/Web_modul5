@@ -1,0 +1,65 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>imap_createmailbox</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="imap-close.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="imap-delete.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="imap-createmailbox">imap_createmailbox</A></H1><A NAME="AEN34436"></A><P>(PHP 3, PHP 4)</P>
+<p>imap_createmailbox - создаёт новый mailbox/почтовый ящик.<A NAME="AEN34439"></A></p><H2>Описание</H2>
+<p>int <B>imap_createmailbox</B> (int imap_stream, string mbox)</p>
+<P><B>imap_createmailbox()</B> создаёт новый mailbox <TT><I>mbox</I></TT>. Имена, содержащие интернациональные символы, должны кодироваться с помощью
+<A HREF="imap-utf7-encode.html"><B>imap_utf7_encode()</B></A>.</P><P>Возвращает <TT><B>TRUE</B></TT>
+при успехе и <TT><B>FALSE</B></TT> при ошибке.</P><P>См. также <A HREF="imap-renamemailbox.html">
+<B>imap_renamemailbox()</B></A>, <A HREF="imap-deletemailbox.html"><B>imap_deletemailbox()</B></A> и
+<A HREF="imap-open.html"><B>imap_open()</B></A> о формате имён <TT><I>mbox</I></TT>.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN34463"></A><h5>Пример 1. imap_createmailbox()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$mbox = imap_open("{your.imap.host}","username","password",OP_HALFOPEN)
+     or die("can't connect: ".imap_last_error());
+
+$name1 = "phpnewbox";
+$name2 = imap_utf7_encode("phpnewb&#38;ouml;x");
+
+$newname = $name1;
+
+echo "Newname will be '$name1'&#60;br&#62;\n";
+
+# мы создадим новый mailbox "phptestbox" в вашей папке inbox,
+# проверим его статус после создания и удалим его для восстановления
+# вашего inbox в первоначальном виде
+
+if(@imap_createmailbox($mbox,imap_utf7_encode("{your.imap.host}INBOX.$newname"))) {
+  $status = @imap_status($mbox,"{your.imap.host}INBOX.$newname",SA_ALL);
+  if($status) {
+    print("your new mailbox '$name1' has the following status:&#60;br&#62;\n");
+    print("Messages:   ". $status-&#62;messages   )."&#60;br&#62;\n";
+    print("Recent:     ". $status-&#62;recent     )."&#60;br&#62;\n";
+    print("Unseen:     ". $status-&#62;unseen     )."&#60;br&#62;\n";
+    print("UIDnext:    ". $status-&#62;uidnext    )."&#60;br&#62;\n";
+    print("UIDvalidity:". $status-&#62;uidvalidity)."&#60;br&#62;\n";
+    
+<font size="1">if(imap_renamemailbox($mbox,"{your.imap.host}INBOX.$newname","{your.imap.host}INBOX.$name2"))</font></PRE>
+<PRE>    {
+      echo "renamed new mailbox from '$name1' to '$name2'&#60;br&#62;\n";
+      $newname=$name2;
+    } else {
+      print "imap_renamemailbox on new mailbox failed: ".imap_last_error()."&#60;br&#62;\n";
+    }
+  } else {
+    print  "imap_status on new mailbox failed: ".imap_last_error()."&#60;br&#62;\n";
+  }
+  if(@imap_deletemailbox($mbox,"{your.imap.host}INBOX.$newname")) {
+    print "new mailbox removed to restore initial state&#60;br&#62;\n";
+  } else {
+<font size="1">print  "imap_deletemailbox on new mailbox failed: ".implode("&#60;br&#62;\n",imap_errors())."&#60;br&#62;\n";
+</font>  }
+  
+} else {
+  print  "could not create new mailbox: ".implode("&#60;br&#62;\n",imap_errors())."&#60;br&#62;\n";
+}
+
+imap_close($mbox);</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%"  BORDER="0"CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="imap-close.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="imap-delete.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">imap_close</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.imap.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">imap_delete</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

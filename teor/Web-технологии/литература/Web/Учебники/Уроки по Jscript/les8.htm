@@ -1,0 +1,265 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0030)http://jsp.newmail.ru/les8.htm -->
+<HTML><HEAD><TITLE>Урок 8. Иерархия объектов</TITLE>
+<META content="text/html; charset=windows-1251" http-equiv=Content-Type>
+<META 
+content="Самое толковое руководство по основам javascript на русском языке. Иерархия объектов" 
+name=Description>
+<SCRIPT language=javascript>
+<!--
+if (document.images) {
+ar_r = new Image(33,33); ar_r.src = "i/ar_r.gif"; 
+ar_r1 = new Image(33,33); ar_r1.src = "i/ar_r1.gif"; 
+none = new Image(79,35); none.src = "i/none.gif"; 
+next = new Image(79,35); next.src = "i/next.gif"; 
+prev = new Image(79,35); prev.src = "i/prev.gif";
+ar_l = new Image(33,33); ar_l.src = "i/ar_l.gif";
+ar_l1 = new Image(79,35); ar_l1.src = "i/ar_l1.gif";
+}
+function swap(imgName,imgObjName) {
+if (document.images) {
+  document.images[imgName].src = eval(imgObjName + ".src");
+}}
+function getansw()
+{ 
+OpenWindow=window.open("", "newwin", "height=300,width=450,scrollbars=yes");
+OpenWindow.document.write("<TITLE>Задание Урока 8</TITLE>")
+OpenWindow.document.write("<BODY BGCOLOR=CEF3FD>")
+OpenWindow.document.write("<h1>Ответы</h1>")
+OpenWindow.document.write("<b>1.</b> window.document.myform<P>")
+OpenWindow.document.write("<b>2.</b> window.document.myform.lname.value<P>")
+OpenWindow.document.write("<b>3.</b> window.document.myform.fname.value<P><P>")
+OpenWindow.document.write("<b>2.</b> window.document.mypic.src=''marigold.gif''<P><P>")
+
+OpenWindow.document.write("</BODY>")
+OpenWindow.document.write("</HTML>")
+
+OpenWindow.document.close()
+self.name="one"
+}
+function toc() {
+open=window.open('toc.html', 'toc', config='width=300,scrollbars=1,resizable=1,status=1')
+self.name="one"
+}
+//-->
+</SCRIPT>
+<LINK href="les8.files/blue.css" rel=STYLESHEET type=text/css>
+<META content="MSHTML 5.00.2614.3500" name=GENERATOR></HEAD>
+<BODY aLink=#d0550b background=les8.files/Life_blue.gif bgColor=#334775 
+link=#fbbcac text=#334775 vLink=#fbbcac>
+<DIV 
+style="HEIGHT: 35px; LEFT: 10px; POSITION: absolute; TOP: 10px; WIDTH: 160px"><A 
+href="http://jsp.newmail.ru/les7.htm" 
+onmouseout="swap('left','ar_l');swap('none','none')" 
+onmouseover="swap('left','ar_l1');swap('none','prev')"><IMG border=0 height=33 
+name=left src="les8.files/ar_l.gif" width=33></A>&nbsp;<A href="" 
+onmouseout="swap('left','ar_l');swap('right','ar_r')" 
+onmouseover="swap('left','ar_l1');swap('right','ar_r1')"><IMG border=0 height=35 
+name=none src="les8.files/none.gif" width=79></A>&nbsp;<A 
+href="http://jsp.newmail.ru/les9.htm" 
+onmouseout="swap('right','ar_r');swap('none','none')" 
+onmouseover="swap('right','ar_r1');swap('none','next')"><IMG border=0 height=33 
+name=right src="les8.files/ar_r.gif" width=33></A> </DIV>
+<H1 align=right>Урок 8<BR>Иерархия объектов</H1>
+<P align=right><B><FONT color=#fb4462>красным цветом даны примечания 
+переводчика</FONT></B><BR><A 
+href="http://jsp.newmail.ru/les8.htm#concept">Концепция</A>&nbsp;-&nbsp;<A 
+href="http://jsp.newmail.ru/les8.htm#script">Что я имею в 
+виду</A>&nbsp;-&nbsp;<A href="http://jsp.newmail.ru/les8.htm#effect">Действие 
+иерархии объектов</A>&nbsp;-&nbsp;<A 
+href="http://jsp.newmail.ru/les8.htm#decon">Разбор иерархии 
+объектов</A>&nbsp;-&nbsp;<A 
+href="http://jsp.newmail.ru/les8.htm#assig">Задание</A></P>
+<P align=right><A href="http://jsp.newmail.ru/les8.htm#" 
+onclick=toc()>Оглавление (в новом окне)</A></P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="50%"><IMG height=13 
+      src="les8.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="30%">
+      <P align=right><IMG height=13 src="les8.files/b_t_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%">
+      <H2><A name=concept>Концепция</A></H2>
+      <P align=justify><B>У</B>фф! Сделаем паузу и посмотрим, что мы уже знаем. 
+      В JavaScript есть объекты, похожие на существительные или предметы. У 
+      объектов есть свойства, которые описывают их, как прилагательные описывают 
+      существительные. Мы пользуемся схемой <B>oбъект.свойство</B>.</P>
+      <P align=justify>Еще у объектов есть методы, или действия, которые можно к 
+      ним применить. После метода ставятся скобки по схеме 
+      <B>oбъект.мeтoд()</B>. У разных объектов разные свойства и методы.<BR>А 
+      теперь мы узнаем самый большой секрет JavaScript, <B>иерархию 
+      объектов</B>. Как только вы ее поймете,<I> </I>cчитайте, что JavaScript у 
+      вас в кармане!</P>
+      <H2><A name=script>Что я имею в виду</A></H2>
+      <P><IMG height=178 src="les8.files/HIERARCH.gif" width=453></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd vAlign=bottom width="50%"><IMG height=13 
+      src="les8.files/b_b_l.gif" width=12></TD>
+    <TD bgColor=#cef3fd vAlign=bottom width="30%">
+      <P align=right><IMG height=13 src="les8.files/b_b_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P>
+<DIV align=right>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="85%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=30 vAlign=top width="50%"><IMG height=13 
+      src="les8.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd vAlign=top width="50%">
+      <P align=right><IMG height=13 src="les8.files/b_t_r.gif" 
+  width=13></P></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%">
+      <H2><A name=effect>Действие иерархии объектов</A></H2>
+      <P align=justify><B>В</B>се команды начинаются с наивысшего объекта, 
+      window <FONT color=red>(окно браузера)</FONT>, и идут по нисходящей. Окна 
+      и рамки <FONT color=red>(frames)</FONT> принадлежат объекту window. Их не 
+      нужно перечислять, если только их не больше одного. Top, self, parent и 
+      frames — "встроенные" имена для окон. Много о них не беспокойтесь, просто 
+      знайте, что они существуют.</P>
+      <P align=justify>Вот несколько примеров. Обратите внимание на 
+иерархию.</P>
+      <TABLE border=0 cellPadding=7>
+        <TBODY>
+        <TR>
+          <TD align=middle width=250>
+            <P><FONT color=green>document.</FONT><FONT 
+            color=blue>pic.</FONT><FONT color=brown>src </FONT>= 
+          "pic1.gif"</P></TD>
+          <TD>
+            <P>window не нужно ставить в самом начале. Предполагается, что это 
+            все и так внутри окна. Команда document.pic.src указывает на 
+            рисунок, которому дано имя pic. Это понятно? Документ — это 
+            страница, pic — имя элемента, а SRC — источник элемента, 
+            "pic1.gif".</P></TD></TR>
+        <TR>
+          <TD align=middle>
+            <P><FONT color=green>document</FONT>.write(<FONT 
+            color=green>location.</FONT><FONT color=blue>href</FONT>)</P></TD>
+          <TD>
+            <P>write() — это метод объекта document. Location.href показывает 
+            полный URL окна. Обратите внимание, что location и dосument 
+            находятся на одном уровне (оба выделены зеленым цветом). Это значит, 
+            что вы получаете адрес документа того же 
+      уровня.</P></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%"><IMG height=13 
+      src="les8.files/b_b_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%">
+      <P align=right><IMG height=13 src="les8.files/b_b_r.gif" 
+  width=13></P></TD></TR></TBODY></TABLE></DIV>
+<P>.</P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="50%"><IMG height=13 
+      src="les8.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="30%">
+      <P align=right><IMG height=13 src="les8.files/b_t_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%"><A 
+      name=decon>
+      <H2>Разбор иерархии объектов</H2></A>
+      <P align=center><IMG height=178 src="les8.files/HIERARCH.gif" 
+      width=453></P>
+      <UL>
+        <LI>Самая большая путаница в том, что некоторые объекты также являются и 
+        свойствами. 
+        <LI>Window — только объект. 
+        <LI>Document является свойством окна, но в свою очередь и объектом. 
+        <LI>Form — это свойство документа, но также и объект со своими 
+        свойствами! 
+        <LI>Value <FONT color=red>(значение)</FONT> и SRC <FONT 
+        color=red>(источник)</FONT> — только свойства! 
+        <LI>Здесь представлены не все объекты и свойства. Однако этого 
+        достаточно, чтобы вы поняли концепцию в целом... <STRONG>Все команды 
+        начинаются сверху от window и идут по нисходящей.</STRONG> То есть, 
+        нельзя написать <B>document.text.form</B> или <B>pic.src.document</B>. 
+        Это неправильный порядок, следует писать слева направо от главного к 
+        второстепенному. 
+        <LI><B>Важно:</B> чтобы показать содержимое поля формы, существует 
+        свойство <B>value</B> <FONT color=red>(значение)</FONT>, например, 
+        <B>document.form.text.value</B>. Если вы просто напишете 
+        <B>document.form.text</B>, это даст информацию о поле формы, но не о его 
+        содержании! 
+        <P>Поле с флажком может иметь value "on" или "off". Текстовое поле может 
+        иметь value "hidden" <FONT color=red>(скрытое)</FONT>, если вы не 
+        хотите, чтобы пользователь его видел. Ясно?</P></LI></UL>
+      <H2><A name=assig>Ваше задание</A></H2>
+      <P align=justify><B>Н</B>апишите полные команды, начиная с Window, хотя 
+      обычно это не требуется. Пускай имя изображения будет <B>mypic</B>, имя 
+      формы <B>myform</B>.</P>
+      <OL>
+        <LI>Форма: <BR><INPUT size=14> 
+        <LI>Содержание поля lname <FONT color=red>(фамилия)</FONT>: <BR><INPUT 
+        size=14> 
+        <LI>Содержание поля fname <FONT color=red>(имя)</FONT>: <BR><INPUT 
+        size=14> 
+        <LI>Измените название картинки на "marigold.gif": <BR><INPUT size=14> 
+        <P>
+        <FORM><INPUT onclick=getansw() type=button value="Правильные ответы"></P></LI></OL></FORM>
+      <P><IMG height=321 src="les8.files/image4.jpe" width=400></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd vAlign=bottom width="50%"><IMG height=13 
+      src="les8.files/b_b_l.gif" width=12></TD>
+    <TD bgColor=#cef3fd vAlign=bottom width="30%">
+      <P align=right><IMG height=13 src="les8.files/b_b_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR></TBODY></TABLE>
+<P align=right><A 
+href="http://jsp.newmail.ru/les8.htm#concept">Концепция</A>&nbsp;-&nbsp;<A 
+href="http://jsp.newmail.ru/les8.htm#script">Что я имею в 
+виду</A>&nbsp;-&nbsp;<A href="http://jsp.newmail.ru/les8.htm#effect">Действие 
+иерархии объектов</A>&nbsp;-&nbsp;<A 
+href="http://jsp.newmail.ru/les8.htm#decon">Разбор иерархии 
+объектов</A>&nbsp;-&nbsp;<A 
+href="http://jsp.newmail.ru/les8.htm#assig">Задание</A></P>
+<P align=right><FONT size=5><A href="http://jsp.newmail.ru/les9.htm">Вперед, на 
+Урок 9</A></FONT></P>
+<DIV align=right>
+<TABLE width="75%">
+  <TBODY>
+  <TR>
+    <TD><FONT color=#cef3fd>
+      <P align=justify class=small>авторы <A 
+      href="http://www.htmlgoodies.com/primers/jsp/me.html">Джо Бернс</A> и 
+      Эндри Грауни. <A href="http://www.htmlgoodies.com/">Оригинал и многое 
+      другое на английском языке</A> © <A 
+      href="http://www.earthweb.com/">EarthWeb Inc.</A> <BR>Перевод, оформление 
+      и верстка © Татьяна.</FONT></P></TD></TR></TBODY></TABLE></DIV><!-- HotLog -->
+<SCRIPT language=javascript>
+hotlog_js="1.0";hotlog_d=document; hotlog_n=navigator;hotlog_rn=Math.random();
+hotlog_n_n=(hotlog_n.appName.substring(0,3)=="Mic")?0:1;
+hotlog_r=""+hotlog_rn+"&s=15862&r="+escape(hotlog_d.referrer)+"&pg="+
+escape(window.location.href);
+hotlog_d.cookie="hotlog=1"; hotlog_r+="&c="+(hotlog_d.cookie?"Y":"N");
+hotlog_d.cookie="hotlog=1; expires=Thu, 01-Jan-70 00:00:01 GMT"</SCRIPT>
+
+<SCRIPT language=javascript1.1>
+hotlog_js="1.1";hotlog_r+="&j="+(navigator.javaEnabled()?"Y":"N")</SCRIPT>
+
+<SCRIPT language=javascript1.2>
+hotlog_js="1.2";hotlog_s=screen;
+hotlog_r+="&wh="+hotlog_s.width+'x'+hotlog_s.height+"&px="+((hotlog_n_n==0)?
+hotlog_s.colorDepth:hotlog_s.pixelDepth)</SCRIPT>
+
+<SCRIPT language=javascript1.3>hotlog_js="1.3"</SCRIPT>
+
+<SCRIPT language=javascript>hotlog_r+="&js="+hotlog_js;
+hotlog_d.write("<img src=\"http://hit2.hotlog.ru/cgi-bin/hotlog/count?"+
+hotlog_r+"&\" border=0 width=1 height=1>")</SCRIPT>
+<NOSCRIPT><IMG border=0 height=1 src="les8.files/count" width=1></NOSCRIPT> <!-- /HotLog --><!--webbot bot="HTMLMarkup" startspan ALT="Site Meter" -->
+<SCRIPT>var site="sm2jsp"</SCRIPT>
+
+<SCRIPT language=JavaScript1.2 src="les8.files/counter.js">
+</SCRIPT>
+<!-- Copyright (c) 1999-2000 Site Meter --><!--webbot
+bot="HTMLMarkup" endspan --></BODY></HTML>

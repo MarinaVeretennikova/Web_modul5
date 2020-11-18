@@ -1,0 +1,44 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>imap_search</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD>
+<A HREF="imap-scanmailbox.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="imap-set-quota.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="imap-search">imap_search</A></H1><A NAME="AEN35563"></A><P>(PHP 3&#62;= 3.0.12, PHP 4)</P>
+<p>imap_search - эта функция возвращает массив сообщений, совпадающих с данным критерием поиска.
+<A NAME="AEN35566"></A></p><H2>Описание</H2><p>array <B>imap_search</B> (int imap_stream, string criteria, int flags)</p>
+<P>Эта функция выполняет поиск в mailbox'е, открытом в данный момент в imap-потоке.<br>
+<TT><I>criteria</I></TT> это строка, ограниченная пробелами, в которой допускается наличие ключевых 
+слов. Любые многословные аргументы (например, FROM "joey smith") обязаны быть в кавычках.
+<UL><LI><P>ALL - возвращать все сообщения, соответствующие остальной части критерия</P></LI>
+<LI><P>ANSWERED - совпадать с сообщениями с установленным флагом \\ANSWERED</P></LI>
+<LI><P>BCC "string" - совпадать с сообщениями со "string" в поле Bcc:</P></LI>
+<LI><P>BEFORE "date" - совпадать с сообщениями с Date: перед "date"</P></LI>
+<LI><P>BODY "string" - совпадать с сообщениями со "string" в теле сообщения</P></LI>
+<LI><P>CC "string" - совпадать с сообщениями со "string" в поле Cc:</P></LI>
+<LI><P>DELETED - совпадать с удалёнными сообщениями</P></LI>
+<LI><P>FLAGGED - совпадать с сообщениями с установленным флагом \\FLAGGED (иногда 
+называемым Important или Urgent)</P></LI>
+<LI><P>FROM "string" - совпадать с сообщениями со "string" в поле From:</P></LI>
+<LI><P>KEYWORD "string" - совпадать с сообщениями со "string" - ключевым словом</P></LI>
+<LI><P>NEW - совпадать с новыми сообщениями</P></LI><LI><P>OLD - совпадать со старыми сообщениями</P></LI>
+<LI><P>ON "date" - совпадать с сообщениями с Date: совпадающей с "date"</P></LI>
+<LI><P>RECENT - совпадать с сообщениями с установленным флагом \\RECENT</P></LI>
+<LI><P>SEEN - совпадать с прочитанными сообщениями (установлен флаг \\SEEN)</P></LI>
+<LI><P>SINCE "date" - совпадать с сообщениями с Date: после "date"</P></LI>
+<LI><P>SUBJECT "string" - совпадать с сообщениями со "string" в поле Subject:</P></LI>
+<LI><P>TEXT "string" - совпадать с сообщениями с текстовой "string"</P></LI>
+<LI><P>TO "string" - совпадать с сообщениями со "string" в поле To:</P></LI>
+<LI><P>UNANSWERED - совпадать с сообщениями, на которые не дан ответ</P></LI>
+<LI><P>UNDELETED - совпадать с сообщениями, которые не удалены</P></LI>
+<LI><P>UNFLAGGED - совпадать с сообщениями, которые не помечены флагами</P></LI>
+<LI><P>UNKEYWORD "string" - совпадать с сообщениями, не имеющими ключевого слова "string"</P></LI>
+<LI><P>UNSEEN - совпадать с сообщениями, которые ещё не прочитаны</P></LI></UL>
+<P>Например, чтобы найти все сообщения от Mom, на которые не даны ответы, можно использовать: "UNANSWERED FROM mom". Поиск происходит без учёта 
+регистра. Этот список критериев взят из исходного кода UW c-клиента и может быть неполным и неточным (см. также RFC2060, раздел 6.4.4).</P>
+<P>Правильными значениями флагов являются SE_UID, тогда возвращаемый массив содержит UID'ы вместо номеров последовательности сообщений.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="imap-scanmailbox.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="imap-set-quota.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">imap_scanmailbox</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.imap.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">imap_set_quota</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

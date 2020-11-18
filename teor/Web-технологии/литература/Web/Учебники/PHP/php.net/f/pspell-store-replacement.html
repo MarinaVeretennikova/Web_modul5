@@ -1,0 +1,28 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>pspell_store_replacement</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="pspell-save-wordlist.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="pspell-suggest.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.pspell-store-replacement">pspell_store_replacement</A></H1><A NAME="AEN70153"></A>
+<P>(PHP 4 &#62;= 4.0.2)</P><p>pspell_store_replacement - сохраняет замещающую пару для слова.<A NAME="AEN70156"></A></p>
+<H2>Описание</H2><p>int <B>pspell_store_replacement</B> (int dictionary_link, string misspelled, string correct)</p>
+<P><B>pspell_store_replacement()</B> сохраняет замещающую пару для слова, поэтому замещение может быть возвращено в 
+дальнейшем функцией <A HREF="pspell-suggest.html"><B>pspell_suggest()</B></A>. Чтобы использовать преимущества этой функции, вы должны открывать словарь 
+функцией <A HREF="pspell-new-personal.html"><B>pspell_new_personal()</B></A>. Чтобы постоянно сохранить замещающую пару, вы должны использовать
+<A HREF="pspell-config-personal.html"><B>pspell_config_personal()</B></A> и <A HREF="pspell-config-repl.html"><B>pspell_config_repl()</B></A> для установки пути для сохранения ваших специализированных списков слов, а 
+затем использовать <A HREF="pspell-save-wordlist.html"><B>pspell_save_wordlist()</B></A> для записи изменений на диск. Отметьте, пожалуйста, что эта функция не будет 
+работать, если у вас нет pspell .11.2 и aspell .32.5 или новее.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN70178"></A><h5>Пример 1. pspell_store_replacement()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$pspell_config = pspell_config_create ("en");
+pspell_config_personal ($pspell_config, "/var/dictionaries/custom.pws");
+pspell_config_repl ($pspell_config, "/var/dictionaries/custom.repl");
+$pspell_link = pspell_new_config ($pspell_config);
+
+pspell_store_replacement ($pspell_link, $misspelled, $correct);
+pspell_save_wordlist ($pspell_link);</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="pspell-save-wordlist.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="pspell-suggest.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">pspell_save_wordlist</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.pspell.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">pspell_suggest</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

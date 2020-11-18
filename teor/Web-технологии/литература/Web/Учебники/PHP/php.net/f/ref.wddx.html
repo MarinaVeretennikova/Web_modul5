@@ -1,0 +1,52 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции WDDX</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="w32api-set-call-method.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="wddx-add-vars.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.wddx"></A>CIII. Функции WDDX</h1><A NAME="AEN81548"></A><P>Эти функции предназначены для работы с
+<A HREF="http://www.openwddx.org/" TARGET="_top">WDDX</A>.</P>
+<P>Чтобы использовать WDDX, вам необходимо установить библиотеку expat (которая поставляется с Аpache 1.3.7 или новее) и рекомпилировать PHP с 
+опциями <TT>--with-xml</TT> и <TT>--enable-wddx</TT>.</P><BLOCKQUOTE><P><B>Примечание: </B>если вы хотите сериализовать не-ASCII символы, вы должны предварительное 
+установить соответствующую локализацию (см. <A HREF="setlocale.html"><B>setlocale()</B></A>).</P></BLOCKQUOTE>
+<P>Все функции, сериализующие переменные, используют первый элемент массива 
+для определения того, сериализован ли массив в массив или в структуру.  Если 
+первый элемент имеет строковой ключ, то он сериализуется в структуру, иначе - 
+в массив.<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN81558"></A><h5>Пример 1. Сериализация отдельного значения
+</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+print wddx_serialize_value("PHP to WDDX packet example", "PHP packet");
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>На выходе этот пример даст:<A NAME="AEN81562"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;wddxPacket version='1.0'&#62;&#60;header comment='PHP packet'/&#62;&#60;data&#62;
+&#60;string&#62;PHP to WDDX packet example&#60;/string&#62;&#60;/data&#62;&#60;/wddxPacket&#62;</PRE></TD></TR></TABLE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN81564"></A><h5>Пример 2. Использование инкремекнтных пакетов
+</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$pi = 3.1415926;
+$packet_id = wddx_packet_start("PHP");
+wddx_add_vars($packet_id, "pi");
+
+/* Предположим, $cities пришла из БД */
+$cities = array("Austin", "Novato", "Seattle");
+wddx_add_vars($packet_id, "cities");
+
+$packet = wddx_packet_end($packet_id);
+print $packet;
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Это пример даст на выходе:<A NAME="AEN81568"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;wddxPacket version='1.0'&#62;&#60;header comment='PHP'/&#62;&#60;data&#62;&#60;struct&#62;
+&#60;var name='pi'&#62;&#60;number&#62;3.1415926&#60;/number&#62;&#60;/var&#62;&#60;var name='cities'&#62;
+&#60;array length='3'&#62;&#60;string&#62;Austin&#60;/string&#62;&#60;string&#62;Novato&#60;/string&#62;
+&#60;string&#62;Seattle&#60;/string&#62;&#60;/array&#62;&#60;/var&#62;&#60;/struct&#62;&#60;/data&#62;&#60;/wddxPacket&#62;</PRE></TD></TR></TABLE>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="wddx-add-vars.html">wddx_add_vars</A> - добавляет переменные в пакет WDDX со специфицированным ID</DT>
+<DT><A HREF="wddx-deserialize.html">wddx_deserialize</A> - десериализует WDDX-пакет</DT>
+<DT><A HREF="wddx-packet-end.html">wddx_packet_end</A> - заканчивает WDDX-пакет со специфицированным ID</DT>
+<DT><A HREF="wddx-packet-start.html">wddx_packet_start</A> - стартует новый WDDX-пакет со структурой в нём</DT>
+<DT><A HREF="wddx-serialize-value.html">wddx_serialize_value</A> - сериализует отдельное значение в WDDX-пакет</DT>
+<DT><A HREF="wddx-serialize-vars.html">wddx_serialize_vars</A> - сериализует переменную в WDDX-пакет</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="w32api-set-call-method.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="wddx-add-vars.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">w32api_set_call_method</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">wddx_add_vars</TD>
+</TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

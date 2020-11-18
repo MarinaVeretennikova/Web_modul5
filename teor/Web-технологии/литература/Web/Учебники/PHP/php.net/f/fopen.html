@@ -1,0 +1,69 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>fopen</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="flock.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="fpassthru.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.fopen">fopen</A></H1><A NAME="AEN23887"></A><P>(PHP 3, PHP 4)</P>
+<p>fopen - открывает файл или URL.<A NAME="AEN23890"></A></p><H2>Описание</H2>
+<p>int <B>fopen</B> (string filename, string mode [, int use_include_path])</p>
+<P>Если <TT><I>filename</I></TT> начинается с &quot;http://" (нечувствительно к регистру), то HTTP 1.0 соединение 
+открывается со специфицированным сервером, страница запрашивается методом HTTP GET 
+и указатель файла возвращается в начало тела ответа.&nbsp; 'Host:'-header 
+отправляется вместе с запросом, чтобы обработать виртуальные хосты на основе имён.</P>
+<P>Начиная с PHP 4.3.0, если вы скомпилировали поддержку OpenSSL, вы можете 
+использовать "https://" для открытия HTTP-соединения через SSL.</P>
+<P>Обратите внимание, что указатель файла позволяет вам запрашивать только
+<I>body\тело</I> ответа; для запрашивания шапки/header HTTP-ответа вам нужно использовать PHP 4.0.5 
+или новее; эти шапки будут храниться в переменной $http_response_header.
+Начиная с PHP 4.3.0, header-информация может быть запрошена с использованием функции <B>file_get_wrapper_data()</B>.</P>
+<P>HTTP-соединения являются read-only; вы не можете записывать данные или копировать файлы в HTTP-ресурс.</P>
+<P>Версии до PHP 4.0.5 не обрабатывают HTTP-перенаправления. Поэтому директории обязаны иметь ведомые слэши.</P>
+<P>Если <TT><I>filename</I></TT> начинается с &quot;ftp://" (нечувствительно к регистру), открывается ftp-соединение 
+со специфицированным сервером и возвращается указатель на запрашиваемый файл. Если 
+сервер не поддерживает ftp пассивного режима, это не удастся сделать. Вы 
+можете открывать файлы для чтения или записи через ftp (но не для того и 
+другого одновременно). Если удалённый/remote файл уже существует на ftp-сервере 
+и вы пытаетесь открыть его для записи, это не получится.
+Если вам нужно обновить существующие файлы по ftp, используйте
+<A HREF="ftp-connect.html"><B>ftp_connect()</B></A>.</P><P>Если <TT><I>filename</I></TT> это "php://stdin",
+"php://stdout&quot; или "php://stderr", будет открыт соответствующий поток stdio.  (Это 
+появилось в PHP 3.0.13; до этого такие имена файлов, как "/dev/stdin" или
+"/dev/fd/0", должны были использоваться для доступа к stdio-потокам.)</P>
+<P>Если <TT><I>filename</I></TT> начинается ещё с чего-нибудь, файл будет открыт из файловой системы и будет 
+возвращён указатель на открытый файл.</P><P>Если открыть файл не удалось, эта функция возвращает
+<TT><B>FALSE</B></TT>.</P><P><TT><I>mode</I></TT> может иметь значения:
+<UL><LI><P>'r' - Открыть только для чтения; поместить указатель в начало файла.</P></LI>
+<LI><P>'r+' - Открыть для чтения и записи; поместить указатель в начало файла.</P></LI>
+<LI><P>'w' - Открыть только для записи; поместить указатель в начало файла и 
+усечь файл до нулевой длины. Если файл не существует, делается попытка создать его.</P></LI>
+<LI><P>'w+' - Открыть для чтения и записи; поместить указатель в начало файла 
+и усечь файл до нулевой длины. Если файл не существует, делается попытка создать его.</P></LI>
+<LI><P>'a' - Открыть только для записи; поместить указатель в конец файла. 
+Если файл не существует, делается попытка создать его.</P></LI>
+<LI><P>'a+' - Открыть для чтения и записи; поместить указатель в конец файла. 
+Если файл не существует, делается попытка создать его.</P></LI></UL>
+<BLOCKQUOTE><P><B>Примечание: </B><TT><I>mode</I></TT> может содержать букву
+'b'. Это используется только в системах, различающих двоичные и текстовые 
+файлы (т.е. в Windows. В Unix это бесполезно). Если не нужен, он игнорируется.</P></BLOCKQUOTE>
+<P>Вы можете использовать необязательный третий параметр и установить в него 
+значение "1", если хотите найти файл также и в <A HREF="../configuration.html#ini.include-path">include_path</A>.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN23942"></A><h5>Пример 1. fopen()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$fp = fopen ("/home/rasmus/file.txt", "r");
+$fp = fopen ("/home/rasmus/file.gif", "wb");
+$fp = fopen ("http://www.example.com/", "r");
+$fp = fopen ("ftp://user:password@example.com/", "w");</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Если у вас проблемы с чтением и записью файлов и вы используете версии 
+серверных модулей PHP, не забудьте убедиться, что используемые вами файлы и 
+директории доступны для серверного процесса.</P>
+<P>На платформе Windows мнемонизируйте (escape) все обратные слэши в пути к 
+файлу или используйте обычные слэши.<A NAME="AEN23948"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>$fp = fopen ("c:\\data\\info.txt", "r");</PRE></TD></TR></TABLE><P>См. также
+<A HREF="fclose.html"><B>fclose()</B></A>, <A HREF="fsockopen.html"><B>fsockopen()</B></A>,
+<A HREF="socket-set-timeout.html"><B>socket_set_timeout()</B></A> и
+<A HREF="popen.html"><B>popen()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="flock.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="fpassthru.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">flock</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.filesystem.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">fpassthru</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

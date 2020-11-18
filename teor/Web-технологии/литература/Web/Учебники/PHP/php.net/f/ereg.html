@@ -1,0 +1,40 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>ereg</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="ereg-replace.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="eregi-replace.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="ereg">ereg</A></H1><A NAME="AEN71525"></A><P>(PHP 3, PHP 4)</P>
+<p>ereg - совпадение с регулярным выражением.<A NAME="AEN71528"></A></p><H2>Описание</H2>
+<p>int <B>ereg</B> (string pattern, string string [, array regs])</p>
+<BLOCKQUOTE><P><B>Примечание: </B><A HREF="preg-match.html"><B>preg_match()</B></A>, которая использует Perl-совместимый синтаксис регулярного выражения, работает
+часто быстрее, чем <B>ereg()</B>.</P></BLOCKQUOTE><P>Ищет в строке <TT><I>string</I></TT> совпадения с регулярным выражением, данным в
+<TT><I>pattern</I></TT>.</P><P>Если совпадения найдены для подстроки в скобках из
+<TT><I>pattern</I></TT> и функция вызывается с третьим аргументом <TT><I>regs</I></TT>, совпадения будут сохранены в элементах массива
+<TT><I>regs</I></TT>.<br>$regs[1] содержит подстроку, которая начинается с первой левой скобки; $regs[2] 
+содержит подстроку, которая начинается со второй, и так далее. $regs[0] 
+содержит полную копию совпавшей строки.</P><BLOCKQUOTE><P><B>Примечание: </B>
+до (и включая) PHP 4.1.0 переменная <TT>$regs</TT> заполняется точно десятью элементами, хотя реально может совпасть больше или 
+меньше 10 подстрок. Это не влияет на способность <B>ereg()</B> совпадать с б&#x0301;ольшим количеством подстрок. Если совпадений нет,
+<TT>$regs</TT> не будет изменяться функцией <B>ereg()</B>.</P></BLOCKQUOTE>
+<P>Поиск выполняется с учётом регистра символов/case sensitive.</P>
+<P>Возвращает <TT><B>TRUE</B></TT>, если найдено совпадение для <TT><I>pattern</I></TT> в <TT><I>string</I></TT>, либо
+<TT><B>FALSE</B></TT>, если совпадений нет или возникла ошибка.</P>
+<P>Следующий фрагмент кода (внимание, совки!!) принимает дату в формате ISO 
+(YYYY-MM-DD) и печатает её в формате DD.MM.YYYY:<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN71566"></A>
+<h5>Пример 1. ereg()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>if (ereg ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})", $date, $regs)) {
+    echo "$regs[3].$regs[2].$regs[1]";
+} else {
+    echo "Invalid date format: $date";
+}</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="eregi.html">
+<B>eregi()</B></A>, <A HREF="ereg-replace.html"><B>ereg_replace()</B></A>,
+<A HREF="eregi-replace.html"><B>eregi_replace()</B></A> и
+<A HREF="preg-match.html"><B>preg_match()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="ereg-replace.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="eregi-replace.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ereg_replace</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.regex.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">eregi_replace</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

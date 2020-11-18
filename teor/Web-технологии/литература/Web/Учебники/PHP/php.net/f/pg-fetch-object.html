@@ -1,0 +1,67 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>pg_fetch_object</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="pg-fetch-array.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="pg-fetch-result.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="pg-fetch-object">pg_fetch_object</A></H1><A NAME="AEN66832"></A><P>(PHP 3&#62;= 3.0.1, PHP 4)</P>
+<p>pg_fetch_object - извлекает ряд как объект.<A NAME="AEN66835"></A></p><H2>Описание</H2><p>object <B>pg_fetch_object</B> (resource result, int row [, int result_type])</p>
+<P><B>pg_fetch_object()</B> возвращает объект со свойствами, соответствующий извлечённому ряду. Возвращает
+<TT><B>FALSE</B></TT>, если рядов больше нет или имеется ошибка.</P><P><B>pg_fetch_object()</B> аналогична
+<A HREF="pg-fetch-array.html"><B>pg_fetch_array()</B></A>, с тем только отличием, что возвращается объект, а не массив. Неявно это 
+означает, что вы можете получить доступ к данным только по именам полей, а не по их смещениям (числа являются недопустимыми именами свойств).</P>
+<P><TT><I>row</I></TT> это количество запрашиваемых рядов (записей). Первый ряд 0.</P>
+<P>По скорости работы эта функция идентична <A HREF="pg-fetch-array.html"><B>pg_fetch_array()</B></A> и почти так же быстра, как
+<A HREF="pg-fetch-row.html"><B>pg_fetch_row()</B></A> (разница незначительна).</P><BLOCKQUOTE><P><B>Примечание: </B>
+начиная с 4.3.0, <TT><I>result_type</I></TT> по умолчанию равен PGSQL_ASSOC, а в более старых версиях - PGSQL_BOTH. 
+Числовое свойство не используется, поскольку числовое имя свойства недопустимо в PHP.</P>
+<P><TT><I>result_type</I></TT> может быть удалён в последующих версиях.</P></BLOCKQUOTE>
+<P>См. также <A HREF="pg-query.html"><B>pg_query()</B></A>, <A HREF="pg-fetch-array.html"><B>pg_fetch_array()</B></A>,
+<A HREF="pg-fetch-row.html"><B>pg_fetch_row()</B></A> и <A HREF="pg-fetch-result.html"><B>pg_fetch_result()</B></A>.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN66871"></A><h5>Пример 1. Извлечение объекта в Postgres</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php 
+$database = "verlag";
+$db_conn = pg_connect ("host=localhost port=5432 dbname=$database");
+if (!$db_conn): ?&#62;
+    &#60;H1&#62;Failed connecting to postgres database &#60;?php echo $database ?&#62;&#60;/H1&#62; &#60;?php
+    exit;
+endif;
+
+$qu = pg_query ($db_conn, "SELECT * FROM verlag ORDER BY autor");
+$row = 0; // в postgres необходим счётчик рядов, другие dbs могут и не требовать
+
+while ($data = pg_fetch_object ($qu, $row)) {
+    echo $data-&#62;autor." (";
+    echo $data-&#62;jahr ."): ";
+    echo $data-&#62;titel."&#60;BR&#62;";
+    $row++;
+}
+?&#62;
+&#60;PRE&#62;
+&#60;?php
+$fields[] = Array ("autor", "Author");
+$fields[] = Array ("jahr",  "  Year");
+$fields[] = Array ("titel", " Title");
+
+$row= 0; // в postgres необходим счётчик рядов, другие dbs могут и не требовать
+while ($data = pg_fetch_object ($qu, $row)) {
+    echo "----------\n";
+    reset ($fields);
+    while (list (,$item) = each ($fields)):
+        echo $item[1].": ".$data-&#62;$item[0]."\n";
+    endwhile;
+    $row++;
+}
+echo "----------\n"; 
+?&#62;
+&#60;/PRE&#62; 
+&#60;?php
+pg_free_result ($qu);
+pg_close ($db_conn);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+начиная с 4.1.0, <TT><I>row</I></TT> стал необязательным параметром. Вызов <B>pg_fetch_object()</B> увеличивает внутренний счётчик рядов на 1.</P></BLOCKQUOTE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="pg-fetch-array.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="pg-fetch-result.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">pg_fetch_array</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.pgsql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">pg_fetch_result</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,42 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>imap_fetch_overview</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="imap-expunge.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="imap-fetchbody.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.imap-fetch-overview">imap_fetch_overview</A></H1><A NAME="AEN34564"></A>
+<P>(PHP 3&#62;= 3.0.4, PHP 4)</P><p>imap_fetch_overview - 
+читает обзор информации в header'ах данного сообщения.<A NAME="AEN34567"></A></p><H2>Описание</H2>
+<p>array <B>imap_fetch_overview</B> (int imap_stream, string sequence [, int flags])</p>
+<P>Эта функция извлекает mail header'ы данной <TT><I>sequence</I></TT> и возвращает обзор их содержимого.<br>
+<TT><I>sequence</I></TT> будет содержать последовательность индексов сообщений или UID'ы, если <TT><I>flags</I></TT> содержит FT_UID. Возвращаемое значение это массив объектов, каждый из которых 
+описывает один header сообщения:<UL><LI><P>subject - тема сообщения</P></LI>
+<LI><P>from - кто отправил</P></LI><LI><P>date - когда было отправлено</P></LI>
+<LI><P>message_id - ID сообщения</P></LI><LI><P>references - ссылка на id этого сообщения</P></LI>
+<LI><P>size - размер в байтах</P></LI><LI><P>uid - UID, который сообщение имеет в mailbox</P></LI>
+<LI><P>msgno - номер в последовательности сообщений в maibox</P></LI>
+<LI><P>recent - это сообщение отмечено как последнее</P></LI><LI><P>flagged - это сообщение помечено</P></LI>
+<LI><P>answered -  это сообщение помечено как answered (на которое дан ответ)</P></LI>
+<LI><P>deleted - это сообщение помечено на удаление</P></LI><LI><P>seen - это сообщение помечено как уже прочитанное</P>
+</LI><LI><P>draft - это сообщение помечено как draft/набросок</P></LI></UL><TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN34615"></A><h5>Пример 1. imap_fetch_overview()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$mbox = imap_open("{your.imap.host:143}","username","password")
+     or die("can't connect: ".imap_last_error());
+ 
+$overview = imap_fetch_overview($mbox,"2,4:6",0);
+ 
+if(is_array($overview)) {
+        reset($overview);
+        while( list($key,$val) = each($overview)) {
+                print     $val-&#62;msgno
+                . " - " . $val-&#62;date
+                . " - " . $val-&#62;subject
+                . "\n";
+        }
+}
+ 
+imap_close($mbox);</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="imap-expunge.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="imap-fetchbody.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">imap_expunge</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.imap.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">imap_fetchbody</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

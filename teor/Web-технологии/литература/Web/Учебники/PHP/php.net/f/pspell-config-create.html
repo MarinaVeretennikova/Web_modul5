@@ -1,0 +1,35 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>pspell_config_create</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="pspell-clear-session.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="pspell-config-ignore.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.pspell-config-create">pspell_config_create</A></H1><A NAME="AEN69781"></A><P>(PHP 4 &#62;= 4.0.2)</P>
+<p>pspell_config_create - создаёт config, используемый для открытия словаря.<A NAME="AEN69784"></A></p>
+<H2>Описание</H2><p>int <B>pspell_config_create</B> (string language [, string spelling [, string jargon [, string encoding]]])</p>
+<P><B>pspell_config_create()</B> имеет синтаксис, очень похожий на <A HREF="pspell-new.html"><B>pspell_new()</B></A>. Фактически использование 
+<B>pspell_config_create()</B> с последующей <A HREF="pspell-new-config.html"><B>pspell_new_config()</B></A> даст точно тот же результат.
+Однако после создания нового config вы можете также использовать <B>pspell_config_*()</B> функции до вызова
+<A HREF="pspell-new-config.html"><B>pspell_new_config()</B></A> для получения преимуществ от некоторой дополнительной функциональности.</P>
+<P>Параметр language это код языка - двухбуквенный код ISO 3166 после тире или символа подчёркивания.</P>
+<P>Параметр spelling это запрошенная проверка для языков с более чем одной проверкой - таких как English. Известные значения:
+'american', 'british' и 'canadian'.</P><P>Параметр jargon содержит дополнительную информацию для различения двух 
+различных списков слов, имеющих одинаковые параметры language и spelling.</P>
+<P>Параметр encoding это кодировка, в которой, как ожидается, даны слова.  
+Верные значения: 'utf-8', 'iso8859-*', 'koi8-r', 'viscii', 'cp1252', 'machine unsigned 16', 'machine unsigned
+32'. Это параметр ещё не проверен достаточно широко, поэтому будьте осторожны при его использовании.</P>
+<P>Параметр mode это режим работы проверщика правописания. Доступны несколько режимов:<UL>
+<LI><P><TT><B>PSPELL_FAST</B></TT> - быстрый режим (меньшее количество вариантов)</P></LI>
+<LI><P><TT><B>PSPELL_NORMAL</B></TT> - нормальный режим (больше вариантов)</P></LI>
+<LI><P><TT><B>PSPELL_BAD_SPELLERS</B></TT> - медленный режим (очень много вариантов)</P></LI></UL>
+<P>Дополнительную информацию и примеры см. в учебнике pspell web-сайта: <A HREF="http://aspell.net/" TARGET="_top">http://aspell.net/</A>.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN69826"></A><h5>Пример 1. pspell_config_create()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$pspell_config = pspell_config_create ("en");
+pspell_config_personal ($pspell_config, "/var/dictionaries/custom.pws");
+pspell_config_repl ($pspell_config, "/var/dictionaries/custom.repl");
+$pspell_link = pspell_new_personal ($pspell_config, "en");</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="pspell-clear-session.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="pspell-config-ignore.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">pspell_clear_session</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.pspell.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">pspell_config_ignore</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

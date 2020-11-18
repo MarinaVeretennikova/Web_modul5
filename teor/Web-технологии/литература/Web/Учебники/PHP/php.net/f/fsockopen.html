@@ -1,0 +1,64 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>fsockopen</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="define-syslog-variables.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><AHREF="gethostbyaddr.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.fsockopen">fsockopen</A></H1><A NAME="AEN52762"></A><P>(PHP 3, PHP 4)</P>
+<p>fsockopen - открывает сокет соединения домена Internet или Unix.<A NAME="AEN52765"></A></p>
+<H2>Описание</H2><p>int <B>fsockopen</B> (string hostname, int port [, int errno [, string errstr [, float timeout]]])</p>
+<P>Инициирует поточное соединение в домене Internet (AF_INET, используя TCP 
+или UDP) или Unix (AF_UNIX). Для домена Internet открывает сокет соединения TCP с <TT><I>hostname</I></TT>
+через порт <TT><I>port</I></TT>.<br>
+<TT><I>hostname</I></TT> может быть в этом случае либо полным квалифицированным именем домена, либо IP-адресом. 
+Для UDP необходимо явно специфицировать протокол путём добавления к <TT><I>hostname</I></TT> префикса '<TT>udp://</TT>'.<br>
+Для домена Unix - <TT><I>hostname</I></TT> будет использоваться как путь к сокету , <TT><I>port</I></TT> обязан быть установлен 0 в этом случае.
+Необязательный <TT><I>timeout</I></TT> может использоваться для установки таймаута в секундах для системного вызова connect.</P>
+<P>В PHP 4.3.0, если вы скомпилируете с поддержкой OpenSSL, вы сможете вводить для <TT><I>hostname</I></TT> префикс
+'<TT>ssl://</TT>' или '<TT>tls://</TT>', для использования SSL, или соединение TLS-клиента через TCP/IP для 
+подключения к удалённому хосту.</P><P><B>fsockopen()</B> возвращает указатель файла, который может использоваться другими функциями (такими 
+как <A HREF="fgets.html"><B>fgets()</B></A>, <A HREF="fgetss.html"><B>fgetss()</B></A>,
+<A HREF="fputs.html"><B>fputs()</B></A>, <A HREF="fclose.html"><B>fclose()</B></A> и
+<A HREF="feof.html"><B>feof()</B></A>).</P><P>Если вызов терпит неудачу, возвращается <TT><B>FALSE</B></TT> и, если необязательные аргументы
+<TT><I>errno</I></TT> и <TT><I>errstr</I></TT> имеются, они получат установки, указывающие фактический уровень системной 
+ошибки, возникшей при вызове <TT>connect()</TT> системного уровня. Если в <TT><I>errno</I></TT> возвращено значение
+<TT>0</TT> и функция возвращает <TT><B>FALSE</B></TT>, это указывает на то, что ошибка возникла до вызова
+<TT>connect()</TT>. Вероятнее всего это произошло из-за проблем инициализации сокета. Заметьте, 
+что аргументы <TT><I>errno</I></TT> и <TT><I>errstr</I></TT> всегда будут передаваться по ссылке.</P>
+<P>В зависимости от окружения, домен Unix или необязательный таймаут соединения могут быть недоступны.</P>
+<P>Сокет может быть по умолчанию открыт в блокирующем/blocking режиме. Вы можете переключиться в не-блокирующий режим с помощью
+<A HREF="socket-set-blocking.html"><B>socket_set_blocking()</B></A>.<TABLE WIDTH="100%" BORDER="0"><TR>
+<TD><A NAME="AEN52819"></A><h5>Пример 1. fsockopen()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+$fp = fsockopen ("www.example.com", 80, $errno, $errstr, 30);
+if (!$fp) {
+    echo "$errstr ($errno)&#60;br&#62;\n";
+} else {
+    fputs ($fp, "GET / HTTP/1.0\r\nHost: www.example.com\r\n\r\n");
+    while (!feof($fp)) {
+        echo fgets ($fp,128);
+    }
+    fclose ($fp);
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Следующий пример показывает, как запросить день и время из "daytime" (port 13) UDP-сервиса на вашей собственной машине.</p>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN52823"></A><h5>Пример 2. Использование UDP-соединения</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$fp = fsockopen("udp://127.0.0.1", 13, $errno, $errstr);
+if (!$fp) {
+    echo "ERROR: $errno - $errstr&#60;br&#62;\n";
+} else {
+    fwrite($fp,"\n");
+    echo fread($fp, 26);
+    fclose($fp);
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>параметр timeout был введён в PHP 3.0.9, поддержка
+UDP была добавлена в PHP 4.</P></BLOCKQUOTE>См. также <A HREF="pfsockopen.html"><B>pfsockopen()</B></A>, 
+<A HREF="socket-set-blocking.html"><B>socket_set_blocking()</B></A>,
+<A HREF="socket-set-timeout.html"><B>socket_set_timeout()</B></A>, <A HREF="fgets.html"><B>fgets()</B></A>,
+<A HREF="fgetss.html"><B>fgetss()</B></A>, <A HREF="fputs.html"><B>fputs()</B></A>,
+<A HREF="fclose.html"><B>fclose()</B></A>, <A HREF="feof.html"><B>feof()</B></A> и <A HREF="ref.curl.html">расширение Curl</A>.</TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="define-syslog-variables.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="gethostbyaddr.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">define_syslog_variables</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.network.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">gethostbyaddr</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

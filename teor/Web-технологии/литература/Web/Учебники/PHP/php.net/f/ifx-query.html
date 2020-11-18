@@ -1,0 +1,64 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>ifx_query</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ifx-prepare.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="ifx-textasvarchar.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="ifx-query">ifx_query</A></H1><A NAME="AEN36547"></A><P>(PHP 3&#62;= 3.0.3, PHP 4)</P>
+<p>ifx_query - отправляет Informix-запрос/query.<A NAME="AEN36550"></A></p><H2>Описание</H2>
+<p>int <B>ifx_query</B> (string query, int link_identifier [, int cursor_type [, mixed blobidarray]])</p>
+<P>Возвращает: положительный результирующий идентификатор Informix при успехе или
+<TT><B>FALSE</B></TT> - при ошибке.</P><P>Ресурс "result_id" используется другими функциями для результатов запросов.
+Устанавливает "affected_rows" для запрашивания функцией
+<A HREF="ifx-affected-rows.html"><B>ifx_affected_rows()</B></A>.</P><P><B>ifx_query()</B> отправляет запрос текущей активной базе данных на сервере, ассоциированном со 
+специфицированным идентификатором ссылки.</P><P>Выполняет запрос <TT><I>query</I></TT> в соединении
+<TT><I>conn_id</I></TT>. Для запросов &quot;select" объявляется и открывается курсор. Необязательный 
+параметр <TT><I>cursor_type</I></TT> позволяет создать "scroll" и/или "hold"-курсор. Это битовая маска, которая 
+может быть IFX_SCROLL, IFX_HOLD или и то и другое вместе. Не-select запросы 
+выполняются немедленно. IFX_SCROLL и IFX_HOLD являются символическими 
+константами и как таковые не должны заключаться в кавычки. Если вы опустили 
+этот параметр, курсор является нормальным последовательным курсором.</P>
+<P>Для любого типа запроса  количество задействованных рядов 
+(приблизительное или реальное) сохраняется для запрашивания функцией by
+<A HREF="ifx-affected-rows.html"><B>ifx_affected_rows()</B></A>.</P>
+<P>Если у вас в запросе имеются столбцы BLOB (BYTE или TEXT), вы можете добавить параметр <TT><I>blobidarray</I></TT>, содержащий соответствующие "blob ids", и должны заменить эти столбцы знаком "?" 
+в тексте запроса.</P><P>Если содержимое столбца TEXT (или BYTE) позволяет, вы можете также 
+использовать "ifx_textasvarchar(1)" и "ifx_byteasvarchar(1)".  Это даст 
+возможность рассматривать столбцы TEXT (или BYTE) точно так, как если бы они 
+были простыми (но long) столбцами VARCHAR для select-запросов, и вам не нужно будет беспокоиться о blob id'ах.</P>
+<P>При наличии ifx_textasvarchar(0) или ifx_byteasvarchar(0) (ситуация по 
+умолчанию), select-запросы будут возвращать BLOB-столбцы как blob id'ы
+(целочисленное значение).  Вы можете получить значение blob как строку или 
+файл с помощью blob-функций (см. далее).</P><P>См. также <A HREF="ifx-connect.html"><B>ifx_connect()</B></A>.<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN36585"></A>
+  <h5>Пример 1. 
+Показать все ряды таблицы "orders" как таблицу html</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>ifx_textasvarchar(1);      // использовать "text mode" для blobs
+$res_id = ifx_query("select * from orders", $conn_id);
+if (! $res_id) {
+    printf("Can't select orders : %s\n&#60;br&#62;%s&#60;br&#62;\n", ifx_error());
+    ifx_errormsg();
+    die;
+}
+ifx_htmltbl_result($res_id, "border=\"1\"");
+ifx_free_result($res_id);</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN36588"></A><h5>Пример 2. Вставить некоторые значения в таблицу "catalog"</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>// создать blob id'ы для byte и text-столбцов
+$textid = ifx_create_blob(0, 0, "Text column in memory");
+$byteid = ifx_create_blob(1, 0, "Byte column in memory");
+                      // сохранить blob id'ы в массиве blobid
+$blobidarray[] = $textid;
+$blobidarray[] = $byteid;
+                      // запустить запрос
+$query = "insert into catalog (stock_num, manu_code, " .
+         "cat_descr,cat_picture) values(1,'HRO',?,?)";
+$res_id = ifx_query($query, $conn_id, $blobidarray);
+if (! $res_id) {
+  ... ошибка ...
+}
+                     // освободить result id
+ifx_free_result($res_id);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+</TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ifx-prepare.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ifx-textasvarchar.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ifx_prepare</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.ifx.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ifx_textasvarchar</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

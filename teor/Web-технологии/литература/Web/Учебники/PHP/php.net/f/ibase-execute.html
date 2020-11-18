@@ -1,0 +1,30 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>ibase_execute</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ibase-errmsg.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ibase-fetch-object.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.ibase-execute">ibase_execute</A></H1><A NAME="AEN37115"></A><P>(PHP 3&#62;= 3.0.6, PHP 4)</P>
+<p>ibase_execute - выполняет ранее подготовленный запрос/query.<A NAME="AEN37118"></A></p><H2>Описание</H2>
+<p>int <B>ibase_execute</B> (int query [, int bind_args])</p><P>Выполняет запрос, подготовленный функцией
+<A HREF="ibase-prepare.html"><B>ibase_prepare()</B></A>. Это намного эффективнее, чем использование
+<A HREF="ibase-query.html"><B>ibase_query()</B></A>, если вы повторяете запрос того же вида несколько раз с изменением только 
+некоторых параметров.<A NAME="AEN37132"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+    $updates = array(
+        1 =&#62; 'Eric',
+        5 =&#62; 'Filip',
+        7 =&#62; 'Larry'
+    );
+
+    $query = ibase_prepare("UPDATE FOO SET BAR = ? WHERE BAZ = ?");
+
+    while (list($baz, $bar) = each($updates)) {
+        ibase_execute($query, $bar, $baz);
+    }
+?&#62;</PRE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ibase-errmsg.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ibase-fetch-object.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ibase_errmsg</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.ibase.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ibase_fetch_object</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

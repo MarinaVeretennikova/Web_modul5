@@ -1,0 +1,50 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>array_multisort</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="array-merge.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="array-pad.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.array-multisort">array_multisort</A></H1><A NAME="AEN7348"></A>
+<P>(PHP 4)</P><p>array_multisort - сортирует многомерный или несколько одномерных массивов.<A NAME="AEN7351"></A><H2>Описание</H2>bool <B>array_multisort</B> (array ar1 [, mixed arg [, mixed ... [, array ...]]])<P><B>array_multisort()</B> может использоваться для сортировки нескольких массивов за раз или 
+многомерного массива по одному из измерений. Она обслуживает ассоциацию ключей при сортировке.</P>
+<P>Массивы на входе рассматриваются как столбцы таблицы, сортируемые по рядам - 
+это напоминает функциональность операции ORDER BY языка SQL. Первый массив 
+будет primary/первичным для сортировки по нему. Одинаковые ряды
+(значения) в этом массиве сортируются следующим входящим массивом, и так далее.</P>
+<P>Структура аргументов этой функции несколько необычна, но достаточно гибка. 
+Самый первый аргумент должен быть массивом. Далее, каждый аргумент может 
+быть массивом или флагом сортировки из следующих списков:</P>
+<P>Флаги порядка сортировки:<UL><LI><P>SORT_ASC - сортировка в порядке возрастания</P></LI>
+<LI><P>SORT_DESC - сортировка в порядке убывания</P></LI></UL>
+<P>Флаги сортировки по типу:<UL><LI><P>SORT_REGULAR - нормальное сравнение элементов</P></LI>
+<LI><P>SORT_NUMERIC - числовое сравнение элементов</P></LI>
+<LI><P>SORT_STRING - строковое сравнение элементов</P></LI></UL>
+<P>После каждого массива нельзя специфицировать два флага сортировки одного 
+типа. Флаги сортировки, специфицированные после аргумента массива, 
+примеряются только к данному массиву - они восстанавливают значения по 
+умолчанию SORT_ASC и SORT_REGULAR перед каждым новым аргументом массива.</P>
+<P>Возвращает <TT><B>TRUE</B></TT> при успехе, <TT><B>FALSE</B></TT> - при неудаче.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN7391"></A><h5>
+Пример 1. Сортировка нескольких массивов</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>$ar1 = array ("10", 100, 100, "a");
+$ar2 = array (1, 3, "2", 1);
+array_multisort ($ar1, $ar2);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>В этом примере после сортировки первый массив будет содержать 10,
+"a", 100, 100. Второй массив будет содержать 1, 1, "2", 3. Вхождения 
+второго массива, соответствующие идентичным вхождениям первого массива (100 
+и 100) будут также отсортированы.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN7396"></A>
+<h5>Пример 2. Сортировка многомерного массива</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$ar = array (array ("10", 100, 100, "a"), array (1, 3, "2", 1));
+array_multisort ($ar[0], SORT_ASC, SORT_STRING,
+                 $ar[1], SORT_NUMERIC, SORT_DESC);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>В этом примере, после сортировки, первый массив будет содержать 10,
+100, 100, "a" (они были отсортированы как строки в порядке возрастания), а 
+второй массив будет содержать 1, 3, "2", 1 (отсортированы как числа в порядке убывания).</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="array-merge.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="array-pad.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">array_merge</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.array.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">array_pad</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

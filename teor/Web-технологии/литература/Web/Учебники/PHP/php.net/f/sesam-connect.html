@@ -1,0 +1,29 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>sesam_connect</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="sesam-commit.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="sesam-diagnostic.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="sesam-connect">sesam_connect</A></H1><A NAME="AEN72554"></A><P>(только PHP 3 CVS)</P>
+<p>sesam_connect - открывает соединение с базой данных SESAM.<A NAME="AEN72557"></A></p><H2>Описание</H2>
+<p>bool <B>sesam_connect</B> (string catalog, string schema, string user)</p>
+<P>Возвращает <TT><B>TRUE</B></TT>, если соединение с БД SESAM установлено, <TT><B>FALSE</B></TT> при ошибке.</P>
+<P><B>sesam_connect()</B> устанавливает соединение с задачей обработчика БД SESAM. Соединение всегда
+"persistent/постоянное" в том смысле, что только самый первый вызов загрузит драйвер из сконфигурированной библиотеки SESAM OML PLAM. Последующие 
+вызовы используют тот же драйвер и сразу используют заданный каталог, схему и пользователя.</P>
+<P>При создании БД имя <TT><I>"catalog"</I></TT> специфицируется в директиве конфигурации SESAM<br>
+<B>//ADD-SQL-DATABASE-CATALOG-LIST ENTRY-1 = *CATALOG(CATALOG-NAME = catalogname,...)</B></P>
+<P>Схема ссылается на <TT><I>"schema"</I></TT> желаемую схему БД (см. руководство SESAM handbook).</P>
+<P>Аргумент <TT><I>"user"</I></TT> ссылается на одного из пользователей, которым разрешён доступ к этой комбинации
+<TT><I>"catalog"</I></TT> / <TT><I>"schema"</I></TT>. Заметьте, что <TT><I>"user"</I></TT> полностью независим от id'ов системных пользователей и от HTTP-защиты user/password. 
+Он появляется только в конфигурации SESAM.</P><P>См. также <A HREF="sesam-disconnect.html"><B>sesam_disconnect()</B></A>.
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN72588"></A><h5>Пример 1. Соединение с БД SESAM</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+if (!sesam_connect ("mycatalog", "myschema", "otto")
+    die("Unable to connect to SESAM");
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="sesam-commit.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="sesam-diagnostic.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">sesam_commit</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.sesam.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">sesam_diagnostic</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

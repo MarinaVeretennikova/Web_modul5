@@ -1,0 +1,82 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>preg_replace</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="preg-replace-callback.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="preg-split.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.preg-replace">preg_replace</A></H1><A NAME="AEN71238"></A><P>(PHP 3&#62;= 3.0.9, PHP 4)</P>
+<p>preg_replace - выполняет поиск и замену регулярного выражения.<A NAME="AEN71241"></A></p><H2>Описание</H2><p>mixed <B>preg_replace</B> (mixed pattern, mixed replacement, mixed subject [, int limit])</p>
+<P>Ищет в <TT><I>subject</I></TT> совпадения с <TT><I> pattern</I></TT> и замещает их <TT><I>replacement</I></TT>. Если
+<TT><I>limit</I></TT> специфицирован, то замещаются только <TT><I>limit</I></TT> совпадений; если
+<TT><I>limit</I></TT> опущен или равен -1, замещаются все совпадения.</P><P><TT><I>Replacement</I></TT> может содержать ссылку в форме
+<TT>\\<TT><I>n</I></TT></TT> или (начиная с PHP 4.0.4) <TT><TT><I>$n</I></TT></TT>, где последняя форма предпочтительнее. Каждая такая ссылка замещается текстом, 
+захваченным <TT><I>n</I></TT>'ным патэрном в скобках. <TT><I>n </I></TT>может быть от 0 до 99, а
+<TT>\\0</TT> или <TT>$0</TT> ссылаются на текст, совпавший со всем патэрном. Открывающие скобки 
+подсчитываются слева направо (начиная с 1) для получения количества захватывающих субпатэрнов.</P>
+<P>Если совпадения найдены, возвращается новый <TT><I>subject</I></TT>, иначе <TT><I>subject</I></TT> возвращается без изменений.</P>
+<P>Каждый параметр <B>preg_replace()</B> может быть массивом.</P><P>Если <TT><I>subject</I></TT> это массив, то поиск и замена выполняются в каждом вхождении
+<TT><I>subject</I></TT>, return-значение также будет массивом.</P><P>Если <TT><I>pattern</I></TT> и
+<TT><I>replacement</I></TT> являются массивами, то <B>preg_replace()</B> принимает значение из каждого массива и использует их для выполнения поиска и 
+замены в <TT><I>subject</I></TT>. Если <TT><I>replacement</I></TT> имеет меньше значений, чем
+<TT><I>pattern</I></TT>, то для оставшихся значений для замены используется пустая строка. Если
+<TT><I>pattern </I></TT> это массив, а <TT><I>replacement</I></TT> это строка, то эта замещающая строка используется для каждого значения
+<TT><I>pattern</I></TT>. Обратное не будет иметь смысла.</P><P>Модификатор <TT>/e</TT> делает так, что
+<B>preg_replace()</B> рассматривает параметр <TT><I>replacement</I></TT> как PHP-код после выполнения соответствующей замены ссылок.<br>
+<b>Подсказка</b>: убедитесь, что <TT><I>replacement</I></TT> образует строку правильного PHP-кода, иначе PHP сообщит об ошибке разбора в 
+строчке с <B>preg_replace()</B>.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN71300"></A>
+<h5>Пример 1. Замена различных значений</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$patterns = array ("/(19|20)(\d{2})-(\d{1,2})-(\d{1,2})/",
+                   "/^\s*{(\w+)}\s*=/");
+$replace = array ("\\3/\\4/\\1\\2", "$\\1 =");
+print preg_replace ($patterns, $replace, "{startDate} = 1999-5-27");</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Этот пример даст:</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$startDate = 5/27/1999</PRE>
+</TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN71304"></A>
+    <h5>Пример 2. Использование модификатора /e</h5>
+<TABLE BORDER="0"  BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>preg_replace ("/(&#60;\/?)(\w+)([^&#62;]*&#62;)/e", 
+              "'\\1'.strtoupper('\\2').'\\3'", 
+              $html_body);</PRE></TD></TR></TABLE><P>Это переведёт в верхний регистр все тэги HTML в тексте ввода.</P>
+</TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN71308"></A>
+<h5>Пример 3. Конвертация HTML в текст</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>// $document должен содержать HTML-документ.
+// Здесь будут удалены тэги HTML, разделы javascript
+// и пустое пространство. Также некоторые обычные элементы
+// HTML конвертируются в их текстовые эквиваленты.
+
+$search = array ("'&#60;script[^&#62;]*?&#62;.*?&#60;/script&#62;'si",  // Вырезается javascript
+                 "'&#60;[\/\!]*?[^&#60;&#62;]*?&#62;'si",           // Вырезаются html-тэги
+                 "'([\r\n])[\s]+'",                 // Вырезается пустое пространство
+                 "'&#38;(quot|#34);'i",                 // Замещаются html-элементы
+                 "'&#38;(amp|#38);'i",
+                 "'&#38;(lt|#60);'i",
+                 "'&#38;(gt|#62);'i",
+                 "'&#38;(nbsp|#160);'i",
+                 "'&#38;(iexcl|#161);'i",
+                 "'&#38;(cent|#162);'i",
+                 "'&#38;(pound|#163);'i",
+                 "'&#38;(copy|#169);'i",
+                 "'&#38;#(\d+);'e");                    // вычисляется как php
+
+$replace = array ("",
+                  "",
+                  "\\1",
+                  "\"",
+                  "&#38;",
+                  "&#60;",
+                  "&#62;",
+                  " ",
+                  chr(161),
+                  chr(162),
+                  chr(163),
+                  chr(169),
+                  "chr(\\1)");
+
+$text = preg_replace ($search, $replace, $document);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<BLOCKQUOTE><P><B>Примечание: </B> параметр <TT><I>limit</I></TT> был введён после PHP 4.0.1pl2.</P></BLOCKQUOTE>
+<P>См. также <A HREF="preg-match.html"><B>preg_match()</B></A>,
+<A HREF="preg-match-all.html"><B>preg_match_all()</B></A> и
+<A HREF="preg-split.html"><B>preg_split()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="preg-replace-callback.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="preg-split.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">preg_replace_callback</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.pcre.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">preg_split</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

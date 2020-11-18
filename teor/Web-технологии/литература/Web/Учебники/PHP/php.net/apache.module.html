@@ -1,0 +1,47 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Apache-Модуль</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR>
+<TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="cgi-bin.html">Назад</A></TD><th WIDTH="80%">Глава 4. Безопасность</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="filesystem.html">Вперёд</A></TD></TR></TABLE>
+</TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR>
+</TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD>
+<TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%"><H1><ANAME="security.apache">Apache-модуль</A></H1>
+<P>Когда PHP используется как Apache-модуль, он наследует пользовательские 
+права доступа Apache'а (обычно это пользователь "nobody"). Это оказывает 
+влияние на обеспечение безопасности и авторизации. Например, если вы используете
+PHP для доступа к базе данных, и если эта БД не имеет встроенного контроля 
+доступа, вы должны будете обеспечить доступ к этой БД для пользователя
+"nobody". В этом случае зловредный скрипт может получить доступ к БД и 
+изменить её, даже не имея имени и пароля. Тогда хакер сможет получить доступ к web-странице 
+администратора БД и уничтожить все ваши БД. Защититься от этого можно с 
+помощью авторизации Apache, или разработав вашу собственную модель доступа с 
+использованием LDAP, .htaccess-файлы, etc. и включив этот код как часть ваших PHP-скриптов.</P>
+<P>Часто, когда безопасность установлена на таком уровне, где PHP-пользователь
+(в данном случае - пользователь Аpache) имеет минимальный риск вторжения,
+обнаруживается, что у PHP отсутствует возможность записывать в любые файлы 
+пользовательских директорий. Или, возможно, отсутствует возможность доступа к, 
+или изменения, БД. Поставлена защита от записи как &quot;хороших&quot;, так и &quot;плохих&quot; 
+файлов, или выполнения как &quot;хороших&quot;, так и &quot;плохих&quot; транзакций.</P>
+<P>Обычной ошибкой бывает в этом случае предоставление доступа apache
+root или расширение возможностей Аpache'а каким-нибудь другим способом.</P>
+<P>Увеличение пользовательского доступа Apache'а к корневой директории/root 
+очень опасно и может завалить всю систему, поэтому sudo,
+chroot или другой подобный запуск как root не должен выполняться теми, кто 
+не считает себя профессионалами в вопросах безопасности.</P>
+<P>Есть несколько простых решений. Используя <A HREF="configuration.html#ini.open-basedir">open_basedir</A>,
+вы можете управлять ограничением количества директорий, которые могут 
+использоваться PHP. Вы можете также установить области apache-only, ограничив web-активность не-пользовательскими или не-системными файлами.</P></TD><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366">
+<TD><IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="cgi-bin.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="filesystem.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">
+    CGI-двоичный</TD>
+<th WIDTH="34%" VALIGN="top"><a href="security.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+Безопасность файловой системы</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

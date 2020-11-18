@@ -1,0 +1,32 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>sesam_execimm</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="sesam-errormsg.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="sesam-fetch-array.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.sesam-execimm">sesam_execimm</A></H1><A NAME="AEN72675"></A><P>(только PHP 3 CVS)</P>
+<p>sesam_execimm - выполняет "immediate" SQL-оператор.<A NAME="AEN72678"></A><H2>Описание</H2>
+<p>string <B>sesam_execimm</B> (string query)</p>
+<P>Возвращает SESAM "result identifier/результирующий идентификатор" при успехе, <TT><B>FALSE</B></TT> при ошибке.</P>
+<P><B>sesam_execimm()</B> выполняет "immediate/непосредственный" оператор (т.е. оператор вроде UPDATE, INSERT или DELETE, который не
+возвращает результат и не имеет переменных INPUT или OUTPUT). "select type" запросы не могут использоваться с
+<B>sesam_execimm()</B>. Устанавливает значение <TT><I>affected_rows</I></TT> для запрашивания функцией
+<A HREF="sesam-affected-rows.html"><B>sesam_affected_rows()</B></A>.</P>
+<P>Обратите внимание, что <A HREF="sesam-query.html"><B>sesam_query()</B></A> может обрабатывать как
+"immediate", так и "select-type" запросы. Используйте <B>sesam_execimm()</B>, только если вы знаете заранее, оператор какого типа будет выполняться.  
+Попытка использовать запросы типа SELECT с <B>sesam_execimm()</B> возвратят <TT>$err["sqlstate"] == "42SBW"</TT>.</P>
+<P>Возвращаемый "result identifier" не может использоваться запрашивания чего-либо, кроме
+<A HREF="sesam-affected-rows.html"><B>sesam_affected_rows()</B></A>; он возвращается только для симметрии с
+<A HREF="sesam-query.html"><B>sesam_query()</B></A>.<A NAME="AEN72702"></A></P>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$stmt = "INSERT INTO mytable VALUES ('one', 'two')";
+$result = sesam_execimm ($stmt);
+$err = sesam_diagnostic();
+print ("sqlstate = ".$err["sqlstate"]."\n".
+       "Affected rows = ".$err["rowcount"]." == ".
+       sesam_affected_rows($result)."\n");</PRE></TD></TR></TABLE><p>См. также <A HREF="sesam-query.html"><B>sesam_query()</B></A> и
+<A HREF="sesam-affected-rows.html"><B>sesam_affected_rows()</B></A>.</TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="sesam-errormsg.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="sesam-fetch-array.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">sesam_errormsg</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.sesam.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">sesam_fetch_array</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

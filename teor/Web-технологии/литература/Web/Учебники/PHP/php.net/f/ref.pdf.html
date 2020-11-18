@@ -1,0 +1,358 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции PDF</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%"  BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="overload.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="pdf-add-annotation.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.pdf"></A>LXXVI. Функции PDF</h1><A NAME="AEN61052"></A><H1><A NAME="pdf.intro">Введение</A></H1>
+<P>Функции PDF в PHP могут создавать PDF-файлы с использованием библиотеки PDFlib, автор
+<A HREF="http://www.pdflib.com/corporate/tm.html" TARGET="_top">Thomas Merz</A>. PDFlib доступна для загрузки на
+<A HREF="http://www.pdflib.com/pdflib/index.html" TARGET="_top">http://www.pdflib.com/pdflib/index.html</A>,
+но требует приобретения лицензии для коммерческого использования. Библиотеки
+<A HREF="ftp://ftp.uu.net/graphics/jpeg/" TARGET="_top">JPEG</A> и <A HREF="http://www.libtiff.org/" TARGET="_top">TIFF</A> необходимы для компилирования этого приложения.
+См. в разделе <A HREF="../configure.html#install.configure.with-pdflib">Инсталяция PDFlib</A> о компиляции поддержки PDF в PHP.</P>
+<P>Документация этого раздела является обзором функций библиотеки PDFlib и не 
+может считаться исчерпывающим справочником.  Консультируйтесь в сопровождающей 
+документации дистрибутива PDFlib.  Там содержится полноценный обзор 
+возможностей функций библиотеки PDFlib и самая свежая информация обо всех функциях.</P>
+<P>В библиотеке PDFlib и в модуле PHP все функции и параметры имеют 
+идентичные имена. Вам необходимо разобраться в некоторых основных понятиях PDF 
+и PostScript, чтобы эффективно использовать это расширение.<br>
+Все размеры и координаты измеряются в пунктах
+PostScript. Обычно имеется 72 PostScript-пункта на дюйм, но это зависит от разрешающей способности на выводе. См. в
+PDFlib-документации, включённой в дистрибутив PDFlib, объяснение используемой системы координат.</P>
+<P>Обратите внимание, что&nbsp; большинство функций PDF требуют <TT><I>pdf object</I></TT> в качестве первого параметра. См. примеры далее.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>имеется альтернативный модуль PHP для создания PDF-документов на базе
+<A HREF="http://www.fastio.com/" TARGET="_top">FastIO's</A> ClibPDF.  См. раздел
+<A HREF="ref.cpdf.html">ClibPDF</A>. Обратите внимание, что <A HREF="ref.cpdf.html">ClibPDF</A> имеет несколько иной API
+по сравнению с PDFlib.</P></BLOCKQUOTE><H1><A NAME="pdf.oldlibs.confusion">Конфликты со старыми версиями PDFlib</A></H1>
+<P>Начиная с PHP 4.0.5, PHP-расширение для PDFlib официально поддерживается 
+компанией PDFlib GmbH. Это означает, что все функции, описанные в учебнике PDFlib (V3.00 
+или выше), поддерживаются в PHP 4&nbsp; с точно теми же значениями и 
+параметрами. Только return-значения могут отличаться от учебника PDFlib, так 
+как используется соглашение PHP по возвращению <TT><B>FALSE</B></TT>. Из соображений совместимости эта привязка к PDFlib всё ещё поддерживает 
+старые функции, но они должны быть заменены их новыми версиями. PDFlib GmbH не 
+будет рассматривать проблемы, возникающие при использовании этих старых 
+функций.<A NAME="AEN61075"></A></P><h6>Таблица 1. Не рекомендуемые функции и их замены</h6>
+<TABLE BORDER="1"><TR><TH>Старая функция</TH><TH>Замена</TH></TR><TBODY><TR><TD><B>pdf_put_image()</B></TD>
+<TD>Больше не нужна.</TD></TR><TR><TD><B>pdf_execute_image()</B></TD><TD>Больше не нужна.</TD></TR>
+<TR><TD><B>pdf_get_annotation()</B></TD><TD><B>pdf_get_bookmark()</B> с использованием тех же параметров.</TD>
+</TR><TR><TD><A HREF="pdf-get-font.html"><B>pdf_get_font()</B></A></TD><TD>
+<A HREF="pdf-get-value.html"><B>pdf_get_value()</B></A> с передачей <TT>"font"</TT> в качестве второго параметра.</TD>
+</TR><TR><TD><A HREF="pdf-get-fontsize.html"><B>pdf_get_fontsize()</B></A></TD>
+<TD><A HREF="pdf-get-value.html"><B>pdf_get_value()</B></A> с передачей <TT>"fontsize"</TT> в качестве второго параметра.</TD
+></TR><TR><TD><A HREF="pdf-get-fontname.html"><B>pdf_get_fontname()</B></A></TD><TD>
+<A HREF="pdf-get-parameter.html"><B>pdf_get_parameter()</B></A> с передачей    
+<TT>"fontname"</TT> в качестве второго параметра.</TD></TR><TR><TD>
+<A HREF="pdf-set-info-creator.html"><B>pdf_set_info_creator()</B></A></TD>
+<TD><A HREF="pdf-set-info.html"><B>pdf_set_info()</B></A> с передачей    
+<TT>"Creator"</TT> в качестве второго параметра.</TD></TR><TR><TD>
+<A HREF="pdf-set-info-title.html"><B>pdf_set_info_title()</B></A></TD><TD>
+<A HREF="pdf-set-info.html"><B>pdf_set_info()</B></A> с передачей <TT>"Title"</TT> в качестве второго параметра.</TD></TR>
+<TR><TD><A HREF="pdf-set-info-subject.html"><B>pdf_set_info_subject()</B></A></TD><TD>
+<A HREF="pdf-set-info.html"><B>pdf_set_info()</B></A> с передачей <TT>"Subject"</TT> в качестве второго параметра.</TD></TR><TR>
+<TD><A HREF="pdf-set-info-author.html"><B>pdf_set_info_author()</B></A></TD><TD>
+<A HREF="pdf-set-info.html"><B>pdf_set_info()</B></A> с передачей <TT>"Author"</TT> в качестве второго параметра.</TD>
+</TR><TR><TD><A HREF="pdf-set-info-keywords.html"><B>pdf_set_info_keywords()</B></A></TD><TD>
+<A HREF="pdf-set-info.html"><B>pdf_set_info()</B></A> с передачей <TT>"Keywords"</TT> в качестве второго параметра.</TD>
+</TR><TR><TD><A HREF="pdf-set-leading.html"><B>pdf_set_leading()</B></A></TD><TD>
+<A HREF="pdf-set-value.html"><B>pdf_set_value()</B></A> с передачей <TT>"leading"</TT> в качестве второго параметра.</TD>
+</TR><TR><TD><A HREF="pdf-set-text-rendering.html"><B>pdf_set_text_rendering()</B></A></TD><TD>
+<A HREF="pdf-set-value.html"><B>pdf_set_value()</B></A> с передачей <TT>"textrendering"</TT> в качестве второго параметра.</TD></TR>
+<TR><TD><A HREF="pdf-set-text-rise.html"><B>pdf_set_text_rise()</B></A></TD><TD>
+<A HREF="pdf-set-value.html"><B>pdf_set_value()</B></A> с передачей <TT>"textrise"</TT> в качестве второго параметра.</TD></TR>
+<TR><TD><A HREF="pdf-set-horiz-scaling.html"><B>pdf_set_horiz_scaling()</B></A></TD><TD>
+<A HREF="pdf-set-value.html"><B>pdf_set_value()</B></A> с передачей <TT>"horizscaling"</TT> в качестве второго параметра.</TD></TR>
+<TR><TD><A HREF="pdf-set-text-matrix.html"><B>pdf_set_text_matrix()</B></A></TD><TD>Больше не доступна.</TD>
+</TR><TR><TD><A HREF="pdf-set-char-spacing.html"><B>pdf_set_char_spacing()</B></A></TD><TD>
+<A HREF="pdf-set-value.html"><B>pdf_set_value()</B></A> с передачей <TT>"charspacing"</TT> в качестве второго параметра.</TD></TR>
+<TR><TD><A HREF="pdf-set-word-spacing.html"><B>pdf_set_word_spacing()</B></A></TD><TD>
+<A HREF="pdf-set-value.html"><B>pdf_set_value()</B></A> с передачей <TT>"wordspacing"</TT> в качестве второго параметра.</TD></TR>
+<TR><TD><B>pdf_set_transition()</B></TD><TD><A HREF="pdf-set-parameter.html"><B>pdf_set_parameter()</B></A> с передачей
+<TT>"transition"</TT> в качестве второго параметра.</TD></TR><TR><TD><A HREF="pdf-open.html"><B>pdf_open()</B></A></TD>
+<TD><A HREF="pdf-new.html"><B>pdf_new()</B></A> плюс последующий вызов <A HREF="pdf-open-file.html">
+<B>pdf_open_file()</B></A></TD></TR><TR><TD><A HREF="pdf-set-font.html"><B>pdf_set_font()</B></A></TD><TD>
+<A HREF="pdf-findfont.html"><B>pdf_findfont()</B></A> плюс последующий вызов <A HREF="pdf-setfont.html">
+<B>pdf_setfont()</B></A></TD></TR><TR><TD><A HREF="pdf-set-duration.html"><B>pdf_set_duration()</B></A></TD><TD>
+<A HREF="pdf-set-value.html"><B>pdf_set_value()</B></A> с передачей <TT>"duration"</TT> в качестве второго параметра.</TD></TR>
+<TR><TD><A HREF="pdf-open-gif.html"><B>pdf_open_gif()</B></A></TD><TD>
+<A HREF="pdf-open-image-file.html"><B>pdf_open_image_file()</B></A> с передачей
+<TT>"gif"</TT> в качестве второго параметра.</TD></TR><TR><TD><A HREF="pdf-open-jpeg.html"><B>pdf_open_jpeg()</B></A></TD>
+<TD><A HREF="pdf-open-image-file.html"><B>pdf_open_image_file()</B></A> с передачей
+<TT>"jpeg"</TT> в качестве второго параметра.</TD></TR><TR><TD><A HREF="pdf-open-tiff.html"><B>pdf_open_tiff()</B>
+</A></TD><TD><A HREF="pdf-open-image-file.html"><B>pdf_open_image_file()</B></A> с передачей
+<TT>"tiff"</TT> в качестве второго параметра.</TD></TR><TR><TD>
+<A HREF="pdf-open-png.html"><B>pdf_open_png()</B></A></TD><TD>
+<A HREF="pdf-open-image-file.html"><B>pdf_open_image_file()</B></A> с передачей
+<TT>"png"</TT> в качестве второго параметра.</TD></TR><TR><TD>
+<A HREF="pdf-get-image-width.html"><B>pdf_get_image_width()</B></A></TD><TD>
+<A HREF="pdf-get-value.html"><B>pdf_get_value()</B></A> с передачей 
+<TT>"imagewidth"</TT> в качестве второго параметра и изображения в качестве третьего параметра.</TD></TR>
+<TR><TD><A HREF="pdf-get-image-height.html"><B>pdf_get_image_height()</B></A></TD><TD>
+<A HREF="pdf-get-value.html"><B>pdf_get_value()</B></A> с передачей <TT>"imageheight"</TT> в качестве второго параметра и изображения в качестве третьего параметра.</TD>
+</TR></TBODY></TABLE><H1>Подсказки по установке <A NAME="pdf.install.pdflib">PDFlib 3.x</A></H1>
+<P>При использовании версии 3.x библиотеки PDFlib вы должны сконфигурировать PDFlib с опцией<TT><br>
+--enable-shared-pdflib</TT>.</P><H1><A NAME="pdf.oldlibs.hints">Вопросы по старым версиям PDFlib</A></H1>
+<P>Любые версии PHP 4 после 9 марта 2000 не поддерживают версии PDFlib, ранее 3.0.</P>
+<P>PDFlib 3.0 или выше поддерживается в PHP 3.0.19 и позднее.</P><H1><A NAME="pdf.examples">Примеры</A></H1>
+<P>Большинство функций довольно легко использовать. Самое трудное это, 
+пожалуй, создание очень простого PDF-документа. Следующий пример должен помочь начать. Он создаёт <TT>test.pdf</TT> из одной страницы. Эта страница содержит текст "Times Roman outlined" шрифтом
+outlined 30pt. Текст также подчёркнут.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN61257"></A>
+<h5>Пример 1. Создание PDF-документа с помощью PDFlib</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+$pdf = pdf_new();
+pdf_open_file($pdf, "test.pdf");
+pdf_set_info($pdf, "Author", "Uwe Steinmann");
+pdf_set_info($pdf, "Title", "Test for PHP wrapper of PDFlib 2.0");
+pdf_set_info($pdf, "Creator", "См. Author");
+pdf_set_info($pdf, "Subject", "Testing");
+pdf_begin_page($pdf, 595, 842);
+pdf_add_outline($pdf, "Page 1");
+pdf_set_font($pdf, "Times-Roman", 30, "host");
+pdf_set_value($pdf, "textrendering", 1);
+pdf_show_xy($pdf, "Times Roman outlined", 50, 750);
+pdf_moveto($pdf, 50, 740);
+pdf_lineto($pdf, 330, 740);
+pdf_stroke($pdf);
+pdf_end_page($pdf);
+pdf_close($pdf);
+pdf_delete($pdf);
+echo "&#60;A HREF=getpdf.php&#62;finished&#60;/A&#62;";
+?&#62;</PRE></TD></TR></TABLE><P>Скрипт <TT>getpdf.php</TT> возвращает pdf-документ.</P>
+<A NAME="AEN61262"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$len = filesize($filename);
+header("Content-type: application/pdf");
+header("Content-Length: $len");
+header("Content-Disposition: inline; filename=foo.pdf");
+readfile($filename);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Дистрибутив PDFlib содержит более сложный пример, где создаётся страница с 
+аналоговыми часами. Здесь мы используем возможность PDFlib создания в 
+памяти, чтобы не использовать временные файлы. Этот пример, конвертированный 
+в PHP из примера PDFlib, таков: (Такой же пример имеется в документации <A HREF="ref.cpdf.html">CLibPDF</A>.)</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN61267"></A><h5>Пример 2. pdfclock из дистрибутива PDFlib
+</h5><TABLE BORDER="0"  BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$radius = 200;
+$margin = 20;
+$pagecount = 10;
+
+$pdf = pdf_new();
+
+if (!pdf_open_file($pdf, "")) {
+    print error;
+    exit;
+};
+
+pdf_set_parameter($pdf, "warning", "true");
+
+pdf_set_info($pdf, "Creator", "pdf_clock.php");
+pdf_set_info($pdf, "Author", "Uwe Steinmann");
+pdf_set_info($pdf, "Title", "Analog Clock");
+
+while($pagecount-- &#62; 0) {
+    pdf_begin_page($pdf, 2 * ($radius + $margin), 2 * ($radius + $margin));
+
+    pdf_set_parameter($pdf, "transition", "wipe");
+    pdf_set_value($pdf, "duration", 0.5);
+  
+    pdf_translate($pdf, $radius + $margin, $radius + $margin);
+    pdf_save($pdf);
+    pdf_setrgbcolor($pdf, 0.0, 0.0, 1.0);
+
+    /* отсчёт минут */
+    pdf_setlinewidth($pdf, 2.0);
+    for ($alpha = 0; $alpha &#60; 360; $alpha += 6) {
+        pdf_rotate($pdf, 6.0);
+        pdf_moveto($pdf, $radius, 0.0);
+        pdf_lineto($pdf, $radius-$margin/3, 0.0);
+        pdf_stroke($pdf);
+    }
+
+    pdf_restore($pdf);
+    pdf_save($pdf);
+
+    /* 5 minute strokes */
+    pdf_setlinewidth($pdf, 3.0);
+    for ($alpha = 0; $alpha &#60; 360; $alpha += 30) { 
+        pdf_rotate($pdf, 30.0);
+        pdf_moveto($pdf, $radius, 0.0);
+        pdf_lineto($pdf, $radius-$margin, 0.0);
+        pdf_stroke($pdf);
+    }
+
+    $ltime = getdate();
+
+    /* рисовать часовую стрелку */
+    pdf_save($pdf);
+    pdf_rotate($pdf,-(($ltime['minutes']/60.0)+$ltime['hours']-3.0)*30.0);
+    pdf_moveto($pdf, -$radius/10, -$radius/20);
+    pdf_lineto($pdf, $radius/2, 0.0);
+    pdf_lineto($pdf, -$radius/10, $radius/20);
+    pdf_closepath($pdf);
+    pdf_fill($pdf);
+    pdf_restore($pdf);
+
+    /* рисовать минутную стрелку  */
+    pdf_save($pdf);
+    pdf_rotate($pdf,-(($ltime['seconds']/60.0)+$ltime['minutes']-15.0)*6.0);
+    pdf_moveto($pdf, -$radius/10, -$radius/20);
+    pdf_lineto($pdf, $radius * 0.8, 0.0);
+    pdf_lineto($pdf, -$radius/10, $radius/20);
+    pdf_closepath($pdf);
+    pdf_fill($pdf);
+    pdf_restore($pdf);
+
+    /* рисовать секундную стрелку  */
+    pdf_setrgbcolor($pdf, 1.0, 0.0, 0.0);
+    pdf_setlinewidth($pdf, 2);
+    pdf_save($pdf);
+    pdf_rotate($pdf, -(($ltime['seconds'] - 15.0) * 6.0));
+    pdf_moveto($pdf, -$radius/5, 0.0);
+    pdf_lineto($pdf, $radius, 0.0);
+    pdf_stroke($pdf);
+    pdf_restore($pdf);
+
+    /* рисовать небольшой кружок в центре */
+    pdf_circle($pdf, 0, 0, $radius/30);
+    pdf_fill($pdf);
+
+    pdf_restore($pdf);
+
+    pdf_end_page($pdf);
+
+    # чтобы увидеть некоторую разницу
+    sleep(1);
+}
+
+pdf_close($pdf);
+
+$buf = pdf_get_buffer($pdf);
+$len = strlen($buf);
+
+header("Content-type: application/pdf");
+header("Content-Length: $len");
+header("Content-Disposition: inline; filename=foo.pdf");
+print $buf;
+
+pdf_delete($pdf);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><DL><DT><B>Содержание</B></DT>
+<DT ><AHREF="pdf-add-annotation.html">pdf_add_annotation</A> - не рекомендуется: добавляет аннотацию</DT>
+<DT><A HREF="pdf-add-bookmark.html">pdf_add_bookmark</A> - добавляет закладку на текущей странице</DT>
+<DT><A HREF="pdf-add-launchlink.html">pdf_add_launchlink</A> - добавляет запускающую аннотацию на текущей странице</DT>
+<DT><A HREF="pdf-add-locallink.html">pdf_add_locallink</A> - добавляет аннотацию-ссылку на текущей странице</DT>
+<DT><A HREF="pdf-add-note.html">pdf_add_note</A> - добавляет аннотацию-заметку на текущей странице</DT>
+<DT><A HREF="pdf-add-outline.html">pdf_add_outline</A> - не рекомендуется: добавляет закладку на текущей странице</DT>
+<DT><A HREF="pdf-add-pdflink.html">pdf_add_pdflink</A> - добавляет ссылку-аннотацию на файл на текущей странице</DT>
+<DT><A HREF="pdf-add-thumbnail.html">pdf_add_thumbnail</A> - добавляет уменьшенную версию/thumbnail на текущей странице</DT>
+<DT><A HREF="pdf-add-weblink.html">pdf_add_weblink</A> - добавляет web-ссылку на текущей странице</DT>
+<DT><A HREF="pdf-arc.html">pdf_arc</A> - рисует дугу (против часовой стрелки)</DT>
+<DT><A HREF="pdf-arcn.html">pdf_arcn</A> - рисует дугу (по часовой стрелке)</DT>
+<DT><A HREF="pdf-attach-file.html">pdf_attach_file</A> - добавляет присоединение файла на текущей странице</DT>
+<DT><A HREF="pdf-begin-page.html">pdf_begin_page</A> - начинает новую страницу</DT>
+<DT><A HREF="pdf-begin-pattern.html">pdf_begin_pattern</A> - начинает новый патэрн</DT>
+<DT><A HREF="pdf-begin-template.html">pdf_begin_template</A> - начинает новый шаблон</DT>
+<DT><A HREF="pdf-circle.html">pdf_circle</A> - рисует круг</DT>
+<DT><A HREF="pdf-clip.html">pdf_clip</A> - обрезает до текущего пути/path</DT>
+<DT><A HREF="pdf-close-image.html">pdf_close_image</A> - закрывает изображение</DT>
+<DT><A HREF="pdf-close-pdi-page.html">pdf_close_pdi_page</A> - закрывает дескриптор страницы</DT>
+<DT><A HREF="pdf-close-pdi.html">pdf_close_pdi</A> - закрывает ввод PDF-документа</DT>
+<DT><A HREF="pdf-close.html">pdf_close</A> - закрывает pdf-объект</DT>
+<DT><A HREF="pdf-closepath-fill-stroke.html">pdf_closepath_fill_stroke</A> - закрывает, заполняет и очерчивает текущий путь</DT>
+<DT><A HREF="pdf-closepath-stroke.html">pdf_closepath_stroke</A> - закрывает путь и рисует линию вокруг пути</DT>
+<DT><A HREF="pdf-closepath.html">pdf_closepath</A> - закрывает путь</DT>
+<DT><A HREF="pdf-concat.html">pdf_concat</A> - конкатенация матрицы с CTM</DT>
+<DT><A HREF="pdf-continue-text.html">pdf_continue_text</A> - выводит текст в следующей строчке</DT>
+<DT><A HREF="pdf-curveto.html">pdf_curveto</A> - рисует кривую</DT>
+<DT><A HREF="pdf-delete.html">pdf_delete</A> - удаляет PDF-объект</DT>
+<DT><A HREF="pdf-end-page.html">pdf_end_page</A> - заканчивает страницу</DT>
+<DT><A HREF="pdf-end-pattern.html">pdf_end_pattern</A> - заканчивает патэрн</DT>
+<DT><A HREF="pdf-end-template.html">pdf_end_template</A> - заканчивает шаблон</DT>
+<DT><A HREF="pdf-endpath.html">pdf_endpath</A> - не рекомендуется: заканчивает текущий путь</DT>
+<DT><A HREF="pdf-fill-stroke.html">pdf_fill_stroke</A> - заполняет и очерчивает текущий путь</DT>
+<DT><A HREF="pdf-fill.html">pdf_fill</A> - заполняет текущий путь</DT>
+<DT><A HREF="pdf-findfont.html">pdf_findfont</A> - готовит шрифт для последующего использования с <A HREF="pdf-setfont.html"><B>pdf_setfont()</B></A></DT>
+<DT><A HREF="pdf-get-buffer.html">pdf_get_buffer</A> - извлекает буфер, содержащий сгенерированные PDF-данные</DT>
+<DT><A HREF="pdf-get-font.html">pdf_get_font</A> - не рекомендуется: работа со шрифтом</DT>
+<DT><A HREF="pdf-get-fontname.html">pdf_get_fontname</A> - не рекомендуется: работа со шрифтом</DT>
+<DT><A HREF="pdf-get-fontsize.html">pdf_get_fontsize</A> - не рекомендуется: работа со шрифтом</DT>
+<DT><A HREF="pdf-get-image-height.html">pdf_get_image_height</A> - возвращает высота изображения</DT>
+<DT><A HREF="pdf-get-image-width.html">pdf_get_image_width</A> - возвращает ширина изображения</DT>
+<DT><A HREF="pdf-get-majorversion.html">pdf_get_majorversion</A> - возвращает наибольший номер версии PDFlib</DT>
+<DT><A HREF="pdf-get-minorversion.html">pdf_get_minorversion</A> - возвращает наименьший номер версии PDFlib</DT>
+<DT><A HREF="pdf-get-parameter.html">pdf_get_parameter</A> - получает определённые параметры</DT>
+<DT><A HREF="pdf-get-pdi-parameter.html">pdf_get_pdi_parameter</A> - получает некоторые строковые параметры PDI</DT>
+<DT><A HREF="pdf-get-pdi-value.html">pdf_get_pdi_value</A> - получает некоторые числовые параметры PDI</DT>
+<DT><A HREF="pdf-get-value.html">pdf_get_value</A> - получает некоторое числовое значение</DT>
+<DT><A HREF="pdf-initgraphics.html">pdf_initgraphics</A> - переустанавливает графический статус</DT>
+<DT><A HREF="pdf-lineto.html">pdf_lineto</A> - рисует линию</DT>
+<DT><A HREF="pdf-makespotcolor.html">pdf_makespotcolor</A> - делает spotcolor</DT>
+<DT><A HREF="pdf-moveto.html">pdf_moveto</A> - устанавливает текущую точку</DT>
+<DT><A HREF="pdf-new.html">pdf_new</A> - создаёт новый pdf-объект</DT>
+<DT><A HREF="pdf-open-ccitt.html">pdf_open_CCITT</A> - открывает новый файл изображения с необработанными CCITT-данными</DT>
+<DT><A HREF="pdf-open-file.html">pdf_open_file</A> - открывает новый pdf-объект</DT>
+<DT><A HREF="pdf-open-gif.html">pdf_open_gif</A> - не рекомендуется: открывает GIF-изображение</DT>
+<DT><A HREF="pdf-open-image-file.html">pdf_open_image_file</A> - читает изображение из файла</DT>
+<DT><A HREF="pdf-open-image.html">pdf_open_image</A> - Versatile-функция для изображений</DT>
+<DT><A HREF="pdf-open-jpeg.html">pdf_open_jpeg</A> - не рекомендуется: открывает JPEG-изображение</DT>
+<DT><A HREF="pdf-open-memory-image.html">pdf_open_memory_image</A> - открывает изображение, создаваемое РНР-функциями изображений</DT>
+<DT><A HREF="pdf-open-pdi-page.html">pdf_open_pdi_page</A> - готовит страницу</DT>
+<DT><A HREF="pdf-open-pdi.html">pdf_open_pdi</A> - открывает PDF-файл</DT>
+<DT><A HREF="pdf-open-png.html">pdf_open_png</A> - не рекомендуется: открывает PNG-изображение</DT>
+<DT><A HREF="pdf-open-tiff.html">pdf_open_tiff</A> - не рекомендуется: открывает TIFF-изображение</DT>
+<DT><A HREF="pdf-open.html">pdf_open</A> - не рекомендуется: открывает новый pdf-объект</DT>
+<DT><A HREF="pdf-place-image.html">pdf_place_image</A> - помещает изображение на страницу</DT>
+<DT><A HREF="pdf-place-pdi-page.html">pdf_place_pdi_page</A> - помещает изображение на страницу</DT>
+<DT><A HREF="pdf-rect.html">pdf_rect</A> - рисует прямоугольник</DT>
+<DT><A HREF="pdf-restore.html">pdf_restore</A> - восстанавливает ранее сохранённое окружение</DT>
+<DT><A HREF="pdf-rotate.html">pdf_rotate</A> - устанавливает поворот</DT>
+<DT><A HREF="pdf-save.html">pdf_save</A> - сохраняет текущее окружение</DT>
+<DT><A HREF="pdf-scale.html">pdf_scale</A> - устанавливает масштабирование</DT>
+<DT><A HREF="pdf-set-border-color.html">pdf_set_border_color</A> - устанавливает цвет рамки вокруг ссылок и аннотаций</DT>
+<DT><A HREF="pdf-set-border-dash.html">pdf_set_border_dash</A> - устанавливает стиль пунктирной рамки вокруг ссылок и аннотаций</DT>
+<DT><A HREF="pdf-set-border-style.html">pdf_set_border_style</A> - устанавливает стиль рамки вокруг ссылок и аннотаций</DT>
+<DT><A HREF="pdf-set-char-spacing.html">pdf_set_char_spacing</A> - не рекомендуется: устанавливает расстояние между символами</DT>
+<DT><A HREF="pdf-set-duration.html">pdf_set_duration</A> - не рекомендуется: устанавливает расстояние между страницами</DT>
+<DT><A HREF="pdf-set-font.html">pdf_set_font</A> - не рекомендуется: выбирает шрифт и размер</DT>
+<DT><A HREF="pdf-set-horiz-scaling.html">pdf_set_horiz_scaling</A> - устанавливает масштабирование текста по горизонтали</DT>
+<DT><A HREF="pdf-set-info-author.html">pdf_set_info_author</A> - заполняет поле author документа</DT>
+<DT><A HREF="pdf-set-info-creator.html">pdf_set_info_creator</A> - заполняет поле creator документа</DT>
+<DT><A HREF="pdf-set-info-keywords.html">pdf_set_info_keywords</A> - заполняет поле keywords документа</DT>
+<DT><A HREF="pdf-set-info-subject.html">pdf_set_info_subject</A> - заполняет поле subject документа</DT>
+<DT><A HREF="pdf-set-info-title.html">pdf_set_info_title</A> - заполняет поле title документа</DT>
+<DT><A HREF="pdf-set-info.html">pdf_set_info</A> - заполняет поле информации документа</DT>
+<DT><A HREF="pdf-set-leading.html">pdf_set_leading</A> - не рекомендуется: устанавливает расстояние между строками текста</DT>
+<DT><A HREF="pdf-set-parameter.html">pdf_set_parameter</A> - устанавливает некоторые параметры</DT>
+<DT><A HREF="pdf-set-text-matrix.html">pdf_set_text_matrix</A> - не рекомендуется: устанавливает матрицу текста</DT>
+<DT><A HREF="pdf-set-text-pos.html">pdf_set_text_pos</A> - устанавливает позицию текста</DT>
+<DT><A HREF="pdf-set-text-rendering.html">pdf_set_text_rendering</A> - не рекомендуется: определяет отображение текста</DT>
+<DT><A HREF="pdf-set-text-rise.html">pdf_set_text_rise</A> - не рекомендуется: устанавливает возвышение текста</DT>
+<DT><A HREF="pdf-set-value.html">pdf_set_value</A> - устанавливает некоторое числовое значение</DT>
+<DT><A HREF="pdf-set-word-spacing.html">pdf_set_word_spacing</A> - не рекомендуется: устанавливает расстояние/spacing между словами</DT>
+<DT><A HREF="pdf-setcolor.html">pdf_setcolor</A> - устанавливает цвет заполнения и подчёркивания</DT>
+<DT><A HREF="pdf-setdash.html">pdf_setdash</A> - устанавливает патэрн пунктира</DT>
+<DT><A HREF="pdf-setflat.html">pdf_setflat</A> - устанавливает плоскость/flatness</DT>
+<DT><A HREF="pdf-setfont.html">pdf_setfont</A> - устанавливает текущий шрифт</DT>
+<DT><A HREF="pdf-setgray-fill.html">pdf_setgray_fill</A> - устанавливает цвет заполнения - значение gray</DT>
+<DT><A HREF="pdf-setgray-stroke.html">pdf_setgray_stroke</A> - устанавливает цвет рисования - значение gray</DT>
+<DT><A HREF="pdf-setgray.html">pdf_setgray</A> - устанавливает цвета рисования и заполнения - значение gray</DT>
+<DT><A HREF="pdf-setlinecap.html">pdf_setlinecap</A> - устанавливает параметр linecap</DT>
+<DT><A HREF="pdf-setlinejoin.html">pdf_setlinejoin</A> - устанавливает параметр linejoin</DT>
+<DT><A HREF="pdf-setlinewidth.html">pdf_setlinewidth</A> - устанавливает ширину линии</DT>
+<DT><A HREF="pdf-setmatrix.html">pdf_setmatrix</A> - устанавливает текущую матрицу трансформации</DT>
+<DT><A HREF="pdf-setmiterlimit.html">pdf_setmiterlimit</A> - устанавливает miter limit/границу наклона</DT>
+<DT><A HREF="pdf-setpolydash.html">pdf_setpolydash</A> - устанавливает сложный пунктирный патэрн</DT>
+<DT><A HREF="pdf-setrgbcolor-fill.html">pdf_setrgbcolor_fill</A> - устанавливает цвет заполнения - rgb-значение</DT>
+<DT><A HREF="pdf-setrgbcolor-stroke.html">pdf_setrgbcolor_stroke</A> - устанавливает цвет рисования - rgb-значение</DT>
+<DT><A HREF="pdf-setrgbcolor.html">pdf_setrgbcolor</A> - устанавливает цвета рисования и заполнения - rgb-значение</DT>
+<DT><A HREF="pdf-show-boxed.html">pdf_show_boxed</A> - выводит текст в боксе</DT>
+<DT><A HREF="pdf-show-xy.html">pdf_show_xy</A> - выводит текст в данной позиции</DT>
+<DT><A HREF="pdf-show.html">pdf_show</A> - выводит текст в текущей позиции</DT>
+<DT><A HREF="pdf-skew.html">pdf_skew</A> - наклоняет систему координат</DT>
+<DT><A HREF="pdf-stringwidth.html">pdf_stringwidth</A> - возвращает ширину текста с использованием текущего шрифта</DT>
+<DT><A HREF="pdf-stroke.html">pdf_stroke</A> - рисует линию вдоль пути</DT>
+<DT><A HREF="pdf-translate.html">pdf_translate</A> - устанавливает точку отсчёта системы координат</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="overload.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="pdf-add-annotation.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">overload</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">pdf_add_annotation</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

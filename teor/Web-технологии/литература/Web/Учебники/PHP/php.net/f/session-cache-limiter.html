@@ -1,0 +1,33 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>session_cache_limiter</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="session-cache-expire.html">Назад</A></TD><TD WIDTH="80%"></TD><TD  WIDTH="10%" ALIGN="right"><A HREF="session-decode.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.session-cache-limiter">session_cache_limiter</A></H1><A NAME="AEN73516"></A><P>(PHP 4 &#62;= 4.0.3)</P>
+<p>session_cache_limiter - получает и/или устанавливает ограничитель текущего кэша.<A NAME="AEN73519"></A></p>
+<H2>Описание</H2><p>string <B>session_cache_limiter</B> ([string cache_limiter])</p>
+<P><B>session_cache_limiter()</B> возвращает имя ограничителя текущего кэша. Если <TT><I>cache_limiter</I></TT> специфицирован, имя текущего ограничителя кэша изменяется на новое.</P>
+<P>Ограничитель кэша контролирует HTTP-шапки управления кэшем, отправляемые клиенту. Эти шапки/headers определяют правила кэширования содержимого 
+страницы. Установка кэша <TT>nocache</TT>, например, отменяет клиентское кэширование. Значение
+<TT>public</TT> - разрешает. Можно также установить <TT>private</TT>, что несколько строже, чем <TT>public</TT>.</P>
+<P>В режиме <TT>private</TT> шапка Expire, отправляемая клиенту, может нарушить работу некоторых браузеров, 
+включая Mozilla. Вы можете избежать этого с помощью режима <TT>private_no_expire</TT>. Шапка Expire никогда не отправляется клиенту в этом режиме.</P>
+<BLOCKQUOTE><P><B>Примечание: </B><TT>private_no_expire</TT> был введён в PHP 4.2.0dev.</P></BLOCKQUOTE>
+<P>Ограничитель кэша восстанавливается в значение по умолчанию, хранимое в <TT>session.cache_limiter</TT>, в начале запроса. Таким образом,
+вам нужно вызывать <B>session_cache_limiter()</B> для каждого запроса (и до вызова <A HREF="session-start.html"><B>session_start()</B></A>).</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN73545"></A><h5>Пример 1. session_cache_limiter()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+# установить ограничитель кэша 'private'
+
+session_cache_limiter('private');
+$cache_limiter = session_cache_limiter();
+
+echo "The cache limiter is now set to $cache_limiter&#60;p&#62;";
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="session-cache-expire.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="session-decode.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">session_cache_expire</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.session.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">session_decode</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

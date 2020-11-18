@@ -1,0 +1,347 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0031)http://jsp.newmail.ru/les29.htm -->
+<HTML><HEAD><TITLE>Урок 29. Подтверждение ввода</TITLE>
+<META content="text/html; charset=windows-1251" http-equiv=Content-Type>
+<META 
+content="Самое толковое руководство по основам javascript на русском языке. Подтверждение ввода" 
+name=Description>
+<SCRIPT language=javascript>
+<!--
+if (document.images) {
+none = new Image(79,35); none.src = "i/none.gif"; 
+prev = new Image(79,35); prev.src = "i/prev.gif";
+ar_l = new Image(33,33); ar_l.src = "i/ar_l.gif";
+ar_l1 = new Image(79,35); ar_l1.src = "i/ar_l1.gif";
+}
+function swap(imgName,imgObjName) {
+if (document.images) {
+  document.images[imgName].src = eval(imgObjName + ".src");
+}}
+function validfn(fnm)
+  {
+      fnlen=fnm.length
+      if (fnlen == 0)
+         {alert("Вы должны ввести свое имя")
+          document.dataentry.fn.focus()}
+  }
+  function validphone(phone)
+  {
+      len=phone.length
+      digits="0123456789"
+      if(len != 7 && len != 9)
+         {alert("Неверное количество знаков в номере")
+          document.dataentry.phone.focus()}
+
+      for(i=0; i<3; i++)
+        {if (digits.indexOf(phone.charAt(i))<0)
+           {alert("Это должны быть цифры")
+            document.dataentry.phone.focus()
+            break}
+        }
+ 
+  }
+function toc() {
+OpenWindow=window.open('toc.html', 'toc', config='width=300,scrollbars=1,resizable=1,status=1')
+self.name="one"
+}
+//-->
+</SCRIPT>
+<LINK href="les29.files/blue.css" rel=STYLESHEET type=text/css>
+<META content="MSHTML 5.00.2614.3500" name=GENERATOR></HEAD>
+<BODY background=les29.files/Life_blue.gif bgColor=#334775 text=#334775>
+<DIV 
+style="HEIGHT: 35px; LEFT: 10px; POSITION: absolute; TOP: 10px; WIDTH: 160px"><A 
+href="http://jsp.newmail.ru/les28.htm" 
+onmouseout="swap('left','ar_l');swap('none','none')" 
+onmouseover="swap('left','ar_l1');swap('none','prev')"><IMG border=0 height=33 
+name=left src="les29.files/ar_l.gif" width=33></A>&nbsp;<A href="" 
+onmouseout="swap('left','ar_l')" onmouseover="swap('left','ar_l1')"><IMG 
+border=0 height=35 name=none src="les29.files/none.gif" width=79></A> </DIV>
+<H1 align=right>Урок 29<BR>Подтверждение ввода</H1>
+<P align=right><B><FONT color=#fb4462>красным цветом даны примечания 
+переводчика</FONT></B><BR><A 
+href="http://jsp.newmail.ru/les29.htm#concept">Концепция</A>__<A 
+href="http://jsp.newmail.ru/les29.htm#script">Скрипт</A>__<A 
+href="http://jsp.newmail.ru/les29.htm#effect">Эффект</A>__<A 
+href="http://jsp.newmail.ru/les29.htm#decon">Разбор скрипта</A>__<A 
+href="http://jsp.newmail.ru/les29.htm#assig">Задание</A></P>
+<P align=right><A href="http://jsp.newmail.ru/les29.htm#" 
+onclick=toc()>Оглавление (в новом окне)</A></P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="50%"><IMG height=13 
+      src="les29.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="30%">
+      <P align=right><IMG height=13 src="les29.files/b_t_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%">
+      <H2><A name=concept>Концепция</A></H2>
+      <P align=justify><B>Н</B>аш последний JavaScript не из легких, уж вы мне 
+      верьте, я форменный пророк.</P>
+      <P align=justify>Снова придется вернуться к формам. В сегодняшнем примере 
+      JavaScript проверит данные, которые ввел пользователь. Нужно будет ввести 
+      в форму свое имя и номер телефона из 7 или 9 знаков (ххххххх или 
+      ххх-хх-хх). Подтверждение данных часто имеет большое значение.</P>
+      <P>Этот пример возвращает нас к свойству <B>length</B> <FONT 
+      color=red>(длина)</FONT> и показывает в действии два новых метода: 
+      <B>indexOf()</B>, <B>charAt()</B>. Сам скрипт будет длиннее, чем обычно. 
+      Ну, вы готовы? Поехали.</P>
+      <H2><A name=script>Скрипт</A></H2>
+      <P class=cou>&lt;HTML&gt;<BR>&lt;HEAD&gt;<BR>&lt;SCRIPT 
+      LANGUAGE="JavaScript"&gt;<BR>function 
+      validfn(fnm)<BR>{<BR>fnlen=fnm.length<BR>if (fnlen == 0)<BR>{alert("Вы 
+      должны ввести свое 
+      имя")<BR>document.dataentry.fn.focus()}<BR>}<BR>function 
+      validphone(phone)<BR>{<BR>len=phone.length<BR>digits="0123456789"<BR>if(len 
+      != 7 &amp;&amp; len != 9)<BR>{alert("Неверное количество знаков в 
+      номере")<BR>document.dataentry.phone.focus()}<BR><BR>for(i=0; i&lt;3; 
+      i++)<BR>{if (digits.indexOf(phone.charAt(i))&lt;0)<BR>{alert("Это должны 
+      быть 
+      цифры")<BR>document.dataentry.phone.focus()<BR>break}<BR>}<BR><BR>}<BR>&lt;/SCRIPT&gt;<BR>&lt;/HEAD&gt;<BR>&lt;BODY&gt;<BR>&lt;FORM 
+      NAME="dataentry"&gt;<BR>&lt;h2&gt;Подтверждение 
+      данных&lt;/h2&gt;<BR><BR>Введите свое имя:&lt;br&gt;<BR>&nbsp; &lt;INPUT 
+      TYPE="text" NAME="fn" <BR>&nbsp;&nbsp;&nbsp; 
+      onBlur="validfn(fn.value)"&gt;<BR><BR>&lt;SCRIPT 
+      LANGUAGE="JavaScript"&gt;<BR>&nbsp; 
+      document.dataentry.fn.focus()<BR>&lt;/SCRIPT&gt;<BR><BR>Введите номер 
+      телефона (ххх-хх-хх):&lt;br&gt;<BR>&nbsp;&nbsp;&nbsp; &lt;INPUT 
+      TYPE="text" NAME="phone" SIZE=10 &gt;<BR><BR>&lt;INPUT TYPE="button"&nbsp; 
+      VALUE="Отправить" <BR>&nbsp;&nbsp;&nbsp;&nbsp; 
+      onClick="validphone(phone.value)"&gt;<BR><BR>&lt;/BODY&gt;<BR>&lt;/HTML&gt;</P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd vAlign=bottom width="50%"><IMG height=13 
+      src="les29.files/b_b_l.gif" width=12></TD>
+    <TD bgColor=#cef3fd vAlign=bottom width="30%">
+      <P align=right><IMG height=13 src="les29.files/b_b_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P>
+<DIV align=right>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="85%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=30 vAlign=top width="50%"><IMG height=13 
+      src="les29.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd vAlign=top width="50%">
+      <P align=right><IMG height=13 src="les29.files/b_t_r.gif" 
+  width=13></P></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%">
+      <H2><A name=effect>Эффект</A> </H2>
+      <FORM name=dataentry>
+      <H1>Подтверждение данных</H1>
+      <P>Введите свое имя:<BR><INPUT name=fn onblur=validfn(fn.value)>
+      <SCRIPT language=JavaScript>
+        document.dataentry.fn.focus()
+      </SCRIPT>
+       </P>
+      <P>Введите номер телефона (ххх-хх-хх или ххххххх):<BR><INPUT name=phone 
+      size=10></P>
+      <P><INPUT onclick=validphone(phone.value) type=button value=Отправить></P></FORM>
+      <UL>
+        <LI>Обратите внимание на курсор, он стоит в поле для ввода имени. Ничего 
+        не пишите, нажмите tab или щелкните по странице. 
+        <LI>Теперь введите имя и переходите к следующей строке. 
+        <LI>Напечатайте 123 и нажмите «Отправить». 
+        <LI>Обратите внимание, после сообщения об ошибке курсор снова стоит в 
+        поле для телефонного номера. Напечатайте 12д или /12 и нажмите 
+        «Отправить». 
+        <LI>Напечатайте 1234567 и нажмите «Отправить». </LI></UL></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%"><IMG height=13 
+      src="les29.files/b_b_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%">
+      <P align=right><IMG height=13 src="les29.files/b_b_r.gif" 
+  width=13></P></TD></TR></TBODY></TABLE></DIV>
+<P>.</P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="50%"><IMG height=13 
+      src="les29.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="30%">
+      <P align=right><IMG height=13 src="les29.files/b_t_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%"><A 
+      name=decon>
+      <H2>Разбор скрипта</A> </H2>
+      <P align=justify><STRONG>В</STRONG> скрипте две функции, validfn() и 
+      validphone(). Одна проверяет, введено ли имя, другая проверяет телефонный 
+      номер. Займемся первой:</P>
+      <P class=cou>function validfn(fnm)<BR>{<BR>&nbsp; 
+      fnlen=fnm.length<BR>&nbsp; if (fnlen == 0)<BR>&nbsp; {alert("Вы должны 
+      ввести свое имя")<BR>&nbsp; document.dataentry.fn.focus()}<BR>&nbsp; } 
+      <BR>&nbsp; .....<BR>&nbsp; &lt;body&gt;<BR>&nbsp; .....<BR><BR>&lt;INPUT 
+      TYPE="text" NAME="fn" <BR>&nbsp;&nbsp; onBlur="validfn(fn.value)"&gt;
+      <UL>
+        <LI>Функция <B>validfn(fnm)</B> вызывается обработчиком события 
+        <B>onBlur</B>. <B>onBlur</B> запускается, когда курсор переходит на 
+        следующий элемент, в данном случае, когда мы выходим из текстового поля 
+        <B>fn</B>. Этот обработчик мы уже разбирали на <A 
+        href="http://jsp.newmail.ru/les5.htm" id=l>пятом уроке</A>. 
+        <LI>Заметьте, что параметр <B>fn.value</B> передается из формы в 
+        функцию, где получает новое имя <B>fnm</B>. <B>fn.value</B> можно было 
+        бы обозначить как <B>document.dataentry.fn.value</B>, но раз мы 
+        находимся в документе и внутри формы, это не обязательно. 
+        <LI>Помните, содержимое поля формы передает команда 
+        <EM>имя_формы.value</EM>. Одного имени мало. 
+        <LI>Длине имени пользователя присвоена переменная <B>fnlen</B>. Таким 
+        образом, если пользователь введет имя Коля, значение <B>fnlen</B> будет 
+        равно 4. Помните свойство length? 
+        <LI>Если пользователь не вписал свое имя, значит, длина равна 0. Тогда 
+        программа вызывает окно с сообщением об ошибке, и ставит курсор или 
+        <B>focus </B>на прежнее место. Форма не столько проверяет, правильно ли 
+        вписано имя, сколько было ли что-нибудь вписано вообще. 
+        <LI>Теперь посмотрим, как программа проверяет телефонный номер:
+        <P></P>
+        <P class=cou>function 
+        validphone(phone)<BR>{<BR>len=phone.length<BR>digits="0123456789"<BR>if(len 
+        != 7 &amp;&amp; len != 9)<BR>{alert("Неверное количество знаков в 
+        номере")<BR>document.dataentry.phone.focus()}<BR><BR>for(i=0; i&lt;3; 
+        i++)<BR>{if (digits.indexOf(phone.charAt(i))&lt;0)<BR>{alert("Это должны 
+        быть цифры")<BR>document.dataentry.phone.focus()<BR>break}<BR>}</P>
+        <LI>Эта функция подлиннее. Давайте разберем ее шаг за шагом. Во-первых, 
+        длине телефонного номера присваивается переменная <B>len</B>. Переменная 
+        <B>digits</B> содержит все цифры. 
+        <LI>Потом команда <B>If</B> проверяет, равна ли длина номера 7 или 9 
+        знакам, хотя и звучит это несколько неуклюже. Двойной знак &amp;&amp; в 
+        Javascript означает «проверить оба свойства». 
+        <LI>Если условие не выполнено, программа говорит пользователю о том, что 
+        он ввел неверное количество цифр, и снова устанавливает курсор или 
+        <B>focus</B> в поле для ввода. 
+        <LI><B>for(i=0; i&lt;3; i++)</B> проверяет первые 3 цифры номера одну за 
+        другой. 
+        <LI><B>if (digits.indexOf(phone.charAt(i))&lt;0)</B> знакомит нас с 
+        двумя новыми методами: <B>indexOf()</B> и <B>charAt()</B>. 
+        <LI>Посмотрим на <B>phone.charAt(i)</B>. Предположим, телефонный номер 
+        123, и i = 2. Знак на второй позиции — цифра 3. Это не опечатка! 
+        Помните, порядковые номера начинаем считать с нуля. Таким образом, 
+        <B>phone.charAt(0)</B> = 1, <B>phone.charAt(1)</B> = 2, a 
+        <B>phone.charAt(2)</B> = 3! 
+        <LI><B>indexOf</B> — это метод, дающий порядковый номер для заданного 
+        значения. При <B>if (digits.indexOf(phone.charAt(i))&lt;0)</B>, 
+        JavaScript ищет значение <B>phone.charAt(i</B><STRONG>)</STRONG> в 
+        переменной <B>digits</B>.
+        <P>Если телефонный номер 1234567 и i = 1, то программа ищет вторую цифру 
+        в переменной <B>digits</B> и находит ее, возвращая значение 1, так как 
+        <B>digits</B> = «0123456789». 
+        <P>Если номер телефона 12д и i = 2, программа ищет «д»; в переменной 
+        <B>digits</B>. Не найдя ее, она возвращает -1. Если значение = -1 
+        (&lt;0), тогда появляется окно с сообщением об ошибке и курсор или 
+        <B>focus </B>устанавливается на прежнее место. Для телефонного номера 
+        ххххххх так можно проверить все 7 цифр.</P>
+        <LI>И последнее — код HTML для формы: </LI></UL>
+      <BLOCKQUOTE>
+        <P class=cou>Введите свое имя:&lt;br&gt;<BR>&nbsp; &lt;INPUT TYPE="text" 
+        NAME="fn" <BR>&nbsp;&nbsp;&nbsp; 
+        onBlur="validfn(fn.value)"&gt;<BR><BR>&lt;SCRIPT 
+        LANGUAGE="JavaScript"&gt;<BR>&nbsp; 
+        document.dataentry.fn.focus()<BR>&lt;/SCRIPT&gt;<BR><BR>Введите номер 
+        телефона (ххх-хх-хх):&lt;br&gt;<BR>&nbsp;&nbsp;&nbsp; &lt;INPUT 
+        TYPE="text" NAME="phone" SIZE=10&gt;<BR><BR>&lt;INPUT 
+        TYPE="button"&nbsp; VALUE="Отправить" <BR>&nbsp;&nbsp;&nbsp;&nbsp; 
+        onClick="validphone(phone.value)"&gt;</P></BLOCKQUOTE>
+      <UL>
+        <LI>Используя JavaScript с формами, давайте каждому элементу уникальное 
+        имя, которое потом будет обозначено в скрипте. Это вы уже проходили. 
+        </LI></UL>
+      <H2><A name=assig>Ваше задание</A></H2>
+      <P align=justify>Во-первых, изучите сегодняшнюю программу и заставьте ее 
+      работать. Потом внесите несколько изменений. Попросите ввести телефонный 
+      номер в формате ххх-хххх. Пусть функция validphone(phone) проверит, стоит 
+      ли дефис на позиции 3. Команда != в JavaScript означает «не равно». Это 
+      вам понадобится.</P>
+      <P>Возможный ответ <A href="http://jsp.newmail.ru/assig29.htm" 
+      id=l>здесь</A></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd vAlign=bottom width="50%"><IMG height=13 
+      src="les29.files/b_b_l.gif" width=12></TD>
+    <TD bgColor=#cef3fd vAlign=bottom width="30%">
+      <P align=right><IMG height=13 src="les29.files/b_b_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR></TBODY></TABLE>
+<P align=right><A 
+href="http://jsp.newmail.ru/les29.htm#concept">Концепция</A>__<A 
+href="http://jsp.newmail.ru/les29.htm#script">Скрипт</A>__<A 
+href="http://jsp.newmail.ru/les29.htm#effect">Эффект</A>__<A 
+href="http://jsp.newmail.ru/les29.htm#decon">Разбор скрипта</A>__<A 
+href="http://jsp.newmail.ru/les29.htm#assig">Задание</A> </P>
+<DIV align=right>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="80%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=30 vAlign=top width="50%"><IMG height=13 
+      src="les29.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd vAlign=top width="50%">
+      <P align=right><IMG height=13 src="les29.files/b_t_r.gif" 
+  width=13></P></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%">
+      <H2>Послесловие</H2><FONT color=red>
+      <P align=justify>Далее авторы советуют приобрести справочник с остальными, 
+      неизученными командами, так как у вас уже достаточно базовых знаний и 
+      самоучитель вам больше не нужен (при условии, конечно, что вы не 
+      пропускали домашних заданий), и поздравляют с окончанием начальной школы. 
+      А я прошу прощения у авторов за то, что весьма существенно сократила их 
+      лирическое послесловие, как и за несколько незначительных изменений в 
+      тексте других уроков. Отдельная благодарность моему Пумперникелю за мысль 
+      использовать названия телеканалов в <A 
+      href="http://jsp.newmail.ru/les26.htm" id=l>Уроке 26</A>. Русским 
+      читателям спасибо за внимание. Если найдется еще что-нибудь интересное, 
+      сейчас же дам знать. Поскольку я переводчик, а не программист, то не даю 
+      серьезных консультаций по скриптам. Прошу сообщать об опечатках, остальные 
+      претензии и пожелания по содержанию учебника направляйте, пожалуйста, 
+      американскому автору. Пока.</P>
+      <P>Татьяна.</P></FONT></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%"><IMG height=13 
+      src="les29.files/b_b_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%">
+      <P align=right><IMG height=13 src="les29.files/b_b_r.gif" 
+  width=13></P></TD></TR></TBODY></TABLE></DIV>
+<P>_</P>
+<TABLE width="75%">
+  <TBODY>
+  <TR>
+    <TD><FONT color=#cef3fd>
+      <P align=justify class=small>авторы <A 
+      href="http://www.htmlgoodies.com/primers/jsp/me.html">Джо Бернс</A> и 
+      Эндри Грауни. <A href="http://www.htmlgoodies.com/">Оригинал и многое 
+      другое на английском языке</A> © <A 
+      href="http://www.earthweb.com/">EarthWeb Inc.</A> <BR>Перевод, оформление 
+      и верстка © Татьяна.</FONT></P></TD></TR></TBODY></TABLE><!-- HotLog -->
+<SCRIPT language=javascript>
+hotlog_js="1.0";hotlog_d=document; hotlog_n=navigator;hotlog_rn=Math.random();
+hotlog_n_n=(hotlog_n.appName.substring(0,3)=="Mic")?0:1;
+hotlog_r=""+hotlog_rn+"&s=15862&r="+escape(hotlog_d.referrer)+"&pg="+
+escape(window.location.href);
+hotlog_d.cookie="hotlog=1"; hotlog_r+="&c="+(hotlog_d.cookie?"Y":"N");
+hotlog_d.cookie="hotlog=1; expires=Thu, 01-Jan-70 00:00:01 GMT"</SCRIPT>
+
+<SCRIPT language=javascript1.1>
+hotlog_js="1.1";hotlog_r+="&j="+(navigator.javaEnabled()?"Y":"N")</SCRIPT>
+
+<SCRIPT language=javascript1.2>
+hotlog_js="1.2";hotlog_s=screen;
+hotlog_r+="&wh="+hotlog_s.width+'x'+hotlog_s.height+"&px="+((hotlog_n_n==0)?
+hotlog_s.colorDepth:hotlog_s.pixelDepth)</SCRIPT>
+
+<SCRIPT language=javascript1.3>hotlog_js="1.3"</SCRIPT>
+
+<SCRIPT language=javascript>hotlog_r+="&js="+hotlog_js;
+hotlog_d.write("<img src=\"http://hit2.hotlog.ru/cgi-bin/hotlog/count?"+
+hotlog_r+"&\" border=0 width=1 height=1>")</SCRIPT>
+<NOSCRIPT><IMG border=0 height=1 src="les29.files/count" width=1></NOSCRIPT> <!-- /HotLog --><!--webbot bot="HTMLMarkup" startspan ALT="Site Meter" -->
+<SCRIPT>var site="sm2jsp"</SCRIPT>
+
+<SCRIPT language=JavaScript1.2 src="les29.files/counter.js">
+</SCRIPT>
+<!-- Copyright (c) 1999-2000 Site Meter --><!--webbot
+bot="HTMLMarkup" endspan --></BODY></HTML>

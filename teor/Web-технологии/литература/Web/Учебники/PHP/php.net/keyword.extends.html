@@ -1,0 +1,61 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>extends</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH>
+</TR><TR><TD WIDTH="10%"><A HREF="oop.html">Назад</A>
+</TD><th WIDTH="80%">Глава 13. Классы и Объекты</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="constructor.html">Вперёд</A></TD>
+</TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="keyword.extends"><TT>extends</TT></A></H1>
+<P>Часто бывает нужно использовать классы с аналогичными переменными и 
+функциями в другом существующем классе. На практике было бы удобно определять 
+общий/generic класс, который можно было бы использовать во всех ваших проектах и 
+адаптировать этот класс для нужд каждого конкретного проекта. Для облегчения 
+этого процесса классы могут быть расширениями других классов. Расширяющий класс 
+имеет все переменные и функции базового класса (это называется 'наследование/inheritance', 
+хотя никто не умер...) и то, что вы добавили в расширенном определении. Из 
+наследуемого класса невозможно ничего изъять, то есть разопределить любую 
+существующую функцию или переменную. Расширяющий класс всегда зависит от 
+единственного базового класса, то есть множественное наследование не 
+поддерживается. Классы расширяются при помощи ключевого слова 'extends'.</P><A NAME="AEN5420"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>class Named_Cart extends Cart
+{
+    var $owner;
+  
+    function set_owner ($name)
+    {
+        $this-&#62;owner = $name;
+    }
+}</PRE></TD></TR></TABLE>
+<P>Здесь определён класс Named_Cart, который содержит все переменные и функции 
+класса Cart плюс дополнительную переменную $owner и дополнительную функцию set_owner().<br>
+Вы создаёте named cart как обычно и можете устанавливать и получать владельца 
+cart. Вы можете использовать функции как обычного cart, так и named carts:</P>
+<A NAME="AEN5423"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$ncart = new Named_Cart;    // создаём named cart
+$ncart-&#62;set_owner("kris");  // именуем cart
+print $ncart-&#62;owner;        // печатаем имя владельца cart
+$ncart-&#62;add_item("10", 1);  // (функциональность, унаследованная от cart)</PRE>
+</TD></TR></TABLE><P>Это также называется отношениями "parent-child/родитель-потомок". Вы 
+создаёте класс-родитель и используете <TT>extends</TT> для создания нового класса-потомка <i>на базе</i> класса-предка. Вы можете
+затем использовать этот новый класс-потомок как базовый для создания ещё одного нового класса.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>классы обязаны быть определены перед их использованием! Если вы хотите, 
+чтобы класс <TT>Named_Cart</TT> расширял класс <TT>Cart</TT>, вы сначала должны определить класс
+<TT>Cart</TT>. Если вы хотите создать новый класс <TT>Yellow_named_cart</TT> на базе класса
+<TT>Named_Cart</TT>, вы должны сначала определить <TT>Named_Cart</TT>. Короче говоря: важен порядок определения классов.</P>
+</BLOCKQUOTE></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="oop.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="constructor.html">Вперёд</A></TD></TR>
+<TR><TD WIDTH="33%" VALIGN="top">Классы и Объекты</TD>
+<th WIDTH="34%" VALIGN="top"><a href="oop.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Конструкторы</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

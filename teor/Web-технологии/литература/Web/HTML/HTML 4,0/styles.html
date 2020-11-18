@@ -1,0 +1,608 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="ru">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Windows-1251">
+<title>Таблицы стилей в документах HTML</title>
+<LINK rel="previous" href="objects.html" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html">
+<LINK rel="next" href="graphics.html" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html">
+<LINK rel="contents" href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">
+<LINK rel="STYLESHEET" href="tppmsgs/msgs0.htm#18" tppabs="http://www.citforum.ru/internet/html40/style/default.css" type="text/css">
+</head>
+
+<body>
+<div class="navbar">
+<center>&nbsp;<a href="objects.html" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html">назад</a> &nbsp; <a href="graphics.html" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center><hr>
+</div>
+
+<H1 align="center"><a name="h-14">14</a> <a name="stylesheets">Таблицы стилей</a></H1>
+<div class="subtoc"><p><strong>Содержание</strong>
+<ol>
+<li><a href="#h-14.1">
+<span class="index-inst" title="style sheet::introduction to">
+Введение в таблицы стилей</span></a>
+<li><a href="#h-14.2">Как добавить стиль в HTML</a>
+<ol>
+<li><a href="#h-14.2.1">
+<span class="index-inst" title="default::style sheet language|style
+sheet language::default|HTTP::Content-Style-Type header|Content-Style-Type header">Установка языка таблицы стилей по умолчанию</span></a>
+<li><a href="#h-14.2.2">Встроенная информация о стиле</a>
+<li><a href="#h-14.2.3">Информация о стиле в заголовке: элемент <samp class="einst2">STYLE</samp></a>
+<li><a href="#h-14.2.4">
+<span class="index-inst" title="media::used with style sheets|style
+sheet::target media for">Типы устройств</span></a>
+</ol>
+<li><a href="#h-14.3">
+<span class="index-inst" title="style sheet::external">Внешние таблицы стилей</span></a>
+<ol>
+<li><a href="#h-14.3.1">Предпочитаемые и альтернативные таблицы стилей</a>
+<li><a href="#h-14.3.2">
+<span class="index-inst" title="style sheet::specification
+of external|link::and external style sheets">Указание внешних таблиц стилей</span></a>
+</ol>
+<li><a href="#h-14.4">
+<span class="index-inst" title="style sheet::cascading|cascading style
+sheets">Каскады таблиц стилей</span></a>
+<ol>
+<li><a href="#h-14.4.1">
+<span class="index-inst" title="media::and external style
+sheets|link::and media-dependent style sheets">Каскады, зависящие от устройств</span></a>
+<li><a href="#h-14.4.2">Наследование и каскады</a>
+</ol>
+<li><a href="#h-14.5">
+<span class="index-inst" title="user agent::and style data|style sheet::comments to
+hide|comments::used to hide style sheet data">Как скрыть информацию о стиле от агентов пользователей</span></a>
+<li><a href="#h-14.6">
+<span class="index-inst" title="HTTP::used to link external style
+sheets">Привязка таблиц стилей с помощью заголовков HTTP</span></a>
+</ol>
+</div>
+
+<h2><a name="h-14.1">14.1</a> 
+<span class="index-inst" title="style sheet::introduction to"><a name="idx-style_sheet-3">
+Введение в таблицы стилей</a></span></h2>
+
+<p>Таблицы стилей представляют наибольшее достижение для дизайнеров Web-страниц, расширяя возможности улучшения внешнего вида страниц. В научных средах, в которых и зародилась Web, люди более сосредоточены на содержании документов, нежели на их представлении. По мере открытия Web прочими людьми ограничения HTML стали источником разочарований, и авторам пришлось уклоняться от стилистических ограничений HTML. Хотя намерения и были добрыми - улучшение представления Web-страниц, -- технологии имели нежелательные побочные эффекты. Эти технологии работали только для некоторых, только иногда, но не для всех и не всегда. Сюда включаются:
+
+<ul>
+<li>Использование собственных расширений HTML
+<li>Преобразование текста в изображения
+<li>Использование изображений для управления пустым пространством
+<li>Использование таблиц для размещения объектов на станице
+<li>Написание программ вместо использования HTML
+</ul>
+
+<p>Эти технологии существенно усложняют Web-страницы, ограничивают гибкость, создают проблемы взаимодействия и создают сложности для людей с физическими недостатками.
+
+<p>Таблицы стилей решают эти проблемы, одновременно превосходя ограниченные механизмы представления в HTML.  Таблицы стилей упрощают определение интервалов между строками текста, отступов, цветов, используемых для текста и фона, размера и стиля шрифтов и другой информации .
+
+<div class="example"><P>
+Например, следующая таблица стилей CSS (хранящаяся в файле "special.css") зеленый устанавливает цвет текста абзаца и окружает его сплошной красной рамкой:
+
+<PRE>
+P.special {
+color : green;
+border: solid red;
+}
+</PRE>
+
+<P>Авторы могут связывать таблицы стилей с исходным документом HTML с помощью элемента <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a>:
+
+<PRE>
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+   "http://www.w3.org/TR/REC-html40"&gt;
+&lt;HTML&gt;
+  &lt;HEAD&gt;
+    &lt;LINK href="special.css" rel="stylesheet" type="text/css"&gt;
+  &lt;/HEAD&gt;
+  &lt;BODY&gt;
+    &lt;P class="special"&gt;В этом абзаце текст должен быть зеленым.
+  &lt;/BODY&gt;
+&lt;/HTML&gt;
+</PRE>
+</div>
+
+<p>HTML 4.0 обеспечивает поддержку следующих функций таблиц стилей:
+
+<dl>
+<dt><b>Гибкое размещение информации о стиле</b>
+<dd>Помещение таблиц стилей в отдельные файлы упрощает их повторное использование. Иногда полезно включать инструкции по представлению в документ, к которому они применяются, в начало документа или в атрибуты элементов в теле документа. Для упрощения управления стилем сайта в данной спецификации описывается использование заголовков HTTP для установки таблиц стилей, применяемых к документу.
+
+<dt><b>Независимость от языков таблиц стилей</b>
+<dd>Данная спецификация не привязывает HTML к конкретному языку таблиц стилей. Это позволяет использовать широкий диапазон таких языков, например, простые языки для большинства пользователей и более сложные для более специализированных случаев. Во всех примерах, приведенных ниже, используется язык CSS (Каскадные таблицы стилей) <a rel="biblioentry" href="references.html#ref-CSS1" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-CSS1" class="informref">[CSS1]</a>, но можно использовать и другие языки.
+
+<dt><b>Каскады</b>
+<dd>Эта возможность обеспечивается некоторыми языками таблиц стилей, такими как CSS, для объединения информации о стиле из нескольких источников. Это может быть, например, корпоративные положения о стиле, стили, общие для группы документов, а также стили, специфичные для одного документа. С использованием раздельного хранения эти таблицы стилей могут использоваться повторно, что упрощает работу авторов и повышает эффективность сетевого кэширования. Каскад определяет упорядоченную последовательность таблиц стилей, в которой правила более поздних таблиц имеют приоритет над более ранними. Не все языки таблиц стилей поддерживают каскады.
+
+<dt>
+<span class="index-inst" title="accessibility::and style sheets"><a name="idx-accessibility">
+<b>Зависимость от устройств</b></a></span>
+
+<dd>HTML позволяет авторам разрабатывать документы независимо от устройств. Это позволяет пользователям обращаться к Web-страницам с использованием различных устройств, например, графических дисплеев для компьютеров под управлением Windows, Macintosh OS и X11, телевизионных устройств, специальным образом адаптированных телефонов и портативных устройств на базе PDA, речевых браузеров и тактильных устройств на базе азбуки Бройля.
+
+<p>Таблицы стилей, напротив, применяются к конкретным устройствам или группам устройств. Таблица стилей, предназначенная для экрана, может применяться при печати, но бесполезна для речевых браузеров. Данная спецификация позволяет Вам определить широкие категории устройств, к которым применяется конкретная таблица стилей. Это позволяет агентам пользователей избежать загрузки ненужных таблиц стилей. Языки таблиц стилей могут включать функции описания зависимости от устройств в одной таблице.
+
+<dt><b>Альтернативные стили</b> <dd>Авторы могут предлагать читателям несколько способов просмотра документа. Например, таблица стилей для представления компактных документов с мелким шрифтом, или таблица, задающая крупные шрифты для удобства чтения. Данная спецификация позволяет авторам указать предпочитаемую таблицу стилей, а также альтернативные таблицы для определенных пользователей или устройств.  Агенты пользователей должны предоставлять пользователям возможность выбора одной из альтернативных таблиц или отключать все таблицы стилей.
+
+<dt><b>Вопросы производительности</b>
+<dd>Некоторые пользователи высказывали сомнения относительно скорости работы таблиц стилей. Например, загрузка внешней таблицы стилей может привести к задержке общего представления материала для пользователя. Подобные ситуации возникают и в том случае, если в заголовок документа включен длинный набор правил относительно стиля. 
+
+<p>Эти проблемы решаются путем предоставления авторам возможности включать инструкции по представлению в каждый элемента HTML. Благодаря этому информация о представлении всегда доступна ко времени представления элемента агентом пользователя. 
+
+<p>Во многих случаях авторы воспользуются преимуществами использования общей таблицы стилей для группы документов. В этом случае распределение правил стиля в документе приведет к снижению производительности по сравнению с использованием связанной таблице стилей, поскольку для большинства документов таблицы стилей уже будет находиться в локальном кэше. К этому эффекту приведет общедоступность хороших таблиц стилей. 
+
+</dl>
+
+<H2><a name="h-14.2">14.2</a> Как добавить стиль в HTML</H2>
+<div class="note"><P>
+<em><strong>Примечание.</strong> В примере таблицы стилей по умолчанию для HTML 4.0, включенном в <a rel="biblioentry" href="references.html#ref-CSS2" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-CSS2" class="informref">[CSS2]</a>, выражена общепринятая информация о стиле для каждого элемента. Авторы могут воспользоваться этим ресурсом.
+</em>
+</div>
+
+<p>Документы в формате HTML могут содержать правила таблиц стилей непосредственно или могут импортировать таблицы стилей. 
+
+<P>В HTML можно использовать все языки таблиц стилей. Простого языка таблиц стилей может быть достаточно для большинства пользователей, в то время как другие языки могут подходить для более специализированных задач. В примерах в данной спецификации используется язык "Каскадные таблицы стилей" (<a rel="biblioentry" href="references.html#ref-CSS1" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-CSS1" class="informref">[CSS1]</a>), сокращенно CSS.
+
+<P><a href="types.html#type-style" tppabs="http://www.citforum.ru/internet/html40/types.html#type-style">Синтаксис данных стиля</a> зависит от языка таблицы стилей.
+
+<h3><a name="h-14.2.1">14.2.1</a> 
+<span class="index-inst" title="default::style sheet language|style
+sheet language::default|HTTP::Content-Style-Type header|Content-Style-Type header"><a
+name="default-style">Установка языка таблицы стилей по умолчанию</a></span></h3>
+
+<p>Авторы должны указывать язык таблицы стилей для информации о стиле, связанной с документом HTML.
+
+<P>Для установки языка таблицы стилей для документа по умолчанию следует использовать элемент <a href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><samp class="einst">META</samp></a>. Например, чтобы установить по умолчанию язык CSS, следует поместить в раздел <a href="global.html#edef-HEAD" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HEAD" class="noxref"><samp class="einst">HEAD</samp></a> следующее объявление:
+
+<pre>
+&lt;META http-equiv="Content-Style-Type" content="text/css"&gt;
+</pre>
+
+<P>зык таблиц стилей по умолчанию можно также установить с помощью заголовков HTTP. Показанное выше объявление с использованием тэга <a href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><samp class="einst">META</samp></a> эквивалентно заголовку HTTP:
+
+<PRE>
+Content-Style-Type: text/css
+</PRE>
+
+<P>Агенты пользователей должны определять язык таблиц стилей по умолчанию для документа в соответствии со следующими шагами (от высшего приоритета к низшему):
+
+<ol>
+<li>Если в объявлении <a href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><samp class="einst">META</samp></a> задается "Content-Style-Type", язык таблиц стилей определяет последнее объявление в потоке символов.
+<li>В противном случае, если "Content-Style-Type" задается в заголовках HTTP, язык таблиц стилей определяет последний заголовок в потоке символов.
+<li>В противном случае по умолчанию используется язык "text/css".
+</ol>
+
+<P>Документы, включающие элементы, в которых устанавливается атрибут <a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><samp class="ainst">style</samp></a>, но не определяется язык таблиц стилей по умолчанию, являются некорректными.  <span class="index-inst" title="authoring tool::and default style sheet language"><a name="idx-authoring_tool">Средства разработки</a></span> должна генерировать информацию о языке таблиц стилей по умолчанию
+(обычно с помощью объявлений <a href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><samp class="einst">META</samp></a>), чтобы агенты пользователей не полагались на язык по умолчанию "text/css".
+
+<h3><a name="h-14.2.2">14.2.2</a> <a name="style-element">Встроенная информация о стиле</a></h3>
+
+<div class="adef-list">
+<P><em>Определения атрибутов</em>
+
+<dl>
+<dt><a name="adef-style"><samp class="adef">style</samp></a> =
+ <a href="types.html#type-style" tppabs="http://www.citforum.ru/internet/html40/types.html#type-style"><em>style</em></a>
+ <a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+<dd>Этот атрибут определяет информацию о стиле текущего элемента.
+</dl>
+</div>
+
+<P>
+<span class="index-inst" title="style sheet::inline rules">style Атрибут <a name="idx-style_sheet-4" href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><samp class="ainst">style</samp></a> определяет информацию о стиле одного элемента.</span> Язык таблиц стилей встроенных правил стиля определяется <a href="#default-style">языком таблиц стилей по умолчанию</a>. <a href="types.html#type-style" tppabs="http://www.citforum.ru/internet/html40/types.html#type-style">Синтаксис данных стиля</a> зависит от языка таблиц стилей.
+
+<div class="example">
+<P>В данном примере устанавливается информация о цвете и размере шрифта текста определенного абзаца.
+
+<pre>
+&lt;P style="font-size: 12pt; color: fuchsia"&gt;Что за прелесть эти таблицы стилей!
+</pre>
+
+<P>В CSS объявления свойств имеют форму "имя : значение" и разделяются точкой с запятой.
+</div>
+
+<p>Атрибут <a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><samp class="ainst">style</samp></a> может использоваться для применения определенного стиля к отдельному элементу HTML. Если стиль повторно используется для нескольких элементов, авторы должны использовать элемент <samp class="edef">STYLE</samp> для перегруппировки этой информации. Для оптимальной гибкости авторам следует определять стили во внешних таблицах стилей.
+
+<h3><a name="h-14.2.3">14.2.3</a> <a name="style-group">Информация о стиле в заголовке</a>: элемент <a name="edef-STYLE"><samp class="edef">STYLE</samp></a></h3>
+
+<div class="dtd-fragment">
+<pre class="dtd-fragment">
+&lt;!ELEMENT <a href="styles.html#edef-STYLE" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#edef-STYLE" class="noxref"><samp class="einst">STYLE</samp></a> - - <a href="dtd.html#StyleSheet" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#StyleSheet">%StyleSheet</a>        -- информация о стиле --&gt;
+&lt;!ATTLIST STYLE
+  <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n;</a>                               -- <a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang">lang</a>, <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir">dir</a>, для использования с заголовком --
+  <a href="styles.html#adef-type-STYLE" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-type-STYLE" class="noxref"><samp class="ainst-STYLE">type</samp></a>        <a href="dtd.html#ContentType" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#ContentType">%ContentType;</a>  #REQUIRED - тип содержимого языка стилей --
+  <a href="styles.html#adef-media" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-media" class="noxref"><samp class="ainst-STYLE">media</samp></a>       <a href="dtd.html#MediaDesc" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#MediaDesc">%MediaDesc;</a>    #IMPLIED  -- для использования с этими устройствами --
+  <a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst-STYLE">title</samp></a>       <a href="dtd.html#Text" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Text">%Text;</a>         #IMPLIED  -- рекомендуемый заголовок --
+  &gt;
+</pre>
+</div>
+<p><em>Начальный тэг: <strong>обязателен</strong>, Конечный тэг: <strong>обязателен</strong></em></p>
+<div class="adef-list"><P>
+<em>Определения атрибутов</em><dl>
+
+<dt><a name="adef-type-STYLE"><samp class="adef">type</samp></a> =
+<a href="types.html#type-content-type" tppabs="http://www.citforum.ru/internet/html40/types.html#type-content-type"><em>content-type</em></a> 
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+
+<dd>Этот атрибут определяет язык таблиц стилей для содержимого элемента и имеет приоритет над языком таблиц стилей, ипользуемы. Язык таблиц стилей указывается как тип содержимого (например, "text/css"). Авторы должны указать значение для этого атрибута; для него нет значения по умолчанию.
+  
+<dt><a name="adef-media"><samp class="adef">media</samp></a> =
+ <a href="types.html#type-media-descriptors" tppabs="http://www.citforum.ru/internet/html40/types.html#type-media-descriptors"><em>дескрипторы устройств</em></a> 
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd>Этот атрибут задает целевое устройство для информации о стиле. Это может быть один дескриптор устройства или список дескрипторов, разделенных запятыми. По умолчанию устанавливается значение "screen".
+</dd>
+</dl>
+</div>
+
+<div class="aref-list">
+<P><em>атрибуты, определяемые в другом месте</em> </p>
+
+<ul>
+<li><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a>
+ (<a href="dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">информация о языке</a>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> 
+ (<a href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</a>)
+</ul>
+</div>
+
+<P>Элемент <a href="styles.html#edef-STYLE" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#edef-STYLE" class="noxref"><samp class="einst">STYLE</samp></a> позволяет авторам помещать правила таблиц стилей в раздел <span class="index-inst" title="style sheet::rules in HEAD"><a name="idx-style_sheet-5">head</a></span> документа. В HTML допустимо любое число элементов <a href="styles.html#edef-STYLE" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#edef-STYLE" class="noxref"><samp class="einst">STYLE</samp></a> в разделе <a href="global.html#edef-HEAD" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HEAD" class="noxref"><samp class="einst">HEAD</samp></a>.
+
+<p>Агенты пользователей, не поддерживающие таблицы стилей или не поддерживающие определенный язык таблиц стилей, используемый в элементе <a href="styles.html#edef-STYLE" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#edef-STYLE" class="noxref"><samp class="einst">STYLE</samp></a>, не должны показывать элемент <a href="styles.html#edef-STYLE" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#edef-STYLE" class="noxref"><samp class="einst">STYLE</samp></a>.  <span class="index-inst" title="error::rendering style rules in STYLE"><a name="idx-error">Ошибкой будет</a></span> генерировать его содержимое как часть текста документа. Некоторые языки таблиц стилей поддерживают синтаксис для того, чтобы <a href="#hiding">не показывать содержимое</a> несоответствующим спецификации агентам пользователей.
+
+<P><a href="types.html#type-style" tppabs="http://www.citforum.ru/internet/html40/types.html#type-style">Синтаксис данных стиля</a> зависит от языка таблицы стилей.
+
+<P>Некоторые реализации таблиц стилей могут поддерживать большее разнообразие правил для элемента <a href="styles.html#edef-STYLE" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#edef-STYLE" class="noxref"><samp class="einst">STYLE</samp></a>, чем в атрибуте <a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><samp class="ainst">style</samp></a>. Например, в CSS правила могу объявляться в элементе <a href="styles.html#edef-STYLE" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#edef-STYLE" class="noxref"><samp class="einst">STYLE</samp></a> для:
+
+<ul>
+<li>Всех экземпляров определенного элемента языка HTML (например, для всех элементов <a href="text.html#edef-P" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-P" class="noxref"><samp class="einst">P</samp></a>, всех элементов <a href="global.html#edef-H1" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-H1" class="noxref"><samp class="einst">H1</samp></a> и т.д.)
+
+<li>Всех экземпляров элемента HTML, принадлежащих определенному классу (т.е. для атрибута <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><samp class="ainst">class</samp></a> которых установлено определенное значение). 
+
+<li>Отдельных экземпляров элемента языка HTML (т.е. для атрибута <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a> которого установлено определенное значение).
+</ul>
+
+<P>Правила приоритета и наследования правил таблиц стилей зависят от языка таблиц.
+
+<div class="example">
+<P>Следующее объявление CSS <a href="styles.html#edef-STYLE" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#edef-STYLE" class="noxref"><samp class="einst">STYLE</samp></a> приводит к появлению границы вокруг всех элементов <a href="global.html#edef-H1" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-H1" class="noxref"><samp class="einst">H1</samp></a> в документе и центрированию их на странице.</p>
+
+<pre>
+&lt;HEAD&gt;
+ &lt;STYLE type="text/css"&gt;
+   H1 {border-width: 1; border: solid; text-align: center}
+ &lt;/STYLE&gt;
+&lt;/HEAD&gt;
+</pre>
+
+<P>Чтобы указать, что эта информация о стиле должна применяться только к элементам <a href="global.html#edef-H1" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-H1" class="noxref"><samp class="einst">H1</samp></a> определенного класса, можно изменить определение следующим образом: 
+
+<pre>
+&lt;HEAD&gt;
+ &lt;STYLE type="text/css"&gt;
+   H1.myclass {border-width: 1; border: solid; text-align: center}
+ &lt;/STYLE&gt;
+&lt;/HEAD&gt;
+&lt;BODY&gt;
+ &lt;H1 class="myclass"&gt; Наш стиль влияет на этот заголовок уровня H1&lt;/H1&gt;
+ &lt;H1&gt; А на этот заголовок наш стиль не влияет&lt;/H1&gt;
+&lt;/BODY&gt;
+</pre>
+
+<P>И, наконец, для ограничения области действия информации о стиле единственным экземпляром элемента <a href="global.html#edef-H1" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-H1" class="noxref"><samp class="einst">H1</samp></a>, установите атрибут <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>:
+
+<pre>
+&lt;HEAD&gt;
+ &lt;STYLE type="text/css"&gt;
+   #myid {border-width: 1; border: solid; text-align: center}
+ &lt;/STYLE&gt;
+&lt;/HEAD&gt;
+&lt;BODY&gt;
+ &lt;H1 class="myclass"&gt; На этот заголовок H1 стиль не влияет&lt;/H1&gt;
+ &lt;H1 id="myid"&gt; А на этот влияет &lt;/H1&gt;
+ &lt;H1&gt; На этот опять не влияет &lt;/H1&gt;
+&lt;/BODY&gt;
+</pre>
+</div>
+
+<P>
+<span class="index-inst" title="style sheet::used with DIV and SPAN"><a name="idx-style_sheet-6">
+Хотя информация о стиле</a></span> может устанавливаться почти для всех элементов HTML, два элемента, <a href="global.html#edef-DIV" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-DIV" class="noxref"><samp class="einst">DIV</samp></a> и <a href="global.html#edef-SPAN" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-SPAN" class="noxref"><samp
+class="einst">SPAN</samp></a>, особенно полезны тем, что они не накладывают никакой семантики представления (кроме <a href="global.html#block-inline" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#block-inline">block-level vs. inline</a>).  Вместе с таблицами стилей эти элементы позволяют пользователям неограниченно расширять язык HTML, особенно при использовании атрибутов <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><samp class="ainst">class</samp></a> и <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>.
+
+<div class="example">
+<P> В следующем примере элемент <a href="global.html#edef-SPAN" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-SPAN" class="noxref"><samp class="einst">SPAN</samp></a> используется для установки малых прописных букв для стиля шрифта первых нескольких слов абзаца.</p>
+
+<pre>
+&lt;HEAD&gt;
+ &lt;STYLE type="text/css"&gt;
+  SPAN.sc-ex { font-variant: small-caps }
+ &lt;/STYLE&gt;
+&lt;/HEAD&gt;
+&lt;BODY&gt;
+&lt;P&gt;&lt;SPAN class="sc-ex"&gt;Первые несколько&lt;/SPAN&gt; слов абзаца выделены малыми прописными буквами.
+&lt;/BODY&gt;
+</pre>
+</div>
+
+<div class="example">
+<P>В следующем примере мы используем элемент <a href="global.html#edef-DIV" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-DIV" class="noxref"><samp class="einst">DIV</samp></a> и атрибут <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><samp class="ainst">class</samp></a> для установки выравнивания текста
+для ряда абзацев, составляющих введение в научную статью. Информация о стиле может повторно использоваться для других разделов введения путем установки атрибута <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><samp class="ainst">class</samp></a> в любом месте документа.</p>
+
+<pre>
+&lt;HEAD&gt;
+ &lt;STYLE type="text/css"&gt;
+   DIV.Abstract { text-align: justify }
+ &lt;/STYLE&gt;
+&lt;/HEAD&gt;
+&lt;BODY&gt;
+ &lt;DIV class="Abstract"&gt;
+   &lt;P&gt;The Chieftain product range is our market winner for
+     the coming year. This report sets out how to position
+     Chieftain against competing products.
+
+   &lt;P&gt;Chieftain replaces the Commander range, which will
+     remain on the price list until further notice.
+ &lt;/DIV&gt;
+&lt;/BODY&gt;
+</pre>
+</div>
+
+<h3><a name="h-14.2.4">14.2.4</a> 
+<span class="index-inst" title="media::used with style sheets|style sheet::target media for"><a name="media-types">Типы устройств</a></span></h3>
+
+<p>HTML позволяет авторам создавать документы, использующие характеристики устройства, на котором будет представляться документ (например, графические дисплеи, телевизионные экраны, переносные устройства, речевые браузеры, тактильные устройства на базе азбуки Бройля и т.д.).  С помощью атрибута <a href="styles.html#adef-media" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-media" class="noxref"><samp class="ainst-LINK">media</samp></a> авторы могут позволить агентам пользователей загружать и применять таблицы стилей выборочно. См. список распознаваемых <a
+href="types.html#type-media-descriptors" tppabs="http://www.citforum.ru/internet/html40/types.html#type-media-descriptors">дескрипторов устройств</a>.
+
+<div class="example">
+<P>Объявления в следующем примере применяются к элементам <a href="global.html#edef-H1" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-H1" class="noxref"><samp class="einst">H1</samp></a>. При показе на проекторе во время встречи все экземпляры будут отображаться синим цветом. При печати они будут отцентрированы.</P>
+
+<PRE>
+&lt;HEAD&gt;
+ &lt;STYLE type="text/css" media="projection"&gt;
+    H1 { color: blue}
+ &lt;/STYLE&gt;
+
+ &lt;STYLE type="text/css" media="print"&gt;
+   H1 { text-align: center }
+ &lt;/STYLE&gt;
+</PRE>
+
+<p>Этот пример добавляет звуковые эффекты для устройства речевого вывода:</p>
+
+<PRE>
+ &lt;STYLE type="text/css" media="aural"&gt;
+   A { cue-before: uri(bell.aiff); cue-after: uri(dong.wav)}
+ &lt;/STYLE&gt;
+&lt;/HEAD&gt;
+</PRE>
+</div>
+
+<P>Управление устройствами особенно интересно при использовании с внешними таблицами стилей, поскольку агенты пользователей могут сэкономить время, загружая из сети только таблицы стилей, применяющиеся к текущему устройству. Например, речевые браузеры могут не загружать таблицы стилей, разработанные для визуального представления. Подробнее см. в разделе <a href="#media-cascades">о зависящих от устройств каскадах</a>.
+
+<h2><a name="h-14.3">14.3</a> 
+<span class="index-inst" title="style sheet::external"><a
+name="style-external">Внешние таблицы стилей</a></span></h2>
+
+<p>Авторы могут отделять таблицы стилей от документов HTML. Это дает следующие преимущества:</P>
+
+<ul>
+<li>Авторы и менеджеры Web-сайтов могут совместно использовать таблицы стилей в ряде документов (и сайтов).
+<li>Авторы могут изменять таблицы стилей без изменения документа.
+<li>Агенты пользователей могут загружать таблицы стилей выборочно (в зависимости от описаний устройств).
+</ul>
+
+<H3><a name="h-14.3.1">14.3.1</a> Предпочитаемые и альтернативные таблицы стилей</h3>
+
+<p>HTML позволяет авторам связывать с документом любое число внешних таблиц стилей. Язык таблиц стилей определяет взаимодействие нескольких внешних таблиц стилей (например, правила "каскадов" CSS).
+
+<P>
+<span class="index-def" title="style sheet::alternate|alternate style sheets"><a name="didx-style_sheet">Авторы могут указать ряд взаимоисключающих таблиц стилей, называемых <dfn>альтернативными</dfn>.</a></span> Пользователи могут выбирать таблицы, которые им больше нравятся.  Например, автор может указать один стиль для небольших экранов, другой - для слабовидящих пользователей (например, с использованием крупного шрифта). Агенты пользователей должны предоставлять пользователям возможности выбора одной из альтернативных таблиц.
+
+<P>
+<span class="index-def" title="style sheet::preferred|preferred style
+sheets"><a name="didx-style_sheet-1">Автор может указать, что одна из альтернатив является <dfn>предпочтительной</dfn>.</a></span> Агенты пользователей должны применять предпочитаемые автором таблицы стилей, если пользователь не выбрал другую альтернативу.
+
+<P>Авторы могут сгруппировать несколько альтернативных таблиц стилей (включая предпочитаемые автором) под одним <dfn>именем стиля</dfn>. Если пользователь выбирает именованный стиль, агент пользователя должен применять все таблицы стилей с этим именем. Агенты пользователей не должны применять альтернативные таблицы стилей с другим именем стиля. Как присвоить имя группе стилей, описано в разделе об <a href="#specifying-external">определении внешних таблиц стилей</a>.
+
+<P>
+<span class="index-def" title="style sheet::persistent|persistent
+style sheets"><a name="didx-style_sheet-2">Авторы также могут указать <dfn>постоянные</dfn> таблицы стилей, которые агенты пользователей должны применять в дополнение к альтернативным таблицам стилей.</a></span>
+
+<P>При применении таблицы стилей агенты пользователей должны учитывать <a href="types.html#type-media-descriptors" tppabs="http://www.citforum.ru/internet/html40/types.html#type-media-descriptors">дескрипторы устройств</a>.
+
+<P>Агенты пользователей также должны позволять пользователям полностью отключать таблицы стилей автора; в этом случае агент пользователя не должен применять ни одну из таблиц стилей.
+
+<H3><a name="h-14.3.2">14.3.2</a> 
+<span class="index-inst" title="style sheet::specification
+of external|link::and external style sheets"><a
+name="specifying-external">Указание внешних таблиц стилей</a></span></h3>
+
+<P>Авторы указывают внешние таблицы стилей с помощью атрибутов элемента <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a>:
+
+<ul>
+<li>Установите в атрибуте <a href="links.html#adef-href" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-href" class="noxref"><samp class="ainst-LINK">href</samp></a> местоположение файла таблицы стилей. Значением атрибута <a href="links.html#adef-href" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-href" class="noxref"><samp class="ainst-LINK">href</samp></a> должен быть <a href="types.html#type-uri" tppabs="http://www.citforum.ru/internet/html40/types.html#type-uri">URI</a>.
+<li>Установите для атрибута <samp class="ainst-LINK">type</samp> значение, указывающее язык связанного ресурса (таблицы стилей). Это позволяет агентам пользователей не загружать таблицы стилей, использующие неподдерживаемые языки.
+<li>Укажите, является ли таблицы стилей постоянно, предпочитаемой или альтернативной:
+<ul>
+<li>Чтобы таблицы была постоянной, установите для атрибута <a href="links.html#adef-rel" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-rel" class="noxref"><samp class="ainst">rel</samp></a> значение "stylesheet", и не устанавливайте атрибут <a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a>.
+<li>Чтобы таблица была предпочитаемой, установите для атрибута <a href="links.html#adef-rel" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-rel" class="noxref"><samp class="ainst">rel</samp></a> значение "stylesheet", и дайте таблице имя с помощью атрибута <a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a>.
+<li>Чтобы указать альтернативную таблицу, установите для атрибута <a href="links.html#adef-rel" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-rel" class="noxref"><samp class="ainst">rel</samp></a> значение "alternate stylesheet" а дайте таблице имя с помощью атрибута <a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a>.
+</ul>
+</ul>
+
+<p>Агенты пользователей должны обеспечивать пользователям средства просмотра и выбора таблицы стилей из списка альтернатив. Для атрибута <a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a> рекомендуется устанавливать значение, которое будет представлять эту таблицу в списке.
+
+<div class="example">
+<P>В этом примере мы сначала определяем постоянную таблицу стилей, 
+находящуюся в файле <tt>mystyle.css</tt>:
+
+<pre>
+&lt;LINK href="mystyle.css" rel="stylesheet" type="text/css"&gt;
+</pre>
+
+<P>Установка атрибута <a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a> назначает ее предпочитаемой автором таблицей:
+
+<pre>
+ &lt;LINK href="mystyle.css" title="Compact" rel="stylesheet" type="text/css"&gt;
+</pre>
+
+<P>Добавление ключевого слова "alternate" а атрибут <a href="links.html#adef-rel" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-rel" class="noxref"><samp class="ainst">rel</samp></a> сделает ее альтернативной таблицей стилей:
+
+<pre>
+&lt;LINK href="mystyle.css" title="Medium" rel="alternate stylesheet" type="text/css"&gt;
+</pre>
+</div>
+
+<P>Подробнее о внешних таблицах стилей Вы можете узнать в разделе о <A href="links.html#linksandss" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#linksandss">ссылках и внешних таблицах стилей.</A>
+
+<P>
+<span class="index-inst" title="HTTP::Default-Style header|style
+sheet::specification of preferred"> Авторы также могут использовать для установки предпочитаемой таблицы стилей элемент <a name="idx-HTTP-1" href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><samp class="einst">META</samp></a>.</span> Например, чтобы установить предпочитаемую таблицу стилей "compact" (см. предыдущий пример), авторы могут включить в элемент <a href="global.html#edef-HEAD" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HEAD" class="noxref"><samp class="einst">HEAD</samp></a> следующую строку:</p>
+
+<div class="example">
+<pre>
+&lt;META http-equiv="Default-Style" content="compact"&gt;
+</pre>
+</div>
+
+<P>Предпочитаемую таблицу стилей можно также указать с помощью заголовков HTTP. Объявление <a href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><samp class="einst">META</samp></a> выше эквивалентно заголовку HTTP:
+
+<div class="example">
+<PRE>
+Default-Style: "compact"
+</PRE>
+</div>
+
+<p>Если предпочитаемая таблица стилей указывается двумя или более элементами <a href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><samp class="einst">META</samp></a> или заголовками HTTP, преимущество имеет последнее объявление. Считается, что заголовки HTTP обрабатываются раньше, чем объявления <a href="global.html#edef-HEAD" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HEAD" class="noxref"><samp class="einst">HEAD</samp></a>.  
+
+<P>Если предпочитаемая таблица стилей задается двумя или более элементами <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a>, преимущество имеет первая.
+
+<P>Предпочитаемые таблицы стилей, задаваемые с помощью <a href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><samp class="einst">META</samp></a> или заголовков HTTP имеют преимущество над таблицами, задаваемыми элементом <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a>.  
+
+<h2><a name="h-14.4">14.4</a> 
+<span class="index-inst" title="style sheet::cascading|cascading style
+sheets"><a name="idx-style_sheet-11">Каскады таблиц стилей</a></span></h2>
+
+<P><dfn>Каскадные</dfn> языки таблиц стилей, такие как CSS, позволяют использовать информацию о стиле из нескольких источников. Однако не все языки таблиц стилей поддерживают каскады. Чтобы определить каскад, авторы указывают последовательность элементов <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a> и/или <a href="styles.html#edef-STYLE" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#edef-STYLE" class="noxref"><samp class="einst">STYLE</samp></a>. Каскад информации таблиц стилей производится в порядке указания элементов в разделе <a href="global.html#edef-HEAD" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HEAD" class="noxref"><samp
+class="einst">HEAD</samp></a>.
+
+<div class="note"><P>
+<em><strong>Примечание.</strong>
+В данной спецификации не описано каскадирование таблиц стилей разных языков. Авторам следует избегать смешивания языков.
+</em>
+</div>
+
+<div class="example">
+<P>В следующем примере мы определяем две альтернативные таблицы стилей с именем "compact". Если пользователь выбирает стиль "compact", агент пользователя должен применять обе внешние таблицы, а также постоянную таблицу "common.css". Если пользователь выбирает стиль "big print", применяться будут только альтернативная таблица "bigprint.css" и постоянная таблица "common.css".</P>
+
+<pre>
+&lt;LINK rel="alternate stylesheet" title="compact" href="small-base.css" type="text/css"&gt;
+&lt;LINK rel="alternate stylesheet" title="compact" href="small-extras.css" type="text/css"&gt;
+&lt;LINK rel="alternate stylesheet" title="big print" href="bigprint.css" type="text/css"&gt;
+&lt;LINK rel="stylesheet" href="common.css" type="text/css"&gt;
+</pre>
+</div>
+
+<div class="example">
+<p>Вот пример каскада, в котором задействованы оба элемента - <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a>
+и <a href="styles.html#edef-STYLE" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#edef-STYLE" class="noxref"><samp class="einst">STYLE</samp></a>.</p>
+
+<pre>
+&lt;LINK rel="stylesheet" href="corporate.css" type="text/css"&gt;
+&lt;LINK rel="stylesheet" href="techreport.css" type="text/css"&gt;
+&lt;STYLE type="text/css"&gt;
+    p.special { color: rgb(230, 100, 180) }
+&lt;/STYLE&gt;
+</pre>
+</div>
+
+<h3><a name="h-14.4.1">14.4.1</a> 
+<span class="index-inst" title="media::and external style
+sheets|link::and media-dependent style sheets"> <a
+name="media-cascades">Каскады, зависящие от устройств</a></span></h3>
+
+<p>Каскад может включать таблицы стилей, применяемые к различным устройствам. Элементы <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a> и <a href="styles.html#edef-STYLE" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#edef-STYLE" class="noxref"><samp class="einst">STYLE</samp></a>
+могут использоваться с атрибутом <a href="styles.html#adef-media" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-media" class="noxref"><samp class="ainst-LINK">media</samp></a>. Агент пользователя несет ответственность за отфильтровывание таблиц стилей, не применяющихся к текущему устройству.
+
+<div class="example"><P> 
+
+<P>В следующем примере мы определяем каскад, в котором таблица стилей "corporate" представляется в нескольких версиях: одна для печати, другая для экранного представления, третья для речевых браузеров (полезная, например, при чтении электронной почты в машине). Таблица "techreport" применяется ко всем устройствам. Цветная rule, определяемая элементом <a href="styles.html#edef-STYLE" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#edef-STYLE" class="noxref"><samp class="einst">STYLE</samp></a>, используется для печати и для экрана, но не для звукового представления.
+
+<pre>
+&lt;LINK rel="stylesheet" media="aural" href="corporate-aural.css" type="text/css"&gt;
+&lt;LINK rel="stylesheet" media="screen" href="corporate-screen.css" type="text/css"&gt;
+&lt;LINK rel="stylesheet" media="print" href="corporate-print.css" type="text/css"&gt;
+&lt;LINK rel="stylesheet" href="techreport.css" type="text/css"&gt;
+&lt;STYLE type="text/css"&gt;
+    p.special { color: rgb(230, 100, 180) }
+&lt;/STYLE&gt;
+</pre>
+</div>
+
+<H3><a name="h-14.4.2">14.4.2</a> Наследование и каскады</h3>
+
+<p>Если агент пользователя собирается представлять документ, ему необходимо найти значения для свойств стиля, например, семейство шрифтов, начертание, размер шрифта, длину строки, цвет текста и т.д. Точный механизм зависит от языка таблиц стилей, но в общем применяется следующее:
+
+<p>Механизм каскадирования используется, если к элементу применяется ряд правил стиля. Этот механизм позволяет агенту пользователя сортировать правила по специфичности и определять, какое правило нужно применить. Если правило невозможно найти, следующий шаг зависит от наследования свойства. Не все свойства могут наследоваться. Для этих свойств язык таблиц стилей обеспечивает значения по умолчанию для использования в случае отсутствия явных правил для конкретного элемента.
+
+<p>Если свойство может наследоваться, агент пользователя проверяет непосредственно элемент, в который вложен текущий элемент, и ищет правило, применяющееся к нему. Этот процесс продолжается до тех пора, пока применимое правило не будет обнаружено. Этот механизм обеспечивает компактное задание таблиц стилей. Например, авторы могут указать семейство шрифтов для всех элементов в разделе <a href="global.html#edef-BODY" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-BODY" class="noxref"><samp class="einst">BODY</samp></a> с помощью одного правила для элемента <a href="global.html#edef-BODY" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-BODY" class="noxref"><samp class="einst">BODY</samp></a>.
+
+<h2><a name="h-14.5">14.5</a> 
+<span class="index-inst" title="user agent::and style data|style sheet::comments to
+hide|comments::used to hide style sheet data"><a name="hiding">Как скрыть информацию о стиле 
+от агентов пользователей</a></span></h2>
+
+<p>Некоторые языки таблиц стилей поддерживают синтаксис, позволяющий авторам скрывать содержимое элементов <a href="styles.html#edef-STYLE" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#edef-STYLE" class="noxref"><samp class="einst">STYLE</samp></a> от несоответствующих агентов пользователей. 
+
+<div class="example">
+<P>В данном примере для CSS показано, как можно скрыть содержимое элементов <a href="styles.html#edef-STYLE" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#edef-STYLE" class="noxref"><samp class="einst">STYLE</samp></a>, чтобы гарантировать, что более старые несоответствующие спецификации агенты пользователей не будут представлять их в виде текста.</p> 
+
+<pre>
+&lt;STYLE type="text/css"&gt;
+&lt;!--
+   H1 { color: red }
+   P  { color: blue}
+   --&gt;
+&lt;/STYLE&gt;
+</pre>
+</div>
+
+<h2><a name="h-14.6">14.6</a> 
+<span class="index-inst" title="HTTP::used to link external style
+sheets"><a name="idx-HTTP-2">Привязка таблиц стилей с помощью заголовков HTTP</a></span></h2>
+
+<p>Менеджеры Web-серверов могут сконфигурировать сервер таким образом, чтобы таблица стилей применялась к группе страниц. Заголовок HTTP <tt>Link</tt>, описанный в <a
+href="references.html#ref-RFC2068" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC2068" class="normref">[RFC2068]</a>,
+раздел 19.6.1.2, действует так же, как элемент <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a>, с теми же атрибутами и значениями. Несколько заголовков <tt>Link</tt> соответствуют нескольким элементам <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a> в том же порядке. Например,</p>
+
+<pre>
+Link: &lt;http://www.acme.com/corporate.css&gt;; REL=stylesheet
+</pre>
+
+<p>соответствует:
+
+<pre>
+&lt;LINK rel="stylesheet" href="http://www.acme.com/corporate.css"&gt;
+</pre>
+
+<p>Можно задать несколько альтернативных стилей с помощью нескольких заголовков <tt>Link</tt>, а затем использовать атрибут <a href="links.html#adef-rel" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-rel" class="noxref"><samp class="ainst">rel</samp></a> для определения стиля по умолчанию.
+
+<div><P>
+В следующем примере стиль "compact" применяется по умолчанию, поскольку в нем отсутствует ключевое слово "alternate" для атрибута <a href="links.html#adef-rel" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-rel" class="noxref"><samp class="ainst">rel</samp></a>.
+<pre>
+Link: &lt;compact.css&gt;; rel="stylesheet"; title="compact"
+Link: &lt;bigprint.css&gt;; rel="alternate stylesheet"; title="big print"
+</pre>
+</div>
+
+<p>Это работает и при отправке документов HTML по электронной почте. Некоторые агенты электронной почты могут изменять порядок заголовков <a rel="biblioentry"
+href="references.html#ref-RFC822" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC822" class="informref">[RFC822]</a>. Чтобы защитить стиль от изменения порядка каскадов для таблиц, задаваемых заголовками <tt>Link</tt>, авторы могут использовать объединение заголовков для объединения нескольких экземпляров одного и того же поля заголовка.  Кавычки необходимы только в случае, если значения атрибутов включают пробелы. Используйте SGML entities для ссылок на символы, недопустимые в заголовках HTTP или электронной почты или символов, которые могут быть изменены при передаче через шлюзы.
+
+<p>Элементы <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a> и <a href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><samp class="einst">META</samp></a>, implied заголовками HTTP, определяются как встреченные раньше явного элемента <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a> and <a href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><samp class="einst">META</samp></a> а разделе <a href="global.html#edef-HEAD" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HEAD" class="noxref"><samp class="einst">HEAD</samp></a> документа.   
+
+<div class="navbar">
+<hr><center><a href="objects.html" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html">назад</a> &nbsp; <a href="graphics.html" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center></div>
+</body>
+</html>
+

@@ -1,0 +1,52 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>parent</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH>
+</TR><TR><TD WIDTH="10%"><A HREF="keyword.paamayim-nekudotayim.html">Назад</A>
+</TD><th WIDTH="80%">Глава 13. Классы и Объекты</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="serialization.html">Вперёд</A>
+</TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="keyword.parent"><TT>parent</TT></A></H1>
+<P>Вы и сами могли заметить, что при написании кода обращаетесь к переменным и 
+функциям в базовых классах. Это особенно верно в отношении классов, которые вы 
+получили в результате очистки или специализации кода в вашем базовом классе.</P>
+<P>Вместо использования в вашем коде литерального имени базового класса, используйте лучше специальное имя
+<TT>parent</TT>, которое обращается к имени вашего базового класса, как оно дано в объявлении <TT>extends</TT> в вашем классе. Сделав это, вы исключите использование имени вашего базового 
+класса в более чем одном месте. Если дерево наследования в ходе реализации
+должно измениться, это изменение можно легко сделать, изменив лишь объявление <TT>extends</TT> вашего класса.</P>
+<A NAME="AEN5489"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>class A
+{
+    function example()
+    {
+        echo "I am A::example() and provide basic functionality.&#60;br&#62;\n";
+    }
+}
+
+class B extends A
+{
+    function example()
+    {
+        echo "I am B::example() and provide additional functionality.&#60;br&#62;\n";
+        parent::example();
+    }
+}
+
+$b = new B;
+
+// Здесь будет сделан вызов B::example(), который, в свою очередь, вызовет A::example().
+$b-&#62;example();</PRE></TD></TR></TABLE><BR></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1">
+</TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="keyword.paamayim-nekudotayim.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="serialization.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top"><TT>::</TT></TD><th WIDTH="34%" VALIGN="top">
+<a href="oop.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+Сериализация объектов - объекты в сессиях</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

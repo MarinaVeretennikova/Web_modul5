@@ -1,0 +1,1392 @@
+<HTML>
+
+
+
+<!--
+
+
+
+Author:	Paul Khramtsov
+
+
+
+Date:	May 17, 1998
+
+
+
+-->
+
+
+
+<HEAD>
+
+
+
+<title>Web-engineering (Introduction to the JavaScript. Frames.)</title>
+
+
+
+<link rel="stylesheet" type="text/css" href="page.css" tppabs="http://webclass.polyn.kiae.su/classes/css/page.css">
+
+
+
+
+
+
+
+<meta http-equiv="Content-type" content="text/html; charset=windows-1251">
+
+
+
+<script language=JavaScript src="jsc.pgm" tppabs="http://webclass.polyn.kiae.su/classes/css/jsc.pgm"></script>
+
+<script language=JavaScript>
+
+<!--
+
+// -->
+
+</script>
+
+
+
+</HEAD>
+
+
+
+<body style="color:navy;background-color:whitesmoke;background-image:url(../images/main/rope.gif);" onLoad="jump();">
+
+
+
+<SCRIPT SRC="count.js" tppabs="http://counter.hotlog.ru/cgi-bin/hotlog/count.js"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">js=0</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.1">js=1</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.2">js=2</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.3">js=3</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">HotLOG(1686,js)</SCRIPT>
+<noscript><img src="count-s=1686" tppabs="http://hit.hotlog.ru/cgi-bin/hotlog/count?s=1686" border=0 width=1 height=1></noscript>
+<!-- Логотип -->
+
+<div class=logo>
+
+<table border=0 cellpadding=0 cellspacing=0 width=560>
+
+<tr><td><img src="sea003.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea003.gif" width=560 height=5 border=0 hspace=0 vspace=0 align=left></td></tr>
+
+<tr><td><img src="sea000.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea000.gif" width=560 height=15 border=0 hspace=0 vspace=0 align=left></td></tr>
+<!--
+<tr><td><a href=../homef.htm onMouseover="document.sea001.src='../images/main/hweb.gif';return true;" onMouseout="document.sea001.src='../images/main/sea001.gif';return true;"><img name=sea001 src=../images/main/sea001.gif width=560 height=15 border=0 hspace=0 vspace=0 align=left></a></td></tr>
+-->
+<tr><td><img name=sea001 src="sea001.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea001.gif" width=560 height=15 border=0 hspace=0 vspace=0 align=left></td></tr>
+
+<tr><td><img src="sea002.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea002.gif" width=560 height=5 border=0 hspace=0 vspace=0 align=left></td></tr>
+
+</table>
+
+</div>
+
+<!-- Конец логотипа -->
+
+<!-- Главное меню -->
+
+<div class=menu>
+
+<table border=0 cellpadding=0 cellspacing=0 width=560>
+
+<tr>
+
+<td><a href="jsid.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/jsid.htm"><img src="manual.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/manual.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Конспект></a></td>
+
+<td><img src="ref.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/ref.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Справочник></td>
+
+<td><img src="work.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/work.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Задания></td>
+
+<td><img src="ex.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/ex.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Примеры></td>
+
+<td><a href="javascript:if(confirm('http://webclass.polyn.kiae.su/classes/jsi/test/framet.htm  \n\nThis file was not retrieved by Teleport Pro, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?'))window.location='http://webclass.polyn.kiae.su/classes/jsi/test/framet.htm'" tppabs="http://webclass.polyn.kiae.su/classes/jsi/test/framet.htm"><img src="tests.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/tests.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Контроль></a></td>
+
+<td><img src="coach.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/coach.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Тьютор></td>
+
+<td><a href="javascript:if(confirm('http://webclass.polyn.kiae.su/classes/fsub.htm  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://webclass.polyn.kiae.su/classes/fsub.htm'" tppabs="http://webclass.polyn.kiae.su/classes/fsub.htm"><img src="lcheck.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/lcheck.gif" border=0 hspace=0 vspace=0 height=20 width=74 alt=Подписка></a></td>
+
+</tr>
+
+</table>
+
+</div>
+
+<!-- Конец главного меню -->
+
+<!-- Навигационное дерево -->
+
+<div class=navy>
+<table border=0 cellspacing=0 cellpadding=0 width=560>
+<tr>
+<td height=15 class=tree>
+<a class=tree href="javascript:if(confirm('http://webclass.polyn.kiae.su/classes/homef.htm  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://webclass.polyn.kiae.su/classes/homef.htm'" tppabs="http://webclass.polyn.kiae.su/classes/homef.htm">Web-инжиниринг(Оглавление)</a>
+</td>
+<tr>
+<td height=15 class=tree>
+<img src="treetc-1.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main//treetc.gif" border=0 hspace=2 align=top width=15 height=15 vspace=0>
+Объектная модель в World Wide Web. Динамический HTML
+</td>
+</tr>
+<tr>
+<td height=15 class=tree>
+<img name=down src="treevl.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treevl.gif" border=0 hspace=2 align=top width=15 height=15 vspace=0>
+<img src="treetc.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treetc.gif" border=0 hspace=2 align=top width=15 height=15 vspace=0>
+<a class=tree id=current href="treejsi.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/treejsi.htm">Введение в JavaScript</a>
+</td>
+</tr>
+</table>
+</div>
+
+<!-- Конец навигационного дерева -->
+
+
+
+<!-- Меню последовательного просмотра -->
+
+
+
+<div class=next>
+
+
+
+<map name=top_menu>
+
+
+
+<area shape=rect coords="500,0,560,15" href="form.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/form.htm">
+
+
+
+</map>
+
+
+
+<img src="menu_l.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/menu_l.gif" width=560 height=15 vspace=0 hspace=0 border=0 usemap=#top_menu>
+
+
+
+</div>
+
+
+
+<!-- Конец меню последовательного просмотра -->
+
+
+
+<!-- Начало текста документа -->
+
+
+
+<div class=main>
+
+
+
+<a name=top></a>
+
+
+
+<span class=myheader>Фреймы(Frames)</span>
+
+
+
+<p class=just>
+
+
+
+<span class=letter>Ф</span>реймы - это несколько видоизмененные окна. Отличаются они от полноценных окон тем, что размещаются внутри последних. У фрейма не может быть ни панели инструментов, ни меню, которые присущи обычному окну. Фрейм использует в качестве поля статуса поле статуса окна, в котором он размещен. Существует и ряд других отличий.
+
+
+
+<p class=just>
+
+
+
+Сосредоточим наше внимание на:
+
+
+
+<ul>
+
+
+
+<li><a href=#frames>иерархии фреймов</a>
+
+
+
+<li><a href=#names>именовании фреймов</a>
+
+
+
+<li><a href=#focus>передаче данных во фрейм</a>
+
+
+
+</ul>
+
+
+
+<p class=just>
+
+
+
+Естественно, что иерархия определяет и правила именования фреймов, и способы передачи фокуса фрейму.
+
+
+
+<a name=frames></a>
+
+
+
+<p><em>Иерархия фреймов</em>
+
+
+
+<p class=just>
+
+
+
+Рассмотрим сначала простой пример: разделим экран на две вертикальные колонки:
+
+
+
+<p><span class=tags>
+
+
+
+&lt;html&gt;<br>
+
+
+
+&lt;head&gt;<br>
+
+
+
+&lt;/head&gt;<br>
+
+
+
+&lt;frameset cols="50%,*"&gt;<br>
+
+
+
+&lt;frame name=left src=./left.htm&gt;<br>
+
+
+
+&lt;frame name=right src=./right.htm&gt;<br>
+
+
+
+&lt;/frameset&gt;<br>
+
+
+
+&lt;/html&gt;
+
+
+
+</span>
+
+
+
+<p class=just>
+
+
+
+<b>_top(_parent)</b>
+
+
+
+<table border=1 width=200 height=100>
+
+
+
+<tr><th width=100>left</th><th width=100>right</th></tr>
+
+
+
+</table>
+
+
+
+<p class=just>
+
+
+
+Слова "_top" и "_parent" появились в этом контексте не случайно. Это имена окна, в которое помещают фреймы. Графически это можно изобразить как:
+
+
+
+<table border=0 cellspacing=0 cellpadding=0 align=center>
+
+
+
+<tr>
+
+
+
+<td width=418 class=tree>_top (_parent)</td>
+
+
+
+</tr>
+
+
+
+<tr>
+
+
+
+<td><img src="treetc.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treetc.gif" border=0 hspace=2 align=top width=15 height=15 class=tree>left</td>
+
+
+
+</tr>
+
+
+
+<tr>
+
+
+
+<td><img src="treels.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treels.gif" border=0 hspace=2 align=top width=15 height=15 class=tree>right</td>
+
+
+
+</tr>
+
+
+
+</table>
+
+
+
+<p class=just>
+
+
+
+Усложним пример: разобьем правый фрейм на два по горизонтали:
+
+
+
+<p><span class=tags>
+
+
+
+&lt;html&gt;<br>
+
+
+
+&lt;head&gt;<br>
+
+
+
+&lt;/head&gt;<br>
+
+
+
+&lt;frameset cols="50%,*"&gt;<br>
+
+
+
+&lt;frame name=left src=./left.htm&gt;<br>
+
+
+
+&lt;frameset rows="50%,*"&gt;<br>
+
+
+
+&lt;frame name=top src=./top.htm&gt;<br>
+
+
+
+&lt;frame name=bottom src=./bottom.htm&gt;<br>
+
+
+
+&lt;/frameset&gt;<br>
+
+
+
+&lt;/frameset&gt;<br>
+
+
+
+&lt;/html&gt;
+
+
+
+</span>
+
+
+
+<p class=just>
+
+
+
+<b>_top(_parent)</b>
+
+
+
+<table border=1 width=200 height=100>
+
+
+
+<tr><th rowspan=2 width=100>left</th><th width=100>top</th></tr>
+
+
+
+<tr><th>bottom</th></tr>
+
+
+
+</table>
+
+
+
+<p class=just>
+
+
+
+Обратите внимание на два момента: во-первых, следует различать _top и top, во-вторых, исчез фрейм right. По поводу первого замечания: _top - это зарезервированное имя старшего окна, а top - имя фрейма, которое назначил ему автор страницы. По поводу второго замечания: старшим окном для всех фреймов является все окно браузера, фрейма с именем right в данном случае не существует: 
+
+
+
+
+
+
+
+<table border=0 cellspacing=0 cellpadding=0 align=center>
+
+
+
+<tr>
+
+
+
+<td width=418 class=tree>_top (_parent)</td>
+
+
+
+</tr>
+
+
+
+<tr>
+
+
+
+<td><img src="treetc.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treetc.gif" border=0 hspace=2 align=top width=15 height=15 class=tree>left</td>
+
+
+
+</tr>
+
+
+
+<tr>
+
+
+
+<td><img src="treetc.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treetc.gif" border=0 hspace=2 align=top width=15 height=15 class=tree>top</td>
+
+
+
+</tr>
+
+
+
+<tr>
+
+
+
+<td><img src="treels.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treels.gif" border=0 hspace=2 align=top width=15 height=15 class=tree>bottom</td>
+
+
+
+</tr>
+
+
+
+</table>
+
+
+
+<p class=just>
+
+
+
+Для того чтобы он появился нужно свести оба наших примера в один. Это значит, что во фрейм right мы должны загрузить снова фреймовый документ:
+
+
+
+<p><span class=tags>
+
+
+
+Первый документ:<br><br>
+
+
+
+&lt;html&gt;<br>
+
+
+
+&lt;head&gt;<br>
+
+
+
+&lt;/head&gt;<br>
+
+
+
+&lt;frameset cols="50%,*"&gt;<br>
+
+
+
+&lt;frame name=left src=./left.htm&gt;<br>
+
+
+
+&lt;frame name=right src=./right.htm&gt;<br>
+
+
+
+&lt;/frameset&gt;<br>
+
+
+
+&lt;/html&gt;<br><br>
+
+
+
+Второй документ (right.htm):<br><br>
+
+
+
+&lt;html&gt;<br>
+
+
+
+&lt;head&gt;<br>
+
+
+
+&lt;/head&gt;<br>
+
+
+
+&lt;frameset rows="50%,*"&gt;<br>
+
+
+
+&lt;frame name=top src=./top.htm&gt;<br>
+
+
+
+&lt;frame name=bottom src=./bottom.htm&gt;<br>
+
+
+
+&lt;/frameset&gt;<br>
+
+
+
+&lt;/html&gt;
+
+
+
+</span>
+
+
+
+<p class=just>
+
+
+
+В этом случае подчинение страниц будет выглядеть иначе, чем в примере с тремя фреймами:
+
+
+
+<table border=0 cellspacing=0 cellpadding=0 align=center>
+
+
+
+<tr>
+
+
+
+<td width=418 class=tree>_top (_parent для left и right)</td>
+
+
+
+</tr>
+
+
+
+<tr>
+
+
+
+<td><img src="treetc.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treetc.gif" border=0 hspace=2 align=top width=15 height=15 class=tree>left</td>
+
+
+
+</tr>
+
+
+
+<tr>
+
+
+
+<td><img src="treels.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treels.gif" border=0 hspace=2 align=top width=15 height=15 class=tree>right(_parent для top и bottom)</td>
+
+
+
+</tr>
+
+
+
+<tr>
+
+
+
+<td><img src="blank.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/blank.gif" border=0 hspace=2 align=top width=15 height=15 class=tree><img src="treetc.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treetc.gif" border=0 hspace=2 align=top width=15 height=15 class=tree>top</td>
+
+
+
+</tr>
+
+
+
+<tr>
+
+
+
+<td><img src="blank.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/blank.gif" border=0 hspace=2 align=top width=15 height=15 class=tree><img src="treels.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treels.gif" border=0 hspace=2 align=top width=15 height=15 class=tree>bottom</td>
+
+
+
+</tr>
+
+
+
+</table>
+
+
+
+<p class=just>
+
+
+
+Таким образом, мы получили тот же результат, что и с тремя фреймами и одним старшим окном. Однако, этот вариант гибче. Он позволяет использовать фрейм, содержащий горизонтальную разбивку. Именно такой прием используется на домашней странице <a href="javascript:if(confirm('http://webclass.polyn.kiae.su/classes/homef.htm  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://webclass.polyn.kiae.su/classes/homef.htm'" tppabs="http://webclass.polyn.kiae.su/classes/homef.htm">"Web-инжиниринг"</a>.
+
+
+
+<p class=just>
+
+
+
+Такая интерпретация фреймовой структуры страницы получает отражение и при именовании фреймов JavaScript.
+
+
+
+<!-- В начало страницы -->
+
+
+
+<p align=right><a href=#top class=tree id=home><img src="treeup.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeup.gif" border=0 align=top hspace=2><br>начало страницы<img src="treeru.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeru.gif" border=0 align=top hspace=2></a><br>
+
+
+
+<!-- Конец перехода -->
+
+
+
+<a name=names></a>
+
+
+
+<p><em>Именование фреймов</em>
+
+
+
+<p class=just>
+
+
+
+Обратиться к фрейму можно либо по имени, либо как к элементу массива frames[]. Рассмотрим HTML-документ:
+
+
+
+<p><span class=tags>
+
+
+
+&lt;html&gt;<br>
+
+
+
+&lt;head&gt;<br>
+
+
+
+...<br>
+
+
+
+&lt;/head&gt;<br>
+
+
+
+&lt;frameset cols="20%,*"&gt;<br>
+
+
+
+&lt;frame name=left src=frame1.htm&gt;<br>
+
+
+
+&lt;frame name=right src=frame2.htm&gt;<br>
+
+
+
+&lt/frameset&gt;<br>
+
+
+
+&lt;/html&gt;
+
+
+
+</span>
+
+
+
+<p class=just>
+
+
+
+Предположим, что на странице, загруженной в правый фрейм, есть две картинки. Для изменения свойства src второй из них можно использовать следующие записи:
+
+
+
+<p><span class=tags>
+
+
+
+top.frames[1].images[1].src="kuku.gif";<br>
+
+
+
+или<br>
+
+
+
+top.right.images[1].src="kuku.gif";
+
+
+
+</span>
+
+
+
+<p class=just>
+
+
+
+Все эти рассуждения несколько обесцениваются при работе с разными браузерами. На странице для Netscape в этом месте расположен пример. Но в Explorer, которым Вы пользуетесь, этот пример работать не будет в силу особенностей реализации индексирования фреймов и их наименования. Поэтому здесь мы его опустили.
+
+
+
+<p class=just>
+
+
+
+В связи с индексированием фреймов возникает вопрос о том, как они нумеруются в одномерном встроенном массиве фреймов объекта Window. Проиллюстрируем это на примере:
+
+
+
+<p><span class=tags>
+
+
+
+&lt;frameset rows="20,*,20"&gt;<br>
+
+
+
+&lt;frame name=top src=top.htm&gt;<br>
+
+
+
+&lt;frameset cols="50,*,50"&gt;<br>
+
+
+
+&lt;frame name=left src=left.htm&gt;<br>
+
+
+
+&lt;frame name=center src=center.htm&gt;<br>
+
+
+
+&lt;frame name=right src=right.htm&gt;<br>
+
+
+
+&lt;/frameset&gt;<br>
+
+
+
+&lt;frame name=bottom src=bottom.htm&gt;<br>
+
+
+
+&lt;/frameset&gt;<br>
+
+
+
+</span>
+
+
+
+<table border=1 align=center>
+
+
+
+<tr><th colspan=3>frame[0] (top)</th></tr>
+
+
+
+<tr>
+
+
+
+<th>frame[1](left)</th>
+
+
+
+<th>frame[2](center)</th>
+
+
+
+<th>frame[3](right)</th>
+
+
+
+</tr>
+
+
+
+<th colspan=3>frame[4] (bottom)</th>
+
+
+
+<tr>
+
+
+
+</tr>
+
+
+
+</table>
+
+
+
+<p class=just>
+
+
+
+Построим теперь нечто перпендикулярное предыдущему примеру:
+
+
+
+<p><span class=tags>
+
+
+
+&lt;frameset cols="20,*,20"&gt;<br>
+
+
+
+&lt;frame name=left src=top.htm&gt;<br>
+
+
+
+&lt;frameset rows="50,*,50"&gt;<br>
+
+
+
+&lt;frame name=top src=left.htm&gt;<br>
+
+
+
+&lt;frame name=center src=center.htm&gt;<br>
+
+
+
+&lt;frame name=bottom src=right.htm&gt;<br>
+
+
+
+&lt;/frameset&gt;<br>
+
+
+
+&lt;frame name=right src=bottom.htm&gt;<br>
+
+
+
+&lt;/frameset&gt;<br>
+
+
+
+</span>
+
+
+
+<table border=1 align=center>
+
+
+
+<tr>
+
+
+
+<th rowspan=3>frame[0] (left)</th>
+
+
+
+<th>frame[1](top)</th>
+
+
+
+<th rowspan=3>frame[4] (right)</th>
+
+
+
+</tr>
+
+
+
+<tr>
+
+
+
+<th>frame[2](center)</th>
+
+
+
+</tr>
+
+
+
+<tr>
+
+
+
+<th>frame[3](bottom)</th>
+
+
+
+</tr>
+
+
+
+</table>
+
+
+
+<p class=just>
+
+
+
+Таким образом, при нумеровании фреймов в одномерном массиве фреймов на странице система придерживается правила "слева-направо, сверху-вниз". Вкладывая наши примеры друг в друга, легко можно получить правильную индексацию страниц при любой сложной фреймовой структуре. 
+
+
+
+<!-- В начало страницы -->
+
+
+
+<p align=right><a href=#top class=tree id=home><img src="treeup.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeup.gif" border=0 align=top hspace=2><br>начало страницы<img src="treeru.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeru.gif" border=0 align=top hspace=2></a><br>
+
+
+
+<!-- Конец перехода -->
+
+
+
+<a name=focus></a>
+
+
+
+<p><em>Передача фокуса во фрейм</em>
+
+
+
+<p class=just>
+
+
+
+Обычной задачей при разработке типового Web-узла является задача загрузки результатов исполнения cgi-скрипта во фрейм отличный от фрейма, в котором вводятся данные для этого скрипта. Если путь загрузки результатов фиксирован, то можно просто использовать атрибут target формы, и на этом закончить раздумья над этой проблемой. Сложнее, если результат работы должен быть загружен в разные фреймы, в зависимости от выбранной кнопки, например.
+
+
+
+<p class=just>
+
+
+
+Для решения этой задачи можно использовать два разных пути: открывать открытое окно и переназначать свойство target. Последнее, конечно более изящное решение, поэтому с него и начнем: 
+
+
+
+<p><span class=tags>
+
+
+
+</span>
+
+
+
+<script>
+
+
+
+function example()
+
+
+
+{
+
+
+
+var id=window.open("framee1.htm"/*tpa=http://webclass.polyn.kiae.su/classes/jsi/framee1.htm*/,"example","width=500,height=300");
+
+
+
+id.focus();
+
+
+
+}
+
+
+
+</script>
+
+
+
+<form><input type=button value="Окно примера" onClick="example();"></form>
+
+
+
+<p><span class=tags>
+
+
+
+function load()<br>
+
+
+
+{<br>
+
+
+
+if(self.document.f.s.options[<br>
+
+
+
+document.f.s.selectedIndex<br>
+
+
+
+].text=="top")<br>
+
+
+
+  {<br>
+
+
+
+   document.f.target = "mytop";<br>
+
+
+
+   self.top.frames[2].document.open();<br>
+
+
+
+   self.top.frames[2].document.close();<br.
+
+
+
+  }<br>
+
+
+
+else<br>
+
+
+
+  {<br>
+
+
+
+   document.f.target = "mybottom";<br>
+
+
+
+   self.top.frames[1].document.open();<br>
+
+
+
+   self.top.frames[1].document.close();<br>
+
+
+
+  }<br>  
+
+
+
+return true;<br>
+
+
+
+}<br>
+
+
+
+</span>
+
+
+
+<p class=just>
+
+
+
+Функция load() вызывается как обработчик события Submit. По этой причине она является логической функцией. Возврат значения true позволяет реализовать перезагрузку документа.
+
+
+
+<p class=just>
+
+
+
+Теперь рассмотрим второй вариант. Его идея состоит в том, что при открытии окна с именем существующего окна новое окно не открывается, а используется уже открытое окно. Фрейм - это тоже окно, поэтому для него это правило остается справедливым, но вот функция, которая реализует этот вариант, отличается от предыдущей:<br>
+
+
+
+<script>
+
+
+
+function example1()
+
+
+
+{
+
+
+
+var id=window.open("framee2.htm"/*tpa=http://webclass.polyn.kiae.su/classes/jsi/framee2.htm*/,"example","width=500,height=300");
+
+
+
+id.focus();
+
+
+
+}
+
+
+
+</script>
+
+
+
+<form><input type=button value="Окно примера" onClick="example1();"></form>
+
+
+
+<p><span class=tags>
+
+
+
+function load()<br>
+
+
+
+{<br>
+
+
+
+if(self.document.f.s.options[<br>
+
+
+
+document.f.s.selectedIndex<br>
+
+
+
+].text=="top")<br>
+
+
+
+  {<br>
+
+
+
+   window.open("./framer.htm","mytop");<br>
+
+
+
+   self.top.frames[2].document.open();<br>
+
+
+
+   self.top.frames[2].document.close();<br>
+
+
+
+  }<br>
+
+
+
+else<br>
+
+
+
+  {<br>
+
+
+
+   window.open("./framer.htm","mybottom");<br>
+
+
+
+   self.top.frames[1].document.open();<br>
+
+
+
+   self.top.frames[1].document.close();<br>
+
+
+
+  }<br>
+
+
+
+return false;<br>
+
+
+
+}<br>
+
+
+
+</span>
+
+
+
+<p class=just>
+
+
+
+Обратите внимание на то, что данная функция возвращает значение false. Это происходит потому, что надо маскировать событие Submit. Ведь документ уже перезагружен и его снова загружать не надо.
+
+
+
+<!-- В начало страницы -->
+
+
+
+<p align=right><a href=#top class=tree id=home><img src="treeup.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeup.gif" border=0 align=top hspace=2><br>начало страницы<img src="treeru.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeru.gif" border=0 align=top hspace=2></a><br>
+
+
+
+<!-- Конец перехода -->
+
+
+
+<p><!-- Конец текста документа -->
+
+
+
+<!-- Меню последовательного просмотра(нижнее) -->
+
+
+
+<map name=bmenu>
+
+
+
+<area shape=rect coords="0,0,60,15" href="wcontrol.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/wcontrol.htm">
+
+
+
+<area shape=rect coords="500,0,560,15" href="form.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/form.htm">
+
+
+
+</map>
+
+
+
+<p>
+
+
+
+<img src="bottom_l.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/bottom_l.gif" boredr=0 width=560 height=15 border=0 usemap=#bmenu><br>
+
+
+
+<!-- Конец меню последовательного просмотра(нижнее) -->
+
+
+
+<!-- Нижний логотип -->
+
+
+
+<a href="javascript:if(confirm('http://www.citmgu.ru/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.citmgu.ru/'" tppabs="http://www.citmgu.ru/"><img src="bottom.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/bottom.gif" border=0 width=560 height=15></a>
+<!-- SpyLOG v2 f:0211 -->
+<script language="javascript">
+u="http://webclass.polyn.kiae.su/classes/jsi/u686.25.spylog.com";d=document;nv=navigator;na=nv.appName;p=1;
+bv=Math.round(parseFloat(nv.appVersion)*100);
+n=(na.substring(0,2)=="Mi")?0:1;rn=Math.random();z="p="+p+"&rn="+rn;y="";
+y+="<a href='http://"+u+"/cnt?f=3&p="+p+"&rn="+rn+"' target=_blank>";
+y+="<img src='http://"+u+"/cnt?"+z+"&r="+escape(d.referrer)+"&pg="+escape(window.location.href)+"' border=0  width=0 height=0  alt='SpyLOG'>";
+y+="</a>"; d.write(y);if(!n) { d.write("<"+"!--"); }//--></script><noscript>
+<a href="javascript:if(confirm('http://u686.25.spylog.com/cnt?f=3&p=1  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://u686.25.spylog.com/cnt?f=3&p=1'" tppabs="http://u686.25.spylog.com/cnt?f=3&p=1" target=_blank>
+<img src="cnt-p=1" tppabs="http://u686.25.spylog.com/cnt?p=1" alt='SpyLOG' border='0'  width=0 height=0 >
+</a></noscript><script language="javascript1.2"><!--
+if(!n) { d.write("--"+">"); }//--></script>
+<!-- SpyLOG  -->
+
+
+
+<!-- Конец нижнего логотипа -->
+
+
+
+</div>
+
+
+
+</BODY>
+
+
+
+</HTML>
+
+
+

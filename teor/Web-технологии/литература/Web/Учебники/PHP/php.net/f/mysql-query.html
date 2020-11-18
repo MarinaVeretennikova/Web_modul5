@@ -1,0 +1,58 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>mysql_query</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="mysql-ping.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="mysql-real-escape-string.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.mysql-query">mysql_query</A></H1><A NAME="AEN51962"></A><P>(PHP 3, PHP 4)</P>
+<p>mysql_query - отправляет MySQL-запрос/query.<A NAME="AEN51965"></A></p><H2>Описание</H2>
+<p>resource <B>mysql_query</B> (string query [, resource link_identifier [, int result_mode]])</p>
+<P><B>mysql_query()</B> отправляет запрос текущей активной БД на сервере, ассоциированной со 
+специфицированным идентификатором ссылки/link_identifier. Если <TT><I>link_identifier</I></TT> не специфицирован, принимается последняя открытая ссылка.  Если такой ссылки 
+нет, функция пытается установить ссылку, как при вызове <A HREF="mysql-connect.html"><B>mysql_connect()</B></A> без аргументов, и использует её.</P>
+<P>Необязательный параметр <TT><I>result_mode</I></TT> может иметь значение MYSQL_USE_RESULT и MYSQL_STORE_RESULT. По умолчанию MYSQL_STORE_RESULT, 
+т.е. результат буферизуется. См. также <A HREF="mysql-unbuffered-query.html"><B>mysql_unbuffered_query()</B></A> - это функция противоположного действия.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>строка запроса не должна заканчиваться точкой с запятой (;).</P></BLOCKQUOTE>
+<P>Только для операторов SELECT, SHOW, EXPLAIN или DESCRIBE функция <B>mysql_query()</B> возвращает идентификатор ресурса,
+<TT><B>FALSE</B></TT> если запрос не был выполнен корректно. Для других типов SQL-операторов
+<B>mysql_query()</B> возвращает <TT><B>TRUE</B></TT> при успехе, <TT><B>FALSE</B></TT> при ошибке.
+Не-<TT><B>FALSE</B></TT> return-значение означает, что запрос был правильным и может быть выполнен на 
+сервере. Она ничего не сообщает о количестве задействованных или возвращаемых 
+рядов. Это отличная возможность для запроса продолжить выполнени<span lang="en-us">t</span>, не задействуя и не возвращая рядов.</P>
+<P>Следующий запрос синтаксически неверен, поэтому <B>mysql_query()</B> терпит неудачу и возвращает <TT><B>FALSE</B></TT>:
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN51998"></A><h5>Пример 1. mysql_query()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;php
+$result = mysql_query("SELECT * WHERE 1=1")
+    or die("Invalid query");
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></P><P>Следующий запрос 
+семантически неверен, поскольку
+<TT>my_col</TT> не является столбцом таблицы <TT>my_tbl</TT>, поэтому <B>mysql_query()</B> терпит неудачу и возвращает
+<TT><B>FALSE</B></TT>:<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN52007"></A>
+  <h5>Пример 2. mysql_query()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$result = mysql_query("SELECT my_col FROM my_tbl")
+    or die ("Invalid query");
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P><B>mysql_query()</B> терпит также неудачу и возвращает
+<TT><B>FALSE</B></TT>, если вы не имеете прав доступа к таблице(-ам), на которую сделана ссылка в 
+запросе.</P><P>Приняв, что запрос прошёл, вы можете вызвать <A HREF="mysql-num-rows.html"><B>mysql_num_rows()</B></A> для определения количества рядов, возвращаемых оператором SELECT, или
+<A HREF="mysql-affected-rows.html"><B>mysql_affected_rows()</B></A> для определения количества рядов, задействованных оператором DELETE, INSERT, REPLACE 
+или UPDATE.</P><P>Только для SELECT, SHOW, DESCRIBE или EXPLAIN функция <B>mysql_query()</B> 
+возвращает новый идентификатор результата, который вы передаёте в
+<A HREF="mysql-fetch-array.html"><B>mysql_fetch_array()</B></A> и другие функции, работающие с результирующими таблицами. По окончании работы 
+с результирующим набором вы можете освободить ресурсы, ассоциированные с ним, вызвав
+<A HREF="mysql-free-result.html"><B>mysql_free_result()</B></A>. В то же время память будет освобождаться автоматически по окончании работы 
+скрипта.</P><P>См. также <A HREF="mysql-num-rows.html"><B>mysql_num_rows()</B></A>,
+<A HREF="mysql-affected-rows.html"><B>mysql_affected_rows()</B></A>, <A HREF="mysql-unbuffered-query.html"><B>mysql_unbuffered_query()</B></A>,
+<A HREF="mysql-free-result.html"><B>mysql_free_result()</B></A>,
+<A HREF="mysql-fetch-array.html"><B>mysql_fetch_array()</B></A>,
+<A HREF="mysql-fetch-row.html"><B>mysql_fetch_row()</B></A>,
+<A HREF="mysql-fetch-assoc.html"><B>mysql_fetch_assoc()</B></A>,
+<A HREF="mysql-result.html"><B>mysql_result()</B></A>,
+<A HREF="mysql-select-db.html"><B>mysql_select_db()</B></A> и
+<A HREF="mysql-connect.html"><B>mysql_connect()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="mysql-ping.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="mysql-real-escape-string.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">mysql_ping</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.mysql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">mysql_real_escape_string</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

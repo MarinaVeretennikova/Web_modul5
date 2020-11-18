@@ -1,0 +1,66 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>array_walk</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0"  WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="array-values.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="array.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.array-walk">array_walk</A></H1><A NAME="AEN7909"></A>
+<P>(PHP 3&#62;= 3.0.3, PHP 4)</P><p>array_walk - применяет пользовательскую функцию к каждому члену массива.<A NAME="AEN7912"></A><H2>Описание</H2><p>int <B>array_walk</B> (array array, string func [, mixed userdata])</p>
+<P>Применяет определённую пользователем функцию <TT><I>func</I></TT> к каждому элементу массива <TT><I>array</I></TT>.<br>
+Функции <TT><I>func</I></TT> значение элемента массива будет передано как первый параметр, а ключ - как 
+второй параметр. Если <TT><I>userdata</I></TT> предоставлен, он будет передан как третий параметр в пользовательскую 
+функцию.<TT><I><br>func</I></TT> обязана быть определяемой пользователем функцией и не может быть встроенной 
+функцией PHP. Таким образом, вы не можете использовать <B>array_walk()</B> непосредственно с
+<B>str2lower()</B>, вы обязаны сначала построит с ней пользовательскую функцию, а затем передать 
+эту функцию как аргумент.</P><BLOCKQUOTE><P><B>Примечание:  </B>вместо имени функции может быть предоставлен также массив, содержащий ссылку на объект и имя метода.</P>
+</BLOCKQUOTE><P>Если <TT><I>func</I></TT> требует более двух или трёх аргументов, в зависимости от
+<TT><I>userdata</I></TT>, будет генерироваться предупреждение каждый раз, когда <B>array_walk()</B> вызывает
+<TT><I>func</I></TT>. Эти предупреждения могут подавляться путём присоединения знака '@' перед вызовом
+<B>array_walk()</B> или путем использования <A HREF="error-reporting.html"><B>error_reporting()</B></A>.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>если <TT><I>func</I></TT> должна работать с реальными значениями массива, специфицируйте, что первый 
+параметр для <TT><I>func</I></TT> должен передаваться по ссылке. Тогда любые изменения, сделанные в этих 
+элементах, будут сделаны в самом массиве.</P><P>Модификация массива из <TT><I>func</I></TT> может дать
+непредсказуемое поведение.</P></BLOCKQUOTE><BLOCKQUOTE><P><B>Примечание: </B>
+передача ключа и userdata в <TT><I>func</I></TT> была введена в версии 4.0.</P>
+<P>В PHP 4 <A HREF="reset.html"><B>reset()</B></A> должна вызываться по мере необходимости, поскольку
+<B>array_walk()</B> не восстанавливает по умолчанию значения массива.</P>
+<P>Пользователи не могут самостоятельно изменять массив из callback-функции, например, добавлять/удалять элементы, unset массив, к которому
+<B>array_walk()</B> применяется. Если массив изменяется, поведение функции не определено.</P></BLOCKQUOTE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN7958"></A><h5>Пример 1. array_walk()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$fruits = array ("d"=&#62;"lemon", "a"=&#62;"orange", "b"=&#62;"banana", "c"=&#62;"apple");
+
+function test_alter (&#38;$item1, $key, $prefix) {
+    $item1 = "$prefix: $item1";
+}
+
+function test_print ($item2, $key) {
+    echo "$key. $item2&#60;br&#62;\n";
+}
+echo "Before ...:\n";
+array_walk ($fruits, 'test_print');
+reset ($fruits);
+array_walk ($fruits, 'test_alter', 'fruit');
+echo "... and after:\n";
+reset ($fruits);
+array_walk ($fruits, 'test_print');</PRE></TD></TR></TABLE><P>Вывод программы:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>Before ...:
+d. lemon
+a. orange
+b. banana
+c. apple
+... and after:
+d. fruit: lemon
+a. fruit: orange
+b. fruit: banana
+c. fruit: apple</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>См. также <A HREF="each.html"><B>each()</B></A> и <A HREF="list.html"><B>list()</B></A>.</P>
+</TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0"  WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="array-values.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="array.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">array_values</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.array.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">array</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

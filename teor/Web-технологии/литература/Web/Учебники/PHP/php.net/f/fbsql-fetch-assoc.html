@@ -1,0 +1,35 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>fbsql_fetch_assoc</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%"  BORDER="0"CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="fbsql-fetch-array.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="fbsql-fetch-field.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.fbsql-fetch-assoc">fbsql_fetch_assoc</A></H1><A NAME="AEN21993"></A><P>(PHP 4 &#62;= 4.0.6)</P>
+<p>fbsql_fetch_assoc - извлекает результирующий ряд как ассоциативный массив.<A NAME="AEN21996"></A></p>
+<H2>Описание</H2><p>array <B>fbsql_fetch_assoc</B> (resource result)</p>
+<P>Возвращает ассоциативный массив, соответствующий извлечённому ряду, или <TT><B>FALSE</B></TT>, если рядов больше нет.</P>
+<P><B>fbsql_fetch_assoc()</B> эквивалентен вызову <A HREF="fbsql-fetch-array.html"><B>fbsql_fetch_array()</B></A> с FBSQL_ASSOC в качестве второго необязательного параметра. Возвращает только
+ассоциативный массив. Это изначальный способ работы <A HREF="fbsql-fetch-array.html"><B>fbsql_fetch_array()</B></A>.
+Если вам нужны не только ассоциативные, но и числовые индексы, используйте
+<A HREF="fbsql-fetch-array.html"><B>fbsql_fetch_array()</B></A>.</P>
+<P>Если два или более столбцов в результате имеют одинаковые имена, 
+преимущество имеет последний столбец. Для доступа к другому столбцу (столбцам) 
+с тем же именем вы обязаны использовать <A HREF="fbsql-fetch-array.html"><B>fbsql_fetch_array()</B></A> и заставить её возвращать также и числовые индексы.</P>
+<P>Важно отметить, что использование <B>fbsql_fetch_assoc()</B> НЕНАМНОГО медленнее, чем <A HREF="fbsql-fetch-row.html">
+<B>fbsql_fetch_row()</B></A>, но предоставляет важное дополнительное значение.</P>
+<P>Детали см. в <A HREF="fbsql-fetch-row.html"><B>fbsql_fetch_row()</B></A> и
+<A HREF="fbsql-fetch-array.html"><B>fbsql_fetch_array()</B></A>.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN22019"></A><h5>Пример 1. fbsql_fetch_assoc()</h5>
+<TABLE BORDER="0"  BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php 
+fbsql_connect ($host, $user, $password);
+$result = fbsql_db_query ("database","select * from table");
+while ($row = fbsql_fetch_assoc ($result)) {
+    echo $row["user_id"];
+    echo $row["fullname"];
+}
+fbsql_free_result ($result);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>&nbsp;</TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%"  BORDER="0"CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="fbsql-fetch-array.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="fbsql-fetch-field.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">fbsql_fetch_array</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.fbsql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">fbsql_fetch_field</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

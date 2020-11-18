@@ -1,0 +1,30 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>udm_cat_list</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="udm-api-version.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="udm-cat-path.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="udm-cat-list">udm_cat_list</A></H1><A NAME="AEN49289"></A><P>(PHP 4 &#62;= 4.0.6)</P>
+<p>udm_cat_list - получает все категории одного уровня с текущей.<A NAME="AEN49292"></A></p><H2>Описание</H2>
+<p>array <B>udm_cat_list</B> (int agent, string category)</p>
+<P><B>udm_cat_list()</B> возвращает массив со списком всех категорий того же уровня, что и текущая 
+категория, с дереве категорий.</P><P>Функция может использоваться при разработке браузера дерева категорий.</P>
+<P>Возвращает массив следующего формата:</P><P>Массив состоит из пар. Элементы с чётными индексами содержат пути категорий, 
+нечётные элементы содержать соответствующие имена категорий.</P><P>&nbsp;&nbsp;$array[0]&nbsp;будет содержать&nbsp;'020300'<br>
+&nbsp;&nbsp;$array[1]&nbsp;будет содержать&nbsp;'Audi'<br>&nbsp;&nbsp;$array[2]&nbsp;будет содержать&nbsp;'020301'<br>
+&nbsp;&nbsp;$array[3]&nbsp;будет содержать&nbsp;'BMW'<br>&nbsp;&nbsp;$array[4]&nbsp;будет содержать&nbsp;'020302'<br>
+&nbsp;&nbsp;$array[5]&nbsp;будет содержать&nbsp;'Opel'<br>&nbsp;&nbsp;...<br>&nbsp;и так далее.<br><br>
+Далее идёт пример ссылок текущего уровня в формате:<br>&nbsp;&nbsp;Audi<br>&nbsp;&nbsp;BMW<br>&nbsp;&nbsp;Opel<br>
+&nbsp;&nbsp;...<br>&nbsp;</P><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+ $cat_list_arr = udm_cat_list($udm_agent,$cat);
+ $cat_list = '';
+ for ($i=0; $i&#60;count($cat_list_arr); $i+=2) {
+   $path = $cat_list_arr[$i];
+   $name = $cat_list_arr[$i+1];
+   $cat_list .= "&#60;a href=\"$PHP_SELF?cat=$path\"&#62;$name&#60;/a&#62;&#60;br&#62;";
+ }
+?&#62;</PRE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="udm-api-version.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="udm-cat-path.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">udm_api_version</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.mnogo.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">udm_cat_path</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

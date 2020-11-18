@@ -1,0 +1,392 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0030)http://jsp.newmail.ru/les7.htm -->
+<HTML><HEAD><TITLE>Урок 7. Концепция свойств</TITLE>
+<META content="text/html; charset=windows-1251" http-equiv=Content-Type>
+<META 
+content="Самое толковое руководство по основам javascript на русском языке. Концепция свойств" 
+name=Description>
+<SCRIPT language=javascript>
+<!--
+if (document.images) {
+ar_r = new Image(33,33); ar_r.src = "i/ar_r.gif"; 
+ar_r1 = new Image(33,33); ar_r1.src = "i/ar_r1.gif"; 
+none = new Image(79,35); none.src = "i/none.gif"; 
+next = new Image(79,35); next.src = "i/next.gif"; 
+prev = new Image(79,35); prev.src = "i/prev.gif";
+ar_l = new Image(33,33); ar_l.src = "i/ar_l.gif";
+ar_l1 = new Image(79,35); ar_l1.src = "i/ar_l1.gif";
+}
+function swap(imgName,imgObjName) {
+if (document.images) {
+  document.images[imgName].src = eval(imgObjName + ".src");
+}}
+function toc() {
+OpenWindow=window.open('toc.html', 'toc', config='width=300,scrollbars=1,resizable=1,status=1')
+self.name="one"
+}
+//-->
+</SCRIPT>
+<LINK href="les7.files/blue.css" rel=STYLESHEET type=text/css>
+<META content="MSHTML 5.00.2614.3500" name=GENERATOR></HEAD>
+<BODY aLink=#d0550b background=les7.files/Life_blue.gif bgColor=#334775 
+link=#fbbcac text=#334775 vLink=#fbbcac>
+<DIV 
+style="HEIGHT: 35px; LEFT: 10px; POSITION: absolute; TOP: 10px; WIDTH: 160px"><A 
+href="http://jsp.newmail.ru/les6.htm" 
+onmouseout="swap('left','ar_l');swap('none','none')" 
+onmouseover="swap('left','ar_l1');swap('none','prev')"><IMG border=0 height=33 
+name=left src="les7.files/ar_l.gif" width=33></A>&nbsp;<A href="" 
+onmouseout="swap('left','ar_l');swap('right','ar_r')" 
+onmouseover="swap('left','ar_l1');swap('right','ar_r1')"><IMG border=0 height=35 
+name=none src="les7.files/none.gif" width=79></A>&nbsp;<A 
+href="http://jsp.newmail.ru/les8.htm" 
+onmouseout="swap('right','ar_r');swap('none','none')" 
+onmouseover="swap('right','ar_r1');swap('none','next')"><IMG border=0 height=33 
+name=right src="les7.files/ar_r.gif" width=33></A> </DIV>
+<H1 align=right>Урок 7<BR>Концепция свойств</H1>
+<P align=right><B><FONT color=#fb4462>красным цветом даны примечания 
+переводчика</FONT></B><BR><A 
+href="http://jsp.newmail.ru/les7.htm#concept">Концепция</A>&nbsp;-&nbsp;<A 
+href="http://jsp.newmail.ru/les7.htm#script">Скрипт</A>&nbsp;-&nbsp;<A 
+href="http://jsp.newmail.ru/les7.htm#effect">Эффект</A>&nbsp;-&nbsp;<A 
+href="http://jsp.newmail.ru/les7.htm#decon">Разбор скрипта</A>&nbsp;-&nbsp;<A 
+href="http://jsp.newmail.ru/les7.htm#assig">Задание</A></P>
+<P align=right><A href="http://jsp.newmail.ru/les7.htm#" 
+onclick=toc()>Оглавление</A></P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="50%"><IMG height=13 
+      src="les7.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="30%">
+      <P align=right><IMG height=13 src="les7.files/b_t_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%">
+      <H2><A name=concept>Концепция</A></H2>
+      <P align=justify><B>И</B>ерархия объектов JavaScript играет настолько 
+      важную роль, что мы посвятим ей отдельный урок, но мы уже и так начинаем 
+      понемногу ее осваивать.<BR>Нам известно, что существуют объекты, например, 
+      document, и методы, например, write, которые воздействуют на объекты. В <A 
+      href="http://jsp.newmail.ru/les6.htm" id=l>Уроке 6</A> мы имели дело с 
+      переменными. Теперь рассмотрим концепцию <EM>свойств</EM>. Мы уже слегка 
+      касались этой темы. Свойства представляют собой часть или качество 
+      объекта. В <A href="http://jsp.newmail.ru/les4.htm" id=l>Уроке 4</A> мы 
+      работали со свойством документа bgColor.</P>
+      <P align=justify>Было бы трудно рассмотреть все возможные свойства на 
+      одной странице. У меня три книжки по JavaScript, и в них я насчитал 56 
+      различных свойств, определяющих многочисленные объекты. Поэтому сейчас я 
+      расскажу вам о нескольких наиболее популярных и о том, какую пользу они 
+      приносят.</P>
+      <H2><A name=#script>Скрипт</A></H2>
+      <P align=justify>Ниже вы увидите множество скриптов, но все они составлены 
+      по одной схеме: создается переменная для каждой команды объект.свойство, 
+      затем переменные помещаются в document.write(). Внимание: 1) заголовки 
+      жирным шрифтом не являются частью самих скриптов; 2) текст в скобках после 
+      document.write() должен располагаться на одной строке.</I></P>
+      <P><B>Свойства объекта navigator <FONT color=red>(браузер)</FONT></B></P>
+      <P class=cou>&lt;SCRIPT LANGUAGE="javascript"&gt;<BR>var an = 
+      navigator.appName;<BR>var av = navigator.appVersion;<BR>var acn = 
+      navigator.appCodeName;<BR>var ua = 
+      navigator.userAgent;<BR>document.write("Вы пользуетесь &lt;B&gt;" +an+ 
+      "&lt;/B&gt;, <BR>версия " +av+ ".<BR>&lt;BR&gt;Кодовое название " +acn+ ", 
+      заголовок " <BR>+ua+ "." );<BR>&lt;/SCRIPT&gt;</P>
+      <P><B>Свойства объекта document</B></P>
+      <P class=cou>&lt;SCRIPT LANGUAGE="javascript"&gt;<BR>var bgc = 
+      document.bgColor;<BR>var fgc = document.fgColor;<BR>var lc = 
+      document.linkColor;<BR>var al = document.alinkColor;<BR>var vlc = 
+      document.vlinkColor;<BR>var url = document.location;<BR>var ref = 
+      document.referrer;<BR>var t = document.title;<BR>var lm = 
+      document.lastModified; <BR>document.write("Цвет фона этой страницы 
+      &lt;B&gt;" <BR>+bgc+ "&lt;/B&gt;.")<BR>document.write("&lt;BR&gt;Цвет 
+      текста этой страницы &lt;B&gt;" +fgc+ 
+      "&lt;/B&gt;.")<BR>document.write("&lt;BR&gt;Цвет ссылок этой страницы 
+      &lt;B&gt;" +lc+ "&lt;/B&gt;.")<BR>document.write("&lt;BR&gt;Цвет активной 
+      ссылки этой страницы <BR>&lt;B&gt;" +al+ 
+      "&lt;/B&gt;.")<BR>document.write("&lt;BR&gt;Цвет посещенной ссылки этой 
+      страницы <BR>&lt;B&gt;" +vlc+ 
+      "&lt;/B&gt;.")<BR>document.write("&lt;BR&gt;URL этой страницы &lt;B&gt;" 
+      +url+ "&lt;/B&gt;.")<BR>document.write("&lt;BR&gt;До этого вы были на 
+      странице &lt;B&gt;" +<BR>ref+ 
+      "&lt;/B&gt;.")<BR>document.write("&lt;BR&gt;Заголовок этой страницы 
+      &lt;B&gt;" +t+ "&lt;/B&gt;.")<BR>document.write("&lt;BR&gt;Последние 
+      изменения внесены: &lt;B&gt;" <BR>+lm+ 
+      "&lt;/B&gt;.")<BR>&lt;/SCRIPT&gt;</P>
+      <P><B>Свойства объекта history</B></P>
+      <P class=cou>&lt;SCRIPT LANGUAGE="javascript"&gt;<BR>var h = 
+      history.length;<BR>document.write("До этой страницы вы посетили" +h+ " 
+      страниц.")<BR>&lt;/SCRIPT&gt;</P>
+      <P><B>Два свойства объекта location <FONT color=red>(адрес)</FONT></B></P>
+      <P class=cou>&lt;SCRIPT LANGUAGE="javascript"&gt;<BR>var hst = 
+      location.host<BR>document.write("Страница находится на &lt;B&gt;" + hst + 
+      <BR>"&lt;/B&gt;." )<BR>&lt;/SCRIPT&gt;</P>
+      <P class=cou>&lt;SCRIPT LANGUAGE="javascript"&gt;<BR>var hstn = 
+      location.hostname<BR>document.write("Страница находится на &lt;B&gt;" + 
+      hstn + <BR>"&lt;/B&gt;." )<BR>&lt;/SCRIPT&gt;</P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd vAlign=bottom width="50%"><IMG height=13 
+      src="les7.files/b_b_l.gif" width=12></TD>
+    <TD bgColor=#cef3fd vAlign=bottom width="30%">
+      <P align=right><IMG height=13 src="les7.files/b_b_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P>
+<DIV align=right>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="85%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=30 vAlign=top width="50%"><IMG height=13 
+      src="les7.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd vAlign=top width="50%">
+      <P align=right><IMG height=13 src="les7.files/b_t_r.gif" 
+  width=13></P></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%">
+      <H2><A name=effect>Эффект</A> </H2>
+      <P><B>Н</B>екоторые сведения о вашем компьютере:</P>
+      <P>
+      <SCRIPT language=javascript>
+var an  = navigator.appName;
+var av  = navigator.appVersion;
+var acn = navigator.appCodeName;
+var ua  = navigator.userAgent;
+document.write("Вы пользуетесь <B>" +an+  "</B>, версия "  +av+ ".<BR>Кодовое название " +acn+ ", заголовок " +ua+ "." );
+</SCRIPT>
+      </P>
+      <P>
+      <SCRIPT language=javascript>
+var bgc  = document.bgColor;
+var fgc  = document.fgColor;
+var lc   = document.linkColor;
+var al   = document.alinkColor;
+var vlc  = document.vlinkColor;
+var url  = document.location;
+var ref  = document.referrer;
+var t    = document.title;
+var lm   = document.lastModified;
+document.write("Цвет фона этой страницы <B>" +bgc+ "</B>.")
+document.write("<BR>Цвет текста этой страницы <B>" +fgc+ "</B>.")
+document.write("<BR>Цвет ссылок этой страницы <B>" +lc+ "</B>.")
+document.write("<BR>Цвет активной ссылки этой страницы <B>" +al+ "</B>.")
+document.write("<BR>Цвет посещенной ссылки этой страницы <B>" +vlc+ "</B>.")
+document.write("<BR>URL этой страницы <B>" +url+ "</B>.")
+document.write("<BR>До этого вы были на странице <B>" +ref+ "</B>.")
+document.write("<BR>Заголовок этой страницы <B>" +t+ "</B>.")
+document.write("<BR>Последние изменения внесены: <B>" +lm+ "</B>.")
+</SCRIPT>
+      </P>
+      <P>
+      <SCRIPT language=javascript>
+var h  = history.length;
+document.write("До этой страницы вы посетили " +h+ " страниц.")
+</SCRIPT>
+      </P>
+      <P>
+      <SCRIPT language=javascript>
+var hst = location.host
+document.write("Страница находится на <B>" + hst + "</B>.")
+</SCRIPT>
+      </P>
+      <P>
+      <SCRIPT language=javascript>
+var hstn = location.hostname
+
+document.write("Страница находится на <B>" + hstn + "</B>."  )
+
+</SCRIPT>
+      </P></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%"><IMG height=13 
+      src="les7.files/b_b_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%">
+      <P align=right><IMG height=13 src="les7.files/b_b_r.gif" 
+  width=13></P></TD></TR></TBODY></TABLE></DIV>
+<P>.</P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="50%"><IMG height=13 
+      src="les7.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="30%">
+      <P align=right><IMG height=13 src="les7.files/b_t_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%"><A 
+      name=decon>
+      <H2>Разбор скрипта</A> </H2>
+      <P>Поговорим о каждой группе отдельно...</P>
+      <P><B>Почему местами шрифт жирный?</B></P>
+      <P align=justify>Да так, ради забавы. Найдите в скрипте элементы, которые 
+      написаны жирным шрифтом. Я просто добавил команды &lt;B&gt; и &lt;/B&gt; 
+      по обеим сторонам от имени переменной. Раз это document.write, в текст 
+      можно вписать любые команды HTML, изменяющие текст. Только следите за тем, 
+      чтобы команды HTML находились внутри двойных кавычек, иначе браузер 
+      посчитает их частью скрипта — это было бы ошибкой.</P>
+      <P><I>Вернемся к нашим свойствам...</I></P>
+      <P><B>Свойства объекта navigator</B></P>
+      <P class=cou>&lt;SCRIPT LANGUAGE="javascript"&gt;<BR>var an = 
+      navigator.appName;<BR>var av = navigator.appVersion;<BR>var acn = 
+      navigator.appCodeName;<BR>var ua = 
+      navigator.userAgent;<BR><BR>document.write("Вы пользуетесь &lt;B&gt;" +an+ 
+      "&lt;/B&gt;, <BR>версия " +av+ ".&lt;BR&gt;Кодовое название " +acn+ ", 
+      <BR>заголовок " +ua+ "." );<BR>&lt;/SCRIPT&gt;</P>
+      <P align=justify>Люди обожают эти штуки. Объект navigator имеет четыре 
+      свойства. Обратите внимание на заглавные буквы!
+      <UL>
+        <LI><B>appName</B> сообщает название браузера, например, Netscape или 
+        Explorer. 
+        <LI><B>appVersion</B> сообщает версию браузера и платформу, на которой 
+        он работает. 
+        <LI><B>appCodeName</B> сообщает кодовое имя, данное браузеру, например, 
+        Netscape называет свой браузер Mozilla. 
+        <LI><B>userAgent</B> сообщает заголовок протокола, используемого 
+        браузером во время работы с серверами.</LI></UL>
+      <P align=justify>Иногда важно знать версию браузера. Чуть позже мы изучим 
+      команды If <FONT color=red>(если)</FONT>. Зная браузер пользователя, можно 
+      дать команду: "Если браузер такой-то, сделать то-то."</P>
+      <P><B>Свойства объекта document</B></P>
+      <P class=cou>&lt;SCRIPT LANGUAGE="javascript"&gt;<BR>var bgc = 
+      document.bgColor;<BR>var fgc = document.fgColor;<BR>var lc = 
+      document.linkColor;<BR>var al = document.alinkColor;<BR>var vlc = 
+      document.vlinkColor;<BR>var url = document.location;<BR>var ref = 
+      document.referrer;<BR>var t = document.title;<BR>var lm = 
+      document.lastModified; <BR>document.write("Цвет фона этой страницы 
+      &lt;B&gt;" <BR>+bgc+ "&lt;/B&gt;.")<BR>document.write("&lt;BR&gt;Цвет 
+      текста этой страницы &lt;B&gt;" +fgc+ 
+      "&lt;/B&gt;.")<BR>document.write("&lt;BR&gt;Цвет ссылок этой страницы 
+      &lt;B&gt;" +lc+ "&lt;/B&gt;.")<BR>document.write("&lt;BR&gt;Цвет активной 
+      ссылки этой страницы <BR>&lt;B&gt;" +al+ 
+      "&lt;/B&gt;.")<BR>document.write("&lt;BR&gt;Цвет посещенной ссылки этой 
+      страницы <BR>&lt;B&gt;" +vlc+ 
+      "&lt;/B&gt;.")<BR>document.write("&lt;BR&gt;URL этой страницы &lt;B&gt;" 
+      +url+ "&lt;/B&gt;.")<BR>document.write("&lt;BR&gt;До этого вы были на 
+      странице &lt;B&gt;" +<BR>ref+ 
+      "&lt;/B&gt;.")<BR>document.write("&lt;BR&gt;Заголовок этой страницы 
+      &lt;B&gt;" +t+ "&lt;/B&gt;.")<BR>document.write("&lt;BR&gt;Последние 
+      изменения внесены: &lt;B&gt;" <BR>+lm+ 
+      "&lt;/B&gt;.")<BR>&lt;/SCRIPT&gt;</P>
+      <P align=justify>Свойства документа очень популярны в JavaScript. Здесь я 
+      перечислил девять. На самом деле их тринадцать, но остальные четыре вам 
+      пока не нужны. Я перечислю их ниже:
+      <UL>
+        <LI><B>bgColor</B> сообщает цвет фона в шестизначном коде. 
+        <LI><B>fgColor</B> сообщает цвет текста в шестизначном коде. 
+        <LI><B>linkColor</B> сообщает цвет ссылки. 
+        <LI><B>alinkColor</B> сообщает цвет активной ссылки. 
+        <LI><B>vlinkColor</B> сообщает цвет посещенной ссылки. 
+        <LI><B>location</B> сообщает URL страницы. 
+        <LI><B>referrer</B> сообщает, с какой страницы пришел пользователь. Если 
+        информация недоступна, скрипт оставляет пустое место. 
+        <LI><B>title</B> сообщает заголовок документа между командами TITLE. 
+        <LI><B>lastModified</B> сообщает дату, когда были внесены последние 
+        изменения в страницу (на самом деле дату, когда страница была загружена 
+        на сервер или сохранена на жестком диске). 
+        <LI><I>не показаны</I>: <B>cookie</B>,<B> anchors</B>, <B>forms</B>, 
+        <B>links</B>.</LI></UL>
+      <P align=justify>Опять же, воспользовавшись командой If, вы можете 
+      сказать: "Если время больше 6 вечера, пусть текст будет белый, а фон 
+      черный. Если еще нет 6 вечера, то пусть фон будет голубой, а текст 
+      зеленый". Существует множество способов использовать свойства 
+      документа.</P>
+      <P><B>Свойства объекта history</B></P>
+      <P class=cou>&lt;SCRIPT LANGUAGE="javascript"&gt;<BR>var h = 
+      history.length;<BR>document.write("До этого вы посетили " +h+ " 
+      страниц.")<BR>&lt;/SCRIPT&gt;</P>
+      <P align=justify>Это очень популярный объект. Многим хочется иметь 
+      возможность вернуть пользователя на посещенные им страницы, то есть, 
+      воспроизвести кнопки "Вперед" и "Назад" на панели браузера. Объект history 
+      это позволяет.</P>
+      <P align=justify>Объектом является журнал посещений history. Это список 
+      страниц, посещенных вашим браузером.<BR>Свойство length <FONT 
+      color=red>(протяженность)</FONT>. Оно тоже популярно. Позже вы узнаете, 
+      как можно использовать его с другими командами. Указывая это свойство, вы 
+      просите скрипт просто сообщить количество страниц в папке "history".</P>
+      <P align=justify>Существует метод go() <FONT color=red>(пойти)</FONT>, 
+      который позволяет передвигаться по history.length.</P>
+      <P><B>Два свойства объекта location</B></P>
+      <P class=cou>&lt;SCRIPT LANGUAGE="javascript"&gt;<BR>var hst = 
+      location.host<BR>document.write("Страница находится на &lt;B&gt;" + hst + 
+      "&lt;/B&gt;.")<BR>&lt;/SCRIPT&gt;</P>
+      <P class=cou>&lt;SCRIPT LANGUAGE="javascript"&gt;<BR>var hstn = 
+      location.hostname<BR>document.write("Страница находится на &lt;B&gt;" + 
+      hstn + "&lt;/B&gt;.")<BR>&lt;/SCRIPT&gt;</P>
+      <P align=justify>Здесь объектом является location. Это URL на языке 
+      JavaScript, адрес страницы. Перед вами два свойства объекта location, 
+      host, и hostname. Команды выполняют одну и ту же задачу, сообщают URL либо 
+      в текстовом формате, либо номером IP, в зависимости от сервера. Но...
+      <UL>
+        <LI><B>location.host</B> сообщает URL плюс "порт", к которому прикреплен 
+        пользователь. 
+        <LI><B>location.hostname</B> сообщает только URL. </LI></UL>
+      <P align=justify>Если вы получаете одинаковый результат от обеих команд, 
+      значит, ваш сервер не прикрепил вас к специальному порту. Говоря 
+      техническим языком, свойство "порта" — ноль.<BR>Кстати, эти две команды не 
+      работают, если просматривать страницу с жесткого диска. Результат может 
+      быть только в том случае, если она размещается на сервере.</P>
+      <P align=justify>Есть еще множество всяческих свойств, с которыми вы 
+      встретитесь во время наших уроков. Это наиболее употребимые.</P>
+      <H2><A name=assig>Ваше задание</A></H2>
+      <P align=justify><B>O</B>тлично, умники, сделайте-ка вот что: пользуясь 
+      одной из вышеперечисленных команд, напишите JavaScript, который создает 
+      ссылку на страницу на вашем сервере. Например, если вы находитесь на 
+      www.you.ru, JavaScript создаст ссылку на www.you.ru/index.html.<BR>Также, 
+      каким бы свойством вы ни воспользовались, присвойте ему переменную.</P>
+      <P>Здесь возможный <A href="http://jsp.newmail.ru/assig7.htm" 
+      id=l>ответ</A></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd vAlign=bottom width="50%"><IMG height=13 
+      src="les7.files/b_b_l.gif" width=12></TD>
+    <TD bgColor=#cef3fd vAlign=bottom width="30%">
+      <P align=right><IMG height=13 src="les7.files/b_b_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR></TBODY></TABLE>
+<P align=right><A 
+href="http://jsp.newmail.ru/les7.htm#concept">Концепция</A>__<A 
+href="http://jsp.newmail.ru/les7.htm#script">Скрипт</A>__<A 
+href="http://jsp.newmail.ru/les7.htm#effect">Эффект</A>__<A 
+href="http://jsp.newmail.ru/les7.htm#decon">Разбор скрипта</A>__<A 
+href="http://jsp.newmail.ru/les7.htm#assig">Задание</A> </P>
+<P align=right><FONT size=5><A href="http://jsp.newmail.ru/les8.htm">Вперед, на 
+Урок 8</A></FONT></P>
+<DIV align=right>
+<TABLE width="75%">
+  <TBODY>
+  <TR>
+    <TD><FONT color=#cef3fd>
+      <P align=justify class=small>авторы <A 
+      href="http://www.htmlgoodies.com/primers/jsp/me.html">Джо Бернс</A> и 
+      Эндри Грауни. <A href="http://www.htmlgoodies.com/">Оригинал и многое 
+      другое на английском языке</A> © <A 
+      href="http://www.earthweb.com/">EarthWeb Inc.</A> <BR>Перевод, оформление 
+      и верстка © Татьяна.</FONT></P></TD></TR></TBODY></TABLE></DIV><!-- HotLog -->
+<SCRIPT language=javascript>
+hotlog_js="1.0";hotlog_d=document; hotlog_n=navigator;hotlog_rn=Math.random();
+hotlog_n_n=(hotlog_n.appName.substring(0,3)=="Mic")?0:1;
+hotlog_r=""+hotlog_rn+"&s=15862&r="+escape(hotlog_d.referrer)+"&pg="+
+escape(window.location.href);
+hotlog_d.cookie="hotlog=1"; hotlog_r+="&c="+(hotlog_d.cookie?"Y":"N");
+hotlog_d.cookie="hotlog=1; expires=Thu, 01-Jan-70 00:00:01 GMT"</SCRIPT>
+
+<SCRIPT language=javascript1.1>
+hotlog_js="1.1";hotlog_r+="&j="+(navigator.javaEnabled()?"Y":"N")</SCRIPT>
+
+<SCRIPT language=javascript1.2>
+hotlog_js="1.2";hotlog_s=screen;
+hotlog_r+="&wh="+hotlog_s.width+'x'+hotlog_s.height+"&px="+((hotlog_n_n==0)?
+hotlog_s.colorDepth:hotlog_s.pixelDepth)</SCRIPT>
+
+<SCRIPT language=javascript1.3>hotlog_js="1.3"</SCRIPT>
+
+<SCRIPT language=javascript>hotlog_r+="&js="+hotlog_js;
+hotlog_d.write("<img src=\"http://hit2.hotlog.ru/cgi-bin/hotlog/count?"+
+hotlog_r+"&\" border=0 width=1 height=1>")</SCRIPT>
+<NOSCRIPT><IMG border=0 height=1 src="les7.files/count" width=1></NOSCRIPT> <!-- /HotLog --><!--webbot bot="HTMLMarkup" startspan ALT="Site Meter" -->
+<SCRIPT>var site="sm2jsp"</SCRIPT>
+
+<SCRIPT language=JavaScript1.2 src="les7.files/counter.js">
+</SCRIPT>
+<!-- Copyright (c) 1999-2000 Site Meter --><!--webbot
+bot="HTMLMarkup" endspan --></BODY></HTML>

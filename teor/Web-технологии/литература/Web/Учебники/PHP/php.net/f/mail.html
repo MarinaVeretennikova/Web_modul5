@@ -1,0 +1,103 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>mail</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%"><A HREF="ezmlm-hash.html">Назад</A>
+</TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ref.mailparse.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="mail">mail</A></H1><A NAME="AEN39942"></A><P>(PHP 3, PHP 4)</P>
+<p>mail - отправляет почту.<A NAME="AEN39945"></A></p><H2>Описание</H2>
+<p>bool <B>mail</B> (string to, string subject, string message [, string additional_headers [, string additional_parameters]])</p>
+<P><B>mail()</B> автоматически отправляет сообщение <TT><I>message</I></TT> получателю <TT><I>to</I></TT>. Можно специфицировать несколько получателей, разделив запятой адреса в
+<TT><I>to</I></TT>. С помощью этой функции можно высылать Email с присоединением/attachment и 
+содержимое специальных типов. Это делается через MIME-кодировку - см. дополнительно эту
+<A HREF="http://www.zend.com/zend/spotlight/sendmimeemailpart1.php" TARGET="_top">статью о Zend</A>
+или <A HREF="http://pear.php.net/get/Mail_Mime" TARGET="_top">PEAR Mime Classes</A>.</P>
+<P>Могут помочь и следующие RFC-документы: <A HREF="http://www.ietf.org/rfc/rfc1896.txt" TARGET="_top">RFC 1896</A>,
+<A HREF="http://www.ietf.org/rfc/rfc2045.txt" TARGET="_top">RFC 2045</A>,
+<A HREF="http://www.ietf.org/rfc/rfc2046.txt" TARGET="_top">RFC 2046</A>,
+<A HREF="http://www.ietf.org/rfc/rfc2047.txt" TARGET="_top">RFC 2047</A>,
+<A HREF="http://www.ietf.org/rfc/rfc2048.txt" TARGET="_top">RFC 2048</A> и 
+<A HREF="http://www.ietf.org/rfc/rfc2049.txt" TARGET="_top">RFC 2049</A>.</P>
+<P><B>mail()</B> возвращает <TT><B>TRUE</B></TT>, если почта была успешно принята для доставки, <TT><B>FALSE</B></TT> в ином случае.</P>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>Windows-реализация <B>mail()</B> во многом отличается от Unix-реализации. Во-первых, она не использует 
+локальный экзешник для составления сообщений, а работает лишь по прямым сокетам, что означает, что
+<TT>MTA</TT> должен прослушивать сетевой сокет (который может находиться на локальной или 
+удалённой машине). Во-вторых, специальные шапки/headers вроде <TT>From:</TT>, <TT>Cc:</TT>,
+<TT>Bcc:</TT> и <TT>Date:</TT> <i>не</i> интерпретируются <TT>MTA</TT>, а разбираются в <TT>PHP</TT>.<br>
+<TT>PHP</TT> &#60; 4.3 поддерживал только header-элемент <TT>Cc:</TT> (и был чувствительным к регистру).<br>
+<TT>PHP</TT> &#62;= 4.3 поддерживает все элементы шапки и нечувствителен к регистру символов.</P></TD></TR></TABLE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN39998"></A><h5>Пример 1. Отправка почты.</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>mail("joecool@example.com", "My Subject", "Line 1\nLine 2\nLine 3");</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Если передаётся четвёртый строковой аргумент, эта строка вставляется в 
+конце шапки/header. Обычно это используют для добавления дополнительных 
+шапок. Несколько дополнительных шапок разделяются символами carriage return и newline.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>вы обязаны использовать <TT>\r\n</TT> для разделения шапок, хотя некоторые почтовые агенты Unix могут работать с 
+одиночными символами newline (<TT>\n</TT>).</P></BLOCKQUOTE><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN40007"></A><h5>Пример 2. отправка посты с дополнительными шапками/header.</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>mail("nobody@example.com", "the subject", $message,
+     "From: webmaster@$SERVER_NAME\r\n"
+    ."Reply-To: webmaster@$SERVER_NAME\r\n"
+    ."X-Mailer: PHP/" . phpversion());</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Параметр <TT><I>additional_parameters</I></TT> можно использовать для передачи дополнительных параметров программе, 
+сконфигурированной для использования при отправке почты установкой конфигурации <TT>sendmail_path</TT>. Например, это можно применять для установки адреса отправителя при 
+использовании sendmail. Вам может понадобиться добавить пользователя под 
+которым работает ваш web-сервер, в вашу sendmail-конфигурацию для 
+предотвращения добавления шапки 'X-Warning!' к сообщению, когда вы 
+устанавливаете отправителя с использованием этого метода.<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN40013"></A><h5>Пример 3. Отправка почты с дополнительными шапками/headers и установка 
+дополнительного параметра командной строки.</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>mail("nobody@example.com", "the subject", $message,
+     "From: webmaster@$SERVER_NAME", "-fwebmaster@$SERVER_NAME");</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<BLOCKQUOTE><P><B>Примечание: </B>этот пятый параметр был введён в PHP 4.0.5.</P></BLOCKQUOTE>
+<P>Вы можете также использовать простую технику построения строк для создания сложных
+email-сообщений.<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN40019"></A>
+  <h5>Пример 4. Отправка сложной email.</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>/* получатели */
+$to  = "Mary &#60;mary@example.com&#62;" . ", " ; //обратите внимание на запятую
+$to .= "Kelly &#60;kelly@example.com&#62;";
+
+/* тема\subject */
+$subject = "Birthday Reminders for August";
+
+/* сообщение */
+$message = '
+&#60;html&#62;
+&#60;head&#62;
+ &#60;title&#62;Birthday Reminders for August&#60;/title&#62;
+&#60;/head&#62;
+&#60;body&#62;
+&#60;p&#62;Here are the birthdays upcoming in August!&#60;/p&#62;
+&#60;table&#62;
+ &#60;tr&#62;
+  &#60;th&#62;Person&#60;/th&#62;&#60;th&#62;Day&#60;/th&#62;&#60;th&#62;Month&#60;/th&#62;&#60;th&#62;Year&#60;/th&#62;
+ &#60;/tr&#62;
+ &#60;tr&#62;
+  &#60;td&#62;Joe&#60;/td&#62;&#60;td&#62;3rd&#60;/td&#62;&#60;td&#62;August&#60;/td&#62;&#60;td&#62;1970&#60;/td&#62;
+ &#60;/tr&#62;
+ &#60;tr&#62;
+  &#60;td&#62;Sally&#60;/td&#62;&#60;td&#62;17th&#60;/td&#62;&#60;td&#62;August&#60;/td&#62;&#60;td&#62;1973&#60;/td&#62;
+ &#60;/tr&#62;
+&#60;/table&#62;
+&#60;/body&#62;
+&#60;/html&#62;
+';
+
+/* Для отправки HTML-почты вы можете установить шапку Content-type. */
+$headers  = "MIME-Version: 1.0\r\n";
+$headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
+
+/* дополнительные шапки */
+$headers .= "From: Birthday Reminder &#60;birthday@example.com&#62;\r\n";
+$headers .= "Cc: birthdayarchive@example.com\r\n";
+$headers .= "Bcc: birthdaycheck@example.com\r\n";
+
+/* и теперь отправим из */
+mail($to, $subject, $message, $headers);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<BLOCKQUOTE><P><B>Примечание: </B>убедитесь, что у вас нет символов newline в <TT><I>to</I></TT> или в <TT><I>subject</I></TT>,
+иначе почта может не отправиться корректно.</P></BLOCKQUOTE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ezmlm-hash.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ref.mailparse.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ezmlm_hash</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.mail.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Функции mailparse</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

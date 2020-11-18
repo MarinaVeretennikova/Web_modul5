@@ -1,0 +1,269 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+  <META NAME="Author" CONTENT="Alexey V. Pautov">
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=koi8-r">
+  <META NAME="GENERATOR" CONTENT="Created by Dos Navigator.">
+  <TITLE>оПХЛЕП АЮГШ ДЮММШУ</TITLE>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#C0C0C0" LINK="#0000EE" VLINK="#551A8B"
+ALINK="#FF0000" BACKGROUND="#FFFFFF">
+
+<H1><CENTER>оПХЛЕП АЮГШ ДЮММШУ</H1></CENTER>
+<P>щРН ОПНЯРНИ ОПХЛЕП РНЦН, ЙЮЙ ЛНФЕР БШЦКЪДЕРЭ БОНКМЕ РХОХВМЮЪ АЮГЮ ДЮММШУ.
+
+<P>б ОПНЕЙРХПНБЮМХХ АЮГШ ДЮММШУ ОЕПБНЕ ДЕКН, ЙНРНПНЕ бШ ДНКФМШ ЯДЕКЮРЭ, ЩРН
+БШВХЯКХРЭ ОНЯКЕДНБЮРЕКЭМНЯРЭ ДЕИЯРБХИ, МЕНАУНДХЛШУ бЮЛ ДКЪ ПЕЬЕМХЪ
+ОНЯРЮБКЕММНИ ГЮДЮВХ. б SQL ЩРН ЛНФЕР БШЦКЪДЕРЭ РЮЙ:
+
+<CENTER><H2>рЮАКХЖШ</H2></CENTER>
+<P><PRE>
+# The Widget table.
+#
+# Detailed information on a widget.  Linked to by Purchase_Order_Item
+# by way of the widget_id field.  Linked to Widget_Color by way of
+# the widget_color field, and to the Widget_Size table by way of the
+# widget_size field.
+CREATE TABLE Widget_Table (
+  widget_id MEDIUMINT(8) NOT NULL AUTO_INCREMENT,
+  widget_name CHAR(60) NOT NULL,
+  widget_color_id MEDIUMINT(8) NOT NULL,
+  widget_size_id MEDIUMINT(8) NOT NULL,
+  widgets_on_hand SMALLINT NOT NULL,
+  widget_price FLOAT(8,2) NOT NULL,
+  commission_percent FLOAT(2,2) NOT NULL,
+  PRIMARY KEY (widget_id),
+  KEY (widget_name),
+  KEY (widget_color_id,widget_size_id)
+);
+</PRE>
+
+<P>оЕПБЮЪ ЯРПНЙЮ ЯННАЫЮЕР ясад MySQL, ВРН ЛШ НОПЕДЕКЪЕЛ РЮАКХЖС ОН ХЛЕМХ
+Widget_Table. яКЕДСЧЫХЕ ЬЕЯРЭ ЯРПНЙ НОПЕДЕКЪЧР ОНКЪ, ЙНРНПШЕ РЮАКХЖЮ
+ЯНДЕПФХР, РХО ДЮММШУ, ЙНРНПШЕ БУНДЪР Б МХУ, Х ЙЮЙХЕ ЮРПХАСРШ ЩРХ ОНКЪ ХЛЕЧР.
+
+<P>оПЕФДЕ, ВЕЛ бШ ЯЛНФЕРЕ ЯНГДЮРЭ ЩРС РЮАКХЖС, бШ ДНКФМШ ЯНГДЮРЭ ОСЯРСЧ
+АЮГС ДЮММШУ. б MySQL ЩРН БШОНКМЕМН ОНЯПЕДЯРБНЛ ОПНЦПЮЛЛШ
+<A HREF="commands.htm#Mysqladmin">mysqladmin</A>.
+
+<P><PRE>
+
+prompt> mysqladmin create Widget-DB
+
+</PRE>
+
+<P>нДМЮ ХГ ЛМНФЕЯРБЮ НЯМНБМШУ ЙНМЖЕОЖХИ Б УНПНЬЕЛ ОПНЕЙРЕ ПЕКЪЖХНММНИ АЮГШ
+ДЮММШУ ЩРН РН, ВРН бШ МХЙНЦДЮ МЕ ДНКФМШ УПЮМХРЭ ХГАШРНВМШЕ ДЮММШЕ. б ЯКСВЮЕ
+Widget_Table ЩРН НРПЮФЕМН Б ОНКЪУ Widget_color_id Х widget_size_id. щРХ ДБЮ
+ОНКЪ ЛНЦКХ АШ АШРЭ ЯРПНЙЮЛХ. бГЮЛЕМ ЛШ ДЕКЮЕЛ ХУ СЙЮГЮРЕКЪЛХ МЮ ДПСЦХЕ
+РЮАКХЖШ, ЙНРНПШЕ АСДСР ЯНДЕПФЮРЭ НДМС ГЮОХЯЭ ДКЪ ЙЮФДНЦН БНГЛНФМНЦН ГМЮВЕМХЪ,
+ЙНРНПНЕ ЛНФЕР ЯНДЕПФЮРЭ РЮЙНЕ ОНКЕ.
+
+<P>щРН ЯДЕКЮМН ОН ДБСЛ ОПХВХМЮЛ:
+
+<P><UL><LI>мЕОПНРХБНПЕВХБНЯРЭ</LI>
+<LI>жЕМРПЮКХГЮЖХЪ ЯКНФМНЯРХ</LI></UL>
+
+оЕПБЮЪ ОПХВХМЮ - ТЮЙРХВЕЯЙХ ОНДЯКСВЮИ БРНПНИ. цНПЮГДН ОПНЫЕ ОНДДЕПФЮРЭ
+МЕОПНРХБНПЕВХБНЯРЭ Б АЮГЕ ДЮММШУ, ЕЯКХ бШ ХЯОНКЭГСЕРЕ РЮАКХЖШ, ВРНАШ ХЯЙЮРЭ
+ГМЮВЕМХЪ. щРН АСДЕР ОПЕДНУПЮМЪРЭ КЧДЕИ НР ЯНГДЮМХЪ ОПХЙКЮДМШУ ОПНЦПЮЛЛ,
+ЙНРНПШЕ ХЯОНКЭГСЧР БЯЕ НР "L" ДН "HUGE", ВРНАШ НАНГМЮВХРЭ, ВРН ПЮГЛЕП
+ПЮЯЯЛЮРПХБЮЕЛНЦН НАЗЕЙРЮ АНКЭЬНИ.
+
+<P>Widget_id ОНКЕ - ЯПЕДЮ (3 АЮИР) СЯРЮМНБКЕММНЕ ОН ПЮГЛЕПС ЖЕКНЕ ВХЯКН. щРН
+ХЛЕЕР ЯОЕЖХЮКЭМШЕ ЮРПХАСРШ NOT NULL Х AUTO_INCREMENT. NOT NULL ЪБКЪЕРЯЪ ANSI
+SQL ЯРЮМДЮПРНЛ Х НОПЕДЕКЪЕР ВРН, ЙНЦДЮ ЙРН-РН ББНДХР widget ХМТНПЛЮЖХЧ Б ЩРС
+РЮАКХЖС, НМХ ДНКФМШ ДЮРЭ МЕЙНРНПНЕ ГМЮВЕМХЕ ДКЪ ЩРНЦН ОНКЪ. еЯКХ МЕ ДЮКХ,
+MySQL МЮГМЮВХР ОНКЧ ГМЮВЕМХЕ ОН СЛНКВЮМХЧ. йНМЕВМН, ЕЯКХ ГМЮВЕМХЕ ОН
+СЛНКВЮМХЧ АШКН НОПЕДЕКЕМН, РН АСДЕР ХЯОНКЭГНБЮРЭЯЪ НМН, ЙНЦДЮ МЕ ГЮДЮМН
+МХЙЮЙНЦН ГМЮВЕМХЪ. еЯКХ ФЕ НМН МЕ НОПЕДЕКЕМН, РН ОНКЕ ОНКСВХР ГМЮВЕМХЕ,
+ХЯУНДЪ ХГ ЕЦН РХОЮ.
+
+<P>AUTO_INCREMENT ЯОЕЖХТХВЕЯЙХИ ЮРПХАСР MySQL. еЯКХ бШ БЯРЮБКЪЕРЕ МНКЭ Б ЩРН
+ОНКЕ MySQL, ЮБРНЛЮРХВЕЯЙХ МЮГМЮВХР ГМЮВЕМХЕ, ЙНРНПНЕ МЮ ЕДХМХЖС БШЬЕ, ВЕЛ
+ЯЮЛНЕ БШЯНЙНЕ ОПЕДШДСЫЕЕ ГМЮВЕМХЕ, МЮГМЮВЕММНЕ Й ЩРНЛС ОНКЧ Б ЩРНИ РЮАКХЖЕ.
+щРН ОПНЯРНИ ЛЕРНД ДКЪ ОПНХГБНДЯРБЮ СМХЙЮКЭМШУ ХДЕМРХТХЙЮРНПНБ ДКЪ МНБНЦН
+widgets, ОНЯЙНКЭЙС НМХ ББЕДЕМШ Б РЮАКХЖС.
+
+<P>лШ РЮЙФЕ НОПЕДЕКЪЕЛ МЕЯЙНКЭЙН ЙКЧВЕИ. йНЦДЮ бШ МЮГМЮВЮЕРЕ ОНКЧ ЮРПХАСР
+AUTO_INCREMENT, бШ ДНКФМШ РЮЙФЕ НОПЕДЕКХРЭ ЩРН ОНКЕ ЙЮЙ ОЕПБХВМШИ ЙКЧВ. бШ
+ЛНФЕРЕ ХЛЕРЭ РНКЭЙН НДХМ ОЕПБХВМШИ ЙКЧВ МЮ РЮАКХЖС. рНКЭЙН НДМН ОНКЕ МЮ
+РЮАКХЖС ЛНФЕР ХЛЕРЭ AUTO_INCREMENT ЮРПХАСР.
+
+<P>лШ РЮЙФЕ ЯНГДЮЕЛ БРНПХВМШЕ ХМДЕЙЯШ ХЯОНКЭГНБЮМХЕЛ ЯКНБЮ KEY.
+хМДЕЙЯХПНБЮМХЕ ГМЮВХРЕКЭМН СБЕКХВХБЮЕР АШЯРПНДЕИЯРБХЕ ГЮОПНЯНБ Х НАЗЕДХМЕМХИ.
+хМДЕЙЯШ ЛНЦСР БЙКЧВЮРЭ АНКЭЬЕ ВЕЛ НДМН ОНКЕ. еЯКХ бШ ХЛЕЕРЕ ХМДЕЙЯ, ЙНРНПШИ
+БЙКЧВЮЕР АНКЭЬЕ ВЕЛ НДМН ОНКЕ, бШ МЕ МСФДЮЕРЕЯЭ Б ЯНГДЮМХХ ДПСЦНЦН ХМДЕЙЯЮ Я
+ОЕПБШЛ ОНКЕЛ Б ЯНЯРЮБМНЛ ХМДЕЙЯЕ.
+
+<P>лШ НОПЕДЕКХКХ Widget_Table. рЕОЕПЭ МЮДН НОПЕДЕКХРЭ ОСРЭ ЯКЕФЕМХЪ ГЮ
+ГЮЙЮГЮЛХ. дКЪ ЩРНИ ЖЕКХ ЛШ НОПЕДЕКЪЕЛ РЮАКХЖС Purchase_Order.
+
+<P><PRE>
+# The Purchase Order table.
+#
+# customer_id links us to the Customer_Table
+# Where we can get more information about the customer.
+#
+# To allow for N items on a Purchase order we have to
+# have another table called Purchase_Order_Item that
+# we link to be way of purchase_order.
+CREATE TABLE Purchase_Order (
+  purchase_order MEDIUMINT(8) NOT NULL AUTO_INCREMENT,
+  customer_id SMALLINT NOT NULL,
+  order_date DATE NOT NULL,
+  due_date DATE NOT NULL,
+  close_date DATE NOT NULL,
+  status_code TINYINT(2) UNSIGNED NOT NULL,
+  last_action_date TIMESTAMP,
+  PRIMARY KEY (purchase_order),
+  KEY (customer_id,order_date,status_code)
+);
+</PRE>
+
+<P>лШ ЯВХРЮЕЛ, ВРН ГЮЙЮГВХЙ ЯНАХПЮЕРЯЪ ГЮЙЮГШБЮРЭ С МЮЯ РНБЮП АНКЕЕ ВЕЛ
+НДМЮФДШ. оН ЩРНИ ОПХВХМЕ БЛЕЯРН ГЮОХЯЕИ НА ЮДПЕЯЕ Х ХЛЕМХ ГЮЙЮГВХЙЮ, ЛШ
+МЮГМЮВЮЕЛ ЙЮФДНЛС ГЮЙЮГВХЙС СМХЙЮКЭМШИ МНЛЕП ХДЕМРХТХЙЮЖХХ, ЙНРНПШИ ЯБЪГШБЮЕР
+МЮЯ ЯН БУНДНЛ Б РЮАКХЖЕ, ЙНРНПЮЪ ЯНДЕПФХР ЩРС ХМТНПЛЮЖХЧ. лШ МЮГНБЕЛ ЩРС
+РЮАКХЖС Customer. н МЕИ ОНЦНБНПХЛ МЕЛМНЦН ОНГФЕ. рЮЙФЕ НАПЮРХРЕ БМХЛЮМХЕ, ВРН
+ЛШ МЕ ХЛЕЕЛ МХЙЮЙНЦН СОНЛХМЮМХЪ Н widgets Б ЩРНИ РЮАКХЖЕ. щРН ОНРНЛС, ВРН
+ОНПЪДНЙ ОПХНАПЕРЕМХЪ ЛНФЕР АШРЭ ПЮГМШЛ. лШ ЛНЦКХ АШ РНКЭЙН НОПЕДЕКХРЭ
+МЕЙНРНПНЕ ТХЙЯХПНБЮММНЕ ВХЯКН ЯОНЯНАНБ ОНЙСОЙХ, МН ЩРН МЕ АСДЕР НВЕМЭ ЦХАЙН.
+бГЮЛЕМ ЩРНЦН ЛШ НОПЕДЕКЪЕЛ ОНКЕ, МЮГБЮММНЕ purchase_order, ЙНРНПНЕ АСДЕР
+ЯНДЕПФЮРЭ СМХЙЮКЭМШИ МНЛЕП ДКЪ ЙЮФДНЦН ЯОНЯНАЮ ОПХНАПЕРЕМХЪ. гЮРЕЛ ЛШ
+НОПЕДЕКЪЕЛ ДПСЦСЧ РЮАКХЖС, ЙНРНПЮЪ АСДЕР ЯНДЕПФЮРЭ НДХМ БУНД ДКЪ ЙЮФДНЦН
+ГМЮВЕМХЪ ОНПЪДЙЮ ОНЙСОЙХ.
+
+<P>еЫЕ НДМН ХМРЕПЕЯМНЕ ОНКЕ last_action_date. щРН ОНКЕ ХЛЕЕР РХО TIMESTAMP.
+оНКЪ ЩРНЦН РХОЮ ЮБРНЛЮРХВЕЯЙХ ЛНДХТХЖХПСЧРЯЪ БЯЪЙХИ ПЮГ, ЙНЦДЮ МЮ МХУ
+БШОНКМЪЕРЯЪ ЙНЛЮМДЮ INSERT ХКХ UPDATE. щРН ОНЙЮГШБЮЕР, ЙНЦДЮ ГЮОХЯЭ АШКЮ Б
+ОНЯКЕДМХИ ПЮГ ХГЛЕМЕМЮ.
+
+<P>рЮАКХЖЮ ДКЪ Purchase_Order_Item:
+
+<P><PRE>
+# The Purchase_Order_Item table.
+#
+# Since there can be more than one item on a purchase order
+# we need a table that contains a single item.  We link back to
+# The main Purchase_Order table by use of the purchase_order field.
+#
+# We can also link back to the Widget_Table table by use of the
+# widget_id field.
+#
+# Last of all we link to the Status table by way of the status_code field.
+CREATE TABLE Purchase_Order_Item (
+  purchase_order SMALLINT NOT NULL,
+  order_sequence SMALLINT NOT NULL,
+  widget_id MEDIUMINT(8) NOT NULL,
+  quantity SMALLINT(4) UNSIGNED NOT NULL,
+  status_code TINYINT(2) UNSIGNED NOT NULL,
+  order_date DATE NOT NULL,
+  item_due_date DATE NOT NULL,
+  deliver_date DATE NOT NULL,
+  last_action_date TIMESTAMP,
+  PRIMARY KEY (purchase_order,order_sequence),
+  KEY (widget_id),
+  KEY (status_code,order_date)
+);
+</PRE>
+
+<P>б РЮАКХЖЕ Purchase_Order_Item УПЮМХРЯЪ ХМТНПЛЮЖХЪ Н БЯЕУ ЩКЕЛЕМРЮУ ОНКЪ
+ЯОНЯНАЮ ОНЙСОЙХ. гДЕЯЭ УПЮМХРЯЪ ХМТНПЛЮЖХЪ Н РНЛ ЙРН, ЙНЦДЮ, ВРН Х ЯЙНКЭЙН
+ГЮЙЮГШБЮК.
+
+<P>рЮАКХЖЮ Customer:
+<P><PRE>
+# The Customer table.
+#
+# We need to know where to send those widgets.
+#
+# Links back to Purchase_Order by way of customer_id.
+CREATE TABLE Customer (
+  customer_id SMALLINT NOT NULL AUTO_INCREMENT,
+  customer_name VARCHAR(80) NOT NULL,
+  customer_contact VARCHAR(80) NOT NULL,
+  customer_address VARCHAR(80),
+  customer_city VARCHAR(80),
+  customer_zip VARCHAR(10),
+  customer_phone VARCHAR(20),
+  customer_fax VARCHAR(20),
+  PRIMARY KEY (customer_id),
+  KEY (customer_name)
+);
+</PRE>
+
+<P>щРН Х ЯНБЯЕЛ ОПНЯРН. гДЕЯЭ УПЮМХРЯЪ ХМТНПЛЮЖХЪ Н ЙЮФДНЛ ГЮЙЮГВХЙЕ: ЕЦН
+ХЛЪ, Я ЙЕЛ ЯБЪГЮРЭЯЪ Б ЯКСВЮЕ ОПНАКЕЛ, ЮДПЕЯ, РЕКЕТНМ Х ТЮЙЯ.
+
+<P>рЕОЕПЭ ДЮБЮИРЕ ОНДСЛЮЕЛ. яПЕДХ ГЮЙЮГВХЙНБ МЮБЕПМЪЙЮ МЮИДСРЯЪ ЯБНАНДМШЕ
+РНПЦНБЖШ, ЙНРНПШЕ ПЮДШ ОПНДЮБЮРЭ бЮЬ РНБЮП ОН ЯБНХЛ ЖЕМЮЛ. мЕОКНУН АШ ХУ
+ОПХБКЕВЭ Й ЯЕАЕ, МЮОПХЛЕП, МЕАНКЭЬНИ ЯЙХДНВЙНИ. мН ДКЪ ЩРНЦН МЮДН УНРЪ АШ
+ОПХЛЕПМН ОПЕДЯРЮБКЪРЭ, ЙРН ЙСОХК РНБЮП ДКЪ ЯЕАЪ, Ю ЙРН МЮ ОПНДЮФС. нРКХВМН,
+МЮЙПНЕЛ ХУ ЙНКОЮЙНЛ.
+
+<P><PRE>
+# The Sales_droid table.
+#
+# Keep track of the people who sell the widgets.
+#
+CREATE TABLE Sales_Droid (
+  sales_droid_id SMALLINT NOT NULL AUTO_INCREMENT,
+  sales_droid_first_name VARCHAR(80) NOT NULL,
+  sales_droid_last_name VARCHAR(80) NOT NULL,
+  sales_droid_phone VARCHAR(20) NOT NULL,
+  PRIMARY KEY (sales_droid_id)
+);
+</PRE>
+
+<P>мСФМШ ЕЫЕ РПХ ОПНЯРШЕ РЮАКХЖШ ДКЪ ЯКСФЕАМНИ ХМТНПЛЮЖХХ:
+<P><PRE>
+# The Status table.
+#
+# Table to contain all valid status codes.
+#
+# Links to to Purchase_Order_Item and Purchase_Item by way of status_code.
+CREATE TABLE Status (
+  status_code TINYINT NOT NULL AUTO_INCREMENT,
+  status_text VARCHAR(80) NOT NULL,
+  PRIMARY KEY(status_code)
+);
+</PRE>
+
+<P>рЮАКХЖЮ Status НВЕМЭ ОПНЯРЮЪ. мЮЛ МСФЕМ СМХЙЮКЭМШИ ВХЯКНБНИ ID, ЙНРНПШИ
+ЯБЪГЮМ Я ЙНПНРЙХЛ РЕЙЯРНБШЛ ОНКЕЛ, ЙНРНПНЕ ЯНДЕПФХР РЕЙЯР ЙНДЮ ЯНЯРНЪМХЪ.
+
+<P><PRE>
+# The Widget_Color table.
+#
+# Table to contain all valid color codes.
+CREATE TABLE Widget_Color (
+  widget_color_id TINYINT NOT NULL AUTO_INCREMENT,
+  color_text VARCHAR(80) NOT NULL,
+  PRIMARY KEY(widget_color_id)
+);
+
+# The Widget_Size table.
+#
+# Table to contain all valid color codes.
+CREATE TABLE Widget_Size (
+  widget_size_id TINYINT NOT NULL AUTO_INCREMENT,
+  size_text VARCHAR(80) NOT NULL,
+  PRIMARY KEY(widget_size_id)
+);
+</PRE>
+
+<P>рЮАКХЖШ Widget_Color Х Widget_Size ОНВРХ ХДЕМРХВЕМ РЮАКХЖЕ Status.
+рНКЭЙН ХЛЕМЮ ХГЛЕМЕМШ.
+
+<P>бЯЕ! лНФМН ББНДХРЭ ДЮММШЕ.
+
+<P>б ГЮЙКЧВЕМХЕ УНВЕРЯЪ ОНОПНЯХРЭ бЮЯ, ЕЯКХ бЮЛ ОНМПЮБХКЮЯЭ ЩРЮ ЯРПЮМХВЙЮ ХКХ
+ОПХЦНДХКЮЯЭ ХГКНФЕММЮЪ ГДЕЯЭ ХМТНПЛЮЖХЪ,
+<A href="mailto:rldp@ftp.botik.ru?subject=яОЮЯХАН!&body=яОЮЯХАН ГЮ
+ПЮАНРС!">ОНЯКЮРЭ АКЮЦНДЮПМНЯРЭ ЮБРНПС.</A> щРН ОНЛНФЕР ЛМЕ
+БЕЯРХ ЯРЮРХЯРХЙС РНЦН, ЯЙНКЭЙХЛ КЧДЪЛ ОПХЦНДХКНЯЭ УНРЭ ВРН-РН ХГ ЛНХУ РПСДНБ.
+
+<P><A href="mysqlrus.htm">мЮ ЦКЮБМСЧ ЯРПЮМХВЙС.</A>
+
+<br> <center>&copy; 2000 Alexey Pautov <a href="mailto:rldp@ftp.botik.ru@subject=MySQL">rldp@ftp.botik.ru</FONT></a>. <br>Information <A href="http://phpclub.net" target=_blank ><FONT COLOR="#FFFFFF">Club of the developers PHP</a></center></body></html>

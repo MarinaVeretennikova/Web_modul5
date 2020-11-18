@@ -1,0 +1,47 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>mb_detect_order</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="mb-detect-encoding.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="mb-encode-mimeheader.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="mb-detect-order">mb_detect_order</A></H1><A NAME="AEN41929"></A><P>(PHP 4 &#62;= 4.0.6)</P>
+<p>mb_detect_order - устанавливает/получает порядок определения кодировки символов.<A NAME="AEN41932"></A></p>
+<H2>Описание</H2><p>array <B>mb_detect_order</B> ([mixed encoding-list])</p>
+<P><B>mb_detect_order()</B> устанавливает автоматический порядок определения кодировки символов списком <TT><I>encoding-list</I></TT>.
+Возвращает <TT><B>TRUE</B></TT> при успехе, <TT><B>FALSE</B></TT> при неудаче.</P><P><TT><I>encoding-list</I></TT> это массив или список с разделением запятыми кодировок символов. ("auto" 
+расширяется в "ASCII, JIS, UTF-8, EUC-JP, SJIS").</P><P>Если <TT><I>encoding-list</I></TT> опущен, возвращает
+текущий порядок определения кодировки как массив.</P><P>Эти установки влияют на <A HREF="mb-detect-encoding.html"><B>mb_detect_encoding()</B></A> и
+<A HREF="mb-send-mail.html"><B>mb_send_mail()</B></A>.</P><BLOCKQUOTE><P><B>Примечание: </B>
+<TT>mbstring</TT> в настоящее время реализует следующие фильтры определения кодировки. Если для 
+следующих кодировок имеется неправильная последовательность байтов, 
+определение кодировки терпит неудачу.</P><P><TT>UTF-8</TT>, <TT>UTF-7</TT>, <TT>ASCII</TT>, <TT>EUC-JP</TT>,
+<TT>SJIS</TT>, <TT>eucJP-win</TT>, <TT>SJIS-win</TT>, <TT>JIS</TT>, <TT>ISO-2022-JP</TT></P>
+<P><TT>ISO-8859-*</TT> <TT>mbstring</TT> всегда определяет как <TT>ISO-8859-*</TT>.</P>
+<P>Для <TT>UTF-16</TT>, <TT>UTF-32</TT>, <TT>UCS2</TT> и <TT>UCS4</TT> определение кодировки всегда терпит неудачу.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN41975"></A><h5>Пример 1. Бесполезный пример порядка кодировки</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>; Всегда определяет как ISO-8859-1
+detect_order = ISO-8859-1, UTF-8
+
+; Всегда определяет как UTF-8, поскольку значения ASCII/UTF-7
+; верны для UTF-8
+detect_order = UTF-8, ASCII, UTF-7</PRE></TD></TR></TABLE></TD></TR></TABLE></BLOCKQUOTE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN41979"></A><h5>Пример 2. mb_detect_order()</h5>
+<TABLE BORDER="0" GCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>/* Устанавливается порядок определения по перечислимому списку */
+mb_detect_order("eucjp-win,sjis-win,UTF-8");
+
+/* Устанавливается порядок определения по массиву */
+$ary[] = "ASCII";
+$ary[] = "JIS";
+$ary[] = "EUC-JP";
+mb_detect_order($ary);
+
+/* Выводится текущий порядок определения */
+echo implode(", ", mb_detect_order());</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>См. также <A HREF="mb-internal-encoding.html"><B>mb_internal_encoding()</B></A>, <A HREF="mb-http-input.html"><B>mb_http_input()</B></A>,
+<A HREF="mb-http-output.html"><B>mb_http_output()</B></A>, <A HREF="mb-send-mail.html"><B>mb_send_mail()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="mb-detect-encoding.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%"  ALIGN="right" VALIGN="top">
+<A HREF="mb-encode-mimeheader.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">mb_detect_encoding</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.mbstring.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">mb_encode_mimeheader</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,56 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>highlight_file</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="get-browser.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="highlight-string.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.highlight-file">highlight_file</A></H1><A NAME="AEN48854"></A><P>(PHP 4)</P>
+<p>highlight_file - выделение синтаксиса файла.<A NAME="AEN48857"></A></p><H2>Описание</H2><p>mixed <B>highlight_file</B> (string filename [, bool return])</p>
+<P>Функция <B>highlight_file()</B> печатает версию с синтаксиса, с выделениями кода, содержащегося в 
+<TT><I>filename</I></TT>, с использованием цветов, определённых встроенной подсветкой синтаксиса PHP.</P>
+<P>Если второй параметр <TT><I>return</I></TT> имеет значение <TT><B>TRUE</B></TT>, то <B>highlight_file()</B> возвратит код с выделениями как строку, а не будет печатать его. Если второй
+параметр не имеет значение <TT><B>TRUE</B></TT>, то <B>highlight_file()</B> возвратит <TT><B>TRUE</B></TT> при успехе,
+<TT><B>FALSE</B></TT> при неудаче.</P><BLOCKQUOTE><P><B>Примечание: </B>параметр <TT><I>return</I></TT> стал доступен, начиная с PHP 
+4.2.0. До этого он имел поведение по умолчанию - <TT><B>FALSE</B></TT>.</P></BLOCKQUOTE><BLOCKQUOTE><P><B>Примечание: </B>
+необходимо внимание при использовании функций <A HREF="show-source.html"><B>show_source()</B></A> и
+<B>highlight_file()</B>, чтобы гарантировать, что вы случайно не выдали закрытую информацию, такую как 
+пароли, или информацию другого типа, которая может создать потенциальный риск нарушения защиты.</P></BLOCKQUOTE>
+<BLOCKQUOTE><P><B>Примечание: </B>начиная с PHP 4.2.1, на эту функцию действуют также режим
+<A HREF="../configuration.html#ini.safe-mode">safe_mode</A> и <A HREF="../configuration.html#ini.open-basedir">open_basedir</A>.</P></BLOCKQUOTE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN48892"></A><h5>Пример 1. Создание URL, подсвечивающего исходники</h5>
+<P>Для настройки URL, который может выделять код в любом скрипте, передаваемом ему, мы используем директиву "ForceType" в
+Apache для генерации URL-патэрна, и функцию <B>highlight_file()</B> - для показа листинга раскрашенного кода.</P>
+<P>В вашем httpd.conf вы можете добавить:<A NAME="AEN48898"></A></P><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;Location /source&#62;
+    ForceType application/x-httpd-php
+&#60;/Location&#62;</PRE></TD></TR></TABLE><P>а затем создать файл с именем "source" и поместить его в вашу директорию
+web root.</P><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;HTML&#62;
+&#60;HEAD&#62;
+&#60;TITLE&#62;Source Display&#60;/TITLE&#62;
+&#60;/HEAD&#62;
+&#60;BODY BGCOLOR="white"&#62;
+&#60;?php
+    $script = getenv ("PATH_TRANSLATED");
+    if(!$script) {
+    echo "&#60;BR&#62;&#60;B&#62;ERROR: Script Name needed&#60;/B&#62;&#60;BR&#62;";
+    } else {
+    if (ereg("(\.php|\.inc)$",$script)) {
+    echo "&#60;H1&#62;Source of: $PATH_INFO&#60;/H1&#62;\n&#60;HR&#62;\n";
+    highlight_file($script);
+    } else {
+    echo "&#60;H1&#62;ERROR: Only PHP or include script names are allowed&#60;/H1&#62;"; 
+    }
+    }
+    echo "&#60;HR&#62;Processed: ".date("Y/M/d H:i:s",time());
+?&#62;
+&#60;/BODY&#62;
+&#60;/HTML&#62;</PRE></TD></TR></TABLE>
+<P>Затем вы можете использовать URL типа приведённого ниже для отображения расцвеченной версии скрипта, находящегося в "/path/to/script.php" 
+на вашем web-сайте.<A NAME="AEN48905"></A></P><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>http://your.server.com/source/path/to/script.php</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>См. также <A HREF="highlight-string.html"><B>highlight_string()</B></A>, <A HREF="show-source.html"><B>show_source()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="get-browser.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="highlight-string.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">get_browser</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.misc.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">highlight_string</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

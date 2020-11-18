@@ -1,0 +1,40 @@
+<HTML>
+	<HEAD>
+		<TITLE>Shotora</TITLE>
+		<STYLE type="text/css">
+		#photo {position:absolute; top:70; left:10%; clip:rect(0 100& 100% 0); 
+		border:2pt green solid; width:200; background:white; cursor:hand}
+		DIV {position:absolute; left:10%}
+		P {margin-top:20pt}
+		</STILE>
+	<SCRIPT language="JavaScript">
+	function blind() {
+	var elem=document.all.photo;
+	var into=arguments[0];
+	if (null==elem.init) {
+	elem.init=true;
+	elem.delta=10;
+	if (into) elem.clipBound=0
+	else {
+		elem.clipBound=elem.offsetHeight;
+		elem.delta*=-1;
+		}
+	}
+	elem.clipBound+=elem.delta;
+	elem.style.clip="rect(0 100% "+elem.clipBound+" 0)";
+	if (((elem.clipBound<=elem.offsetHeight)&&(elem.delta>0))||((elem.clipBound>=0)&&(elem.delta<0)))
+	setTimeout("blind("+into+")",20);
+	else
+	elem.init=null;
+	}
+	</SCRIPT>
+</HEAD>
+<BODY>
+<DIV>
+<H2>Poyavlenie elementa</H2>
+<P STYLE="cursor:hand" onclick="blind(true)">
+Ferrari
+</DIV>
+<!--<IMG SRC="spy.jpg" ID=photo ALT="DHTML" onclick="blind(false)">-->
+</BODY>
+</HTML>

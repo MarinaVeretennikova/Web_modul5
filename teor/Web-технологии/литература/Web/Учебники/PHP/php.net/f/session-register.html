@@ -1,0 +1,42 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>session_register</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="session-readonly.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="session-save-path.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="session-register">session_register</A></H1><A NAME="AEN73725"></A><P>(PHP 4)</P>
+<p>session_register - регистрирует одну или более переменных в текущей сессии.<A NAME="AEN73728"></A></p><H2>Описание</H2>
+<p>bool <B>session_register</B> (mixed name [, mixed ...])</p><P><B>session_register()</B> принимает переменное количество аргументов, любой из которых может быть 
+строкой с именем переменной или массивом, состоящим из имён переменных или других массивов. Для каждого имени
+<B>session_register()</B> регистрирует глобальную переменную с этим именем в текущей сессии.</P>
+<TABLE CLASS="caution" BORDER="1" WIDTH="100%"><TR><th>Внимание!</th></TR><TR><TD><P>Это регистрирует <i>глобальную</i> переменную. Если вы хотите 
+зарегистрировать переменную сессии внутри функции, вы должны сделать её глобальной с помощью <B>global()</B> или использовать массивы сессии, как указано ниже.</P>
+</TD></TR></TABLE><TABLE CLASS="caution" BORDER="1" WIDTH="100%"><TR><th>Внимание!</th></TR><TR><TD>
+<P>Если вы используете <TT>$_SESSION</TT> (или <TT>$HTTP_SESSION_VARS</TT>),
+не применяйте <B>session_register()</B>, <A HREF="session-is-registered.html"><B>session_is_registered()</B></A> и
+<A HREF="session-unregister.html"><B>session_unregister()</B></A>.</P></TD></TR></TABLE>
+<P>Эта функция возвращает <TT><B>TRUE</B></TT>, когда все переменные успешно зарегистрированы в сессии.</P>
+<P>Если <A HREF="session-start.html"><B>session_start()</B></A> не вызывалась до вызова данной функции, будет сделан неявный вызов
+<A HREF="session-start.html"><B>session_start()</B></A> без параметров.</P>
+<P>Вы можете также создать переменную сессии, просто установив соответствующего члена массива <TT>$_SESSION</TT> или
+<TT>$HTTP_SESSION_VARS</TT> (PHP &#60; 4.1.0).<A NAME="AEN73761"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$barney = "A big purple dinosaur.";
+session_register("barney");
+
+$_SESSION["zim"] = "An invader from another planet.";
+
+# Старый способ - использование $HTTP_SESSION_VARS
+$HTTP_SESSION_VARS["spongebob"] = "He's got square pants.";</PRE></TD></TR></TABLE></P><BLOCKQUOTE><P><B>Примечание: </B>
+в настоящее время невозможно зарегистрировать переменные ресурсов в сессии.  Например, вы не можете создать соединение с БД и сохранить id соединения как 
+переменную сессии и ожидать, что соединение останется правильным при следующем восстановлении сессии. PHP-функции, возвращающие ресурс, 
+идентифицируются как имеющие return-тип <TT>resource</TT> в своих определениях функций.  Список функций, возвращающих ресурсы, находится 
+в приложении <a href="../resource.html">Типы ресурсов</a>.</P><P>Если используется <TT>$_SESSION</TT> (или
+<TT>$HTTP_SESSION_VARS</TT> for PHP 4.0.6 or less), присвойте переменную массиву
+<TT>$_SESSION</TT>. То есть: $_SESSION['var'] = 'ABC';</P></BLOCKQUOTE>
+<P>См. также <A HREF="session-is-registered.html"><B>session_is_registered()</B></A> и
+<A HREF="session-unregister.html"><B>session_unregister()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="session-readonly.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="session-save-path.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">session_readonly</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.session.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">session_save_path</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

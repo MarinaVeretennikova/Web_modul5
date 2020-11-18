@@ -1,0 +1,57 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>proc_open</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="proc-close.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="shell-exec.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.proc-open">proc_open</A></H1><A NAME="AEN68547"></A><P>(только PHP 4 CVS)</P>
+<p>proc_open - выполняет команду и открывает файловый указатель для ввода/вывода.<A NAME="AEN68550"></A></p>
+<H2>Описание</H2><p>resource <B>proc_open</B> (string cmd, array descriptorspec, array pipes)</p>
+<P><B>proc_open()</B> похожа на <A HREF="popen.html"><B>popen()</B></A>, но предоставляет больший контроль над выполнением программы.
+<TT><I>cmd</I></TT> это команда, выполняемая оболочкой. <TT><I>descriptorspec</I></TT> это индексированный массив, в котором ключи представляют номера дескрипторов, 
+а значения представляют то, как PHP передаёт эти дескрипторы в дочерний процесс. <TT><I>pipes</I></TT> будет установлен в индексированный массив файловых указателей, соответствующий 
+концу любых созданных каналов. return-значение является ресурсом представляющим процесс; вы должны 
+освободить его с помощью <A HREF="proc-close.html"><B>proc_close()</B></A> по окончании работы с ним.<A NAME="AEN68572"></A>
+</P><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$descriptorspec = array(
+   0 =&#62; array("pipe", "r"),  // stdin это канал, из которого потомок будет читать
+   1 =&#62; array("pipe", "w"),  // stdout это канал, в который потомок будет записывать
+   2 =&#62; array("file", "/tmp/error-output.txt", "a"), // stderr это файл для записи
+);
+$process = proc_open("php", $descriptorspec, $pipes);
+if (is_resource($process)) {
+    // $pipes выглядит теперь примерно так:
+    // 0 =&#62; записываемый дескриптор, соединённый с дочерним stdin
+    // 1 =&#62; читаемый дескриптор, соединённый с дочерним stdout
+    // Любой вывод ошибки будет присоединён к /tmp/error-output.txt
+
+    fwrite($pipes[0], "&#60;?php echo \"Hello World!\"; ?&#62;");
+    fclose($pipes[0]);
+
+    while(!feof($pipes[1])) {
+        echo fgets($pipes[1], 1024);
+    }
+    fclose($pipes[1]);
+    // Важно, чтобы вы закрыли любые каналы до вызова
+    // proc_close, чтобы исключить тупиковую блокировку
+    $return_value = proc_close($process);
+
+    echo "command returned $return_value\n";
+}</PRE></TD></TR></TABLE><P>Номера дескрипторов файлов в <TT><I>descriptorspec</I></TT> не ограничены 0, 1 и 2 - вы можете специфицировать любой правильный номер 
+дескриптора файла, и он будет передан в дочерний процесс. Это даст возможность 
+вашему скрипту взаимодействовать с другими скриптами, запущенными как "со-процессы". Это особенно пригодится для передачи pass-фраз программам вроде
+PGP, GPG и openssl более безопасным/секретным способом.  Это используется 
+также для чтения информации статуса, предоставляемой этими программами во вспомогательных дескрипторах файлов.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>Windows-совместимость: дескрипторы вне 2 (stderr) становятся доступными 
+дочернему процессу как наследуемые дескрипторы, но, поскольку архитектура Windows не ассоциирует номер дескриптора файла с низкоуровневым дескриптором, 
+дочерний процесс (пока ещё) не имеет средств доступа к этому дескриптору.  Stdin, stdout 
+и stderr work работают так, как ожидается.</P></BLOCKQUOTE><BLOCKQUOTE><P><B>Примечание: </B>
+эта функция была введена в PHP 4.3.0.</P></BLOCKQUOTE><BLOCKQUOTE><P><B>Примечание: </B>
+если вам нужен только однонаправленный канал процесса, используйте <A HREF="popen.html"><B>popen()</B></A> вместо данной функции, так как она проще в использовании.</P>
+</BLOCKQUOTE><P>См. также <A HREF="exec.html"><B>exec()</B></A>, <A HREF="system.html"><B>system()</B></A>,
+<A HREF="passthru.html"><B>passthru()</B></A>, <A HREF="popen.html"><B>popen()</B></A>,
+<A HREF="escapeshellcmd.html"><B>escapeshellcmd()</B></A> и <A HREF="../operators.execution.html">операцию backtick</A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="proc-close.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="shell-exec.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">proc_close</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.exec.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">shell_exec</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,863 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.intuit.ru/department/pl/plphp/8/plphp_8.html -->
+<HTML><HEAD><TITLE>INTUIT.ru::Интернет-Университет Информационных Технологий</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251"><LINK 
+href="Работа со строками.files/printable.css" type=text/css rel=stylesheet>
+<META content="MSHTML 6.00.2900.2180" name=GENERATOR></HEAD>
+<BODY leftMargin=0 topMargin=6 marginwidth="0" marginheight="6">
+<DIV align=left><SPAN style="FONT-WEIGHT: bold; COLOR: #000000">&nbsp;&nbsp; 
+<SPAN style="FONT-SIZE: 12pt">Интернет-Университет Информационных 
+Технологий</SPAN> </SPAN></DIV>&nbsp;&nbsp; <SPAN 
+style="COLOR: #330066; TEXT-DECORATION: underline" 
+align="rright">http://www.INTUIT.ru</SPAN> 
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD colSpan=3 height=8><IMG height=8 
+      src="Работа со строками.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD class=orang colSpan=3 height=1><IMG height=1 
+      src="Работа со строками.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD colSpan=3 height=8><IMG height=8 
+      src="Работа со строками.files/empty.gif" width=1></TD></TR>
+  <TR vAlign=top>
+    <TD><IMG height=1 src="Работа со строками.files/empty.gif" width=8></TD>
+    <TD><!-- content -->
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=head>Язык программирования PHP</TD></TR>
+        <TR>
+          <TD height=4><IMG height=4 src="Работа со строками.files/empty.gif" 
+            width=1></TD></TR>
+        <TR>
+          <TD class=orang height=1><IMG height=1 
+            src="Работа со строками.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 src="Работа со строками.files/empty.gif" 
+            width=1></TD></TR>
+        <TR>
+          <TD><SPAN class=headsub>8. Лекция: Работа со строками: версия для 
+            печати и PDA</SPAN> <BR><SPAN class=rtxt>В данной лекции более 
+            подробно обсуждаются вопросы работы со строками, изучаются функции, 
+            полезные для решения разнообразных прикладных задач. Рассматриваются 
+            различные способы вывода строк, разбивка и соединение строк (функции 
+            explode, implode), определение длины строки (strlen), выделение 
+            подстроки (strstr, substr).</SPAN> </TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 src="Работа со строками.files/empty.gif" 
+            width=1></TD></TR>
+        <TR>
+          <TD class=orang height=1><IMG height=1 
+            src="Работа со строками.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 src="Работа со строками.files/empty.gif" 
+            width=1></TD></TR>
+        <TR>
+          <TD>
+            <H3>Строки</H3>
+            <P>Вероятно, читатели примерно представляют, что такое тип данных 
+            «<SPAN class=keyword>строка</SPAN>» и как <SPAN 
+            class=keyword>создать</SPAN> переменную такого типа. В одной из 
+            первых лекций мы приводили три способа задания <SPAN 
+            class=keyword>строк</SPAN>: с помощью одинарных кавычек, двойных 
+            кавычек и с помощью <SPAN class=keyword>heredoc</SPAN>–синтаксиса. 
+            Отмечали мы и основные различия между этими способами. В основном 
+            они касаются обработки переменных и управляющих последовательностей 
+            внутри <SPAN class=keyword>строки</SPAN>.</P><A 
+name=example.8.1></A>
+            <DIV class=example><PRE>&lt;?php
+echo 'В такой строке НЕ обрабатываются 
+      переменные и большинство 
+      последовательностей';
+echo "Здесь переменные и последовательности
+      обрабатываются";
+echo &lt;&lt;&lt;EOT
+Здесь тоже обрабатываются как переменные, 
+так и управляющие последовательности.
+И кроме того, можно вводить символы кавычек
+без их экранирования обратным слэшем.
+EOT;
+?&gt;
+    </PRE><SPAN class=objectName>Пример 8.1. Способы задания 
+            строк</SPAN></DIV>
+            <P>Уже не раз, начиная с самой первой лекции, мы использовали 
+            функцию <SPAN class=texample><SPAN class=keyword>echo</SPAN></SPAN>. 
+            На самом деле, <SPAN class=texample><SPAN 
+            class=keyword>echo</SPAN></SPAN> – не функция, а языковая 
+            конструкция, поэтому использовать при ее вызове круглые скобки не 
+            обязательно. <SPAN class=texample><SPAN 
+            class=keyword>Echo</SPAN></SPAN> позволяет выводить на экран <SPAN 
+            class=keyword>строки</SPAN>, переданные ей в качестве параметров. 
+            Параметров у <SPAN class=texample><SPAN 
+            class=keyword>echo</SPAN></SPAN> может быть сколько угодно. Их 
+            разделяют запятыми или объединяют с помощью оператора конкатенации и 
+            никогда не заключают в круглые скобки.</P><A name=example.8.2></A>
+            <DIV class=example><PRE>&lt;?
+echo "Пришел ", "увидел ", "победил "; 
+// выведет строку "Пришел увидел победил"
+// многие предпочитают передавать несколько
+// параметров в echo с помощью конкатенации
+
+echo "Пришел " . "увидел " . "победил "; 
+// тоже выведет строку 
+// "Пришел увидел победил"
+echo ("Пришел ", "увидел ", "победил "); 
+// выдаст ошибку: unexpected ','
+?&gt;
+    </PRE><SPAN class=objectName>Пример 8.2. Использование функции 
+            echo</SPAN></DIV>
+            <P>Существует сокращенный синтаксис для команды <SPAN 
+            class=texample><SPAN class=keyword>echo</SPAN></SPAN>:</P>
+            <DIV class=example><PRE>&lt;?=строка_для_вывода?&gt;
+</PRE></DIV>
+            <P>Здесь параметр <SPAN class=texample>строка_для вывода</SPAN> 
+            содержит <SPAN class=keyword>строку</SPAN>, заданную любым из 
+            известных способов, которая должна быть выведена на экран.</P>
+            <P>Например, такой скрипт выведет на экран красным цветом "Меня 
+            зовут Вася":</P>
+            <DIV class=example><PRE>&lt;? $name="Вася" ?&gt;
+&lt;font color=red&gt;Меня зовут &lt;?=$name?&gt;&lt;/font&gt;
+    </PRE></DIV>
+            <P>Кроме языковой конструкции <SPAN class=texample><SPAN 
+            class=keyword>echo</SPAN></SPAN> существует ряд функций для вывода 
+            <SPAN class=keyword>строк</SPAN>. Это в первую очередь функция <SPAN 
+            class=texample><SPAN class=keyword>print</SPAN></SPAN> и ее 
+            разновидности <SPAN class=texample>printf</SPAN>, <SPAN 
+            class=texample>sprintf</SPAN> и т.п.</P>
+            <P>Функция <SPAN class=texample><SPAN 
+            class=keyword>print</SPAN></SPAN> позволяет выводить на экран только 
+            одну <SPAN class=keyword>строку</SPAN> и, как и <SPAN 
+            class=texample><SPAN class=keyword>echo</SPAN></SPAN>, не может быть 
+            вызвана с помощью переменных функций, поскольку является языковой 
+            конструкцией.</P>
+            <P>Функция <SPAN class=texample>print_r</SPAN> не относится к 
+            строковым функциям, как можно было бы подумать. Она отображает 
+            информацию о переменной в форме, понятной пользователю.</P>
+            <P>Функции <SPAN class=texample>sprintf</SPAN> и <SPAN 
+            class=texample>printf</SPAN> обрабатывают переданную им <SPAN 
+            class=keyword>строку</SPAN> в соответствии с заданным форматом. Но о 
+            них мы говорить не будем. А поговорим о том, как можно осуществлять 
+            <SPAN class=keyword>поиск в тексте, представленном в виде 
+            строки</SPAN>.</P>
+            <H3>Поиск элемента в строке</H3>
+            <P>Для того чтобы определить, входит ли данная подстрока в состав 
+            <SPAN class=keyword>строки</SPAN>, используется функция <SPAN 
+            class=texample><SPAN class=keyword>strpos()</SPAN></SPAN>. Синтаксис 
+            <SPAN class=texample><SPAN class=keyword>strpos()</SPAN></SPAN> 
+            такой:</P>
+            <DIV class=example><PRE>strpos (исходная строка,строка для поиска 
+       [,с какого символа искать])
+</PRE></DIV>
+            <P>Она возвращает позицию появления искомой <SPAN 
+            class=keyword>строки</SPAN> в исходной <SPAN 
+            class=keyword>строке</SPAN> или возвращает логическое <SPAN 
+            class=texample>false</SPAN>, если вхождение не найдено. 
+            Дополнительный аргумент позволяет задавать символ, начиная с 
+            которого будет производиться <SPAN class=keyword>поиск</SPAN>. Кроме 
+            логического <SPAN class=texample>false</SPAN> эта функция может 
+            возвращать и другие значения, которые приводятся к <SPAN 
+            class=texample>false</SPAN> (например, <SPAN class=texample>0</SPAN> 
+            или ""). Поэтому для того, чтобы проверить, найдена ли искомая <SPAN 
+            class=keyword>строка</SPAN>, рекомендуют использовать оператор 
+            эквивалентности «<SPAN class=texample>===</SPAN>».</P><A 
+            name=example.8.3></A>
+            <DIV class=example><PRE>&lt;?
+$str = "Идея наносить данные на перфокарты
+и затем считывать и обрабатывать их 
+автоматически принадлежала Джону Биллингсу,
+а ее техническое решение осуществил Герман
+Холлерит. Перфокарта Холлерита оказалась 
+настолько удачной, что без малейших изменений
+просуществовала до наших дней.";
+$pos = strpos($str,"Холлерит");
+if ($pos !== false) echo "Искомая строка
+   встречена в позиции номер $pos ";
+else echo "Искомая строка не найдена";
+/* заметим, что мы проверяем значение 
+$pos на эквивалентность с false. 
+Иначе строка, находящаяся в первой позиции,
+не была бы найдена, так как 0
+интерпретируется как false. */
+?&gt;
+    </PRE><SPAN class=objectName>Пример 8.3. Использование функции 
+            strpos()</SPAN></DIV>
+            <P>Если значение параметра <SPAN 
+            class=texample>строка_для_поиска</SPAN> не является <SPAN 
+            class=keyword>строкой</SPAN>, то оно преобразуется к целому типу и 
+            рассматривается как ASCII-код символа. Чтобы получить ASCII-код 
+            любого символа в PHP, можно воспользоваться функцией <SPAN 
+            class=texample><SPAN class=keyword>ord("символ")</SPAN></SPAN></P>
+            <P>Например, если мы напишем <SPAN class=texample>$pos = 
+            strpos($str,228);</SPAN> то интерпретатор будет считать, что мы ищем 
+            символ «<SPAN class=texample>д</SPAN>». Если добавить эту строчку в 
+            приведенный выше пример и вывести результат, то получим сообщение, 
+            что искомая <SPAN class=keyword>строка</SPAN> найдена в позиции 
+            <SPAN class=texample>1</SPAN>.</P>
+            <P>Функция, обратная по смыслу <SPAN class=texample>ord</SPAN>, – 
+            это <SPAN class=texample><SPAN class=keyword>chr (код 
+            символа)</SPAN></SPAN>. Она по ASCII-коду выводит символ, 
+            соответствующий этому <SPAN class=keyword>коду</SPAN>.</P>
+            <P>С помощью функции <SPAN class=texample><SPAN 
+            class=keyword>strpos</SPAN></SPAN> можно найти номер только первого 
+            появления <SPAN class=keyword>строки</SPAN> в исходной <SPAN 
+            class=keyword>строке</SPAN>. Естественно, есть функции, которые 
+            позволяют вычислить номер последнего появления <SPAN 
+            class=keyword>строки</SPAN> в исходной <SPAN 
+            class=keyword>строке</SPAN>. Это функция <SPAN class=texample><SPAN 
+            class=keyword>strrpos()</SPAN></SPAN>. Ее синтаксис таков:</P>
+            <DIV class=example><PRE>strrpos (исходная строка, символ для поиска)
+</PRE></DIV>
+            <P>В отличие от <SPAN class=texample><SPAN 
+            class=keyword>strpos()</SPAN></SPAN> эта функция позволяет найти 
+            позицию последнего появления в <SPAN class=keyword>строке</SPAN> 
+            указанного символа. Нельзя искать позицию <SPAN 
+            class=keyword>строки</SPAN>, только символа.</P>
+            <P>Бывают ситуации, когда знать позицию, где находится искомая <SPAN 
+            class=keyword>строка</SPAN>, не обязательно, а нужно просто получить 
+            все символы, которые расположены после вхождения этой <SPAN 
+            class=keyword>строки</SPAN>. Можно, конечно, воспользоваться и 
+            приведенными выше функциями <SPAN class=texample><SPAN 
+            class=keyword>strpos()</SPAN></SPAN> и <SPAN class=texample><SPAN 
+            class=keyword>strrpos()</SPAN></SPAN>, но можно сделать и проще – 
+            <SPAN class=keyword>выделить подстроку</SPAN> с помощью 
+            предназначенных именно для этого функций.</P>
+            <H3>Выделение подстроки</H3>
+            <H4>Функция strstr</H4>
+            <P>Говоря о <SPAN class=keyword>выделении подстроки</SPAN> из 
+            искомой <SPAN class=keyword>строки</SPAN> в языке PHP, в первую 
+            очередь стоит отметить функцию <SPAN class=texample><SPAN 
+            class=keyword>strstr()</SPAN></SPAN>:</P>
+            <DIV class=example><PRE>strstr (исходная строка, строка для поиска)
+</PRE></DIV>
+            <P>Она находит первое появление искомой <SPAN 
+            class=keyword>строки</SPAN> и возвращает подстроку, начиная с этой 
+            искомой <SPAN class=keyword>строки</SPAN> до конца исходной <SPAN 
+            class=keyword>строки</SPAN>.</P>
+            <P>Если <SPAN class=keyword>строка</SPAN> для поиска не найдена, то 
+            функция вернет <SPAN class=texample>false</SPAN>. Если <SPAN 
+            class=keyword>строка</SPAN> для поиска не принадлежит строковому 
+            типу данных, то она переводится в целое число и рассматривается как 
+            <SPAN class=keyword>код символа</SPAN>. Кроме того, эта функция 
+            чувствительна к регистру, т.е. если мы будет параллельно искать 
+            вхождения слов «Идея» и «идея», то результаты будут разными. Вместо 
+            <SPAN class=texample><SPAN class=keyword>strstr()</SPAN></SPAN> 
+            можно использовать абсолютно идентичную ей функцию <SPAN 
+            class=texample><SPAN class=keyword>strchr()</SPAN></SPAN>.</P>
+            <P><B>Пример 8.4.</B> Выделим из <SPAN class=keyword>строки</SPAN>, 
+            содержащей название и автора исследования, подстроку, начинающуюся 
+            со слова «Название»:</P><A name=example.8.4></A>
+            <DIV class=example><PRE>&lt;?
+$str = "Автор: Иванов Иван (&lt;a
+href=mailto:van@mail.ru&gt;написать письмо&lt;/a&gt;),
+   Название: 'Исследование языков 
+              программирования' ";
+echo "&lt;b&gt;Исходная строка: &lt;/b&gt;",$str;
+if (!strstr($str, "Название")) 
+   echo "Строка не найдена&lt;br&gt;";
+else echo "&lt;p&gt;&lt;b&gt;Полученная подстрока: &lt;/b&gt;",
+   strstr($str, "Название");
+?&gt;
+        </PRE><SPAN class=objectName>Пример 8.4. Использование 
+            функции strstr()</SPAN></DIV>
+            <P>В результате получим:</P>
+            <DIV class=example><PRE>Исходная строка: Автор: Иванов Иван 
+   (написать письмо),
+   Название: 'Исследование языков 
+              программирования'
+Полученная подстрока: Название: 
+   'Исследование языков программирования'
+        </PRE></DIV>
+            <P>Для реализации регистронезависимого поиска подстроки существует 
+            соответствующий аналог этой функции – функция <SPAN 
+            class=texample><SPAN class=keyword>stristr (исходная строка, искомая 
+            строка)</SPAN></SPAN>. Действует и используется она точно так же, 
+            как и <SPAN class=texample><SPAN 
+            class=keyword>strstr()</SPAN></SPAN>, за исключением того, что 
+            регистр, в котором записаны символы искомой <SPAN 
+            class=keyword>строки</SPAN>, не играет роли при поиске.</P>
+            <P>Очевидно, что функция <SPAN class=texample><SPAN 
+            class=keyword>strstr()</SPAN></SPAN> не слишком часто используется – 
+            на практике редко бывает нужно получить подстроку, начинающуюся с 
+            определенного слова или <SPAN class=keyword>строки</SPAN>. Но в 
+            некоторых случаях и она может пригодиться. Кроме того, в PHP есть и 
+            более удобные функции для поиска вхождений. Наиболее мощные из них, 
+            конечно, связаны с регулярными выражениями. Их мы рассмотрим в одной 
+            из последующих лекций.</P>
+            <H4>Функция substr</H4>
+            <P>Иногда мы не знаем, с каких символов начинается искомая <SPAN 
+            class=keyword>строка</SPAN>, но знаем, например, что начинается она 
+            с пятого символа и заканчивается за два символа до конца исходной 
+            <SPAN class=keyword>строки</SPAN>. Как <SPAN class=keyword>выделить 
+            подстроку</SPAN> по такому описанию? Очень просто, с помощью функции 
+            <SPAN class=texample><SPAN class=keyword>substr()</SPAN></SPAN>. Ее 
+            синтаксис можно записать следующим образом:</P>
+            <DIV class=example><PRE>substr (исходная строка, 
+    позиция начального символа [, длина])
+</PRE></DIV>
+            <P>Эта функция возвращает часть <SPAN class=keyword>строки</SPAN> 
+            длиной, заданной параметром <SPAN class=texample>длина</SPAN>, 
+            начиная с символа, указанного параметром <SPAN 
+            class=texample>позиция начального символа</SPAN>. Позиция, с которой 
+            начинается выделяемая подстрока, может быть как положительным целым 
+            числом, так и отрицательным. В последнем случае отсчет элементов 
+            производится с конца <SPAN class=keyword>строки</SPAN>. Если 
+            параметр <SPAN class=texample>длина</SPAN> опущен, то <SPAN 
+            class=texample><SPAN class=keyword>substr()</SPAN></SPAN> возвращает 
+            подстроку от указанного символа и до конца исходной <SPAN 
+            class=keyword>строки</SPAN>. Длина выделяемой подстроки тоже может 
+            быть задана отрицательным числом. Это означает, что указанное число 
+            символов отбрасывается с конца <SPAN 
+class=keyword>строки</SPAN>.</P>
+            <P><B>Пример 8.5.</B> Допустим, у нас есть фраза, выделенная жирным 
+            шрифтом с помощью тега &lt;b&gt; языка HTML. Мы хотим получить эту 
+            же фразу, но в обычном стиле. Напишем такую программу:</P><A 
+            name=example.8.5></A>
+            <DIV class=example><PRE>&lt;?php
+$word = "&lt;b&gt;Hello, world!&lt;/b&gt;";
+echo $word , "&lt;br&gt;";
+$pure_str = substr($word, 3, -4); 
+/* выделяем подстроку, 
+   начиная с 3-го символа, 
+   не включая 4 символа с конца строки */
+echo $pure_str;
+?&gt;
+        </PRE><SPAN class=objectName>Пример 8.5. Использование 
+            функции substr()</SPAN></DIV>
+            <P>В результате работы этого скрипта получим:</P>
+            <DIV class=example><PRE>Hello, world!
+Hello, world!
+        </PRE></DIV>
+            <P>На самом деле решить такую задачу можно гораздо проще, с помощью 
+            функции <SPAN class=texample><SPAN 
+            class=keyword>strip_tags</SPAN></SPAN>:</P>
+            <DIV class=example><PRE>strip_tags (строка [, допустимые теги])
+</PRE></DIV>
+            <P>Эта функция возвращает <SPAN class=keyword>строку</SPAN>, из 
+            которой удалены все html и php-теги. С помощью дополнительного 
+            аргумента можно задать теги, которые не будут удалены из <SPAN 
+            class=keyword>строки</SPAN>. Список из нескольких тегов вводится без 
+            каких-либо знаков разделителей. Функция выдает предупреждение, если 
+            встречает неправильные или неполные теги.</P><A 
+name=example.8.6></A>
+            <DIV class=example><PRE>&lt;?php
+$string = "&lt;b&gt;Bold text&lt;/b&gt; 
+           &lt;i&gt;Italic text&lt;/i&gt;";
+$str = strip_tags($string); 
+   // удаляем все теги из строки
+$str1 = strip_tags($string, '&lt;i&gt;'); 
+   // удаляем все теги кроме тега &lt;i&gt;
+$str2 = strip_tags($string, '&lt;i&gt;&lt;b&gt;'); 
+   // удаляем все теги кроме тегов &lt;i&gt; и &lt;b&gt;
+echo $str,"&lt;br&gt;",$str1,"&lt;br&gt;", $str2;
+?&gt;
+        </PRE><SPAN class=objectName>Пример 8.6. Использование 
+            функции strip_tags()</SPAN></DIV>
+            <P>В результате получим:</P>
+            <DIV class=example><PRE>Bold text Italic text
+Bold text Italic text
+Bold text Italic text
+        </PRE></DIV>
+            <P>Приведем другой пример использования функции <SPAN 
+            class=texample><SPAN class=keyword>substr()</SPAN></SPAN>. Допустим, 
+            у нас есть какое-то сообщение с приветствием и подписью автора. Мы 
+            хотим удалить сначала приветствие, а потом и подпись, оставив только 
+            содержательную часть сообщения.</P>
+            <DIV class=example><PRE>&lt;?php
+$text = "Привет! Сегодня мы изучаем работу
+         со строками. Автор.";
+$no_hello = substr($text, 8); 
+    // убираем приветствие
+$content = substr($text, 8, 39);
+    // то же самое, что substr($text, 8, -6).
+    // Убираем подпись.
+echo $text, "&lt;br&gt;", $no_hello, 
+     "&lt;br&gt;", $content;
+?&gt;
+        </PRE></DIV>
+            <P>В результате получим:</P>
+            <DIV class=example><PRE>Привет! Сегодня мы изучаем работу 
+        со строками. Автор.
+Сегодня мы изучаем работу со строками. Автор.
+Сегодня мы изучаем работу со строками.
+        </PRE></DIV>
+            <P>Если нам нужно получить один конкретный символ из <SPAN 
+            class=keyword>строки</SPAN>, зная его порядковый номер, то не 
+            следует задействовать функции типа <SPAN class=texample><SPAN 
+            class=keyword>substr</SPAN></SPAN>. Можно воспользоваться более 
+            простым синтаксисом – записывая номер символа в фигурных скобках 
+            после имени строковой переменной. В контексте предыдущего примера 
+            букву «<SPAN class=texample>р</SPAN>», расположенную второй по 
+            счету, можно получить так:</P>
+            <DIV class=example><PRE>echo $text{1}; // выведет символ "р"
+</PRE></DIV>
+            <P>Заметим, что номером этого символа является число один, а не два, 
+            так как нумерация символов <SPAN class=keyword>строки</SPAN> 
+            производится начиная с нуля.</P>
+            <P>Раз уж мы начали говорить о символах в <SPAN 
+            class=keyword>строке</SPAN> и их нумерации, то невольно возникает 
+            вопрос, сколько всего символов в <SPAN class=keyword>строке</SPAN> и 
+            как это вычислить. <A name=keyword-context.1></A>Число символов в 
+            <SPAN class=keyword>строке</SPAN> – это <SPAN 
+            class=keyword_def>длина строки</SPAN>. Вычислить <SPAN 
+            class=keyword>длину строки</SPAN> можно с помощью функции <SPAN 
+            class=texample><SPAN class=keyword>strlen (строка)</SPAN></SPAN>. 
+            Например, <SPAN class=keyword>длина строки</SPAN> «Разработка 
+            информационной модели» вычисляется с помощью команды: <SPAN 
+            class=texample><SPAN class=keyword>strlen</SPAN>("Разработка 
+            информационной модели");</SPAN> и равна 32 символам.</P>
+            <P>Итак, как выделять и находить подстроки, мы рассмотрели. Теперь 
+            научимся заменять <SPAN class=keyword>строку</SPAN>, входящую в 
+            состав исходной <SPAN class=keyword>строки</SPAN>, на другую <SPAN 
+            class=keyword>строку</SPAN> по нашему выбору.</P>
+            <H3>Замена вхождения подстроки</H3>
+            <H4>Функция str_replace</H4>
+            <P>Для <SPAN class=keyword>замены вхождения</SPAN> подстроки можно 
+            использовать функцию <SPAN class=texample><SPAN 
+            class=keyword>str_replace()</SPAN></SPAN>. Это простая и удобная 
+            функция, позволяющая решать множество задач, не требующих особых 
+            тонкостей при выборе заменяемой подстроки. Для того чтобы 
+            производить <SPAN class=keyword>замены</SPAN> с более сложными 
+            условиями, используют механизм регулярных выражений и 
+            соответствующие функции <SPAN class=texample>ereg_replace()</SPAN> и 
+            <SPAN class=texample>preg_replace()</SPAN>. Синтаксис функции <SPAN 
+            class=texample><SPAN class=keyword>str_replace()</SPAN></SPAN> 
+            такой:</P>
+            <DIV class=example><PRE>str_replace(искомое значение, 
+    значение для замены, объект)
+</PRE></DIV>
+            <P>Функция <SPAN class=texample><SPAN 
+            class=keyword>str_replace()</SPAN></SPAN> ищет в рассматриваемом 
+            объекте значение и <SPAN class=keyword>заменяет</SPAN> его 
+            значением, предназначенным для <SPAN class=keyword>замены</SPAN>. 
+            Почему мы говорим здесь не про <SPAN class=keyword>строки</SPAN> для 
+            поиска и замены и исходную <SPAN class=keyword>строку</SPAN>, а про 
+            значения и объект, в котором происходит <SPAN 
+            class=keyword>замена</SPAN>? Дело в том, что начиная с PHP 4.0.5 
+            любой аргумент этой функции может быть массивом.</P>
+            <P>Если объект, в котором производится поиск и <SPAN 
+            class=keyword>замена</SPAN>, является массивом, то эти действия 
+            выполняются для каждого элемента массива и в результате возвращается 
+            новый массив.</P><A name=example.8.7></A>
+            <DIV class=example><PRE>&lt;?php
+$greeting = array("Привет", "Привет всем!",
+   "Привет, дорогая!"); // объект
+$new_greet = str_replace("Привет", 
+   "Доброе утро", $greeting); 
+   // делаем замену
+print_r($new_greet);
+/* получим: Array ([0]=&gt;Доброе утро 
+   [1]=&gt;Доброе утро всем!
+   [2]=&gt;Доброе утро, дорогая!) */
+?&gt;
+        </PRE><SPAN class=objectName>Пример 8.7. Использование 
+            функции str_replace()</SPAN></DIV>
+            <P>Если искомое значение и значение для <SPAN 
+            class=keyword>замены</SPAN> – массивы, то берется по одному значению 
+            из каждого массива и производится их поиск и <SPAN 
+            class=keyword>замена</SPAN> в объекте. Если значений для <SPAN 
+            class=keyword>замены</SPAN> меньше, чем значений для поиска, то в 
+            качестве новых значений используется пустая <SPAN 
+            class=keyword>строка</SPAN>.</P><A name=example.8.8></A>
+            <DIV class=example><PRE>&lt;?php
+$greeting = array("Привет", "Привет всем!",
+   "Привет, дорогая!","Здравствуйте", 
+   "Здравствуйте, товарищи", "Hi"); 
+   // объект
+$search = array ("Привет",
+   "Здравствуйте", "Hi"); 
+   // значения, которые будем заменять
+$replace = array ("Доброе утро",
+   "День добрый"); 
+   // значения, которыми будем заменять
+$new_greet = str_replace($search, $replace,
+                         $greeting);
+   // делаем замену
+print_r($new_greet); 
+   //выводим полученный массив
+?&gt;
+        </PRE><SPAN class=objectName>Пример 8.8. Использование 
+            функции str_replace(). Вариант 2</SPAN></DIV>
+            <P>В результате получим такой массив:</P>
+            <DIV class=example><PRE>Array (
+[0] =&gt; Доброе утро
+[1] =&gt; Доброе утро всем!
+[2] =&gt; Доброе утро, дорогая!
+[3] =&gt; День добрый
+[4] =&gt; День добрый, товарищи
+[5] =&gt;
+)
+        </PRE></DIV>
+            <P>Если значения для поиска – массив, а значение для <SPAN 
+            class=keyword>замены</SPAN> – <SPAN class=keyword>строка</SPAN>, то 
+            эта <SPAN class=keyword>строка</SPAN> будет использована для <SPAN 
+            class=keyword>замены</SPAN> всех найденных значений.</P><A 
+            name=example.8.9></A>
+            <DIV class=example><PRE>&lt;?php
+$greeting = array("Привет", "Привет всем!",
+   "Привет, дорогая!", "Здравствуйте",
+   "Здравствуйте, товарищи"); 
+   // объект
+$search = array ("Привет","Здравствуйте"); 
+   // значения, которые будем заменять
+$replace = "День добрый"; 
+   // значение, которым будем заменять
+$new_greet = str_replace($search, 
+   $replace, $greeting);  // делаем замену
+print_r($new_greet); 
+   //выводим полученный массив
+?&gt;
+        </PRE><SPAN class=objectName>Пример 8.9. Использование 
+            функции str_replace(). Вариант 3</SPAN></DIV>
+            <P>Получим:</P>
+            <DIV class=example><PRE>Array (
+[0] =&gt; День добрый
+[1] =&gt; День добрый всем!
+[2] =&gt; День добрый, дорогая!
+[3] =&gt; День добрый
+[4] =&gt; День добрый, товарищи
+)
+        </PRE></DIV>
+            <P>Функция <SPAN class=texample><SPAN 
+            class=keyword>str_replace()</SPAN></SPAN> чувствительна к регистру, 
+            но существует ее регистронезависимый аналог – функция <SPAN 
+            class=texample><SPAN class=keyword>str_ireplace()</SPAN></SPAN>. 
+            Однако эта функция поддерживается не во всех версиях PHP.</P>
+            <P>Еще один пример использования функции <SPAN class=texample><SPAN 
+            class=keyword>str_replace()</SPAN></SPAN> – обработка шаблонов.</P>
+            <P>Обратимся в очередной раз к описанию какого-либо документа, 
+            например статьи. Много раз мы уже создавали форму для ввода 
+            подобного описания и даже отображали данные, введенные пользователем 
+            в такого рода форму. Но как отображать эти данные, мы описывали 
+            непосредственно в коде нашей программы. Теперь мы хотим, чтобы 
+            способ отображения данных задавал сам пользователь. Для этого 
+            добавим в нашу форму еще один элемент для ввода шаблона.</P>
+            <DIV class=example><PRE>&lt;h2&gt;Введите описание статьи&lt;/h2&gt;
+&lt;form action=sbl.php&gt;
+&lt;table border=0&gt;
+&lt;tr&gt;&lt;td&gt;Название &lt;/td&gt;&lt;td&gt;&lt;input 
+  type=text name=title &gt; &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Краткое содержание &lt;/td&gt;&lt;td&gt;&lt;input 
+  type=text name=description &gt; &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Автор &lt;/td&gt;&lt;td&gt;&lt;input 
+  type=text name=author &gt; &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Дата публикации &lt;/td&gt;&lt;td&gt;&lt;input 
+  type=text name=published &gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Шаблон документа &lt;/td&gt;&lt;td&gt;&lt;textarea
+  name=shablon &gt;&lt;/textarea&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;input type=submit value="Отправить"&gt;
+&lt;/form&gt;
+        </PRE></DIV>
+            <P>Однако просто поля для ввода шаблона недостаточно. Один человек 
+            введет в него одно, другой – другое. Нужно договориться о том, как 
+            создавать шаблоны, что можно в них использовать, т.е. нужно 
+            придумать язык шаблонов. Например, мы договариваемся, что при 
+            создании шаблона можно задействовать любые html-теги, а набор 
+            спецсимволов вида <SPAN class=texample>&lt;!имя_элемента&gt;</SPAN> 
+            определяет значение элемента с именем <SPAN 
+            class=texample>имя_элемента</SPAN>. Далее, как обрабатывать такого 
+            рода шаблоны? Можно использовать функцию <SPAN class=texample><SPAN 
+            class=keyword>str_replace()</SPAN></SPAN>:</P>
+            <DIV class=example><PRE>&lt;?php
+$tmpl = $_GET["shablon"]; 
+/* шаблон, введенный пользователем. 
+Например, это может быть такая строка:
+"&lt;h1&gt;&lt;!title&gt;&lt;/h1&gt; &lt;p&gt;&lt;font 
+size=-1&gt;&lt;!description&gt;&lt;/font&gt;&lt;/p&gt;&lt;p 
+align=right&gt;&lt;!author&gt;&lt;br&gt;&lt;!published&gt;&lt;/p&gt;" */
+function Show(){ 
+  // функция, которая производит замену
+  // элемента шаблона на его значение
+global $tmpl;
+foreach($_GET as $k =&gt; $v) {
+   $tmpl = str_replace("&lt;!$k&gt;",$v,$tmpl);
+}
+echo $tmpl;
+}
+Show();
+?&gt;
+        </PRE></DIV>
+            <P>Как эти файлы выглядят для обычного пользователя? Если мы введем 
+            в форму такие данные как показано на <A 
+            href="http://www.intuit.ru/department/pl/plphp/8/plphp_8.html#image.8.1">рисунке 
+            8.1</A>, то в результате получим:</P>
+            <DIV class=example><PRE>Первая машина для переписи населения
+Идея наносить данные на перфокарты и затем
+считывать и обрабатывать их автоматически 
+принадлежала Джону Биллингсу, а ее 
+техническое решение осуществил Герман
+Холлерит. Перфокарта Холлерита оказалась 
+настолько удачной, что без малейших изменений
+просуществовала до наших дней.
+                                А. М. Федотов
+                                     12.02.03
+        </PRE></DIV>
+            <P align=center><A name=image.8.1></A><IMG height=250 
+            alt="Форма для ввода описания документа «статья»    и шаблона для его отображения" 
+            src="Работа со строками.files/ris8-1.gif" width=360><BR><B>Рис. 
+            8.1.</B>&nbsp; Форма для ввода описания документа «статья» и шаблона 
+            для его отображения</P>
+            <H4>Функция substr_replace</H4>
+            <P>Эта функция сочетает в себе свойства двух уже рассмотренных нами 
+            функций – функции <SPAN class=texample><SPAN 
+            class=keyword>str_replace()</SPAN></SPAN> и <SPAN 
+            class=texample><SPAN class=keyword>substr()</SPAN></SPAN>. Ее 
+            синтаксис таков:</P>
+            <DIV class=example><PRE>substr_replace (исходная строка, 
+    строка для замены, 
+    позиция начального символа [, длина])
+</PRE></DIV>
+            <P>Эта функция <SPAN class=keyword>заменяет часть строки строкой, 
+            предназначенной для замены</SPAN>. <SPAN 
+            class=keyword>Заменяется</SPAN> та часть <SPAN 
+            class=keyword>строки</SPAN> (т.е. подстрока), которая начинается с 
+            позиции, указанной параметром <SPAN class=texample>позиция 
+            начального символа</SPAN>. С помощью дополнительного аргумента <SPAN 
+            class=texample>длина</SPAN> можно ограничить число заменяемых 
+            символов. То есть, фактически, мы не указываем конкретно <SPAN 
+            class=keyword>строку</SPAN>, которую нужно <SPAN 
+            class=keyword>заменить</SPAN>, мы только описываем, где она 
+            находится и, возможно, какую длину имеет. В этом отличие функции 
+            <SPAN class=texample><SPAN 
+            class=keyword>substr_replace()</SPAN></SPAN> от <SPAN 
+            class=texample><SPAN class=keyword>str_replace()</SPAN></SPAN>.</P>
+            <P>Как и в случае с функцией <SPAN class=texample><SPAN 
+            class=keyword>substr()</SPAN></SPAN> аргументы <SPAN 
+            class=texample>позиция начального символа</SPAN> и <SPAN 
+            class=texample>длина</SPAN> могут быть отрицательными. Если позиция 
+            начального символа отрицательна, то <SPAN 
+            class=keyword>замена</SPAN> производится, начиная с этой позиции 
+            относительно конца <SPAN class=keyword>строки</SPAN>. Отрицательная 
+            длина задает, сколько символов от конца <SPAN 
+            class=keyword>строки</SPAN> не должно быть заменено. Если длина не 
+            указывается, то <SPAN class=keyword>замена</SPAN> происходит до 
+            конца <SPAN class=keyword>строки</SPAN>.</P><A 
+name=example.8.10></A>
+            <DIV class=example><PRE>&lt;?php
+$text = "Меня зовут Вася.";
+echo "Исходная строка: $text&lt;hr&gt;\n";
+/* Следующие две строки заменят всю 
+исходную строку строкой 'А меня – Петя' */
+echo substr_replace($text, 'А меня – Петя',
+     0) . "&lt;br&gt;\n";
+echo substr_replace($text, 'А меня – Петя',
+     0, strlen($text)) . "&lt;br&gt;\n";
+// Следующая строка добавит слово 'Привет! '
+// в начало исходной строки
+echo substr_replace($text, 'Привет! ',
+     0, 0) . "&lt;br&gt;\n";
+// Следующие две строки заменят имя Вася
+// на имя Иван в исходной строке
+echo substr_replace($text, 'Иван', 11,
+    -1) . "&lt;br&gt;\n";
+echo substr_replace($text, 'Иван', -5,
+    -1) . "&lt;br&gt;\n";
+?&gt;
+        </PRE><SPAN class=objectName>Пример 8.10. Использование 
+            функции substr_replace()</SPAN></DIV>
+            <P>В результате работы этого скрипта получим:</P>
+            <DIV class=example><PRE>Исходная строка: Меня зовут Вася.
+------------------------------------------
+А меня – Петя
+А меня – Петя
+Привет! Меня зовут Вася.
+Меня зовут Иван.
+Меня зовут Иван.
+        </PRE></DIV>
+            <H3>Разделение и соединение строки</H3>
+            <P>Очень полезные функции – функция <SPAN class=keyword>разделения 
+            строки на части</SPAN> и обратная ей функция <SPAN 
+            class=keyword>объединения строк</SPAN> в одну <SPAN 
+            class=keyword>строку</SPAN>. Почему очень полезные? Например, если 
+            вы динамически генерируете форму по желанию пользователя, можно 
+            предложить ему вводить элементы для создания списка выбора, разделяя 
+            их каким-нибудь символом. И для того чтобы обработать полученный 
+            список значений, как раз и пригодится умение <SPAN 
+            class=keyword>разбивать строку</SPAN> на кусочки. Для реализации 
+            такого разбиения в PHP можно использовать несколько функций:</P>
+            <DIV class=example><PRE>explode(разделитель,исходная строка 
+    [,максимальное число элементов])
+split (шаблон, исходная строка 
+    [, максимальное число элементов])
+preg_split (шаблон, исходная строка 
+    [, максимальное число элементов 
+    [,флаги]])
+</PRE></DIV>
+            <P>Последние две функции работают с регулярными выражениями, поэтому 
+            в данной лекции мы их рассматривать не будем. Рассмотрим более 
+            простую функцию – <SPAN class=texample><SPAN 
+            class=keyword>explode()</SPAN></SPAN>.</P>
+            <P>Функция <SPAN class=texample><SPAN 
+            class=keyword>explode()</SPAN></SPAN> <SPAN class=keyword>делит 
+            исходную строку на подстроки</SPAN>, каждая из которых отделена от 
+            соседней с помощью указанного разделителя, и возвращает массив 
+            полученных <SPAN class=keyword>строк</SPAN>. Если задан 
+            дополнительный параметр <SPAN class=texample>максимальное число 
+            элементов</SPAN>, то число элементов в массиве будет не больше этого 
+            параметра, в последний элемент записывается весь остаток <SPAN 
+            class=keyword>строки</SPAN>. Если в качестве разделителя указана 
+            пустая <SPAN class=keyword>строка</SPAN> «""», то функция <SPAN 
+            class=texample><SPAN class=keyword>explode()</SPAN></SPAN> вернет 
+            <SPAN class=texample>false</SPAN>. Если символа разделителя в 
+            исходной <SPAN class=keyword>строке</SPAN> нет, то возвращается 
+            исходная <SPAN class=keyword>строка</SPAN> без изменений.</P>
+            <P><B>Пример 8.11.</B> мы хотим создать элемент формы – выпадающий 
+            список и значения для этого списка должен ввести пользователь, не 
+            знакомый с языком html. Создадим такую форму:</P><A 
+            name=example.8.11></A>
+            <DIV class=example><PRE>&lt;form action=exp.php&gt;
+   Введите варианты для выбора автора статьи
+      через двоеточие (":"):&lt;br&gt;
+   &lt;input type=text name=author size=40&gt;
+   &lt;br&gt;
+   &lt;input type=submit value=Создать элемент&gt;
+&lt;/form&gt;
+    </PRE><SPAN class=objectName>Пример 8.11. Использование функции 
+            explode()</SPAN></DIV>
+            <P>Скрипт, который будет ее обрабатывать (exp.php), может быть 
+            таким:</P>
+            <DIV class=example><PRE>&lt;?php
+$str = $_GET["author"];
+$names = explode(":",$str); 
+    // разбиваем строку введенную,
+    // пользователем с помощью ":"
+$s = "&lt;select name=author&gt;"; 
+    // создаем выпадающий список
+foreach ($names as $k =&gt; $name) {
+   $s .= "&lt;option value=$k&gt;$name"; 
+    // добавляем элементы к списку
+}
+$s .= "&lt;/select&gt;";
+echo $s;
+?&gt;
+    </PRE></DIV>
+            <P>В итоге, если мы введем такую строчку в форму:</P>
+            <P align=center><A name=image.8.2></A><IMG height=76 
+            alt="Ввод значений для создания выпадающего списка" 
+            src="Работа со строками.files/ris8-2.gif" width=360><BR><B>Рис. 
+            8.2.</B>&nbsp; Ввод значений для создания выпадающего списка</P>
+            <P>то получим следующий выпадающий список:</P>
+            <P align=center><A name=image.8.3></A><IMG height=74 
+            alt="Выпадающий список, полученный       в результате обработки формы" 
+            src="Работа со строками.files/ris8-3.gif" width=131><BR><B>Рис. 
+            8.3.</B>&nbsp; Выпадающий список, полученный в результате обработки 
+            формы</P>
+            <P>Кроме <SPAN class=keyword>разделения строки на части</SPAN> 
+            иногда, наоборот, возникает необходимость <SPAN 
+            class=keyword>объединения нескольких строк в одно целое</SPAN>. 
+            Функция, предлагаемая для этого языком PHP, называется <SPAN 
+            class=texample><SPAN class=keyword>implode()</SPAN></SPAN>:</P>
+            <P><SPAN class=texample><SPAN class=keyword>implode (массив строк, 
+            объединяющий элемент)</SPAN></SPAN></P>
+            <P>Эта функция объединяет элементы массива с помощью переданного ей 
+            объединяющего элемента (например, запятой). В отличие от функции 
+            <SPAN class=texample><SPAN class=keyword>explode()</SPAN></SPAN>, 
+            порядок аргументов в функции <SPAN class=texample><SPAN 
+            class=keyword>implode()</SPAN></SPAN> не имеет значения.</P>
+            <P><B>Пример 8.12.</B> Допустим, мы храним имя, фамилию и отчество 
+            человека по отдельности, а выводить их на странице нужно вместе. 
+            Чтобы <SPAN class=keyword>соединить их в одну строку</SPAN>, можно 
+            использовать функцию <SPAN class=texample><SPAN 
+            class=keyword>implode()</SPAN></SPAN>:</P><A name=example.8.12></A>
+            <DIV class=example><PRE>&lt;?php
+$data = array("Иванов","Иван","Иванович");
+$str = implode($data," ");
+echo $str;
+?&gt;
+    </PRE><SPAN class=objectName>Пример 8.12. Использование функции 
+            implode()</SPAN></DIV>
+            <P>В результате работы этого скрипта получим <SPAN 
+            class=keyword>строку</SPAN>:</P>
+            <P><SPAN class=texample>Иванов Иван Иванович</SPAN></P>
+            <P>У функции <SPAN class=texample><SPAN 
+            class=keyword>implode()</SPAN></SPAN> существует псевдоним – функция 
+            <SPAN class=texample>join()</SPAN>, т.е. эти две функции отличаются 
+            лишь именами.</P>
+            <H3>Строки, содержащие html-код</H3>
+            <P>Достаточно часто мы работаем со <SPAN 
+            class=keyword>строками</SPAN>, содержащими html-теги. Если 
+            отобразить такую <SPAN class=keyword>строку</SPAN> в браузер с 
+            помощью обычных функций отображения данных <SPAN 
+            class=texample><SPAN class=keyword>echo()</SPAN></SPAN> или <SPAN 
+            class=texample><SPAN class=keyword>print()</SPAN></SPAN>, то мы не 
+            увидим самих html-тегов, а получим отформатированную в соответствии 
+            с этими тегами <SPAN class=keyword>строку</SPAN>. Браузер 
+            обрабатывает все html-теги в соответствии со стандартом языка HTML. 
+            Иногда нам нужно видеть непосредственно <SPAN 
+            class=keyword>строку</SPAN>, без обработки ее браузером. Чтобы этого 
+            добиться, нужно перед тем, как <SPAN class=keyword>выводить</SPAN>, 
+            применить к ней функцию <SPAN class=texample><SPAN 
+            class=keyword>htmlspecialchars()</SPAN></SPAN>.</P>
+            <P>Функция <SPAN class=texample><SPAN class=keyword>htmlspecialchars 
+            (строка [, стиль кавычек [, кодировка]])</SPAN></SPAN> переводит 
+            специальные символы, такие как «&lt;», «&gt;», «&amp;», «"» , «'» в 
+            такие сущности языка HTML, как «&amp;lt;», «&amp;gt;», «&amp;amp;», 
+            «&amp;quot;», «&amp;#039;» соответственно.</P>
+            <P>Дополнительный аргумент стиль кавычек определяет, как должны 
+            интерпретироваться двойные и одинарные кавычки. Он может иметь одно 
+            из трех значений: <SPAN class=texample>ENT_COMPAT</SPAN>, <SPAN 
+            class=texample>ENT_QUOTES</SPAN>, <SPAN 
+            class=texample>ENT_NOQUOTES</SPAN>. Константа <SPAN 
+            class=texample>ENT_COMPAT</SPAN> означает, что двойные кавычки 
+            должны быть переведены в спецсимволы, а одинарные должны остаться 
+            без изменений. <SPAN class=texample>ENT_QUOTES</SPAN> говорит, что 
+            должны конвертироваться и двойные и одинарные кавычки, а <SPAN 
+            class=texample>ENT_NOQUOTES</SPAN> оставляет и те и другие кавычки 
+            без изменений.</P>
+            <P>В параметре кодировка могут быть заданы такие кодировки, как 
+            UTF-8, ISO-8859-1 и другие, но ни одна русская кодировка здесь не 
+            поддерживается.</P><A name=example.8.13></A>
+            <DIV class=example><PRE>&lt;?php
+$new = htmlspecialchars("&lt;a 
+    href='mailto:au@mail.ru'&gt;
+    Написать письмо&lt;/a&gt;", ENT_QUOTES);
+echo $new; 
+
+/ * наша строка перекодируется в такую:
+&amp;lt;a href=&amp;#039;mailto:au@mail.ru'&amp;gt;
+Написать письмо&amp;lt;/a&amp;gt; */
+    </PRE><SPAN class=objectName>Пример 8.13. Использование функции 
+            htmlspecialchars()</SPAN></DIV>
+            <P>В браузере мы увидим:</P>
+            <DIV class=example><PRE>&lt;a href='mailto:au@mail.ru'&gt;
+Написать письмо&lt;/a&gt;
+</PRE></DIV>
+            <P>Функция <SPAN class=texample><SPAN 
+            class=keyword>htmlspecialchars()</SPAN></SPAN> перекодирует только 
+            наиболее часто используемые спецсимволы. Если необходимо 
+            конвертировать все символы в сущности HTML, следует задействовать 
+            функцию <SPAN class=texample><SPAN 
+            class=keyword>htmlentities()</SPAN></SPAN>. Русские буквы при 
+            использовании этой функции тоже кодируются специальными 
+            последовательностями. Например, буква «<SPAN 
+            class=texample>А</SPAN>» заменяется комбинацией «<SPAN 
+            class=texample>&amp;Agrave;</SPAN>». Ее синтаксис и принцип действия 
+            аналогичен синтаксису и принципу действия <SPAN class=texample><SPAN 
+            class=keyword>htmlspecialchars()</SPAN></SPAN>.</P>
+            <H3>Заключение</H3>
+            <P>Итак, мы завершили знакомство с функциями работы со <SPAN 
+            class=keyword>строками</SPAN> языка PHP. Конечно же, мы затронули 
+            далеко не все существующие функции, а лишь малую часть. Мы изучили 
+            функции, позволяющие <SPAN class=keyword>найти набор символов в 
+            строке</SPAN>, функции, <SPAN class=keyword>заменяющие все вхождения 
+            одной строки на другую</SPAN>, функции <SPAN 
+            class=keyword>разделения строки на части</SPAN> и <SPAN 
+            class=keyword>соединения нескольких строк в одну</SPAN>, а также 
+            рассмотрели функции, позволяющие <SPAN class=keyword>выводить на 
+            экран строки, содержащие html–код</SPAN> без их форматирования 
+            браузером.</P></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 src="Работа со строками.files/empty.gif" 
+            width=1></TD></TR></TBODY></TABLE><!-- /content --></TD>
+    <TD><IMG height=1 src="Работа со строками.files/empty.gif" 
+  width=8></TD></TR></TBODY></TABLE><!-- /bottom -->
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD class=orang height=1><IMG height=1 
+      src="Работа со строками.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD class=ltxt align=middle>© 2003-2005 INTUIT.ru. Все права 
+  защищены.</TD></TR></TBODY></TABLE><!-- /bottom --></BODY></HTML>

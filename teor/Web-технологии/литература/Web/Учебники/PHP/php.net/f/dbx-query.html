@@ -1,0 +1,98 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>dbx_query</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="dbx-error.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="dbx-sort.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.dbx-query">dbx_query</A></H1><A NAME="AEN16913"></A><P>(PHP 4 &#62;= 4.0.6)</P>
+<p>dbx_query - посылает запрос и получает все результаты (если имеются).<A NAME="AEN16916"></A></p>
+<H2>Описание</H2><p>object <B>dbx_query</B> (object link_identifier, string sql_statement [, long flags])</p>
+<P><B>dbx_query()</B> возвращает объект или <TT>1</TT> при успехе и <TT>0</TT> при неудаче. Результирующий объект возвращается только в том случае, если 
+запрос, заданный в <TT><I>sql_statement</I></TT>, производит результирующий набор.</P><TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN16935"></A><h5>Пример 1. Как обрабатывать результирующее значение</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$link   = dbx_connect(DBX_ODBC, "", "db", "username", "password")
+    or die("Could not connect");
+
+$result = dbx_query($link, 'SELECT id, parentid, description FROM table');
+
+if ( is_object($result) ) {
+    // ... здесь обработка, см. детальный пример далее ...
+    // сначала печатаются имена полей и типы
+    // затем прорисовывается таблица, заполненная возвращёнными значениями полей
+}
+else if ( $result == 1 ) {
+    echo("Query executed successfully, but no result set returned");
+}
+else {
+    exit("Query failed");
+}
+
+dbx_close($link);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Параметр <TT><I>flags</I></TT> используется для контроля количества возвращаемой информации. Это может быть 
+любая комбинация следующих констант с битовой операцией OR (|):<DL><DT><TT><B>DBX_RESULT_INDEX</B></TT></DT>
+<DD><P><i>Всегда</i> установлена, то есть возвращённый объект имеет свойство data,
+которое является двухмерным массивом, индексированным цифрами. Например, в выражении 
+<TT>data[2][3]</TT> <TT>2</TT> это количество рядов (или записей), а <TT>3</TT> это количество столбцов 
+(или полей). Первый ряд и столбец индексируются с 0.</P><P>Если <TT><B>DBX_RESULT_ASSOC</B></TT> также специфицирована, возвращённый объект содержит информацию, относящуюся 
+также и к <TT><B>DBX_RESULT_INFO</B></TT>, даже если она и не специфицирована.</P></DD>
+<DT><TT><B>DBX_RESULT_INFO</B></TT></DT><DD><P>Предоставляет информацию о столбцах, такую как имена полей и типы 
+полей.</P></DD><DT><TT><B>DBX_RESULT_ASSOC</B></TT></DT><DD><P>Делает так, что значения полей с соответствующими именами полей, 
+используемыми как ключи, доступны свойству data возвращаемого объекта.</P>
+<P>Ассоциированный результаты являются на самом деле ссылками на численно 
+индексированные данные, так что модификация <TT>data[0][0]</TT> имеет такой эффект, что
+<TT>data[0]['field_name_for_first_column']</TT> также модифицируется.</P></DD></DL>
+Заметьте, что <TT><B>DBX_RESULT_INDEX</B></TT> используется всегда, независимо от фактического значения параметра
+<TT><I>flags</I></TT>. Это означает, что эффективными являются только следующие комбинации:<UL><LI>
+<P><TT><B>DBX_RESULT_INDEX</B></TT></P></LI><LI><P><TT><B>DBX_RESULT_INDEX</B></TT> | <TT><B>DBX_RESULT_INFO</B></TT></P>
+</LI><LI><P><TT><B>DBX_RESULT_INDEX</B></TT> | <TT><B>DBX_RESULT_INFO</B></TT> | <TT><B>DBX_RESULT_ASSOC</B></TT>
+- по умолчанию, если <TT><I>flags</I></TT> не специфицирован.</P></LI></UL>
+<P>Возвращаемый объект <TT>object</TT> имеет 4 или 5 свойств, в зависимости от <TT><I>flags</I></TT>:
+<DL><DT>handle</DT><DD><P>Правильный дескриптор соединённой БД, и, как таковой, он может 
+использоваться в специфичных для модуля функциях (если требуется).<A NAME="AEN16993"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$result = dbx_query ($link, "SELECT id FROM table");
+mysql_field_len ($result-&#62;handle, 0);</PRE></TD></TR></TABLE></DD><DT>cols и rows</DT>
+<DD><P>Они содержат количество столбцов (полей) и рядов (записей), соответственно.<A NAME="AEN17001"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$result = dbx_query ($link, 'SELECT id FROM table');
+echo $result-&#62;rows; // количество записей
+echo $result-&#62;cols; // количество полей</PRE></TD></TR></TABLE></DD>
+<DT>info (по выбору)</DT><DD><P>Оно возвращается по выбору только тогда, когда <TT><B>DBX_RESULT_INFO</B></TT> или
+<TT><B>DBX_RESULT_ASSOC</B></TT> специфицирована с параметром <TT><I>flags</I></TT>. Это 2-мерный массив,
+в котором два именованных ряда (<TT>name</TT> и <TT>type</TT>) для получения информации о столбце.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN17013"></A><h5>
+Пример 2. Перечисляются имя и тип каждого поля</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$result = dbx_query ($link, 'SELECT id FROM table',
+                     DBX_RESULT_INDEX | DBX_RESULT_INFO);
+
+for ($i = 0; $i &#60; $result-&#62;cols; $i++ ) {
+    echo $result-&#62;info['name'][$i] . "\n";
+    echo $result-&#62;info['type'][$i] . "\n";  
+}</PRE></TD></TR></TABLE></TD></TR></TABLE></DD><DT>data</DT>
+<DD><P>Это свойство содержит фактические результирующие данные, возможно, 
+ассоциированные также с именами столбцов, в зависимости от <TT><I>flags</I></TT>.
+Если <TT><B>DBX_RESULT_ASSOC</B></TT> установлена, то можно использовать
+<TT>$result-&#62;data[2]["field_name"]</TT>.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN17024"></A>
+<h5>Пример 3. Выводится содержимое свойства data в HTML-таблице</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$result = dbx_query ($link, 'SELECT id, parentid, description FROM table');
+
+echo "&#60;table&#62;\n";
+foreach ( $result-&#62;data as $row ) {
+    echo "&#60;tr&#62;\n";
+    foreach ( $row as $field ) {
+        echo "&#60;td&#62;$field&#60;/td&#62;";
+    }
+    echo "&#60;/tr&#62;\n";
+}
+echo "&#60;/table&#62;\n";</PRE></TD></TR></TABLE></TD></TR></TABLE></DD></DL>
+<BLOCKQUOTE><P><B>Примечание: </B>всегда просматривайте также соответствующую документацию модуля.</P></BLOCKQUOTE>
+<P>См. также <A HREF="dbx-connect.html"><B>dbx_connect()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="dbx-error.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="dbx-sort.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">dbx_error</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.dbx.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">dbx_sort</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

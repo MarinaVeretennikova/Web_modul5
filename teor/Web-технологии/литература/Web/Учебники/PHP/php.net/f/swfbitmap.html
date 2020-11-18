@@ -1,0 +1,87 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>SWFBitmap</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="swfbitmap.getwidth.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="swfbutton-keypress.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.swfbitmap">SWFBitmap</A></H1><A NAME="AEN46378"></A><P>(PHP 4 &#62;= 4.0.5)</P>
+<p>SWFBitmap - загружает Bitmap-объект.<A NAME="AEN46381"></A></p><H2>Описание</H2><p>new <B>swfbitmap</B> (string filename [, int alphafilename])</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD><P>Эта функция - ЭКСПЕРИМЕНТАЛЬНАЯ. Поведение, имя и всё остальное, что задокументировано для данной функции может быть изменено в будущих релизах РНР без предупреждения. Вы можете использовать эту функцию только на свой страх и риск.
+</P></TD></TR></TABLE><P><B>swfbitmap()</B> создаёт новый SWFBitmap-объект из Jpeg или DBL файла <TT><I>filename</I></TT>.</P>
+<P><TT><I>alphafilename</I></TT> указывает на MSK-файл, используемый как альфа-маска для Jpeg-изображения.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>мы можем работать только с baseline (frame 0) jpegs, неоптимизированными baseline 
+или progressive scan jpegs!</P></BLOCKQUOTE><P>SWFBitmap имеет следующие методы: <B>swfbitmap-&#62;getwidth()</B> и
+<B>swfbitmap-&#62;getheight()</B>.</P><P>Вы не можете импортировать png-изображения напрямую, а должны использовать 
+утилиту png2dbl для создания dbl-файла ("define bits lossless") из png. Смысл этого в том, что нам не нужна зависимость от png-библиотеки в ming - autoconf 
+должен разрешить это, но это ещё не готово.<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN46405"></A>
+<h5>Пример 1. Импортирование PNG-файлов</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;?php
+  $s = new SWFShape();
+  $f = $s-&#62;addFill(new SWFBitmap("png.dbl"));
+  $s-&#62;setRightFill($f);
+
+  $s-&#62;drawLine(32, 0);
+  $s-&#62;drawLine(0, 32);
+  $s-&#62;drawLine(-32, 0);
+  $s-&#62;drawLine(0, -32);
+
+  $m = new SWFMovie();
+  $m-&#62;setDimension(32, 32);
+  $m-&#62;add($s);
+
+  header('Content-type: application/x-shockwave-flash');
+  $m-&#62;output();
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>И вы можете поместить alpha-маску на jpeg fill.<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN46409"></A>
+<h5>Пример 2. <B>swfbitmap()</B></h5><TABLE BORDER="0"  BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+  $s = new SWFShape();
+
+  // .msk файл, сгенерированный утилитой "gif2mask"
+  $f = $s-&#62;addFill(new SWFBitmap("alphafill.jpg", "alphafill.msk"));
+  $s-&#62;setRightFill($f);
+
+  $s-&#62;drawLine(640, 0);
+  $s-&#62;drawLine(0, 480);
+  $s-&#62;drawLine(-640, 0);
+  $s-&#62;drawLine(0, -480);
+
+  $c = new SWFShape();
+  $c-&#62;setRightFill($c-&#62;addFill(0x99, 0x99, 0x99));
+  $c-&#62;drawLine(40, 0);
+  $c-&#62;drawLine(0, 40);
+  $c-&#62;drawLine(-40, 0);
+  $c-&#62;drawLine(0, -40);
+
+  $m = new SWFMovie();
+  $m-&#62;setDimension(640, 480);
+  $m-&#62;setBackground(0xcc, 0xcc, 0xcc);
+
+  // рисует checkerboard-фон
+  for($y=0; $y&#60;480; $y+=40)
+  {
+    for($x=0; $x&#60;640; $x+=80)
+    {
+      $i = $m-&#62;add($c);
+      $i-&#62;moveTo($x, $y);
+    }
+
+    $y+=40;
+
+    for($x=40; $x&#60;640; $x+=80)
+    {
+      $i = $m-&#62;add($c);
+      $i-&#62;moveTo($x, $y);
+    }
+  }
+
+  $m-&#62;add($s);
+
+  header('Content-type: application/x-shockwave-flash');
+  $m-&#62;output();
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="swfbitmap.getwidth.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="swfbutton-keypress.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">SWFBitmap-&#62;getWidth</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.ming.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">swfbutton_keypress</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

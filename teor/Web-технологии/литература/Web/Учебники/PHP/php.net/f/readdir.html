@@ -1,0 +1,49 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>readdir</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="opendir.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="rewinddir.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.readdir">readdir</A></H1><A NAME="AEN18859"></A><P>(PHP 3, PHP 4)</P>
+<p>readdir - читает вхождение из дескриптора директории.<A NAME="AEN18862"></A></p><H2>Описание</H2><p>string <B>readdir</B> (resource dir_handle)</p>
+<P>Возвращает filename следующего файла из данной директории. Имена файлов возвращаются в порядке, в котором они хранятся в файловой системе.</P>
+<P>Обратите внимание на способ, которым return -значение функции <B>readdir() </B>проверяется в следующем примере. Мы явным образом проверяем, идентично ли return-значение (равно 
+и того же типа, что и&nbsp; --&nbsp; см. <a href="../operators.comparison.html">Операции сравнения</a>)
+<TT><B>FALSE</B></TT>, поскольку иначе любое вхождение директории, имя которого вычисляется в <TT><B>FALSE</B></TT>, остановит цикл.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN18877"></A><h5>Пример 1. Список всех файлов в директории</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>// Обратите внимание, что !== не существовала до 4.0.0-RC2
+&#60;?php
+if ($handle = opendir('/path/to/files')) {
+    echo "Directory handle: $handle\n";
+    echo "Files:\n";
+
+    /* Это корректный способ цикла по директории. */
+    while (false !== ($file = readdir($handle))) { 
+        echo "$file\n";
+    }
+
+    /* Это НЕПРАВИЛЬНЫЙ способ цикла по директории. */
+    while ($file = readdir($handle)) { 
+        echo "$file\n";
+    }
+
+    closedir($handle);
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Заметьте, что <B>readdir()</B> возвратит вхождения <TT>.</TT> и <TT>..</TT>.  Если это нежелательно, просто вырежьте их:
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN18884"></A><h5>Пример 2. Список всех файлов в директории с вырезкой <TT>.</TT>
+и <TT>..</TT></h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php 
+if ($handle = opendir('.')) {
+    while (false !== ($file = readdir($handle))) { 
+        if ($file != "." &#38;&#38; $file != "..") { 
+            echo "$file\n"; 
+        } 
+    }
+    closedir($handle); 
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="is-dir.html"><B>is_dir()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="opendir.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="rewinddir.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">opendir</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.dir.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">rewinddir</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

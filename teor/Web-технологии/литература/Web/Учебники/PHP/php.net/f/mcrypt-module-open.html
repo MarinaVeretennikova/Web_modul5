@@ -1,0 +1,71 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>mcrypt_module_open</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="mcrypt-module-is-block-mode.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="mcrypt-module-self-test.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="mcrypt-module-open">mcrypt_module_open</A></H1><A NAME="AEN45054"></A><P>(PHP 4 &#62;= 4.0.2)</P>
+<p>mcrypt_module_open - эта функция открывает модуль алгоритма и используемый режим.<A NAME="AEN45057"></A></p>
+<H2>Описание</H2><p>resource <B>mcrypt_module_open</B> (string algorithm, string algorithm_directory, string mode, string mode_directory)</p>
+<P>Эта функция открывает модуль алгоритма и используемый режим.
+Имя алгоритма специфицируется в параметре algorithm, например, &quot;twofish", 
+или является одной из констант MCRYPT_ciphername. Модуль закрывается вызовом функции
+<A HREF="mcrypt-module-close.html"><B>mcrypt_module_close()</B></A>. Нормально возвращается дескриптор шифрования,
+<TT><B>FALSE</B></TT> - при ошибке.</P><P><TT><I>algorithm_directory</I></TT> и
+<TT><I>mode_directory</I></TT> используются для локализации модулей шифрования. Если вы предоставили имя 
+директории, используется оно. Если вы установите в один из этих параметров пустую строку (""), используется значение ini-директивы
+<TT><I>mcrypt.algorithms_dir</I></TT> или <TT><I>mcrypt.modes_dir</I></TT>. Если они не установлены, используются директории по умолчанию, которые были 
+скомпилированы для libmcrypt (обычно это /usr/local/lib/libmcrypt).</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN45083"></A><h5>Пример 1. mcrypt_module_open()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+    $td = mcrypt_module_open (MCRYPT_DES, '', MCRYPT_MODE_ECB, '/usr/lib/mcrypt-modes');
+    $td = mcrypt_module_open ('rijndael-256', '', 'ofb', '');
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Первая строка примера пытается открыть DES-шифр из директории по умолчанию и EBC-режим из директории
+<TT>/usr/lib/mcrypt-modes</TT>. Вторая строка использует строки как имена для шифра и dmode; это будет 
+работать только в том случае, если расширение скомпилировано относительно libmcrypt 2.4.x или 2.5.x.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN45090"></A><h5>Пример 2. Использование mcrypt_module_open() при шифровании
+</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+    /* Открыть шифр */
+    $td = mcrypt_module_open ('rijndael-256', '', 'ofb', '');
+
+    /* Создать IV и определить длину keysize */
+    $iv = mcrypt_create_iv (mcrypt_enc_get_iv_size($td), MCRYPT_DEV_RANDOM);
+    $ks = mcrypt_enc_get_key_size ($td);
+
+    /* Создать ключ */
+    $key = substr (md5 ('very secret key'), 0, $ks);
+
+    /* Инициализировать шифрование */
+    mcrypt_generic_init ($td, $key, $iv);
+
+    /* Шифровать данные */
+    $encrypted = mcrypt_generic ($td, 'This is very important data');
+
+    /* Закрыть дескриптор шифрования */
+    mcrypt_generic_deinit ($td);
+
+    /* Инициализировать модуль шифрования для дешифрования */
+    mcrypt_generic_init ($td, $key, $iv);
+
+    /* Дешифровать шифрованную строку */
+    $decrypted = mdecrypt_generic ($td, $encrypted);
+
+    /* Закрыть дескриптор дешифрования и закрыть модуль */
+    mcrypt_generic_deinit ($td);
+    mcrypt_module_close ($td);
+
+    /* Показать строку */
+    echo trim ($decrypted)."\n";
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Первая строка примера пытается открыть DES-шифр из директории по умолчанию и EBC-режим из директории
+<TT>/usr/lib/mcrypt-modes</TT>. Вторая строка использует строки как имена для шифра и dmode, это будет 
+работать только в том случае, если расширение скомпилировано относительно libmcrypt 2.4.x или 2.5.x.</P>
+<P>См. также <A HREF="mcrypt-module-close.html"><B>mcrypt_module_close()</B></A>,
+<A HREF="mcrypt-generic.html"><B>mcrypt_generic()</B></A>, <A HREF="mdecrypt-generic.html"><B>mdecrypt_generic()</B>
+</A>, <A HREF="mcrypt-generic-init.html"><B>mcrypt_generic_init()</B></A> и
+<A HREF="mcrypt-generic-deinit.html"><B>mcrypt_generic_deinit()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="mcrypt-module-is-block-mode.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="mcrypt-module-self-test.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">mcrypt_module_is_block_mode</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.mcrypt.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">mcrypt_module_self_test</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

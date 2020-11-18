@@ -1,0 +1,80 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>swf_closefile</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="swf-addcolor.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="swf-definebitmap.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.swf-closefile">swf_closefile</A></H1><A NAME="AEN74352"></A><P>(PHP 4)</P>
+<p>swf_closefile - закрывает текущий Shockwave Flash-файл.<A NAME="AEN74355"></A></p><H2>Описание</H2><p>void <B>swf_closefile</B> ([int return_file])</p>
+<P>Закрывает файл, открытый функцией <A HREF="swf-openfile.html"><B>swf_openfile()</B></A>. Если параметр
+<TT><I>return_file</I></TT> установлен, то возвращается содержимое SWF-файла.</P><TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN74367"></A><h5>Пример 1. Создание простого flash-файла на основе<br>пользовательского ввода и вывод 
+его и сохранение в БД</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+// переменная $text отправляется пользователем
+
+// Глобальные переменные для доступа к БД
+// (используются в функции swf_savedata())
+$DBHOST = "localhost";
+$DBUSER = "sterling";
+$DBPASS = "secret";
+
+swf_openfile ("php://stdout", 256, 256, 30, 1, 1, 1);
+
+    swf_definefont (10, "Ligon-Bold");
+        swf_fontsize (12);
+        swf_fontslant (10);
+    
+    swf_definetext (11, $text, 1);
+    
+    swf_pushmatrix ();
+        swf_translate (-50, 80, 0);
+        swf_placeobject (11, 60);
+    swf_popmatrix ();
+
+    swf_showframe ();
+  
+    swf_startdoaction ();
+        swf_actionstop ();
+    swf_enddoaction ();
+
+$data = swf_closefile (1);
+
+$data ?
+  swf_savedata ($data) :
+  die ("Error could not save SWF file");
+
+// void swf_savedata (string data)
+// Сохранить сгенерированный файл в БД
+// для последующего запрашивания
+function swf_savedata ($data)
+{
+    global $DBHOST, 
+           $DBUSER,
+           $DBPASS;
+    
+    $dbh = @mysql_connect ($DBHOST, $DBUSER, $DBPASS);
+
+    if (!$dbh) {
+        die (sprintf ("Error [%d]: %s",
+                      mysql_errno (), mysql_error ()));
+    }
+
+    $stmt = "INSERT INTO swf_files (file) VALUES ('$data')";
+
+    $sth = @mysql_query ($stmt, $dbh);
+
+    if (!$sth) {
+        die (sprintf ("Error [%d]: %s",
+                      mysql_errno (), mysql_error ()));
+    }
+
+    @mysql_free_result ($sth);
+    @mysql_close ($dbh);
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="swf-addcolor.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="swf-definebitmap.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">swf_addcolor</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.swf.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">swf_definebitmap</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

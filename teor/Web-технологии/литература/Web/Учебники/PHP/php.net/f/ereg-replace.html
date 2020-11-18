@@ -1,0 +1,50 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>ereg_replace</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="ref.regex.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="ereg.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.ereg-replace">ereg_replace</A></H1><A NAME="AEN71467"></A><P>(PHP 3, PHP 4)</P>ereg_replace - замещает регулярное выражение.<A NAME="AEN71470"></A><H2>Описание</H2><p>string <B>ereg_replace</B> (string pattern, string replacement, string string)</p>
+<BLOCKQUOTE><P><B>Примечание: </B><A HREF="preg-replace.html"><B>preg_replace()</B></A>, которая использует Perl-совместимый синтаксис регулярного выражения, часто 
+работает быстрее, чем <B>ereg_replace()</B>.</P></BLOCKQUOTE><P>Эта функция сканирует <TT><I>string</I></TT> для поиска совпадений с
+<TT><I>pattern</I></TT>, затем заменяет совпавший текст строкой <TT><I>replacement</I></TT>.</P>
+<P>Возвращается модифицированная строка. (Что может означать, что 
+строка-оригинал будет возвращена, если нет заменённых совпадений.)</P><P>Если <TT><I>pattern</I></TT> содержит подстроку в скобках,
+<TT><I>replacement</I></TT> может содержать подстроки вида <TT>\\<I>digit</I></TT>, которые будут заменены текстом, совпавшим с digit'ной подстрокой в скобках;
+<TT>\\0</TT> воспроизведёт всё содержимое строки.  Может использоваться до 9 подстрок.
+Скобки могут вкладываться, и тогда они подсчитываются по открывающим скобкам.</P>
+<P>Если совпадения в <TT><I>string </I></TT>не найдены, то <TT><I>string</I></TT> вернётся без изменений.</P>
+<P>Например, следующий фрагмент кода печатает "This was a test" три раза:<TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN71503"></A><h5>Пример 1. ereg_replace()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$string = "This is a test";
+echo ereg_replace (" is", " was", $string);
+echo ereg_replace ("( )is", "\\1was", $string);
+echo ereg_replace ("(( )is)", "\\2was", $string);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Единственное, что необходимо отметить - если вы используете целочисленное 
+значение как параметр <TT><I>replacement</I></TT>, вы можете не получить ожидаемый результат. Это из-за того, что
+<B>ereg_replace()</B> будет интерпретировать число как простое значение символа и применит его. 
+Например:<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN71510"></A><h5>Пример 2. ereg_replace()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+/* Это не будет работать так, как ожидается. */
+$num = 4;
+$string = "This string has four words.";
+$string = ereg_replace('four', $num, $string);
+echo $string;   /* Output: 'This string has   words.' */
+
+/* Это будет работать. */
+$num = '4';
+$string = "This string has four words.";
+$string = ereg_replace('four', $num, $string);
+echo $string;   /* Output: 'This string has 4 words.' */
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN71515"></A>
+<h5>Пример 3. Замена URLs ссылками</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$text = ereg_replace("[[:alpha:]]+://[^&#60;&#62;[:space:]]+[[:alnum:]/]",
+                     "&#60;a href=\"\\0\"&#62;\\0&#60;/a&#62;", $text);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>См. также <A HREF="ereg.html"><B>ereg()</B></A>, <A HREF="eregi.html"><B>eregi()</B></A>,
+<A HREF="eregi-replace.html"><B>eregi_replace()</B></A>, <A HREF="str-replace.html">
+<B>str_replace()</B></A> и <A HREF="preg-match.html"><B>preg_match()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="ref.regex.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="ereg.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">Функции регулярных выражений (POSIX Extended)</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.regex.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ereg</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

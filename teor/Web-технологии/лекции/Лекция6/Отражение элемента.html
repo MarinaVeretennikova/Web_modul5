@@ -1,0 +1,56 @@
+<HTML>
+<HEAD>
+<TITLE>0тражение элемента от границ окна</TITLE>
+<STYLE TYPE="text/css">
+    #reflect {position:absolute; top:0; left:0;
+                  width:160pt; height:15pt; 
+                font-family:arial; font-size:14pt;
+                   font-weight:bold; color:red; z-index:0} 
+    #lower   {position:absolute; left:50px; top:70px;
+                 width:150px; height:lOOpx;
+                background:cyan; border:2pt gray solid; z-index:-l} 
+    #upper   {position.absolute; left:250px; top:120px;
+                 width:180px; height:130px; background:gray}
+</STYLE>
+<SCRIPT language="JavaScript">
+var x=0;
+var y=0;
+var dx=2;
+var dy=4;
+function reflect_elem() {
+var bod=document.body;
+var elem=document.all.reflect;
+x+=dx;
+y+=dy;
+if ((x+elem.offsetWidth>=bod.scrollLeft+bod.clienrWidth)||(x<=bod.scrollLeft)) {
+dx=-dx;
+if(x<bod.scrollLeft)
+	x=bod.scrollLeft;
+else
+	x=bod.clientWidth-elem.offsetWidth+bod.scrollLeft;
+}
+if ((y+elem.offsetHeight>=bod.scrollTop+bod.clientHeight)||(y<=bod.scrollTop)) {
+dy=-dy;
+if(y<bod.scrollTop)
+	y=bod.scrollTop;
+else
+	y=bod.clientHeight-elem.offsetHeight+bod.scrollTop;
+}
+elem.style.posLeft=x;
+elem.style.posTop=y;
+}
+</SCRIPT>
+
+
+</HEAD> 
+<BODY onload="setInterval ('reflect_elem()',10);"onunload="clearInterval();">
+<H4>Перемещение и отражение элемента от границ</H4>
+<DIV id="reflect">
+ПРЫГАЮЩИЙ ТЕКСТ 
+</DIV>
+<DIV id="upper"> 
+</DIV>
+<DIV id="lower"> 
+</DIV> 
+</BODY> 
+</HTML>

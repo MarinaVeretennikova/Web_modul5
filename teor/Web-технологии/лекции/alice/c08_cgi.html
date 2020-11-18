@@ -1,0 +1,420 @@
+<html>
+<title>Создание CGI-программ</title>
+
+<body>
+
+<table align=center width=90%>
+<tr><td>
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c08_pro.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c08_pro.html">Описание протокола</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c08_itcgi.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c08_itcgi.html">Библиотека ITCGI</a>
+</table>
+
+
+
+
+<h3>Создание CGI-программ</h3>
+<p align="justify">
+Когда пользователь заполняет html-форму и нажимает кнопку submit, данные отправляются
+веб-серверу. Веб-сервер, будь это Apache, IIS или какой-либо другой, запускает программу,
+указанную в качестве значения атрибута action. В нашем случае это test.cgi. 
+Веб-сервер запускает test.cgi и передает ей параметры  в виде 
+текстовой строки, следующего
+содержания: name1=value1&name2=value2&....nameN=valueN, т.е. имя_параметра=значение.
+ Эта строка передается на стандартный поток
+ввода (STDIN) или в качестве значения переменной окружения QUERY_STRING. Соответственно,
+считать данную
+строку в программе можно одним из двух способов:
+<table>
+<tr bgcolor="#CCCCCC"><td>
+<pre>
+  unsigned int len;
+  len = atoi( getenv("CONTENT_LENGTH") );
+  query = (char*)malloc(len+1);
+  fread(query, 1, len, stdin);
+  query[len] = 0;
+  
+  или
+  
+  query=(char*)malloc(strlen(getenv("QUERY_STRING")));
+  strcpy(query,getenv("QUERY_STRING"));
+</td></tr>
+</table>
+В первом случае параметры передаются методом POST, а во втором методом GET. 
+В первом случае мы читаем
+строку из STDIN. Длину строки мы узнаем из значения параметра окружения 
+CONTENT_LENGTH. Во втором она хранится в переменной окружения QUERY_STRING.
+Значение переменной окружения можно получить, вызвав функцию getenv.
+Метод, с помощью которого передается  строка с параметрами CGI-программе, можно 
+определить следующим образом: strcmp(getenv("REQUEST_METHOD"),"POST").
+Далее придется разбирать строку и получать необходимые значения параметров.
+ Для того чтобы не делать это каждый раз, 
+мы написали небольшую, но очень удобную библиотечку ITCGI для написания CGI-скриптов.
+Эта библиотека позволяет вам полностью абстрагироваться от метода, которым
+передаются параметры, от кодировки, от разбора строки. Вы просто вызываете
+функцию GetParamByName, в которую передаете имя интересующего вас параметра
+и адрес строки, куда сохранить значение. Библиотека также предоставляет вам ряд 
+функций для написания эффективных и защищенных от взлома CGI-скриптов.
+<br>
+В простейшем случае, когда ваша программа не нуждается в параметрах, вам и не 
+потребуется ни самому разбирать и раскодировать строку, ни использовать для 
+этого нашу библиотеку. Самой простой CGI-программой будет:
+
+<table>
+<tr bgcolor="#CCCCCC"><td>
+<pre>
+#include&lt;stdio.h&gt;
+
+int main()
+{
+// выдаем обязательный заголовок
+// это часть CGI-протокола
+printf("Content-type: text/html\n\n");
+
+printf("&lt;html&gt;");
+printf("&lt;body&gt;");
+
+printf("Hello, World!");
+
+printf("&lt;/body&gt;");
+printf("&lt;/html&gt;");
+return 0;
+}
+</table>
+
+Заголовок является обязательной частью. Он передается веб-серверу и определяет,
+что следует за ним. В большинстве случаев у вас будет именно такой заголовок.
+Он говорит веб-серверу, что дальше идет HTML-код. С другими типами заголовков
+мы познакомимся чуть позже. В заголовке может быть несколько
+строк. Конец заголовка обозначается двумя переходами на новую строку - \n\n.
+Откомпилируйте эту программу, а исполняемый файл 
+положите в каталог /cgi-bin вашего веб-сайта. Переименуйте его в test.cgi.
+К этому скрипту можно 
+обратится непосредственно через обозреватель, написав в командной строке URL,
+например у меня это выглядит так http://itsoft.ru/cgi-bin/test.cgi
+В результате, в вашем обозревателе вы увидите  строку: "Hello, World!". 
+<br>
+
+Далее мы рассмотрим CGI-программу такого же типа. Она не принимает никаких 
+параметров, но зато выдает более полезную информацию - список и значения всех 
+переменных окружения. Такой скрипт вам пригодится, когда вы будете
+отлаживать свои CGI-программы на различных веб-серверах. Дело в том, 
+что переменные окружения различаются на различных веб-серверах. Так, например,
+для веб-сервера Apache, путь к каталогу веб-сайта хранится в переменной окружения
+DOCUMENT_ROOT. Для веб-сервера Microsoft Internet Information Server
+это значение хранится в переменной PATH_TRANSLATED.
+В операционной системе UNIX скрипт для вывода всех переменных выглядит 
+следующим образом.
+<table>
+<tr bgcolor="#E5E5E5"><td>
+<pre>
+#!/bin/sh
+echo "content-type: text/plain\n\n"
+echo 
+env
+</table>
+
+Обратите внимание на CGI-заголовок. Он отличается от того, который у нас был в предыдущем 
+примере. plain означает, что скрипт выдаст не HTML-код, а чистый текст. Броузер
+будет воспринимать его, как обычный текст и выводить в точности как есть.
+Здесь не надо заменять спецсимволы типа &lt; на их эквиваленты &amp;lt;.
+Скопируйте этот скрипт в директорию /cgi-bin с именем env. Установите атрибут
+755 (rwxr-xr-x). 
+Вот результат выполнения такого скрипта на моем unix-сервере:
+<table>
+<tr bgcolor="#E5E5E5"><td>
+<pre>
+GATEWAY_INTERFACE=CGI/1.1
+REMOTE_USER=itsoft
+REMOTE_ADDR=192.168.34.134
+QUERY_STRING=
+REMOTE_PORT=1781
+HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 5.0; Windows 98; DigExt)
+DOCUMENT_ROOT=/usr/local/www/itsoft
+AUTH_TYPE=Basic
+SERVER_SIGNATURE=&lt;ADDRESS&gt;Apache/1.3.12 Server at itsoft.ru Port 80&lt;/ADDRESS&gt;
+
+HTTP_ACCEPT=image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, */*
+SCRIPT_FILENAME=/usr/local/www/itsoft/cgi-bin/web/env
+HTTP_HOST=itsoft.ru
+REQUEST_URI=/cgi-bin/web/env
+SERVER_SOFTWARE=Apache/1.3.12 (Unix) PHP/3.0.17
+HTTP_CONNECTION=Keep-Alive
+HTTP_COOKIE=/cgi-bin/authenticate.cgi_LAST=956345778
+PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/X11R6/bin
+HTTP_ACCEPT_LANGUAGE=ru
+SERVER_PROTOCOL=HTTP/1.1
+HTTP_ACCEPT_ENCODING=gzip, deflate
+REQUEST_METHOD=GET
+SERVER_ADMIN=igor@itsoft.ru
+SERVER_ADDR=194.226.32.34
+SERVER_PORT=80
+SCRIPT_NAME=/cgi-bin/web/env
+SERVER_NAME=itsoft.ru
+</table>
+
+Программа на языке Си для Windows и веб-сервера Internet Information Server
+будет выглядеть следующим образом:
+
+<table>
+<tr bgcolor="#E5E5E5"><td>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+void main()
+{
+char *text;
+char str[1024];
+int length;
+FILE *in;
+
+sprintf(str,"command.com /c set&gt;%s\\temp\\env.dmp",getenv("PATH_TRANSLATED"));
+system(str);
+
+sprintf(str,"%s\\temp\\env.dmp",getenv("PATH_TRANSLATED"));
+in = fopen(str, "rb");
+if( !in )
+ {
+  printf("Content-type: text/plain\n\nCan't open file %s.", str);
+  return;
+ }
+
+fseek(in, 0, SEEK_END);
+length = ftell(in);
+fseek(in, 0, SEEK_SET);
+text = (char*)malloc(length+1);
+fread(text, 1, length, in);
+text[length] = 0;
+fclose(in);
+
+printf("Content-type: text/plain\n\n%s", text);
+free(text);
+}
+
+</table>
+
+Сначала выполняется команда command.com /c set&gt;c:\www\mysite\temp\env.dmp.
+Результатом выполнения такой команды и будет список всех переменных
+окружения, который затем сохраняется в файл. Далее мы читаем этот файл
+и выдаем его содержимое веб-серверу. Вы можете заметить, что
+в данном случае, как и в прошлом примере, мы печатаем не html-код, а чистый текст
+и поэтому у нас заголовок: Content-type: text/plain. Не забудьте также, что
+этот cgi-скрипт будет работать только под Internet Information Server.
+Для веб-сервера Apache следует заменить getenv("PATH_TRANSLATED") на 
+getenv("DOCUMENT_ROOT").<br>
+Ниже приведен результат действия этого скрипта на WindowsNT, вы можете видеть, какое
+количество параметров доступно через переменные окружения. Такой cgi-скрипт
+пригодится вам при настройке ваших скриптов на чужом сервере, где переменные
+окружения могут отличаться от ваших локальных.
+
+<pre>
+COMSPEC=C:\WINNT\SYSTEM32\COMMAND.COM
+COMPUTERNAME=JUPITER
+CONTENT_LENGTH=0
+GATEWAY_INTERFACE=CGI/1.1
+HTTP_ACCEPT=image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, 
+application/vnd.ms-powerpoint, application/vnd.ms-excel, applic
+HTTP_ACCEPT_LANGUAGE=ru
+HTTP_CONNECTION=Keep-Alive
+HTTP_HOST=www.oxygensoftware.com
+HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)
+HTTP_ACCEPT_ENCODING=gzip, deflate
+HTTPS=off
+INCLUDE=C:\Program Files\Mts\Include
+INSTANCE_ID=1410
+LIB=C:\Program Files\Mts\Lib
+LOCAL_ADDR=168.144.29.178
+NUMBER_OF_PROCESSORS=2
+OS2LIBPATH=C:\WINNT\system32\os2\dll;
+OS=Windows_NT
+PATH=C:\WINNT\system32;C:\WINNT;C:\Program Files\Mts
+PATH_TRANSLATED=e:\InetPub\Clients\oxygensoftware.com
+PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.JS;.VBE;.JSE;.WSF;.WSH
+PROCESSOR_ARCHITECTURE=x86
+PROCESSOR_IDENTIFIER=x86 Family 6 Model 5 Stepping 1, GenuineIntel
+PROCESSOR_LEVEL=6
+PROCESSOR_REVISION=0501
+PROMPT=$P$G
+REMOTE_ADDR=194.226.32.34
+REMOTE_HOST=194.226.32.34
+REQUEST_METHOD=GET
+SCRIPT_NAME=/cgi-bin/env.exe
+SERVER_NAME=www.oxygensoftware.com
+SERVER_PORT=80
+SERVER_PORT_SECURE=0
+SERVER_PROTOCOL=HTTP/1.1
+SERVER_SOFTWARE=Microsoft-IIS/4.0
+SYSTEMDRIVE=C:
+SYSTEMROOT=C:\WINNT
+TEMP=C:\temp
+TMP=C:\temp
+USERPROFILE=C:\WINNT\Profiles\Default User
+</pre>
+
+
+Далее, прежде чем перейти к рассмотрению cgi-скриптов, которые принимают и 
+обрабатываю параметры формы,  мы напишем простенькую программу, которая
+выдает  строку параметров html-формы. О том, как считываются параметры
+формы, читайте выше, здесь я привожу исходный код программы и ее результат
+для html-формы, описанной в четвертой главе.
+
+<table>
+<tr bgcolor="#E5E5E5"><td>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+void main()
+{
+char* query=NULL;
+
+ if( !strcmp(getenv("REQUEST_METHOD"),"POST") )
+ {
+  unsigned int len;
+  len = atoi( getenv("CONTENT_LENGTH") );
+  query = (char*)malloc(len+1);
+  fread(query, 1, len, stdin);
+  query[len] = 0;
+ }
+ else if( !strcmp(getenv("REQUEST_METHOD"),"GET") )
+ {
+  query=(char*)malloc(strlen(getenv("QUERY_STRING")));
+  strcpy(query,getenv("QUERY_STRING"));
+ }
+ else
+  printf("unknown REQUEST_METHOD\n");
+
+
+printf("Content-type: text/plain\n\n%s", query);
+free(query);
+}
+</table>
+
+Скомпилируйте этот код. Он платформенно независимый, поэтому можете
+скомпилировать как под Unix, так и под Windows. 
+Из четвертой главы возьмите HTML-форму, можете взять и любую другую.
+В поле action пропишите путь к данной программе на вашем веб-сервере.
+Результат после нажатия на кнопку "Опубликовать":
+<br>
+text=zero&text=zero&list=0&list2=0&textarea=%C7%E4%E5%F1%FC+%F2%E5%EA%F1%F2+%EF%EE+%F3%EC%EE%EB%F7%E0%ED%E8%FE
+<br>
+<br>
+Это строка, которая содержит список всех параметров
+Далее, вы можете воспользоваться нашей библиотекой ITCGI или же самим разбирать
+эту строку параметров. О библиотеке и ее практическом использовании читайте
+в следующей параграфе.
+
+
+
+
+</td></tr>
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #1 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=0-842" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=0?842" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=0'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69019-bn=0-842" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=0?842"
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #2 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=1?Rnd_Num" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=1'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=1?Rnd_Num" 
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="erle.cgi-51599-842" tppabs="http://www.linkexchange.ru/cgi-bin/erle.cgi?51599?842" frameborder=0 
+    vspace=0 hspace=0 width=468 height=60 marginwidth=0 marginheight=0 scrolling=no>
+    <a href="javascript:if(confirm('http://www.linkexchange.ru/users/goto.map  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://www.linkexchange.ru/users/goto.map'" tppabs="http://www.linkexchange.ru/users/goto.map" target=_top>
+    <img src="rle.cgi-51599-842" tppabs="http://www.linkexchange.ru/cgi-bin/rle.cgi?51599?842" alt="RLE Banner Network" border=0 height=60 width=468></a>
+    </iframe>
+
+<!-- Russian LinkExchange code START - BANNER #1 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=0-842" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=0?842"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=0'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69021-bn=0-842" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=0?842"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+<!-- Russian LinkExchange code START - BANNER #2 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=1-842" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=1?842"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=1'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69021-bn=1-842" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=1?842"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+</td></tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>dl</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="assert.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="extension-loaded.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.dl">dl</A></H1><A NAME="AEN63805"></A><P>(PHP 3, PHP 4)</P>
+<p>dl - загружает РНР-расширение на этапе прогона.<A NAME="AEN63808"></A></p><H2>Описание</H2>
+<p>bool <B>dl</B> (string library)</p><P>Загружает расширение PHP, заданное параметром
+<TT><I>library</I></TT>. Параметр <TT><I>library</I></TT> это <i>только</i> имя загружаемого файла расширения, которое также зависит от 
+используемой платформы. Например, расширение <A HREF="ref.sockets.html">sockets</A> (если скомпилировано как shared-модуль, не по умолчанию!) может называться
+<TT>sockets.so</TT> на unix-платформах и <TT>php_sockets.dll</TT> - на платформах windows.</P>
+<P>Возвращает <TT><B>TRUE</B></TT> при успехе, <TT><B>FALSE</B></TT> при неудаче . Если функциональность загружаемых модулей недоступна
+(см. Примечания) или отключена (через отключение <TT>enable_dl</TT> или включением <TT>safe_mode</TT> в <TT>php.ini</TT>), возникает
+<TT><B>E_ERROR</B></TT>, и выполнение останавливается. Если <B>dl()</B> терпит неудачу из-за того, что специфицированная библиотека не может быть 
+загружена, в дополнение к <TT><B>FALSE</B></TT> выдаётся сообщение <TT><B>E_WARNING</B></TT>.</P>
+<P>Используйте <A HREF="extension-loaded.html"><B>extension_loaded()</B></A> для проверки доступности расширения. Это работает и с встроенными, и с 
+динамическими расширениями (через <TT>php.ini</TT> или <B>dl()</B>).</P><h5>Пример:</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>if (!extension_loaded('gd')) {
+    if (!dl('gd.so')) {
+        exit;
+    }
+}</PRE></TD></TR></TABLE><P>     Директория, из которой расширение загружается, зависит от вашей платформы:</P>
+<P>Windows - если в <TT>php.ini</TT> не установлено явно, расширение по умолчанию загружается из
+<TT>c:\php4\extensions\</TT>.</P><P>Unix - если в <TT>php.ini</TT> не установлено явно, директория по умолчанию расширения зависит от:
+<UL><LI><P>того, построен ли PHP с опцией <TT>--enable-debug</TT>, или нет</P></LI>
+<LI><P>того, построен ли PHP с (экспериментальной) ZTS (Zend Thread Safety) поддержкой, или нет</P></LI>
+<LI><P>текущего внутреннего <TT>ZEND_MODULE_API_NO</TT> (номера API внутреннего модуля Zend, который в основе представляет собой дату 
+изменения главного модуля API, например, <TT>20010901</TT>)</P></LI></UL>
+<p>Учитывая всё вышесказанное, по умолчанию директория будет
+<TT>&#60;php-install-directory&#62;/lib/php/extension/&#60;debug-or-not&#62;-&#60;zts-or-not&#62;-ZEND_MODULE_API_NO</TT>,
+например, <TT>/usr/local/php/lib/php/extensions/debug-non-zts-20010901</TT> или
+<TT>/usr/local/php/lib/php/extensions/no-debug-zts-20010901</TT>.
+<BLOCKQUOTE><P><B>Примечание: dl()</B> <i>не</i> поддерживается в многопоточных Web-серверах. Используйте в таком
+окружении оператор <TT>extensions</TT> в файле <TT>php.ini</TT>. Однако на построения как <TT>CGI</TT> и
+<TT>CLI</TT> <I>это не влияет</I>!</P></BLOCKQUOTE><BLOCKQUOTE><P><B>Примечание: dl()</B> чувствительна к регистру на unix-платформах.</P>
+</BLOCKQUOTE><P>См. также <a href="../configuration.html#ini.sect.extension">Директивы 
+загрузки расширений</a> и <A HREF="extension-loaded.html"><B>extension_loaded()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="assert.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="extension-loaded.html">Вперёд</A></TD></TR>
+<TR><TD WIDTH="33%" VALIGN="top">assert</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../ref.info.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">extension_loaded</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

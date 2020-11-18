@@ -1,0 +1,32 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>shmop_open</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="shmop-delete.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="shmop-read.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="shmop-open">shmop_open</A></H1><A NAME="AEN74017"></A><P>(PHP 4 &#62;= 4.0.4)</P>
+<p>shmop_open - создаёт или открывает блок shared-памяти.<A NAME="AEN74020"></A></p><H2>Описание</H2>
+<p>int <B>shmop_open</B> (int key, string flags, int mode, int size)</p>
+<P><B>shmop_open()</B> создаёт или открывает блок shared-памяти.</P><P><B>shmop_open()</B> принимает 4 параметра: key системный id для блока shared memory, этот параметр 
+может передаваться как 10-ричный или 16-ричный. Второй параметр это флаги:<UL>
+<LI><P>"a" для access/доступ (устанавливает SHM_RDONLY для shmat); используйте этот флаг, если необходимо открыть существующий сегмент shared-памяти только для чтения</P></LI>
+<LI><P>"c" для create/создать (устанавливает IPC_CREATE); используйте этот флаг, если необходимо создать новый сегмент shared-памяти или, если сегмент 
+с тем же ключом уже существует, попытаться открыть его для чтения и записи</P></LI>
+<LI><P>"w" для доступа read &#38; write/чтения и записи; используйте этот флаг, если необходимо читать и записывать в сегмент shared-памяти; 
+используйте этот флаг в большинстве случаев</P></LI>
+<LI><P>"n" для создания нового сегмента памяти (устанавливает IPC_CREATE|IPC_EXCL); используйте этот флаг, если хотите создать новый сегмент shared-памяти, но, 
+если он уже существует с тем же флагом, будет неудача. Это используется только для целей обеспечения секретности.</P></LI></UL>
+Третий параметр mode это режим - разрешения, которые вы хотите назначить вашему сегменту памяти, которые являются теми же, что и разрешения для файла. 
+Разрешения должны передаваться в 8-ричной форме, например, 0644. Последний параметр size это размер в байтах блока shared-памяти, который вы хотите создать.
+<BLOCKQUOTE><P><B>Примечание: </B>третий и четвёртый параметры должны вводиться как 0, если вы открываете 
+существующий сегмент памяти. При успехе <B>shmop_open()</B> возвратит id, который можно использовать для доступа к сегменту shared-памяти, 
+созданному вами.</P></BLOCKQUOTE><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN74054"></A>
+<h5>Пример 1. Создание нового блока shared-памяти</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+$shm_id = shmop_open(0x0fff, "c", 0644, 100);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Открывается блок shared-памяти с system id в 0x0fff.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="shmop-delete.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="shmop-read.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">shmop_delete</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.shmop.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">shmop_read</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

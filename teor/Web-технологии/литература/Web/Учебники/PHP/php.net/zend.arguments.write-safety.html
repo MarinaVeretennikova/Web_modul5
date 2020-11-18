@@ -1,0 +1,46 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE
+>Гарантия Безопасной Записи Других Параметров</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="NEXT" TITLE="Creating Variables" HREF="zend.variables.html">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="zend.arguments.by-reference.html">Назад</A></TD>
+<th WIDTH="80%">Глава 33. Приём аргументов</th><TD WIDTH="10%" ALIGN="right">
+<A HREF="zend.variables.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="zend.arguments.write-safety">Гарантия безопасной записи других параметров</A></H1>
+<P>Вы можете оказаться в ситуации, когда необходимо иметь доступ для записи 
+параметра, который запрашивается функцией <B>zend_get_parameters_ex()</B>, но не передаётся по ссылке. В этом случае вы можете использовать макрос
+<TT>SEPARATE_ZVAL</TT>, который выполняет zval-сепарацию в предоставленном контейнере. Вновь 
+генерируемый <TT>zval</TT> отсоединяется от внутренних данных и имеет только локальную область видимости, 
+что означает, что он может быть изменён или уничтожен без глобальных 
+изменений в контексте скрипта:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>zval **parameter;
+
+/* запросить параметр */
+zend_get_parameters_ex(1, &#38;parameter);
+
+/* на этом этапе &#60;parameter&#62; всё ещё соединён */
+/* с внутренними буферами данных Zend'а */
+
+/* сделать &#60;parameter&#62; write-safe\безопасным для записи */
+SEPARATE_ZVAL(parameter);
+
+/* теперь можно безопасно модифицировать &#60;parameter&#62; */
+/* без выполнения глобальных изменений */</PRE></TD></TR></TABLE>
+<p><TT>SEPARATE_ZVAL</TT> использует <B>emalloc()</B> для выделения нового <TT>zval</TT>-контейнера, и это означает, что даже если вы не зачистите память 
+самостоятельно, она будет уничтожена автоматически по окончании работы 
+скрипта. Однако выполнение большого количества вызовов этого макроса без 
+освобождения результирующих контейнеров использует большой объём вашей RAM-памяти.</p>
+<dl><dd><b>Примечание:</b> поскольку вы без затруднений можете обойти 
+отсутствие доступа для записи с помощью "традиционного&quot; API (с <B>zend_get_parameters()</B> и т.д.), этот API выглядит устаревшим и не обсуждается в этой главе в 
+дальнейшем.</dd></dl></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="zend.arguments.by-reference.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="zend.variables.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Работа с аргументами, передаваемыми по ссылке</TD>
+<th WIDTH="34%" VALIGN="top"><a href="zend.arguments.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Создание переменных</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

@@ -1,0 +1,32 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>preg_quote</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="preg-match.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="preg-replace-callback.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.preg-quote">preg_quote</A></H1><A NAME="AEN71182"></A><P>(PHP 3&#62;= 3.0.9, PHP 4)</P>
+<p>preg_quote - закавычивает символы регулярного выражения.<A NAME="AEN71185"></A></p><H2>Описание</H2>
+<p>string <B>preg_quote</B> (string str [, string delimiter])<P><B>preg_quote()</B> принимает <TT><I>str</I></TT> и помещает backslash перед каждым символом, который является частью синтаксиса 
+регулярного выражения. Это используется в тех случаях, когда у вас имеется строка на этапе прогона, которая должна совпасть с некоторым текстом и может 
+содержать специальные regex-символы.</P><P>Если необязательный <TT><I>delimiter</I></TT> специфицирован, он также мнемонизируется/escaped. Это делается для 
+мнемонизации разграничителя/delimiter, которая необходима в PCRE-функциях. Символ / это самый распространённый разграничитель.</P>
+<P>Специальные символы регулярного выражения:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>. \\ + * ? [ ^ ] $ ( ) { } = ! &#60; &#62; | :</PRE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN71204"></A><h5>Пример 1.</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$keywords = "$40 for a g3/400";
+$keywords = preg_quote ($keywords, "/");
+echo $keywords; // возвращает \$40 for a g3\/400</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN71207"></A><h5>Пример 2. Итализация слова в некотором тексте</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>// В этом примере preg_quote($word) используется для предотвращения
+// трактовки звёздочек как имеющих специальное значение в регулярном выражении.
+
+$textbody = "This book is *very* difficult to find.";
+$word = "*very*";
+$textbody = preg_replace ("/".preg_quote($word)."/",
+                          "&#60;i&#62;".$word."&#60;/i&#62;",
+                          $textbody);</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0"  WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="preg-match.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="preg-replace-callback.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">preg_match</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.pcre.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">preg_replace_callback</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,1160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0057)http://www.intuit.ru/department/pl/plphp/15/plphp_15.html -->
+<HTML><HEAD><TITLE>INTUIT.ru::Интернет-Университет Информационных Технологий</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251"><LINK 
+href="Использование шаблонов в PHP.files/printable.css" type=text/css 
+rel=stylesheet>
+<META content="MSHTML 6.00.2900.2180" name=GENERATOR></HEAD>
+<BODY leftMargin=0 topMargin=6 marginwidth="0" marginheight="6">
+<DIV align=left><SPAN style="FONT-WEIGHT: bold; COLOR: #000000">&nbsp;&nbsp; 
+<SPAN style="FONT-SIZE: 12pt">Интернет-Университет Информационных 
+Технологий</SPAN> </SPAN></DIV>&nbsp;&nbsp; <SPAN 
+style="COLOR: #330066; TEXT-DECORATION: underline" 
+align="rright">http://www.INTUIT.ru</SPAN> 
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD colSpan=3 height=8><IMG height=8 
+      src="Использование шаблонов в PHP.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD class=orang colSpan=3 height=1><IMG height=1 
+      src="Использование шаблонов в PHP.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD colSpan=3 height=8><IMG height=8 
+      src="Использование шаблонов в PHP.files/empty.gif" width=1></TD></TR>
+  <TR vAlign=top>
+    <TD><IMG height=1 src="Использование шаблонов в PHP.files/empty.gif" 
+      width=8></TD>
+    <TD><!-- content -->
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=head>Язык программирования PHP</TD></TR>
+        <TR>
+          <TD height=4><IMG height=4 
+            src="Использование шаблонов в PHP.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD class=orang height=1><IMG height=1 
+            src="Использование шаблонов в PHP.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Использование шаблонов в PHP.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD><SPAN class=headsub>15. Лекция: Использование шаблонов в PHP: 
+            версия для печати и PDA</SPAN> <BR><SPAN class=rtxt>В лекции 
+            рассматривается понятие шаблона и его использование в языке 
+            программирования PHP, а также классы шаблонов FastTemplate и Smarty. 
+            В качестве примера использования различных типов шаблонов и их 
+            обработчиков решается задача генерации списка документов по таблице 
+            базы данных.</SPAN> </TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Использование шаблонов в PHP.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD class=orang height=1><IMG height=1 
+            src="Использование шаблонов в PHP.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Использование шаблонов в PHP.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD>
+            <H3>Что такое шаблоны и зачем они нужны</H3>
+            <P>Что такое <SPAN class=keyword>шаблон</SPAN> в языке 
+            программирования? Можно сказать, что <A 
+            name=keyword-context.1></A><SPAN class=keyword_def>шаблон</SPAN> - 
+            это текст с <SPAN class=keyword>переменными</SPAN> внутри него. При 
+            обработке <SPAN class=keyword>шаблона</SPAN> происходит замена <SPAN 
+            class=keyword>переменных</SPAN> на их значения.</P>
+            <P>В одной из лекций мы уже рассматривали пример <SPAN 
+            class=keyword>шаблона</SPAN>. Это был <SPAN 
+            class=keyword>шаблон</SPAN> для отображения документов. Пользователь 
+            создавал строку текста, размеченного с помощью html-тегов, и 
+            вставлял в нее специальные метасимволы (вида <SPAN 
+            class=texample>&lt;!имя элемента&gt;</SPAN>), которые наша программа 
+            впоследствии заменяла на значения соответствующих элементов. Для 
+            чего нам был нужен такой <SPAN class=keyword>шаблон</SPAN>? Чтобы, 
+            например, можно было изменить стиль отображения документа, не меняя 
+            кода программы.</P>
+            <P>Наиболее распространенный ответ на вопрос, зачем нужны <SPAN 
+            class=keyword>шаблоны</SPAN>, звучит примерно так: <SPAN 
+            class=keyword>шаблоны</SPAN> нужны для того, чтобы отделить логику 
+            работы приложения от способа представления данных, т. е. от 
+            дизайна.</P>
+            <P>Приведенный пример <SPAN class=keyword>шаблона</SPAN> - один из 
+            самых простых. Для его обработки используется только <SPAN 
+            class=keyword>функция</SPAN> <SPAN class=keyword>подстановки</SPAN> 
+            <SPAN class=keyword>str_replace()</SPAN>. Чаще всего для того, чтобы 
+            работать с <SPAN class=keyword>шаблонами</SPAN>, создают библиотеки 
+            классов. В принципе создавать свою библиотеку не обязательно, 
+            поскольку существует множество свободно распространяемых библиотек 
+            <SPAN class=keyword>шаблонов</SPAN>, над функциональностью которых 
+            трудятся большие коллективы разработчиков, стараясь сделать их 
+            универсальными, мощными и быстрыми. Некоторые из таких библиотек мы 
+            и рассмотрим. Но для начала сформулируем задачу, на примере решения 
+            которой будем демонстрировать использование различных <SPAN 
+            class=keyword>шаблонов</SPAN>.</P>
+            <P>Итак, задача:</P>
+            <P>Требуется сгенерировать web-страницу со списком статей, имеющихся 
+            в базе данных. Для простоты считаем, что статья имеет название <SPAN 
+            class=texample>title</SPAN>, автора <SPAN 
+            class=texample>author</SPAN>, краткое содержание <SPAN 
+            class=texample>abstract</SPAN> и полное содержание <SPAN 
+            class=texample>fulltext</SPAN>, которое представлено либо в виде 
+            текста в базе данных, либо в виде ссылки на файл. Список должен быть 
+            организован так, чтобы при щелчке мышью на названии статьи ее полное 
+            содержание появлялось в новом окне.</P>
+            <H3>Шаблоны подстановки</H3>
+            <P>Как можно решить такую задачу способом простой <SPAN 
+            class=keyword>подстановки</SPAN>, т.е. тем <SPAN 
+            class=keyword>методом</SPAN>, которым мы решили задачу отображения 
+            документов?</P>
+            <P>Нужно придумать <SPAN class=keyword>шаблон</SPAN> для этой 
+            страницы и где-то его хранить (в файле или в базе данных). Очевидно, 
+            что мы не можем придумать <SPAN class=keyword>шаблон</SPAN> для всей 
+            страницы, потому что не знаем, сколько статей в базе данных. В <SPAN 
+            class=keyword>шаблоне</SPAN> же мы договорились использовать только 
+            html и метасимволы <SPAN class=texample>&lt;!имя 
+            элемента&gt;</SPAN>. Поэтому мы можем написать только <SPAN 
+            class=keyword>шаблон</SPAN> для одной строки списка, который уже 
+            программно надо преобразовать в нужное количество строк.</P>
+            <DIV class=example><PRE>&lt;li&gt;&lt;a href="&lt;!fulltext&gt;" 
+   target=new&gt;&lt;!title&gt;&lt;/a&gt;
+   (&lt;!author&gt;)&lt;br&gt;&lt;p&gt;&lt;!abstract&gt;&lt;/p&gt;
+        </PRE></DIV>
+            <P>Кроме того, здесь есть еще одна загвоздка - с отображением ссылки 
+            на полный текст статьи. Если мы будем действовать по правилу <SPAN 
+            class=keyword>подстановки</SPAN> (менять все метасимволы на их 
+            значения из базы данных), то может получиться, что вместо <SPAN 
+            class=texample>&lt;!fulltext&gt;</SPAN> вставим не ссылку на текст, 
+            а сам текст. То есть для этого элемента нужна дополнительная 
+            проверка перед заменой и какие-то дополнительные действия в случае, 
+            если в поле <SPAN class=texample>fulltext</SPAN> содержится текст 
+            статьи, а не ссылка на файл. Не будем усложнять себе жизнь и 
+            договоримся, что в поле <SPAN class=texample>fulltext</SPAN> всегда 
+            содержится только ссылка на файл. Тогда задачу можно решить 
+            следующим образом:</P>
+            <DIV class=example><PRE>&lt;?
+$li_tmpl = file_get_contents("tmpl.html");
+// считываем шаблон строки из файла
+// устанавливаем соединение и выбираем
+// базу данных
+$conn = mysql_connect("localhost",
+                      "nina","123")
+or die("Cant connect");
+mysql_select_db("book");
+$sql = "SELECT * FROM Articles";
+$q = mysql_query($sql,$conn); 
+    // отправляем запрос
+$num = mysql_num_rows($q);
+  for($i=0; $i&lt;$num; $i++){
+    $tmpl .= $li_tmpl;
+    $tmpl = str_replace("&lt;!title&gt;",
+      mysql_result($q,$i,"title"),$tmpl);
+    $tmpl = str_replace("&lt;!author&gt;",
+      mysql_result($q,$i,"author"),$tmpl);
+    $tmpl = str_replace("&lt;!abstract&gt;",
+      mysql_result($q,$i,"abstract"),$tmpl);
+    $tmpl = str_replace("&lt;!fulltext&gt;",
+      mysql_result($q,$i,"fulltext"),$tmpl);
+}
+echo $tmpl;
+?&gt;
+        </PRE></DIV>
+            <P>Если <SPAN class=keyword>шаблон</SPAN> был такой, как приведен 
+            выше, то получим примерно следующее.</P>
+            <DIV class=xml_table_env><A name=""></A>
+            <TABLE class=xml_table cellSpacing=1 cellPadding=2 border=0>
+              <TBODY>
+              <TR>
+                <TH bgColor=#d8d8d8 rowSpan=2>1.</TH>
+                <TD vAlign=top bgColor=#eaeaea><B>Введение в PHP</B> 
+                  (Савельева Н.В.)</TD></TR>
+              <TR>
+                <TD vAlign=top bgColor=#eaeaea>Лекция дает представление о 
+                  том, что такое язык PHP, для чего он создавался изначально и 
+                  как используется теперь, какими возможностями обладает.</TD></TR>
+              <TR>
+                <TH bgColor=#d8d8d8 rowSpan=2>2.</TH>
+                <TD vAlign=top bgColor=#eaeaea><B>Установка и настройка ПО</B> 
+                  (Иванов Иван)</TD></TR>
+              <TR>
+                <TD vAlign=top bgColor=#eaeaea>Рекомендации по <SPAN 
+                  class=keyword>установке</SPAN> и настройке web-сервера и 
+                  интерпретатора PHP</TD></TR></TBODY></TABLE></DIV>
+            <P>В принципе <SPAN class=keyword>метод</SPAN> достаточно прост и 
+            удобен, но требует дополнительных усилий программиста при 
+            возникновении задач более сложных, чем простая <SPAN 
+            class=keyword>подстановка</SPAN> значений. Для решения задач, где 
+            требуется делать <SPAN class=keyword>подстановку</SPAN> целых блоков 
+            или даже проверять условия, создают классы <SPAN 
+            class=keyword>шаблонов</SPAN>, такие как <SPAN 
+            class=keyword>FastTemplate</SPAN> и <SPAN 
+            class=keyword>Smarty</SPAN>. Обсудим их подробнее.</P>
+            <H3>Шаблоны FastTemplate</H3>
+            <P><A name=keyword-context.2></A><SPAN 
+            class=keyword_def>FastTemplate</SPAN> - это набор классов, 
+            позволяющих реализовать работу с <SPAN 
+            class=keyword>шаблонами</SPAN>. Логику добавить в <SPAN 
+            class=keyword>шаблон FastTemplate</SPAN> нельзя, вся она должна 
+            находиться в коде программы. Идея работы <SPAN 
+            class=keyword>шаблонов FastTemplate</SPAN> заключается в том, что 
+            любая большая страница состоит из множества кусочков, самые 
+            маленькие из которых - обычные строки текста, и они получают имя и 
+            значение.</P>
+            <P>Что представляет собой файл <SPAN class=keyword>шаблона 
+            FastTemplate</SPAN>? Это обычный html-файл, в котором могут 
+            встречаться <SPAN class=keyword>переменные</SPAN> особого вида, 
+            впоследствии обрабатываемые <SPAN class=keyword>методами</SPAN> 
+            <SPAN class=keyword>класса FastTemplate</SPAN>.</P>
+            <P>Синтаксис <SPAN class=keyword>переменных</SPAN> в <SPAN 
+            class=keyword>шаблонах FastTemplate</SPAN> описывается следующим 
+            выражением: <SPAN class=texample>{([A-Z0-9_]+)}</SPAN></P>
+            <P>Это значит, что <SPAN class=keyword>переменная</SPAN> должна 
+            начинаться с фигурной скобки <SPAN class=texample>"{"</SPAN>. Второй 
+            и последующие символы должны быть буквами верхнего регистра от <SPAN 
+            class=texample>A</SPAN> до <SPAN class=texample>Z</SPAN>, цифрами 
+            или символами подчеркивания. <SPAN class=keyword>Переменная</SPAN> 
+            вычисляется с помощью закрывающей фигурной скобки <SPAN 
+            class=texample>"}"</SPAN>.</P><A name=example.15.1></A>
+            <DIV class=example><PRE>{TITLE}
+{AUTH20}
+{TOP_OF_PAGE}
+        </PRE><SPAN class=objectName>Пример 15.1. Вычисление 
+            переменной с помощью закрывающей фигурной скобки "}"</SPAN></DIV>
+            <P>Как уже было сказано, основная идея <SPAN 
+            class=keyword>FastTemplate</SPAN> - создание страницы с помощью 
+            вложенных <SPAN class=keyword>шаблонов</SPAN>. Например, для решения 
+            нашей задачи можно создать три файла <SPAN 
+            class=keyword>шаблона</SPAN>:</P>
+            <OL>
+              <LI><B>main.tpl</B> (Этот <SPAN class=keyword>шаблон</SPAN> будет 
+              выводить страницу в целом) 
+              <DIV class=example><PRE>&lt;html&gt;
+&lt;head&gt;&lt;title&gt;{TITLE_}&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+{MAIN}
+&lt;/body&gt;
+&lt;/html&gt;
+                </PRE></DIV>
+              <LI><B>list.tpl</B> (будет описывать, как выводить список в целом) 
+
+              <DIV class=example><PRE>&lt;ul&gt;
+{LIST_ELEMENT}
+&lt;/ul&gt;
+                </PRE></DIV>
+              <LI><B>list_element.tpl</B> (описывает непосредственно элемент 
+              списка) 
+              <DIV class=example><PRE>&lt;li&gt;&lt;a href="{FULLTEXT}"&gt;{TITLE}&lt;/a&gt;
+({AUTHOR})
+&lt;br&gt; &lt;p&gt; {ABSTRACT}
+                </PRE></DIV></LI></OL>
+            <P><SPAN class=keyword>Шаблоны</SPAN> мы создали - работу дизайнера 
+            выполнили. Теперь нужно научиться их обрабатывать, т.е. выполнить 
+            работу программиста. Сейчас создадим программу для обработки 
+            приведенных выше <SPAN class=keyword>шаблонов</SPAN>.</P>
+            <P>Перед началом работы с <SPAN class=keyword>шаблонами 
+            FastTemplate</SPAN> нужно подключить этот набор классов к нашей 
+            программе. В реальной жизни набор <SPAN class=keyword>классов 
+            FastTemplate</SPAN> записан в один файл, как правило, с названием 
+            <SPAN class=keyword>class.FastTemplate.php3</SPAN>, поэтому 
+            подключить его можно, например, с помощью команды:</P>
+            <DIV class=example><PRE>include("class.FastTemplate.php3");
+</PRE></DIV>
+            <P>Следующий важный шаг - это создание <SPAN class=keyword>объекта 
+            класса FastTemplate</SPAN>, с которым впоследствии мы будем 
+            работать:</P>
+            <DIV class=example><PRE>$tpl = new FastTemplate(
+              "/path/to/templates");
+</PRE></DIV>
+            <P>В качестве параметра передается путь к месту, где находятся наши 
+            <SPAN class=keyword>шаблоны</SPAN>.</P>
+            <H4>Методы FastTemplate</H4>
+            <P>Далее необходимо изучить <SPAN class=keyword>методы</SPAN>, 
+            которые можно применять к созданному <SPAN class=keyword>объекту 
+            класса FastTemplate</SPAN>. Параллельно обратим внимание, как их 
+            можно использовать для решения нашей задачи.</P>
+            <P>Для работы с <SPAN class=keyword>FastTemplate</SPAN> нужно знать 
+            четыре основных <SPAN class=keyword>метода</SPAN>: <SPAN 
+            class=keyword>define</SPAN>, <SPAN class=keyword>assign</SPAN>, 
+            <SPAN class=keyword>parse</SPAN> и <SPAN 
+            class=keyword>FastPrint</SPAN>.</P>
+            <H5>Метод define</H5>
+            <P>Синтаксис:</P>
+            <DIV class=example><PRE>define( array ( ключ =&gt; значение,
+                ключ1 =&gt; значение1, ... ))
+        </PRE></DIV>
+            <P><SPAN class=keyword>Метод</SPAN> <SPAN 
+            class=keyword>define()</SPAN> связывает имя файла <SPAN 
+            class=keyword>шаблона</SPAN> с более коротким именем, которое можно 
+            будет использовать в программе. То есть "ключ" - это имя, которое мы 
+            будем использовать в программе для ссылки на файл <SPAN 
+            class=keyword>шаблона</SPAN>, имя которого записано в строке 
+            "значение". Реальные имена файлов <SPAN 
+            class=keyword>шаблонов</SPAN> не рекомендуется использовать нигде, 
+            кроме <SPAN class=keyword>метода</SPAN> <SPAN 
+            class=keyword>define</SPAN>. При вызове <SPAN 
+            class=keyword>метода</SPAN> <SPAN class=keyword>define()</SPAN> 
+            происходит загрузка всех определенных в нем <SPAN 
+            class=keyword>шаблонов</SPAN>.</P><A name=example.15.2></A>
+            <DIV class=example><PRE>$tpl-&gt;define( array (main =&gt; "main.tpl",
+    list_f =&gt; "list.tpl",
+    list_el=&gt; "list_element.tpl" ));
+        </PRE><SPAN class=objectName>Пример 15.2. Использование 
+            метода define()</SPAN></DIV>
+            <P>Здесь мы задаем псевдонимы именам файлов <SPAN 
+            class=keyword>шаблонов</SPAN>. Эти псевдонимы, т.е. <SPAN 
+            class=keyword>переменные</SPAN> <SPAN class=texample>main</SPAN>, 
+            <SPAN class=texample>list_f</SPAN> и <SPAN 
+            class=texample>list_el</SPAN>, будут использоваться в программе 
+            вместо соответствующих имен файлов <SPAN 
+            class=texample>main.tpl</SPAN>, <SPAN class=texample>list.tpl</SPAN> 
+            и <SPAN class=texample>list_element.tpl</SPAN>.</P>
+            <H5>Метод assign</H5>
+            <P>Синтаксис:</P>
+            <DIV class=example><PRE>assign( (пары ключ/значение) или 
+      ( array(пары ключ/значение) )
+</PRE></DIV>
+            <P><SPAN class=keyword>Метод</SPAN> <SPAN 
+            class=keyword>assign()</SPAN> присваивает <SPAN 
+            class=keyword>переменным</SPAN> значения, "ключ" - это имя <SPAN 
+            class=keyword>переменной</SPAN>, а "значение" - значение, которое ей 
+            нужно присвоить. Чтобы <SPAN class=keyword>переменная</SPAN> в <SPAN 
+            class=keyword>шаблоне</SPAN> была заменена значением, это значение 
+            нужно задать ей с помощью <SPAN class=keyword>метода</SPAN> <SPAN 
+            class=keyword>assign()</SPAN>. Согласно синтаксису этот <SPAN 
+            class=keyword>метод</SPAN> можно использовать в двух различных 
+            формах. В <SPAN class=keyword>FastTemplate</SPAN> есть только один 
+            массив, поэтому, если вы повторно задаете значение одному и тому же 
+            ключу, оно будет перезаписано.</P><A name=example.15.3></A>
+            <DIV class=example><PRE>$tpl-&gt;assign(array( 
+    TITLE =&gt; "Установка и настройка ПО",
+    TITLE =&gt; "Введение в PHP" ));
+        </PRE><SPAN class=objectName>Пример 15.3. Использование 
+            метода assign()</SPAN></DIV>
+            <P>Здесь мы дважды устанавливаем значение <SPAN 
+            class=keyword>переменной</SPAN>, доступной в файлах <SPAN 
+            class=keyword>шаблона</SPAN> по имени <SPAN 
+            class=texample>TITLE</SPAN>. Эта <SPAN 
+            class=keyword>переменная</SPAN> будет иметь последнее присвоенное ей 
+            значение, т.е. она равна строке <SPAN class=texample>"Введение в 
+            PHP"</SPAN>.</P>
+            <H5>Метод parse</H5>
+            <P>Синтаксис:</P>
+            <DIV class=example><PRE>parse (возвращаемая переменная, 
+       источники шаблонов)
+</PRE></DIV>
+            <P><SPAN class=keyword>Метод</SPAN> <SPAN 
+            class=keyword>parse()</SPAN> - самый основной в <SPAN 
+            class=keyword>FastTemplate</SPAN>. Он устанавливает значение 
+            возвращаемой <SPAN class=keyword>переменной</SPAN> равным 
+            обработанным <SPAN class=keyword>шаблонам</SPAN> из указанных 
+            источников. <SPAN class=keyword>Метод</SPAN> может использоваться в 
+            трех формах: простой, составной и присоединяющей.</P>
+            <DIV class=example><PRE>$tpl-&gt;parse(MAIN, "main"); 
+    // простая форма
+$tpl-&gt;parse(MAIN, array ("list_f", "main"));
+    // составная форма
+$tpl-&gt;parse(MAIN, ".list_el"); 
+    // присоединяющая форма
+        </PRE></DIV>
+            <P>В простой форме <SPAN class=keyword>шаблон</SPAN> с псевдонимом 
+            "main" загружается (если еще не был загружен), все его <SPAN 
+            class=keyword>переменные</SPAN> подставляются, и результат 
+            сохраняется как значение <SPAN class=keyword>переменной</SPAN> <SPAN 
+            class=texample>MAIN</SPAN>. Если <SPAN 
+            class=keyword>переменная</SPAN> <SPAN class=texample>{MAIN}</SPAN> 
+            появится в более поздних <SPAN class=keyword>шаблонах</SPAN>, то 
+            вместо нее будет подставлено значение, полученное в результате 
+            обработки <SPAN class=keyword>шаблона</SPAN> "main". Это позволяет 
+            создавать вложенные <SPAN class=keyword>шаблоны</SPAN>.</P>
+            <P>Составная форма <SPAN class=keyword>метода</SPAN> <SPAN 
+            class=keyword>parse()</SPAN> создана для того, чтобы упростить 
+            вложение <SPAN class=keyword>шаблонов</SPAN> друг в друга. Следующие 
+            записи эквивалентны:</P>
+            <DIV class=example><PRE>$tpl-&gt;parse(MAIN, "list_f");
+$tpl-&gt;parse(MAIN, ".main");
+        </PRE></DIV>
+            <P>это то же самое что и</P>
+            <DIV class=example><PRE>$tpl-&gt;parse(MAIN, array("list_f", "main"));
+</PRE></DIV>
+            <P>Когда используется составная форма, важно, чтобы каждый <SPAN 
+            class=keyword>шаблон</SPAN>, идущий в списке после первого, содержал 
+            ту <SPAN class=keyword>переменную</SPAN>, в которую передаются 
+            результаты обработки <SPAN class=keyword>шаблона</SPAN>. В примере 
+            выше main должен содержать <SPAN class=keyword>переменную</SPAN> 
+            <SPAN class=texample>{MAIN}</SPAN>, поскольку именно в нее 
+            передаются результаты обработки <SPAN class=keyword>шаблона</SPAN> 
+            <SPAN class=texample>list_f</SPAN>. Если <SPAN 
+            class=texample>main</SPAN> не содержит <SPAN 
+            class=keyword>переменной</SPAN> <SPAN class=texample>{MAIN}</SPAN>, 
+            то результаты обработки <SPAN class=keyword>шаблона</SPAN> <SPAN 
+            class=texample>list_f</SPAN> будут потеряны.</P>
+            <P>Присоединяющий стиль позволяет добавлять результаты обработки 
+            <SPAN class=keyword>шаблона</SPAN> к <SPAN 
+            class=keyword>переменной</SPAN> результата. Точка перед псевдонимом 
+            файла <SPAN class=keyword>шаблона</SPAN> говорит <SPAN 
+            class=keyword>FastTemplate</SPAN> о том, что нужно присоединить 
+            результат обработки этого <SPAN class=keyword>шаблона</SPAN> к 
+            возвращенным результатам, а не перезаписывать его. Такой стиль 
+            наиболее часто используется при построении таблиц с переменным 
+            числом рядов, получаемых, например, в результате запроса к базе 
+            данных.</P>
+            <H5>Метод FastPrint</H5>
+            <P>Синтаксис:</P>
+            <DIV class=example><PRE>FastPrint(обработанная переменная)
+</PRE></DIV>
+            <P><SPAN class=keyword>Метод</SPAN> <SPAN 
+            class=keyword>FastPrint()</SPAN> печатает содержимое переданной в 
+            него обработанной <SPAN class=keyword>переменной</SPAN>. Если он 
+            вызван без параметров, то печатается последняя использованная <SPAN 
+            class=keyword>методом</SPAN> <SPAN class=keyword>parse()</SPAN> 
+            <SPAN class=keyword>переменная</SPAN>.</P><A name=example.15.4></A>
+            <DIV class=example><PRE>$tpl-&gt;FastPrint(); 
+/* если продолжать предыдущий пример,
+то эта функция напечатает значение 
+переменной MAIN */
+$tpl-&gt;FastPrint("MAIN"); 
+// эта функция сделает тоже самое
+        </PRE><SPAN class=objectName>Пример 15.4. Использование 
+            метода FastPrint()</SPAN></DIV>
+            <P>Если нужно печатать не на экран, а, например, в файл, то получить 
+            ссылку на данные можно с помощью <SPAN class=keyword>метода</SPAN> 
+            <SPAN class=keyword>fetch()</SPAN>.</P>
+            <DIV class=example><PRE>$data = $tpl-&gt;fetch("MAIN");
+fwrite($fd, $data); // запись данных в файл
+        </PRE></DIV>
+            <H4>Решение задачи с помощью шаблонов FastTemplate</H4>
+            <P>Теперь попробуем собрать воедино все изученные <SPAN 
+            class=keyword>методы</SPAN>, чтобы решить нашу задачу.</P><A 
+            name=example.15.4.1></A>
+            <DIV class=example><PRE>&lt;?php
+include("class.FastTemplate.php3"); //подключаем класс
+                                    //шаблонов FastTemplate
+$tpl = new FastTemplate("c:/users/nina/tasks/"); //создаем
+                                    //объект FastTemplate
+//задаем псевдонимы для имен файлов шаблонов
+$tpl-&gt;define( array( main =&gt; "main.tpl",
+                 list_f =&gt; "list.tpl",
+                 list_el=&gt; "list_element.tpl" ));
+// Присваиваем переменной TITLE_ значение "List of articles"
+$tpl-&gt;assign(TITLE_, "List of articles");
+/* далее, как и раньше, устанавливаем соединение с базой
+и получаем из нее значения нужных элементов */
+$conn = mysql_connect("localhost","nina","123")
+   or die("Cant connect");
+mysql_select_db("book");
+$sql = "SELECT * FROM Articles";
+$q = mysql_query($sql,$conn);
+$num = mysql_num_rows($q);
+   for($i=0; $i&lt;$num; $i++){
+      $title = mysql_result($q,$i,"title");
+      $author = mysql_result($q,$i,"author");
+      $abs = mysql_result($q,$i,"abstract");
+      $full = mysql_result($q,$i,"fulltext");
+// присваиваем полученные значения переменным,
+// использованным внутри шаблонов
+      $tpl-&gt;assign(array(
+               TITLE =&gt; $title,
+               AUTHOR =&gt; $author,
+               ABSTRACT =&gt; $abs,
+               FULLTEXT =&gt; $full ));
+/* подставляем вместо переменных значения в шаблоне list_el и
+добавляем полученное к переменной LIST_ELEMENT */
+   $tpl-&gt;parse(LIST_ELEMENT,".list_el");
+}
+//подставляем значения в шаблоны list_f и main
+$tpl-&gt;parse(MAIN, array("list_f","main"));
+Header("Content-type: text/plain");
+$tpl-&gt;FastPrint(); // выводим обработанный шаблон на экран
+exit;
+?&gt;
+        </PRE><SPAN class=objectName>Листинг 15.4.1. Решение задачи 
+            с помощью шаблонов FastTemplate</SPAN></DIV>
+            <P>Заметим, что решение задачи получилось несколько более сложным, 
+            чем в первом случае, когда использовалась только <SPAN 
+            class=keyword>функция</SPAN> регулярной замены. Зато здесь мы можем 
+            изменять три различных <SPAN class=keyword>шаблона</SPAN> (документа 
+            в целом, списка и элемента списка).</P>
+            <P>Этот класс <SPAN class=keyword>шаблонов</SPAN> появился еще до 
+            выхода PHP4 для работы с PHP3. Чтобы протестировать приведенные 
+            примеры, нужно скачать библиотеку <SPAN class=keyword>классов 
+            FastTemplate</SPAN> и скопировать этот файл в свою рабочую 
+            директорию. Если вы работаете с PHP4, то в файл <SPAN 
+            class=keyword>class.FastTemplate.php3</SPAN> нужно внести пару 
+            изменений, о которых написано в документации, поставляющейся вместе 
+            с этой библиотекой.</P>
+            <H3>Шаблоны Smarty</H3>
+            <P><SPAN class=keyword>Smarty</SPAN> - один из действующих проектов 
+            PHP, его официальный сайт - <A 
+            href="http://www.intuit.ru/department/pl/plphp/15/smarty.php.net" 
+            target=_blank>smarty.php.net</A>. Там можно скачать как сам набор 
+            классов <SPAN class=keyword>Smarty</SPAN>, так и документацию к 
+            нему. Этот набор классов для обработки <SPAN 
+            class=keyword>шаблонов</SPAN> - гораздо более мощный и 
+            функциональный, чем <SPAN class=keyword>FastTemplate</SPAN>.Чем 
+            отличается <SPAN class=keyword>Smarty</SPAN> от классов <SPAN 
+            class=keyword>шаблонов</SPAN> типа <SPAN 
+            class=keyword>FastTemplate</SPAN>? Прежде всего, он не отделяет 
+            полностью логику от содержания. Логика, касающаяся отображения 
+            данных, может присутствовать в <SPAN class=keyword>шаблоне</SPAN>, 
+            считают разработчики <SPAN class=keyword>Smarty</SPAN>. Поэтому в 
+            <SPAN class=keyword>шаблоне Smarty</SPAN> могут быть условные 
+            операторы, операторы вставки файлов, операторы изменения <SPAN 
+            class=keyword>переменных</SPAN>, циклы и т.п. Другая особенность 
+            <SPAN class=keyword>Smarty</SPAN> - это компиляция <SPAN 
+            class=keyword>шаблонов</SPAN>. <SPAN class=keyword>Шаблоны</SPAN> 
+            переводятся в php-код, и интерпретатор PHP производит все 
+            необходимые действия по <SPAN class=keyword>подстановке</SPAN> 
+            значений. Для ускорения работы скомпилированные <SPAN 
+            class=keyword>шаблоны</SPAN> кэшируются.</P>
+            <P>Рассмотрим некоторые основные конструкции механизма <SPAN 
+            class=keyword>шаблонов Smarty</SPAN>.</P>
+            <H4>Установка</H4>
+            <P>Первое, с чего мы начнем, - это <SPAN 
+            class=keyword>установка</SPAN> <SPAN class=keyword>Smarty</SPAN>. 
+            Здесь все не так просто, как с <SPAN 
+            class=keyword>FastTemplate</SPAN>. <SPAN class=keyword>Smarty</SPAN> 
+            состоит не из одного php-файла с описанием класса, а из целого 
+            набора различных файлов-библиотек. Для того чтобы работать с <SPAN 
+            class=keyword>шаблонами Smarty</SPAN>, нужно сделать эти библиотеки 
+            доступными для всех ваших программ. Находятся они в каталоге /libs/ 
+            дистрибутива <SPAN class=keyword>Smarty</SPAN>. Файл, в котором 
+            содержится определение самого класса <SPAN 
+            class=keyword>Smarty</SPAN>, называется Smarty.class.php. Чтобы 
+            проверить, <SPAN class=keyword>доступны ли библиотеки класса</SPAN> 
+            <SPAN class=keyword>Smarty</SPAN>, нужно написать такой скрипт:</P>
+            <DIV class=example><PRE>&lt;?
+require('Smarty.class.php');   
+    // подключаем файл с
+    // описанием класса Smarty
+$smarty = new Smarty; 
+    // создаем экземпляр класса Smarty
+?&gt;
+        </PRE></DIV>
+            <P>Если при его исполнении появилась ошибка, то нужно попробовать 
+            один из перечисленных ниже вариантов.</P>
+            <OL>
+              <LI>Указать полный путь до файла описания класса. 
+              <DIV class=example><PRE>&lt;?
+// подключаем файл с описанием класса
+require('c:/users/my/Smarty/libs/
+                     Smarty.class.php');
+$smarty = new Smarty; 
+// создаем экземпляр класса Smarty
+?&gt;
+                </PRE></DIV>
+              <LI>Добавить директорию, где содержатся библиотеки, в <SPAN 
+              class=texample>include_path</SPAN> (в этом случае код менять не 
+              нужно).
+              <LI>Установить константу <SPAN class=texample>SMARTY_DIR</SPAN>. 
+              <DIV class=example><PRE>&lt;?
+define("SMARTY_DIR",
+       "c:/users/my/Smarty/libs/");
+require(SMARTY_DIR."Smarty.class.php");
+$smarty = new Smarty;
+?&gt;
+                </PRE></DIV></LI></OL>
+            <P>Теперь, после того как мы убедились, что библиотеки будут 
+            найдены, нужно создать <SPAN class=keyword>директории</SPAN>, 
+            необходимые для работы <SPAN class=keyword>Smarty</SPAN>, по 
+            умолчанию имеющие такие имена:</P>
+            <UL>
+              <LI><SPAN class=keyword>templates</SPAN> - директория, где мы 
+              будем хранить созданные <SPAN class=keyword>шаблоны</SPAN>;
+              <LI><SPAN class=keyword>templates_c</SPAN> - директория, где <SPAN 
+              class=keyword>Smarty</SPAN> будет хранить скомпилированные <SPAN 
+              class=keyword>шаблоны</SPAN>;
+              <LI><SPAN class=keyword>configs</SPAN> - директория для хранения 
+              <SPAN class=keyword>конфигурационных файлов</SPAN>;
+              <LI><SPAN class=keyword>cache</SPAN> - директория для 
+кэша.</LI></UL>
+            <P>Эти имена задаются свойствами <SPAN 
+            class=keyword>$template_dir</SPAN>, <SPAN 
+            class=keyword>$compile_dir</SPAN>, <SPAN 
+            class=keyword>$config_dir</SPAN>, <SPAN 
+            class=keyword>$cache_dir</SPAN> класса <SPAN 
+            class=keyword>Smarty</SPAN>, поэтому их можно переопределить. 
+            Рекомендуется использовать различные наборы <SPAN 
+            class=keyword>директорий</SPAN> для каждого приложения, работающего 
+            с <SPAN class=keyword>шаблонами Smarty</SPAN>. Доступ к 
+            перечисленным <SPAN class=keyword>директориям</SPAN> осуществляется 
+            библиотекой <SPAN class=keyword>Smarty</SPAN> и никогда не 
+            выполняется напрямую через web-браузер. Поэтому, чтобы избежать 
+            проблем с безопасностью, лучше всего разместить эти <SPAN 
+            class=keyword>директории</SPAN> там, куда нет доступа через www.</P>
+            <P>Создадим перечисленные <SPAN class=keyword>Smarty 
+            директории</SPAN> по адресу c:/smarty_dirs/book/. Заметим, что 
+            прочитать отсюда данные через браузер нельзя. Пусть наша программа 
+            (или приложение) находится по адресу /~my/tasks/book/. Для <SPAN 
+            class=keyword>директорий</SPAN> <SPAN 
+            class=keyword>$compile_dir</SPAN> и <SPAN 
+            class=keyword>$cache_dir</SPAN> <SPAN class=keyword>Smarty</SPAN> 
+            потребуется доступ на запись, так что нужно установить 
+            соответствующие им права для сетевого пользователя, с которым ваш 
+            сервер работает по умолчанию (обычно это www или nobody).</P>
+            <P>Чтобы протестировать сделанные настройки, создадим простой <SPAN 
+            class=keyword>шаблон</SPAN> и программу, обрабатывающую его с 
+            использованием механизма <SPAN class=keyword>Smarty</SPAN>.</P>
+            <P><SPAN class=texample>index.tpl</SPAN> (является <SPAN 
+            class=keyword>Smarty шаблоном</SPAN> и находится в <SPAN 
+            class=keyword>директории</SPAN> <SPAN class=keyword>шаблонов</SPAN> 
+            <SPAN class=texample>c:/smarty_dirs/book/templates/)</SPAN></P>
+            <DIV class=example><PRE>{* Шаблон Smarty *}
+Привет, {$name}!
+        </PRE></DIV>
+            <P><SPAN class=texample>index.php</SPAN> (является кодом нашей 
+            программы и находится в <SPAN class=keyword>директории</SPAN> <SPAN 
+            class=texample>/~my/tasks/book/</SPAN> или, что то же самое, в <SPAN 
+            class=keyword>директории</SPAN> <SPAN 
+            class=texample>c:/users/my/tasks/book/</SPAN>)</P><A 
+            name=example.15.4.2></A>
+            <DIV class=example><PRE>&lt;?
+// загружаем Smarty-библиотеку и создаем экземпляр класса
+define("SMARTY_DIR","c:/users/my/Smarty/libs/");
+require(SMARTY_DIR."Smarty.class.php");
+$smarty = new Smarty;
+// указываем, где находятся Smarty-директории
+$smarty-&gt;template_dir = "c:/smarty_dirs/book/templates/";
+$smarty-&gt;compile_dir = "c:/smarty_dirs/book/templates_c/";
+$smarty-&gt;config_dir = "c:/smarty_dirs/book/configs/";
+$smarty-&gt;cache_dir = "c:/smarty_dirs/book/cache/";
+$smarty-&gt;assign("name","Вася"); // присваиваем переменной
+                                   // name значение Вася
+$smarty-&gt;display("index.tpl");  // выводим обработанный
+                                   // шаблон
+?&gt;
+        </PRE><SPAN class=objectName>Листинг 15.4.2. 
+            index.php</SPAN></DIV>
+            <P>В результате должны получить:</P>
+            <DIV class=example><PRE>Привет, Вася!
+</PRE></DIV>
+            <P>Все настройки, необходимые для работы нашего приложения, можно 
+            вынести в отдельный файл и организовать их в качестве расширения 
+            класса <SPAN class=keyword>Smarty</SPAN>.</P>
+            <P>Далее более подробно рассмотрим, из каких элементов могут 
+            состоять <SPAN class=keyword>шаблоны Smarty</SPAN> и как их 
+            обрабатывать внутри php-скрипта. Начнем с синтаксиса <SPAN 
+            class=keyword>шаблонов</SPAN>.</P>
+            <H4>Основной синтаксис</H4>
+            <P><SPAN class=keyword>Smarty</SPAN> - не просто класс для обработки 
+            <SPAN class=keyword>шаблонов</SPAN>, он определяет целый язык 
+            построения <SPAN class=keyword>шаблонов</SPAN>. Мы коснемся только 
+            основных его элементов. Итак, что представляет собой <SPAN 
+            class=keyword>шаблон Smarty</SPAN>? Это набор специальных 
+            конструкций (<SPAN class=keyword>переменных</SPAN>, вызовов <SPAN 
+            class=keyword>функций</SPAN> и <SPAN class=keyword>методов</SPAN> и 
+            т.п) и html-тегов. Все элементы (теги) языка <SPAN 
+            class=keyword>шаблонов Smarty</SPAN> заключаются между 
+            символами-ограничителями. По умолчанию это символы фигурных скобок 
+            <SPAN class=texample>"{"</SPAN> и <SPAN class=texample>"}"</SPAN>, 
+            но их можно изменить. Все, что не заключено в такие ограничители, 
+            <SPAN class=keyword>Smarty</SPAN> рассматривает как константы, не 
+            требующие обработки. В <SPAN class=keyword>шаблоне</SPAN> <SPAN 
+            class=texample>index.tpl</SPAN>, приведенном выше, <SPAN 
+            class=texample>{$name}</SPAN> - это <SPAN 
+            class=keyword>переменная</SPAN>, а строки <SPAN 
+            class=texample>"Привет,"</SPAN> и <SPAN class=texample>"!"</SPAN> - 
+            не изменяющиеся в процессе обработки <SPAN 
+            class=keyword>шаблона</SPAN> константы.</P>
+            <P><SPAN class=keyword>Комментарии</SPAN> в <SPAN 
+            class=keyword>Smarty</SPAN> записываются между двумя 
+звездочками:</P>
+            <DIV class=example><PRE>{* Это комментарий. После обработки шаблона
+   он на экране не отображается *}
+        </PRE></DIV>
+            <P>Каждый <SPAN class=keyword>Smarty</SPAN> тег либо выводит 
+            значение <SPAN class=keyword>переменной</SPAN>, либо вызывает 
+            какую-либо <SPAN class=keyword>функцию</SPAN>. <SPAN 
+            class=keyword>Функция</SPAN> записывается следующим образом:</P>
+            <DIV class=example><PRE>{имя_функции атрибут1="значение1"
+             атрибут2="значение2"}
+</PRE></DIV>
+            <P><SPAN class=keyword>Переменные</SPAN> в <SPAN 
+            class=keyword>шаблоне</SPAN> могут быть нескольких типов:</P>
+            <UL>
+              <LI>
+              <P><SPAN class=keyword>Переменные</SPAN>, значение которым 
+              присваивается в php-скрипте пользователя, должны иметь перед 
+              именем знак доллара.</P>
+              <P>Например: <SPAN class=texample>{$first_name}</SPAN></P>
+              <LI>
+              <P>Элементы массива, значения которых были присвоены в php-скрипте 
+              пользователя, доступны в <SPAN class=keyword>шаблоне</SPAN> с 
+              помощью синтаксиса <SPAN 
+              class=texample>{$имя_массива.ассоциативный_ключ}</SPAN>.</P>
+              <P>Например: <SPAN class=texample>{$person.last_name}</SPAN></P>
+              <P>Элементы не ассоциативного массива доступны с помощью 
+              синтаксиса квадратных скобок: <SPAN 
+              class=texample>{имя_массива[числовой_индекс]}</SPAN></P>
+              <P>Например: <SPAN class=texample>{$person[2]}</SPAN></P>
+              <LI>
+              <P>Свойства объектов, заданные в php-скрипте, доступны в <SPAN 
+              class=keyword>шаблоне</SPAN> с помощью такого синтаксиса: <SPAN 
+              class=texample>{имя_объекта-&gt;имя_свойства}</SPAN></P>
+              <P>Например: <SPAN class=texample>{$person-&gt;email}</SPAN></P>
+              <LI>
+              <P><SPAN class=keyword>Переменные</SPAN>, загруженные из <SPAN 
+              class=keyword>конфигурационных файлов</SPAN> (что это такое, мы 
+              расскажем чуть позже), заключаются между символами <SPAN 
+              class=texample>#</SPAN>. Также они доступны как элементы 
+              ассоциативного массива <SPAN 
+              class=texample>$smarty.config</SPAN>.</P>
+              <P>Например: <SPAN class=texample>{#bodyBgColor#}</SPAN> или <SPAN 
+              class=texample>{$smarty.config.bodyBgColor}</SPAN></P></LI></UL>
+            <P>Кроме того, существует <SPAN class=keyword>переменная</SPAN> 
+            <SPAN class=texample>{$smarty}</SPAN>, зарезервированная для 
+            некоторых специальных <SPAN class=keyword>переменных</SPAN> <SPAN 
+            class=keyword>шаблона</SPAN>, таких как <SPAN 
+            class=keyword>переменные</SPAN> HTTP запроса, даты и времени, и 
+            т.п.</P>
+            <P>В <SPAN class=keyword>шаблонах Smarty</SPAN> определен ряд <SPAN 
+            class=keyword>модификаторов</SPAN>, которые можно применять к <SPAN 
+            class=keyword>переменным</SPAN>, пользовательским <SPAN 
+            class=keyword>функциям</SPAN> или строкам с тем, чтобы 
+            модифицировать их значения. Чтобы применить <SPAN 
+            class=keyword>модификатор</SPAN>, нужно указать его название после 
+            вертикальной черты, следующей за именем <SPAN 
+            class=keyword>переменной</SPAN>, <SPAN class=keyword>функции</SPAN> 
+            или строкой, к которой он применяется.</P>
+            <P>Например, чтобы перевести значение <SPAN 
+            class=keyword>переменной</SPAN> <SPAN class=texample>{$title}</SPAN> 
+            в верхний регистр, нужно применить к ней <SPAN 
+            class=keyword>модификатор</SPAN> upper, т.е. написать следующее: 
+            <SPAN class=texample>{$title|upper}</SPAN></P>
+            <P>Можно использовать сразу несколько <SPAN 
+            class=keyword>модификаторов</SPAN>, отделяя их друг от друга прямой 
+            вертикальной чертой. Например, <SPAN 
+            class=texample>{$title|upper|truncate}</SPAN> переведет значение 
+            <SPAN class=keyword>переменной</SPAN> в верхний регистр и урежет до 
+            80 символов.</P>
+            <P>Перечислять все имеющиеся <SPAN class=keyword>модификаторы</SPAN> 
+            мы не будем. Их список можно найти в документации <SPAN 
+            class=keyword>Smarty</SPAN>. Скажем только, что с их помощью можно 
+            посчитать число символов, слов и параграфов, дописать строку, задать 
+            формат вывода даты и времени, сделать регулярную замену и многое 
+            другое.</P>
+            <H4>Конфигурационные файлы</H4>
+            <P><SPAN class=keyword>Конфигурационные файлы</SPAN> используются 
+            для того, чтобы управлять <SPAN class=keyword>глобальными 
+            переменными</SPAN>, используемыми в <SPAN 
+            class=keyword>шаблоне</SPAN>, с помощью одного файла. Их идея очень 
+            похожа на таблицы стилей css. <SPAN class=keyword>Конфигурационный 
+            файл</SPAN> содержит набор <SPAN class=keyword>переменных</SPAN> и 
+            их значения. Перед именем <SPAN class=keyword>переменной</SPAN> не 
+            ставится никаких дополнительных символов типа знака доллара. 
+            Значение <SPAN class=keyword>переменной</SPAN> по желанию заключают 
+            в кавычки (двойные или одинарные), если оно состоит из нескольких 
+            строк, то его заключают в тройные кавычки.</P><A 
+            name=example.15.5></A>
+            <DIV class=example><PRE># глобальные переменные
+pageTitle = "List of documents"
+bodyBgColor = #000000
+tableBgColor = #000000
+rowBgColor = #00ff00
+[Customer]
+pageTitle = "Список статей"
+Intro = """Это значение состоит из
+     нескольких строк. Поэтому его нужно 
+     заключить в тройные кавычки."""
+# скрытая секция
+[.Database]
+host=localhost
+db=book
+user=nina
+pass=123
+        </PRE><SPAN class=objectName>Пример 15.5. Пример 
+            конфигурационного файла</SPAN></DIV>
+            <P><SPAN class=keyword>Конфигурационный файл</SPAN> может состоять 
+            из нескольких разделов (<SPAN class=keyword>секций</SPAN>), каждая 
+            из которых имеет имя и может загружаться отдельно от остальных <SPAN 
+            class=keyword>секций</SPAN>. Имя <SPAN class=keyword>секции</SPAN> 
+            заключается в квадратные скобки. Кроме <SPAN 
+            class=keyword>секций</SPAN> в <SPAN class=keyword>конфигурационном 
+            файле</SPAN> могут содержаться <SPAN class=keyword>глобальные 
+            переменные</SPAN> - они не входят ни в одну <SPAN 
+            class=keyword>секцию</SPAN> и всегда загружаются при загрузке <SPAN 
+            class=keyword>конфигурационного файла</SPAN>. Если загружается 
+            какая-то одна <SPAN class=keyword>секция</SPAN>, то загружаются ее 
+            <SPAN class=keyword>переменные</SPAN> и <SPAN 
+            class=keyword>глобальные переменные</SPAN>. Если <SPAN 
+            class=keyword>переменная</SPAN> существует и как <SPAN 
+            class=keyword>глобальная переменная</SPAN>, и как <SPAN 
+            class=keyword>переменная</SPAN> <SPAN class=keyword>секции</SPAN>, 
+            то используется <SPAN class=keyword>переменная</SPAN> <SPAN 
+            class=keyword>секции</SPAN>. Если вы одинаково назовете две <SPAN 
+            class=keyword>переменные</SPAN> внутри одной <SPAN 
+            class=keyword>секции</SPAN>, то будет использоваться последняя из 
+            них. В приведенном выше примере две <SPAN 
+            class=keyword>секции</SPAN> - <SPAN class=texample>Customer</SPAN> и 
+            <SPAN class=texample>Database</SPAN>, а кроме них заданы <SPAN 
+            class=keyword>глобальные переменные</SPAN> <SPAN 
+            class=texample>pageTitle</SPAN>, <SPAN 
+            class=texample>bodyBgColor</SPAN>, <SPAN 
+            class=texample>tableBgColor</SPAN> и <SPAN 
+            class=texample>rowBgColor</SPAN>.</P>
+            <P>Чтобы спрятать значение <SPAN class=keyword>переменной</SPAN> или 
+            <SPAN class=keyword>секцию</SPAN> целиком, нужно перед ее именем 
+            поставить точку. В таком случае при загрузке <SPAN 
+            class=keyword>конфигурационного файла</SPAN> эти данные нельзя будет 
+            прочесть. В примере мы сделали <SPAN class=keyword>скрытой 
+            секцию</SPAN> <SPAN class=texample>Database</SPAN>, чтобы нельзя 
+            было узнать пароль и имя пользователя, применяемые для установки 
+            соединения.</P>
+            <P><SPAN class=keyword>Комментарии</SPAN> в <SPAN 
+            class=keyword>конфигурационном файле</SPAN> можно обозначать 
+            символом <SPAN class=texample>#</SPAN>.</P>
+            <P>Загрузка <SPAN class=keyword>конфигурационных файлов</SPAN> 
+            производится с помощью <SPAN class=keyword>встроенной функции</SPAN> 
+            или <SPAN class=keyword>метода</SPAN> <SPAN 
+            class=keyword>config_load</SPAN>, подробнее об этом мы расскажем в 
+            следующей главе.</P>
+            <H4>Методы</H4>
+            <P>Для работы с <SPAN class=keyword>шаблонами</SPAN> класс <SPAN 
+            class=keyword>Smarty</SPAN> определяет набор <SPAN 
+            class=keyword>методов</SPAN>. Рассмотрим несколько основных <SPAN 
+            class=keyword>методов</SPAN>.</P>
+            <H5>Метод assign</H5>
+            <P>Синтаксис:</P>
+            <DIV class=example><PRE>void assign (смешанное значение);
+void assign (имя переменной, 
+             смешанное значение);
+        </PRE></DIV>
+            <P><SPAN class=keyword>Метод</SPAN> используется для того, чтобы 
+            присвоить значения <SPAN class=keyword>переменным</SPAN> <SPAN 
+            class=keyword>шаблона</SPAN>. Можно передавать ассоциативные 
+            массивы, содержащие пары имя/значение <SPAN 
+            class=keyword>переменных</SPAN>, или передавать пары имя/значение 
+            для каждой <SPAN class=keyword>переменной</SPAN> в 
+            отдельности.</P><A name=example.15.6></A>
+            <DIV class=example><PRE>&lt;?php
+// передаем пары имя/значение для 
+// переменной Name и
+// Address в отдельности
+$smarty-&gt;assign("Name","Вася");
+$smarty-&gt;assign("Address",$addr); 
+// здесь $addr может быть и массивом
+// передаем ассоциативный массив
+$smarty-&gt;assign(array(
+    "city" =&gt; "Новосибирск",
+    "street" =&gt; "Пирогова"));
+// таким образом, переменные city и street
+// получат соответствующие значения
+?&gt;
+        </PRE><SPAN class=objectName>Пример 15.6. Использование 
+            метода assign()</SPAN></DIV>
+            <H5>Метод append</H5>
+            <P>Синтаксис:</P>
+            <DIV class=example><PRE>void append (смешанное значение);
+void append (имя переменной, 
+             смешанное значение);
+void append (имя переменной, 
+             смешанное значение, слияние);
+        </PRE></DIV>
+            <P>Принцип действия этого примерно такой же, как и у <SPAN 
+            class=keyword>assign</SPAN>. <SPAN class=keyword>Метод</SPAN> <SPAN 
+            class=keyword>append</SPAN> позволяет присоединить элемент к 
+            массиву. Если вы присоединяете значение к строковой <SPAN 
+            class=keyword>переменной</SPAN>, то она преобразуется в массив, и 
+            значение добавляется уже в него. Так же, как и в <SPAN 
+            class=keyword>assign</SPAN>, здесь можно передавать пары 
+            ключ/значение или ассоциативные массивы, содержащие эти пары. Если 
+            указать третий аргумент <SPAN class=texample>слияние</SPAN> равным 
+            <SPAN class=texample>TRUE</SPAN>, то значение будет не присоединено 
+            в качестве еще одного элемента, а слито воедино с текущим 
+            массивом.</P><A name=example.15.7></A>
+            <DIV class=example><PRE>$smarty-&gt;append(array(
+    title =&gt; $title,
+    author =&gt; $author))
+        </PRE><SPAN class=objectName>Пример 15.7. Использование 
+            метода append()</SPAN></DIV>
+            <P>Здесь если <SPAN class=texample>title</SPAN> была строкой, то она 
+            становится массивом и к нему добавляется еще один элемент со 
+            значением <SPAN class=texample>$title</SPAN>. То же самое происходит 
+            с <SPAN class=keyword>переменной</SPAN> <SPAN 
+            class=texample>author</SPAN>.</P>
+            <H5>Метод config_load</H5>
+            <DIV class=example><PRE>void config_load(имя файла, [имя секции]);
+</PRE></DIV>
+            <P><SPAN class=keyword>Метод</SPAN> загружает <SPAN 
+            class=keyword>конфигурационный файл</SPAN> и встраивает его в <SPAN 
+            class=keyword>шаблон</SPAN>. Аналогично этому <SPAN 
+            class=keyword>методу</SPAN> действует <SPAN 
+            class=keyword>функция</SPAN> <SPAN 
+            class=keyword>config_load</SPAN>.</P>
+            <P>Пример: <SPAN 
+            class=texample>$smarty-&gt;config_load("task.conf","Database");</SPAN></P>
+            <H5>Метод display</H5>
+            <DIV class=example><PRE>void display(шаблон);
+</PRE></DIV>
+            <P><SPAN class=keyword>Метод</SPAN> отображает <SPAN 
+            class=keyword>шаблон</SPAN>. У этого <SPAN 
+            class=keyword>метода</SPAN> есть еще два опциональных параметра, о 
+            которых можно прочитать в документации.</P>
+            <H5>Метод fetch</H5>
+            <DIV class=example><PRE>string fetch(шаблон);
+</PRE></DIV>
+            <P>Этот <SPAN class=keyword>метод</SPAN> возвращает обработанный 
+            <SPAN class=keyword>шаблон</SPAN> в строковую <SPAN 
+            class=keyword>переменную</SPAN>, вместо того чтобы выводить его на 
+            экран. У этого <SPAN class=keyword>метода</SPAN> есть еще два 
+            опциональных параметра, о которых можно прочитать в 
+документации.</P>
+            <H4>Встроенные функции</H4>
+            <P><SPAN class=keyword>Smarty</SPAN> поставляется с набором <SPAN 
+            class=keyword>встроенных функций</SPAN>, интегрированных в язык 
+            <SPAN class=keyword>шаблонов</SPAN>. Нельзя создавать свои <SPAN 
+            class=keyword>функции</SPAN> с такими же именами или модифицировать 
+            <SPAN class=keyword>встроенные функции</SPAN>. Опишем некоторые из 
+            таких <SPAN class=keyword>функций</SPAN>.</P>
+            <H5>Функция config_load</H5>
+            <P>Синтаксис:</P>
+            <DIV class=example><PRE>{config_load file="имя_файла" }
+</PRE></DIV>
+            <P>Эта <SPAN class=keyword>функция</SPAN> используется для загрузки 
+            в <SPAN class=keyword>шаблон</SPAN> <SPAN 
+            class=keyword>переменных</SPAN> из <SPAN 
+            class=keyword>конфигурационных файлов</SPAN>. Кроме имени 
+            загружаемого файла, у этой <SPAN class=keyword>функции</SPAN> может 
+            быть еще несколько дополнительных параметров. Например, параметр 
+            <SPAN class=keyword>section</SPAN>, в котором указывают имя <SPAN 
+            class=keyword>секции</SPAN> для загрузки. Более подробную информацию 
+            об этих и других параметрах можно получить из документации <SPAN 
+            class=keyword>Smarty</SPAN>.</P>
+            <P>Пример:</P>
+            <DIV class=example><PRE>{config_load file="task.conf"}
+</PRE></DIV>
+            <H5>Функция capture</H5>
+            <P>Синтаксис:</P>
+            <DIV class=example><PRE>{capture name="имя_блока" 
+         assign="имя_переменной"} ... 
+         {/capture}
+</PRE></DIV>
+            <P>Эта <SPAN class=keyword>функция</SPAN> предназначена для того, 
+            чтобы собирать в <SPAN class=keyword>переменную</SPAN> выходные 
+            данные <SPAN class=keyword>шаблона</SPAN> вместо того, чтобы 
+            выводить их на экран. Все, что находится между <SPAN 
+            class=texample>{capture name="varname"}</SPAN> и <SPAN 
+            class=texample>{/capture}</SPAN>, будет записано в <SPAN 
+            class=keyword>переменную</SPAN> с именем <SPAN 
+            class=texample>varname</SPAN>. Захваченный таким образом контент 
+            может быть использован в <SPAN class=keyword>шаблоне</SPAN> 
+            посредством специальной <SPAN class=keyword>переменной</SPAN> <SPAN 
+            class=texample>$smarty.capture.varname</SPAN>, где <SPAN 
+            class=texample>varname</SPAN> - значение, переданное в атрибут <SPAN 
+            class=texample>name</SPAN> <SPAN class=keyword>функции</SPAN> <SPAN 
+            class=keyword>capture</SPAN>. Если имя <SPAN 
+            class=keyword>переменной</SPAN> не задано, будет использовано имя 
+            <SPAN class=texample>default</SPAN>.</P>
+            <P>Второй параметр <SPAN class=keyword>assign</SPAN> задает имя 
+            <SPAN class=keyword>переменной</SPAN>, которой будет присвоено 
+            захваченное выходное значение. Этот параметр, как и <SPAN 
+            class=texample>name</SPAN>, не обязательный.</P>
+            <H5>Функция section</H5>
+            <P>Синтаксис:</P>
+            <DIV class=example><PRE>{section name="имя_секции"
+loop="переменная_для_выч-ния_числа_итераций"
+[,start="индекс_начальной_позиции"] 
+[, step="шаг"] [,max="максимум_итераций"] 
+[,show="показывать_ли_секцию"] }... 
+{/section}
+        </PRE></DIV>
+            <P><SPAN class=keyword>Секция</SPAN> <SPAN 
+            class=keyword>Section</SPAN> - это цикл для обхода элементов 
+            массива. Обязательными являются параметры <SPAN 
+            class=texample>name</SPAN>, с помощью которого задается имя <SPAN 
+            class=keyword>секции</SPAN>, и <SPAN class=texample>loop</SPAN>, 
+            который представляет собой <SPAN class=keyword>переменную</SPAN>, 
+            определяющую число итераций цикла. Как правило, <SPAN 
+            class=texample>loop</SPAN> - это <SPAN 
+            class=keyword>переменная</SPAN> типа массив, и число итераций <SPAN 
+            class=keyword>секции</SPAN> равно числу элементов этого массива. 
+            Чтобы вывести <SPAN class=keyword>переменную</SPAN> внутри цикла, 
+            нужно после имени <SPAN class=keyword>переменной</SPAN> указать в 
+            квадратных скобках имя <SPAN class=keyword>секции</SPAN>.</P><A 
+            name=example.15.8></A>
+            <DIV class=example><PRE>{section name=art loop=$title}
+   Название: {$title[art]}&lt;br&gt;
+{/section}
+        </PRE><SPAN class=objectName>Пример 15.8. Цикл для обхода 
+            элементов массива</SPAN></DIV>
+            <H5>Функция foreach</H5>
+            <P>Синтаксис:</P>
+            <DIV class=example><PRE>{foreach from="имя_массива" 
+         item="имя_текущего_элемента"}
+   ... {/foreach}
+        </PRE></DIV>
+            <P>Кроме того, можно использовать дополнительные атрибуты <SPAN 
+            class=texample>key</SPAN> - имя ключа для текущего элемента массива 
+            и <SPAN class=texample>name</SPAN> - имя цикла, с помощью которого 
+            можно будет получать доступ к его свойствам. Атрибуты <SPAN 
+            class=texample>from</SPAN> и <SPAN class=texample>item</SPAN> - 
+            обязательные.</P>
+            <P><A name=keyword-context.3></A>Циклы <SPAN 
+            class=keyword_def>foreach</SPAN> являются альтернативой циклам <SPAN 
+            class=keyword>section</SPAN>. Действие <SPAN 
+            class=keyword>функции</SPAN> <SPAN class=keyword>foreach</SPAN> 
+            очень похоже на работу цикла <SPAN class=keyword>foreach</SPAN> в 
+            языке PHP. </P><A name=example.15.9></A>
+            <DIV class=example><PRE>{foreach from=$articles item=art}
+Title: {$art}&lt;br&gt;
+
+{/foreach}
+        </PRE><SPAN class=objectName>Пример 15.9. Цикл foreach 
+            </SPAN></DIV>
+            <P>Циклы <SPAN class=keyword>foreach</SPAN> имеют свои собственные 
+            свойства. Получить доступ к ним можно таким образом: <SPAN 
+            class=texample>{$smarty.foreach.foreachname.varname}</SPAN>, где 
+            <SPAN class=texample>foreachname</SPAN> - это имя цикла, заданное 
+            его параметром <SPAN class=texample>name</SPAN>, а <SPAN 
+            class=texample>varname</SPAN> - имя свойства.</P>
+            <H5>Оператор if, elseif, else</H5>
+            <P>Синтаксис:</P>
+            <DIV class=example><PRE>{if выражение} блок_действий
+   {elseif выражение1} блок_действий1
+   {else} блок_действий2
+{/if}
+        </PRE></DIV>
+            <P>Действие оператора практически аналогично оператору <SPAN 
+            class=keyword>if</SPAN>...<SPAN class=keyword>elseif</SPAN>...<SPAN 
+            class=keyword>else</SPAN> языка PHP. В выражениях могут 
+            использоваться следующие операторы сравнения: <SPAN 
+            class=texample>eq</SPAN>, <SPAN class=texample>ne</SPAN>, <SPAN 
+            class=texample>neq</SPAN>, <SPAN class=texample>gt</SPAN>, <SPAN 
+            class=texample>lt</SPAN>, <SPAN class=texample>lte</SPAN>, <SPAN 
+            class=texample>le</SPAN>, <SPAN class=texample>gte</SPAN>, <SPAN 
+            class=texample>ge</SPAN>, <SPAN class=texample>is even</SPAN>, <SPAN 
+            class=texample>is odd</SPAN>, <SPAN class=texample>is not 
+            even</SPAN>, <SPAN class=texample>is not odd</SPAN>, <SPAN 
+            class=texample>not</SPAN>, <SPAN class=texample>mod</SPAN>, <SPAN 
+            class=texample>div by</SPAN>, <SPAN class=texample>even by</SPAN>, 
+            <SPAN class=texample>odd by</SPAN>, <SPAN class=texample>==</SPAN>, 
+            <SPAN class=texample>!=</SPAN>, <SPAN class=texample>&gt;</SPAN>, 
+            <SPAN class=texample>&lt;</SPAN>, <SPAN class=texample>&lt;=</SPAN>, 
+            <SPAN class=texample>&gt;=</SPAN>. Каждый из них обязательно должен 
+            быть отделен от окружающих его значений пробелами. В выражениях 
+            можно использовать круглые скобки и вызывать php-<SPAN 
+            class=keyword>функции</SPAN>.</P><A name=example.15.10></A>
+            <DIV class=example><PRE>{if $name eq "Вася"}
+   Добро пожаловать, Вася.
+{elseif $name eq "Петя"}
+   Добро пожаловать, Петя.
+{else}
+   Добро пожаловать. А вы кто?
+{/if}
+        </PRE><SPAN class=objectName>Пример 15.10. Операторы if, 
+            elseif, else</SPAN></DIV><A name=example.15.11></A>
+            <DIV class=example><PRE>{* этот пример не будет работать, 
+   поскольку не поставлены
+   пробелы вокруг операторов сравнения *}
+{if $name=="Вася" || $name=="Петя"}
+...
+{/if}
+        </PRE><SPAN class=objectName>Пример 15.11. Неработающий 
+            пример</SPAN></DIV>
+            <H4>Решение задачи с помощью шаблонов Smarty</H4>
+            <P>Теперь, после знакомства с основными конструкциями <SPAN 
+            class=keyword>Smarty</SPAN>, мы можем попытаться решить задачу <SPAN 
+            class=keyword>отображения списка</SPAN> документов. <SPAN 
+            class=keyword>Шаблон</SPAN> списка будет выглядеть следующим 
+            образом:</P>
+            <DIV class=example><PRE>{* Smarty template index.tpl *}
+{config_load file="task.conf" }
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;{#pageTitle#}&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;ol&gt;
+{section name=art loop=$title}
+   &lt;li&gt;&lt;a href="{$fulltext[art]}"&gt;
+      {$title[art]}&lt;/a&gt;
+      ({$author[art]})
+   &lt;br&gt; &lt;p&gt; {$abstract[art]}
+{/section}
+&lt;/ol&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+        </PRE></DIV>
+            <P>В <SPAN class=keyword>файле конфигурации</SPAN> <SPAN 
+            class=texample>task.conf</SPAN> будем хранить название страницы и 
+            параметры для доступа к базе данных:</P>
+            <DIV class=example><PRE># глобальные переменные
+pageTitle = "List of documents"
+[Customer]
+pageTitle = "Список статей"
+[Database]
+host=localhost
+db=book
+user=nina
+pass=123
+        </PRE></DIV>
+            <P>Скрипт (<SPAN class=texample>index.php</SPAN>), обрабатывающий 
+            написанный нами <SPAN class=keyword>шаблон</SPAN>, может выглядеть 
+            таким образом:</P><A name=example.15.12></A>
+            <DIV class=example><PRE>&lt;?
+define("SMARTY_DIR","c:/users/nina/Smarty/libs/");
+require(SMARTY_DIR."Smarty.class.php");
+$smarty = new Smarty;
+$smarty-&gt;template_dir = "c:/smarty_dirs/book/templates/";
+$smarty-&gt;compile_dir = "c:/smarty_dirs/book/templates_c/";
+$smarty-&gt;config_dir = "c:/smarty_dirs/book/configs/";
+$smarty-&gt;cache_dir = "c:/smarty_dirs/book/cache/";
+// вышеприведенный блок лучше вынести в отдельный файл
+$smarty-&gt;config_load("task.conf","Database");
+$host = $smarty-&gt;get_config_vars("host");
+$user = $smarty-&gt;get_config_vars("user");
+$pass = $smarty-&gt;get_config_vars("pass");
+$db = $smarty-&gt;get_config_vars("db");
+$conn = mysql_connect($host, $user, $pass) or die("Cant connect");
+mysql_select_db($db);
+$sql = "SELECT * FROM Articles";
+$q = mysql_query($sql,$conn);
+$num = mysql_num_rows($q);
+   for($i=0; $i&lt;$num; $i++){
+      $title = mysql_result($q,$i,"title");
+      $author = mysql_result($q,$i,"author");
+      $abs = mysql_result($q,$i,"abstract");
+      $full = mysql_result($q,$i,"fulltext");
+      $smarty-&gt;append(array(
+         title =&gt; $title,
+         author =&gt; $author,
+         abstract =&gt; $abs,
+         fulltext =&gt; $full ));
+}
+$smarty-&gt;display("index.tpl");
+?&gt;
+        </PRE><SPAN class=objectName>Листинг 15.12. 
+            index.php</SPAN></DIV>
+            <P>Как вы, скорее всего, заметили, программа получилась еще более 
+            громоздкой, чем в первых двух случаях, когда использовалась простая 
+            замена значений и <SPAN class=keyword>шаблоны FastTemplate</SPAN>. 
+            Действительно, механизм <SPAN class=keyword>Smarty</SPAN> гораздо 
+            более сложен, чем тот же <SPAN class=keyword>FastTemplate</SPAN>, но 
+            зато и более функционален.</P>
+            <H3>Заключение</H3>
+            <P>Итак, в этой лекции было рассказано о том, что такое <SPAN 
+            class=keyword>шаблоны</SPAN> и как их можно использовать при 
+            программировании web-приложений на языке PHP. Мы рассмотрели три 
+            способа решения задачи <SPAN class=keyword>отображения сложного 
+            списка</SPAN> документов: с помощью <SPAN 
+            class=keyword>функции</SPAN> регулярной замены, с помощью <SPAN 
+            class=keyword>класса шаблонов FastTemplate</SPAN> и с помощью языка 
+            <SPAN class=keyword>шаблонов Smarty</SPAN>. При этом мы 
+            познакомились с основными свойствами, <SPAN 
+            class=keyword>методами</SPAN> и <SPAN class=keyword>функциями</SPAN> 
+            классов <SPAN class=keyword>FastTemplate</SPAN> и <SPAN 
+            class=keyword>Smarty</SPAN>.</P></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Использование шаблонов в PHP.files/empty.gif" 
+        width=1></TD></TR></TBODY></TABLE><!-- /content --></TD>
+    <TD><IMG height=1 src="Использование шаблонов в PHP.files/empty.gif" 
+      width=8></TD></TR></TBODY></TABLE><!-- /bottom -->
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD class=orang height=1><IMG height=1 
+      src="Использование шаблонов в PHP.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD class=ltxt align=middle>© 2003-2005 INTUIT.ru. Все права 
+  защищены.</TD></TR></TBODY></TABLE><!-- /bottom --></BODY></HTML>

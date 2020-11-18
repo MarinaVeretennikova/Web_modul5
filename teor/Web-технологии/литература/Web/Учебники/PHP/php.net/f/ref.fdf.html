@@ -1,0 +1,121 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Forms Data Format</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%"><A HREF="unlink.html">
+Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="fdf-add-template.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.fdf"></A>XXXI. Функции Forms Data Format</h1><A NAME="AEN25121"></A>
+<H1><A NAME="fdf.intro">Введение</A></H1><P>Forms Data Format (FDF) это формат для обработки форм в PDF-документах. Вам 
+необходимо прочесть документацию 
+<A HREF="http://partners.adobe.com/asn/developer/acrosdk/forms.html" TARGET="_top">http://partners.adobe.com/asn/developer/acrosdk/forms.html</A>, чтобы узнать больше о том, что такое FDF и как его использовать.</P>
+<P>Общая идея FDF напоминает HTML-формы. Разница в основном в формате передачи 
+данных на сервер при нажатии копки submit (это формат Form Data Format) и в 
+формате самой формы (которая имеет формат Portable Document Format, PDF).
+Процессинг FDF-данных является одной из возможностей, предоставляемой fdf-функциями. 
+Но есть и ещё кое-что.<br>Можно также взять существующую PDF-форму и заполнить поля ввода (input) 
+данными без модификации самой формы. Тогда можно будет создать FDF-документ
+(<A HREF="fdf-create.html"><B>fdf_create()</B></A>), установить значения каждого поля ввода
+(<A HREF="fdf-set-value.html"><B>fdf_set_value()</B></A>) и ассоциировать его с PDF-формой
+(<A HREF="fdf-set-file.html"><B>fdf_set_file()</B></A>). Наконец, он отправляется браузеру с MimeType <TT>application/vnd.fdf</TT>. Компонент Acrobat
+reader вашего браузера распозн&#x0301;ает MimeType,  прочитает 
+ассоциированную PDF-форму и заполнит её данными из FDF-документа.</P>
+<P>Если вы просмотрите FDF-документ в текстовом редакторе, вы увидите объект catalogue с именем <TT>FDF</TT>. Такой объект может содержать количество вхождений
+<TT>Fields</TT>, <TT>F</TT>, <TT>Status</TT> etc. Чаще всего используются вхождения <TT>Fields</TT>,
+которое указывает на список input-полей, и <TT>F</TT>, которое содержитfilename PDF-документа, которому принадлежат эти данные. Эти вхождения 
+называются в FDF-документации как /F-Key или /Status-Key.
+Модификация этих вхождений выполняется функциями вроде <A HREF="fdf-set-file.html"><B>fdf_set_file()</B></A> и
+<A HREF="fdf-set-status.html"><B>fdf_set_status()</B></A>. Поля модифицируются функциями вроде
+<A HREF="fdf-set-value.html"><B>fdf_set_value()</B></A>, <A HREF="fdf-set-opt.html"><B>fdf_set_opt()</B></A> etc.</P>
+<H1><A NAME="fdf.requirenments">Требования</A></H1><P> Вы обязаны загрузить FDF toolkit с
+<A HREF="http://partners.adobe.com/asn/developer/acrosdk/forms.html" TARGET="_top">http://partners.adobe.com/asn/developer/acrosdk/forms.html</A></P>
+<H1 ><ANAME="fdf.installation">Установка</A></H1><P>Вы обязаны скомпилировать PHP с<TT>--with-fdftk[=DIR]</TT>.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>если у вас появляются проблемы с конфигурированием PHP с поддержкой fdftk, 
+проверьте, находятся ли header-файл FdfTk.h и библиотека libFdfTk.so в 
+соответствующих местах. Они должны быть в каталогах fdftk-dir/include и в
+fdftk-dir/lib. Этих директорий не будет, если вы просто распакуете дистрибутив FdfTk.</P></BLOCKQUOTE>
+<H1><a name="fdf.configuration">Конфигурация</a></H1><P>Это расширение не определяет никаких директив конфигурации.</P>
+<H1><A NAME="fdf.resources">Типы ресурсов</A></H1><H1><A NAME="fdf.constants">Предопределённые константы</A></H1><P>Эти константы определены данным расширением и будут доступны только в том случае, если либо вкомпилированы в РНР, либо динамически загружены на этапе прогона.</P>
+<DL><DT><TT><B>FDFValue</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FDFStatus</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FDFFile</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FDFID</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FDFFf</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FDFSetFf</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FDFClearFf</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FDFFlags</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FDFSetF</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FDFClrF</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FDFAP</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FDFAS</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FDFAction</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FDFAA</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FDFAPRef</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FDFIF</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FDFEnter</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FDFExit</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FDFDown</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FDFUp</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FDFFormat</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FDFValidate</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FDFKeystroke</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FDFCalculate</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT></DL>
+<H1><A NAME="fdf.examples">Примеры</A></H1><P> В следующем примере показано простое вычисление данных формы.
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN25309"></A><h5>Пример 1. Обсчёт FDF-документа</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+// сохранить FDF-данные во временном файле
+$fdffp = fopen("test.fdf", "w");
+fwrite($fdffp, $HTTP_FDF_DATA, strlen($HTTP_FDF_DATA));
+fclose($fdffp);
+
+// открыть временный файл и обсчитать данные
+// pdf-форма содержала несколько полей ввода текста с именами:
+// volume, date, comment, publisher, preparer, и два переключателя/checkbox:
+// show_publisher и show_preparer
+
+$fdf = fdf_open("test.fdf");
+$volume = fdf_get_value($fdf, "volume");
+echo "The volume field has the value '&#60;B&#62;$volume&#60;/B&#62;'&#60;BR&#62;";
+
+$date = fdf_get_value($fdf, "date");
+echo "The date field has the value '&#60;B&#62;$date&#60;/B&#62;'&#60;BR&#62;";
+
+$comment = fdf_get_value($fdf, "comment");
+echo "The comment field has the value '&#60;B&#62;$comment&#60;/B&#62;'&#60;BR&#62;";
+
+if(fdf_get_value($fdf, "show_publisher") == "On") {
+  $publisher = fdf_get_value($fdf, "publisher");
+  echo "The publisher field has the value '&#60;B&#62;$publisher&#60;/B&#62;'&#60;BR&#62;";
+} else
+  echo "Publisher shall not be shown.&#60;BR&#62;";
+
+if(fdf_get_value($fdf, "show_preparer") == "On") {
+  $preparer = fdf_get_value($fdf, "preparer");
+  echo "The preparer field has the value '&#60;B&#62;$preparer&#60;/B&#62;'&#60;BR&#62;";
+} else
+  echo "Preparer shall not be shown.&#60;BR&#62;";
+fdf_close($fdf);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><DL><DT><B>Содержание</B></DT>
+<DT><A HREF="fdf-add-template.html">fdf_add_template</A> - добавляет шаблон в FDF-документ</DT>
+<DT><A HREF="fdf-close.html">fdf_close</A> - закрывает FDF-документ</DT>
+<DT><A HREF="fdf-create.html">fdf_create</A> - создаёт новый FDF-документ</DT>
+<DT><A HREF="fdf-get-file.html">fdf_get_file</A> - получает значение ключа /F</DT>
+<DT><A HREF="fdf-get-status.html">fdf_get_status</A> - получает значение ключа /STATUS</DT>
+<DT><A HREF="fdf-get-value.html">fdf_get_value</A> - получает значение поля</DT>
+<DT><A HREF="fdf-next-field-name.html">fdf_next_field_name</A> - получает имя следующего поля</DT>
+<DT><A HREF="fdf-open.html">fdf_open</A> - открывает FDF-документ</DT>
+<DT><A HREF="fdf-save.html">fdf_save</A> - сохраняет FDF-документ</DT>
+<DT><A HREF="fdf-set-ap.html">fdf_set_ap</A> - устанавливает отображение поля</DT>
+<DT><A HREF="fdf-set-encoding.html">fdf_set_encoding</A> - устанавливает FDF-кодировку символов FDF</DT>
+<DT><A HREF="fdf-set-file.html">fdf_set_file</A> - устанавливает значение ключа /F key</DT>
+<DT><A HREF="fdf-set-flags.html">fdf_set_flags</A> - устанавливает флаг поля</DT>
+<DT><A HREF="fdf-set-javascript-action.html">fdf_set_javascript_action</A> - устанавливает акцию javascript для поля</DT>
+<DT><A HREF="fdf-set-opt.html">fdf_set_opt</A> - устанавливает опцию поля</DT>
+<DT><A HREF="fdf-set-status.html">fdf_set_status</A> - устанавливает значение ключа /STATUS</DT>
+<DT><A HREF="fdf-set-submit-form-action.html">fdf_set_submit_form_action</A> - устанавливает акцию submit form поля</DT>
+<DT><A HREF="fdf-set-value.html">fdf_set_value</A> - устанавливает значение поля</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR>
+<TD WIDTH="33%" VALIGN="top"><A HREF="unlink.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="fdf-add-template.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">unlink</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">fdf_add_template</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

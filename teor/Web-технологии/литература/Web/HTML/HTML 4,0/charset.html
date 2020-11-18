@@ -1,0 +1,252 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="ru">
+
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=Windows-1251">
+<TITLE>Представление документа в формате HTML</TITLE>
+<LINK rel="previous" href="conform.html" tppabs="http://www.citforum.ru/internet/html40/conform.html">
+<LINK rel="next" href="types.html" tppabs="http://www.citforum.ru/internet/html40/types.html">
+<LINK rel="contents" href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">
+<LINK rel="STYLESHEET" href="tppmsgs/msgs0.htm#18" tppabs="http://www.citforum.ru/internet/html40/style/default.css" type="text/css">
+</HEAD>
+
+<BODY>
+<div class="navbar">
+<center>&nbsp;<a href="conform.html" tppabs="http://www.citforum.ru/internet/html40/conform.html">назад</a> &nbsp; <a href="types.html" tppabs="http://www.citforum.ru/internet/html40/types.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center><hr>
+</div>
+
+<H1 align="center"><a name="h-5">5</a> Представление документа в формате HTML 
+</H1> 
+<div class="subtoc"><p><strong>Содержание</strong>
+<ol>
+<li><a href="#h-5.1">Набор символов документа</a>
+<li><a href="#h-5.2">Кодировки символов</a>
+<ol>
+<li><a href="#h-5.2.1"><span class="index-inst" title="character encoding::choice of">Выбор кодировки</span></a>
+<ul>
+<li><a href="#h-5.2.1.1">Замечания об определенных кодировках</a>
+</ul>
+<li><a href="#h-5.2.2"><span class="index-inst" title="character encoding::specification of">Указание кодировки символов</span></a>
+</ol>
+<li><a href="#h-5.3">Ссылки на символы</a>
+<ol>
+<li><a href="#h-5.3.1">Числовые ссылки на символы</a>
+<li><a href="#h-5.3.2">Комбинации ссылок на символы</a>
+</ol>
+<li><a href="#h-5.4">Неотображаемые символы</a>
+</ol>
+</div>
+
+<P>В этой главе обсуждается, как документы в формате HTML представляются на компьютере и в Интернет.
+
+<P>Раздел <a href="#doc-char-set">набор символов документа</a> относится к вопросу об абстрактных <em>символах</em>, которые могут входить в состав документа в формате HTML. В число этих символов входят латинская буква "A", кириллическая буква "I", китайский иероглиф "вода" и т.д.
+
+<P>Раздел <a href="#encodings">кодировки символов</a> относится к вопросу о том, как эти символы могут быть <em>представлены</em> в файле или во время передачи по Интернет. Поскольку некоторые кодировки могут прямо не представлять все символы, которые автор захочет включить в документ, HTML предлагает другие механизмы, называемые <a href="#entities">ссылками на символы</a>, для ссылки на любой символ.
+
+<p>Поскольку в человеческих языках имеется огромное количество символов и множество способов их представления, следует позаботиться о том, чтобы эти документы могли понимать агенты пользователей во всем мире.
+
+<H2><a name="h-5.1">5.1</a> <a name="doc-char-set">Набор символов документа</a></h2>
+
+<P>Для обеспечения возможность взаимодействия сетей SGML требует от каждого приложения (включая HTML) указания <span class="index-def" title="document character set|SGML::document character set"><a name="didx-document_character_set"><dfn>набора символов документа.</dfn></a></span> Документ включает:
+
+<ul>
+<li>
+<span class="index-def" title="character repertoire"><a
+name="repertoire"><dfn>Репертуар</dfn></a></span>: Набор абстрактных <span class="index-inst" title="characters::abstract"><a name="idx-characters">символов,</a></span>, таких как латинская буква "A", кириллическая буква "I", китайский иероглиф "вода" и т.д.
+<li>
+<span class="index-def" title="code "position-.class" tppabs="http://www.citforum.ru/internet/html40/position%22.class"><a name="code-position"><dfn>Коды</dfn></a></span>: Набор целочисленных ссылок на символы репертуара. 
+</ul>
+
+<P>Каждый документ SGML (включая каждый документ HTML) - это последовательность символов из репертуара. Компьютерные системы идентифицируют каждый символ по его коду; например, в наборе символов ASCII коды 65, 66 и 67 означают символы 'A', 'B' и 'C' соответственно.
+
+<P>Набора символов ASCII недостаточно для такой глобальной информационной системы, как Web, поэтому HTML использует более полный набор символов, называемый <span class="index-inst" title="universal character
+set"><a name="idx-universal_character_set"><i>Универсальным набором символов (Universal Character Set - UCS)</i>,</a></span> и определенный в <span class="index-inst" title="document character set::ISO10646"><a name="idx-document_character_set-1" rel="biblioentry" href="references.html#ref-ISO10646" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-ISO10646"
+class="normref">[ISO10646].</a></span> Этот стандарт определяет репертуар тысяч символов, используемых во всем мире.
+
+<P>Набор символов, определенный в <a rel="biblioentry" href="references.html#ref-ISO10646" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-ISO10646" class="normref">[ISO10646]</a> - это посимвольный <span class="index-inst" title="document character set::equivalence of ISO10646 and UNICODE"><a name="idx-document_character_set-2">эквивалент</a></span> Unicode 2.0 (<a rel="biblioentry" href="references.html#ref-UNICODE" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-UNICODE" class="normref">[UNICODE]</a>). Оба эти стандарта время от времени обновляются, пополняются новыми символами, об изменениях следует узнавать на соответствующих серверах Web. В этой спецификации ISO/IEC-10646 или Unicode означают этот самый набор символов. Однако в спецификации HTML Unicode также упоминается при обсуждении других вопросов, таких как <a href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">алгоритм двунаправленного текста.</a>
+
+<P>Набора символов документа, однако, недостаточно, чтобы агенты пользователей могли корректно интерпретировать документы HTML при типичном обмене - закодированные как последовательность байт в файле или во время передачи по сети. Агенты пользователя должны также знать <a
+href="#encodings">кодировки символов</a>, которые использовались для преобразования потока символов документа в поток байт. 
+
+<h2><a name="h-5.2">5.2</a> <a name="encodings">Кодировки символов</a></h2>
+
+<P><span class="index-def" title="character encoding"><a name="didx-character_encoding"><dfn>Кодировки символов</dfn></a></span> в этой спецификации имеют другие названия в других спецификациях (что может вызвать некоторую путаницу).  Однако это понятие в Интернет означает примерно одно и то же. Одно и то же имя -- "charset - набор символов" - используется в заголовках протоколов, атрибутах и параметрах, ссылающихся на символы и использующих одни и те же значения из <a href="references.html#ref-IANA" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-IANA" class="normref">[IANA]</a> реестра (полный список см. в разделе <a rel="biblioentry" href="references.html#ref-CHARSETS" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-CHARSETS" class="informref">[CHARSETS]</a>).
+
+<P>Параметр "charset" идентифицирует кодировку символов, которая является способом преобразования последовательности байт в последовательность символов. Это преобразование естественно вписывается в схему деятельности Web: серверы отправляют документы HTML агентам пользователей в виде потока байт; агенты пользователей интерпретируют их как последовательность символов. Способы преобразования могут меняться от простого соответствия один к одному до сложных схем или алгоритмов переключения.
+
+<P>Простой техники кодировки "один байт - один символ" недостаточно для текстовых строк с таким широким репертуаром символов, как <a rel="biblioentry" href="references.html#ref-ISO10646" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-ISO10646" class="normref">[ISO10646]</a>. Кроме кодировок всего набора символов (например, UCS-4), имеются некоторые другие кодировки частей <a rel="biblioentry" href="references.html#ref-ISO10646" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-ISO10646" class="normref">[ISO10646]</a>.
+
+<H3><a name="h-5.2.1">5.2.1</a> <span class="index-inst" title="character encoding::choice of"><a name="idx-character_encoding-1"> Выбор кодировки</a></span></H3>
+
+<P>Средства разработки (например, текстовые редакторы) могут кодировать документы HTML в кодировках по своему выбору, и этот выбор существенно зависит от соглашений, используемых системным программным обеспечением.  Эти средства могут использовать любую удобную кодировку, включающую большинство символов в документе, при условии, что кодировка <a href="#spec-char-encoding">корректно помечена.</a> Некоторые символы, не включенные в эту кодировку, можно представить с помощью <a href="#entities">ссылок на символы</a>. Это всегда относится к набору символов документа, а не к кодировке символов.
+
+<P>Серверы и прокси могут изменять кодировку символов (что называется <em>транскодированием</em>) на лету для выполнения запросов агентов пользователей (см. раздел 14.2 <a rel="biblioentry" href="references.html#ref-RFC2068" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC2068" class="normref">[RFC2068]</a>, заголовок запроса HTTP "Accept-Charset").  Серверы и прокси не должны обслуживать документ в кодировке, включающей весь набор символов документа.
+
+<P><span class="index-inst" title="character encoding::common
+examples"><a name="idx-character_encoding-2">Широко</a></span> используемые в Web кодировки - ISO-8859-1 (также называется "Latin-1"; используется для большинства западноевропейских языков), ISO-8859-5 (с поддержкой кириллицы), SHIFT_JIS (японская кодировка), EUC-JP (еще одна японская кодировка) и UTF-8 (вариант кодировки ISO 10646, использующий разное число байт для разных символов). Названия кодировок символов не учитывают регистр, так что, например, "SHIFT_JIS", "Shift_JIS" и "shift_jis" эквивалентны.
+
+<P>Эта спецификация не определяет, какие кодировки символов должен поддерживать агент пользователя.
+
+<P><a href="conform.html#conformance" tppabs="http://www.citforum.ru/internet/html40/conform.html#conformance">Соответствующие агенты пользователей</a> должны корректно отображать в Unicode все символы в любых кодировках, которые они могут распознавать.
+
+<h4>Замечания об определенных кодировках<a name="h-5.2.1.1">&nbsp;</a></h4>
+
+<p>Когда текст HTML передается в <span class="index-inst" title="character encoding::UTF-16|UTF-16"><a name="idx-character_encoding-3">UTF-16</a></span> (charset=UTF-16), текстовые данные должны передаваться в сетевом порядке байт ("big-endian", байт высшего порядка - первый) в соответствии с <a rel="biblioentry" href="references.html#ref-ISO10646" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-ISO10646"
+class="normref">[ISO10646]</a>, раздел 6.3 и <a rel="biblioentry" href="references.html#ref-UNICODE" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-UNICODE" class="normref">[UNICODE]</a>,
+положение C3, страница 3-1.
+
+<p>Более того, чтобы повысить вероятность правильной интерпретации, рекомендуется передавать документы UTF-16, всегда начиная с символа НЕРАЗДЕЛЯЮЩИЙ ПРОБЕЛ НУЛЕВОЙ ШИРИНЫ (шестнадцатеричный код FEFF, также называется Меткой порядка байтов (Byte Order Mark - BOM)), который при обращении байт становится шестнадцатеричным FFFE, никогда не назначаемым символом. Таким образом, агент пользователя, получивший шестнадцатеричный код FFFE в качестве первых байтов текста будет знать, что в остальном тексте байты нужно обратить.
+
+<P>Не следует использовать формат трансформации <span class="index-inst" title="character encoding::UTF-1|UTF-1"><a name="idx-character_encoding-4">UTF-1</a></span><a rel="biblioentry" href="references.html#ref-ISO10646" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-ISO10646"
+class="normref">[ISO10646]</a> (зарегистрированный IANA как ISO-10646-UTF-1).  Информацию об ISO 8859-8 и двунаправленном алгоритме см. в разделе <a href="dirlang.html#bidi88598" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidi88598">двунаправленности и кодировки символов</a>.
+
+<h3><a name="h-5.2.2">5.2.2</a> <span class="index-inst" title="character encoding::specification of"><a name="spec-char-encoding">Указание кодировки символов</a>
+</span></h3>
+
+<P>Как сервер определяет, какая кодировка символов применяется в документе? Некоторые серверы проверяют первые несколько байт документа или сверяются с базой данных известных файлов и кодировок. Многие современные серверы Web предоставляют администраторам больше возможностей управления конфигурацией набора символов, чем старые серверы.  Администраторы серверов Web должны при возможности использовать следующие механизмы для отправки параметра "charset",
+но должны позаботиться о том, чтобы не установить для документов ошибочное значение параметра "charset".
+
+<P>Как агент пользователя узнает, какая использовалась кодировка символов?
+Эту информацию предоставляет сервер. Лучшим способом проинформировать агента пользователя о кодировке символов документа - использовать параметр "charset" в поле заголовка <span class="index-inst" title="HTTP::Content-Type header|Content-Type header"><a name="idx-HTTP">"Content-Type"</a></span> протокола HTTP (<a rel="biblioentry" href="references.html#ref-RFC2068" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC2068"
+class="normref">[RFC2068]</a>, разделы 3.4 и 14.18) Например, следующий заголовок HTTP объявляет, что используется кодировка EUC-JP:</P>
+
+<PRE>
+Content-Type: text/html; charset=EUC-JP
+</pre>
+
+<P>Определение <a
+href="conform.html#text-html" tppabs="http://www.citforum.ru/internet/html40/conform.html#text-html">text/html</a> см. в разделе <a href="conform.html" tppabs="http://www.citforum.ru/internet/html40/conform.html">соответствие</a>.
+
+<P>Протокол HTTP (<a rel="biblioentry" href="references.html#ref-RFC2068" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC2068" class="normref">[RFC2068]</a>, раздел 3.7.1) считает ISO-8859-1 кодировкой символов по умолчанию, если параметр "charset" в поле заголовка "Content-Type" отсутствует. На практике эта рекомендация бесполезна, поскольку некоторые серверы не позволяют отправлять параметр "charset", а некоторые могут не быть сконфигурированы для отправки этого параметр. Поэтому агенты пользователей не должны предполагать никакого значения параметра "charset".
+
+<P>Для указания ограничений сервера или конфигурации документы HTML могут включать явную информацию о кодировке символов документа; для предоставления такой информации агентам пользователя может использоваться элемент <a href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><samp class="einst">META</samp></a>.
+
+<P>Например, чтобы указать, что кодировкой символов в текущем документе является "EUC-JP", включите следующее объявление <a href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><samp class="einst">META</samp></a>:
+
+<pre class="example">
+&lt;META http-equiv="Content-Type" content="text/html; charset=EUC-JP"&gt;
+</pre>
+
+<P>Объявление <a href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><samp class="einst">META</samp></a> должно использоваться, только если кодировка символов упорядочена так, что символы ASCII стоят на своем месте (по крайней мере, при разборе элемента <a href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><samp class="einst">META</samp></a>).  Объявления <a href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><samp class="einst">META</samp></a> должны быть в тексте как можно раньше в элементе <a href="global.html#edef-HEAD" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HEAD" class="noxref"><samp class="einst">HEAD</samp></a>.
+
+<P>В случаях, когда ни протокол HTTP, ни элемент <a href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><samp
+class="einst">META</samp></a> не предоставляют информации о кодировке документа, HTML предоставляет атрибут <a href="links.html#adef-charset" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-charset" class="noxref"><samp class="ainst">charset</samp></a> для некоторых элементов.  Объединив все эти механизмы, автор может существенно повысить шансы на то, что, когда пользователь загружает ресурс, агент пользователя распознает кодировку символов.
+
+<P>Подводя итоги, соответствующие агенты пользователей при определении <span class="index-inst" title="character encoding::default|default::character encoding"><a name="idx-character_encoding-7">кодировки символов</a></span> документа (от высшего приоритета к низшему) должны руководствоваться следующими источниками <span class="index-inst" title="character encoding::user agent's determination of"><a name="idx-character_encoding-6">в соответствии с приоритетом</a></span>:
+
+<ol>
+<li>Параметр "charset" протокола HTTP в поле "Content-Type".
+
+<li>Объявление <a href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><samp class="einst">META</samp></a>, в котором для "http-equiv" установлено "Content-Type" и установлено значение для "charset".  
+
+<li>Атрибут <a href="links.html#adef-charset" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-charset" class="noxref"><samp class="ainst">charset</samp></a> устанавливается на элемент, обозначающий внешний ресурс.
+</ol>
+
+<P>Кроме этого списка приоритетов, агент пользователя может использовать эвристические установки и установки пользователя. Например, многие агенты пользователей используют эвристику для распознавания различных кодировок, используемых для японского языка. Агенты пользователей обычно имеют определяемую пользователем локальную кодировку по умолчанию, которую они используют, если нет указаний кодировки.
+
+<P>Агенты пользователей могут обеспечивать механизм, позволяющий пользователям изменять некорректную информацию о наборе символов. Однако если агент пользователя предлагает такой механизм, он должен предлагать его только для просмотра, а не для изменения, во избежание создания Web-страниц с некорректным параметром "charset".
+
+<div class="note"><P> 
+<em><strong>Примечание.</strong>
+Если в каком-то приложении нужно использовать символы, не входящие в кодировку <a rel="biblioentry" href="references.html#ref-ISO10646" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-ISO10646" class="normref">[ISO10646]</a>, этим символам должна быть назначена персональная зона во избежание конфликтов с настоящей или будущими версиями стандарта. Однако это не рекомендуется из соображений переносимости.
+</em>
+</div>
+
+<h2><a name="h-5.3">5.3</a> <a name="entities">Ссылки на символы</a></h2>
+
+<P>Данная кодировка символов может не содержать все символы из набора символов документа. Для таких кодировок или для таких конфигураций оборудования и программного обеспечения, не позволяющих пользователям вводить определенные символы, авторы могут использовать <span class="index-def" title="character reference"><a name="didx-character_reference">ссылки на символы</a></span> SGML. Ссылки на символы - это независимый от кодировки механизм ввода любых символов.
+
+<P>Ссылки на символы в HTML могут принимать две формы:</P>
+
+<ul>
+<li>Числовые ссылки на символы (десятичные или шестнадцатеричные).
+<li>Ссылки на комбинации символов.
+</ul>
+
+<P>Ссылки на символы в <span class="index-inst" title="comments::character references in"><a name="idx-comments">комментариях</a></span> не имеют значения; они являются только данными комментариев.
+
+<div class="note"><P>
+<em><strong>Примечание.</strong>
+HTML обеспечивает другие способы представления символов, в частности, 
+<a href="objects.html" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html">встроенные изображения</a>.
+</em>
+</div>
+
+<div class="note"><P> 
+<em><strong>Примечание.</strong> В SGML можно в некоторых случаях не использовать заключительный символ ";" после ссылки на символы (например, в символе переноса строки или непосредственно перед тэгом). В других обстоятельствах их нельзя удалять (например, в середине слова). Мы предлагаем использовать ";" всегда во избежание проблем с агентами пользователей, для которых этот символ обязателен.</em>
+</div>
+
+<h3><a name="h-5.3.1">5.3.1</a> Числовые ссылки на символы</h3>
+
+<P><span class="index-def" title="numeric character reference"><a name="didx-numeric_character_reference"><dfn>Числовые ссылки на символы</dfn></a></span> указывают <a href="#code-position">код</a> символа в наборе символов документа. Числовые ссылки на символы могут также принимать две формы:
+
+<ul>
+<li>Синтаксис "&amp;#<em>D</em>;", где <em>D</em> - десятичное число, указывает символ Unicode с десятичным номером <em>D</em>.
+
+<li>Синтаксис "&amp;#x<em>H</em>;" или "&amp;#X<em>H</em>;", где <em>H</em> - шестнадцатеричное число, указывает на символ Unicode с шестнадцатеричным номером <em>H</em>. Шестнадцатеричные числовые ссылки <span class="index-inst" title="case::of numeric character references"><a name="idx-case">учитывают регистр.</a></span>
+</ul>
+
+<P>Вот некоторые примеры числовых ссылок на символы:
+
+<div class="example"><P>
+<ul>
+<li>&amp;#229; (десятичное) представляет букву "a" с кружком сверху (используемую, например, в норвежском языке).
+<li>&amp;#xE5; (шестнадцатеричное) представляет тот же символ.
+<li>&amp;#Xe5; (шестнадцатеричное) представляет тот же символ.
+<li>&amp;#1048; (десятичное) представляет кириллическую заглавную букву "I".
+<li>&amp;#x6C34; (шестнадцатеричное) представляет китайский иероглиф "вода".
+</ul>
+</div>
+
+<div class="note"><P>
+<em><strong>Примечание.</strong>
+Хотя шестнадцатеричное представление не определено в <a rel="biblioentry" href="references.html#ref-ISO8879" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-ISO8879" class="normref">[ISO8879]</a>, оно ожидается в новой версии, как описано в <a rel="biblioentry" href="references.html#ref-WEBSGML" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-WEBSGML" class="normref">[WEBSGML]</a>. Это соглашение особенно полезно, поскольку стандарты символов обычно используют шестнадцатеричные представления. 
+</em>
+</div>
+
+<h3><a name="h-5.3.2">5.3.2</a> Комбинации ссылок на символы</h3>
+
+<P>Чтобы дать авторам более инициативный способ использования символов, HTML предлагает набор <span class="index-def" title="character entity references"><a name="didx-character_entity_references"><dfn>character
+entity references.</dfn></a></span> Комбинации ссылок на символы используют символические имена, так что авторам не придется запоминать <a
+href="#code-position">коды.</a> Например, комбинация &amp;aring; обозначает символ "a" нижнего регистра с кружком сверху; "&amp;aring;" легче запомнить, чем &amp;#229;.
+
+<P>HTML 4.0 не определяет character entity reference для каждого символа. Например, для кириллической буквы "I" нет character entity reference.
+См. <a href="entities.html" tppabs="http://www.citforum.ru/internet/html40/sgml/entities.html">полный список ссылок на символы,</a> определенные в HTML 4.0.
+
+<P>Комбинации ссылок на символы <span class="index-inst" title="case::of character entity reference"><a name="idx-case-1">учитывают регистр.</a></span> Так, &amp;Aring; указывает на другой символ (A с кружком верхнего регистра), а не на &amp;aring; (a с кружком нижнего регистра).</P>
+
+<P>Четыре ссылки нужно упомянуть специально, поскольку они часто используются для указания специальных символов:
+
+<ul>
+<li>"&amp;lt;" представляет знак &lt;.
+<li>"&amp;gt;" представляет знак &gt;.
+<li>"&amp;amp;" представляет символ &amp;.
+<li>"&amp;quot; представляет знак ".
+</ul>
+
+
+<P>Авторы, которые хотят поместить в текст символ "&lt;", должны использовать ссылку "&amp;lt;" (десятичный код ASCII 60) во избежание возможной путаницы с началом тэга (открывающий разделитель начального тэга). Точно так же следует использовать "&amp;gt;" (десятичный код ASCII 62) вместо "&gt;", чтобы избежать проблем со старыми версиями агентов пользователей, некорректно принимающих их за окончание тэга (закрывающий разделитель тэга).
+
+<P>Авторам следует использовать "&amp;amp;" (десятичный код ASCII 38) вместо "&amp;" во избежание путаницы со ссылками на символы (открывающий разделитель entity reference). Авторам также следует использовать "&amp;amp;" в значениях атрибутов, поскольку ссылки на символы внутри значений атрибута <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata">CDATA</a> разрешены.
+
+<p>Некоторые авторы используют character entity reference "&amp;quot;" для кодирования экземпляров двойных кавычек ("), поскольку этот символ может использоваться для разделения значений атрибутов.
+
+<h2><a name="h-5.4">5.4</a> <a name="undisplayable">Неотображаемые символы</a></h2>
+
+<p>Возможно, агент пользователя не сможет <span class="index-inst" title="characters::rendering undisplayable"><a name="idx-characters-1">
+отобразить</a></span> все символы в документе, например, из-за отсутствия соответствующего шрифта или если символ имеет значение, которое не может быть выражено во внутренней кодировке агента пользователя и т.д.
+
+<P>Поскольку в этом случае есть несколько вариантов, этот документ не предписывает определенной тактики. В зависимости от применения <span class="index-inst" title="characters::handling undisplayable"><a name="idx-characters-2">непечатные символы</a></span> могут также обрабатываться дополнительной системой отображения, а не самим приложением. В случае более сложного поведения, например, настроенного для определенного сценария или языка, рекомендуем следующее поведение для агентов пользователей:
+
+<ol>
+<li>Примите явно видимый, но незаметный механизм для предупреждения пользователя об отсутствующих ресурсах. 
+<li>Если отсутствующие символы представляются в другом числовом представлении, используйте шестнадцатеричную (не десятичную) форму, поскольку эта форма используется в стандартах наборов символов. 
+</ol>
+
+<div class="navbar">
+<hr><center><a href="conform.html" tppabs="http://www.citforum.ru/internet/html40/conform.html">назад</a> &nbsp; <a href="types.html" tppabs="http://www.citforum.ru/internet/html40/types.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center></div>
+</BODY>
+</html>
+

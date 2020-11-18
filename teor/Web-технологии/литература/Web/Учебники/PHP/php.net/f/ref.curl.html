@@ -1,0 +1,196 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции CURL, Client URL Library</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR>
+<TR><TD WIDTH="10%"><A HREF="crack-opendict.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="curl-close.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.curl"></A>XII. Функции CURL, Client URL Library</h1><A NAME="AEN13233"></A>
+<H1><A NAME="curl.intro">Введение</A></H1><P>PHP поддерживает libcurl, библиотеку, созданную Daniel'ом Stenberg'ом, 
+которая даёт возможность соединяться с серверами различных типов и по разным протоколам.<br>
+libcurl в настоящее время поддерживает протоколы http, https, ftp, gopher, telnet, dict, file 
+и ldap.<br>libcurl также поддерживает сертификаты HTTPS, HTTP
+POST, HTTP PUT, загрузку по FTP (это можно сделать также РНР-расширением
+ftp), загрузку на основе форм HTTP, прокси, куки и аутентификацию user+password.</P>
+<P>Эти функции были введены в PHP 4.0.2.</P><H1><A NAME="curl.requirements">Требования</A></H1>
+<P>Чтобы использовать функции CURL, вам нужно установить пакет <A HREF="http://curl.haxx.se/" TARGET="_top">CURL</A>.
+PHP требует, чтобы вы использовали CURL 7.0.2-beta или выше. PHP не будет работать с любой версией
+CURL ниже 7.0.2-beta.</P><H1><A NAME="curl.installation">Установка</A></H1><P>Для использования РНР-поддержки CURL вы обязаны также скомпилировать PHP
+<TT>--with-curl[=DIR]</TT>, где DIR это местоположение директории, содержащей директории lib и include.  
+В "include"-директории должна быть папка "curl", которая должна содержать 
+файлы easy.h и curl.h files. Файл "libcurl.a" должен находиться в директории "lib".</P>
+<H1><A NAME="curl.constants">Предопределённые константы</A></H1><P>Эти константы определены данным расширением и будут доступны только в том случае, если либо вкомпилированы в РНР, либо динамически загружены на этапе прогона.</P>
+<DL><DT><TT><B>CURLOPT_PORT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_FILE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_INFILE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_INFILESIZE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_URL</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_PROXY</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_VERBOSE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_HEADER</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_HTTPHEADER</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_NOPROGRESS</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_NOBODY</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_FAILONERROR</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_UPLOAD</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_POST</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_FTPLISTONLY</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_FTPAPPEND</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_NETRC</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_FOLLOWLOCATION</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_FTPASCII</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_PUT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_MUTE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_USERPWD</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_PROXYUSERPWD</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_RANGE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_TIMEOUT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_POSTFIELDS</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_REFERER</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_USERAGENT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_FTPPORT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_LOW_SPEED_LIMIT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_LOW_SPEED_TIME</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_RESUME_FROM</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_COOKIE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_SSLCERT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_SSLCERTPASSWD</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_WRITEHEADER</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_SSL_VERIFYHOST</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_COOKIEFILE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_SSLVERSION</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_TIMECONDITION</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_TIMEVALUE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_CUSTOMREQUEST</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_STDERR</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_TRANSFERTEXT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_RETURNTRANSFER</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_QUOTE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_POSTQUOTE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_INTERFACE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_KRB4LEVEL</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_HTTPPROXYTUNNEL</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_FILETIME</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_WRITEFUNCTION</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_READFUNCTION</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_PASSWDFUNCTION</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_HEADERFUNCTION</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_MAXREDIRS</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_MAXCONNECTS</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_CLOSEPOLICY</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_FRESH_CONNECT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_FORBID_REUSE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_RANDOM_FILE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_EGDSOCKET</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_CONNECTTIMEOUT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_SSL_VERIFYPEER</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_CAINFO</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_COOKIEJAR</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_SSL_CIPHER_LIST</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLOPT_BINARYTRANSFER</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLCLOSEPOLICY_LEAST_RECENTLY_USED</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLCLOSEPOLICY_LEAST_TRAFFIC</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLCLOSEPOLICY_SLOWEST</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLCLOSEPOLICY_CALLBACK</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLCLOSEPOLICY_OLDEST</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLINFO_EFFECTIVE_URL</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLINFO_HTTP_CODE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLINFO_HEADER_SIZE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLINFO_REQUEST_SIZE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLINFO_TOTAL_TIME</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLINFO_NAMELOOKUP_TIME</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLINFO_CONNECT_TIME</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLINFO_PRETRANSFER_TIME</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLINFO_SIZE_UPLOAD</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLINFO_SIZE_DOWNLOAD</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLINFO_SPEED_DOWNLOAD</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLINFO_SPEED_UPLOAD</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLINFO_FILETIME</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLINFO_SSL_VERIFYRESULT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLINFO_CONTENT_LENGTH_DOWNLOAD</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLINFO_CONTENT_LENGTH_UPLOAD</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_OK</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_UNSUPPORTED_PROTOCOL</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_FAILED_INIT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_URL_MALFORMAT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_URL_MALFORMAT_USER</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_COULDNT_RESOLVE_PROXY</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_COULDNT_RESOLVE_HOST</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_COULDNT_CONNECT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_FTP_WEIRD_SERVER_REPLY</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_FTP_ACCESS_DENIED</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_FTP_USER_PASSWORD_INCORRECT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_FTP_WEIRD_PASS_REPLY</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_FTP_WEIRD_USER_REPLY</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_FTP_WEIRD_PASV_REPLY</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_FTP_WEIRD_227_FORMAT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_FTP_CANT_GET_HOST</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_FTP_CANT_RECONNECT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_FTP_COULDNT_SET_BINARY</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_PARTIAL_FILE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_FTP_COULDNT_RETR_FILE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_FTP_WRITE_ERROR</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_FTP_QUOTE_ERROR</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_HTTP_NOT_FOUND</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_WRITE_ERROR</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_MALFORMAT_USER</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_FTP_COULDNT_STOR_FILE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_READ_ERROR</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_OUT_OF_MEMORY</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_OPERATION_TIMEOUTED</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_FTP_COULDNT_SET_ASCII</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_FTP_PORT_FAILED</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_FTP_COULDNT_USE_REST</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_FTP_COULDNT_GET_SIZE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_HTTP_RANGE_ERROR</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_HTTP_POST_ERROR</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_SSL_CONNECT_ERROR</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_FTP_BAD_DOWNLOAD_RESUME</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_FILE_COULDNT_READ_FILE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_LDAP_CANNOT_BIND</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_LDAP_SEARCH_FAILED</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_LIBRARY_NOT_FOUND</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_FUNCTION_NOT_FOUND</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_ABORTED_BY_CALLBACK</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_BAD_FUNCTION_ARGUMENT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_BAD_CALLING_ORDER</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_HTTP_PORT_FAILED</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_BAD_PASSWORD_ENTERED</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_TOO_MANY_REDIRECTS</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_UNKNOWN_TELNET_OPTION</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_TELNET_OPTION_SYNTAX</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_OBSOLETE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CURLE_SSL_PEER_CERTIFICATE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+</DL><H1><A NAME="curl.examples">Примеры</A></H1><P>После того как вы скомпилировали PHP с поддержкой CURL, вы можете начать 
+использовать curl-функций.  Основная идея функций CURL - вы инициализируете CURL-сессию 
+с использованием <A HREF="curl-init.html"><B>curl_init()</B></A>, затем можно установить все ваши опции для трансфера через использование
+<A HREF="curl-exec.html"><B>curl_exec()</B></A>, а затем закрыть сессию функцией
+<A HREF="curl-close.html"><B>curl_close()</B></A>. Вот пример использования CURL-функций для получения страницы example.com в
+файле:<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN14102"></A><h5>
+Пример 1. Использование модуля CURL РНР для получения example.com</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+$ch = curl_init ("http://www.example.com/");
+$fp = fopen ("example_homepage.txt", "w");
+
+curl_setopt ($ch, CURLOPT_FILE, $fp);
+curl_setopt ($ch, CURLOPT_HEADER, 0);
+
+curl_exec ($ch);
+curl_close ($ch);
+fclose ($fp);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="curl-close.html">curl_close</A> - закрывает сессию CURL</DT>
+<DT><A HREF="curl-errno.html">curl_errno</A> - возвращает integer, содержащее номер последней ошибки</DT>
+<DT><A HREF="curl-error.html">curl_error</A> - возвращает строку, содержащую последнюю ошибку текущей сессии</DT>
+<DT><A HREF="curl-exec.html">curl_exec</A> - выполняет CURL-сессию</DT>
+<DT><A HREF="curl-getinfo.html">curl_getinfo</A> - получает информацию о специфическом трансфере</DT>
+<DT><A HREF="curl-init.html">curl_init</A> - инициализирует CURL-сессию</DT>
+<DT><A HREF="curl-setopt.html">curl_setopt</A> - устанавливает опции для CURL-транфера</DT>
+<DT><A HREF="curl-version.html">curl_version</A> - возвращает текущую версию CURL</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%"  VALIGN="top">
+<A HREF="crack-opendict.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="curl-close.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">crack_opendict</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">curl_close</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,36 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Возвращаемые Функциями Значения TRUE/FALSE</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR>
+<TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR>
+<TR><TD WIDTH="10%"><A HREF="booleval.html">Назад</A></TD>
+<th WIDTH="80%">Приложение C. Переход от PHP/FI 2 к PHP 3</th><TD WIDTH="10%" ALIGN="right">
+<A HREF="other.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="migration.truefalse">Возвращаемые функциями значения <TT><B>TRUE</B></TT>/<TT><B>FALSE</B></TT></a></H1>
+<P>Большая часть внутренних функций переписаны таким образом, чтобы возвращать <TT><B>TRUE</B></TT> при успехе и
+<TT><B>FALSE</B></TT> при неудаче, в отличие от 0 и -1 в PHP/FI 2.0, соответственно.<br>
+Это новое поведение даёт более логичный код вроде <TT>$fp = fopen("/your/file") or   fail("darn!");</TT>.
+Поскольку в PHP/FI 2.0 не было чётких правил относительно того, что функции 
+должны возвращать при неудаче, большая часть таких скриптов, должна, вероятно, 
+быть проверена вручную после использования конвертера из 2.0 в 3.0.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<h5><A NAME="AEN88656"></A>Пример C-9. Миграция из 2.0: return-значения, старый код</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$fp = fopen($file, "r");
+if ($fp == -1);
+    echo("Could not open $file for reading&#60;br&#62;\n");
+endif;</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<h5>
+<A NAME="AEN88659"></A>Пример C-10. Миграция из 2.0: return-значения, новый код</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$fp = @fopen($file, "r") or print("Could not open $file for reading&#60;br&#62;\n");</PRE></TD></TR>
+</TABLE></TD></TR></TABLE></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1">
+</TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="booleval.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="other.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Сокращённый цикл вычисления boolean</TD>
+<th WIDTH="34%" VALIGN="top"><a href="appendix.migration.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Иная несовместимость</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

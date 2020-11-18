@@ -1,0 +1,68 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Установка на Системах UNIX</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="solaris.html">Назад</A></TD><th WIDTH="80%">Глава 2. Инсталяция</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="windows.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="install.unix">Установка на системы UNIX</A></H1>
+<P>В этом разделе мы пройдём по главным этапам конфигурирования и инсталяции PHP 
+на Unix-системах. Просмотрите раздел, относящийся именно к вашей платформе или web-серверу, прежде чем начать.</P>
+<P>Необходимые знания и программы:<UL><LI>
+<P>Базовый опыт работы в UNIX способность оперировать с "make" и C-компилятором (если нужна компиляция).</P></LI>
+<LI>Компилятор ANSI C (если нужна компиляция).</LI><LI>flex (для компиляции).</LI>
+<LI>bison (для компиляции).</LI><LI>web-сервер.</LI><LI>Любые специфические модульные компоненты (такие как 
+  библиотеки gd, pdf etc.).</LI></UL>
+<P>Есть несколько способов установки PHP на платформе Unix, либо с компиляцией 
+и конфигурированием, либо через различные методы предупаковки. Эта 
+документация фокусируется в основном на процессе компиляции и конфигурирования PHP.</P>
+<P>Процесс начальной установки и конфигурирования PHP контролируется опциями командной строки скрипта
+<TT>configure</TT>. На этой странице показано использование самых общих опций,
+но вы можете поэкспериментировать и со многими другими. Просмотрите
+<a href="configure.html">Полный список опций конфигурации</a>.<br>
+Имеются несколько способов установки PHP:<UL><LI>Как <A HREF="apache.html">Apache-модуль</A></LI>
+<LI>Как <A HREF="fhttpd.html">fhttpd-модуль</A></LI>
+<LI>Для использования с <A HREF="otherhttpd.html">AOLServer, NSAPI, phttpd, Pi3Web, Roxen, thttpd или Zeus</A></LI>
+<LI>Как <A HREF="inst.commandline.html">CGI-экзешник</A></LI></UL>
+<H2>Краткая справка по <A NAME="install.unix.apache-module">Apache-модулю</A></H2>
+<P>PHP может быть откомпилирован различными способами, но одним из самых 
+популярных является Apache-модуль. Далее идёт краткий обзор установки.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+  <h5><A NAME="install.unix.apache-module.quick"></A>
+  Пример 2-4. Инструкции быстрой инсталяции PHP 4 (Apache-модуль)</h5>
+  <TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>1.  gunzip apache_1.3.x.tar.gz
+2.  tar xvf apache_1.3.x.tar
+3.  gunzip php-x.x.x.tar.gz
+4.  tar xvf php-x.x.x.tar
+5.  cd apache_1.3.x
+6.  ./configure --prefix=/www
+7.  cd ../php-x.x.x
+8.  ./configure --with-mysql --with-apache=../apache_1.3.x --enable-track-vars
+9.  make
+10. make install
+11. cd ../apache_1.3.x
+12. ./configure --activate-module=src/modules/php4/libphp4.a
+13. make
+14. make install
+15. cd ../php-x.x.x
+16. cp php.ini-dist /usr/local/lib/php.ini
+17. Отредактируйте файл httpd.conf или srm.conf и добавьте:
+      AddType application/x-httpd-php .php
+
+18. Используйте обычную процедуру рестарта Apache-сервера. (Вы обязаны
+    остановить и рестартовать сервер, а не просто перезагрузить сервер
+    командами HUP или USR1.)</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<H2>Построение/<A NAME="install.building">Building</A></H2>
+<P>Когда PHP сконфигурирован, вы можете построить CGI-исполняющий файл.
+Это делается командой <B>make</B>. Если она потерпела неудачу и вы не знаете, почему, см. раздел
+<a href="problems.html">Проблемы</a>.</P ></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="solaris.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="windows.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Установка 
+    на Unix/Solaris</TD>
+<th WIDTH="34%" VALIGN="top"><a href="inst.installation.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Установка на системы Windows</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

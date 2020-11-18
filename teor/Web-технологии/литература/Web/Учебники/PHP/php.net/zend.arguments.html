@@ -1,0 +1,59 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Приём Аргументов</TITLE><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="zend.structure.summary.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="zend.arguments.retrieval.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="zend.arguments">Глава 33. Приём аргументов</A></H1>
+<DL><DT><B>Содержание</B></DT>
+<DT><a href="#zend.arguments.count">Определение количества аргументов</a></DT>
+<DT><a href="zend.arguments.retrieval.html">Запрос аргументов</a></DT>
+<DT><a href="zend.arguments.deprecated-retrieval.html">Старый способ запроса аргументов (не рекомендуется)</a></DT>
+<DT><A HREF="zend.arguments.variable.html">Работа с переменным количеством аргументов/параметров-опций</A></DT>
+<DT><a href="zend.arguments.access.html">Доступ к аргументам</a></DT>
+<DT><a href="zend.arguments.by-reference.html">Работа с аргументами, передаваемыми по ссылке</a></DT>
+<DT><A= HREF="zend.arguments.write-safety.html">Гарантирование безопасности записи/Write Safety других параметров</A>.</DT></DL>
+<P>Одним из важнейших вопросов для расширений языка является приём и обработка 
+данных, переданных через аргументы. Большинство расширений сконструированы для 
+работы со специфическими данными ввода (или требуют параметров для выполнения 
+своих специфичных акций), и аргументы функций это единственный реальный способ 
+обмена данными между уровнем PHP и уровнем C. Разумеется, имеется также 
+возможность обмена данными с использованием предопределённых глобальных значений (также обсуждаются позднее),
+но это по всем показаниям должно быть исключено как совершенно недопустимая практика. Детали см. в Главе 1, "Концепции разработки&quot;.</P>
+<P>PHP не использует формальное определение функции, поскольку синтаксис вызова 
+всегда динамический и никогда не проверяется на наличие ошибок. Проверку 
+корректности синтаксиса выполняет пользовательский код. Например, можно 
+вызвать функцию с использованием только одного аргумента в первый раз и 4 
+аргументов - в следующий раз, оба вызова синтаксически являются абсолютно корректными.</P>
+<H1><a name="zend.arguments.count">Определение количества аргументов</a></H1>
+<P>Поскольку в PHP отсутствует формальное определение функции с поддержкой 
+проверки синтаксиса вызова и поскольку возможно переменное количество 
+аргументов, иногда необходимо определять, с каким количеством аргументов функция была вызвана. 
+Вы можете использовать для этого макрос <TT>ZEND_NUM_ARGS</TT>. В предыдущих версиях PHP этот макрос запрашивал количество аргументов, с 
+которым функция была вызвана, базируясь на вхождении функции в таблице хэшей, <TT>ht</TT>, которая
+передавалась в список <TT>INTERNAL_FUNCTION_PARAMETERS</TT>. Поскольку сама <TT>ht</TT> теперь
+содержит количество аргументов, переданных функции, <TT>ZEND_NUM_ARGS</TT> укорочен до шаблонного макроса (см. его определение в
+<TT>zend_API.h</TT>). Но его использование всё ещё является нормальной практикой,
+чтобы сохранить совместимость с будущими изменениями в интерфейсе вызова.</P>
+<dl><dd><b>Примечание:</b> старый эквивалент PHP этого макроса - <TT>ARG_COUNT</TT>.</dd></dl>
+<P>Следующий код проверяет корректность количества аргументов:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>if(ZEND_NUM_ARGS() != 2)
+    WRONG_PARAM_COUNT;</PRE></TD></TR></TABLE>
+<p>Если эта функция не вызывается с двумя аргументами, выполняется выход с 
+сообщением об ошибке. В это коде применена макро-утилита <TT>WRONG_PARAM_COUNT</TT>, которая может использоваться для генерации стандартного сообщения об ошибке (см.
+Рисунок 9.4).</p><A NAME="AEN85891"></A><h5>Рисунок 33-1. Рисунок 9.4. <TT>WRONG_PARAM_COUNT</TT> в действии.</h5><P><IMG SRC="imag/Zend_3_wrong_parameter_count.png" width="377" height="232"></P>
+<P>Этот макрос печатает сообщение по умолчанию об ошибке, а затем возвращает управление вызывателю.
+Его определение также можно найти в файле <TT>zend_API.h</TT>, и выглядит оно так:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>ZEND_API void wrong_param_count(void);
+
+#define WRONG_PARAM_COUNT { wrong_param_count(); return; }</PRE></TD></TR></TABLE>
+<p>Как вы видите, он вызывает внутреннюю функцию <B>wrong_param_count()</B>, которая отвечает за вывод предупреждения. О генерации специализированных 
+сообщений см. далее раздел "Печать информации&quot;.</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="zend.structure.summary.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="zend.arguments.retrieval.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Резюме</TD>
+<th WIDTH="34%" VALIGN="top"><a href="zend.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Запрос аргументов</TD>
+</TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

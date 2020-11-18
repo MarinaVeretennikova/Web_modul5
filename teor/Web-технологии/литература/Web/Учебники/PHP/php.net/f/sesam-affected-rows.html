@@ -1,0 +1,28 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>sesam_affected_rows</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ref.sesam.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="sesam-commit.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="sesam-affected-rows">sesam_affected_rows</A></H1><A NAME="AEN72503"></A><P>(только PHP 3 CVS)</P>
+<p>sesam_affected_rows - получает количество рядов, задействованных в непосредственном запросе.<A NAME="AEN72506"></A></p>
+<H2>Описание</H2><p>int <B>sesam_affected_rows</B> (string result_id)</p>
+<P><TT><I>result_id</I></TT> это правильный идентификатор результата, возвращённый функцией
+<A HREF="sesam-query.html"><B>sesam_query()</B></A>.</P><P>Возвращает количество рядов, задействованных в запросе, ассоциированном с
+<TT><I>result_id</I></TT>.</P><P><B>sesam_affected_rows()</B> может возвращать только используемые значения, когда работает в сочетании с "непосредственными/immediate"
+SQL-операторами (операции обновления типа <TT>INSERT</TT>, <TT>UPDATE</TT> и
+<TT>DELETE</TT>), поскольку SESAM не предоставляет никакой информации об "affected rows" для запросов "select type".  Возвращается количество 
+задействованных рядов.</P><P>См. также <A HREF="sesam-query.html"><B>sesam_query()</B></A> и
+<A HREF="sesam-execimm.html"><B>sesam_execimm()</B></A>.</P><A NAME="AEN72527"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$result = sesam_execimm ("DELETE FROM PHONE WHERE LASTNAME = '".strtoupper ($name)."'");
+if (!$result) {
+    ... error ...
+}
+print sesam_affected_rows ($result).
+    " entries with last name ".$name." deleted.\n"</PRE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ref.sesam.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="sesam-commit.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Функции БД SESAM</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.sesam.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">sesam_commit</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

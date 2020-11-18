@@ -1,0 +1,144 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>array_map</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="array-keys.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="array-merge-recursive.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.array-map">array_map</A></H1><A NAME="AEN7225"></A>
+<P>(PHP 4 &#62;= 4.0.6)</P><p>array_map - применяется обратный вызов/callback элементов данного массива.<A NAME="AEN7228"></A><H2>Описание</H2><p>array <B>array_map</B> (mixed callback, array arr1 [, array arr2...])</p>
+<P><B>array_map()</B> возвращает массив, содержащий все элементы массива <TT><I>arr1</I></TT> после применения
+callback-функции к каждому из них. Количество параметров, принимаемых callback-функцией, должно совпадать с количеством массивов, переданных в <B>array_map()</B>.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN7247"></A><h5>Пример 1. array_map()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>function cube($n) {
+    return $n*$n*$n;
+}
+
+$a = array(1, 2, 3, 4, 5);
+$b = array_map("cube", $a);
+print_r($b);</PRE></TD></TR></TABLE><P>Тогда <TT>$b</TT> будет:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE CLASS="screen">Array
+(
+    [0] =&#62; 1
+    [1] =&#62; 8
+    [2] =&#62; 27
+    [3] =&#62; 64
+    [4] =&#62; 125
+)</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN7255"></A><h5>Пример 2. array_map() - использование массивов</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>function show_Spanish($n, $m) {
+    return "The number $n is called $m in Spanish";
+}
+
+function map_Spanish($n, $m) {
+    return array ($n =&#62; $m);
+}
+
+$a = array(1, 2, 3, 4, 5);
+$b = array("uno", "dos", "tres", "cuatro", "cinco");
+
+$c = array_map("show_Spanish", $a, $b);
+print_r($c);
+
+$d = array_map("map_Spanish", $a , $b);
+print_r($d);</PRE></TD></TR></TABLE><P>Это даст:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE CLASS="screen">// printout для $c
+Array
+(
+    [0] =&#62; The number 1 is called uno in Spanish
+    [1] =&#62; The number 2 is called dos in Spanish
+    [2] =&#62; The number 3 is called tres in Spanish
+    [3] =&#62; The number 4 is called cuatro in Spanish
+    [4] =&#62; The number 5 is called cinco in Spanish
+)
+
+// printout для $d
+Array
+(
+    [0] =&#62; Array
+        (
+            [1] =&#62; uno
+        )
+
+    [1] =&#62; Array
+        (
+            [2] =&#62; dos
+        )
+
+    [2] =&#62; Array
+        (
+            [3] =&#62; tres
+        )
+
+    [3] =&#62; Array
+        (
+            [4] =&#62; cuatro
+        )
+
+    [4] =&#62; Array
+        (
+            [5] =&#62; cinco
+        )
+
+)</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Обычно, при использовании двух или более массивов, они должны быть равной длины, 
+поскольку callback-функция применяется параллельно к соответствующим элементам.
+Если массивы разных размеров, меньший будет дополнен пустыми элементами.</P>
+<P>Интересно использовать эту функцию для конструирования массива массивов,
+что легко можно выполнить с помощью <TT><B>NULL</B></TT> в качестве имени callback-функции.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN7265"></A><h5>Пример 3. Создание массива массивов
+</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$a = array(1, 2, 3, 4, 5);
+$b = array("one", "two", "three", "four", "five");
+$c = array("uno", "dos", "tres", "cuatro", "cinco");
+
+$d = array_map(null, $a, $b, $c);
+print_r($d);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Вывод программы:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>Array
+(
+    [0] =&#62; Array
+        (
+            [0] =&#62; 1
+            [1] =&#62; one
+            [2] =&#62; uno
+        )
+
+    [1] =&#62; Array
+        (
+            [0] =&#62; 2
+            [1] =&#62; two
+            [2] =&#62; dos
+        )
+
+    [2] =&#62; Array
+        (
+            [0] =&#62; 3
+            [1] =&#62; three
+            [2] =&#62; tres
+        )
+
+    [3] =&#62; Array
+        (
+            [0] =&#62; 4
+            [1] =&#62; four
+            [2] =&#62; cuatro
+        )
+
+    [4] =&#62; Array
+        (
+            [0] =&#62; 5
+            [1] =&#62; five
+            [2] =&#62; cinco
+        )
+
+)</PRE></TD></TR></TABLE><P>См. также <A HREF="array-filter.html"><B>array_filter()</B></A> и
+<A HREF="array-reduce.html"><B>array_reduce()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="array-keys.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="array-merge-recursive.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">array_keys</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.array.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">array_merge_recursive</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

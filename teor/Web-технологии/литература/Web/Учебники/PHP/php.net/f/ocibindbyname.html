@@ -1,0 +1,82 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>OCIBindByName</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ref.oci8.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="ocicancel.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.ocibindbyname">OCIBindByName</A></H1><A NAME="AEN57849"></A><P>(PHP 3&#62;= 3.0.4, PHP 4)</P>
+<p>OCIBindByName - связывает PHP-переменную с Oracle Placeholder/заглушкой.<A NAME="AEN57852"></A></p>
+<H2>Описание</H2><p>int <B>OCIBindByName</B> (int stmt, string ph_name, mixed &#38; variable, int length [, int type])</p>
+<P><B>OCIBindByName()</B> связывает PHP-переменную <TT><I>variable</I></TT> с Oracle-заглушкой
+<TT><I>ph_name</I></TT>. Использование её для вывода или ввода определяется на этапе прогона, и 
+выделяется необходимое пространство для хранения. Параметр <TT><I>length</I></TT> устанавливает максимальный размер связки. Если вы устанавливаете
+<TT><I>length</I></TT> в -1, <B>OCIBindByName()</B> будет использовать текущий размер переменной
+<TT><I>variable</I></TT> для установки максимального размера.</P>
+<P>Если вам нужно связать абстрактный Datatype (LOB/ROWID/BFILE), вы должны сначала разместить его с использованием
+<B>OCINewDescriptor()</B>.<br><TT><I>length</I></TT> не используется для абстрактных типов данных/Datatypes и должен быть 
+установлен в -1. Переменная <TT><I>type</I></TT> говорит Оracle, какой тип дескриптора мы хотим использовать. Возможные 
+значения: OCI_B_FILE (Binary-File), OCI_B_CFILE
+(Character-File), OCI_B_CLOB (Character-LOB), OCI_B_BLOB (Binary-LOB) и OCI_B_ROWID (ROWID).</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN57884"></A><h5>Пример 1. OCIDefineByName</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+/* пример OCIBindByPos thies@thieso.net (980221)
+  вставляются 3 записи в emp и используется ROWID для обновления
+  записей сразу после вставки.
+*/
+
+$conn = OCILogon("scott","tiger");
+
+$stmt = OCIParse($conn,"insert into emp (empno, ename) ".
+					   "values (:empno,:ename) ".
+					   "returning ROWID into :rid");
+
+$data = array(1111 =&#62; "Larry", 2222 =&#62; "Bill", 3333 =&#62; "Jim");
+
+$rowid = OCINewDescriptor($conn,OCI_D_ROWID);
+
+OCIBindByName($stmt,":empno",&#38;$empno,32);
+OCIBindByName($stmt,":ename",&#38;$ename,32);
+OCIBindByName($stmt,":rid",&#38;$rowid,-1,OCI_B_ROWID);
+
+$update = OCIParse($conn,"update emp set sal = :sal where ROWID = :rid");
+OCIBindByName($update,":rid",&#38;$rowid,-1,OCI_B_ROWID);
+OCIBindByName($update,":sal",&#38;$sal,32);
+
+$sal = 10000;
+
+while (list($empno,$ename) = each($data)) {
+	OCIExecute($stmt);
+	OCIExecute($update);
+} 
+
+$rowid-&#62;free();
+
+OCIFreeStatement($update);
+OCIFreeStatement($stmt);
+
+$stmt = OCIParse($conn,"select * from emp where empno in (1111,2222,3333)");
+OCIExecute($stmt);
+while (OCIFetchInto($stmt,&#38;$arr,OCI_ASSOC)) {
+	var_dump($arr);
+}
+OCIFreeStatement($stmt);
+
+/* удаляет нашу "junk" из таблицы emp ... */
+$stmt = OCIParse($conn,"delete from emp where empno in (1111,2222,3333)");
+OCIExecute($stmt);
+OCIFreeStatement($stmt);
+
+OCILogoff($conn);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><br><TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR>
+<th><B>Предупреждение!</B></th></TR><TR><TD><P>Одновременное использование магических кавычек и
+<B>OciBindByName()</B> это плохая идея, так как закавычивание не нужно для закавыченных переменных, а 
+любые кавычки, применённые магически, будут записаны в вашу базу данных, поскольку
+<B>OciBindByName()</B> не способна отличить магически добавленные кавычки от кавычек, добавленных преднамеренно.</P>
+</TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ref.oci8.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ocicancel.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Функции Oracle 8</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.oci8.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">OCICancel</TD>
+</TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

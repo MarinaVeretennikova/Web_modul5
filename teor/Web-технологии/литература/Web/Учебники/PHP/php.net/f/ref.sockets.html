@@ -1,0 +1,208 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Сокетов</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="snmpwalkoid.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="socket-accept.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD VALIGN="TOP">
+<h1><A NAME="ref.sockets"></A>XCVI. Функции сокетов</h1><A NAME="AEN75732"></A><TABLE CLASS="warning" BORDER="1" WIDTH="100%">
+<TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>Это расширение является ЭКСПЕРИМЕНТАЛЬНЫМ. Поведение этого расширения, имена его функций и всё, что задокументировано, может измениться в последующих релизах РНР без предупреждения. Вы предупреждены и можете использовать это расширение только под вашу ответственность.</P>
+</TD></TR></TABLE><P>Расширение сокетов реализует низкоуровневый интерфейс 
+функций сообщений через сокеты на основе популярных BSD-сокетов, давая 
+возможность работать и как серверу сокетов, и как клиенту.</P>
+<P>Функции сокетов, описанные здесь, являются частью расширения
+PHP, которое обязано быть подключено на этапе компиляции с помощью опции <TT>--enable-sockets</TT> option 
+в <B>configure</B>.</P><P>О более общем клиентском интерфейсе сокетов см.
+<A HREF="fsockopen.html"><B>fsockopen()</B></A> и <A HREF="pfsockopen.html">
+<B>pfsockopen()</B></A>.</P><P>При использовании этих функций важно помнить, 
+что, хотя многие из них имеют имена, аналогичные их двойникам языка C, они часто 
+имеют разные объявления. Обязательно прочтите описания, чтобы исключить конфликты.</P>
+<P>Расширение сокетов было написано с целью предоставить интерфейс для мощных BSD-сокетов. 
+Особое внимание было обращено на то, чтобы эти функции хорошо работали в 
+реализациях как для Win32, так и Unix. Почти все функции сокетов могут потерпеть 
+неудачу при определённых условиях и, следовательно, выдать сообщение
+<TT><B>E_WARNING</B></TT> с описанием ошибки. Иногда это не происходит по 
+желанию разработчика. Например, функция
+<A HREF="socket-read.html"><B>socket_read()</B></A> может выдать сообщение
+<TT><B>E_WARNING</B></TT>, если соединение было внезапно разорвано. Обычно 
+предупреждения подавляются операцией <TT>@</TT>, а код ошибки отлавливается в 
+приложении функцией <A HREF="socket-last-error.html"><B>socket_last_error()</B></A>. 
+Вы можете вызвать функцию <A HREF="socket-strerror.html"><B>socket_strerror()</B></A> 
+с кодом ошибки, чтобы получить строку с описанием этой ошибки. См. дополнительно описания функций.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>сообщения <TT><B>E_WARNING</B></TT>, 
+сгенерированные расширением сокетов, выводятся на английском, а получаемое 
+сообщение об ошибке будет зависеть от текущих локальных установок (<TT><B>LC_MESSAGES</B></TT>):</P></BLOCKQUOTE>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>Warning! - socket_bind() unable to bind address [98]: Die Adresse wird bereits verwendet</PRE></TD></TR></TABLE>
+<P>Те, кто мало знаком с программированием сокетов, могут найти соответствующий 
+материал на Unix man-страницах; в web также имеется большое количество учебной 
+информации о программировании сокетов на C, большая часть которой может быть 
+применена, с некоторыми изменениями, для программирования сокетов в PHP. <A HREF="http://www.developerweb.net/sock-faq/" TARGET="_top">UNIX Socket FAQ</A> 
+может стать хорошим началом.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN75759"></A>
+  <h5>
+Пример 1. Сокет: Простой TCP/IP-сервер</h5>
+<P>Это пример простого talkback-сервера. Измените переменные <TT>address</TT> и <TT>port</TT> 
+для ваших установок и запустите. Вы можете затем соединиться с сервером командой 
+вроде этой: <B>telnet 192.168.1.53 10000</B> (где address и port соответствуют 
+вашим установкам). Всё, что вы напечатаете, будет затем выведено на стороне 
+сервера и возвращено вам обратно. Для отсоединения введите 'quit'.</P><TABLE BORDER="0" BGCOLOR="#E0E0E0"
+CELLPADDING="5" cellspacing="0"><TR><TD><PRE>#!/usr/local/bin/php -q
+&#60;?php
+error_reporting (E_ALL);
+
+/* Разрешить скрипту зависнуть в ожидании соединений. */
+set_time_limit (0);
+
+/* Включить неявную очистку вывода, и мы увидим всё получаемое
+ * по мере поступления. */
+ob_implicit_flush ();
+
+$address = '192.168.1.53';
+$port = 10000;
+
+if (($sock = socket_create (AF_INET, SOCK_STREAM, 0)) &#60; 0) {
+    echo "socket_create() failed: reason: " . socket_strerror ($sock) . "\n";
+}
+
+if (($ret = socket_bind ($sock, $address, $port)) &#60; 0) {
+    echo "socket_bind() failed: reason: " . socket_strerror ($ret) . "\n";
+}
+
+if (($ret = socket_listen ($sock, 5)) &#60; 0) {
+    echo "socket_listen() failed: reason: " . socket_strerror ($ret) . "\n";
+}
+
+do {
+    if (($msgsock = socket_accept($sock)) &#60; 0) {
+        echo "socket_accept() failed: reason: " . socket_strerror ($msgsock) . "\n";
+        break;
+    }
+    /* Отправить инструкции. */
+    $msg = "\nWelcome to the PHP Test Server. \n" .
+        "To quit, type 'quit'. To shut down the server type 'shutdown'.\n";
+    socket_write($msgsock, $msg, strlen($msg));
+
+    do {
+        if (FALSE === ($buf = socket_read ($msgsock, 2048))) {
+            echo "socket_read() failed: reason: " . socket_strerror ($ret) . "\n";
+            break 2;
+        }
+        if (!$buf = trim ($buf)) {
+            continue;
+        }
+        if ($buf == 'quit') {
+            break;
+        }
+        if ($buf == 'shutdown') {
+            socket_close ($msgsock);
+            break 2;
+        }
+        $talkback = "PHP: You said '$buf'.\n";
+        socket_write ($msgsock, $talkback, strlen ($talkback));
+        echo "$buf\n";
+    } while (true);
+    socket_close ($msgsock);
+} while (true);
+
+socket_close ($sock);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN75767"></A><h5>Пример 2. Сокет: простой TCP/IP-клиент</h5>
+<P>Это простой HTTP-клент. Он соединяет со страницей, отправляет HEAD-запрос, 
+возвращает ответ и выходит.</P>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="0" cellspacing="0"><TR><TD><PRE>&#60;?php
+error_reporting (E_ALL);
+
+echo "&#60;h2&#62;TCP/IP Connection&#60;/h2&#62;\n";
+
+/* Получить порт для WWW-сервиса. */
+$service_port = getservbyname ('www', 'tcp');
+
+/* Получить IP-адрес для целевого хоста. */
+$address = gethostbyname ('www.example.com');
+
+/* Создать TCP/IP-сокет. */
+$socket = socket_create (AF_INET, SOCK_STREAM, 0);
+if ($socket &#60; 0) {
+    echo "socket_create() failed: reason: " . socket_strerror ($socket) . "\n";
+} else {
+    echo "OK.\n";
+}
+
+echo "Attempting to connect to '$address' on port '$service_port'...";
+$result = socket_connect ($socket, $address, $service_port);
+if ($result &#60; 0) {
+ echo "socket_connect() failed.\nReason: ($result) " . socket_strerror($result) . "\n";
+} else {
+    echo "OK.\n";
+}
+
+$in = "HEAD / HTTP/1.0\r\n\r\n";
+$out = '';
+
+echo "Sending HTTP HEAD request...";
+socket_write ($socket, $in, strlen ($in));
+echo "OK.\n";
+
+echo "Reading response:\n\n";
+while ($out = socket_read ($socket, 2048)) {
+    echo $out;
+}
+
+echo "Closing socket...";
+socket_close ($socket);
+echo "OK.\n\n";
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><DL><DT><B>Содержание</B></DT>
+<DT><A HREF="socket-accept.html">socket_accept</A> - принимает 
+соединение на сокете</DT>
+<DT><A HREF="socket-bind.html">socket_bind</A> - связывает имя с 
+сокетом</DT>
+<DT><A HREF="socket-clear-error.html">socket_clear_error</A> - очищает 
+ошибку на сокете или последний код ошибки</DT>
+<DT><A HREF="socket-close.html">socket_close</A> - закрывает ресурс 
+сокета</DT>
+<DT><A HREF="socket-connect.html">socket_connect</A> - инициирует 
+соединение с сокетом</DT>
+<DT><A HREF="socket-create-listen.html">socket_create_listen</A> - 
+открывает сокет на порте для приёма соединений</DT>
+<DT><A HREF="socket-create-pair.html">socket_create_pair</A> - создаёт 
+пару одинаковых сокетов и сохраняет их в fds</DT>
+<DT><A HREF="socket-create.html">socket_create</A> - создаёт сокет (конечный пункт для соединения)</DT>
+<DT><A HREF="socket-get-option.html">socket_get_option</A> - получает опции сокета</DT>
+<DT><A HREF="socket-getpeername.html">socket_getpeername</A> - 
+запрашивает удалённую сторону данного сокета, что может дать host/port, или путь файловой системы UNIX, в зависимости от типа</DT>
+<DT><A HREF="socket-getsockname.html">socket_getsockname</A> - 
+запрашивает локальную сторону данного сокета, что может дать host/port, или путь файловой системы UNIX, в зависимости от типа</DT>
+<DT><A HREF="socket-iovec-add.html">socket_iovec_add</A> - добавляет новый вектор к массиву раздачи/сбора</DT>
+<DT><A HREF="socket-iovec-alloc.html">socket_iovec_alloc</A> - ...]) 
+строит 'struct iovec' для использования с sendmsg, recvmsg, writev и readv</DT>
+<DT><A HREF="socket-iovec-delete.html">socket_iovec_delete</A> - удаляет вектор из массива векторов</DT>
+<DT><A HREF="socket-iovec-fetch.html">socket_iovec_fetch</A> - возвращает данные, содержащиеся в iovec, специфицированном iovec_id[iovec_position]</DT>
+<DT><A HREF="socket-iovec-free.html">socket_iovec_free</A> - освобождает iovec, специфицированный iovec_id</DT>
+<DT><A HREF="socket-iovec-set.html">socket_iovec_set</A> - устанавливает данные, содержащиеся в iovec_id[iovec_position], в new_val</DT>
+<DT><A HREF="socket-last-error.html">socket_last_error</A> - возвращает последнюю ошибку на сокете</DT>
+<DT><A HREF="socket-listen.html">socket_listen</A> - прослушивает соединение на сокете</DT>
+<DT><A HREF="socket-read.html">socket_read</A> - читает максимальное количество байт с сокета</DT>
+<DT><A HREF="socket-readv.html">socket_readv</A> - читает из fd, используя scatter-gather массив, определённый iovec_id</DT>
+<DT><A HREF="socket-recv.html">socket_recv</A> - получает данные из соединённого сокета</DT>
+<DT><A HREF="socket-recvfrom.html">socket_recvfrom</A> - получает данные из сокета, соединённого иди нет</DT>
+<DT><A HREF="socket-recvmsg.html">socket_recvmsg</A> - используется для получения сообщений на сокете, ориентированном на соединение или нет</DT>
+<DT><A HREF="socket-select.html">socket_select</A> - запускает системный вызов select() на данных массивах сокетов с таймаутом, специфицированным tv_sec и tv_usec</DT>
+<DT><A HREF="socket-send.html">socket_send</A> - отправляет данные в соединённый сокет</DT>
+<DT><A HREF="socket-sendmsg.html">socket_sendmsg</A> - отправляет сообщение на сокет, независимо от того, ориентирован он на соединение/connection-oriented или нет</DT>
+<DT><A HREF="socket-sendto.html">socket_sendto</A> - отправляет сообщение на сокет, независимо от того, соединён он или нет</DT>
+<DT><A HREF="socket-set-nonblock.html">socket_set_nonblock</A> - устанавливает неблокирующий режим&nbsp; для дескриптора файла fd</DT>
+<DT><A HREF="socket-set-option.html">socket_set_option</A> - устанавливает опции сокета</DT>
+<DT><A HREF="socket-shutdown.html">socket_shutdown</A> - отключает приём, отправку с сокета, или и то, и другое</DT>
+<DT><A HREF="socket-strerror.html">socket_strerror</A> - возвращает строку с описанием ошибки сокета</DT>
+<DT><A HREF="socket-write.html">socket_write</A> - записывает в сокет</DT>
+<DT><A HREF="socket-writev.html">socket_writev</A> - записывает в дескриптор файла, fd, используя scatter-gather массив, определённый iovec_id</DT>
+</DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="snmpwalkoid.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="socket-accept.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">snmpwalkoid</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">socket_accept</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

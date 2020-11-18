@@ -1,0 +1,35 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>fbsql_create_clob</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="fbsql-create-blob.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="fbsql-create-db.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.fbsql-create-clob">fbsql_create_clob</A></H1><A NAME="AEN21701"></A>
+<P>(PHP 4 &#62;= 4.2.0)</P>fbsql_create_clob - создаёт CLOB.<A NAME="AEN21704"></A>
+<H2>Описание</H2>string <B>fbsql_create_clob</B> (string clob_data [, resource link_identifier])<BR>
+<P>Возвращает дескриптор ресурса для вновь созданного CLOB.</P><P><B>fbsql_create_clob()</B> создаёт clob из
+clob_data. Возвращаемый дескриптор ресурса может использоваться с 
+командами insert и update для сохранения clob в БД.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN21718"></A><h5>Пример 1. fbsql_create_clob()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+    $link = fbsql_pconnect ("localhost", "_SYSTEM", "secret")
+        or die ("Could not connect");
+    $filename = "clob_file.txt";
+    $fp = fopen($filename, "rb");
+    $clobdata = fread($fp, filesize($filename));
+    fclose($fp);
+    
+    $clobHandle = fbsql_create_clob($clobdata, $link);
+    
+    $sql = "INSERT INTO CLOB_TABLE (CLOB_COLUMN) VALUES ($clobHandle);";
+    $rs = fbsql_query($sql, $link);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="fbsql-create-blob.html">
+<B>fbsql_create_blob()</B></A>, <A HREF="fbsql-read-blob.html"><B>fbsql_read_blob()</B></A>,
+<A HREF="fbsql-read-clob.html"><B>fbsql_read_clob()</B></A> и
+<A HREF="fbsql-set-lob-mode.html"><B>fbsql_set_lob_mode()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="fbsql-create-blob.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="fbsql-create-db.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">fbsql_create_blob</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.fbsql.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">fbsql_create_db</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

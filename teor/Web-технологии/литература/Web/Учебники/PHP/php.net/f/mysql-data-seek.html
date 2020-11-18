@@ -1,0 +1,49 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>mysql_data_seek</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="mysql-create-db.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="mysql-db-name.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.mysql-data-seek">mysql_data_seek</A></H1><A NAME="AEN50993"></A><P>(PHP 3, PHP 4)</P>
+<p>mysql_data_seek - перемещает внутренний результирующий указатель.<A NAME="AEN50996"></A></p><H2>Описание</H2>
+<p>bool <B>mysql_data_seek</B> (resource result_identifier, int row_number)</p><P>Возвращает <TT><B>TRUE</B></TT> при успехе,
+<TT><B>FALSE</B></TT> при неудаче.</P><P><B>mysql_data_seek()</B> перемещает внутренний результирующий указатель MySQL-результата, 
+ассоциированного со специфицированным идентификатором результата, для указания 
+на специфицированный номер ряда. Последующий вызов <A HREF="mysql-fetch-row.html"><B>mysql_fetch_row()</B></A> возвратит этот ряд.</P>
+<P><TT><I>Row_number</I></TT> начинаются с 0. <TT><I>row_number</I></TT> должен быть значением в диапазоне от 0 до
+mysql_num_rows - 1.</P><BLOCKQUOTE><P><B>Примечание: </B>функция <B>mysql_data_seek()</B> может использоваться только в сочетании с
+<A HREF="mysql-query.html"><B>mysql_query()</B></A>, но не с
+<A HREF="mysql-unbuffered-query.html"><B>mysql_unbuffered_query()</B></A>.</P></BLOCKQUOTE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN51021"></A><h5>Пример 1. MySQL_data_seek</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+    $link = mysql_pconnect("localhost", "mysql_user", "mysql_password")
+        or die("Could not connect");
+
+    mysql_select_db("samp_db")
+        or exit("Could not select database");
+
+    $query = "SELECT last_name, first_name FROM friends";
+    $result = mysql_query($query)
+        or die("Query failed");
+
+    /* извлечь ряды в обратном порядке */
+    for ($i = mysql_num_rows($result) - 1; $i &#62;= 0; $i--) {
+        if (!mysql_data_seek($result, $i)) {
+            echo "Cannot seek to row $i\n";
+            continue;
+        }
+
+        if(!($row = mysql_fetch_object($result)))
+            continue;
+
+        echo "$row-&#62;last_name $row-&#62;first_name&#60;br /&#62;\n";
+    }
+
+    mysql_free_result($result);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="mysql-query.html"><B>mysql_query()</B></A>,
+<A HREF="mysql-num-rows.html"><B>mysql_num_rows()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="mysql-create-db.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="mysql-db-name.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">mysql_create_db</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.mysql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">mysql_db_name</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,56 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Данные, Отправляемые Пользователем</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR>
+<TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="registerglobals.html">Назад</A></TD><th WIDTH="80%">Глава 4. Безопасность</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="hiding.html">Вперёд</A></TD></TR></TABLE>
+</TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD>
+</TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="security.variables">Данные, отправляемые пользователем</a></H1>
+<P>Самые большие дыры во многих PHP-программах зависят не столько от самого 
+языка, сколько от кода, написанного без учёта обеспечения безопасности. 
+Соответственно, вы всегда должны выделять время для исследования влияний на 
+данный участок кода, чтобы знать о возможном вреде, который может нанести 
+отправка в него переменной с нестандартным значением.<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<h5>
+<A NAME="AEN3316"></A>Пример 4-17. Опасное использование переменных</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+// удалить файл из домашней директории пользователя ... а может -
+// ещё что-нибудь?
+unlink ($evil_var);
+
+// записать логинг доступа ... или, может быть, вхождение /etc/passwd?
+fputs ($fp, $evil_var);
+
+// выполнить что-нибудь тривиальное ... или rm -rf *?
+system ($evil_var);
+exec ($evil_var);
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Вы всегда должны тщательно проверять ваш код, чтобы гарантировать, что 
+любые переменные, отправляемые из web-браузера, соответствующим образом 
+будут проверены, и задайте себе следующие вопросы:</p>
+<UL><LI><P>Будет ли данный скрипт воздействовать только на предполагаемые файлы?</P></LI>
+<LI><P>Могут ли быть обработаны необычные или нежелательные данные?</P></LI>
+<LI><P>Может ли данный скрипт быть использован несоответствующим образом?</P></LI>
+<LI><P>Может ли он быть использован в сочетании с другими скриптами негативным образом?</P></LI>
+<LI><P>Будет ли выполнен адекватный логинг для каждой транзакции?</P></LI></UL>
+Задав себе эти вопросы при написании скрипта,
+а не потом, вы предотвратите возможную переделку для повышения защищённости. 
+Начав таким образом, вы не гарантируете полную безопасность вашей системы, но сможете значительно повысить её.
+<P>Возможно, вы захотите также предусмотреть отключение register_globals,
+magic_quotes или других установок, которые могут создать у вас неуверенность 
+в проверке, источнике или значении данной переменной.
+Работа с PHP в режиме error_reporting(E_ALL) также может помочь, 
+предупреждая вас о переменных, используемых до проверки или инициализации (что предотвратит операции с необычными данными).</P>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="registerglobals.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="hiding.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Использование Register_Globals</TD>
+<th WIDTH="34%" VALIGN="top"><a href="security.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Скрытие PHP</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

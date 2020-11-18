@@ -1,0 +1,46 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>openssl_pkcs7_sign</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="openssl-pkcs7-encrypt.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="openssl-pkcs7-verify.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.openssl-pkcs7-sign">openssl_pkcs7_sign</A></H1><A NAME="AEN59222"></A><P>(PHP 4 &#62;= 4.0.6)</P>
+<p>openssl_pkcs7_sign - подписывает сообщение S/MIME.<A NAME="AEN59225"></A></p><H2>Описание</H2>
+<p>bool <B>openssl_pkcs7_sign</B> (string infilename, string outfilename, mixed signcert, mixed privkey, array headers [, long flags [, string extracertsfilename]])</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>Эта функция - ЭКСПЕРИМЕНТАЛЬНАЯ. Поведение, имя и всё остальное, что задокументировано для данной функции может быть изменено в будущих релизах РНР без предупреждения. Вы можете использовать эту функцию только на свой страх и риск.
+</P></TD></TR></TABLE><P><B>openssl_pkcs7_sign()</B> принимает содержимое файла <TT><I>infilename</I></TT> и подписывает его с использованием сертификата и совпадающего private-ключа, 
+специфицированных параметрами <TT><I>signcert</I></TT> и <TT><I>privkey</I></TT>.</P><P><TT><I>headers</I></TT> это массив шапок/headers, которые будут присоединяться впереди данных после их 
+подписывания (см. в <A HREF="openssl-pkcs7-encrypt.html"><B>openssl_pkcs7_encrypt()</B></A> о формате этого параметра).</P>
+<P><TT><I>flags</I></TT> можно использовать для изменения вывода - см. <A HREF="ref.openssl.html#openssl.pkcs7.flags">PKCS7-константы</A>;
+если не специфицирован, по умолчанию будет PKCS7_DETACHED.</P><P><TT><I>extracerts</I></TT> специфицирует имя файла, содержащего узел дополнительных сертификатов для 
+включения в подпись, что может использоваться, например, для того, чтобы 
+принимающий мог проверить сертификат, используемый вами.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN59268"></A><h5>Пример 1. openssl_pkcs7_sign()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>// сообщение, которое вы хотели бы подписать, чтобы принимающий/recipient
+// мог убедиться, что это именно вы его отправили
+$data = &#60;&#60;&#60;EOD
+
+You have my authorization to spend $10,000 on dinner expenses.
+
+The CEO
+EOD;
+// сохранить сообщение в файл
+$fp = fopen("msg.txt", "w");
+fwrite($fp, $data);
+fclose($fp);
+// зашифровать его
+if (openssl_pkcs7_sign("msg.txt", "signed.txt", "mycert.pem",
+    array("mycert.pem", "mypassphrase"),
+    array("To" =&#62; "joes@sales.com", // синтаксис с ключами
+          "From: HQ &#60;ceo@sales.com&#62;", // синтаксис с индексами
+          "Subject" =&#62; "Eyes only"))
+{
+    // сообщение подписано - отправить его!
+    exec(ini_get("sendmail_path") . " &#60; signed.txt");
+}</PRE></TD></TR></TABLE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>эта функция была добавлена в 4.0.6.</P></BLOCKQUOTE>
+</TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="openssl-pkcs7-encrypt.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="openssl-pkcs7-verify.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">openssl_pkcs7_encrypt</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.openssl.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">openssl_pkcs7_verify</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,96 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE
+>Работа с Переменным Количеством Аргументов/Необязательных Параметров</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body>
+<TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="zend.arguments.deprecated-retrieval.html">Назад</A></TD><th WIDTH="80%">Глава 33. Приём аргументов</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="zend.arguments.access.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="zend.arguments.variable">Работа с переменным количеством аргументов/необязательных параметров</A></H1>
+<P>Если предполагается, что ваша функция принимает переменное количество 
+аргументов, то рассматриваемые здесь примеры кода могут послужит более или 
+менее оптимальным решением. Вы должны создать строку, вызывающую <B>zend_get_parameters_ex()</B>, для
+каждого возможного количества аргументов, что часто бывает не лучшим решением.</P>
+<P>В таком случае вы можете использовать функцию <B>zend_get_parameters_array_ex()</B>, которая принимает количество запрашиваемых параметров и массив для их 
+хранения:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>zval **parameter_array[4];
+
+/* получить количество аргументов */
+argument_count = ZEND_NUM_ARGS();
+
+/* посмотреть, удовлетворяет ли минимальному запросу (2 аргумента) */
+/* и максимальному количеству (4 аргумента) */
+if(argument_count &#60; 2 || argument_count &#62; 5)
+    WRONG_PARAM_COUNT;
+
+/* количество аргументов корректно, теперь запрашиваем их */
+if(zend_get_parameters_array_ex(argument_count, parameter_array) != SUCCESS)
+    WRONG_PARAM_COUNT;</PRE></TD></TR></TABLE>
+<p>Сначала проверяется, находится ли количество аргументов в пределах 
+требуемого диапазона. После этого <B>zend_get_parameters_array_ex()</B> используется для заполнения
+<TT>parameter_array</TT> правильными указателями на значения аргументов.</p>
+<P>Очень удачный способ можно найти в коде, работающем с <A HREF="f/fsockopen.html"><B>fsockopen()</B>
+</A>, находящемся в <TT>ext/standard/fsock.c</TT>, как показано в Листинге 9.7. Не волнуйтесь, если вы ещё не знаете всех 
+функций, использованных в этом исходнике; мы кратко остановимся на них.</P>
+<A NAME="AEN86016"></A><h5>Рисунок 33-2. Листинг 9.7. PHP-реализация переменного количества аргументов в fsockopen()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>pval **args[5];
+int *sock=emalloc(sizeof(int));
+int *sockp;
+int arg_count=ARG_COUNT(ht);
+int socketd = -1;
+unsigned char udp = 0;
+struct timeval timeout = { 60, 0 };
+unsigned short portno;
+unsigned long conv;
+char *key = NULL;
+FLS_FETCH();
+<font size="1">
+if (arg_count &#62; 5 || arg_count &#60; 2 || zend_get_parameters_array_ex(arg_count,args)==FAILURE) {</font>
+    CLOSE_SOCK(1);
+    WRONG_PARAM_COUNT;
+}
+
+switch(arg_count) {
+    case 5:
+        convert_to_double_ex(args[4]);
+        conv = (unsigned long) (Z_DVAL_P(args[4]) * 1000000.0);
+        timeout.tv_sec = conv / 1000000;
+        timeout.tv_usec = conv % 1000000;
+        /* fall-through */
+    case 4:
+       if (!PZVAL_IS_REF(*args[3])) {
+        php_error(E_WARNING,"error string argument to fsockopen not passed by reference");
+       }
+        pval_copy_constructor(*args[3]);
+        ZVAL_EMPTY_STRING(*args[3]);
+        /* fall-through */
+    case 3:
+        if (!PZVAL_IS_REF(*args[2])) {
+            php_error(E_WARNING,"error argument to fsockopen not passed by reference");
+            return;
+        }
+        ZVAL_LONG(*args[2], 0);
+        break;
+}
+
+convert_to_string_ex(args[0]);
+convert_to_long_ex(args[1]);
+portno = (unsigned short) Z_LVAL_P(args[1]);
+
+key = emalloc(Z_STRLEN_P(args[0]) + 10);</PRE></TD></TR></TABLE>
+<P><A HREF="f/fsockopen.html"><B>fsockopen()</B></A> принимает два, три, четыре или пять аргументов. После обязательного объявления 
+переменных эта функция проверяет корректность диапазона аргументов. Затем она 
+использует механизм fall-through в операторе <TT>switch()</TT> для работы со всеми аргументами.
+Оператор <TT>switch()</TT> начинается с максимального количества передаваемых аргументов (пять). После 
+этого она автоматически проходит case четырёх передаваемых аргументов, затем 
+трёх, пропуская обязательное ключевое слово <TT>break</TT> на всех этапах. После обработки последнего case функция выходит из оператора
+<TT>switch()</TT> и выполняет минимальный необходимый процессинг, если функция вызвана с двумя аргументами.</P>
+<P>Этот многоступенчатый процесс позволяет обрабатывать переменное количество аргументов.</P></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="zend.arguments.deprecated-retrieval.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="zend.arguments.access.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Старый способ получения аргументов (не рекомендуется)</TD>
+<th WIDTH="34%" VALIGN="top"><a href="zend.arguments.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+Доступ к аргументам</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

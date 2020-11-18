@@ -1,0 +1,31 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>pg_put_line</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="pg-port.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="pg-query.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="pg-put-line">pg_put_line</A></H1><A NAME="AEN67677"></A><P>(PHP 4 &#62;= 4.0.3)</P>
+<p>pg_put_line - отправляет NULL-законченную строку в PostgreSQL backend.<A NAME="AEN67680"></A></p><H2>Описание</H2>
+<p>bool <B>pg_put_line</B> ([resource connection, string data])</p>
+<P><B>pg_put_line()</B> отправляет NULL-законченную строку в PostgreSQL backend-сервер. Это 
+используется, к примеру, для высокоскоростной вставки данных в таблицу, 
+инициированную началом PostgreSQL copy-операции. Этот заключительный NULL-символ 
+добавляется автоматически. Возвращает <TT><B>TRUE</B></TT> при успехе, <TT><B>FALSE</B></TT> при неудаче.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>приложение обязано явным образом отправлять два символа "\."
+в последней строчке для для указания в backend, что оно закончило отправку данных.</P></BLOCKQUOTE>
+<P>См. также <A HREF="pg-end-copy.html"><B>pg_end_copy()</B></A>.<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN67699"></A><h5>Пример 1. Быстрая вставка данных в таблицу</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php 
+    $conn = pg_pconnect ("dbname=foo");
+    pg_query($conn, "create table bar (a int4, b char(16), d float8)");
+    pg_query($conn, "copy bar from stdin");
+    pg_put_line($conn, "3\thello world\t4.5\n");
+    pg_put_line($conn, "4\tgoodbye world\t7.11\n");
+    pg_put_line($conn, "\\.\n");
+    pg_end_copy($conn);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="pg-port.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="pg-query.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">pg_port</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.pgsql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">pg_query</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

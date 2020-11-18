@@ -1,0 +1,328 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Массивы</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="types.string.html">Назад</A></TD>
+<th WIDTH="80%">Глава 6. Типы</th><TD WIDTH="10%" ALIGN="right">
+<A HREF="types.object.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="language.types.array">Массивы</a></H1>
+<P>Массив в PHP это упорядоченная карта. Карта/map это тип, который отображает <i>значения</i> в <i>ключи</i>. 
+Этот тип оптимизируется разными способами,
+поэтому вы можете использовать его как реальный массив или  список (вектор), 
+хэш-таблицу (которая является реализацией карты), словарь/dictionary, коллекцию/collection,
+стэк/stack, очередь/queue и, возможно, что-то ещё. Поскольку вы можете иметь другой
+PHP-массив в качестве значения, вы можете также довольно легко симулировать деревья/trees.</P>
+<P>Объяснение этих структур выходит за рамки данного учебника,
+но вы можете найти как минимум по одному примеру для каждой этой структуры.
+За дополнительной информацией об этих структурах мы отсылаем вас к литературе по этой обширной теме.</P>
+<H2><a name="language.types.array.syntax">Синтаксис</a></H2>
+<H3><a name="language.types.array.syntax.array-func">Специфицирование с помощью</a>
+<A HREF="f/array.html"><B>array()</B></A></A></H3>
+<P>Массив может быть создан конструкцией языка <A HREF="f/array.html"><B>array()</B></A>.
+Она принимает определённое количество разделённых запятыми пар <TT><I>key</I> =&#62; <TT><I>value</I></TT></TT> (ключ-значение).</P>
+<P><TT>key</TT> это либо <A HREF="types.integer.html"><B>integer</B></A>, либо
+<A HREF="types.string.html"><B>string</B></A>. Если ключ это стандартное представление
+<A HREF="types.integer.html"><B>integer</B></A>, он будет интерпретироваться как таковой (т.е.
+<TT>"8"</TT> будет интерпретироваться как <TT>8</TT>, а <TT>"08"</TT> будет интерпретироваться как
+<TT>"08"</TT>).</P><P>Значение может быть любым.</P>
+<P>Если вы опускаете ключ, берётся максимальный целочисленный индекс, а 
+новый key будет равен этому максимуму + 1. Поскольку целые числа могут быть отрицательными,
+это верно также и в отношении отрицательных индексов. Если, например наивысший индекс
+<TT>-6</TT>, это даст в результате для нового ключа -<TT>5</TT>. Если ещё нет ни одного
+целочисленного индекса, key будет <TT>0</TT> (нуль). Если вы специфицируете ключ, который
+уже имеет присвоенное значение, это значение будет перезаписано.</P>
+<P>Использование <TT>true</TT> в качестве ключа будет вычисляться в
+<A HREF="types.integer.html"><B>integer</B></A> <TT>1</TT> в качестве ключа. Использование
+<TT>false</TT> в качестве ключа будет вычисляться в <A HREF="types.integer.html"><B>integer</B></A>
+<TT>0</TT> в качестве ключа.  Использование <TT>NULL</TT> в качестве ключа будет вычисляться в пустую строку. Использование пустой 
+строки в качестве ключа создаст (или перезапишет) ключ пустой строкой в 
+качестве значения, это не то же самое, что использование пустых угловых скобок.</P>
+<P>Вы не можете использовать массивы с объектами в качестве ключей. Если это сделать, появится предупреждение:
+<TT>Illegal offset type</TT>.</P><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>array( [<TT
+
+><I
+>key</I
+></TT
+> =&#62;] <TT
+
+><I
+>value</I
+></TT
+>
+     , ...
+     )
+// <TT
+
+><I
+>key</I
+></TT
+> это либо <A HREF="types.string.html"><B
+
+>string</B
+></A
+>, либо неотрицательное <A HREF="types.integer.html"><B
+
+>integer</B
+></A
+>
+// <TT
+
+><I
+>value\значение</I
+> может быть любым</TT
+></PRE></TD></TR></TABLE><H3><A NAME="language.types.array.syntax.modifying">Создание/модифицирование
+с помощью синтаксиса квадратных (угловых) скобок</A></H3>
+<P>Вы также можете модифицировать существующий массив, явно установив значения.</P>
+<P>Это делается путём присвоения значений массиву через специфицирование 
+key в квадратных скобках. Вы можете также опустить key, добавив пустую пару угловых скобок
+("<TT>[]</TT>") паре имя-значение.</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>$arr[<TT
+
+><I
+>key</I
+></TT
+>] = <TT
+
+><I
+>value</I
+></TT
+>;
+$arr[] = <TT
+
+><I
+>value</I
+></TT
+>;
+// <TT
+
+><I
+>key</I
+></TT
+> это либо <A HREF="types.string.html"><B
+
+>string</B
+></A
+>, либо неотрицательное <A HREF="types.integer.html"><B
+
+>integer</B
+></A
+>
+// <TT
+
+><I
+>value</I></TT> может быть любым</PRE></TD></TR></TABLE>
+<p>Если массив <TT>$arr</TT> ещё не существует, он будет создан. 
+Итак, это альтернативный способ специфицирования массива.
+Для изменения конкретного значения просто присвойте ему новое значение.
+Если вы хотите удалить пару key/value, вы должны её 
+<A href="f/unset.html"><B>unset()</B></A>.
+<H2><a name="language.types.array.useful-funcs">Используемые функции</a></H2>
+<P>Имеется достаточное количество функций для работы с массивами, см. раздел
+<a href="f/ref.array.html">Функции массивов</a>.</P><BLOCKQUOTE><P><B>Примечание: </B>
+функция <A HREF="f/unset.html"><B>unset()</B></A> позволяет отменить установку
+ключа массива. Не забудьте, что при этом массив НЕ реиндексируется.</p><A NAME="AEN3843"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$a = array( 1 =&#62; 'one', 2 =&#62; 'two', 3 =&#62; 'three' );
+unset( $a[2] );
+/* даст массив, который определён как
+   $a = array( 1=&#62;'one', 3=&#62;'three');
+   а НЕ как
+   $a = array( 1 =&#62; 'one', 2 =&#62; 'three');
+*/</PRE></TD></TR></TABLE></BLOCKQUOTE>
+<P>Структура управления <A HREF="foreach.html">foreach</A> существует специально
+для массивов. Она даёт возможность без усилий просматривать массив.</P>
+<H2><a name="language.types.array.donts">Массив может и не может</a></H2>
+<H3><A NAME="language.types.array.foo-bar">Почему <TT>$foo[bar]</TT> неправильно?</A></H3>
+<P>Вы всегда должны использовать кавычки вокруг индекса ассоциативного массива.
+Например, пишите $foo['bar'], а не $foo[bar]. Но почему не верна запись $foo[bar]? 
+Вы могли встретить в старых скриптах такой синтаксис:</p><A NAME="AEN3853"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$foo[bar] = 'enemy';
+echo $foo[bar];
+// etc</PRE></TD></TR></TABLE>
+<p>Это неправильно, но работает. Тогда почему неправильно? Суть в том, что 
+этот код содержит неопределённую константу (bar), а не строку 'bar' 
+(обратите внимание на кавычки), и PHP может в дальнейшем определить константу,
+которая, к несчастью для вашего кода, имеет то же самое имя.  Это работает, 
+поскольку неопределённая константа конвертируется в строку с тем же именем.</p>
+<P>Как указано в разделе <a href="#language.types.array.syntax">синтаксис</a>, 
+между квадратными скобками ('<TT>[</TT>' и '<TT>]</TT>') должно иметься выражение.
+Это означает, что вы можете записать:</p><A NAME="AEN3859"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>echo $arr[ foo(true) ];</PRE></TD></TR></TABLE>
+<p>Это пример использования return-значения функции в качестве индекса массива. PHP знает также и о константах,
+и вы можете увидеть спереди <TT>E_*</TT>.</p>
+<A NAME="AEN3862"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$error_descriptions[E_ERROR] = "A fatal error has occured";
+$error_descriptions[E_WARNING] = "PHP issued a warning";
+$error_descriptions[E_NOTICE] = "This is just an informal notice";</PRE></TD></TR></TABLE>
+<p>Обратите внимание, что <TT>E_ERROR</TT> это такой же идентификатор, 
+как и <TT>bar</TT> в первом примере. Но последний пример равносилен записи:</p>
+<A NAME="AEN3866"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$error_descriptions[1] = "A fatal error has occured";
+$error_descriptions[2] = "PHP issued a warning";
+$error_descriptions[8] = "This is just an informal notice";</PRE></TD></TR></TABLE><p>поскольку
+<TT>E_ERROR</TT> равна <TT>1</TT>, etc.</p><P>Тогда как может работать <TT>$foo[bar]</TT>?
+Это работает, поскольку <TT>bar</TT>, по причине своего синтаксиса, ожидается как константное выражение. Однако в 
+этом случае константа с именем <TT>bar</TT> не существует. PHP теперь принимает, что вы обозначили
+<TT>bar</TT> литерально как строку <TT>"bar"</TT>, но что вы забыли указать кавычки.</P>
+<H4><A NAME="AEN3876">Так почему же это неправильно?</A></H4>
+<P>Когда-нибудь в будущем команда PHP может добавить другую константу или 
+ключевое слово, и у вас появятся проблемы. Например,
+вы уже не можете использовать слова <TT>empty</TT> и  <TT>default</TT> таким способом, поскольку
+они являются теперь <a href="reserved.html"> зарезервированными ключевыми словами</a>.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>когда вы переключите <A HREF="f/error-reporting.html">error_reporting</A>
+на <TT>E_ALL</TT>, вы увидите, что PHP генерирует уведомления, когда используется <TT>index</TT>,
+который не определён (поместите строку <TT>error_reporting(E_ALL);</TT> в ваш скрипт).</P></BLOCKQUOTE>
+<BLOCKQUOTE><P><B>Примечание: </B>внутри <A HREF="types.string.html"><B>string</B></A>,
+ограниченной двойными кавычками, другой синтаксис является правильным. См.
+<a href="types.string.html#language.types.string.parsing"> разбор переменных в строках</a>.</P></BLOCKQUOTE>
+<H2><A NAME="language.types.array.examples">Примеры</A></H2>
+<P>Тип array в PHP является очень подвижным, поэтому мы даём здесь несколько 
+примеров, демонстрирующих всю мощь массивов.</P>
+<A NAME="AEN3896"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>// это ...
+$a = array( 'color' =&#62; 'red'
+          , 'taste' =&#62; 'sweet'
+          , 'shape' =&#62; 'round'
+          , 'name'  =&#62; 'apple'
+          ,            4        // key будет 0
+          );
+
+// ... абсолютно эквивалентно этому
+$a['color'] = 'red';
+$a['taste'] = 'sweet';
+$a['shape'] = 'round';
+$a['name'] = 'apple';
+$a[]        = 4;        // key будет 0
+
+$b[] = 'a';
+$b[] = 'b';
+$b[] = 'c';
+// даст в результате массив array( 0 =&#62; 'a' , 1 =&#62; 'b' , 2 =&#62; 'c' ),
+// или просто array('a', 'b', 'c')</PRE></TD></TR></TABLE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN3898"></A>
+  <h5 style="text-align: left">Пример 6-4. Использование array()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>// Массив как карта (свойств)
+$map = array( 'version'    =&#62; 4
+            , 'OS'         =&#62; 'Linux'
+            , 'lang'       =&#62; 'english'
+            , 'short_tags' =&#62; true
+            );
+
+// строго цифровые ключи
+$array = array( 7
+              , 8
+              , 0
+              , 156
+              , -10
+              );
+// это то же самое, что и array( 0 =&#62; 7, 1 =&#62; 8, ...)
+
+$switching = array(         10 // key = 0
+                  , 5    =&#62;  6
+                  , 3    =&#62;  7 
+                  , 'a'  =&#62;  4
+                  ,         11 // key = 6 (максимум целочисленного индекса был 5)
+                  , '8'  =&#62;  2 // key = 8 (целое число!)
+                  , '02' =&#62; 77 // key = '02'
+                  , 0    =&#62; 12 // значение 10 будет перезаписано на 12
+                  );
+
+// пустой массив
+$empty = array();</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="language.types.array.examples.loop"></A>
+<h5 style="text-align: left">Пример 6-5. Коллекция</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$colors = array('red','blue','green','yellow');
+
+foreach ( $colors as $color ) {
+    echo "Do you like $color?\n";
+}
+
+/* на выходе:
+Do you like red?
+Do you like blue?
+Do you like green?
+Do you like yellow?
+*/</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Заметьте, что в настоящее время нельзя изменять значения массива в таких циклах напрямую.<br>
+Но можно сделать так:<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="language.types.array.examples.changeloop"></A>
+<h5 style="text-align: left">Пример 6-6. Коллекция</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>foreach ($colors as $key =&#62; $color) {
+    // не будет работать:
+    //$color = strtoupper($color);
+
+    //работает:
+    $colors[$key] = strtoupper($color);
+}
+print_r($colors);
+
+/* на выходе:
+Array
+(
+    [0] =&#62; RED
+    [1] =&#62; BLUE
+    [2] =&#62; GREEN
+    [3] =&#62; YELLOW
+)
+*/</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Следующий пример создаёт одномерный массив.<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN3909"></A><h5 style="text-align: left">Пример 6-7. Одномерный индекс</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$firstquarter  = array(1 =&#62; 'January', 'February', 'March');
+print_r($firstquarter);
+
+/* на выходе:
+Array 
+(
+    [1] =&#62; 'January'
+    [2] =&#62; 'February'
+    [3] =&#62; 'March'
+)
+*/</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN3912"></A><h5 style="text-align: left">Пример 6-8. Заполнение реального массива</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>// заполним массив всеми элементами директории
+$handle = opendir('.');
+while ($file = readdir($handle)) 
+{
+    $files[] = $file;
+}
+closedir($handle);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Массивы упорядочены. Вы можете изменять порядок в массиве, используя 
+различные функции сортировки. См. <a href="f/ref.array.html">функции массивов</a>.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN3917"></A>
+  <h5 style="text-align: left">Пример 6-9. Сортировка массива</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>sort($files);
+print_r($files);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Поскольку значение массива может быть любым, это может быть также другой 
+массив. Так вы можете создать рекурсивный и многомерный массивы.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN3921"></A>
+<h5 style="text-align: left">Пример 6-10. Рекурсивный и многомерный массивы</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$fruits = array ( "fruits"  =&#62; array ( "a" =&#62; "orange"
+                                     , "b" =&#62; "banana"
+                                     , "c" =&#62; "apple"
+                                     )
+                , "numbers" =&#62; array ( 1
+                                     , 2
+                                     , 3
+                                     , 4
+                                     , 5
+                                     , 6
+                                     )
+                , "holes"   =&#62; array (      "first"
+                                     , 5 =&#62; "second"
+                                     ,      "third"
+                                     )
+                );</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="types.string.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="types.object.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Строки</TD>
+<th WIDTH="34%" VALIGN="top"><a href="types.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Объекты</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

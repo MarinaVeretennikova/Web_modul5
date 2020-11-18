@@ -1,0 +1,48 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>getimagesize</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="exif-thumbnail.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="image2wbmp.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.getimagesize">getimagesize</A></H1><A NAME="AEN31135"></A><P>(PHP 3, PHP 4)</P>
+<p>getimagesize - получает размер изображения.<A NAME="AEN31138"></A></p><H2>Описание</H2>
+<p>array <B>getimagesize</B> (string filename [, array imageinfo])</p>
+<P>Функция <B>getimagesize()</B> определяет размер изображения GIF, JPG, PNG, SWF, PSD, TIFF или 
+BMP и возвращает размеры, тип файла и высоту/ширину текстовой строки, используемой внутри нормального 
+HTML-тэга <TT>IMG</TT>.</P><P> Возвращает массив из 4 элементов. Индекс 0 содержит ширину/width 
+изображения в пикселах. Индекс 1 содержит высоту/height. Индекс 2 это флаг, 
+указывающий тип изображения.  1 = GIF, 2 = JPG, 3 = PNG, 4 = SWF, 5 = PSD, 6 = BMP, 7 = TIFF(байтовый порядок intel),
+8 = TIFF(байтовый порядок motorola), 9 = JPC, 10 = JP2, 11 = JPX.
+Индекс 3 это текстовая строка с корректной строкой height="yyy" width="xxx", которая может использоваться непосредственно в 
+тэге IMG.<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN31161"></A><h5>Пример 1. getimagesize (file)</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$size = getimagesize ("img/flag.jpg");
+echo "&#60;img src=\"img/flag.jpg\" {$size[3]}&#62;";
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN31165"></A>
+<h5>Пример 2. getimagesize (URL)</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;?php $size = getimagesize ("http://www.example.com/gifs/logo.gif"); ?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>С изображениями JPG возвращаются два дополнительных индекса:
+<TT>channel</TT> и <TT>bits</TT>.<br><TT>channel</TT> имеет значение 3 для RGB-рисунков и 4 для CMYK-рисунков.
+<TT><br>bits</TT> это количество битов для каждого цвета.</P><P>Если доступ к файлу <TT><I>filename</I></TT> изображения невозможен или если это неправильное изображение,
+<B>getimagesize()</B> возвратит <TT><B>NULL</B></TT> и сгенерирует предупреждение.</P>
+<P>Необязательный параметр <TT><I>imageinfo</I></TT> позволяет извлекать расширенную информацию из файла изображения. В настоящее 
+время возвращается различные JPG APP-маркёры в ассоциативном массиве. Некоторые программы используют эти APP-маркёры
+для внедрения текстовой информации в изображения. Обычным является внедрение IPTC-информации
+<A HREF="http://www.iptc.org/" TARGET="_top">http://www.iptc.org/</A> в маркёр APP13. Вы можете использовать функцию
+<A HREF="iptcparse.html"><B>iptcparse()</B></A> для разбора двоичного маркёра APP13 в нечто читабельное.
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN31184"></A><h5>Пример 3. getimagesize возвращает IPTC</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$size = getimagesize ("testimg.jpg",&#38;$info);
+if (isset ($info["APP13"])) {
+    $iptc = iptcparse ($info["APP13"]);
+    var_dump ($iptc);
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+поддержка TIFF была введена в PHP 4.2. Поддержка JPEG2000 была введена в PHP 4.3.</P>
+<P>Эта функция не требует библиотеки GD image.</P><P>См. также <A HREF="exif-imagetype.html"><B>exif_imagetype()</B></A>,
+<A HREF="exif-read-data.html"><B>exif_read_data()</B></A> и <A HREF="exif-thumbnail.html"><B>exif_thumbnail()</B></A>.</P>
+<P> Поддержка URL была введена в PHP 4.0.5.</P></BLOCKQUOTE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="exif-thumbnail.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="image2wbmp.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">exif_thumbnail</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.image.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">image2wbmp</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

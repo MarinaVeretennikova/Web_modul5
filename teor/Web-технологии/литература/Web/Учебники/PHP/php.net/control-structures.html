@@ -1,0 +1,60 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Структуры Управления</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="operators.string.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="else.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="control-structures">Глава 11. Структуры Управления</A></H1><DL><DT><B>Содержание</B></DT>
+<DT><A HREF="#control-structures.if"><TT>if</TT></A></DT><DT><A HREF="else.html">
+<TT>else</TT></A></DT><DT><A HREF="elseif.html"><TT>elseif</TT></A></DT>
+<DT><a href="control-structures.alternative-syntax.html">Альтернативный 
+синтаксис структур управления</a></DT><DT><A HREF="while.html"><TT>while</TT></A></DT><DT>
+<A HREF="do.while.html"><TT>do..while</TT></A></DT><DT>
+<A HREF="for.html"><TT>for</TT></A></DT><DT><A HREF="foreach.html">
+<TT>foreach</TT></A></DT><DT><A HREF="break.html"><TT>break</TT></A></DT><DT>
+<A HREF="continue.html"><TT>continue</TT></A></DT><DT>
+<A HREF="switch.html"><TT>switch</TT></A></DT><DT>
+<A HREF="declare.html"><TT>declare</TT></A></DT><DT>
+<A HREF="f/return.html">return</A></DT><DT><A HREF="f/require.html">
+<B>require()</B></A></DT><DT><A HREF="include.html"><A HREF="include.html">
+<B>include()</B></A></A></DT><DT><A HREF="f/require-once.html"><B>require_once()</B></A></DT>
+<DT><A HREF="include-once.html"><B>include_once()</B></A></DT></DL>
+<P>Любой PHP-скрипт состоит из серии операторов. Это может быть присвоение, 
+вызов функции, цикл, условный оператор или даже оператор, который ничего не 
+делает (пустой оператор).<br>Оператор обычно завершается точкой с запятой. Кроме того,
+операторы можно группировать с помощью фигурных скобок {}.
+Группа операторов сама также является оператором. Различные типы операторов 
+рассматриваются в данной главе.</P><H1><A NAME="control-structures.if"><TT>if</TT></A></H1>
+<P>Конструкция <TT>if</TT> является одной из ключевых во многих языках, в том числе и в PHP.  Она 
+позволяет выполнять фрагменты кода при выполнении условия.  PHP предлагает структуру
+<TT>if</TT>, которая аналогична такой же структуре языка C:</p><A NAME="AEN4751"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>if (expr) statement</PRE></TD></TR></TABLE>
+<P>Как сказано в разделе <A HREF="expressions.html">о выражениях</a>, <TT><I>expr</I></TT>
+вычисляется в булево значение. Если <TT><I>expr</I></TT> вычисляется в <TT><B>TRUE</B></TT>,
+PHP выполнит <TT><I>statement</I></TT>, а если вычисляется в<TT> <B>FALSE</B></TT>
+- оператор игнорируется. Дополнительную информацию о том, какие значения вычисляются в <TT><B>FALSE</B></TT>,
+можно найти в разделе <A HREF="types.boolean.html#language.types.boolean.casting">'Конвертация в boolean'</A>.</P>
+<P>Следующий пример выведет <TT>a is bigger than b</TT>, если <TT><I>$a</I></TT>&nbsp; больше <TT><I>$b</I></TT>:</p><A NAME="AEN4766"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>if ($a &#62; $b)
+    print "a is bigger than b";</PRE></TD></TR></TABLE>
+<P>Часто необходимо выполнить по условию не один, а несколько операторов.  
+Разумеется, нет необходимости создавать для каждого оператора конструкцию <TT>if</TT>.
+Вместо этого вы можете сгруппировать несколько операторов в блок. Например, этот код выведет
+<TT>a is bigger than b</TT>, если <TT><I>$a</I></TT> больше <TT><I>$b</I></TT>, а затем присвоит
+значение переменной <TT><I>$a</I></TT> переменной <TT><I>$b</I></TT>:</p><A NAME="AEN4775"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>if ($a &#62; $b) {
+    print "a is bigger than b";
+    $b = $a;
+}</PRE></TD></TR></TABLE><P>Операторы <TT>if</TT> могут вкладываться друг в друга, что даёт вам полную свободу при условном 
+выполнении различных частей программы.</P></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1">
+</TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="operators.string.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="else.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">Строковые операции</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="langref.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><TT>else</TT></TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

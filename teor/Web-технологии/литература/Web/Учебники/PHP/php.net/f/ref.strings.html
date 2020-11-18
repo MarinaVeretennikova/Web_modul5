@@ -1,0 +1,102 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Строковые Функции</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="socket-writev.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="addcslashes.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.strings"></A>XCVII. Строковые функции</h1><A NAME="AEN76917"></A>
+<P>Эти функции различными способами работают со строками. Более 
+специализированными являются разделы регулярных выражений и URL.</P>
+<P>О поведении строк, особенно в свете употребления одинарных кавычек, двойных 
+кавычек и escape-последовательностей, см. статью
+<a href="../types.string.html">Строки</a> в разделе
+<a href="../types.html">Типы</a> данного учебника.</P>
+<P>Ещё более мощные функции обработки строк - <A HREF="ref.regex.html">функции регулярных выражений POSIX</A>
+и <A HREF="ref.pcre.html">Perl-совместимые функции регулярных выражений</A>.</P>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="addcslashes.html">addcslashes</A> - закавычивает строку слэшами в стиле C</DT>
+<DT><A HREF="addslashes.html">addslashes</A> - закавычивает строку слэшами</DT>
+<DT><A HREF="bin2hex.html">bin2hex</A> - конвертирует двоичные данные в 16-ричное представление</DT>
+<DT><A HREF="chop.html">chop</A> - псевдоним <A HREF="rtrim.html"><B>rtrim()</B></A></DT>
+<DT><A HREF="chr.html">chr</A> - возвращает специфический символ</DT>
+<DT><A HREF="chunk-split.html">chunk_split</A> - делит строку на небольшие отрезки</DT>
+<DT><A HREF="convert-cyr-string.html">convert_cyr_string</A> - конвертирует из одного набора символов кириллицы в другой</DT>
+<DT><A HREF="count-chars.html">count_chars</A> - возвращает информацию о символах , используемых с строке</DT>
+<DT><A HREF="crc32.html">crc32</A> - вычисляет crc32-полином строки</DT>
+<DT><A HREF="crypt.html">crypt</A> - однонаправленное шифрование строки (хэширование)</DT>
+<DT><A HREF="echo.html">echo</A> - выводит одну или более строк</DT>
+<DT><A HREF="explode.html">explode</A> - делит строку строкой</DT>
+<DT><A HREF="get-html-translation-table.html">get_html_translation_table</A> - возвращает таблицу трансляции, используемую
+<A HREF="htmlspecialchars.html"><B>htmlspecialchars()</B></A> и
+<A HREF="htmlentities.html"><B>htmlentities()</B></A></DT>
+<DT><A HREF="get-meta-tags.html">get_meta_tags</A> - извлекает все content-атрбуты meta-тэгов из файла и возвращает массив</DT>
+<DT><A HREF="hebrev.html">hebrev</A> - конвертирует логический Hebrew-текст в визуальный</DT>
+<DT><A HREF="hebrevc.html">hebrevc</A> - конвертирует логический Hebrew-текст в визуальный текст с конвертацией newline</DT>
+<DT><A HREF="htmlentities.html">htmlentities</A> - конвертирует все символы в HTML-мнемоники</DT>
+<DT><A HREF="htmlspecialchars.html">htmlspecialchars</A> - конвертирует специальные символы в HTML-мнемоники</DT>
+<DT><A HREF="implode.html">implode</A> - объединяет элементы массива со строкой</DT>
+<DT><A HREF="join.html">join</A> - объединяет элементы массива со строкой</DT>
+<DT><A HREF="levenshtein.html">levenshtein</A> - вычисляет Levenshtein-растояние между двумя строками</DT>
+<DT><A HREF="localeconv.html">localeconv</A> - получает информацию о форматировании чисел</DT>
+<DT><A HREF="ltrim.html">ltrim</A> - вырезает пробелы в начале строки</DT>
+<DT><A HREF="md5-file.html">md5_file</A> - вычисляет md5-хэш данного filename</DT>
+<DT><A HREF="md5.html">md5</A> - вычисляет md5-хэш строки</DT>
+<DT><A HREF="metaphone.html">metaphone</A> - вычисляет ключ metaphone строки</DT>
+<DT><A HREF="nl-langinfo.html">nl_langinfo</A> - запрашивает информацию языка и локализации</DT>
+<DT><A HREF="nl2br.html">nl2br</A> - вставляет HTML-разрывы строк перед всеми символами newline в строке</DT>
+<DT><A HREF="ord.html">ord</A> - возвращает ASCII-значение символа</DT>
+<DT><A HREF="parse-str.html">parse_str</A> - разбирает строку в переменных</DT>
+<DT><A HREF="print.html">print</A> - выводит строку</DT>
+<DT><A HREF="printf.html">printf</A> - выводит отформатированную строку</DT>
+<DT><A HREF="quoted-printable-decode.html">quoted_printable_decode</A> - конвертирует закавыченную строку для печати в 8-битную строку</DT>
+<DT><A HREF="quotemeta.html">quotemeta</A> - закавычивает meta-символы</DT>
+<DT><A HREF="rtrim.html">rtrim</A> - вырезает пробелы в конце строки</DT>
+<DT><A HREF="setlocale.html">setlocale</A> - устанавливает локальную информацию</DT>
+<DT><A HREF="similar-text.html">similar_text</A> - вычисляет сходство между двумя строками</DT>
+<DT><A HREF="soundex.html">soundex</A> - вычисляет ключ soundex строки</DT>
+<DT><A HREF="sprintf.html">sprintf</A> - возвращает форматированную строку</DT>
+<DT><A HREF="sscanf.html">sscanf</A> - разбирает ввод из строки в соответствии с форматом</DT>
+<DT><A HREF="str-pad.html">str_pad</A> - заполняет строку на на определённую длину другой строкой</DT>
+<DT><A HREF="str-repeat.html">str_repeat</A> - повторяет строку</DT>
+<DT><A HREF="str-replace.html">str_replace</A> - заменяет все вхождения строки поиска строкой замещения</DT>
+<DT><A HREF="str-rot13.html">str_rot13</A> - выполняет rot13-трансформацию строки</DT>
+<DT><A HREF="strcasecmp.html">strcasecmp</A> - бинарно безопасное сравнение строк без учета регистра</DT>
+<DT><A HREF="strchr.html">strchr</A> - находит первое вхождение символа</DT>
+<DT><A HREF="strcmp.html">strcmp</A> - бинарно безопасное сравнение строк</DT>
+<DT><A HREF="strcoll.html">strcoll</A> - сравнение строк на основе установок локализации</DT>
+<DT><A HREF="strcspn.html">strcspn</A> - находит длину начального сегмента, не совпадающего с маской</DT>
+<DT><A HREF="strip-tags.html">strip_tags</A> - вырезает тэги HTML и PHP из строки</DT>
+<DT><A HREF="stripcslashes.html">stripcslashes</A> - раскавычивает строку, закавыченную функцией <A HREF="addcslashes.html"><B>addcslashes()</B></A></DT>
+<DT><A HREF="stripslashes.html">stripslashes</A> - раскавычивает строку, закавыченную функцией <A HREF="addslashes.html"><B>addslashes()</B></A></DT>
+<DT><A HREF="stristr.html">stristr</A> - <A HREF="strstr.html"><B>strstr()</B></A> без учёта регистра</DT>
+<DT><A HREF="strlen.html">strlen</A> - получает длину строки</DT>
+<DT><A HREF="strnatcasecmp.html">strnatcasecmp</A> - сравнение строк без учёта регистра с использованием алгоритма "натурального порядка"</DT>
+<DT><A HREF="strnatcmp.html">strnatcmp</A> - сравнение строк алгоритмом "натурального порядка"</DT>
+<DT><A HREF="strncasecmp.html">strncasecmp</A> - бинарно безопасное сравнение первых n символов строки без учёта регистра</DT>
+<DT><A HREF="strncmp.html">strncmp</A> - бинарно безопасное сравнение первых n символов строки</DT>
+<DT><A HREF="strpos.html">strpos</A> - находит позицию первого появления/вхождения в строке</DT>
+<DT><A HREF="strrchr.html">strrchr</A> - находит последнее появление символа в строке</DT>
+<DT><A HREF="strrev.html">strrev</A> - разворачивает строку</DT>
+<DT><A HREF="strrpos.html">strrpos</A> - находит позицию последнего появления символа в строке</DT>
+<DT><A HREF="strspn.html">strspn</A> - находит длину начального сегмента, совпадающего с маской</DT>
+<DT><A HREF="strstr.html">strstr</A> - находит первое появление строки</DT>
+<DT><A HREF="strtok.html">strtok</A> - &quot;лексемизирует&quot; строку</DT>
+<DT><A HREF="strtolower.html">strtolower</A> - переводит символы строки в нижний регистр</DT>
+<DT><A HREF="strtoupper.html">strtoupper</A> - переводит символы строки в верхний регистр</DT>
+<DT><A HREF="strtr.html">strtr</A> - транслирует определённые символы</DT>
+<DT><A HREF="substr-count.html">substr_count</A> - подсчитывает количество вхождений подстроки</DT>
+<DT><A HREF="substr-replace.html">substr_replace</A> - заменяет текст в части строки</DT>
+<DT><A HREF="substr.html">substr</A> - возвращает часть строки</DT>
+<DT><A HREF="trim.html">trim</A> - вырезает пробелы в начале и в конце строки</DT>
+<DT><A HREF="ucfirst.html">ucfirst</A> - переводит первый символ строки в верхний регистр</DT>
+<DT><A HREF="ucwords.html">ucwords</A> - переводит в верхний регистр первый символ каждого слова строки</DT>
+<DT><A HREF="vprintf.html">vprintf</A> - выводит отформатированную строку</DT>
+<DT><A HREF="vsprintf.html">vsprintf</A> - возвращает отформатированную строку</DT>
+<DT><A HREF="wordwrap.html">wordwrap</A> - окружает строку заданным количеством символов с использованием символа разрыва строки</DT>
+</DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="socket-writev.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="addcslashes.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">socket_writev</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">addcslashes</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

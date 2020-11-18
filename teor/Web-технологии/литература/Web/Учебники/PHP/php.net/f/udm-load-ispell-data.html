@@ -1,0 +1,85 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>udm_load_ispell_data</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="udm-get-res-param.html">Назад</A></TD><TD WIDTH="80%"></TD><TD  WIDTH="10%" ALIGN="right"><A HREF="udm-open-stored.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.udm-load-ispell-data">udm_load_ispell_data</A></H1><A NAME="AEN49664"></A><P>(PHP 4 &#62;= 4.0.5)</P>
+<p>udm_load_ispell_data - загружает ispell-данные.<A NAME="AEN49667"></A></p><H2>Описание</H2>
+<p>int <B>udm_load_ispell_data</B> (int agent, int var, string val1, string val2, int flag)</p>
+<P>Возвращает <TT><B>TRUE</B></TT> при успехе, <TT><B>FALSE</B></TT> при ошибке.</P>
+<P><TT><I>agent</I></TT> - ссылка на идентификатор агента, полученная вызовом <A HREF="udm-alloc-agent.html"><B>udm_alloc_agent()</B></A>.</P>
+<P><TT><I>var</I></TT> - параметр, указывающий источник ispell-данных. Может иметь значения, указанные далее.</P>
+<P>После использования этой функции, чтобы освободить память, выделенную для ispell-данных, 
+используйте <A HREF="udm-free-ispell-data.html"><B>udm_free_ispell_data()</B></A>, даже если вы применяете режим UDM_ISPELL_TYPE_SERVER.</P>
+<P>Самым быстрым режимом является UDM_ISPELL_TYPE_SERVER. UDM_ISPELL_TYPE_TEXT 
+медленнее, а UDM_ISPELL_TYPE_DB - самый медленный. Вышеприведённый патэрн <TT><B>TRUE</B></TT> для 
+mnoGoSearch 3.1.10 - 3.1.11. Планируется ускорить режим DB в будущих 
+версиях, и он будет быстрее режима TEXT.</P><UL><LI><P>UDM_ISPELL_TYPE_DB - указывает, что ispell-данные должны быть загружены
+из SQL. В этом случае параметры <TT><I>val1</I></TT> и <TT><I>val2</I></TT> игнорируются и должны быть оставлены пустыми.
+<TT><I>flag</I></TT> должен быть равен <TT>1</TT>.</P><BLOCKQUOTE><P><B>Примечание: </B>
+<TT><I>flag</I></TT> указывает, что после загрузки ispell-данных из определённого ресурса они 
+должны быть отсортированы (это необходимо для корректной работы ispell). 
+При загрузке ispell-данных из файлов может быть несколько вызовов <B>udm_load_ispell_data()</B>, нет смысла сортировать данные после каждого вызова, и сортировка делается
+только после последнего вызова. Поскольку в режиме db все данные загружаются одним вызовом, 
+этот параметр должен иметь значение <TT>1</TT>. При ошибке в этом режиме, например, если ispell-таблицы отсутствуют, функция 
+возвратит <TT><B>FALSE</B></TT>, а код и сообщение об ошибке будут доступны через 
+<A HREF="udm-error.html"><B>udm_error()</B></A> м <A HREF="udm-errno.html"><B>udm_errno()</B></A>.</P></BLOCKQUOTE>
+<h5>Пример:</h5><A NAME="AEN49716"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>if (! udm_load_ispell_data($udm,UDM_ISPELL_TYPE_DB,'','',1)) {
+  printf("Error #%d: '%s'\n", udm_errno($udm), udm_error($udm));
+  exit;
+}</PRE></TD></TR></TABLE></LI><LI><P>UDM_ISPELL_TYPE_AFFIX - указывает, что ispell-данные должны быть 
+загружены из файла, и инициирует загрузку файла аффиксов. В этом случае <TT><I>val1</I></TT> определяет двухбуквенный код языка для которого загружаются аффиксы,
+а <TT><I>val2</I></TT> - путь к файлу. Пожалуйста, обратите внимание, что, если введён относительный 
+путь, модуль ищет файл не в UDM_CONF_DIR, а относительно текущего пути, т.е. пути, в котором выполняется скрипт.
+В случае ошибки в этом режиме, например, если файл отсутствует, функция возвратит 
+<TT><B>FALSE</B></TT>, и будет выведено сообщение об ошибке. Доступ к тексту сообщения об ошибке не 
+может быть получен через <A HREF="udm-error.html"><B>udm_error()</B></A> и <A HREF="udm-errno.html"><B>udm_errno()</B></A>, 
+поскольку эти функции могут возвращать только сообщения, ассоциированные с SQL. 
+См. описание параметра <TT><I>flag</I></TT> в UDM_ISPELL_TYPE_DB.</P><h5>Пример:</h5><A NAME="AEN49727"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>if ((! udm_load_ispell_data($udm,UDM_ISPELL_TYPE_AFFIX,'en','/opt/ispell/en.aff',0)) ||
+(! udm_load_ispell_data($udm,UDM_ISPELL_TYPE_AFFIX,'ru','/opt/ispell/ru.aff',0)) ||
+(! udm_load_ispell_data($udm,UDM_ISPELL_TYPE_SPELL,'en','/opt/ispell/en.dict',0)) ||
+(! udm_load_ispell_data($udm,UDM_ISPELL_TYPE_SPELL,'ru','/opt/ispell/ru.dict',1))) {
+     exit;
+     }</PRE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B><TT><I>flag</I></TT> равен <TT>1</TT> только в последнем вызове.</P></BLOCKQUOTE></LI>
+<LI><P>UDM_ISPELL_TYPE_SPELL - указывает, что ispell-данные должны быть загружены из файла, и инициирует загрузку файла ispell-словаря. В этом 
+случае <TT><I>val1</I></TT> определяет двухбуквенный код языка для которого загружаются аффиксы,
+а <TT><I>val2</I></TT> - путь к файлу. Пожалуйста, обратите внимание, что, если введён относительный 
+путь, модуль ищет файл не в UDM_CONF_DIR, а относительно текущего пути, т.е. пути, в котором выполняется скрипт.
+В случае ошибки в этом режиме, например, если файл отсутствует, функция возвратит 
+<TT><B>FALSE</B></TT>, и будет выведено сообщение об ошибке. Доступ к тексту сообщения об ошибке не 
+может быть получен через <A HREF="udm-error.html"><B>udm_error()</B></A> и <A HREF="udm-errno.html"><B>udm_errno()</B></A>,
+поскольку эти функции могут возвращать только сообщения, ассоциированные с SQL. См. описание параметра <TT><I>flag</I></TT> в UDM_ISPELL_TYPE_DB.</P>
+<A NAME="AEN49741"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>if ((! Udm_Load_Ispell_Data($udm,UDM_ISPELL_TYPE_AFFIX,'en','/opt/ispell/en.aff',0)) ||
+(! Udm_Load_Ispell_Data($udm,UDM_ISPELL_TYPE_AFFIX,'ru','/opt/ispell/ru.aff',0)) ||
+(! Udm_Load_Ispell_Data($udm,UDM_ISPELL_TYPE_SPELL,'en','/opt/ispell/en.dict',0)) ||
+(! Udm_Load_Ispell_Data($udm,UDM_ISPELL_TYPE_SPELL,'ru','/opt/ispell/ru.dict',1))) {
+      exit;
+      }</PRE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>равен <TT>1</TT> только в последнем вызове.</P></BLOCKQUOTE></LI>
+<LI><P>UDM_ISPELL_TYPE_SERVER - включает поддержку spell-сервера. Параметр 
+<TT><I>val1</I></TT> указывает адрес хоста host, на котором работает spell-сервер.
+<TT><I>val2</I></TT> ` ещё не используется, но в будущих релизах будет указывать номер порта, 
+используемого spell-сервером. Параметр <TT><I>flag</I></TT> в этом случае не нужен, так как ispell-данные хранятся на spel-сервере уже 
+отсортированными.</P><P>Spelld-сервер читает spell-данные из отдельного файла конфигурации
+(по умолчанию /usr/local/mnogosearch/etc/spelld.conf), сортирует их и 
+сохраняет в памяти. С клиентами сервер сообщается двумя способами: все 
+данные переносятся в индексатор (поэтому индексатор стартует быстрее), из search.cgi сервер получает слово для нормализации и затем передаёт 
+клиенту (search.cgi) список форм нормализованных слов. Это даёт более быструю, в сравнении с режимами db и text, обработку запросов поиска (опуская 
+загрузку и сортировку spell-данных).</P><P><B>udm_load_ispell_data()</B> в режиме UDM_ISPELL_TYPE_SERVER фактически не загружает ispell-данные, а 
+только определяет адрес сервера. Фактически сервер автоматически используется функцией <A HREF="udm-find.html"><B>udm_find()</B></A> при выполнении поиска. При ошибках, например, если spell-сервер не запущен или
+указан неправильный хост, возвращаемых сообщений нет, и конвертация ispell  не работает.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>эта функция доступна в mnoGoSearch 3.1.12 или новее.</P></BLOCKQUOTE>
+<h5>Пример:</h5><A NAME="AEN49759"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>if (!udm_load_ispell_data($udm,UDM_ISPELL_TYPE_SERVER,'','',1)) {
+    printf("Error loading ispell data from server&#60;br&#62;\n");
+    exit;
+}</PRE></TD></TR></TABLE></LI></UL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="udm-get-res-param.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="udm-open-stored.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">udm_get_res_param</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.mnogo.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">udm_open_stored</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

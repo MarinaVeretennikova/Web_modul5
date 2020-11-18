@@ -1,0 +1,1044 @@
+<HTML>
+
+
+
+<!--
+
+
+
+Author:	Paul Khramtsov
+
+
+
+Date:	May 17, 1998
+
+
+
+-->
+
+
+
+<HEAD>
+
+
+
+<title>Web-engineering (Introduction to the JavaScript. Types and data structures.)</title>
+
+
+
+<link rel="stylesheet" type="text/css" href="page.css" tppabs="http://webclass.polyn.kiae.su/classes/css/page.css">
+
+
+
+<!--Charset-->
+
+
+
+<script language=JavaScript src="jsc.pgm" tppabs="http://webclass.polyn.kiae.su/classes/css/jsc.pgm"></script>
+
+<script language=JavaScript>
+
+<!--
+
+nt('datae.htm'/*tpa=http://webclass.polyn.kiae.su/classes/jsi/datae.htm*/);
+
+var wid=null;
+
+
+
+function ex1()
+
+
+
+{
+
+
+
+wid = window.open("","kuku","width=400,height=100,status");
+
+
+
+wid.document.open();
+
+
+
+wid.document.write("<html><head>");
+
+
+
+wid.document.write("<script>var t;</script>");
+
+
+
+wid.document.write("</head><body >");
+
+
+
+wid.document.write("<center>New window<br>");
+
+
+
+wid.document.write("<form>");
+
+wid.document.write("<input name=n size=20><br>");
+
+
+
+wid.document.write("<input type=button value='Close the window' onClick=window.close();></form>");
+
+
+
+wid.document.write("</center></body></html>");
+
+
+
+wid.document.close();
+
+
+
+wid.focus();
+
+
+
+}
+
+
+
+function ex2()
+
+
+
+{
+
+
+
+wid.t=window.prompt("Type new value:");
+
+
+
+wid.document.forms[0].elements[0].value=wid.t;
+
+
+
+wid.focus();
+
+
+
+}
+
+
+
+var flag=0;
+
+
+
+var cid=null;
+
+
+
+function clock()
+
+
+
+{
+
+
+
+ flag=1;
+
+
+
+ d = new Date();
+
+
+
+ window.document.main.document.f0.fi1.value=d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+
+
+
+ cid = setTimeout("clock();",100);
+
+
+
+}
+
+
+
+function stop()
+
+
+
+{
+
+
+
+if(cid!=null)
+
+
+
+  {
+
+
+
+   clearTimeout(cid);
+
+
+
+   cid=null;
+
+
+
+   flag=0;
+
+
+
+  }
+
+
+
+}
+
+
+
+function wo()
+
+
+
+{
+
+
+
+cid = window.open("","kuku","width=400,height=100");
+
+
+
+cid.document.open();
+
+
+
+cid.document.write("<html><head></head><body><center>");
+
+
+
+cid.document.write("<form><input type=button onClick='window.close();' value='Закрыть окно'></form></center>");
+
+
+
+cid.document.write("</body></html>");
+
+
+
+cid.document.close();
+
+
+
+cid.focus();
+
+
+
+}
+
+
+
+// -->
+
+
+
+</script>
+
+
+
+</HEAD>
+
+
+
+<body style="color:navy;background-color:white;background-image:url(../images/main/rope.gif);" onLoad="jump();">
+
+
+
+
+
+<SCRIPT SRC="count.js" tppabs="http://counter.hotlog.ru/cgi-bin/hotlog/count.js"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">js=0</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.1">js=1</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.2">js=2</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.3">js=3</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">HotLOG(1686,js)</SCRIPT>
+<noscript><img src="count-s=1686" tppabs="http://hit.hotlog.ru/cgi-bin/hotlog/count?s=1686" border=0 width=1 height=1></noscript>
+<!-- Логотип -->
+
+
+
+<div class=logo>
+
+<table border=0 cellpadding=0 cellspacing=0 width=560>
+
+<tr><td><img src="sea003.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea003.gif" width=560 height=5 border=0 hspace=0 vspace=0 align=left></td></tr>
+
+<tr><td><img src="sea000.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea000.gif" width=560 height=15 border=0 hspace=0 vspace=0 align=left></td></tr>
+<!--
+<tr><td><a href=../homef.htm onMouseover="document.sea001.src='../images/main/hweb.gif';return true;" onMouseout="document.sea001.src='../images/main/sea001.gif';return true;"><img name=sea001 src=../images/main/sea001.gif width=560 height=15 border=0 hspace=0 vspace=0 align=left></a></td></tr>
+-->
+<tr><td><img name=sea001 src="sea001.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea001.gif" width=560 height=15 border=0 hspace=0 vspace=0 align=left></td></tr>
+
+<tr><td><img src="sea002.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea002.gif" width=560 height=5 border=0 hspace=0 vspace=0 align=left></td></tr>
+
+</table>
+
+</div>
+
+
+
+<!-- Конец логотипа -->
+
+
+
+<!-- Главное меню -->
+
+
+
+<div class=menu>
+
+<table border=0 cellpadding=0 cellspacing=0 width=560>
+
+<tr>
+
+<td><a href="jsid.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/jsid.htm"><img src="manual.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/manual.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Конспект></a></td>
+
+<td><img src="ref.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/ref.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Справочник></td>
+
+<td><img src="work.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/work.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Задания></td>
+
+<td><img src="ex.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/ex.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Примеры></td>
+
+<td><a href="datat.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/test/datat.htm"><img src="tests.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/tests.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Контроль></a></td>
+
+<td><img src="coach.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/coach.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Тьютор></td>
+
+<td><a href="javascript:if(confirm('http://webclass.polyn.kiae.su/classes/fsub.htm  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://webclass.polyn.kiae.su/classes/fsub.htm'" tppabs="http://webclass.polyn.kiae.su/classes/fsub.htm"><img src="lcheck.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/lcheck.gif" border=0 hspace=0 vspace=0 height=20 width=74 alt=Подписка></a></td>
+
+</tr>
+
+</table>
+
+</div>
+
+
+
+<!-- Конец главного меню -->
+
+
+
+<!-- Навигационное дерево -->
+
+
+
+<div class=navy>
+<table border=0 cellspacing=0 cellpadding=0 width=560>
+<tr>
+<td height=15 class=tree>
+<a class=tree href="javascript:if(confirm('http://webclass.polyn.kiae.su/classes/homef.htm  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://webclass.polyn.kiae.su/classes/homef.htm'" tppabs="http://webclass.polyn.kiae.su/classes/homef.htm">Web-инжиниринг(Оглавление)</a>
+</td>
+<tr>
+<td height=15 class=tree>
+<img src="treetc-1.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main//treetc.gif" border=0 hspace=2 align=top width=15 height=15 vspace=0>
+Объектная модель в World Wide Web. Динамический HTML
+</td>
+</tr>
+<tr>
+<td height=15 class=tree>
+<img name=down src="treevl.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treevl.gif" border=0 hspace=2 align=top width=15 height=15 vspace=0>
+<img src="treetc.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treetc.gif" border=0 hspace=2 align=top width=15 height=15 vspace=0>
+<a class=tree id=current href="treejsi.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/treejsi.htm">Введение в JavaScript</a>
+</td>
+</tr>
+</table>
+</div>
+
+<!-- Конец навигационного дерева -->
+
+
+
+<!-- Меню последовательного просмотра -->
+
+
+
+<div class=next>
+
+
+
+<map name=top_menu>
+
+
+
+<area shape=rect coords="500,0,560,15" href="array.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/array.htm">
+
+
+
+</map>
+
+
+
+<img src="menu_l.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/menu_l.gif" width=560 height=15 vspace=0 hspace=0 border=0 usemap=#top_menu>
+
+
+
+</div>
+
+
+
+<!-- Конец меню последовательного просмотра -->
+
+
+
+<!-- Начало текста документа -->
+
+
+
+<div class=main name=main>
+
+
+
+<a name=top></a>
+
+
+
+<span class=myheader>Типы и структуры данных</span>
+
+
+
+<p class=just>
+
+
+
+<span class=letter>К</span>ак и любой другой язык программирования JavaScript поддерживает встроенные типы и структуры данных. Все их многообразие можно подразделить на:
+
+
+
+<ul>
+
+
+
+<li><a href=#literal>литералы</a> и <a href=#var>переменные</a>
+
+
+
+<li><a href="array.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/array.htm">массивы</a>, <a href="func.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/func.htm">функции</a> и <a href="object.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/object.htm">объекты</a>
+
+
+
+</ul>
+
+
+
+<p class=just>
+
+
+
+При этом все они делятся на встроенные и определяемые программистом. Функции и объекты рассматриваются в разделах <a href="func.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/func.htm">"Функции"</a> и <a href="object.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/object.htm">"Объекты"</a>. Поэтому здесь мы сосредоточимся на литералах, переменных и массивах.
+
+
+
+<a name=literal></a>
+
+
+
+<p><em>Литералы</em>
+
+
+
+<p class=just>
+
+
+
+Литералом называют данные, которые используются в программе непосредственно. При этом под данными понимаются числа или строки текста. Все они рассматриваются в JavaScript как элементарные типы данных. Приведем примеры литералов:
+
+
+
+<p><span class=tags>
+
+
+
+числовой литерал: 10<br>
+
+
+
+числовой литерал: 2.310<br>
+
+
+
+числовой литерал: 2.3e+2<br>
+
+
+
+строковый литерал: 'Это строковый литерал'<br>
+
+
+
+строковый литерал: "Это строковый литерал"<br>
+
+
+
+</span>
+
+
+
+<p class=just>
+
+
+
+Литералы используются в операциях присваивания значений переменным или операциях сравнения:
+
+
+
+<p><span class=tags>
+
+
+
+var a=10;<br>
+
+
+
+var str = 'Hy!!!';<br>
+
+
+
+if(x=='kuku') window.alert(x);<br>
+
+
+
+</span>
+
+
+
+<p class=just>
+
+
+
+Два варианта строковых литералов необходимы для того, чтобы использовать вложенные строковые литералы. Вообще говоря, есть подозрение, что равноправие "..." и '...' мнимое. Если внимательно посмотреть на реализацию страниц программирования гипертекстовых ссылок(<a href="href.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/href.htm">href.htm</a>,<a href="path.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/path.htm">path.htm</a> и <a href="mouse.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/mouse.htm">mouse.htm</a>), то нетрудно заметить, что вместо прямого переназначения гипертекстовой ссылки литералом типа '...' там используется косвенное переназначение через функцию литералом "...":
+
+
+
+<p><span class=tags>
+
+
+
+...<br>
+
+
+
+function line(a)<br>
+
+
+
+{<br>
+
+
+
+...<br>
+
+
+
+window.document.main.document.links[4].href=<br>
+
+
+
+"javascript:data(0);void(0);";<br>
+
+
+
+...<br>
+
+
+
+}<br>
+
+
+
+...<br>
+
+
+
+&lt;a href="javascript:line(0);void(0);"&gt;<br>
+
+
+
+&lt;img src=../images/jsi/addrpho.gif border=0&gt;<br>
+
+
+
+&lt;/a&gt;<br>
+
+
+
+<br>
+
+
+
+вместо:<br>
+
+
+
+&lt;a<br> href="javascript:<br>
+
+
+
+window.document.main.document.links[4].href=<br>
+
+
+
+'javascript:data(0);void(0);';void(0);"&gt;<br>
+
+
+
+&lt;img src=../images/jsi/addrpho.gif border=0&gt;<br>
+
+
+
+&lt;/a&gt;
+
+
+
+</span>
+
+
+
+<p class=just>
+
+
+
+Это связано с особенностями реализации Netscape. Дело в том, что прямое переназначение неправильно отображает кириллицу в win32, а вот косвенное работает. Похоже, что "..." разрешает анализ информации внутри строкового литерала JavaScript-интерпретатором, а '...' - нет. 
+
+
+
+<p class=just>
+
+
+
+Если быть более точным, то следует сказать, что строка - это объект. У этого объекта существует великое множество методов. Строчный литерал и строчный объект - это далеко не одно и тоже. При применении к строчным литералам методов строчных объектов происходит преобразование первых в последние.
+
+
+
+<!-- В начало страницы -->
+
+
+
+<p align=right><a href=#top class=tree id=home><img src="treeup.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeup.gif" border=0 align=top hspace=2><br>начало страницы<img src="treeru.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeru.gif" border=0 align=top hspace=2></a><br>
+
+
+
+<!-- Конец перехода -->
+
+
+
+<a name=var></a>
+
+
+
+<p><em>Переменные</em>
+
+
+
+<p class=just>
+
+
+
+Переменные в JavaScript могут быть определены назначением или при помощи оператора var:
+
+
+
+<p><span class=tags>
+
+
+
+i=10;<br>
+
+
+
+var i;<br>
+
+
+
+var i=10;<br>
+
+
+
+var id = window.open();<br>
+
+
+
+var a = new Array();
+
+
+
+</span>
+
+
+
+<p class=just>
+
+
+
+Как видно из примеров, переменные могут принимать самые разные значения, при этом тип переменной определяется контекстом.
+
+
+
+<p class=just>
+
+
+
+Переменная является свойством окна. Например, мы можем открыть окно, определить в нем новую переменную и использовать ее:
+
+
+
+<p><span class=tags>
+
+
+
+wid = window.open("","kuku","width=200,height=100,statusbar");<br>
+
+
+
+wid.document.open();<br>
+
+
+
+wid.document.write("&lt;html&gt;&lt;head&gt;");<br>
+
+
+
+wid.document.write("&lt;script&gt;var t;&lt;/script&gt;");<br>
+
+
+
+wid.document.write("&lt;/head&gt;&lt;body&gt;");<br>
+
+
+
+wid.document.write("&lt;center&gt;Новое окно&lt;br&gt;");<br>
+
+
+
+wid.document.write("&lt;form&gt;");<br>
+
+
+
+wid.document.write("&lt;input type=button value='Закрыть окно' onClick=window.close();&gt;&lt;/form&gt;");<br>
+
+
+
+wid.document.write("&lt;/center&gt;&lt;/body&lt;&gt;/html&gt;");<br>
+
+
+
+wid.document.close();<br>
+
+
+
+...<br>
+
+
+
+&lt;a href="javascript:wid.t=window.prompt("Type new status value:");wid.defaultStatus=t;wid.focus();void(0);&gt...&lt;/a&gt;
+
+
+
+</span>
+
+
+
+<center>
+
+
+
+<form><input type=button value="Окно примера" onClick="ex1();"></form>
+
+
+
+<form><input type=button value="Значение поля" onClick="ex2();"></form>
+
+
+
+</center>
+
+
+
+<p class=just>
+
+
+
+Существуют ли в JavaScript различные типы переменных? По всей видимости, да. При объявлении переменной тип не указывается. Тип значения определяется контекстом. Поэтому существует соблазн предположить, что все переменные одного и того же типа. Однако очевидно, что присваивание переменной значения объекта окна (window.open())или объекта потока(setTimeout()), порождает создание совершенно разных структур в памяти.
+
+
+
+<p class=just>
+
+
+
+Поставим вопрос несколько иначе. Может ли одна и та же переменная принимать значения разных типов? Для ответа на этот вопрос рассмотрим следующий пример:
+
+
+
+<p><span class=tags>
+
+
+
+var flag=0;<br>
+
+
+
+var cid=null;<br>
+
+
+
+function clock()<br>
+
+
+
+{<br>
+
+
+
+ flag=1;<br>
+
+
+
+ d = new Date();<br>
+
+
+
+ window.document.main.document.f0.fi1.value=<br>
+
+
+
+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();<br>
+
+
+
+ cid = setTimeout("clock();",100);<br>
+
+
+
+}<br>
+
+
+
+function stop()<br>
+
+
+
+{<br>
+
+
+
+if(cid!=null)<br>
+
+
+
+  {<br>
+
+
+
+   clearTimeout(cid);<br>
+
+
+
+   cid=null;<br>
+
+
+
+   flag=0;<br>
+
+
+
+  }<br>
+
+
+
+}<br>
+
+
+
+function wo()<br>
+
+
+
+{<br>
+
+
+
+cid = window.open("","kuku","width=400,height=100");<br>
+
+
+
+cid.document.open();<br>
+
+
+
+cid.document.write("&lt;html&gt;&lt;head&gt;&lt;/head&gt;&ltbody&gt;&lt;center&gt;");<br>
+
+
+
+cid.document.write("&lt;form&gt;&lt;input type=button onClick='window.close();' value='Закрыть окно'&gt;&lt;/form&gt;&lt;/center&gt;");<br>
+
+
+
+cid.document.write("&lt;/body&gt;&lt;/html&gt;");<br>
+
+
+
+cid.document.close();<br>
+
+
+
+cid.focus();<br>
+
+
+
+}<br>
+
+
+
+...<br>
+
+
+
+&lt;form name=f0&gt;<br>
+
+
+
+&lt;input name=fi1 size=8 maxlength=8&gt;<br>
+
+
+
+&lt;input type=button value="Часы(start/stop)" onClick="if(flag==0)clock();else stop();"&gt;<br>
+
+
+
+&lt;input type=button value="Окно" onClick="wo();"&gt;<br>
+
+
+
+&lt;/form&gt;
+
+
+
+<center>
+
+
+
+<form name=f0>
+
+
+
+<input name=fi1 size=8 maxlength=8><br>
+
+
+
+<input type=button value="Часы(start/stop)" onClick="if(flag==0)clock();else stop();"><input type=button value="Окно" onClick="wo();">
+
+
+
+</form>
+
+
+
+</center>
+
+
+
+</span>
+
+
+
+<p class=just>
+
+
+
+Вы можете в любом порядке нажимать на кнопки формы, и все будет работать правильно. При этом переменная cid используется и как идентификатор потока и как идентификатор окна. Это означает, что JavaScript все-таки поддерживает полиморфизм, т.е. существуют два разных объекта с одинаковыми именами и система в них не путается.
+
+
+
+<!-- В начало страницы -->
+
+
+
+<p align=right><a href=#top class=tree id=home><img src="treeup.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeup.gif" border=0 align=top hspace=2><br>начало страницы<img src="treeru.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeru.gif" border=0 align=top hspace=2></a><br>
+
+
+
+<!-- Конец перехода -->
+
+
+
+<p><!-- Конец текста документа -->
+
+
+
+<!-- Меню последовательного просмотра(нижнее) -->
+
+
+
+<map name=bmenu>
+
+
+
+<area shape=rect coords="0,0,60,15" href="cadr.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/cadr.htm">
+
+
+
+<area shape=rect coords="500,0,560,15" href="array.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/array.htm">
+
+
+
+</map>
+
+
+
+<p>
+
+
+
+<img src="bottom_l.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/bottom_l.gif" border=0 width=560 height=15 border=0 usemap=#bmenu hspace=0 vspace=0><br>
+
+
+
+<!-- Конец меню последовательного просмотра(нижнее) -->
+
+
+
+<!-- Нижний логотип -->
+
+
+
+<a href="javascript:if(confirm('http://www.citmgu.ru/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.citmgu.ru/'" tppabs="http://www.citmgu.ru/"><img src="bottom.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/bottom.gif" border=0 width=560 height=15></a>
+<!-- SpyLOG v2 f:0211 -->
+<script language="javascript">
+u="http://webclass.polyn.kiae.su/classes/jsi/u686.25.spylog.com";d=document;nv=navigator;na=nv.appName;p=1;
+bv=Math.round(parseFloat(nv.appVersion)*100);
+n=(na.substring(0,2)=="Mi")?0:1;rn=Math.random();z="p="+p+"&rn="+rn;y="";
+y+="<a href='http://"+u+"/cnt?f=3&p="+p+"&rn="+rn+"' target=_blank>";
+y+="<img src='http://"+u+"/cnt?"+z+"&r="+escape(d.referrer)+"&pg="+escape(window.location.href)+"' border=0  width=0 height=0  alt='SpyLOG'>";
+y+="</a>"; d.write(y);if(!n) { d.write("<"+"!--"); }//--></script><noscript>
+<a href="javascript:if(confirm('http://u686.25.spylog.com/cnt?f=3&p=1  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://u686.25.spylog.com/cnt?f=3&p=1'" tppabs="http://u686.25.spylog.com/cnt?f=3&p=1" target=_blank>
+<img src="cnt-p=1" tppabs="http://u686.25.spylog.com/cnt?p=1" alt='SpyLOG' border='0'  width=0 height=0 >
+</a></noscript><script language="javascript1.2"><!--
+if(!n) { d.write("--"+">"); }//--></script>
+<!-- SpyLOG  -->
+
+<!-- Конец нижнего логотипа -->
+
+
+
+</div>
+
+
+
+</BODY>
+
+
+
+</HTML>
+
+
+

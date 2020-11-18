@@ -1,0 +1,101 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>HTTP-Аутентификация в PHP</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%">
+<TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="images.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="cookies.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="features.http-auth">Глава 17. HTTP-аутентификация в PHP</A></H1>
+<P>HTTP-аутентификация в PHP возможна только при запуске РНР как Apache-модуля 
+и, следовательно, недоступна в CGI-версии. В РНР-скрипте для Apache-модуля можно использовать функцию 
+<A HREF="f/header.html"><B>header()</B></A> для отправки сообщения "Authentication Required" 
+в клиентский браузер, что вызывает появление в нём окна ввода Username/Password.  
+После того как пользователь ввёл username и password, 
+URL содержащий PHP-скрипт, будет вызван снова с переменными $PHP_AUTH_USER, $PHP_AUTH_PW 
+и $PHP_AUTH_TYPE, в которых установлены имя пользователя, пароль и тип 
+аутентификации, соответственно.  В настоящее время поддерживается только аутентификация "Basic". См. также о функции
+<A HREF="f/header.html"><B>header()</B></A>.</P>
+<P>Пример фрагмента скрипта, который форсирует аутентификацию клиента:<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<h5>
+<A NAME="AEN5793"></A>Пример 17-1. HTTP Пример аутентификации</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+  if (!isset($_SERVER['PHP_AUTH_USER'])) {
+    header("WWW-Authenticate: Basic realm=\"My Realm\"");
+    header("HTTP/1.0 401 Unauthorized");
+    echo "Текст, отправляемый в том случае,
+    если пользователь нажал кнопку Cancel\n";
+    exit;
+  } else {
+    echo "&#60;p&#62;Hello {$_SERVER['PHP_AUTH_USER']}.&#60;/p&#62;";
+    echo "&#60;p&#62;Вы ввели пароль {$_SERVER['$PHP_AUTH_PW']}.&#60;/p&#62;";
+  }
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<BLOCKQUOTE><P><B>Примечание: </B>
+  пожалуйста, будьте внимательны при кодировании строк HTTP header'а. 
+Чтобы максимально гарантировать совместимость со всеми клиентами, 
+ключевое слово "Basic" должно быть записано с первой "B" в верхнем 
+регистре, управляющая/realm строка обязана заключаться в двойные кавычки (не одинарные),
+и точно один пробел должен предшествовать коду "401" в строке "HTTP/1.0 401" header'а.</P></BLOCKQUOTE>
+<P>Вместо простого вывода $PHP_AUTH_USER и
+$PHP_AUTH_PW, вам, возможно, понадобится проверить правильность username и
+password путём запроса БД или нахождения пользователя в dbm-файле.</P>
+<P>Проследите за работой браузеров Internet Explorer.  Они очень чувствительны 
+к порядку header'ов. Отправка <I>WWW-Authenticate</I> header до <TT>HTTP/1.0 401</TT> header в данный момент является неким трюком.</P>
+<P>Чтобы предотвратить написание кем-либо скрипта, который раскрывает пароль к 
+странице, аутентифицированной с помощью традиционного внешнего механизма, 
+переменные PHP_AUTH не будут установлены, если внешняя аутентификация 
+включена для данной конкретной страницы. В этом случае переменная $REMOTE_USER 
+может использоваться для идентификации внешне аутентифицируемого пользователя.</P>
+<BLOCKQUOTE><P><B>Замечание о конфигурации: </B>PHP использует наличие директивы <TT>AuthType</TT>
+для определения того, действует ли внешняя аутентификация.
+Исключите эту директиву для контекста, где вам необходимо использовать 
+аутентификацию PHP (иначе каждая попытка аутентификации потерпит неудачу).</P></BLOCKQUOTE>
+<P>Заметьте, однако, что вышесказанное не предотвращает похищение тем, кто 
+контролирует неаутентифицированный URL, пароля из аутентифицированных URL на этом же сервере.</P>
+<P>И Netscape Navigator, и Internet Explorer будут очищать локальный кэш 
+аутентификации окон браузера для сферы/realm при получении ответа 401 
+сервера. Это может "log out" (выполнить выход) пользователей,
+форсируя повторное введение ими username и password. Некоторые используют 
+это для "time out" логинов, или предоставляют кнопку "log-out".</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<h5>
+<A NAME="AEN5811"></A>Пример 17-2. HTTP аутентификация, форсирующая новые name/password</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+  function authenticate() {
+    header( "WWW-Authenticate: Basic realm=\"Test Authentication System\"");
+    header( "HTTP/1.0 401 Unauthorized");
+    echo "Вы обязаны ввести правильные login ID и пароль для доступа к этому ресурсу\n";
+    exit;
+  }
+ 
+<font size="1">if (!isset($_SERVER['PHP_AUTH_USER'])||($SeenBefore == 1 &#38;&#38; $OldAuth == $_SERVER['$PHP_AUTH_USER'])))
+</font>  {
+   authenticate();
+  } 
+  else {
+   echo "&#60;p&#62;Welcome: {$_SERVER['$PHP_AUTH_USER']}&#60;br&#62;";
+   echo "Old: {$_REQUEST['$OldAuth']}";
+   echo "&#60;form action='{$_SERVER['$PHP_SELF']}' METHOD='POST'&#62;\n";
+   echo "&#60;input type='hidden' name='SeenBefore' value='1'&#62;\n";
+   echo "&#60;input type='hidden' name='OldAuth' value='{$_SERVER['$PHP_AUTH_USER']}'&#62;\n";
+   echo "&#60;input type='submit' value='Re Authenticate'&#62;\n";
+   echo "&#60;/form&#62;&#60;/p&#62;\n";
+  }
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Это поведение не требуется стандартом HTTP Basic authentication, поэтому вы 
+никогда не должны зависеть от этого. Тестирование для Lynx показало, что Lynx 
+не зачищает показатели аутентификации при ответе 401 сервера, поэтому 
+нажатие back, а затем снова forward, откроет ресурс, если показатель 
+аутентификации не изменились. Пользователь, однако, может нажать клавишу
+'_' для очистки его информации аутентификации.</P>
+<P>Также заметьте, что это не работает на Microsoft IIS-сервере и с CGI-версией PHP из-за ограничений IIS.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>если <A HREF="configuration.html#ini.safe-mode">safe mode</A> включён,
+uid скрипта добавляется к части <TT>realm</TT> шапки <TT>WWW-Authenticate</TT>.</P></BLOCKQUOTE></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="images.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="cookies.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">Создание изображений и<br>манипуляции с ними</TD><th WIDTH="34%" VALIGN="top">
+<a href="features.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Куки</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

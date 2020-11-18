@@ -1,0 +1,1920 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE></TITLE>
+<META content="TEXT/HTML; CHARSET=WINDOWS-1251" http-equiv=CONTENT-TYPE>
+<META content="Microsoft FrontPage 4.0" name=GENERATOR>
+<STYLE></STYLE>
+</HEAD>
+<body background=../fon.jpg>
+<ul>
+
+  <li><a href="#a"><font face="Times New Roman" size=3>Глава 13. Cookie и
+    отслеживание сеанса</font></a> </li>
+  <ul>
+    <li><a href="#b"><font size="3" face="Times New Roman">Что такое
+      Cookie?</font></a>
+      <ul>
+        <li><a href="#c"><font size="3" face="Times New Roman">Компоненты
+          Cookie</font></a></li>
+        <li><a href="#d"><font size="3" face="Times New Roman">Cookie и PHP</font></a></li>
+      </ul>
+    </li>
+    <li><a href="#e"><font size="3" face="Times New Roman">Уникальные
+      идентификаторы</font></a></li>
+    <li><a href="#f"><font size="3" face="Times New Roman">Отслеживание
+      сеанса</font></a>
+      <ul>
+        <li><a href="#g"><font size="3" face="Times New Roman">Назначение
+          пользовательских функций для
+          хранения сеансовых данных</font></a></li>
+      </ul>
+    </li>
+    <li><a href="#h"><font size="3" face="Times New Roman">Проект:
+      журнал посещений сайта</font></a></li>
+    <li><a href="#i"><font size="3" face="Times New Roman">Итоги</font></a></li>
+  </ul>
+</ul>
+<p>&nbsp;</p>
+<p><A NAME="a"></A><font COLOR="#000000" face="Times New Roman" size="5">ГЛАВА 13</font></p>
+<p><font size="5"><font COLOR="#000000" face="Times New Roman">Cookie</font> <font COLOR="#000000" face="Times New Roman">и
+отслеживание сеанса</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Отслеживание
+пользователей и персональная настройка
+сайта относятся к числу самых популярных и
+вместе с тем неоднозначно воспринимаемых
+возможностей web-сайтов. Преимущества
+очевидны — вы можете предлагать
+пользователям именно ту информацию,
+которая их интересует. С другой стороны,
+возникает немало вопросов, связанных с
+конфиденциальностью, поскольку появляется
+возможность «следить» за тем, как
+пользователь перемещается от страницы к
+странице и даже от сайта к сайту.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если
+отвлечься от проблем конфиденциальности,
+отслеживание пользовательских данных с
+применением cookie или других средств
+приносит огромную пользу как пользователю,
+так и сайту, обеспечивающему эти
+возможности. Пользователь выигрывает от
+того, что содержание сайта настраивается в
+соответствии с его личными предпочтениями,
+а из сайта исключается бесполезная или не
+представляющая интереса информация. Для
+администратора сайта отслеживание
+пользовательских предпочтений открывает
+совершенно новый уровень взаимодействия с
+пользователем, включая возможности
+целевого маркетинга и анализа популярности
+материалов сайта. В Web, где сейчас
+преобладает электронная коммерция, эти
+возможности стали практически
+стандартными.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Концепция «наблюдения»
+за пользователем в процессе перемещения по
+сайту обычно называется «отслеживанием
+сеанса» (session tracking). Принимая во внимание
+огромный объем полезной информации,
+получаемой в результате отслеживания
+сеанса на сайте, можно сказать, что
+преимущества отслеживания сеансов и
+персональной настройки содержания сайта
+значительно превышают любые недостатки.
+Вряд ли эту книгу можно было бы считать
+полноценным учебником по РНР, если бы я не
+посвятил в ней целую главу средствам
+отслеживания сеанса в РНР. В этой главе мы
+рассмотрим некоторые концепции, имеющие
+непосредственное отношение к отслеживанию
+сеансов, а именно — cookie и их применение, а
+также уникальные идентификаторы сеансов.
+Глава завершается сводкой стандартных
+функций РНР, предназначенных для
+отслеживания сеансов.</font></p>
+<b>
+<p><A NAME="b"></A><font color="#000000" face="Times New Roman" size="4">Что такое
+cookie?</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Cookie
+представляет собой небольшой пакет
+информации, переданный web-сервером и
+хранящийся на клиентском компьютере. В cookie
+можно сохранить полезные данные,
+описывающие состояние пользовательского
+сеанса, чтобы в будущем загрузить их и
+восстановить параметры сеансовой связи
+между сервером и клиентом. Cookie используются
+на многих сайтах Интернета для расширения
+возможностей пользователя и повышения
+эффективности сайта за счет отслеживания
+действий и личных предпочтений
+пользователя. Возможность хранения этих
+сведений играет ключевую роль на сайтах
+электронной коммерции, поддерживающих
+персональную настройку и целевую рекламу.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Вследствие
+того, что cookie обычно связываются с
+конкретным пользователем, в них часто
+сохраняется уникальный идентификатор
+пользователя (UIN). Этот идентификатор
+заносится в базу данных на сервере и
+используется в качестве ключа для выборки
+из базы всей информации, связанной с этим
+идентификатором. Конечно, сохранение UIN в
+cookie не является обязательным требованием;
+вы можете сохранить любую информацию при
+условии, что ее общий объем не превосходит 4
+Кбайт (4096 байт).</font></p>
+<p><A NAME="c"></A><font color="#000000" face="Times New Roman" size="4">Компоненты
+cookie</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В cookie
+хранятся и другие компоненты, при помощи
+которых разработчик может ограничивать
+использование cookie с позиций домена, пути,
+срока действия и безопасности. Ниже
+приведены описания различных компонентов
+cookie:</font></p>
+<b>
+<ul>
+  <li><font size="3" face="Times New Roman"><font COLOR="#000000">Имя</font></font></b><font COLOR="#000000" size="3" face="Times New Roman">
+  — имя cookie является обязательным
+  параметром, по которому программа
+  ссылается на cookie. Можно провести аналогию
+  между именем cookie и именем переменной.</font></li>
+<b>
+<li><font size="3" face="Times New Roman"><font COLOR="#000000">Значение
+  </font></font></b><font size="3" face="Times New Roman"><font COLOR="#000000">—
+фрагмент данных, связанный с именем cookie. В
+этих данных может храниться любая
+информация — идентификатор пользователя,
+цвет фона, текущая дата и т. д.</font></font></li>
+<b>
+<li><font size="3" face="Times New Roman"><font COLOR="#000000">Срок
+  действия </font></font></b><font size="3" face="Times New Roman"><font COLOR="#000000">—
+дата, определяющая продолжительность
+существования cookie. Как только текущая дата
+и время превосходят заданный срок действия,
+cookie становится недействительным и
+перестает использоваться. В соответствии
+со спецификацией cookie устанавливать срок
+действия для cookie необязательно. Тем не
+менее, средства РНР для работы с cookie требуют,
+чтобы срок действия устанавливался.
+Согласно спецификации, если срок действия
+не указан, cookie становится недействительным
+в конце сеанса (то есть когда пользователь
+покидает сайт).</font></font></li>
+<b>
+<li><font size="3" face="Times New Roman"><font COLOR="#000000">Домен </font></font></b><font size="3" face="Times New Roman"><font COLOR="#000000">—
+домен, который создал cookie и может читать его
+значение. Если домен состоит из нескольких
+серверов и доступ к cookie должен быть
+разрешен всем серверам, то имя домена можно
+задать в форме .phprecipes.com. В этом случае все
+потенциальные домены третьего уровня,
+принадлежащие сайту PHPrecipes (например,
+wap.phprecipes.com или news.phprecipes.com), смогут работать с
+cookie. По соображениям безопасности cookie могут
+устанавливаться только для домена</font></font> <font COLOR="#000000" size="3" face="Times New Roman">сервера,
+пытающегося создать cookie. Данный компонент
+необязателен; если он не указан, по
+умолчанию используется имя домена, из
+которого было полу; чено значение cookie.</font></li>
+<b>
+<li><font size="3" face="Times New Roman"><font COLOR="#000000">Путь </font></font></b><font size="3" face="Times New Roman"><font COLOR="#000000">—
+URL, с которого предоставляется доступ к cookie.
+Любые попытки получения доступа к cookie за
+пределами этого пути пресекаются. Данный
+компонент необязателен; если он не задан, по
+умолчанию используется путь к документу,
+создавшему cookie.</font></font></li>
+<b>
+<li><font size="3" face="Times New Roman"><font COLOR="#000000">Безопасность
+  </font></font></b><font size="3" face="Times New Roman"><font COLOR="#000000">—
+параметр, показывающий, допускается ли
+чтение cookie в небезопасной среде. По
+умолчанию используется значение FALSE.</font></font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Хотя при
+создании cookie используются одни и те же
+синтаксические правила, формат хранения
+cookie зависит от браузера. Например, Netscape
+Communicator хранит cookie в формате следующего вида:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">.phprecipes.com&nbsp; FALSE&nbsp;
+/&nbsp; FALSE&nbsp; 97728956&nbsp; bgcolor&nbsp; blue</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В Internet Explorer
+то же самое cookie выглядело бы иначе:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">bgcolor</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">blue</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">localhost/php4/php.exe/book/13/</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">0</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">2154887040</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">29374385</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">522625408</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">29374377</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">*</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Чтобы
+просмотреть cookie, сохраненные браузером
+Internet Explorer, достаточно открыть их в любом
+текстовом редакторе. Помните, что некоторые
+редакторы не обрабатывают завершающие
+символы новой строки и на месте этих
+символов в документе могут выводиться
+квадратики.</font></p>
+<p><img border="0" src="prim.gif" align=left width="36" height="35"><i><font size="3" face="Times New Roman"><font COLOR="#000000">Internet
+Explorer сохраняет свои cookie в папке с именем «Cookies»,
+a Netscape Communicator использует для этой цели один
+файл с именем cookies.</font></font></p>
+</i>
+<p><A NAME="d"></A><font color="#000000" face="Times New Roman" size="4">Cookie и РНР</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Хватит
+теории. Конечно, вам не терпится поскорее
+узнать, как задать значение cookie в РНР.
+Оказывается, очень просто — для этой цели
+используется стандартная функция setcookie( ).</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+setcookie( ) сохраняет cookie на компьютере
+пользователя. Синтаксис функции setcookie( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font><font size="3" face="Times New Roman"><font COLOR="#000000">setcookie
+(string имя [string значение [, int дата [, string путь [, string
+домен [, int безопасность]]]]])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если вы
+прочитали общие сведения о cookie, то смысл
+параметров setcookie( ) вам уже известен. Если вы
+пропустили этот раздел и не знакомы с
+компонентами cookie, я рекомендую вернуться к
+началу главы и перечитать его, поскольку
+все параметры setcookie( ) были описаны выше.</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Прежде
+чем следовать дальше, я попрошу вас
+перечитать следующую фразу не один и не два,
+а целых три раза. Значение cookie должно
+устанавливаться до передачи в браузер
+любой другой информации, относящейся к
+странице. Напишите эту фразу 500 раз в
+тетрадке, сделайте татуировку, научите
+своего попугая произносить эти слова —
+короче, проявите фантазию. Другими словами,
+значение cookie не может устанавливаться в
+произвольном месте web-страницы. Оно должно
+быть задано до отправки любых данных в
+браузер; в противном случае cookie </font><i><font COLOR="#000000">не
+будет </font></i><font COLOR="#000000">работать.</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Есть еще
+одно важное ограничение, о котором также
+необходимо помнить, — вы не сможете создать
+cookie и использовать его на той же странице.
+Либо пользователь должен вручную обновить
+страницу (хотя рассчитывать на это нельзя),
+либо вам придется подождать следующего
+запроса этой страницы — и только после
+этого можно будет использовать cookie.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующем
+примере функция setcookie( ) используется для
+создания cookie с идентификатором
+пользователя:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$userid =
+&quot;4139b31b7bab052&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$cookie_set = setcookie
+(&quot;uid&quot;, $value, time()+3600, &quot;/&quot;, &quot;.phprecipes.com&quot;,
+0);</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Последствия
+создания cookie:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">После
+перезагрузки или перехода на другую
+страницу становится доступной переменная
+$userid, содержащая идентификатор 4139b31b7bab052.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Срок
+действия cookie истекает ровно через один час
+(3600 секунд) после отправки. После истечения
+этого срока cookie становится
+недействительным.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Доступ к cookie
+разрешен только из домена phprecipes.com.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Разрешен
+доступ к cookie через небезопасный протокол.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующем
+примере (листинг 13.1) cookie используется для
+хранения параметров форматирования
+страницы (в данном случае — цвета фона).
+Обратите внимание: значение cookie задается
+лишь в результате выполнения действия,
+установленного для формы.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+13.1. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Сохранение
+цвета фона, выбранного пользователем</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Если
+переменная $bgcolor существует</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (isset($bgcolor)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">setcookie(&quot;bgcolor&quot;,
+$bgcolor, time()+3600);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=&quot;&lt;?=$bgcolor:?&gt;&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Значение
+$bgcolor не задано, отобразить форму</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=&quot;white&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;form action=&quot;&lt;?
+print $PHP_SELF; ?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">method=<sup>=&quot;post&quot;&gt;</sup></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">What's your favorite
+background color?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;select name=&quot;bgcolor&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=&quot;red&quot;&gt;red</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=&quot;blue&quot;&gt;blue</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=&quot;green&quot;&gt;green</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=&quot;b1ack&quot;&gt;black</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/select&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=&quot;submit&quot;
+value=&quot;Set background color&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/form&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">При загрузке
+в браузер сценарий проверяет, было ли
+задано значение переменной $bgcolor. Если
+переменная существует, для страницы
+выбирается цвет фона, определяемый
+переменной $bgcolor. В противном случае в
+браузере выводится форма HTML с предложением
+выбрать цвет фона. После выбора цвета
+значение $bgcolor будет распознаваться при
+последующей перезагрузке той же страницы
+или при переходе к другой странице.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Кстати
+говоря, имена cookie могут выглядеть как
+элементы массива. Вы можете использовать
+имена вида uid[1], uid[2], uid[3] и т. д., а затем
+работать с ними, как с элементами обычного
+массива. Пример приведен в листинге 13.2.</font></p>
+<b><i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Листинг 13.2.</font></p>
+</i></b>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">setcookie(&quot;phprecipes[uid]&quot;,
+&quot;4139b31b7bab052&quot;, time( )+3600); setcookie(&quot;phprecipes[color]&quot;,
+&quot;black&quot;, time( )+3600); setcookie(&quot;phprecipes[preference]&quot;,
+&quot;english&quot;, timeO+3600);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (isset($phprecipes))
+:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while (list ($name,
+$value) = each ($phprecipes)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">echo &quot;$name = $value&lt;br&gt;\n&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif:</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В результате
+выполнения этого фрагмента будет выведен
+следующий результат (а на клиентском
+компьютере будут созданы три cookie):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">uid = 4139b31b7bab052</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">color = black</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">preference = english</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="prim.gif" align=left width="36" height="35">Хотя
+массивы cookie очень удобны для хранения
+всевозможной информации, следует помнить,
+что некоторые браузеры ограничивают
+количество создаваемых cookie (например, Netscape
+Communicator разрешает создавать до 20 cookie на
+домен).</font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Cookie чаще
+всего применяются для хранения числовых
+идентификаторов (UIN), по которым в
+дальнейшем на сервере производится выборка
+информации,</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">относящейся
+к данному пользователю. Этот процесс
+продемонстрирован в листинге 13.3, где UIN
+сохраняется в базе данных MySQL. Сохраненные
+данные впоследствии используются для
+настройки параметров форматирования
+страницы.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Допустим, у
+нас имеется таблица userjnfo в базе данных с
+именем user. В ней хранятся следующие
+атрибуты пользователя: идентификатор, имя и
+адрес электронной почты пользователя.
+Определение таблицы выглядит так:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">mysql&gt;create table
+user_info (</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">-&gt;user_id char (18),</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">-&gt;fname char(15),</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">-&gt;email char(35));</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">По сравнению
+с полноценными сценариями регистрации
+пользователя, работа листинга 13.3
+начинается «на половине пути»:
+предполагается, что данные пользователя (идентификатор,
+имя и адрес электронной почты) уже хранятся
+в базе данных. Чтобы пользователю не
+приходилось вводить всю информацию заново,
+идентификатор (в листинге 13.3 для простоты
+он равен 15) загружается из cookie на клиентском
+компьютере.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+13.3. </font></font></i></b><font size="3" face="Times New Roman"><i><font COLOR="#000000">Загрузка
+информации пользователя из базы данных</font></i></font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">&lt;?</font></p>
+<p><font color="#000000" size="3" face="Courier New">i</font><font COLOR="#000000" size="3" face="Courier New">f (!
+isset($userid)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$id = 15;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">setcookie (&quot;userid&quot;,
+$id, time( )+3600);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;A cookie
+containing your userID has been set on your machine.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Please refresh the page
+to retrieve your user information&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_connect(&quot;localhost&quot;,
+&quot;web&quot;, &quot;4tf9zzzf&quot;) or die(&quot;Could not connect to MySQL
+server!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_select_db(&quot;user&quot;) or die(&quot;Could not select
+user database!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Объявить
+запрос</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;SELECT *
+FROM users13 WHERE user_id = '$userid'&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Выполнить
+запрос</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$result = mysql_query($query)l;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Если
+совпадение будет найдено, вывести данные
+пользователя.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (mysql_num_rows($result) == 1) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$row = mysql_fetch_array($result);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Hi &quot;.$row[&quot;?name&quot;].&quot;,&lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Your email
+address is &quot;.$row[ &quot;email&quot;];</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Invalid
+User ID!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">mysql_close();</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Листинг 13.3
+показывает, как удобно использовать cookie для
+идентификации пользователей. Этот прием
+может использоваться в разнообразных
+ситуациях, от автоматической регистрации
+пользователя на сайте до отслеживания
+пользовательских параметров настройки.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующем
+разделе приведен сценарии полной
+регистрации пользователя и последующего
+сохранения UIN в базе данных.</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="prim.gif" align=left width="36" height="35">Функции
+MySQL, встречающиеся в листинге 13.3, были
+описаны в главе 11.</font></p>
+</i><b>
+<p><A NAME="e"></A><font color="#000000" face="Times New Roman" size="4">Уникальные
+идентификаторы</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Вероятно, у
+вас уже возник вопрос: как сгенерировать UIN,
+который действительно был бы уникальным?
+Отложите в сторону учебники — замысловатые
+алгоритмы вам не понадобятся. В РНР
+предусмотрено простое средство для
+создания уникальных UIN — встроенная
+функция uniqid( ).</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+uniqid( ) генерирует уникальный идентификатор.из
+13 символов, значение которого основано на
+текущем времени. Синтаксис функции uniqid( ): <i>int
+</i>uniqid(string </font><i><font COLOR="#000000">префикс </font></i><font COLOR="#000000">[б
+<i>boolean </i>дополнение])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В параметре
+префикс передается строка, с которой должен
+начинаться UIN. Поскольку этот параметр
+является обязательным, при вызове
+необходимо передать хотя бы пустую строку.
+Если необязательный параметр дополнение
+равен TRUE, функция uniqid( ) генерирует UIN из 23
+символов. Чтобы быстро создать уникальный
+идентификатор, достаточно при вызове uniqid( )
+передать один параметр — пустую строку:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$uniq_id = uniqid(&quot;
+&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Генерируется строка из 13 символов -
+например. '39b3209ce8ef2'</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В другом
+варианте сгенерированное значение
+присоединяется к строке, определяемой
+параметром префикс:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$uniq_id = uniqid(&quot;php&quot;,
+FALSE):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Генерируется строка из 16 символов -
+например. 'php39b3209ce8ef2'</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Поскольку
+uniqid( ) генерирует UIN на основании текущего
+времени, существует ничтожная вероятность
+того, что идентификатор удастся подобрать.
+Чтобы значение идентификатора было
+действительно случайным, можно
+предварительно сгенерировать префикс при
+помощи еще одной стандартной функции РНР,
+rand( ). Эта возможность продемонстрирована в
+следующем примере:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">srand((double)
+microtime( ) * 1000000);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$uniq_id = uniqid(rand( ));</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция srand( )
+инициализирует («раскручивает») генератор
+случайных чисел. Если вы хотите, чтобы
+функция rand( ) генерировала действительно
+случайные числа, необходимо предварительно
+вызвать srand( ). Передача rand( ) в качестве
+параметра uniqid( ) приводит к тому, что функция
+uniqid( ) вызывается с заранее сгенерированным
+случайным префиксом, что усложняет подбор
+сгенерированного UIN.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Владея
+методикой создания уникальных
+идентификаторов, мы теперь можем
+реализовать вполне реальную схему
+регистрации пользователей. При первой
+загрузке сценария в листинге 13.4
+пользователю предлагается заполнить
+короткую</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">форму с
+именем и адресом электронной почты. Эта
+информация вместе со сгенерированным
+уникальным идентификатором сохраняется в
+таблице user_info, определение которой
+приведено перед листингом 13.3. Cookie с этим
+идентификатором сохраняется на компьютере
+пользователя. При всех последующих
+посещениях сценарий ищет в базе данных
+уникальный идентификатор, взятый из cookie, и
+выводит в браузере найденную информацию о
+пользователе.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+13.4. </font></font></i></b><font size="3" face="Times New Roman"><i><font COLOR="#000000">Процесс
+регистрации пользователя</font></i></font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Построить
+форму</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$form = &quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;form action=\&quot;Listingl3-4.php\&quot;
+method=\&quot;post\&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;hidden\&quot;
+name=\&quot;seenform\&quot; value=\&quot;y\&quot;&gt; \</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Your first name?:&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;text\&quot;
+name=\&quot;fname\&quot; size=\&quot;20\&quot; maxlength=\&quot;20\&quot; value=\&quot;\&quot;&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Your email?:&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;text\&quot;
+name=\&quot;email\&quot; size=\&quot;20\&quot; maxlength=\&quot;35\&quot; value=\&quot;\&quot;&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;submit\&quot;
+value=\&quot;Register!\&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/form&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Если форма
+еще не отображалась</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// и для
+данного пользователя еще не существует cookie...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">1f ((! isset (Sseenform))
+&amp;&amp; (! isset ($userid))) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print $form;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Если форма
+отображалась.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// но данные
+пользователя еще не были обработаны...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">elself (isset ($seenform)
+&amp;&amp; (! isset ($sserid))) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">srand ((double)
+microtime( ) * 1000000);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$uniq_id = uniqid(rand(
+));</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Подключиться к серверу MySQL и выбрать базу
+данных users</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_pconnect(&quot;localhost&quot;,
+&quot;root&quot;, &quot;&quot;) or die(&quot;Could not connect to MySQL server!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_select_db(&quot;book&quot;)
+or die(&quot;Could not select user database!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Объявить и
+выполнить запрос</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;INSERT
+INTO users13 VALUES('$uniq_id', '$fname', '$email')&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$result = mysql_query($query)
+or die(&quot;Could not insert user information!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Создать
+cookie &quot;userid&quot; со сроком действия один месяц,
+setcookie (&quot;userid&quot;, $uniq_id, tirne( )+2592000);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Congratulations
+$fname! You are now registered! Your user information will be displayed uponon
+each subsequent visit to this page.&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// ... иначе, если cookie
+существует - использовать идентификатор</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+пользователя для выборки данных из базы
+данных users elseif (isset($userid)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Подключиться к серверу MySQL и выбрать базу
+данных users</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_pconnect(&quot;localhost&quot;,
+&quot;root&quot;, &quot;&quot;) or die(&quot;Could not connect to MySQL server!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_select_db(&quot;book&quot;)
+or die(&quot;Could not select user database!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Объявить и
+выполнить запрос</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;SELECT *
+FROM users,13 WHERE user_id = '$userid' &quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$result = mysql_query($query)
+or die(&quot;Could not extract user information!&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$row =
+mysql_fetch_array($result); print &quot;Hi &quot;.$row[&quot;fname&quot;].&quot;,&lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Your email address is &quot;.$row[&quot;email&quot;];</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Обилие
+команд i f позволяет организовать весь
+процесс регистрации и последующую
+идентификацию пользователя в одном
+сценарии. Принципиально возможны три
+ситуации:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Пользователь
+не заполнял форму и не имеет cookie. В этом
+случае он должен</font> <font COLOR="#000000" size="3" face="Times New Roman">заполнить
+форму.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Пользователь
+заполнил форму, но cookie еще не создано. В этом
+случае ин</font><font COLOR="#000000" size="3" face="Times New Roman">формация
+пользователя сохраняется в базе данных и
+создается cookie со сро</font><font COLOR="#000000" size="3" face="Times New Roman">ком
+действия один месяц.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Пользователь
+возвращается после предыдущих посещений.
+Если срок действия cookie еще не истек,
+сценарий читает идентификатор
+пользователя и загружает соответствующую
+информацию из базы данных.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Конечно,
+общий процесс, продемонстрированный в
+листинге 13.4, может применяться при работе с
+любыми базами данных. Листинг всего лишь на
+очень простом уровне показывает, как на
+крупных сайтах организуется сохранение
+пользовательских данных, благодаря
+которому сайт «подстраивается» под каждого
+посетителя.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">На этом
+завершается наше знакомство с применением
+cookie в РНР. Если вы захотите побольше узнать
+о механизме cookie, обратитесь к ресурсам
+Интернета, перечисленным в следующем
+разделе.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Ссылки по
+теме</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Дополнительную
+информацию о cookie и их использовании можно
+найти в специализированных web-pecypcax:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.cookiecentral.com">http://www.cookiecentral.com</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://home.netscape.com/newsref/std/cookie_spec.html">http://home.netscape.com/newsref/std/cookie_spec.html</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://builder.com/Programming/Cookies/ss01.html">http://builder.com/Programming/Cookies/ss01.html</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.w3.org/Protocols/rfc2109/rfc2100">http://www.w3.org/Protocols/rfc2109/rfc2100</a>.</font></li>
+</ul>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Как
+говорилось выше, в cookie очень удобно хранить
+параметры, специфические для данного
+пользователя, автоматически загружаемые
+при последующих посещениях сайта. Впрочем,
+на cookie нельзя полностью положиться, потому
+что пользователи могут запретить их
+использование на своем компьютере в
+настройках браузера. К счастью, в РНР для
+сохранения подобной информации существует
+и другой способ. Эта методика называется </font><i><font COLOR="#000000">отслеживанием
+сеанса </font></i><font COLOR="#000000">(session tracking) и
+рассматривается в следующем разделе.</font></font></p>
+<b>
+<p><A NAME="f"></A><font color="#000000" face="Times New Roman" size="4">Отслеживание
+сеанса</font></p>
+</b><i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Сеансом </font></i><font size="3" face="Times New Roman"><font COLOR="#000000">(session)
+называется период времени, который
+начинается с момента прихода пользователя
+на сайт и завершается, когда пользователь
+покидает сайт. В течение сеанса часто
+возникает необходимость в сохранении
+различных переменных, которые бы «сопровождали»
+пользователя при перемещениях на сайте,
+чтобы вам не приходилось вручную
+кодировать многочисленные скрытые поля или
+переменные, присоединяемые к URL.</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Рассмотрим
+следующую ситуацию. При входе на сайт
+пользователю присваивается уникальный
+идентификатор сеанса (SID), который
+сохраняется на компьютере пользователя в
+cookie с именем PHPSESSJD. Если использование cookie
+запрещено или cookie вообще не поддерживаются,
+SID автоматически присоединяется ко всем
+локальным URL на протяжении сеанса. В то же
+время на сервере сохраняется файл, имя
+которого совпадает с SID. По мере того как
+пользователь перемещается по сайту,
+значения некоторых параметров должны
+сохраняться в виде сеансовых переменных.
+Эти переменные сохраняются в файле
+пользователя. При последующем обращении к
+сеансовой переменной сервер открывает
+сеансовый файл пользователя и ищет в нем
+нужную переменную. В сущности, в этом и
+заключается суть отслеживания сеанса.
+Конечно, информация с таким же успехом
+может храниться в базе данных или в другом
+файле.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Интересно?
+Еще бы. После всего сказанного вы,
+несомненно, лучше поймете различные
+проблемы конфигурации, рассматриваемые
+ниже. Особенно важную роль играют три флага.
+Первый флаг, --enable-trans-id, включается в процесс
+конфигурации в том случае, если вы
+собираетесь использовать SID (см. ниже). Два
+других флага, track_vars и register_globals, включаются и
+отключаются по мере необходимости в файле
+php.ini. Последствия активизации этих флагов
+рассматриваются ниже.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">--enable-trans-id</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если РНР
+компилируется с этим флагом, ко всем
+относительным URL автоматически
+присоединяется идентификатор сеанса (SID).
+Дополнение записывается в формате имя_сеанса=идентификатор_сеанса,
+где имя_сеанса определяется в файле php.ini (см.
+ниже). Если вы не захотите включать этот
+флаг, в качестве SID можно использовать
+константу.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">track_vars</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Установка
+флага track_vars позволяет использовать массивы
+$HTTP_*_VARS[], где * заменяется одним из значений
+EGPCS (Environment, Get, Post, Cookie, Server). Данный флаг
+необходим для того, чтобы значения SID
+передавались с одной страницы на другую. В
+РНР 4.03 этот флаг всегда находится в
+установленном состоянии.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">register_globals</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В результате
+установки этого флага все переменные EGPCS
+становятся доступными глобально. Если вы не
+хотите, чтобы массив глобальных переменных
+заполнялся данными, которые вам, возможно, и
+не понадобятся, флаг следует сбросить.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если флаг
+register_globals сброшен, а флаг track_vars установлен,
+ко всем переменным GPC можно обращаться
+через массив $HTTP_*_VARS[]. Например, если
+сбросить флаг register_globals, к стандартной
+переменной $PHP_SELF придется обращаться в виде
+$HTTP_SERVER_VARS[&quot;PHP_SELF&quot;].</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Существует
+целый ряд других аспектов конфигурации, о
+которых следует позаботиться. Эти
+директивы перечислены в табл. 13.1 с
+указанием стандартных значений, задаваемых
+по умолчанию в файле php.ini. Перечисление
+производится в порядке появления директив
+в файле.</font></p>
+<b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Таблица
+13.1.<i>
+ </i> </font></font></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Сеансовые
+директивы в файле php.ini</font></font>
+</i></p>
+<table border="1" width="550" cellspacing="0" cellpadding="0" height="323">
+  <tr>
+    <td width="191" height="19" align="center"><b>
+<font COLOR="#000000" size="3" face="Times New Roman">Директива</font>
+</b>
+    </td>
+    <td width="303" height="19" align="center"><b>
+<font COLOR="#000000" size="3" face="Times New Roman">&nbsp;Описание</font>
+</b>
+    </td>
+  </tr>
+  <tr>
+    <td width="224" height="48"><font COLOR="#000000" size="3" face="Times New Roman">session.save_handler =
+files</font></td>
+    <td width="303" height="48">
+<p><font COLOR="#000000" size="3" face="Times New Roman">Определяет
+способ хранения сеансовых данных на
+сервере. Возможны три варианта:
+в файле (files), в общей памяти (mm) или с</font> <font COLOR="#000000" size="3" face="Times New Roman">использованием
+функций, определяемых пользователем (User).</font>
+<font COLOR="#000000" size="3" face="Times New Roman">Последний
+вариант позволяет легко сохранить
+информацию в любом</font> <font COLOR="#000000" size="3" face="Times New Roman">формате
+— например, в базе данных</font></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="191" height="19"><font COLOR="#000000" size="3" face="Times New Roman">session.save_path =/tmp</font></td>
+    <td width="303" height="19">
+<p><font COLOR="#000000" size="3" face="Times New Roman">Определяет
+каталог для сеансовых файлов РНР. На
+платформе Linux обычно
+используется значение по умолчанию ('/tmp'). На
+платформе</font> <font COLOR="#000000" size="3" face="Times New Roman">Windows следует
+указать путь к какому-нибудь каталогу, в
+противном</font> <font COLOR="#000000" size="3" face="Times New Roman">случае
+произойдет ошибка</font></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="191" height="19"><font COLOR="#000000" size="3" face="Times New Roman">session_use_cookies =1</font></td>
+    <td width="303" height="19">
+<p><font COLOR="#000000" size="3" face="Times New Roman">При
+установке этого флага для сохранения
+идентификатора сеанса на</font> <font COLOR="#000000" size="3" face="Times New Roman">компьютере
+пользователя используются cookie</font></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="195" height="19"><font COLOR="#000000" size="3" face="Times New Roman">
+session.name =PHPRESSID.</font></td>
+    <td width="303" height="19">
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если флаг
+session.use_cookies установлен, то значение session.name</font>
+<font COLOR="#000000" size="3" face="Times New Roman">используется
+в качестве имени cookie. Имя может состоять
+только</font> <font COLOR="#000000" size="3" face="Times New Roman">из алфавитно-цифровых
+символов</font></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="191" height="19"><font COLOR="#000000" size="3" face="Times New Roman">session.auto_start = 0</font></td>
+    <td width="303" height="19">
+<p><font COLOR="#000000" size="3" face="Times New Roman">При
+установке флага session.auto_start сеанс
+автоматически</font> <font COLOR="#000000" size="3" face="Times New Roman">инициируется
+при первоначальном запросе со стороны
+клиента</font></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="191" height="19"><font COLOR="#000000" size="3" face="Times New Roman">&nbsp;session.cookie_lifetime = 0</font></td>
+    <td width="303" height="19">
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если флаг
+session.use_cookies установлен, то значение</font> <font COLOR="#000000" size="3" face="Times New Roman">session.cookie_lifetime
+определяет срок действия отправляемых cookie.</font>
+<font COLOR="#000000" size="3" face="Times New Roman">Если
+параметр равен 0, то все cookie становятся
+недействительными</font> <font COLOR="#000000" size="3" face="Times New Roman">при
+завершении сеанса</font></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="191" height="19"><font COLOR="#000000" size="3" face="Times New Roman">session.cookie_path = /</font></td>
+    <td width="303" height="19">
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если флаг
+session.use_cookies установлен, то значение</font> <font COLOR="#000000" size="3" face="Times New Roman">session.cookie_path
+определяет каталог, для которого
+отправляемые</font> <font COLOR="#000000" size="3" face="Times New Roman">cookie
+считаются действительными</font></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="191" height="19"><font COLOR="#000000" size="3" face="Times New Roman">&nbsp;session.cookie_domain =</font></td>
+    <td width="303" height="19">
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если флаг
+session.use_cookies установлен, то значение</font> <font COLOR="#000000" size="3" face="Times New Roman">session.cookie_domain
+определяет домен, для которого
+отправляемые</font> <font COLOR="#000000" size="3" face="Times New Roman">cookie
+считаются действительными</font></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="191" height="19"><font COLOR="#000000" size="3" face="Times New Roman">session.serialize_handler
+= php</font></td>
+    <td width="303" height="19">
+<p><font COLOR="#000000" size="3" face="Times New Roman">Имя
+обработчика, используемого в процессе
+сериализации данных.</font> <font COLOR="#000000" size="3" face="Times New Roman">В настоящее
+время определены два возможных значения: php
+и WDDX</font></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="191" height="19"><font COLOR="#000000" size="3" face="Times New Roman">session.gc_probability
+=1</font></td>
+    <td width="303" height="19"><font COLOR="#000000" size="3" face="Times New Roman">Вероятность
+активизации сборщика мусора РНР (в
+процентах)</font></td>
+  </tr>
+  <tr>
+    <td width="191" height="19"><font COLOR="#000000" size="3" face="Times New Roman">session.gc_maxlifetime=1440</font></td>
+    <td width="303" height="19">
+<p><font COLOR="#000000" size="3" face="Times New Roman">Промежуток
+времени (в секундах), по истечении которого
+данные</font> <font COLOR="#000000" size="3" face="Times New Roman">сеанса
+считаются недействительными и
+уничтожаются. Отсчет начинается</font> <font COLOR="#000000" size="3" face="Times New Roman">с момента
+последнего обращения пользователя в
+текущем сеансе</font></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="191" height="19"><font COLOR="#000000" size="3" face="Times New Roman">session.referer_check =&nbsp;</font></td>
+    <td width="303" height="19">
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если этому
+параметру присвоено строковое значение,
+каждый запрос</font> <font COLOR="#000000" size="3" face="Times New Roman">к странице
+при включенном отслеживании сеанса
+начинается с проверки</font> <font COLOR="#000000" size="3" face="Times New Roman">того, что
+заданная строка присутствует в глобальной
+переменной</font> <font COLOR="#000000" size="3" face="Times New Roman">$HTTP_REFERER. Если
+строка не найдена, идентификаторы сеансов</font>
+<font COLOR="#000000" size="3" face="Times New Roman">игнорируются</font></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="191" height="19"><font COLOR="#000000" size="3" face="Times New Roman">
+session.enthropy_fiie =</font></td>
+    <td width="303" height="19">
+<p><font COLOR="#000000" size="3" face="Times New Roman">Ссылка на
+внешний файл с дополнительной случайной
+информацией,</font> <font COLOR="#000000" size="3" face="Times New Roman">используемой
+при генерации идентификаторов сеансов. В
+системах</font> <font COLOR="#000000" size="3" face="Times New Roman">UNIX для этой
+цели обычно используются два устройства, /dev/random</font>
+<font COLOR="#000000" size="3" face="Times New Roman">и /dev/urandom.
+Устройство /dev/random получает случайные
+данные от ядра, а устройство /dev/urandom
+генерирует случайную строку при помощи хэш-алгоритма
+М05. Короче говоря, /dev/random работает быстрее, a
+/dev/urandom генерирует «более случайные» строки</font></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="190" height="19"><font COLOR="#000000" size="3" face="Times New Roman">session.enthropy_length
+      = 0</font></td>
+    <td width="303" height="19"><font COLOR="#000000" size="3" face="Times New Roman">Если флаг session.enthropy_file установлен, то
+session.enthropyjength определяет количество байт,
+читаемых из файла session.enthropy_file</font></td>
+  </tr>
+  <tr>
+    <td width="191" height="19"><font COLOR="#000000" size="3" face="Times New Roman">session.cache limiter
+      = nocache</font></td>
+    <td width="303" height="19"><font COLOR="#000000" size="3" face="Times New Roman"> Способ
+управления кэшем для страниц сеанса. В
+настоящее время определены три возможных
+значения: nocache, public и private</font></td>
+  </tr>
+  <tr>
+    <td width="191" height="19"><font COLOR="#000000" size="3" face="Times New Roman">session.cache_expire
+      =180</font></td>
+    <td width="303" height="19"><font COLOR="#000000" size="3" face="Times New Roman">Продолжительность
+жизни кэшированных страниц сеанса (в
+минутах)</font></td>
+  </tr>
+</table>
+<b>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">После
+внесения всех необходимых изменений в
+настройку сервера мы переходим к
+непосредственной реализации отслеживания
+сеанса на вашем сайте. Благодаря нескольким
+стандартным функциям РНР этот процесс не
+так уж сложен. Первое, что необходимо знать,
+— сеанс инициируется функцией session_start( ).
+Конечно, при включении директивы session.auto_start
+в файл php.ini (см. выше) необходимость в вызове
+этой функции отпадает. Тем не менее, в
+оставшейся части этого раздела я буду
+использовать эту функцию, чтобы примеры
+выглядели более последовательно. Функция
+session_start( ) имеет простой синтаксис,
+поскольку она не получает параметров и
+возвращает логическую величину.</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="prim.gif" align=left width="36" height="35">Директива
+session.save_handler настолько важна, что я счел
+необходимым посвятить ей отдельный раздел.
+Он находится в конце главы под заголовком «Назначение
+пользовательских функций для хранения
+сеансовых данных».</font></p>
+</i><b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">session_start( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+session_start( ) имеет двойное назначение. Сначала
+она проверяет, начал ли пользователь новый
+сеанс, и если нет — начинает его. Синтаксис
+функции</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">session_start( ): <i>boolean
+</i>session_start()</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если функция
+начинает новый сеанс, она выполняет три
+операции: назначение пользователю SID,
+отправку cookie (если в файле php.ini установлен
+флаг session_cookies) и создание файла сеанса на
+сервере. Второе назначение функции
+заключается в том, что она информирует ядро
+РНР о возможности использования в сценарии,
+в котором она была вызвана, сеансовых
+переменных.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Сеанс
+начинается простым вызовом session_start( )
+следующего вида:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">session_start( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если сеанс
+можно создать, значит, его можно и
+уничтожить. Это делается функцией session_destroy(
+).</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="sovet.gif" align=left width="36" height="35">Функция
+session_start( ) возвращает TRUE независимо от
+результата. Следовательно, проверять ее в
+условиях if или в команде die( ) бессмысленно.</font></p>
+</i><b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">session_destroy()</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+session_destroy( ) уничтожает все хранимые данные,
+относящиеся к сеансу текущего пользователя.
+Синтаксис функции session_destroy( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">boolean session_destroy(
+)</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Следует
+помнить, что эта функция </font><i><font COLOR="#000000">не
+уничтожает </font></i><font COLOR="#000000">cookie на
+браузере пользователя. Впрочем, если вы не
+собираетесь использовать cookie после конца
+сеанса, просто присвойте параметру
+session.cookie_lifetime в файле php.ini значение ( ) (используемое
+по умолчанию). Пример использования функции:</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">session_start( );</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Выполнить
+некоторые действия для текущего сеанса</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">session_destroy( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Теперь вы
+умеете уничтожать сеансы, и мы можем
+перейти к работе с сеансовыми переменными.
+Возможно, самой важной сеансовой
+переменной является SID (идентификатор
+сеанса). Его легко можно получить при помощи
+функции session_id( ).</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">session_id( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+session_id( ) возвращает SID для сеанса, созданного
+функцией session_start( ). Синтаксис функции session_id(
+):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">string session_id ([string sfd])</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Если в
+необязательном параметре передается
+идентификатор, то значение SID текущего
+сеанса изменяется. Однако следует
+учитывать, что cookie при этом заново </font><i><font COLOR="#000000">не
+пересылаются. </font></i><font COLOR="#000000">Пример:</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">session_start()</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Your
+session identification number is &quot;.sessionjd( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">session_destroy( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Результат,
+выводимый в браузере, выглядит примерно так:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Your session
+identification number is 067d992a949114ee9832flcllcafc640</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как же
+создать свою сеансовую переменную? С
+помощью функции session_register( ).</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">session_register( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+session_register( ) регистрирует имена одной или
+нескольких переменных для текущего сеанса.
+Синтаксис функции session_register( ):</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">boolean </font><font size="3" face="Courier New"><font COLOR="#000000">session_register
+(mixed имя_переменной1 [, mixed имя_переменной2... ])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Следует
+помнить, что вы регистрируете не сами
+переменные, а их имена. Если сеанс не
+существует, функция session_register( ) также неявно
+вызывает session_start( ) для создания нового
+сеанса.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Прежде чем
+приводить примеры использования session_register(
+), я хочу представить еще одну функцию,
+связанную с отслеживанием сеанса, —
+session_is_registered( ). Эта функция проверяет, была
+ли зарегистрирована переменная с заданным
+именем.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">session_is_registered(
+)</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Часто
+требуется определить, была ли ранее
+зарегистрирована переменная с заданным
+именем. Задача решается при помощи функции
+session_is_registered( ), имеющей следующий синтаксис:</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">boolean </font></font><font COLOR="#000000" size="3" face="Times New Roman">session_is_registered
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">имя_переменной)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Применение
+функций session_register( ) и session_is_registered( ) будет
+продемонстрировано на классическом
+примере использования сеансовых
+переменных — счетчике посещений (листинг
+13.5).</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+13.5. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Счетчик
+посещений сайта пользователем</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">session_start( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (! sessionjs_registered('hits')) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">session_register( 'hits'
+) ;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif ;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$hits++:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;You've seen this page $hits
+times.</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Сеансовые
+переменные можно не только создавать, но и
+уничтожать. Для этой цели применяется
+функция session_unregister( ).</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">session_unregister( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Сеансовые
+переменные уничтожаются функцией
+session_unregister( ). Синтаксис:</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">boolean </font></font><font COLOR="#000000" size="3" face="Times New Roman">session_unregister
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">имя_переменной')</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">При вызове
+функции передается имя сеансовой
+переменной, которую вы хотите уничтожить.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">session_start()</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">session_register('username');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Использовать переменную $username.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Когда
+переменная становится ненужной -
+уничтожить ее.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">session_unregister('username');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">session_destroy();</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Как и в
+случае с функцией session_register, помните, что в
+параметре указывается не сама переменная (то
+есть имя с префиксом $). Вместо этого
+указывается <i>имя</i></font><i><font COLOR="#000000"> </font></i><font color="#000000">переменной</font><font COLOR="#000000">.</font></font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">session_encode( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+session_encode( ) обеспечивает чрезвычайно удобную
+возможность форматирования сеансовых
+переменных для хранения (например, в базе
+данных). Синтаксис функции session_encode( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">boolean session_encode(
+)</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В результате
+выполнения этой функции все сеансовые
+данные форматируются в одну длинную строку,
+которую можно сохранить в базе данных.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Пример
+использования session_encode( ) приведен в
+листинге 13.6. Предположим, что на компьютере
+«зарегистрированного» пользователя
+имеется cookie, в котором хранится уникальный
+идентификатор этого пользователя. Когда
+пользователь запрашивает страницу,
+содержащую листинг 13.6, UID читается из cookie и
+присваивается идентификатору сеанса. Мы
+создаем несколько сеансовых переменных и
+присваиваем им значения, после чего
+форматируем всю информацию функцией
+session_encode( ) и заносим в базу данных MySQL.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+13.6. </font></font></i></b><font size="3" face="Times New Roman"><i><font COLOR="#000000">Использование
+функции session_encode( ) для сохранения данных в
+базе данных MySQL</font></i></font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Инициировать сеанс и создать сеансовые
+переменные</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">session_register('bgcolor');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">session_register('fontcolor');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Предполагается, что переменная $usr_id (с
+уникальным</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// идентификатором пользователя)
+хранится в cookie</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// на компьютере пользователя.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// При помощи
+функции session_id( ) присвоить идентификатору</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+сеанса уникальный идентификатор
+пользователя (UID),</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// хранящийся в cookie. $id =
+session_id($usr_id);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Значения
+следующих переменных могут задаваться
+пользователем</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// на форме HTML $bgcolor
+= &quot;white&quot;; $fontcolor = &quot;blue&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Преобразовать все сеансовые данные в одну
+строку</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$usr_data = session_encode( );</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Подключиться к серверу MySQL и выбрать базу
+данных users</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_pconnect(&quot;localhost&quot;, &quot;web&quot;,
+&quot;4tf9zzzf&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Could not
+connect to MySQL server!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_select_db(&quot;users&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Could not
+select user database!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Обновить
+пользовательские параметры страницы</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;UPDATE
+user_info set page_data='$usr_data' WHERE user_id= '$id'&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$result - mysql_query($query)
+or die(&quot;Could not update user information!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как видите,
+быстрое преобразование всех сеансовых
+переменных в одну строку избавляет нас от
+необходимости создавать несколько полей
+для хранения/загрузки данных, а также
+несколько уменьшает объем программы.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">session_decode( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Все
+сеансовые данные, ранее преобразованные в
+строку функцией sessi on_encode( ),
+восстанавливаются функцией session_decode( ).
+Синтаксис:</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string session_decode
+(string </font></font><font size="3" face="Courier New"><font COLOR="#000000">сеансовые_данные)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В параметре
+сеансовые_данные передается
+преобразованная строка сеансовых
+переменных, возможно — прочитанная из
+файла или загруженная из базы данных.
+Строка восстанавливается, и все сеансовые
+переменные в строке преобразуются к
+исходному формату.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В листинге
+13.7 продемонстрировано восстановление
+закодированных сеансовых переменных
+функцией session_decode( ). Предположим, таблица MySQL
+с именем user_info состоит из двух полей: user_id и
+page_data. Пользовательский UID, хранящийся в cookie
+на компьютере пользователя, применяется
+для загрузки сеансовых данных, хранящихся в
+поле page_data. В этом поле хранится
+закодированная строка переменных, одна из
+которых ($bgcolor) содержит цвет фона, выбранный
+пользователем.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+13.7. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Восстановление
+сеансовых данных, хранящихся в базе данных
+MySQL</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Предполагается, что переменная $usr_id (с
+уникальным</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// идентификатором пользователя)
+хранится в cookie</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// на компьютере пользователя.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$id = session_id($usr_id);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Подключиться к серверу MySQL и выбрать базу
+данных users</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysq]_pconnect(&quot;localhost&quot;, &quot;web&quot;,
+&quot;4tf9zzzf&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Could not
+connect to MySQL server!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_select_db(&quot;users&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Could not
+select company database!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Выбрать
+данные из таблицы MySQL</font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">$query = &quot;SELECT
+page_data FROM user_info WHERE user_id= '$id'&quot;,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Sresult = mysql_query($query);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$user_data =
+mysql_result($result, 0. &quot;page_data&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Восстановить данные session_decode($user_data):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вывести
+одну из восстановленных сеансовых
+переменных</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;BGCOLOR: $bgcolor&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как видно из
+двух приведенных листингов, функции session_
+encode( ) и ses-sion_decode( ) обеспечивают очень
+удобные и эффективные сохранение и
+загрузку сеансовых данных.</font></p>
+<p><A NAME="g"></A><font color="#000000" face="Times New Roman" size="4">Назначение
+пользовательских функций для хранения
+сеансовых данных</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Хранить
+сеансовые данные в файлах удобно, но вполне
+возможно, вы захотите воспользоваться
+другими средствами — например, базами
+данных. А может быть, вы хотите применить
+один и тот же сценарий на разных сайтах для
+разных баз данных. Существует и другая
+распространенная проблема — стандартная
+для РНР процедура хранения сеансовых
+данных в файлах затрудняет совместное
+использование данных на разных серверах. К
+счастью, все эти проблемы отслеживания
+сеансов в РНР решаются очень просто,
+поскольку РНР дает пользователю
+возможность установить собственную
+процедуру сохранения при помощи
+стандартной функции session_set_save_handler( ).</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+session_set_save_handler( ) определяет процедуры
+сохранения и загрузки сеансовых данных
+пользовательского уровня.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Синтаксис
+функции session_set_save_handler():</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">void session_set_save_handler
+(string open,
+string close, string read, string write, string destroy, string go) </font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Шесть
+параметров session_set_save_handler( ) соответствуют
+шести функциям, вызываемым сеансовыми
+функциями РНР. Хотя имена этих функций
+могут быть произвольными, каждая функция
+должна получать жестко заданный набор
+параметров. Перед тем как переходить к
+рассмотрению примера, просмотрите таблицу
+13.2 — в ней описаны назначение всех шести
+функций и их параметры.</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="prim.gif" align=left width="36" height="35">Чтобы
+использовать функцию session_set_save_handler( ),
+необходимо присвоить па-раметру session.save_handler
+в файле php.ini значение user.</font></p>
+</i><b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Таблица
+13.2. </font></font></b><font size="3" face="Times New Roman"><font COLOR="#000000"><i>Шесть
+параметров функции session_set_save_handler( )</i></font></font></p>
+<b>
+<table border="1" width="552" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="213" align="center"><b><font COLOR="#000000" size="3" face="Times New Roman">Параметр</font>
+</b>
+    </td>
+    <td width="333" align="center"><b><font COLOR="#000000" size="3" face="Times New Roman">Описание</font>
+</b>
+    </td>
+  </tr>
+</b>
+<tr>
+  <td width="213"><font COLOR="#000000" size="3" face="Times New Roman">sess_close(
+    )</font></td>
+  <td width="350"><font size="3" face="Times New Roman"><font COLOR="#000000">Вызывается
+при завершении сценария, в котором
+реализуются сеансовые функции. </font><i><font COLOR="#000000">Не
+путайте </font></i><font COLOR="#000000">эту функцию с
+функцией sess_destroy( ), предназначенной для
+уничтожения сеансовых переменных. Функция
+sess_close( ) вызывается без параметров</font></font></td>
+</tr>
+<tr>
+  <td width="213"><font COLOR="#000000" size="3" face="Times New Roman">sess_destroy($идент_ceaнca)</font></td>
+  <td width="333"><font COLOR="#000000" size="3" face="Times New Roman">Удаляет все
+сеансовые данные. Параметр определяет
+удаляемый сеанс</font></td>
+</tr>
+<tr>
+  <td width="213"><font COLOR="#000000" size="3" face="Times New Roman">sess_gc($срок_действия)</font></td>
+  <td width="333"><font COLOR="#000000" size="3" face="Times New Roman"> Удаляет все сеансы с
+завершенным сроком действия. Срок
+определяется параметром $срок_действия,
+значение которого задается в секундах.
+Параметр читается из файла php.ini и
+соответствует значению session.gcjifetime</font></td>
+</tr>
+<tr>
+  <td width="213"><font COLOR="#000000" size="3" face="Times New Roman">sess_open($путь, $имя)</font></td>
+  <td width="333"><font COLOR="#000000" size="3" face="Times New Roman">&nbsp;
+Вызывается при инициализации нового сеанса
+функцией session_start( ) или session_register( ). Два
+параметра читаются из файла php.ini и
+соответствуют значениям session.save_path и session.name</font></td>
+</tr>
+<tr>
+  <td width="213"><font COLOR="#000000" size="3" face="Times New Roman">sess_read($ключ)</font></td>
+  <td width="333"><font COLOR="#000000" size="3" face="Times New Roman">Используется
+для выборки значения сеансовой переменной,
+определяемой заданным ключом</font></td>
+</tr>
+<tr>
+  <td width="213"><font COLOR="#000000" size="3" face="Times New Roman">sess_write($ключ, $значение)</font></td>
+  <td width="333"><font COLOR="#000000" size="3" face="Times New Roman">Используется
+для сохранения сеансовых данных. Любые
+данные, сохраненные функцией sess_write( ),
+позднее могут быть прочитаны функцией sess_read(
+    ).
+Параметр $ключ соответствует имени
+сеансовой переменной, а параметр $значение
+— значению, связываемому с заданным ключом</font></td>
+</tr>
+</table>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Теперь,
+когда вы знаете все, что необходимо знать о
+параметрах session_set_save_handler( ), мы рассмотрим
+пример реализации сеансовых функций на
+базе MySQL (листинг 13.8).</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+13.8. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Реализация
+сеансовых функций на базе MySQL</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Реализация
+сеансовых функций на базе MySQL</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Хост, имя
+пользвателя и пароль</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$host = &quot;localhost&quot;; $user =
+&quot;web&quot;; $pswd = &quot;4tf9zzzf&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Имена
+таблицы и базы данных</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$db = &quot;users&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$session table = &quot;user
+session data&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Прочитать
+значение sess.gc_lifetime из файла php.ini</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$sess_life =
+get_cfg_var(&quot;sess.gc_lifetime&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Функция :
+mysql_sess_open()</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+подключение к серверу MySQL</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// и выбор
+базы данных.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function mysql_sess_open($save_path.
+$session_name) {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">GLOBAL $host. $user, $pswd,
+$db;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_connect($host, $user,
+$pswd)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Can't
+connect to MySQL server!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_select_db($db)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Can't
+select session database!&quot;);</font></p>
+<p><font color="#000000" face="Courier New" size="3">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Функция:
+mysql_sess_close()</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+в реализации на базе MySQL эта функция не
+используется.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Тем не
+менее, она Обязательно* должна быть
+определена.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function diysql_sess_close() {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">return true:</font></p>
+<p><font color="#000000" face="Courier New" size="3">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Функция:
+mysql_sess_read()</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+загрузка информации из базы данных MySQL.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function mysql_sess_read($key) {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">GLOBAL $session_table:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;SELECT
+value FROM $session_table WHERE sess_key = '$key'&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$result = mysql_query(
+$query);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (list($value) =
+mysql_fetch_row($result)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">return $value;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endlf;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">return false;</font></p>
+<p><font color="#000000" face="Courier New" size="3">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Функция:
+mysql_sess_write( )</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+запись информации в базу данных MySQL.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function mysql_sess_write($key,
+$val) {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">GLOBAL $sess_life,</font> <font COLOR="#000000" size="3" face="Courier New">$session_table;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$expiratlon =
+time() + $sess_life;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;INSERT
+INTO Ssession_table VALUES('$key', '$expiration', '$value')&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$result = mysql_query($query);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Если
+запрос на вставку данных завершился
+неудачей // из-за присутствия первичного
+ключа в поле sess_key, // выполнить обновление.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (! $result) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;UPDATE
+$session_table</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">SET sess_expiration = '$expiration',
+sess_value='Svalue'</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">WHERE sess_key = '$key'&quot;;
+$result = mysql_query($result);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Функция:
+mysql_sess_destroy()</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+удаление из таблицы всех записей с ключом,
+равным $sess_id</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function mysql_sess_destroy(Ssess_id) {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">GLOBAL $session_table:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;DELETE
+FROM $session_table WHERE sess_key = '$sess_id'&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$result = mysql_result($query);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">return $result;</font></p>
+<p><font color="#000000" face="Courier New" size="3">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Функция:
+mysql_sess_gc()</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+удаление всех записей, у которых</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// срок жизни
+&lt; текущее время - session.gc_lifetime</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function mysql_sess_gc($max_lifetime)
+{</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">GLOBAL $session_table:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;DELETE
+FROM $session_table WHERE sess_expiration &lt; &quot;.time();</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$result = mysql_query($query);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">return mysql_affected_rows();</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">session_set_save_handler(&quot;mysql_sess_open&quot;,
+&quot;mysql_sess_close&quot;,&quot;mysql_sess_read&quot;, &quot;mysql_sess_write&quot;,
+&quot;mysql_sess_destroy&quot;, &quot;mysql_sess_gc&quot;);</font></p>
+<p><font color="#000000" face="Courier New" size="3">?&gt;</font></p>
+<p><font size="3" face="Times New Roman" COLOR="#000000">После того
+как эти шесть функций будут
+зарегистрированы в программе, их можно
+вызывать по абстрактным именам (sess_close( ),
+sess_destroy( ), sess_gc( ), sess_open( ), sess_read( ) или sess_write( )).
+Такой подход удобен тем, что вы можете
+создать сколько угодно реализаций и
+переключаться между ними, вызывая
+ses-sion_set_save_handler( ) по мере необходимости.</font></p>
+<b>
+<p><A NAME="h"></A><font color="#000000" face="Times New Roman" size="4">Проект:
+журнал посещений сайта</font></p>
+</b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Статистические
+сведения о посетителях сайта приносят
+немалую пользу. Как вы уже знаете,
+сохранение информации о посетителях широко
+практикуется на сайтах рекламных web-агентств
+и порталов, а также на многих других сайтах,
+желающих получить дополнительные сведения
+о своих посетителях. Хотя системы учета
+бывают невероятно сложными, даже
+относительно простая система ведения учета
+открывает немало интересных возможностей.
+Я покажу, как реализовать простейший журнал
+посещений на базе РНР, MySQL и cookie.</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="attent.gif" align=left width="36" height="35">В
+проекте использована методика
+идентификации браузера, описанная в главе 8.
+Если вы пропустили главу 8 или описание
+проекта, я настоятельно рекомендую
+вернуться и просмотреть код проекта.</font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как было
+сказано ранее, наша система будет
+относительно простой — посещения будут
+отслеживаться только для индексной
+страницы сайта. При появлении нового
+посетителя сценарий РНР проверяет,
+существует ли на компьютере посетителя cookie.
+Если cookie находится, значит, пользователь
+посещал сайт в течение определенного
+интервала времени (который задается
+администратором сайта в инициализационном
+файле), и сценарий не учитывает новое
+посещение. Если cookie отсутствует или
+интервал между посещениями превысил
+заданную величину, информация сохраняется
+в таблице MySQL, а на компьютер посетителя
+создается cookie.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как
+реализовать подобный сценарий на РНР?
+Прежде всего необходимо создать таблицу MySQL
+для хранения информации:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">mysql&gt;create table
+visitors (</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">-&gt;browser char(85)
+NOT NULL. -&gt;ip char(30) NOT NULL.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">-&gt;host char(85) NOT NULL.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">-&gt;timeOfVisit
+datetime NOT NULL</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">-&gt;);</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В поле browser
+хранится информация, непосредственно
+относящаяся к браузеру посетителя. Она
+берется из переменной РНР с именем $HTTP_USER_AGENT.
+В поле ip хранится IP-адрес посетителя. В поле
+host хранится информация о провайдере, от
+которого поступил IP-адрес. Наконец, поле
+timeOfVisit содержит дату и время посещения
+сайта.</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="prim.gif" align=left width="36" height="35">Полноценное
+приложение для ведения журнала посещений
+имеется на сайте ресурсов РНР phpinfo.net (http://www.phpinfo.net).
+Более того, вы сможете непосредственно</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">на сайте
+увидеть, как оно работает. К сожалению,
+перед посещением этого сайта вам</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">придется
+вспомнить школьный курс французского языка.</font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Затем мы
+создаем инициализационный файл приложения
+init.inc (листинг 13.9), содержащий определения
+глобальных переменных и основных функций.
+Обратите внимание: в функции viewStats( )
+используется сценарий sniffer.php из главы 8.
+Этот сценарий включается в файл init.inc по
+мере необходимости. Рекомендую потратить
+немного времени на просмотр этого сценария
+и комментариев к нему.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+13.9. </font></font></i></b><font size="3" face="Times New Roman"><i><font COLOR="#000000">Инициализационный
+файл приложения (init.inc) </font></i><font COLOR="#000000">&lt;?</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Файл: init.inc</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+инициализационный файл журнала посещений
+сайта</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Параметры
+соединения с сервером MySQL $host = &quot;localhost&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$user = &quot;root&quot;;
+$pswd = &quot;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Имя базы
+данных Sdatabase = &quot;myTracker&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Имя
+таблицы $visitors_table = &quot;visitors&quot;:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_pconnect($host,
+$user, $pswd) or die(&quot;Couldn't connect to MySQL server!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Выбрать
+базу данных</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_select_db($database)
+or die(&quot;Couldn't select $database database!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Максимальное количество посещений,
+отображаемое в таблице $maxNumVisitors = &quot;5&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Имя cookie</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$cookieName = &quot;visitorlog&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Значение
+cookie $cookieValue=&quot;1&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Срок,
+который должен пройти с момента последнего
+посещения сайта,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// чтобы информация о
+текущем посещении была сохранена в базе
+данных.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Если переменная $timeLimit равна 0.
+сохраняются все посещения</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// независимо от
+их частоты.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Остальные
+целочисленные значения интерпретируются
+как интервал</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// времени в секундах.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$timeLimit = 3600:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Формат
+отображения данных в браузере</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$header_color = &quot;#cbda74&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$table_color = &quot;#000080&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$row_color = &quot;IcOcOcO&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$font_color = &quot;#000000&quot;:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$font_face = &quot;Arial.
+Times New Roman. Verdana&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$font_size =
+&quot;-1&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function recordUser() {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">GLOBAL $visitors_table,
+$HTTP_USER_AGENT, $REMOTE_AODR, $REMOTE_HOST; if ($REMOTE_HOST — &quot;&quot;)
+:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$REMOTE_HOST - &quot;localhost&quot;;
+endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$timestamp - date(&quot;Y-m-d
+H:i:S&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query - &quot;INSERT
+INTO $visitors_table VALUES('$HTTP_USER_AGENT', '$REMOTE_ADDR', '$REMOTE_HOST',
+'$timestamp')&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Sresult = @mysql_query($query);
+}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// recordUser function
+viewStats() {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">GLOBAL $visitors_table,
+$maxNumVisitors, $table_color, $header_color;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">GLOBAL $row color. $font color,
+$font face, $font size:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;SELECT
+browser, ip. host. TimeofVisit FROM $visitors_table ORDER BY TimeofVisit desc
+LIMIT 0, $maxNumVisitors&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$result = mysql_query($query);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;table
+cellpadding=\&quot;2\&quot; cellspacing=\&quot;1\&quot; width = \&quot;700\&quot;
+border = \&quot;0\&quot; bgcolor=\ &quot; $table_color\ &quot;&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;tr
+bgcolor= \&quot;$header_color\&quot;&gt;&lt;th&gt;Browser&lt;/th&gt;&lt;th&gt;IP&lt;/th&gt;&lt;th&gt;Host&lt;/
+th&gt;&lt;th&gt;TimeofVisit&lt;/th&gt;&lt;/tr&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while($row =
+mysql_fetch_array($result));</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">list ($browse_type,
+$browse_version) = browser_info ($row[&quot;browser&quot;]); $op_sys =
+opsys_info ($row[&quot;browser&quot;]);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;tr
+bgcolor=\&quot;$row_color\&quot;&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;td&gt;&lt;font
+color=\&quot;$font_color\&quot; face=\&quot;$font_face\&quot; size=\&quot;$font_size\&quot;&gt;$browse_type
+$browse_version = $op_sys&lt;/font&gt;&lt;/td&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;td&gt;&lt;font
+color=\&quot;$font_color\&quot; face=\&quot;$font_face\&quot; si ze=\&quot;$font_size\&quot;&gt;&quot;.$row[&quot;ip&quot;].&quot;&lt;/f
+ont&gt;&lt;/td&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;td&gt;&lt;font
+color=\&quot;$font_color\&quot; face=\&quot;$font_face\&quot; size=\&quot;$font_size\&quot;&gt;&quot;.$row[&quot;host&quot;].&quot;&lt;/font&gt;&lt;/td&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;td&gt;&lt;font
+color=\&quot;$font_color\&quot; face=\&quot;$font_face\&quot; size=\&quot;$font_size\&quot;&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print $row[&quot;TimeofVisit&quot;].&quot;&lt;/font&gt;&lt;/td&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;/tr&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print
+&quot;&lt;/table&gt;&quot;; }</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// viewStats</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Фрагмент
+кода, приведенный в листинге 13.10, проверяет
+существование cookie и при необходимости
+вызывает функцию recordUser( ). Я привожу этот
+фрагмент в составе очень простого
+индексного файла index.php.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+13.10. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Проверка
+существования cookie (index.php)</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">include(&quot;Listing13-9.php&quot;);
+if (! isset($$cookieName)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Создать
+cookie</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">setcookie($cookieName,
+$cookieValue, time()+$timeLimit);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Сохранить
+информацию о посетителе recordUser();</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif:</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;Wecome to
+My Site!&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">&lt;body bgcolor=&quot;#c0c0c0&quot;
+text=&quot;#000000&quot; link=&quot;#808040&quot; &quot; vlink=&quot;#808040&quot;
+alink=&quot;#808040&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Welcome to my site.
+&lt;a href = &quot;visitors.php&quot;&gt;Check out who else has recently visited&lt;/a&gt;.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как
+организовать просмотр информации,
+хранящейся в базе данных MySQL, в браузере?
+Задача решается простым вызовом функции
+viewStats( ) в отдельном файле visitors.php:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">include(&quot;sniffer.inc&quot;):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">include(&quot;init.inc&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;Most
+recent &lt;?=$maxNumVisitors:?&gt; visitors&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=&quot;#ffffff&quot;
+text=&quot;#000000&quot; link=&quot;#808040&quot; vlink=&quot;#808040&quot;
+alink=&quot;#808040&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">viewStats( );</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Возможно и
+другое решение — включить весь код HTML в
+функцию viewStats( ), а затем просто включить
+sniffer.inc, init.inc и вызов viewStats( ) в отдельный файл.
+Выбор зависит от того, до какой степени вы
+хотите интегрировать форматирование
+таблицы с процессом выборки данных.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">На рис. 13.1
+показан пример выходных данных viewStats( ) для
+атрибутов форматирования, заданных в файле
+init.inc.</font></p>
+<p><img border="0" src="13.1.jpg" width="526" height="140"></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Рис. 13.1. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Пример
+результата, сгенерированного функцией
+viewStats( )</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Существует
+немало путей для расширения практических
+возможностей этого приложения. Например,
+для отслеживания посещений со страницами
+сайта часто связываются идентификаторы, по
+которым в дальнейшем можно следить за
+перемещением пользователей между
+страницами. В рассмотренном проекте для
+этого в таблицу MySQL следует включить
+дополнительное поле, в котором хранится
+идентификатор страницы, а затем
+переопределить функцию recordllser( ) с
+дополнительным параметром. Идентификатор
+страницы сохраняется в cookie. При поступлении
+очередного запроса сценарий проверяет
+существование cookie для конкретной страницы,
+информация о которой регистрируется в
+журнале.</font></p>
+<b>
+<p><A NAME="i"></A><font color="#000000" face="Times New Roman" size="4">Итоги</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В этой главе
+был представлен один из самых
+замечательных аспектов языка РНР —
+отслеживание сеанса. В частности, были
+рассмотрены следующие темы:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">общие
+    сведения о cookie;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">работа с
+    cookie в РНР;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">создание
+    уникальных идентификаторов;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">сценарии
+    регистрации пользователей;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">общие
+    сведения о сеансах;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">параметры
+    сеансов в файле php.ini;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">стандартные
+    сеансовые функции в РНР;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">функция
+    session_set_save_handler( );</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">учет
+    посещений сайта.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Концепция
+сеанса открывает очень широкие возможности
+перед разработчиками web-сайтов,
+ориентированных на пользователя.
+Настоятельно рекомендую
+поэкспериментировать с сеансовыми
+средствами РНР — думаю, вы оцените ту
+пользу, которую они могут принести.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">На этом
+завершается вторая часть книги. Третья
+часть, «РНР для профессионалов»,
+открывается обзором интеграции РНР с XML. Не
+расслабляйтесь, самое интересное впереди.</font></p>
+</BODY></HTML>

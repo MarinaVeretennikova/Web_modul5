@@ -1,0 +1,63 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции mnoGoSearch</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="usleep.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="udm-add-search-limit.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.mnogo"></A>LXI. Функции mnoGoSearch</h1><A NAME="AEN49182"></A>
+<P>Эти функции дают вам доступ к mnoGoSearch (бывшая
+UdmSearch) свободной поисковой машине.  Чтобы иметь возможность работать с этими функциями, вы обязаны скомпилировать РНР с 
+поддержкой mnogosearch с использованием опции
+<A HREF="../configure.html#install.configure.with-mnogosearch"><TT> --with-mnogosearch</TT></A>.
+Если вы используете эту опцию без специфицирования пути к mnogosearch, РНР 
+будет по умолчанию искать mnogosearch в директории /usr/local/mnogosearch. Если вы установили
+mnogosearch в другое место, вы должны специфицировать его:
+<A HREF="../configure.html#install.configure.with-mnogosearch"><TT> --with-mnogosearch=DIR</TT></A>.</P>
+<P>mnoGoSearch это программа полнофункциональной поисковой машины для intranet и internet-серверов, распространяемая по GNU-лицензии.<br>
+mnoGoSearch имеет уникальные возможности, делающие её пригодной для 
+использования в широком круге приложений - от поиска на вашем сайте до 
+специализированной поисковой системы: для поиска кулинарных рецептов, ftp-архивов, 
+новостей etc. Она предлагает полнотекстовое индексирование и поиск в HTML, PDF и текстовых документах.<br>
+mnoGoSearch состоит из двух частей. Первая это механизм индексирования (индексатор). 
+Цель индексатора - проходить по HTTP, FTP, NEWS-серверам или локальным файлам, 
+рекурсивно выгребая все документы и сохраняя метаданные об этих документах в БД SQL эффективным способом.
+После получения ссылки на каждый документ соответствующим URL, метаданные, 
+собранные индексатором, используются позднее в процессах поиска. Поиск 
+выполняется по Web-интерфейсу. Включены также C CGI, PHP и Perl-интерфейсы для поиска.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>РНР содержит также встроенную библиотеку mysql access, которую можно 
+использовать для доступа к mysql. Известно, что mnoGoSearch несовместима с 
+этой встроенной библиотекой и может работать только с общими/родовыми 
+библиотеками mysql. Таким образом, если вы используете mnoGoSearch с mysql, 
+то в процессе конфигурирования РНР вы должны указать директорию инсталяции mysql, 
+которая была использована в ходе конфигурирования mnoGoSearch, т.е., например,<br>
+<TT><A HREF="../configure.html#install.configure.with-mnogosearch">--with-mnogosearch --with-mysql=/usr</A></TT>.</P>
+</BLOCKQUOTE><P>Вам необходима как минимум версия 3.1.10 mnoGoSearch для использования этих функций.</P>
+<P>Дополнительную информацию о mnoGoSearch можно найти на 
+<A HREF="http://www.mnogosearch.ru/" TARGET="_top">http://www.mnogosearch.ru/</A></P>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="udm-add-search-limit.html">udm_add_search_limit</A> - добавляет различные ограничения для поиска</DT>
+<DT><A HREF="udm-alloc-agent.html">udm_alloc_agent</A> - выделяет mnoGoSearch-сессию</DT>
+<DT><A HREF="udm-api-version.html">udm_api_version</A> - получает версию mnoGoSearch API</DT>
+<DT><A HREF="udm-cat-list.html">udm_cat_list</A> - получает все категории одного уровня с текущей</DT>
+<DT><A HREF="udm-cat-path.html">udm_cat_path</A> - получает путь к текущей директории</DT>
+<DT><A HREF="udm-check-charset.html">udm_check_charset</A> - проверяет, известен ли данный набор символов mnogosearch</DT>
+<DT><A HREF="udm-check-stored.html">udm_check_stored</A> - проверяет хранимое соединение</DT>
+<DT><A HREF="udm-clear-search-limits.html">udm_clear_search_limits</A> - очищает все ограничения поиска mnoGoSearch</DT>
+<DT><A HREF="udm-close-stored.html">udm_close_stored</A> - закрывает хранимое соединение</DT>
+<DT><A HREF="udm-crc32.html">udm_crc32</A> - возвращает контрольную сумму CRC32 данной строки</DT>
+<DT><A HREF="udm-errno.html">udm_errno</A> - получает номер ошибки mnoGoSearch</DT>
+<DT><A HREF="udm-error.html">udm_error</A> - получает сообщение об ошибке mnoGoSearch</DT>
+<DT><A HREF="udm-find.html">udm_find</A> - выполняет поиск</DT>
+<DT><A HREF="udm-free-agent.html">udm_free_agent</A> - освобождает mnoGoSearch-сессию</DT>
+<DT><A HREF="udm-free-ispell-data.html">udm_free_ispell_data</A> - освобождает память, выделенную для ispell-данных</DT>
+<DT><A HREF="udm-free-res.html">udm_free_res</A> - освобождает mnoGoSearch result</DT>
+<DT><A HREF="udm-get-doc-count.html">udm_get_doc_count</A> - получает общее количество документов в БД</DT>
+<DT><A HREF="udm-get-res-field.html">udm_get_res_field</A> - извлекает поле mnoGoSearch result</DT>
+<DT><A HREF="udm-get-res-param.html">udm_get_res_param</A> - получает mnoGoSearch result-параметры</DT>
+<DT><A HREF="udm-load-ispell-data.html">udm_load_ispell_data</A> - загружает ispell-данные</DT>
+<DT><A HREF="udm-open-stored.html">udm_open_stored</A> - открывает соединение для сохранения</DT>
+<DT><A HREF="udm-set-agent-param.html">udm_set_agent_param</A> - устанавливает параметры mnoGoSearch agent-сессии</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="usleep.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="udm-add-search-limit.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">usleep</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top">udm_add_search_limit</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

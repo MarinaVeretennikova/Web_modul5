@@ -1,0 +1,30 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>dio_fcntl</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="dio-close.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="dio-open.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.dio-fcntl">dio_fcntl</A></H1><A NAME="AEN18454"></A><P>(PHP 4 &#62;= 4.2.0)</P>
+<p>dio_fcntl - выполняет функцию fcntl c-библиотеки на дескрипторе fd.<A NAME="AEN18457"></A></p>
+<H2>Описание</H2><p>mixed <B>dio_fcntl</B> (resource fd, int cmd [, mixed arg])</p>
+<P>Функция <B>dio_fcntl()</B> выполняет операции, специфицированные параметром <TT><I>cmd</I></TT>, с
+дескриптором файла <TT><I>fd</I></TT>. Некоторые команды требуют предоставления дополнительных аргументов
+<TT><I>args</I></TT>.</P><P><TT><I>arg</I></TT> это ассоциативный массив, когда <TT><I>cmd</I></TT> имеет значение F_SETLK или F_SETLLW, со следующими ключами:
+<UL><LI>"start" - смешение, где начинается блокировка.</LI>
+<LI>"length" - размер блокированной области. zero означает конец файла.</LI>
+<LI>"wenth" - где относится к l_start: может быть SEEK_SET, SEEK_END и SEEK_CUR.</LI>
+<LI>"type" - тип блокировки: может быть F_RDLCK (read lock), F_WRLCK (write lock) или F_UNLCK (unlock).</LI></UL>
+<P><TT><I>cmd</I></TT> может быть одной из следующих операций:
+<UL><LI>F_SETLK - блокировка установлена или очищена. Если блокировка 
+удерживается кем-либо ещё, <B>dio_fcntl()</B> возвращает -1.</LI>
+<LI>F_SETLKW - похожа на F_SETLK, но в случае, когда блокировка 
+удерживается кем-либо ещё, <B>dio_fcntl()</B> ожидает, пока блокировка не будет освобождена.</LI>
+<LI>F_GETLK - <B>dio_fcntl()</B> возвращает ассоциативный массив (как описано выше), если кто-нибудь ещё 
+предотвращает блокировку. Если препятствий нет, ключ "type" будет установлен F_UNLCK.</LI>
+<LI>F_DUPFD - находит наименьший нумерованный дескриптор файла, больше или равный <TT><I>arg</I></TT>, и возвращает его.</LI></UL>    </TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="dio-close.html">Назад</A></TD><th WIDTH="34%"  VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="dio-open.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">dio_close</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.dio.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">dio_open</TD>
+</TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

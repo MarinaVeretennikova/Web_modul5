@@ -1,0 +1,407 @@
+<HTML>
+
+<!--
+
+Author:	Paul Khramtsov
+
+Date:	May 17, 1998
+
+-->
+
+<HEAD>
+
+<title>Web-engineering (Introduction to the JavaScript. Test. Navigator object.)</title>
+
+<link rel="stylesheet" type="text/css" href="page.css" tppabs="http://webclass.polyn.kiae.su/classes/css/page.css">
+
+
+
+<!--Charset-->
+
+<script language=JavaScript src="jsc.pgm" tppabs="http://webclass.polyn.kiae.su/classes/css/jsc.pgm"></script>
+
+</HEAD>
+
+<body style="color:navy;background-color:whitesmoke;background-image:url(../../images/main/rope.gif);" onLoad="jump();">
+
+
+
+<!-- Логотип -->
+
+<div class=logo>
+
+<table border=0 cellpadding=0 cellspacing=0 width=560>
+
+<tr><td><img src="sea003.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea003.gif" width=560 height=5 border=0 hspace=0 vspace=0 align=left></td></tr>
+
+<tr><td><img src="sea000.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea000.gif" width=560 height=15 border=0 hspace=0 vspace=0 align=left></td></tr>
+
+<!--
+<tr><td><a href=../../homef.htm onMouseover="document.sea001.src='../../images/main/hweb.gif';return true;" onMouseout="document.sea001.src='../../images/main/sea001.gif';return true;"><img name=sea001 src=../../images/main/sea001.gif width=560 height=15 border=0 hspace=0 vspace=0 align=left></a></td></tr>
+-->
+
+<tr><td><img name=sea001 src="sea001.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea001.gif" width=560 height=15 border=0 hspace=0 vspace=0 align=left></td></tr>
+
+
+<tr><td><img src="sea002.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea002.gif" width=560 height=5 border=0 hspace=0 vspace=0 align=left></td></tr>
+
+</table>
+
+</div>
+
+<!-- Конец логотипа -->
+
+<!-- Главное меню -->
+
+<div class=menu>
+
+<table border=0 cellpadding=0 cellspacing=0 width=560>
+
+<tr>
+
+<td><a href="browser.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/browser.htm"><img src="manual.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/manual.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Конспект></a></td>
+
+<td><img src="ref.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/ref.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Справочник></td>
+
+<td><img src="work.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/work.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Задания></td>
+
+<td><img src="ex.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/ex.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Примеры></td>
+
+<td><a href="treejsit.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/test/treejsit.htm"><img src="tests.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/tests.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Контроль></a></td>
+
+<td><img src="coach.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/coach.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Тьютор></td>
+
+<td><a href="javascript:if(confirm('http://webclass.polyn.kiae.su/classes/fsub.htm  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://webclass.polyn.kiae.su/classes/fsub.htm'" tppabs="http://webclass.polyn.kiae.su/classes/fsub.htm"><img src="lcheck.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/lcheck.gif" border=0 hspace=0 vspace=0 height=20 width=74 alt=Подписка></a></td>
+
+</tr>
+
+</table>
+
+</div>
+
+<!-- Конец главного меню -->
+
+<!-- Навигационное дерево -->
+
+<div class=navy>
+<table border=0 cellspacing=0 cellpadding=0 width=560>
+<tr>
+<td height=15 class=tree>
+<a class=tree href="javascript:if(confirm('http://webclass.polyn.kiae.su/classes/homef.htm  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://webclass.polyn.kiae.su/classes/homef.htm'" tppabs="http://webclass.polyn.kiae.su/classes/homef.htm">Web-инжиниринг(Оглавление)</a>
+</td>
+<tr>
+<td height=15 class=tree>
+<img src="treetc-1.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main//treetc.gif" border=0 hspace=2 align=top width=15 height=15 vspace=0>
+Объектная модель в World Wide Web. Динамический HTML
+</td>
+</tr>
+<tr>
+<td height=15 class=tree>
+<img name=down src="treevl.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treevl.gif" border=0 hspace=2 align=top width=15 height=15 vspace=0>
+<img src="treetc.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treetc.gif" border=0 hspace=2 align=top width=15 height=15 vspace=0>
+<a class=tree id=current href="treejsit.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/test/treejsit.htm">Введение в JavaScript</a>
+</td>
+</tr>
+</table>
+</div>
+<!-- Конец навигационного дерева -->
+
+<!-- Меню последовательного просмотра -->
+
+<div class=next>
+
+<map name=top_menu>
+
+<area shape=rect coords="500,0,560,15" href="wcontrot.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/test/wcontrot.htm">
+
+</map>
+
+<img src="menu_l.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/menu_l.gif" width=560 height=15 vspace=0 hspace=0 border=0 usemap=#top_menu>
+
+</div>
+
+<!-- Конец меню последовательного просмотра -->
+
+<!-- Начало текста документа -->
+
+<div class=main>
+
+<a name=top></a>
+
+<p><span class=myheader>Тип браузера</span>
+
+<p class=just>
+
+<form>
+
+<table border=0 width=560>
+
+<tr>
+
+<th class=test valign=top>1.</th>
+
+<th class=test colspan=2  valign=top>Какой из классов объектов JavaScript старше?
+
+</th>
+
+</tr>
+
+<tr>
+
+<td class=test valign=top></td>
+
+<td class=test valign=top><input name=jsi114 type=checkbox></td>
+
+<td class=test valign=top>Navigator<td>
+
+</tr>
+
+<tr>
+
+<td class=test valign=top></td>
+
+<td class=test valign=top><input name=jsi115 type=checkbox></td>
+
+<td class=test valign=top>Window</td>
+
+</tr>
+
+<tr>
+
+<td class=test valign=top></td>
+
+<td class=test valign=top><input name=jsi116 type=checkbox></td>
+
+<td class=test valign=top>на одном уровне иерархии</td>
+
+</tr>
+
+<tr>
+
+<th class=test valign=top>2.</th>
+
+<th class=test colspan=2  valign=top>Можно ли определить тип ОС по свойствам объекта Navigator?
+
+</th>
+
+</tr>
+
+<tr>
+
+<td class=test valign=top></td>
+
+<td class=test valign=top><input name=jsi117 type=checkbox></td>
+
+<td class=test valign=top>navigator.appVersion<td>
+
+</tr>
+
+<tr>
+
+<td class=test valign=top></td>
+
+<td class=test valign=top><input name=jsi118 type=checkbox></td>
+
+<td class=test valign=top>navigator.userAgent</td>
+
+</tr>
+
+<tr>
+
+<td class=test valign=top></td>
+
+<td class=test valign=top><input name=jsi119 type=checkbox></td>
+
+<td class=test valign=top>нельзя</td>
+
+</tr>
+
+<tr>
+
+<th class=test valign=top>3.</th>
+
+<th class=test colspan=2  valign=top>Можно ли организовать условную загрузку страницы с/без Java-апплетов?</th>
+
+</tr>
+
+<tr>
+
+<td class=test valign=top></td>
+
+<td class=test valign=top><input name=jsi120 type=checkbox></td>
+
+<td class=test valign=top>нельзя<td>
+
+</tr>
+
+<tr>
+
+<td class=test valign=top></td>
+
+<td class=test valign=top><input name=jsi121 type=checkbox></td>
+
+<td class=test valign=top>navigator.javaEnabled()</td>
+
+</tr>
+
+<tr>
+
+<td class=test valign=top></td>
+
+<td class=test valign=top><input name=jsi122 type=checkbox></td>
+
+<td class=test valign=top>только в Netscape Navigator</td>
+
+</tr>
+
+<tr>
+
+<th class=test valign=top>4.</th>
+
+<th class=test colspan=2  valign=top>Можно ли управлять типом загружаемых графических файлов?
+
+</th>
+
+</tr>
+
+<tr>
+
+<td class=test valign=top></td>
+
+<td class=test valign=top><input name=jsi123 type=checkbox></td>
+
+<td class=test valign=top>navigator.mimeTypes['image/gif']<td>
+
+</tr>
+
+<tr>
+
+<td class=test valign=top></td>
+
+<td class=test valign=top><input name=jsi124 type=checkbox></td>
+
+<td class=test valign=top>нельзя</td>
+
+</tr>
+
+<tr>
+
+<td class=test valign=top></td>
+
+<td class=test valign=top><input name=jsi125 type=checkbox></td>
+
+<td class=test valign=top>только в некоторых версиях Explorer</td>
+
+</tr>
+
+<tr>
+
+<th class=test valign=top>5.</th>
+
+<th class=test colspan=2  valign=top>К какому типу данных относится свойство mimeTypes?
+
+</th>
+
+</tr>
+
+<tr>
+
+<td class=test valign=top></td>
+
+<td class=test valign=top><input name=jsi126 type=checkbox></td>
+
+<td class=test valign=top>нет такого свойства<td>
+
+</tr>
+
+<tr>
+
+<td class=test valign=top></td>
+
+<td class=test valign=top><input name=jsi127 type=checkbox></td>
+
+<td class=test valign=top>массив</td>
+
+</tr>
+
+<tr>
+
+<td class=test valign=top></td>
+
+<td class=test valign=top><input name=jsi128 type=checkbox></td>
+
+<td class=test valign=top>ассоциативный массив</td>
+
+</tr>
+
+</table>
+
+<hr>
+
+<span class=tags>
+<script>
+function result()
+{
+var a="/control/read_db/jsit?";
+for(i=0;i<document.forms[0].elements.length-1;i++)
+{
+if(i!=document.forms[0].elements.length-2)
+  {
+   if(document.forms[0].elements[i].checked==true)
+     {
+      a = a+document.forms[0].elements[i].name+"="+document.forms[0].elements[i].value+"&";
+     }
+  }	 
+else
+  {
+   if(document.forms[0].elements[i].checked==true)
+     {
+      a = a+document.forms[0].elements[i].name+"="+document.forms[0].elements[i].value;
+     }
+  }	 
+}
+ document.score.src=a;
+}
+</script>
+
+<input type=button value="Готово" onClick="result();">
+
+Ваша оценка:<img name=score src="blank.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/blank.gif" width=30 height=15>
+
+Максимальный балл: <font color=#0060a0>14</span>.
+
+</span>
+
+</form>
+
+<p><!-- Конец текста документа -->
+
+<!-- Меню последовательного просмотра(нижнее) -->
+
+<map name=bmenu>
+
+<area shape=rect coords="0,0,60,15" href="historyt.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/test/historyt.htm">
+
+<area shape=rect coords="500,0,560,15" href="wcontrot.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/test/wcontrot.htm">
+
+</map>
+
+<p>
+
+<img src="bottom_l.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/bottom_l.gif" border=0 width=560 height=15 border=0 usemap=#bmenu hspace=0 vspace=0><br>
+
+<!-- Конец меню последовательного просмотра(нижнее) -->
+
+<!-- Нижний логотип -->
+
+<a href="javascript:if(confirm('http://www.citmgu.ru/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.citmgu.ru/'" tppabs="http://www.citmgu.ru/"><img src="bottom.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/bottom.gif" border=0 width=560 height=15></a>
+<!-- Конец нижнего логотипа -->
+
+</div>
+
+</BODY>
+
+</HTML>
+
+
+

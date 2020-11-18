@@ -1,0 +1,137 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Класса/Объекта</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="com-set.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="call-user-method-array.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.classobj"></A>IX. Функции класса/объекта</h1><A NAME="AEN10986"></A><H1><A NAME="classobj.intro">Введение</A>
+</H1><P>Эти функции позволяют получать информацию о классах и инстанциировать 
+(создавать экземпляры) объекты. Вы можете получить имя класса, к которому 
+принадлежит объект, а также свойства и методы члена класса. Используя эти 
+функции, вы можете определить не только членство объекта в классе, но и 
+наследование (т.е. - какой класс расширяется классом объекта).</P>
+<H1><a name="classobj.examples">Примеры</a></H1><P>В первом примере мы сначала определяем базовый класс и расширение этого 
+класса. Базовый класс описывает овощ/vegetable в целом: съедобен ли он и какого цвета. Подкласс
+<TT>Spinach</TT> добавляет метод для приготовления его и метод для определения, готов ли он.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN10995"></A><h5>Пример 1. classes.inc</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+// базовый класс со свойствами и методами членов
+class Vegetable {
+
+    var $edible;
+    var $color;
+
+    function Vegetable( $edible, $color="green" ) {
+  $this-&#62;edible = $edible;
+  $this-&#62;color = $color;
+    }
+
+    function is_edible() {
+  return $this-&#62;edible;
+    }
+
+    function what_color() {
+  return $this-&#62;color;
+    }
+    
+} // конец определения класса Vegetable
+
+// конец базового класса
+class Spinach extends Vegetable {
+
+    var $cooked = false;
+
+    function Spinach() {
+  $this-&#62;Vegetable( true, "green" );
+    }
+
+    function cook_it() {
+  $this-&#62;cooked = true;
+    }
+
+    function is_cooked() {
+  return $this-&#62;cooked;
+    }
+    
+} // конец класса Spinach
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Затем мы инстанциируем 2 объекта этих классов и печатаем информацию о них, 
+включая их иерархию классов. Мы также определяем некоторые вспомогательные функции, в основном для 
+нормальной печати переменных.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN11000"></A>
+<h5>Пример 2. test_script.php</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>&#60;pre&#62;
+&#60;?php
+
+include "classes.inc";
+
+// вспомогательные функции
+
+function print_vars($obj) {
+    $arr = get_object_vars($obj);
+    while (list($prop, $val) = each($arr))
+  echo "\t$prop = $val\n";
+}
+
+function print_methods($obj) {
+    $arr = get_class_methods(get_class($obj));
+    foreach ($arr as $method)
+  echo "\tfunction $method()\n";
+}
+
+function class_parentage($obj, $class) {
+    global $$obj;
+    if (is_subclass_of($$obj, $class)) {
+  echo "Object $obj belongs to class ".get_class($$obj);
+  echo " a subclass of $class\n";
+    } else {
+  echo "Object $obj does not belong to a subclass of $class\n";
+    }
+}
+
+// инстанциируем (создаём) 2 объекта
+
+$veggie = new Vegetable(true,"blue");
+$leafy = new Spinach();
+
+// печатаем информацию об объектах
+echo "veggie: CLASS ".get_class($veggie)."\n";
+echo "leafy: CLASS ".get_class($leafy);
+echo ", PARENT ".get_parent_class($leafy)."\n";
+
+// показываем свойства veggie
+echo "\nveggie: Properties\n";
+print_vars($veggie);
+
+// и методы leafy
+echo "\nleafy: Methods\n";
+print_methods($leafy);
+
+echo "\nParentage:\n";
+class_parentage("leafy", "Spinach");
+class_parentage("leafy", "Vegetable");
+?&#62;
+&#60;/pre&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>В этом примере важно отметить, что объект
+<TT>$leafy</TT> является экземпляром класса <B>Spinach</B>, который является подклассом от 
+<B>Vegetable</B>, следовательно, последняя часть вышеприведённого скрипта выведет:<A NAME="AEN11008"></A></P>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>[...]
+Parentage:
+Object leafy does not belong to a subclass of Spinach
+Object leafy belongs to class spinach a subclass of Vegetable</PRE></TD></TR></TABLE><DL><DT>
+<B>Содержание</B></DT><DT><A HREF="call-user-method-array.html">call_user_method_array</A> - вызывает пользовательский метод, заданный с массивом параметров [не рекомендуется применять]</DT>
+<DT><A HREF="call-user-method.html">call_user_method</A> - вызывает пользовательский метод в специфическом объекте [не рекомендуется применять]</DT>
+<DT><A HREF="class-exists.html">class_exists</A> - проверяет, определён ли данный класс</DT>
+<DT><A HREF="get-class-methods.html">get_class_methods</A> — возвращает массив имён методов класса</DT>
+<DT><A HREF="get-class-vars.html">get_class_vars</A> — возвращает массив свойств по умолчанию данного класса</DT>
+<DT><A HREF="get-class.html">get_class</A> — возвращает имя класса объекта</DT>
+<DT><A HREF="get-declared-classes.html">get_declared_classes</A> — возвращает массив с именем определённого класса</DT>
+<DT><A HREF="get-object-vars.html">get_object_vars</A> — возвращает ассоциативный массив свойств объекта</DT>
+<DT><A HREF="get-parent-class.html">get_parent_class</A> - запрашивает имя родительского класса для объекта или класса</DT>
+<DT><A HREF="is-a.html">is_a</A> — возвращает <TT><B>TRUE</B></TT>, если это объект данного класса или если он имеет этот класс как один из его 
+родительских классов</DT><DT><A HREF="is-subclass-of.html">is_subclass_of</A> — возвращает <TT><B>TRUE</B></TT>, если данный объект имеет этот класс как один из его родительских классов</DT>
+<DT><A HREF="method-exists.html">method_exists</A> - проверяет, существует ли метод класса</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="com-set.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="call-user-method-array.html">Вперёд</A></TD>
+</TR><TR><TD WIDTH="33%" VALIGN="top">com_set</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top">call_user_method_array</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

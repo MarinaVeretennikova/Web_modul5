@@ -1,0 +1,372 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Разборщика XML</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="wddx-serialize-vars.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="utf8-decode.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.xml"></A>CIV. Функции разборщика XML</h1><A NAME="AEN81684"></A>
+<H1><A NAME="xml.partintro">Введение</A></H1><H2><A NAME="xml.intro">Об XML</A></H2>
+<P>XML (eXtensible Markup Language) это формат данных для обмена 
+структурированными документами в Web.  Это стандарт, созданный консорциумом World Wide Web consortium (W3C).  
+Информация о XML и сопутствующих технологиях находится на сайте
+<A HREF="http://www.w3.org/XML/" TARGET="_top">http://www.w3.org/XML/</A></P>
+<h1><A NAME="xml.install">Установка</A></h1><P>Это расширение использует библиотеку expat, которую можно найти на
+<A HREF="http://www.jclark.com/xml/" TARGET="_top">http://www.jclark.com/xml/</A>.  
+Makefile, который поставляется вместе с expat, не строит библиотеку по умолчанию. Вы можете использовать такое make-правило:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>libexpat.a: $(OBJS)
+    ar -rc $@ $(OBJS)
+    ranlib $@</PRE></TD></TR></TABLE>
+<p>Пакет RPM-исходников expat можно найти на <A HREF="http://sourceforge.net/projects/expat/" TARGET="_top">http://sourceforge.net/projects/expat/</A></p>
+<P>Заметьте, что при использовании Apache-1.3.7 или новее у вас уже имеется 
+соответствующая библиотека expat.  Просто сконфигурируйте PHP с использованием
+<TT>--with-xml</TT> (без дополнительного пути), и он будет автоматически использовать библиотеку expat, встроенную в Apache.</P>
+<P>В UNIX - запустите <B>configure</B> с опцией <TT>--with-xml</TT>. Библиотека
+expat должна быть установлена в таком месте, где компилятор сможет её найти. Если 
+вы компилируете PHP как модуль для Apache 1.3.9 или новее, PHP будет 
+автоматически использовать связанную библиотеку expat из Apache. Вам может понадобиться установка флагов
+<TT>CPPFLAGS</TT> и <TT>LDFLAGS</TT> в вашем окружении до запуска <B>configure</B>, если вы установили expat как-то экзотично.</P>
+<P>Постройте PHP. <I>Tada!</I> Вот и всё.</P><h1><a name="xml.about">Об этом расширении</a></h1>
+<P>Это расширение PHP реализует поддержку expat James'а Clark'а в PHP.  Этот набор утилит позволяет разбирать, но не проверять, XML-документы.
+Он поддерживает три исходные <a href="#xml.encoding">кодировки символов</a>, 
+также предоставляемые PHP: <TT>US-ASCII</TT>, <TT>ISO-8859-1</TT> и <TT>UTF-8</TT>. <TT>UTF-16</TT> не поддерживается.</P>
+<P>Это расширение позволяет <A HREF="xml-parser-create.html">создавать XML-разборщики</A> и определять <i>обработчики</i> различных XML-событий.  Каждый XML-разборщик 
+также имеет несколько <a HREF="xml-parser-set-option.html">параметров</a>, которые вы можете настроить.</P>
+<P>Вот имеющиеся XML-обработчики:<A NAME="AEN81724"></A><h6>Таблица 1. Поддерживаемые XML-обработчики</h6>
+<TABLE BORDER="1"><TR><TH>Функция PHP для установки обработчика</TH><TH>Описание события</TH></TR>
+<TBODY><TR><TD><A HREF="xml-set-element-handler.html"><B>xml_set_element_handler()</B></A></TD>
+<TD>События элементов возникают, когда XML-разборщик обнаруживает начальный или конечный тэги. Для начальных и конечных тэгов имеются 
+отдельные обработчики.</TD></TR><TR><TD><A HREF="xml-set-character-data-handler.html">
+<B>xml_set_character_data_handler()</B></A></TD><TD>Символьные данные это, ориентировочно, всё неразмеченное содержимое
+XML-документов, включая пробелы между тэгами. Заметьте, что XML-разборщик не добавляет и не удаляет пробелы,
+это обязанность приложения (ваша) - решить, имеет ли пробел значение.</TD></TR><TR>
+<TD><A HREF="xml-set-processing-instruction-handler.html"><B>xml_set_processing_instruction_handler()</B></A>
+</TD><TD>PHP-программисты должны быть уже знакомы с инструкциями процессинга/processing
+instructions (PI). &#60;?php ?&#62; это инструкция процессинга, где <TT><I>php</I></TT> это вызванная "цель PI".  Их обработка зависит от приложения, за исключением 
+того, что все цели PI, начинающиеся с "XML", зарезервированы.</TD></TR><TR><TD>
+<A HREF="xml-set-default-handler.html"><B>xml_set_default_handler()</B></A></TD>
+<TD>То, что не выполняется другим обработчиком, выполняет обработчик по 
+умолчанию. В нём вы будете делать такие вещи как объявления типов XML и документа.</TD></TR>
+<TR><TD><A HREF="xml-set-unparsed-entity-decl-handler.html"><B>xml_set_unparsed_entity_decl_handler()</B></A>
+</TD><TD>Этот обработчик будет вызываться для объявления неразбираемого/unparsed (NDATA) экземпляра.</TD></TR>
+<TR><TD><A HREF="xml-set-notation-decl-handler.html"><B>xml_set_notation_decl_handler()</B></A>
+</TD><TD>Этот обработчик вызывается для объявления нотации.</TD></TR><TR><TD>
+<A HREF="xml-set-external-entity-ref-handler.html"><B>xml_set_external_entity_ref_handler()</B></A></TD>
+<TD>Этот обработчик вызывается, когда XML-разборщик находит ссылку на 
+внешний разбираемый общий экземпляр. Это может быть ссылка на файл или URL, 
+например. См. демонстрацию в <a href="#example.xml-external-entity"> примере внешнего экземпляра</a>.</TD></TR></TBODY></TABLE>
+<H2>Выравнивание регистра/<A NAME="xml.case-folding">Case Folding</A></H2><P>Функции обработчиков элементов могут получать имена своих элементов
+<I>case-folded</I>. Case-folding определяется стандартом XML как "процесс, применяемый к 
+последовательности символов, когда те из них, которые идентифицируются как non-uppercase/не 
+в верхнем регистре, заменяются своими эквивалентами верхнего регистра". Иначе 
+говоря, если речь идёт о XML, case-folding означает перевод в верхний регистр.</P>
+<P>По умолчанию все имена элементов, передаваемые функциям обработчиков, 
+передаются с выравниванием регистра. Это поведение может запрашиваться и 
+контролироваться XML-разборщиком с помощью функций
+<A HREF="xml-parser-get-option.html"><B>xml_parser_get_option()</B></A> и
+<A HREF="xml-parser-set-option.html"><B>xml_parser_set_option()</B></A>, соответственно.</P>
+<H2><a name="xml.error-codes">Коды ошибок</a></H2>
+<P>Следующие константы определены для кодов ошибок XML (как возвращаемые <A HREF="xml-parse.html">
+<B>xml_parse()</B></A>):<TABLE BORDER="0"><TBODY><TR><TD>XML_ERROR_NONE</TD></TR><TR><TD>XML_ERROR_NO_MEMORY</TD></TR>
+<TR><TD>XML_ERROR_SYNTAX</TD></TR><TR><TD>XML_ERROR_NO_ELEMENTS</TD></TR><TR><TD>XML_ERROR_INVALID_TOKEN</TD></TR>
+<TR><TD>XML_ERROR_UNCLOSED_TOKEN</TD></TR><TR><TD>XML_ERROR_PARTIAL_CHAR</TD></TR><TR><TD>XML_ERROR_TAG_MISMATCH</TD></TR>
+<TR><TD>XML_ERROR_DUPLICATE_ATTRIBUTE</TD></TR><TR><TD>XML_ERROR_JUNK_AFTER_DOC_ELEMENT</TD></TR><TR><TD>XML_ERROR_PARAM_ENTITY_REF</TD></TR>
+<TR><TD>XML_ERROR_UNDEFINED_ENTITY</TD></TR><TR><TD>XML_ERROR_RECURSIVE_ENTITY_REF</TD></TR><TR><TD>XML_ERROR_ASYNC_ENTITY</TD></TR>
+<TR><TD>XML_ERROR_BAD_CHAR_REF</TD></TR><TR><TD>XML_ERROR_BINARY_ENTITY_REF</TD></TR>
+<TR><TD>XML_ERROR_ATTRIBUTE_EXTERNAL_ENTITY_REF</TD></TR><TR><TD>XML_ERROR_MISPLACED_XML_PI</TD></TR>
+<TR><TD>XML_ERROR_UNKNOWN_ENCODING</TD></TR><TR><TD>XML_ERROR_INCORRECT_ENCODING</TD></TR>
+<TR><TD>XML_ERROR_UNCLOSED_CDATA_SECTION</TD></TR><TR><TD>XML_ERROR_EXTERNAL_ENTITY_HANDLING</TD></TR></TBODY></TABLE>
+<H2><a name="xml.encoding">Кодировка символов</a></H2><P>XML-расширение РНР поддерживает набор символов
+<A HREF="http://www.unicode.org/" TARGET="_top">Unicode</A> через различные <i>кодировки символов</i>. Есть два типа кодировок символов,
+<i>кодировка источника</i> и <i>кодировка цели</i>.
+Внутреннее представление документа в PHP всегда кодируется в <TT>UTF-8</TT>.</P>
+<P>Кодировка источника делается, когда XML-документ <a HREF="xml-parse.html">разбирается</a>.  После
+<A HREF="xml-parser-create.html">создания XML-разборщика</A> кодировка источника может быть специфицирована (эта кодировка не может быть 
+изменена позднее, в период существования XML-разборщика). Поддерживаются кодировки источника <TT>ISO-8859-1</TT>,
+<TT>US-ASCII</TT> и <TT>UTF-8</TT>. Первые две это однобайтные кодировки, то есть каждый символ представлен 
+одним байтом. <TT>UTF-8</TT> может кодировать символы, составленные из переменного количества бит (до 21) в 
+1-4 байтах.  По умолчанию кодировка источника в РНР - <TT>ISO-8859-1</TT>.</P>
+<P>Целевая кодировка выполняется, когда PHP передаёт данные функциям XML-обработчиков.  
+Когда XML-обработчик создаётся, устанавливается та же самая целевая кодировка, 
+что и исходная кодировка, но она может быть изменена в любой момент.  Целевая 
+кодировка влияет на символьные данные и на имена тэгов и цели инструкций процессинга.</P>
+<P>Если XML-разборщик находит символы вне диапазона представления исходной кодировки, он возвратит ошибку.</P>
+<P>Если PHP находит в разбираемом XML-документе символы, которые не могут 
+быть представлены в избранной целевой кодировке, проблемные символы будут "понижены 
+в звании". В настоящее время это означает, что такие символы заменяются знаком вопроса.</P>
+<H1><a name="xml.examples">Некоторые примеры</a></H1><P>Вот примеры скриптов PHP, разбирающих XML-документы.</P>
+<H2>Пример структуры <A NAME="example.xml-structure">XML-элементов</A></H2>
+<P>В первом примере отображается структура стартовых элементов документа с отступом.<TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN81821"></A><h5>Пример 1. Показ структуры XML-элементов</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$file = "data.xml";
+$depth = array();
+
+function startElement($parser, $name, $attrs) {
+    global $depth;
+    for ($i = 0; $i &#60; $depth[$parser]; $i++) {
+        print "  ";
+    }
+    print "$name\n";
+    $depth[$parser]++;
+}
+
+function endElement($parser, $name) {
+    global $depth;
+    $depth[$parser]--;
+}
+
+$xml_parser = xml_parser_create();
+xml_set_element_handler($xml_parser, "startElement", "endElement");
+if (!($fp = fopen($file, "r"))) {
+    die("could not open XML input");
+}
+
+while ($data = fread($fp, 4096)) {
+    if (!xml_parse($xml_parser, $data, feof($fp))) {
+        die(sprintf("XML error: %s at line %d",
+                    xml_error_string(xml_get_error_code($xml_parser)),
+                    xml_get_current_line_number($xml_parser)));
+    }
+}
+xml_parser_free($xml_parser);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<H2>Пример Отображения <A NAME="example.xml-map-tags">XML-тэгов</A></H2><TABLE WIDTH="100%" BORDER="0"><TR>
+<TD><A NAME="AEN81827"></A><h5>Пример 2. Отображение XML в HTML</h5>
+<P>Этот пример отображает тэги XML-документа непосредственно в тэги HTML.  
+Элементы, не найденные в "массиве отображения", игнорируются.  Конечно, 
+этот пример будет работать только со специфическим типом XML-документов.<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$file = "data.xml";
+$map_array = array(
+    "BOLD"     =&#62; "B",
+    "EMPHASIS" =&#62; "I",
+    "LITERAL"  =&#62; "TT"
+);
+
+function startElement($parser, $name, $attrs) {
+    global $map_array;
+    if ($htmltag = $map_array[$name]) {
+        print "&#60;$htmltag&#62;";
+    }
+}
+
+function endElement($parser, $name) {
+    global $map_array;
+    if ($htmltag = $map_array[$name]) {
+        print "&#60;/$htmltag&#62;";
+    }
+}
+
+function characterData($parser, $data) {
+    print $data;
+}
+
+$xml_parser = xml_parser_create();
+// использовать выравнивание регистра, чтобы гарантированно найти тэг в $map_array
+xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, true);
+xml_set_element_handler($xml_parser, "startElement", "endElement");
+xml_set_character_data_handler($xml_parser, "characterData");
+if (!($fp = fopen($file, "r"))) {
+    die("could not open XML input");
+}
+
+while ($data = fread($fp, 4096)) {
+    if (!xml_parse($xml_parser, $data, feof($fp))) {
+        die(sprintf("XML error: %s at line %d",
+                    xml_error_string(xml_get_error_code($xml_parser)),
+                    xml_get_current_line_number($xml_parser)));
+    }
+}
+xml_parser_free($xml_parser);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<H2>Пример внешнего экземпляра <A NAME="example.xml-external-entity">XML</A></H2>
+<P>Этот пример разъясняет XML-код. Он показывает, как использовать 
+обработчик ссылки на внешний экземпляр для включения и разбора других 
+документов, а также то, как можно обработать PI, и способ определения "trust/доверия" PI, содержащим код.</P>
+<P>XML-документы, которые могут использоваться для этого примера, находятся ниже этого примера (<TT>xmltest.xml</TT> и
+<TT>xmltest2.xml</TT>.)</P><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN81838"></A>
+  <h5>Пример 3. Внешний экземпляр</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$file = "xmltest.xml";
+
+function trustedFile($file) {
+    // доверять только локальным файлам, владельцем которых являетесь вы
+    if (!eregi("^([a-z]+)://", $file) 
+        &#38;&#38; fileowner($file) == getmyuid()) {
+            return true;
+    }
+    return false;
+}
+
+function startElement($parser, $name, $attribs) {
+    print "&#38;lt;&#60;font color=\"#0000cc\"&#62;$name&#60;/font&#62;";
+    if (sizeof($attribs)) {
+        while (list($k, $v) = each($attribs)) {
+            print " &#60;font color=\"#009900\"&#62;$k&#60;/font&#62;=\"&#60;font 
+                   color=\"#990000\"&#62;$v&#60;/font&#62;\"";
+        }
+    }
+    print "&#38;gt;";
+}
+
+function endElement($parser, $name) {
+    print "&#38;lt;/&#60;font color=\"#0000cc\"&#62;$name&#60;/font&#62;&#38;gt;";
+}
+
+function characterData($parser, $data) {
+    print "&#60;b&#62;$data&#60;/b&#62;";
+}
+
+function PIHandler($parser, $target, $data) {
+    switch (strtolower($target)) {
+        case "php":
+            global $parser_file;
+      // Если разбираемому документу "доверяют", мы говорим, что он
+      // безопасен для выполнения в нём PHP-кода.  Если нет,
+      // отобразить этот код.
+            if (trustedFile($parser_file[$parser])) {
+                eval($data);
+            } else {
+                printf("Untrusted PHP code: &#60;i&#62;%s&#60;/i&#62;", 
+                        htmlspecialchars($data));
+            }
+            break;
+    }
+}
+
+function defaultHandler($parser, $data) {
+    if (substr($data, 0, 1) == "&#38;" &#38;&#38; substr($data, -1, 1) == ";") {
+        printf('&#60;font color="#aa00aa"&#62;%s&#60;/font&#62;', 
+                htmlspecialchars($data));
+    } else {
+        printf('&#60;font size="-1"&#62;%s&#60;/font&#62;', 
+                htmlspecialchars($data));
+    }
+}
+
+function externalEntityRefHandler($parser, $openEntityNames, $base, $systemId,
+                                  $publicId) {
+    if ($systemId) {
+        if (!list($parser, $fp) = new_xml_parser($systemId)) {
+            printf("Could not open entity %s at %s\n", $openEntityNames,
+                   $systemId);
+            return false;
+        }
+        while ($data = fread($fp, 4096)) {
+            if (!xml_parse($parser, $data, feof($fp))) {
+                printf("XML error: %s at line %d while parsing entity %s\n",
+                       xml_error_string(xml_get_error_code($parser)),
+                       xml_get_current_line_number($parser), $openEntityNames);
+                xml_parser_free($parser);
+                return false;
+            }
+        }
+        xml_parser_free($parser);
+        return true;
+    }
+    return false;
+}
+
+function new_xml_parser($file) {
+    global $parser_file;
+
+    $xml_parser = xml_parser_create();
+    xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, 1);
+    xml_set_element_handler($xml_parser, "startElement", "endElement");
+    xml_set_character_data_handler($xml_parser, "characterData");
+    xml_set_processing_instruction_handler($xml_parser, "PIHandler");
+    xml_set_default_handler($xml_parser, "defaultHandler");
+    xml_set_external_entity_ref_handler($xml_parser, "externalEntityRefHandler");
+    
+    if (!($fp = @fopen($file, "r"))) {
+        return false;
+    }
+    if (!is_array($parser_file)) {
+        settype($parser_file, "array");
+    }
+    $parser_file[$xml_parser] = $file;
+    return array($xml_parser, $fp);
+}
+
+if (!(list($xml_parser, $fp) = new_xml_parser($file))) {
+    die("could not open XML input");
+}
+
+print "&#60;pre&#62;";
+while ($data = fread($fp, 4096)) {
+    if (!xml_parse($xml_parser, $data, feof($fp))) {
+        die(sprintf("XML error: %s at line %d\n",
+                    xml_error_string(xml_get_error_code($xml_parser)),
+                    xml_get_current_line_number($xml_parser)));
+    }
+}
+print "&#60;/pre&#62;";
+print "parse complete\n";
+xml_parser_free($xml_parser);
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN81842"></A><h5>Пример 4. xmltest.xml</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?xml version='1.0'?&#62;
+&#60;!DOCTYPE chapter SYSTEM "/just/a/test.dtd" [
+&#60;!ENTITY plainEntity "FOO entity"&#62;
+&#60;!ENTITY systemEntity SYSTEM "xmltest2.xml"&#62;
+]&#62;
+&#60;chapter&#62;
+ &#60;TITLE&#62;Title &#38;plainEntity;&#60;/TITLE&#62;
+ &#60;para&#62;
+  &#60;informaltable&#62;
+   &#60;tgroup cols="3"&#62;
+    &#60;tbody&#62;
+     &#60;row&#62;&#60;entry&#62;a1&#60;/entry&#62;&#60;entry morerows="1"&#62;b1&#60;/entry&#62;&#60;entry&#62;c1&#60;/entry&#62;&#60;/row&#62;
+     &#60;row&#62;&#60;entry&#62;a2&#60;/entry&#62;&#60;entry&#62;c2&#60;/entry&#62;&#60;/row&#62;
+     &#60;row&#62;&#60;entry&#62;a3&#60;/entry&#62;&#60;entry&#62;b3&#60;/entry&#62;&#60;entry&#62;c3&#60;/entry&#62;&#60;/row&#62;
+    &#60;/tbody&#62;
+   &#60;/tgroup&#62;
+  &#60;/informaltable&#62;
+ &#60;/para&#62;
+ &#38;systemEntity;
+ &#60;section id="about"&#62;
+  &#60;title&#62;About this Document&#60;/title&#62;
+  &#60;para&#62;
+   &#60;!-- это комментарий --&#62;
+   &#60;?php print 'Hi!  This is PHP version '.phpversion(); ?&#62;
+  &#60;/para&#62;
+ &#60;/section&#62;
+&#60;/chapter&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Следующий файл включается в <TT>xmltest.xml</TT>:<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN81847"></A><h5>Пример 5. xmltest2.xml</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>&#60;?xml version="1.0"?&#62;
+&#60;!DOCTYPE foo [
+&#60;!ENTITY testEnt "test entity"&#62;
+]&#62;
+&#60;foo&#62;
+   &#60;element attrib="value"/&#62;
+   &#38;testEnt;
+   &#60;?php print "This is some more PHP code being executed."; ?&#62;
+&#60;/foo&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><DL><DT><B>Содержание</B></DT>
+<DT><A HREF="utf8-decode.html">utf8_decode</A> - конвертирует строку с символами набора ISO-8859-1, кодированными в UTF-8, 
+в однобайтные символы ISO-8859-1</DT>
+<DT><A HREF="utf8-encode.html">utf8_encode</A> - кодирует строку ISO-8859-1 в UTF-8</DT>
+<DT><A HREF="xml-error-string.html">xml_error_string</A> - получает строку ошибки XML-разборщика</DT>
+<DT><A HREF="xml-get-current-byte-index.html">xml_get_current_byte_index</A> - получает индекс текущего байта для для XML-разборщика</DT>
+<DT><A HREF="xml-get-current-column-number.html">xml_get_current_column_number</A> - получает номер текущего столбца для XML-разборщика</DT>
+<DT><A HREF="xml-get-current-line-number.html">xml_get_current_line_number</A> - получает номер текущей строки для XML-разборщика</DT>
+<DT><A HREF="xml-get-error-code.html">xml_get_error_code</A> - получает код ошибки XML-разборщика</DT>
+<DT><A HREF="xml-parse-into-struct.html">xml_parse_into_struct</A> - разбирает XML-данные в структуру массива</DT>
+<DT><A HREF="xml-parse.html">xml_parse</A> - стартует разбор XML-документа</DT>
+<DT><A HREF="xml-parser-create-ns.html">xml_parser_create_ns</A> - создаёт XML-разборщик</DT>
+<DT><A HREF="xml-parser-create.html">xml_parser_create</A> - создаёт XML-разборщик</DT>
+<DT><A HREF="xml-parser-free.html">xml_parser_free</A> - освобождает XML-разборщик</DT>
+<DT><A HREF="xml-parser-get-option.html">xml_parser_get_option</A> - получает опции из XML-разборщика</DT>
+<DT><A HREF="xml-parser-set-option.html">xml_parser_set_option</A> - устанавливает опции в XML-разборщике</DT>
+<DT><A HREF="xml-set-character-data-handler.html">xml_set_character_data_handler</A> - настраивает обработчик символьных данных</DT>
+<DT><A HREF="xml-set-default-handler.html">xml_set_default_handler</A> - настраивает обработчик по умолчанию</DT>
+<DT><A HREF="xml-set-element-handler.html">xml_set_element_handler</A> - настраивает обработчики стартовых и конечных элементов</DT>
+<DT><A HREF="xml-set-end-namespace-decl-handler.html">xml_set_end_namespace_decl_handler</A> - настраивает обработчик символьных данных</DT>
+<DT><A HREF="xml-set-external-entity-ref-handler.html">xml_set_external_entity_ref_handler</A> - настраивает обработчик ссылки на внешний экземпляр</DT>
+<DT><A HREF="xml-set-notation-decl-handler.html">xml_set_notation_decl_handler</A> - настраивает обработчик объявления нотации</DT>
+<DT><A HREF="xml-set-object.html">xml_set_object</A> - использует XML-разборщик внутри объекта</DT>
+<DT><A HREF="xml-set-processing-instruction-handler.html">xml_set_processing_instruction_handler</A> - настраивает обработчик инструкций процессинга/processing instruction (PI)</DT>
+<DT><A HREF="xml-set-start-namespace-decl-handler.html">xml_set_start_namespace_decl_handler</A> - настраивает обработчик символьных данных</DT>
+<DT><A HREF="xml-set-unparsed-entity-decl-handler.html">xml_set_unparsed_entity_decl_handler</A> - настраивает обработчик объявления неразбираемого экземпляра</DT>
+</DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="wddx-serialize-vars.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="utf8-decode.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">wddx_serialize_vars</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top">utf8_decode</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

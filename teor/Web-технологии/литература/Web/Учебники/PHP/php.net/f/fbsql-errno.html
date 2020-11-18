@@ -1,0 +1,29 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>fbsql_errno</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE  WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="fbsql-drop-db.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%"  ALIGN="right"><A HREF="fbsql-error.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.fbsql-errno">fbsql_errno</A></H1><A NAME="AEN21911"></A><P>(PHP 4 &#62;= 4.0.6)</P>
+<p>fbsql_errno - возвращает числовое значение сообщения об ошибке в предыдущей операции FrontBase.<A NAME="AEN21914"></A></p><H2>Описание</H2><p>int <B>fbsql_errno</B> ([resource link_identifier])</p>
+<P>Возвращает номер ошибки из последней fbsql-функции или <TT>0</TT> (нуль), если ошибки не было.</P>
+<P>Ошибки, возвращаемые обратно из fbsql-БД, не выдают предупреждений. Вместо этого используйте
+<B>fbsql_errno()</B> для запрашивания кода ошибки. Заметьте, что эта функция возвращает только код 
+ошибки из последней выполненной fbsql-функции (не включая <A HREF="fbsql-error.html"><B>fbsql_error()</B></A> и
+<B>fbsql_errno()</B>), поэтому, если вы хотите её использовать, проверяйте значение перед вызовом 
+другой fbsql.<A NAME="AEN21928"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+fbsql_connect("marliesle");
+echo fbsql_errno().": ".fbsql_error()."&#60;BR&#62;";
+fbsql_select_db("nonexistentdb");
+echo fbsql_errno().": ".fbsql_error()."&#60;BR&#62;";
+$conn = fbsql_query("SELECT * FROM nonexistenttable;");
+echo fbsql_errno().": ".fbsql_error()."&#60;BR&#62;";
+?&#62;</PRE></TD></TR></TABLE><P>См. также <A HREF="fbsql-error.html"><B>fbsql_error()</B></A> и 
+<A HREF="fbsql-warnings.html"><B>fbsql_warnings()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="fbsql-drop-db.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="fbsql-error.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">fbsql_drop_db</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.fbsql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">fbsql_error</TD>
+</TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

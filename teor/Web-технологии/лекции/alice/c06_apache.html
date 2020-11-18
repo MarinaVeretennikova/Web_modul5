@@ -1,0 +1,263 @@
+<html>
+<title>Конфигурирование веб-сервера Apache</title>
+<meta name=keywords content="Apache httpd httpd.conf SSI регистрация доменов">
+<style>
+pre {background:#E5E5E5}
+</style>
+<body>
+<table align=center width=90%>
+<tr><td>
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c06_dns.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c06_dns.html">Регистрация доменных имен</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c06_ssi.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c06_ssi.html">Server Side Includes</a>
+</table>
+
+
+<h3>Конфигурирование веб-сервера Apache</h3>
+<p align="justify">
+Установка веб-сервера Apache не вызывает больших затруднений как под Windows,
+так и под Unix. Все вопросы при установки не выходят за рамки знаний обычного пользователя.
+ Наиболее сложным моментом является конфигурирование и подключение
+дополнительных модулей. Предполагая, что наибольшее число читателей будут конфигурировать
+сначала веб-сервер на своей локальной машине, скорее всего под управлением Windows, то начнем 
+рассмотрение конфигурации веб-сервера Apache именно с этого варианта.<br>
+<br>
+Первое, что вам нужно проверить, это наличие протокола TCP/IP, и так называемой, обратной петли.
+В командной строке дайте команду route print. Результат ее должен начинаться со следующих строк:
+<pre style="background:black; color:white">
+C:\>route print
+
+Активные маршруты:
+
+  Сетевой адрес            Маска    Адрес шлюза            Интерфейс  Метрика
+        127.0.0.0        255.0.0.0        127.0.0.1        127.0.0.1       1
+</pre>
+<p align="justify">
+Сейчас, наверное, уже сложно представить себе вариант отсутствия обратной петли, т.к. большинство
+компьютеров имеют выход в Интернет. Однако, 
+года четыре назад я столкнулся с такой проблемой, когда начинал осваивать 
+MS SQL Server 6.5. Если все же вы не получили должного результата команды route print, 
+добавьте протокол TCP/IP. Для этого на рабочем столе щелкните правой кнопки мыши на иконке
+"Сетевое окружение" и выберете меню "свойства". Далее кнопку "добавить".
+<br><br>
+По умолчанию, конфигурационный файл Apache httpd.conf лежит в папке
+C:\Program Files\Apache Group\Apache\conf.
+При запуске веб-сервера на локальной машине
+под Windows мне пришлось прописать в файл httpd.conf строчку ServerName localhost.
+Без этой строки он не запускался. В юникс такая строчка не требуется.
+Запускать и останавливать 
+веб-сервер надо при помощи иконок лежащих в  Пуск->Программы->Apache Web Server. 
+Теперь запускайте веб-сервер, щелкните в меню Пуск->Программы->Apache Web Server->Start Apache. 
+Запустите обозреватель Internet Explorer и введите http://127.0.0.1/.
+Вы увидите ответ веб-сервера. У меня на экране появилась страничка следующего содержания:
+
+<hr>
+<H1>Not Acceptable</H1>
+An appropriate representation of the requested resource / could not be found on this server.<P>
+Available variants:
+<ul>
+<li><a href="javascript:if(confirm('http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.ca  \n\nThis file was not retrieved by Teleport Pro, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.ca'" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.ca">index.html.ca</a> , type text/html, language ca
+<li><a href="javascript:if(confirm('http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.cz  \n\nThis file was not retrieved by Teleport Pro, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.cz'" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.cz">index.html.cz</a> , type text/html, language cz
+<li><a href="javascript:if(confirm('http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.de  \n\nThis file was not retrieved by Teleport Pro, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.de'" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.de">index.html.de</a> , type text/html, language de
+<li><a href="javascript:if(confirm('http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.dk  \n\nThis file was not retrieved by Teleport Pro, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.dk'" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.dk">index.html.dk</a> , type text/html, language da
+<li><a href="javascript:if(confirm('http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.ee  \n\nThis file was not retrieved by Teleport Pro, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.ee'" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.ee">index.html.ee</a> , type text/html, language et
+<li><a href="javascript:if(confirm('http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.en  \n\nThis file was not retrieved by Teleport Pro, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.en'" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.en">index.html.en</a> , type text/html, language en
+<li><a href="javascript:if(confirm('http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.es  \n\nThis file was not retrieved by Teleport Pro, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.es'" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.es">index.html.es</a> , type text/html, language es
+<li><a href="javascript:if(confirm('http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.fr  \n\nThis file was not retrieved by Teleport Pro, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.fr'" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.fr">index.html.fr</a> , type text/html, language fr
+<li><a href="javascript:if(confirm('http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.it  \n\nThis file was not retrieved by Teleport Pro, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.it'" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.it">index.html.it</a> , type text/html, language it
+<li><a href="javascript:if(confirm('http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.lu  \n\nThis file was not retrieved by Teleport Pro, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.lu'" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.lu">index.html.lu</a> , type text/html, language ltz
+<li><a href="javascript:if(confirm('http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.nl  \n\nThis file was not retrieved by Teleport Pro, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.nl'" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.nl">index.html.nl</a> , type text/html, language nl
+<li><a href="javascript:if(confirm('http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.pt  \n\nThis file was not retrieved by Teleport Pro, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.pt'" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.pt">index.html.pt</a> , type text/html, language pt
+<li><a href="javascript:if(confirm('http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.se  \n\nThis file was not retrieved by Teleport Pro, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.se'" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html.se">index.html.se</a> , type text/html, language sv
+</ul>
+<HR>
+<ADDRESS>Apache/1.3.12 Server at localhost Port 80</ADDRESS>
+<hr>
+<p align="justify">
+Щелкните на ссылку index.html.en и вы попадете на главную страницу веб-сервера, с которой
+можно попасть на документацию по веб-серверу - ссылка <u>documentation</u> (http://127.0.0.1/manual/index.html).
+<br><br>
+Теперь переходим к работе с виртуальными хостами. Веб-сервер Apache, IIS или любой другой
+обслуживает не один веб-сайт, а несколько десятков. Каждый из них имеет свое символическое
+ имя, но все они указывают на один и тот же IP-адрес в базе данных DNS. На локальной машине
+ мы не будем развертывать DNS-сервер, чтобы завести несколько веб-сайтов. Настройка DNS-сервера выходит за рамки данной книги.
+ В операционных системах Unix и Windows есть, так называемая, локальная база DNS - это файл
+ hosts. В Unix он лежит в каталоге /etc, в Windows - c:\windows, в WinNT - 
+c:\WINNT\system32\drivers\etc. 
+ Любое приложение, прежде чем соединится с узлом, вызывает системную функцию 
+ gethostbyname, которая возвращает IP-адрес. Система, прежде чем обращаться к DNS-серверу
+ просматривает файл hosts на наличие в нем данного имени хоста. 
+ Формат этого файла предельно простой.
+ <pre>
+ # IP-адрес               имя хоста
+ 127.0.0.1                localhost
+ 127.0.0.1                it.ru
+ </pre>
+ <p align="justify">
+ Таким образом вы можете передопределить для программ своей машины и IP-адрес microsoft.com.
+ Но это переопределение будет действовать только для вашей машины, т.к. бругие компьютеры
+ будут получать IP-адрес microsoft.com с DNS-серверов.<br>
+ Добавьте в свой файл hosts вторую строчку из приведенного примера. И затем, в 
+ конфигурационный  файл Apache httpd.conf добавьте следующее строки:
+ <pre>
+NameVirtualHost 127.0.0.1
+
+&lt;VirtualHost it.ru&gt;
+  ServerAdmin igor@itsoft.ru
+  DocumentRoot c:\projects\www\itsoft
+  ServerName it.ru
+  ErrorLog   c:\projects\www\itsoft\logs\error.log
+  CustomLog  c:\projects\www\itsoft\logs\custom.log combined
+  ScriptAlias /cgi-bin "c:\projects\www\itsoft\cgi-bin"
+&lt;/VirtualHost&gt;
+ </pre>
+ <p align="justify">
+ NameVirtualHost задает IP-адрес, на котором будут висеть веб-узлы. Этих директив может быть 
+ несколько. Теоретически, в сервере имеется несколько сетевых карт, и у каждой сетевой карты может быть 
+ несколько IP-адресов. Чаще всего у вас будет одна карточка с реальным IP-адресом и одна или
+ две сетевых карты с виртуальным IP-адресом локальной сети, т.к. ваш сервер еще будет обеспечивать
+ доступ компьютеров локальной сети к Интернет.
+ В директиве VirtualHost должен стоять IP-адрес, но можно также указать и имя хоста, указывающего на 
+ этот IP. В нашем случае, это имя хоста it.ru, которое указывает на 127.0.0.1. 
+ ServerAdmin содержит адрес электронной почты, который будет выдаваться клиентам
+ при возникновение каких-либо ошибок, например, при аварийном заверении CGI-программы.
+ DocumentRoot задает путь к корню веб-сервера. ServerName содержит имя веб-сервера.
+ Далее идут пути к логам веб-сервера. Стого рекомендую размещать логи в корне самого 
+ веб-сайта, а не где-нибудь еще. В реальной жизни вы вряд ли будете иметь доступ ко всему жесткому диску
+ сервера. У веб-мастера будет доступ по ftp только к содержимому папки веб-сайта. Так что, если логи
+ будут не внутри папки веб-сайта, то их не сможет просматривать веб-мастер.
+ И наконец, ScriptAlias /cgi-bin "c:\projects\www\itsoft\cgi-bin" задает папку, где будут лежать 
+ исполняемые файлы. Имя этой папки не обязательно cgi-bin, но желательно придерживаться исторических
+ традиций. Поясню более детально, что это за каталог. По умолчанию, при запросе любого файла
+ с веб-сервера, он тут же начнется скачиваться клиенту. При запросе же исполняемого файла из папки
+ cgi-bin, этот файл сначала будет запущен веб-сервером, а потом клиенту будет передано то, 
+ что напечатает этот исполняемый файл на стандартный поток вывода( STDOUT ). Обратите 
+ внимание, что при запросе исполняемого файла из папки, не прописанной в httpd.conf как
+ ScriptAlias /cgi-bin "PathToFolder", вы получите сам исполняемый файл, а не результат его работы.
+ Особо будьте бдительны, если вы будете использовать не бинарные исполняемые файлы, а скриптовые исполняемые файлы.
+ Злоумышленник, заполучив их, сможет прочитать и найти дыру в вашем веб-узле. Невинная гостевая книга или
+ отправка почтового сообщения могут привести не только к неправильной работе этих скриптов и 
+ падению веб-узла, но и падению\зависанию всего сервера со всеми размещенными на нем веб-узлами.
+ <br><br>
+ Далее создайте папку по адресу c:\projects\www\ с именем itsoft. Путь и имя лучше 
+ переправьте. Так вы натолкнетесь на ошибки, связанные с неправильным путем и лучше усвоите
+ материал, исправляя их. В папке itsoft создайте файл index.html, поддиректорию logs 
+ с файлами error.log и custom.log. Теперь перезагрузите веб-сервер Apache. Наберите в броузере
+ it.ru и вы увидите содержание index.html. Вот так вы создали свой первый веб-сайт. Теперь 
+ можете размещать на нем документы и скрипты. Далее вас ждет увлекательное путешествие по
+ различным технологиям построения веб-сайтов.
+ 
+
+
+
+</td></tr>
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #1 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=0-7376" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=0?7376" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=0'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69019-bn=0-7376" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=0?7376"
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #2 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=1?Rnd_Num" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=1'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=1?Rnd_Num" 
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="erle.cgi-51599-7376" tppabs="http://www.linkexchange.ru/cgi-bin/erle.cgi?51599?7376" frameborder=0 
+    vspace=0 hspace=0 width=468 height=60 marginwidth=0 marginheight=0 scrolling=no>
+    <a href="javascript:if(confirm('http://www.linkexchange.ru/users/goto.map  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://www.linkexchange.ru/users/goto.map'" tppabs="http://www.linkexchange.ru/users/goto.map" target=_top>
+    <img src="rle.cgi-51599-7376" tppabs="http://www.linkexchange.ru/cgi-bin/rle.cgi?51599?7376" alt="RLE Banner Network" border=0 height=60 width=468></a>
+    </iframe>
+
+<!-- Russian LinkExchange code START - BANNER #1 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=0-7376" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=0?7376"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=0'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69021-bn=0-7376" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=0?7376"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+<!-- Russian LinkExchange code START - BANNER #2 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=1-7376" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=1?7376"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=1'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69021-bn=1-7376" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=1?7376"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+</td></tr>
+</table>
+
+</body>
+</html>

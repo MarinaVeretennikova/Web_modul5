@@ -1,0 +1,47 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Создание Констант</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="zend.variables.global.html">Назад</A></TD><th WIDTH="80%">Глава 34. Создание Переменных</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="zend.copy-constructor.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="zend.variables.constant">Создание констант</a></H1>
+<P>Zend поддерживает создание правильных констант (в отличие от регулярных 
+переменных). Доступ к константам выполняется без префикса обычного знака dollar (<TT>$</TT>), и они
+доступны во всех областях видимости. Примеры - <TT>TRUE</TT> и <TT>FALSE</TT>.</P>
+<P>Для создания ваших собственных констант вы можете использовать макросы из Таблицы 9.13. 
+Все эти макросы создают константу со специфицированным именем и значением.</P>
+<P>Вы можете также специфицировать для каждой константы флаги:<UL><LI><P><TT>CONST_CS</TT> - Имя этой константы рассматривается с учётом регистра.</P>
+</LI><LI><P><TT>CONST_PERSISTENT</TT> - Это существующая константа, и она не будет "забыта", если текущий процесс 
+будет остановлен.</P></LI></UL><p>Для использования этих флагов скомбинируйте их путём использования 
+двоичного OR:</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>// регистрируется новая константа типа "long"
+REGISTER_LONG_CONSTANT("NEW_MEANINGFUL_CONSTANT", 324, CONST_CS | CONST_PERSISTENT);</PRE></TD></TR></TABLE>
+<p>Есть два типа макросов - <TT>REGISTER_*_CONSTANT</TT> и <TT>REGISTER_MAIN_*_CONSTANT</TT>.
+Первый тип создаёт константы, привязанные к текущему модулю. Эти константы 
+выгружаются из таблицы символов, как только модуль, зарегистрировавший эти 
+константы, выгружается из памяти. Второй тип создаёт константы, которые 
+остаются в таблице символов независимо от модуля.</p><A NAME="AEN86800"></A>
+<h6>Рисунок 34-10. Таблица 9.13. Макросы для создания констант</h6><A NAME="AEN86802"></A>
+<TABLE BORDER="1"><TR><th WIDTH="60%">Макрос</th><th WIDTH="40%">Описание</th></TR><TR>
+<TD WIDTH="60%"><P><TT>REGISTER_LONG_CONSTANT(name, value, flags)</TT></P> 
+<P><TT>REGISTER_MAIN_LONG_CONSTANT(name, value, flags)</TT></P></TD><TD WIDTH="40%">Регистрирует новую константу типа long.</TD>
+</TR><TR><TD WIDTH="60%"><P><TT>REGISTER_DOUBLE_CONSTANT(name, value, flags)</TT></P> 
+<P><TT>REGISTER_MAIN_DOUBLE_CONSTANT(name, value, flags)</TT></P></TD><TD WIDTH="40%">Регистрирует новую константу типа double.</TD>
+</TR><TR><TD WIDTH="60%"><P><TT>REGISTER_STRING_CONSTANT(name, value, flags)</TT></P> 
+<P><TT>REGISTER_MAIN_STRING_CONSTANT(name, value, flags)</TT></P></TD><TD WIDTH="40%"> Регистрирует новую константу типа string. Специфицированная строка обязана 
+размещаться во внутренней памяти Zend.</TD></TR><TR><TD WIDTH="60%">
+<P><TT>REGISTER_STRINGL_CONSTANT(name, value, length, flags)</TT></P>
+<P><TT>REGISTER_MAIN_STRINGL_CONSTANT(name, value, length, flags)</TT></P></TD>
+<TD WIDTH="40%">Регистрирует новую константу типа string. Длина строки устанавливается явно в
+<TT>length</TT>. Специфицированная строка обязана размещаться во внутренней памяти Zend.</TD></TR>
+</TABLE></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="zend.variables.global.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="zend.copy-constructor.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Макросы для автоматического создания глобальных переменных</TD>
+<th WIDTH="34%" VALIGN="top"><a href="zend.variables.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Дублирование содержимого переменных: конструктор Copy</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

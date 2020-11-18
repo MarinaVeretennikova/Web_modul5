@@ -1,0 +1,38 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>fbsql_read_clob</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="fbsql-read-blob.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="fbsql-result.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.fbsql-read-clob">fbsql_read_clob</A></H1><A NAME="AEN22618"></A><P>(PHP 4 &#62;= 4.2.0)</P>
+<p>fbsql_read_clob - читает CLOB из БД.<A NAME="AEN22621"></A></p><H2>Описание</H2>
+<p>string <B>fbsql_read_clob</B> (string clob_handle [, resource link_identifier])</p>
+<P>Возвращает строку, содержащую CLOB, специфицированный clob_handle.</P>
+<P><B>fbsql_read_clob()</B> читает CLOB-данные из БД.  Если оператор select содержит BLOB и/или CLOB-столбцы, FrontBase 
+возвратит данные непосредственно при их извлечении. Это поведение по умолчанию может быть изменено функцией
+<A HREF="fbsql-set-lob-mode.html"><B>fbsql_set_lob_mode()</B></A>, так что функции извлечения будут возвращать дескрипторы BLOB и CLOB-данных.
+Если дескриптор извлечён, пользователь обязан вызвать <B>fbsql_read_clob()</B> для получения CLOB-данных из БД.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN22637"></A><h5>Пример 1. fbsql_read_clob()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+    $link = fbsql_pconnect ("localhost", "_SYSTEM", "secret")
+        or die ("Could not connect");
+    $sql = "SELECT CLOB_COLUMN FROM CLOB_TABLE;";
+    $rs = fbsql_query($sql, $link);
+    $row_data = fbsql_fetch_row($rs);
+    // $row_data[0] будет теперь содержать clob-данные для первого ряда
+    fbsql_free_result($rs);
+    
+    $rs = fbsql_query($sql, $link);
+    fbsql_set_lob_mode($rs, FBSQL_LOB_HANDLE);
+    $row_data = fbsql_fetch_row($rs);
+    // $row_data[0] будет теперь содержать дескриптор CLOB-данных первого ряда
+    $clob_data = fbsql_read_clob($row_data[0]);
+    fbsql_free_result($rs);
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="fbsql-create-blob.html"><B>fbsql_create_blob()</B></A>,
+<A HREF="fbsql-read-blob.html"><B>fbsql_read_blob()</B></A>, <B>fbsql_read_clob()</B> и
+<A HREF="fbsql-set-lob-mode.html"><B>fbsql_set_lob_mode()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="fbsql-read-blob.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="fbsql-result.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">fbsql_read_blob</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.fbsql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">fbsql_result</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

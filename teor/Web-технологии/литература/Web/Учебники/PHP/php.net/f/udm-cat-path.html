@@ -1,0 +1,33 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>udm_cat_path</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="udm-cat-list.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="udm-check-charset.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>    
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.udm-cat-path">udm_cat_path</A></H1><A NAME="AEN49313"></A><P>(PHP 4 &#62;= 4.0.6)</P>
+<p>udm_cat_path - получает путь к текущей категории.<A NAME="AEN49316"></A></p><H2>Описание</H2>
+<p>array <B>udm_cat_path</B> (int agent, string category)</p>
+<P><B>udm_cat_path()</B> возвращает массив с описанием пути/path в дереве категорий от корня до текущей категории.</P>
+<P><TT><I>agent</I></TT> - ссылка на идентификатор агента.</P><P><TT><I>category</I></TT> - текущая категория - та, к которой получаем путь.</P>
+<P>Возвращает массив в формате:</P><P>Массив состоит из пар. Элементы с чётными номерами содержат путь к 
+категориям, нечётные - имена соответствующих категорий.</P><P>Например, вызов <TT>$array=udm_cat_path($agent, '02031D');</TT> может возвратить следующий массив:</P>
+<P>&nbsp;$array[0]&nbsp;будет содержать&nbsp;''<br>&nbsp;$array[1]&nbsp;будет содержать&nbsp;'Root'<br>
+&nbsp;$array[2]&nbsp;будет содержать&nbsp;'02'<br>&nbsp;$array[3]&nbsp;будет содержать&nbsp;'Sport'<br>
+&nbsp;$array[4]&nbsp;будет содержать&nbsp;'0203'<br>&nbsp;$array[5]&nbsp;будет содержать&nbsp;'Auto'<br>
+&nbsp;$array[4]&nbsp;будет содержать&nbsp;'02031D'<br>&nbsp;$array[5]&nbsp;будет содержать&nbsp;'Ferrari'<br>&nbsp;</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN49338"></A><h5>Пример 1. Специфицирование пути к текущей категории<br>
+в формате: '&#62; Root &#62; Sport &#62; Auto &#62; Ferrari'</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+  $cat_path_arr = udm_cat_path($udm_agent,$cat);
+  $cat_path = '';
+  for ($i=0; $i&#60;count($cat_path_arr); $i+=2) {
+    $path = $cat_path_arr[$i];
+    $name = $cat_path_arr[$i+1];
+    $cat_path .= " &#62; &#60;a href=\"$PHP_SELF?cat=$path\"&#62;$name&#60;/a&#62; ";
+  }
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="udm-cat-list.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="udm-check-charset.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">udm_cat_list</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.mnogo.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">udm_check_charset</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

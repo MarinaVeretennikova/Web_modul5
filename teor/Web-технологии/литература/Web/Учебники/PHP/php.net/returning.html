@@ -1,0 +1,64 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Возвращаемые Значения</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="zend.copy-constructor.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="zend.printing.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="zend.returning">Глава 36. Возвращаемые значения</A></H1>
+<P>Возвращение значений из ваших функций в PHP было кратко описано в предыдущем 
+разделе; в этом разделе дана информация о деталях. Return-значения передаются 
+через переменную <TT>return_value</TT>, которая передаётся в вашу функцию как аргумент. Аргумент
+<TT>return_value</TT> состоит из <TT>zval</TT>-контейнера (см. ранее обсуждение интерфейса вызова), который вы можете 
+модифицировать. Этот контейнер всегда размещается самостоятельно, поэтому вам 
+не нужно запускать в нём <TT>MAKE_STD_ZVAL</TT>. Вместо этого вы можете выполнять прямой доступ к его членам.</P>
+<P>Чтобы облегчить возвращение значений из функций и предотвратить нестыковки при 
+доступе к внутренним структурам <TT>zval</TT>-контейнера, имеется набор предопределённых макросов (как всегда). Эти макросы 
+автоматически устанавливают соответствующие тип и значение, как описано в Таблицах 9.14 и 9.15.</P>
+<A NAME="AEN86877"></A><h6 >Рисунок 36-1. Таблица 9.14. Предопределённые макросы для возвращаемых из функций значений</h6>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>Примечание: Макрос в Таблице 9.14 автоматически возвращает из вашей функции.</PRE></TD></TR></TABLE><br>
+<A NAME="AEN86880"></A><TABLE BORDER="1"><TR><th WIDTH="50%">Макрос</th><th WIDTH="50%">Описание</th></TR>
+<TR><TD WIDTH="50%"><TT>RETURN_RESOURCE(resource)</TT></TD><TD WIDTH="50%">Возвращает ресурс.</TD></TR>
+<TR><TD WIDTH="50%"><TT>RETURN_BOOL(bool)</TT></TD><TD WIDTH="50%">Возвращает Boolean.</TD></TR><TR>
+<TD WIDTH="50%"><TT>RETURN_NULL()</TT></TD><TD WIDTH="50%">Не возвращает ничего (значение NULL).</TD></TR>
+<TR><TD WIDTH="50%"><TT>RETURN_LONG(long)</TT></TD><TD WIDTH="50%">Возвращает long.</TD></TR><TR>
+<TD WIDTH="50%"><TT>RETURN_DOUBLE(double)</TT></TD><TD WIDTH="50%">Возвращает double.</TD></TR><TR>
+<TD WIDTH="50%"><TT>RETURN_STRING(string,duplicate)</TT></TD><TD WIDTH="50%">Возвращает строку. Флаг
+<TT>duplicate</TT> указывает, должна ли строка дублироваться с использованием <B>estrdup()</B>.</TD></TR><TR>
+<TD WIDTH="50%"><TT>RETURN_STRINGL(string, length, duplicate)</TT></TD>
+<TD WIDTH="50%">Возвращает строку специфицированной длины; иначе поведение аналогично <TT>RETURN_STRING</TT>. Этот макрос, однако, быстрее и безопасен в двоичном режиме.</TD>
+</TR><TR><TD WIDTH="50%"><TT>RETURN_EMPTY_STRING()</TT></TD><TD WIDTH="50%">Возвращает пустую строку.</TD></TR>
+<TR><TD WIDTH="50%"><TT>RETURN_FALSE</TT></TD><TD WIDTH="50%">Возвращает Boolean false.</TD></TR><TR>
+<TD WIDTH="50%"><TT>RETURN_TRUE</TT></TD><TD WIDTH="50%">Возвращает Boolean true.</TD></TR></TABLE>
+<A NAME="AEN86931"></A><h6>Рисунок 36-2. Таблица 9.15. Предопределённые макросы<br>
+для установки Return-значения функции</h6><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>Примечание: Макросы в Таблице 9.15 только <i>устанавливают</i> return-значение;
+они не выполняют возврат из вашей функции.</PRE></TD></TR></TABLE><br><A NAME="AEN86935"></A>
+<TABLE BORDER="1" width="728"><TR><th WIDTH="337">Макросы</th><th WIDTH="375">Описание</th></TR><TR>
+<TD WIDTH="337"><TT>RETVAL_RESOURCE(resource)</TT></TD><TD WIDTH="375">Устанавливает return-значение специфицированного ресурса.</TD>
+</TR><TR><TD WIDTH="337"><TT>RETVAL_BOOL(bool)</TT></TD><TD WIDTH="375">Устанавливает return-значение специфицированного Boolean.</TD>
+</TR><TR><TD WIDTH="337"><TT>RETVAL_NULL</TT></TD><TD WIDTH="375">Устанавливает return-значение NULL.</TD></TR>
+<TR><TD WIDTH="337"><TT>RETVAL_LONG(long)</TT></TD><TD WIDTH="375">Устанавливает return-значение специфицированного long.</TD>
+</TR><TR><TD WIDTH="337"><TT>RETVAL_DOUBLE(double)</TT></TD><TD WIDTH="375">Устанавливает return-значение специфицированного double.</TD>
+</TR><TR><TD WIDTH="337"><TT>RETVAL_STRING(string, duplicate)</TT></TD><TD WIDTH="375">Устанавливает return-значение специфицированной строки и дублирует его во 
+внутренней памяти Zend, если нужно (см. также <TT>RETURN_STRING</TT>).</TD></TR><TR>
+<TD WIDTH="337"><TT>RETVAL_STRINGL(string, length, duplicate)</TT></TD>
+<TD WIDTH="375">Устанавливает return-значение специфицированной строки и форсирует длину как <TT>length</TT>
+(см. также <TT>RETVAL_STRING</TT>). Этот макрос быстрее и безопаснее и должен использоваться, если длина строки 
+известна.</TD></TR><TR><TD WIDTH="337"><TT>RETVAL_EMPTY_STRING</TT></TD><TD WIDTH="375">Устанавливает return-значение - пустую строку.</TD>
+</TR><TR><TD WIDTH="337"><TT>RETVAL_FALSE</TT></TD><TD WIDTH="375">Устанавливает return-значение - Boolean false.</TD>
+</TR><TR><TD WIDTH="337"><TT>RETVAL_TRUE</TT></TD><TD WIDTH="375">Устанавливает return-значение - Boolean true.</TD>
+</TR></TABLE><P>Сложные типы, такие как массивы и объекты, можно возвращать с помощью
+<B>array_init()</B> и <B>object_init()</B>, а также соответствующих хэш-функций в <TT>return_value</TT>.
+Поскольку эти типы не могут быть сконструированы из обычной информации, для 
+них нет предопределённых макросов.</P></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="zend.copy-constructor.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="zend.printing.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">Дублирование содержимого переменной: конструктор Copy</TD>
+<th WIDTH="34%" VALIGN="top"><a href="zend.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Печать информации</TD>
+</TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

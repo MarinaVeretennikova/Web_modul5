@@ -1,0 +1,330 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Использование PHP из Командной Строки</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR>
+<TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%"><A HREF="safe-mode.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="f/funcref.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE>
+</TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="features.commandline">Глава 24. Использование PHP из командной строки</A></H1>
+<P>Начиная с версии 4.3, РНР поддерживает новый <TT>SAPI</TT>-тип (Server Application Programming Interface)
+под названием <TT>CLI</TT>, что означает <I>Command Line Interface</I>. Как следует из названия, главной
+задачей этого <TT>SAPI</TT>-типа является разработка приложений оболочки/shell (или рабочего стола)  с 
+помощью РНР.  Имеются весьма небольшие отличия <TT>CLI SAPI</TT> от других <TT>SAPI</TT>, которые будут далее рассмотрены в этой главе.</P>
+<P><TT>CLI SAPI</TT> был выпущен в первый раз с <TT>PHP 4.2.0</TT>, но тогда это был эксперимент, и нужно было явно включать его командой
+<TT>--enable-cli</TT> при запуске <TT>./configure</TT>. Начиная с <TT>PHP 4.3.0</TT>,
+<TT>CLI SAPI</TT> больше не является экспериментальным и <i>всегда</i> встроен и устанавливается 
+как двоичный исполняемый файл <TT>php</TT> (называется <TT>php.exe</TT> в Windows).</P>
+<P>Существенные отличия <TT>CLI SAPI</TT> от других <TT>SAPI</TT>:
+<UL><LI><P>В отличие от <TT>CGI SAPI</TT>, никакие шапки/headers не записываются в вывод.</P>
+<P>Хотя в <TT>CGI SAPI</TT> имеется способ подавления HTTP-шапок, эквивалентного переключателя для их 
+включения в <TT>CLI SAPI</TT> нет.</P></LI><LI><P>Имеются определённые директивы <TT>php.ini</TT>,
+которые переопределены в <TT>CLI  SAPI</TT>, поскольку они не имеют смысла в среде окружения оболочки:</li></ul>
+<A NAME="AEN6374"></A><h6>Таблица 24-1. Переопределение <TT>php.ini</TT>-директив</h6>
+<TABLE BORDER="1"><TR><TH>Директива</TH><TH><TT>CLI SAPI-</TT> значение по умолчанию</TH><TH>Комментарий</TH></TR>
+<TR><TD><A HREF="configuration.html#ini.html-errors">html_errors</A></TD><TD><TT><B>FALSE</B></TT></TD>
+<TD>Бывает довольно сложно прочитать в оболочке сообщение об ошибке, наполненное всеми этими бессмысленными
+<TT>HTML</TT>-тэгами, поэтому по умолчанию значение этой директивы <TT><B>FALSE</B></TT>.</TD></TR>
+<TR><TD><A HREF="configuration.html#ini.implicit-flush">implicit_flush</A></TD><TD><TT><B>TRUE</B></TT></TD>
+<TD>Желательно, чтобы любой вывод из <A HREF="f/print.html"><B>print()</B></A>,
+<A HREF="f/echo.html"><B>echo()</B></A> и компании немедленно записывался в вывод, а не отправлялся в какой-нибудь 
+буфер. Вы всё ещё можете пользоваться <a href="f/ref.outcontrol.html">буферизацией вывода</a>, если 
+хотите поработать со стандартным выводом.</TD></TR><TR><TD>
+<A HREF="configuration.html#ini.max-execution-time">max_execution_time</A></TD><TD>0 (unlimited)</TD>
+<TD>Из-за бесконечно больших возможностей использования <TT>PHP</TT> в среде окружения оболочки, максимальное время выполнения не ограничено. В то 
+время как приложения, написанные для web, выполняются в течение 
+долей секунды, приложения оболочки пытаются занять для своего выполнения максимальное время.</TD></TR>
+<TR><TD><A HREF="configuration.html#ini.register-argc-argv">register_argc_argv</A></TD><TD><TT>
+<B>TRUE</B></TT></TD><TD>Глобальные переменные <TT>PHP</TT> <TT>$argc</TT>
+(количество аргументов, передаваемых приложению) и <TT>$argv</TT> (массив текущих аргументов) всегда регистрируются и заполняются 
+соответствующими значениями при использовании <TT>CLI SAPI</TT>.</TD></TR></TABLE>
+<BLOCKQUOTE><P><B>Примечание: </B>эти директивы не могут быть инициализированы другим значением из файла 
+конфигурации <TT>php.ini</TT> или специального файла (если специфицирован). Это является некоторым 
+ограничением, поскольку эти значения по умолчанию применяются после 
+разбора всех файлов конфигурации. Однако их значение может быть изменено 
+на этапе прогона программы (что не имеет смысла для всех других директив,
+например, для <A HREF="configuration.html#ini.register-argc-argv">register_argc_argv</A>).</P></BLOCKQUOTE>
+<ul><LI><P>Легче работать в среде оболочки, когда определены следующие константы:<A NAME="AEN6424"></A><h6>Таблица 24-2. Специфические CLI-константы</h6><TABLE BORDER="1"><TR>
+<TH>Константа</TH><TH>Описание</TH></TR><TR><TD><TT><B>STDIN</B></TT></TD><TD>Уже открытый поток в
+<TT>stdin</TT>. Она хранит открывшего её<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$stdin = fopen('php://stdin', 'r');</PRE></TD></TR></TABLE></TD></TR><TR><TD><TT>
+<B>STDOUT</B></TT></TD><TD>Уже открытый поток в <TT>stdout</TT>. Она хранит открывшего её
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$stdout = fopen('php://stdout', 'w');</PRE></TD>
+</TR></TABLE></TD></TR><TR><TD><TT><B>STDERR</B></TT></TD><TD>Уже открытый поток в <TT>stdout</TT>.
+Она хранит открывшего её <TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$stderr = fopen('php://stderr', 'w');</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Имея всё это, вы не должны, например, самостоятельно открывать поток для
+<TT>stderr</TT>, а просто используете константу вместо ресурса потока:</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>php -r 'fwrite(STDERR, "stderr\n");'</PRE></TD></TR></TABLE>
+<p>Вам не нужно явно закрывать эти потоки, это делается РНР автоматически.</LI>
+<LI><P><TT>CLI SAPI</TT> <i>не</i> изменяет текущую директорию на директорию исполняемого скрипта!</P>
+<P>Пример, показывающий отличие <TT>CGI SAPI</TT>:</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+    /* Простое тестирующее приложение */
+    echo getcwd(), "\n";
+?&#62;</PRE></TD></TR></TABLE><P>Когда используется <TT>CGI</TT>-версия, на выходе будет:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$ pwd
+/tmp
+
+$ php-cgi -f another_directory/test.php
+/tmp/another_directory</PRE></TD></TR></TABLE><p>Это ясно показывает, что <TT>PHP</TT> изменяет свою текущую директорию на директорию исполняемого скрипта.</p>
+<P>Использование <TT>CLI SAPI</TT> даёт:</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>$ pwd
+/tmp
+
+$ php -f another_directory/test.php
+/tmp</PRE></TD></TR></TABLE><p>Это даёт большую гибкость при написании утилит командной строки на
+<TT>PHP</TT>.</p><BLOCKQUOTE><P><B>Примечание: </B><TT>CGI SAPI</TT> поддерживает поведение <TT>CLI SAPI</TT>
+с помощью ключа <TT>-C</TT> при запуске из командной строки.</P></BLOCKQUOTE></LI></UL>
+<P>Список опций командной строки исполняемого файла <TT>PHP</TT> может быть получен в любое время путём
+запуска <TT>PHP</TT> с ключом <TT>-h</TT>:</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>Usage/Использование: php [options] [-f] &#60;file&#62; [args...]
+       php [options] -r &#60;code&#62; [args...]
+       php [options] [-- args...]
+  -s               Отображает исходный текст с разными цветами.
+  -w               Отображает исходный текст без комментариев и пробелов.
+  -f &#60;file&#62;        Разбирает &#60;file&#62;.
+  -v               Номер версии.
+  -c &#60;path&#62;|&#60;file&#62; Ищет файл php.ini в данной директории.
+  -a               Запустить интерактивно.
+  -d foo[=bar]     Определить INI-вхождение foo со значением 'bar'.
+  -e               Генерировать расширенную информацию для отладчика/profiler'а.
+  -z &#60;file&#62;        Загрузить &#60;file&#62; Zend-расширения.
+  -l               Только проверить синтаксис (lint).
+  -m               Показать скомпилированные модули.
+  -i               PHP-информация.
+  -r &#60;code&#62;        Запустить PHP &#60;code&#62; без использования тэгов скрипта &#60;?..?&#62;
+  -h               Данный help.
+
+  args...          Аргументы, передаваемые скрипту. Используйте -- args когда
+                   первый аргумент начинается с - или скрипт читается из stdin</PRE></TD></TR></TABLE>
+<P><TT>CLI SAPI</TT> имеет три разных способа получения <TT>PHP</TT>-кода, который нужно выполнить:<OL TYPE="1">
+<LI><P>Сказать <TT>PHP</TT> выполнить определённый файл.</P>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>php my_script.php
+
+php -f my_script.php</PRE></TD></TR></TABLE><p>Оба способа (с/без использования переключателя
+<TT>-f</TT>) выполняют данный файл <TT>my_script.php</TT>. Вы можете выбрать для выполнения любой файл;
+названия ваших файлов скриптов <TT>PHP</TT> не обязаны заканчиваться расширением <TT>.php</TT>,
+а могут иметь любое имя или расширение.</LI>
+<LI><P>Передать <TT>PHP</TT> код для выполнения непосредственно из командной строки.</P>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>php -r 'print_r(get_defined_constants());'</PRE></TD></TR></TABLE>
+<p>Особого внимания требует замена переменных оболочки и использование кавычек.</p>
+<BLOCKQUOTE><P><B>Примечание: </B>
+  просмотрите пример внимательно, нет начальных и конечных тэгов! Переключателю <TT>-r</TT> они просто не нужны.
+Использование их в данном случае приведёт к ошибке разборщика.</P></BLOCKQUOTE></LI>
+<LI><P>Предоставить <TT>PHP</TT>-код для выполнения через стандартный ввод (<TT>stdin</TT>).</P>
+<P>Это позволяет динамически создавать <TT>PHP</TT>-код и передавать его экзешнику, как показано в данном (надуманном) примере:</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$ some_application | some_filter | php | sort -u &#62;final_output.txt</PRE></TD></TR></TABLE></LI></OL>
+<p>Вы не можете комбинировать эти три способа при выполнении кода.
+<P>Как и в любом приложении оболочки, не только сам <TT>PHP</TT>, но и ваши скрипты <TT>PHP</TT> также принимают аргументы. Количество передаваемых в скрипт аргументов в РНР 
+не ограничивается (оболочка имеет ограничение на количество передаваемых символов).<br>
+Аргументы, передаваемые в ваш скрипт, доступны через глобальный массив <TT>$argv</TT>. Нулевой индекс всегда содержит имя скрипта (которое является символом
+<TT>-</TT> в случае, когда <TT>PHP</TT>-код приходит со стандартного ввода или с использованием ключа командной строки
+<TT> -r</TT>).<br>Вторая регистрируемая глобальная переменная это <TT>$argc</TT>, которая содержит количество элементов в массиве
+<TT>$argv</TT> (а <I>не</I> количество аргументов, передаваемых в скрипт).</P>
+<P>Если аргументы, которые вы хотите передать в скрипт, не начинаются с символа дефиса
+<TT>(-)</TT>, ничего специально наблюдать не надо. Передача в скрипт аргумента, начинающегося
+<TT>с -</TT> , создаст проблемы, поскольку <TT>PHP</TT> думает, что должен сам их обработать. Чтобы предотвратить это, используйте в 
+качестве сепаратора аргументов списка <TT>--</TT>. После того как аргумент будет разобран <TT>PHP</TT>,
+каждый последующий аргумент передаётся в ваш скрипт без изменений/не разобранным.</P>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE># Это не выполнит данный код, но продемонстрирует использование PHP
+$ php -r 'var_dump($argv);' -h
+Usage: php [options] [-f] &#60;file&#62; [args...]
+[...]
+
+# Аргумент '-h' будет передан в ваш скрипт, что предупредит показ PHP его использования
+$ php -r 'var_dump($argv);' -- -h
+array(2) {
+  [0]=&#62;
+  string(1) "-"
+  [1]=&#62;
+  string(2) "-h"
+}</PRE></TD></TR></TABLE><P>Однако, вот другой способ использования <TT>PHP</TT> для скриптинга
+оболочки. Вы можете написать скрипт, первая строка которого начинается с
+<TT>#!/usr/bin/php</TT>, а затем идёт нормальный <TT>PHP</TT>-код, содержащийся между начальным и
+конечным тэгами <TT>PHP</TT>, и соответствующим образом устанавливаются атрибуты выполнения файла. Таким 
+способом он может быть исполнен как нормальный скрипт оболочки или perl:</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>#!/usr/bin/php
+&#60;?php
+    var_dump($argv);
+?&#62;</PRE></TD></TR></TABLE><p>Приняв, что файл называется <TT>test</TT> и находится в текущей
+директории, мы можем выполнить:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$ chmod 755 test
+$ ./test -h -- foo
+array(4) {
+  [0]=&#62;
+  string(6) "./test"
+  [1]=&#62;
+  string(2) "-h"
+  [2]=&#62;
+  string(2) "--"
+  [3]=&#62;
+  string(3) "foo"
+}</PRE></TD></TR></TABLE>
+<p>Как вы видите, ничего особо не нужно делать при передаче параметров в скрипт, который начинается с <TT>-</TT>.</p>
+<A NAME="AEN6535"></A><h6>Таблица 24-3. Опции командной строки</h6><TABLE BORDER="1"><TR>
+<TH>Опция</TH><TH>Описание</TH></TR><TR><TD>-s</TD><TD>
+<P>Отображать синтаксис в цвете.</P><P>Эта опция использует внутренний механизм разбора файла, производит его 
+расцвеченную <TT>HTML</TT>-версию и записывает её в стандартный вывод. Заметьте, что генерируется лишь 
+блок <TT>&#60;code&#62; [...] &#60;/code&#62;</TT> <TT>HTML</TT>-тэгов без <TT>HTML</TT>-header.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>эта опция не работает вместе с опцией <TT>-r</TT>.</P></BLOCKQUOTE>
+</TD></TR><TR><TD>-w</TD><TD><P>Отобразить исходный текст без комментариев и пробелов.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>эта опция не работает вместе с опцией <TT>-r</TT>.</P></BLOCKQUOTE>
+</TD></TR><TR><TD>-f</TD><TD><P>Разбирает и выполняет данный файл. Этот переключатель является 
+необязательным и может быть опущен. Достаточно предоставить имя файла для выполнения.</P></TD></TR><TR>
+<TD>-v</TD><TD><P>Записывает PHP, PHP SAPI и Zend-версии в стандартный вывод, например:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$ php -v
+PHP 4.3.0-dev (cli), Copyright (c) 1997-2002 The PHP Group
+Zend Engine v1.2.1, Copyright (c) 1998-2002 Zend Technologies</PRE></TD></TR></TABLE></TD></TR><TR>
+<TD>-c</TD><TD><P>С помощью этой опции можно либо специфицировать директорию для поиска
+<TT>php.ini</TT>, либо специальную директорию <TT>INI</TT>-файла (который не обязательно называется
+<TT>php.ini</TT>), например:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$ php -c /custom/directory/ my_script.php
+
+$ php -c /custom/directory/custom-file.ini my_script.php</PRE></TD></TR></TABLE></TD></TR><TR><TD>-a</TD>
+<TD><P>Запускает PHP интерактивно.</P></TD></TR><TR><TD>-d</TD><TD>
+<P>Эта опция позволяет устанавливать специальное значение для каждой 
+директивы конфигурации, которые допускаются в <TT>php.ini</TT>. Синтаксис таков:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>-d configuration_directive[=value]</PRE></TD>
+</TR></TABLE><P>Примеры:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE># Опущение части value установит данную директиву конфигурации в "1"
+$ php -d max_execution_time -r '
+$foo = ini_get("max_execution_time"); var_dump($foo);'
+string(1) "1"
+
+# Передача пустой части value установит данную директиву конфигурации в ""
+php -d max_execution_time= -r '
+$foo = ini_get("max_execution_time"); var_dump($foo);'string(0) ""
+
+# В директиву конфигурации будет установлено то, что
+# передано после символа '='
+$  php -d max_execution_time=20 -r '
+$foo = ini_get("max_execution_time"); var_dump($foo);'
+string(2) "20"
+$  php -d max_execution_time=doesntmakesense -r '
+$foo = ini_get("max_execution_time"); var_dump($foo);'
+string(15) "doesntmakesense"</PRE></TD></TR></TABLE></TD></TR><TR><TD>-e</TD><TD>
+<P>Генерирует расширенную информацию для debugger/profiler.</P></TD></TR><TR><TD>-z</TD><TD>
+<P>Загружает Zend-расширение. Если задано только имя файла, PHP пытается 
+загрузить данное расширение из текущего пути по умолчанию к библиотеке в вашей системе
+(обычно специфицируется как <TT>/etc/ld.so.conf</TT> в Linux-системах).  Передача filename с абсолютным путём не будет использовать
+системный путь поиска библиотеки. Относительное filename с информацией директории скажет
+<TT>PHP</TT> - попытаться загрузить расширение относительно текущей директории.</P></TD></TR><TR>
+<TD>-l</TD><TD><P>Эта опция предоставляет удобный способ выполнения проверки синтаксиса 
+данного <TT>PHP</TT>-кода. В случае успеха - текст <TT>No syntax errors detected in &#60;filename&#62;</TT>
+записывается в стандартный вывод, а return-код оболочки будет <TT>0</TT>. При неудаче - текст
+<TT>Errors parsing &#60;filename&#62;</TT> вместе с внутренним сообщением разборщика об ошибке записывается в стандартный 
+вывод, а return-код оболочки будет <TT>255</TT>.</P>
+<P>Эта опция не будет находить фатальные ошибки (вроде не определённых функций). Используйте
+<TT>-f</TT>, если хотите проверить также и наличие фатальных ошибок.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>эта опция не работает вместе с <TT>-r</TT>.</P></BLOCKQUOTE></TD></TR>
+<TR><TD>-m</TD><TD><P>Используя эту опцию, PHP печатает на выводе встроенные (и загруженные) 
+модули PHP и Zend:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$ php -m
+[PHP Modules]
+xml
+tokenizer
+standard
+session
+posix
+pcre
+overload
+mysql
+mbstring
+ctype
+
+[Zend Modules]</PRE></TD></TR></TABLE></TD></TR><TR><TD>-i</TD><TD>Эта опция командной строки вызывает
+<A HREF="f/phpinfo.html"><B>phpinfo()</B></A> и печатает на выводе результаты. Если
+<TT>PHP</TT> не работает правильно, советуем выполнить <TT>php -i</TT> и посмотреть, выводятся ли сообщения об ошибке до или вместо таблиц информации.
+Имейте в виду, что вывод будет на <TT>HTML</TT> и, следовательно, довольно сумбурным.</TD></TR><TR>
+<TD>-r</TD><TD><P>Эта опция позволяет выполнять <TT>PHP</TT> прямо в командной строке. Начальный и конечный тэги
+<TT>PHP</TT> (<TT>&#60;?php</TT> и <TT>?&#62;</TT>) <i>не нужны</i> и вызывают ошибки разборщика.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>нужно проявлять внимание при использовании этой формы
+<TT>PHP</TT>, чтобы не было противоречий с заменой переменных командной строки, выполняемой оболочкой.</P>
+<P>Пример, выводящий ошибку разборщика:</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$ php -r "$foo = get_defined_constants();"
+Command line code(1) : Parse error - parse error, unexpected '='</PRE></TD></TR></TABLE>
+<p>Проблема здесь в том, что sh/bash выполняет замену переменной даже при использовании двойных кавычек
+<TT>"</TT>. Поскольку переменная <TT>$foo</TT> вряд ли определена, она ни во что не разворачивается, что в результате даёт 
+код, передаваемый в <TT>PHP</TT> для выполнения, фактически прочитанный:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$ php -r " = get_defined_constants();"</PRE>
+</TD></TR></TABLE><p>Корректным будет использовать одинарные кавычки <TT>'</TT>.
+Переменные в строках, заключённые в одинарные кавычки, не разворачиваются при работе sh/bash.</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$ php -r '$foo = get_defined_constants(); var_dump($foo);'
+array(370) {
+  ["E_ERROR"]=&#62;
+  int(1)
+  ["E_WARNING"]=&#62;
+  int(2)
+  ["E_PARSE"]=&#62;
+  int(4)
+  ["E_NOTICE"]=&#62;
+  int(8)
+  ["E_CORE_ERROR"]=&#62;
+  [...]</PRE></TD></TR></TABLE>
+<p>Если вы используете оболочку/shell иначе, чем sh/bash, у вас могут 
+появиться новые вопросы. Отправляйте bug report или mail по адресу phpdoc@lists.php.net.
+Можно легко столкнуться с проблемами при попытке получить переменные 
+оболочки в коде или использовании обратных слэшей (/) для замен/escaping.<br>Вы предупреждены...</p></BLOCKQUOTE>
+</TD></TR><TR><TD>-h</TD><TD>С помощью данной опции вы можете получить информацию о действующем 
+списке опций командной строки и небольшое описание их работы.</TD></TR></TABLE>
+<P>Исполняемый файл PHP может быть использован для запуска PHP-скриптов абсолютно независимо от web-сервера.<br>
+Если вы работаете под Unix, вы должны добавлять специальную первую строчку 
+в ваши PHP-скрипты и делать их исполняемыми, чтобы система знала, какая программа должна выполнять эти скрипты.<br>
+Под Windows вы можете ассоциировать <TT>php.exe</TT> с опцией двойного щелчка по файлам
+<TT>.php</TT> либо сделать batch-файл (.bat) для запуска скрипта 
+через PHP. Строка, добавленная в начало скрипта для работы под Unix, не 
+помешает под Windows, поэтому вы можете писать таким образом 
+межплатформенные программы. Ниже дан пример простой РНР-программы для выполнения из командной строки.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+  <h5><A NAME="AEN6654"></A>
+  Пример 24-1. Скрипт, предназначенный для запуска из командной строки (script.php)</h5>
+  <TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>#!/usr/bin/php
+&#60;?php
+
+if ($argc != 2 || in_array($argv[1], array('--help', '-help', '-h', '-?'))) {
+?&#62;
+
+This is a command line PHP script with one option.
+
+  Usage:
+  &#60;?php echo $argv[0]; ?&#62; &#60;option&#62;
+
+  &#60;option&#62; can be some word you would like
+  to print out. With the --help, -help, -h,
+  or -? options, you can get this help.
+
+&#60;?php
+} else {
+    echo $argv[1];
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Здесь мы используем специальную первую строку для указания на то,
+что этот файл должен быть запущен в PHP. Мы работаем с CLI-версией, 
+поэтому не выполняется вывод HTTP-шапок/header. Имеются две переменные, 
+которые вы можете использовать при написании РНР-приложений для командной строки: <TT>$argc</TT>
+и <TT>$argv</TT>. Первая - это количество аргументов плюс 1 (имя запущенного скрипта). Вторая - 
+это массив аргументов, начиная с имени скрипта с индексом ноль (<TT>$argv[0]</TT>).</P>
+<P>Мы проверяем, имеется ли менее или более одного аргумента. Также, если аргумент был <TT>--help</TT>,
+<TT>-help</TT>, <TT>-h</TT> или <TT>-?</TT>, мы печатаем help-сообщение, выводя имя скрипта динамически.
+Если мы получили какой-либо другой аргумент, мы выводим его (echo).</P>
+<P>Если вы хотите выполнить вышеприведённый скрипт под Unix, вам необходимо 
+сделать его executable и просто вызвать как <TT>script.php echothis</TT> или <TT>script.php -h</TT>.
+Под Windows вы можете создать batch-файл для выполнения этой задачи:</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><h5><A NAME="AEN6669"></A>
+Пример 24-2. Пакетный/Batch-файл для запуска PHP-скрипта в командной строке (script.bat)</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>@c:\php\php.exe script.php %1 %2 %3 %4</PRE></TD>
+</TR></TABLE></TD></TR></TABLE><P>  Приняв, что вы назвали программу
+<TT>script.php</TT> и что ваш <TT>php.exe</TT> находится в <TT>c:\php\php.exe</TT>, этот batch-файл запустит её с добавленными вами опциями:
+<TT>script.bat echothis</TT> или <TT>script.bat -h</TT>.</P><P>См. также в документации по расширению
+<A HREF="f/ref.readline.html">Readline</A> о функциях, которые можно использовать для усовершенствования вашего 
+РНР-приложения для командной строки.</P></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1">
+</TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="safe-mode.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="f/funcref.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Безопасный режим</TD>
+<th WIDTH="34%" VALIGN="top"><a href="features.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Ссылка на функцию</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

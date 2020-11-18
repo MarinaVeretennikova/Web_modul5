@@ -1,0 +1,110 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Безопасность Файловой Системы</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR>
+<TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="apache.module.html">Назад</A></TD><th WIDTH="80%">Глава 4. Безопасность</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="database.html">Вперёд</A></TD></TR></TABLE>
+</TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR>
+</TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD>
+<TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%"><H1><a name="security.filesystem">Безопасность файловой системы</a></H1>
+<P>PHP это субъект системы безопасности, встроенной в большинство серверных 
+систем, с учётом разрешений на доступ к файлам и на базе директорий. Это 
+позволяет управлять тем, какие файлы можно читать в файловой системе. Нужно 
+проявлять осторожность при чтении любых файлов, чтобы гарантировать 
+безопасность при чтении любыми пользователями, имеющими доступ к данной файловой системе.</P>
+<P>Поскольку PHP был разработан так, чтобы дать пользовательский доступ к файловой системе,
+можно создать PHP-скрипт, который позволит вам читать такие системные файлы 
+как /etc/passwd, модифицировать внутрисетевые соединения, отправлять задания 
+принтеру etc. Это, очевидно, подразумевает, что вы должны быть уверены, что 
+файлы, которые вы читаете и записываете, являются соответствующими файлами.</P>
+<P>Рассмотрим следующий скрипт, где пользователь указывает, что он хотел бы 
+удалить файл в своей home-директории. Это предполагает ситуацию, когда web-интерфейс 
+РНР регулярно используется для работы с файлами, как в случае, когда пользователь сервера Apache 
+может удалять файлы в своих домашних директориях.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<h5>
+<A NAME="AEN3140"></A>Пример 4-1. Плохая проверка переменных ведёт к ...</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+// удалить файлы из домашней директории пользователя
+$username = $_POST['user_submitted_name'];
+$homedir = "/home/$username";
+$file_to_delete = "$userfile";
+unlink ($homedir/$userfile);
+echo "$file_to_delete has been deleted!";
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Поскольку username отправляется из пользовательской формы методом post, 
+можно отправлять username и файл, принадлежащие кому-либо ещё, и удалять файлы.
+В этом случае может понадобиться использование какой-нибудь иной формы аутентификации.
+Посмотрим, что произойдёт, если будут отправлены переменные
+"../etc/" и "passwd". Код тогда сможет эффективно читать:</p>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+  <h5><A NAME="AEN3143"></A>
+  Пример 4-2. ... атака на файловую систему</h5>
+  <TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>&#60;?php
+// Удалить файл с жёсткого диске, доступ к которому имеет пользователь РНР.
+// Если РНР имеет root-доступ:
+$username = "../etc/";
+$homedir = "/home/../etc/";
+$file_to_delete = "passwd";
+unlink ("/home/../etc/passwd");
+echo "/home/../etc/passwd has been deleted!";
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Есть два средства, которые вы должны использовать для предотвращения такого поведения.</p>
+<UL><LI><P> Давать web-пользователю только ограниченный доступ к экзешнику PHP.</P></LI>
+<LI><P>Проверять все переменные, которые отправляются из формы.</P></LI></UL>
+Вот улучшенный скрипт:<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+  <h5><A NAME="AEN3151"></A>
+  Пример 4-3. Более безопасная проверка имени файла</h5>
+  <TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+// Удалить файл с жёсткого диске, доступ к которому имеет пользователь РНР.
+$username = $_SERVER['REMOTE_USER']; // использование механизма аутентификации
+
+$homedir = "/home/$username";
+
+$file_to_delete = basename("$userfile"); // вырезать пути
+unlink ($homedir/$file_to_delete);
+
+$fp = fopen("/home/logging/filedelete.log","+a"); //log удаление
+$logstring = "$username $homedir $file_to_delete";
+fputs ($fp, $logstring);
+fclose($fp);
+
+echo "$file_to_delete has been deleted!";
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Однако и здесь не без недостатков. Если ваша система аутентификации 
+разрешает пользователям создавать свои собственные пользовательские login'ы 
+и пользователь выберет логин "../etc/", система снова станет открытой. 
+Исходя из этого, вам может понадобиться более специализированная проверка:</p>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+  <h5><A NAME="AEN3154"></A>
+  Пример 4-4. Ещё более безопасная проверка имени файла</h5>
+  <TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+$username = $_SERVER['REMOTE_USER']; // использование механизма аутентификации
+$homedir = "/home/$username";
+
+if (!ereg('^[^./][^/]*$', $userfile))
+     die('bad filename'); //закончить, не продолжать
+
+if (!ereg('^[^./][^/]*$', $username))
+     die('bad username'); //закончить, не продолжать
+//etc...
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>В зависимости от вашей ОС, необходимо предусматривать использование 
+разнообразных файлов, включая вхождения устройств (/dev/
+или COM1), файлов конфигурации (/etc/ и .ini-файлы),
+хорошо известные области хранения данных (/home/, My Documents), etc.<br>
+Поэтому обычно легче реализовать такую политику, когда вы запрещаете всё, за исключением того, что явно разрешено.</P>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="apache.module.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="database.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Apache-модуль</TD>
+<th WIDTH="34%" VALIGN="top"><a href="security.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Безопасность БД</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

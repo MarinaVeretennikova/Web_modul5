@@ -1,0 +1,528 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0060)http://www.apachedev.ru/modules.php?name=Pages&go=page&pid=4 -->
+<HTML><HEAD><TITLE>ApacheDev.ru Установка Apache 2.0</TITLE>
+<META content="text/html; charset=windows-1251" http-equiv=Content-Type>
+<META content=0 http-equiv=EXPIRES>
+<META content=DOCUMENT name=RESOURCE-TYPE>
+<META content=GLOBAL name=DISTRIBUTION>
+<META content=ApacheDev.ru name=AUTHOR>
+<META content="Copyright (c) by ApacheDev.ru" name=COPYRIGHT>
+<META 
+content="Apache, apache, Апач, апач, настройка apache, разработка под apache, модули apache, module, modules, mod, скачать apache, установка apache, php, mysql, настройка сервера apache, http server, ant, cocoon, db, excalibur, forrest, geronimo, gump, incubator, xml, http сервер, http, https, apache download, apache 2.0, asp apache, сервер, server, ssh, документация apache, взлом apache, устройство apache, perl, active perl, apache win32, ssi, apache server, ssl, conf, tomcat, APR, apr, htaccess, opensll, phpmyadmin, php4, mod_perl, httpd, webalizer, webdav, php3, mod_ssl, apache2, activeperl, mod_dav, http, cgi, contents, virtual host, postgresql, redirect, localhost, allow, cocoon, jakarta, deny, 8080, tomcat, mod_gzip, standalone" 
+name=KEYWORDS>
+<META 
+content="Статья явлется первой в серии статей, написанных Райном Блумом (Ryan Bloom) и рассказывающая о процессе установки сервера Apache 2.0" 
+name=DESCRIPTION>
+<META content="INDEX, FOLLOW" name=ROBOTS>
+<META content="1 DAYS" name=REVISIT-AFTER>
+<META content=GENERAL name=RATING>
+<META content="MSHTML 5.00.3700.6699" name=GENERATOR><LINK 
+href="ApacheDev_ru Установка Apache 2_0.files/style.css" rel=StyleSheet 
+type=text/css></HEAD>
+<BODY aLink=#d5ae83 bgColor=#ffffff link=#363636 text=#000000 
+vLink=#363636><BR><BR>
+<TABLE align=center bgColor=#ffffff border=0 cellPadding=0 cellSpacing=0 
+width=750>
+  <TBODY>
+  <TR>
+    <TD bgColor=#f3e1af><IMG 
+  src="themes/Karate/images/tophighlight.gif"></TD></TR></TBODY></TABLE>
+<TABLE align=center bgColor=#ffffff border=0 cellPadding=0 cellSpacing=0 
+width=750>
+  <TBODY>
+  <TR vAlign=center>
+    <TD align=left bgColor=#f3e1af width=400>&nbsp;<A 
+      href="http://www.apachedev.ru/index.php" 
+      style="FONT-SIZE: 12px; FONT-WEIGHT: bold; TEXT-DECORATION: none"><IMG 
+      alt="Welcome to ApacheDev.ru!" 
+    src="themes/ApacheDev/images/logo.gif"></A></TD></TR></TBODY></TABLE>
+<TABLE align=center bgColor=#fefefe border=0 cellPadding=0 cellSpacing=0 
+width=750>
+  <TBODY>
+  <TR>
+    <TD bgColor=#000000 colSpan=4><IMG alt="" border=0 height=1 hspace=0 
+      src="themes/ApacheDev/images/pixel.gif" width=1></TD></TR>
+  <TR bgColor=#efce6b vAlign=center>
+    <TD noWrap width="15%">
+      <FORM action=modules.php?name=Search method=post><FONT class=content 
+      color=#000000><B>&nbsp;Поиск </B><INPUT name=query 
+    size=14></FONT></FORM></TD>
+    <TD align=middle height=20 width="60%"><FONT class=content>&nbsp; </FONT>
+    <TD align=right width="25%"><FONT class=content>
+      <SCRIPT type=text/javascript>
+
+<!--   // Array ofmonth Names
+var monthNames = new Array( "January","February","March","April","May","June","July","August","September","October","November","December");
+var now = new Date();
+thisYear = now.getYear();
+if(thisYear < 1900) {thisYear += 1900}; // corrections if Y2K display problem
+document.write(monthNames[now.getMonth()] + " " + now.getDate() + ", " + thisYear);
+// -->
+
+</SCRIPT>
+      </FONT></TD>
+    <TD>&nbsp;</TD></TR>
+  <TR>
+    <TD bgColor=#000000 colSpan=4><IMG alt="" border=0 height=1 hspace=0 
+      src="themes/ApacheDev/images/pixel.gif" width=1></TD></TR></TBODY></TABLE>
+<TABLE align=center bgColor=#ffffff border=0 cellPadding=0 cellSpacing=0 
+width=750>
+  <TBODY>
+  <TR vAlign=top>
+    <TD bgColor=#f3e1af><IMG alt="" border=0 height=3 
+      src="themes/ApacheDev/images/pixel.gif" width=1></TD></TR>
+  <TR vAlign=top>
+    <TD bgColor=#ffffff><IMG alt="" border=0 height=5 
+      src="themes/ApacheDev/images/pixel.gif" width=1></TD></TR></TBODY></TABLE><BR>
+<TABLE align=center bgColor=#ffffff border=0 cellPadding=0 cellSpacing=0 
+width=750>
+  <TBODY>
+  <TR vAlign=top>
+    <TD bgColor=#eeeeee vAlign=top width=150>
+      <TABLE bgColor=#000000 border=0 cellPadding=1 cellSpacing=0 width=150>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE bgColor=#f3e1af border=0 cellPadding=3 cellSpacing=0 
+            width="100%">
+              <TBODY>
+              <TR>
+                <TD align=left><FONT class=content 
+                  color=#363636><B>Навигация</B></FONT> 
+        </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <TABLE border=0 cellPadding=3 cellSpacing=0 width=150>
+        <TBODY>
+        <TR vAlign=top>
+          <TD><STRONG><BIG>·</BIG></STRONG> <A 
+            href="http://www.apachedev.ru/index.php">Главная</A><BR><STRONG><BIG>·</BIG></STRONG> 
+            <A 
+            href="http://www.apachedev.ru/modules.php?name=Topics">Новости</A><BR><STRONG><BIG>·</BIG></STRONG> 
+            <A 
+            href="http://www.apachedev.ru/modules.php?name=Pages">Статьи</A><BR><STRONG><BIG>·</BIG></STRONG> 
+            <A href="http://www.apachedev.ru/modules.php?name=Files">Каталог 
+            файлов</A><BR><STRONG><BIG>·</BIG></STRONG> <A 
+            href="http://www.apachedev.ru/modules.php?name=Web_Links">Ссылки</A><BR><STRONG><BIG>·</BIG></STRONG> 
+            <A 
+            href="http://www.apachedev.ru/modules.php?name=Search">Поиск</A><BR><STRONG><BIG>·</BIG></STRONG> 
+            <A 
+            href="http://www.apachedev.ru/modules.php?name=Feedback">Контакт</A> 
+          </TD></TR></TBODY></TABLE><BR>
+      <TABLE bgColor=#000000 border=0 cellPadding=1 cellSpacing=0 width=150>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE bgColor=#f3e1af border=0 cellPadding=3 cellSpacing=0 
+            width="100%">
+              <TBODY>
+              <TR>
+                <TD align=left><FONT class=content 
+                  color=#363636><B>Рекомендуем</B></FONT> 
+        </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <TABLE border=0 cellPadding=3 cellSpacing=0 width=150>
+        <TBODY>
+        <TR vAlign=top>
+          <TD>
+            <DIV align=center>
+            <SCRIPT type=text/javascript><!--
+google_ad_client = "pub-1719997141905626";
+google_ad_width = 120;
+google_ad_height = 240;
+google_ad_format = "120x240_as";
+google_ad_type = "text";
+google_ad_channel ="";
+google_color_border = "000000";
+google_color_bg = "F0F0F0";
+google_color_link = "0000FF";
+google_color_url = "008000";
+google_color_text = "000000";
+//--></SCRIPT>
+
+            <SCRIPT src="ApacheDev_ru Установка Apache 2_0.files/show_ads.js" 
+            type=text/javascript>
+</SCRIPT>
+            </DIV></TD></TR></TBODY></TABLE><BR>
+      <TABLE bgColor=#000000 border=0 cellPadding=1 cellSpacing=0 width=150>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE bgColor=#f3e1af border=0 cellPadding=3 cellSpacing=0 
+            width="100%">
+              <TBODY>
+              <TR>
+                <TD align=left><FONT class=content 
+                  color=#363636><B>Правописание</B></FONT> 
+          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <TABLE border=0 cellPadding=3 cellSpacing=0 width=150>
+        <TBODY>
+        <TR vAlign=top>
+          <TD>
+            <CENTER><IFRAME frameBorder=0 height=31 id=orphus scrolling=no 
+            src="ApacheDev_ru Установка Apache 2_0.files/ads.htm" 
+            width=88></IFRAME><BR>Выделите в тексте ошибку и нажмите 
+            Ctrl+Enter</CENTER></TD></TR></TBODY></TABLE><BR>
+      <TABLE bgColor=#000000 border=0 cellPadding=1 cellSpacing=0 width=150>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE bgColor=#f3e1af border=0 cellPadding=3 cellSpacing=0 
+            width="100%">
+              <TBODY>
+              <TR>
+                <TD align=left><FONT class=content 
+                  color=#363636><B>Статистика</B></FONT> 
+        </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <TABLE border=0 cellPadding=3 cellSpacing=0 width=150>
+        <TBODY>
+        <TR vAlign=top>
+          <TD>
+            <DIV align=center><!-- SpyLOG f:0211 -->
+            <SCRIPT language=javascript><!--
+Md=document;Mnv=navigator;Mp=1;
+Mn=(Mnv.appName.substring(0,2)=="Mi")?0:1;Mrn=Math.random();
+Mt=(new Date()).getTimezoneOffset();
+Mz="p="+Mp+"&rn="+Mrn+"&t="+Mt;
+Md.cookie="b=b";Mc=0;if(Md.cookie)Mc=1;Mz+='&c='+Mc;
+Msl="1.0";
+//--></SCRIPT>
+
+            <SCRIPT language=javascript1.1><!--
+Mpl="";Msl="1.1";Mj = (Mnv.javaEnabled()?"Y":"N");Mz+='&j='+Mj;
+//--></SCRIPT>
+
+            <SCRIPT language=javascript1.2><!--         
+Msl="1.2";
+//--></SCRIPT>
+
+            <SCRIPT language=javascript1.3><!--
+Msl="1.3";//--></SCRIPT>
+
+            <SCRIPT language=javascript><!--
+Mu="u6485.81.spylog.com";My="";
+My+="<a href='http://"+Mu+"/cnt?cid=648581&f=3&p="+Mp+"&rn="+Mrn+"' target='_blank'>";
+My+="<img src='http://"+Mu+"/cnt?cid=648581&"+Mz+"&sl="+Msl+"&r="+escape(Md.referrer)+"&pg="+escape(window.location.href)+"' border=0  width=88 height=31  alt='SpyLOG'>";
+My+="</a>";Md.write(My);//--></SCRIPT>
+            <NOSCRIPT><A 
+            href="http://u6485.81.spylog.com/cnt?cid=648581&amp;f=3&amp;p=1" 
+            target=_blank><IMG alt=SpyLOG border=0 height=31 
+            src="http://u6485.81.spylog.com/cnt?cid=648581&amp;p=1" width=88> 
+            </A></NOSCRIPT><!-- SpyLOG  -->
+            <DIV></DIV></DIV></TD></TR></TBODY></TABLE><BR>
+      <TABLE bgColor=#000000 border=0 cellPadding=1 cellSpacing=0 width=150>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE bgColor=#f3e1af border=0 cellPadding=3 cellSpacing=0 
+            width="100%">
+              <TBODY>
+              <TR>
+                <TD align=left><FONT class=content 
+                  color=#363636><B>Экспорт</B></FONT> 
+        </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <TABLE border=0 cellPadding=3 cellSpacing=0 width=150>
+        <TBODY>
+        <TR vAlign=top>
+          <TD>
+            <DIV align=center><A href="http://www.apachedev.ru/export.xml"><IMG 
+            border=0 src="/images/rss.gif"></A></DIV></TD></TR></TBODY></TABLE><BR></TD>
+    <TD><IMG alt="" border=0 height=1 src="themes/Karate/images/pixel.gif" 
+      width=15></TD>
+    <TD width="100%">
+      <TABLE bgColor=#efce68 border=0 cellPadding=0 cellSpacing=1 
+        width="100%"><TBODY>
+        <TR>
+          <TD>
+            <TABLE bgColor=#efefef border=0 cellPadding=8 cellSpacing=1 
+            width="100%">
+              <TBODY>
+              <TR>
+                <TD>
+                  <CENTER>
+                  <FORM name=gocat>
+                  <TABLE>
+                    <TBODY>
+                    <TR>
+                      <TD><SELECT name=cat 
+                        onchange=location.href=gocat.cat.options[selectedIndex].value><OPTION 
+                          selected value="">Выбор категории</OPTION><OPTION 
+                          value=modules.php?name=Pages&amp;go=showcat&amp;cid=16>The 
+                          Apache Modeling Project</OPTION><OPTION 
+                          value=modules.php?name=Pages&amp;go=showcat&amp;cid=5>Архитектура 
+                          Apache</OPTION><OPTION 
+                          value=modules.php?name=Pages&amp;go=showcat&amp;cid=17>Безопасность</OPTION><OPTION 
+                          value=modules.php?name=Pages&amp;go=showcat&amp;cid=6>Модули 
+                          Apache</OPTION><OPTION 
+                          value=modules.php?name=Pages&amp;go=showcat&amp;cid=14>Основы 
+                          Apache</OPTION><OPTION 
+                          value=modules.php?name=Pages>Начало 
+                        раздела</OPTION></SELECT></TD></TR></TBODY></TABLE></FORM>
+                  <HR>
+                  <B>Основы Apache</B><BR>Установка. Настройка. Базовые 
+                  принципы.</CENTER></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><BR>
+      <TABLE bgColor=#efce68 border=0 cellPadding=0 cellSpacing=1 
+        width="100%"><TBODY>
+        <TR>
+          <TD>
+            <TABLE bgColor=#efefef border=0 cellPadding=8 cellSpacing=1 
+            width="100%">
+              <TBODY>
+              <TR>
+                <TD>
+                  <H2 align=center>Установка Apache 2.0 </H2>
+                  <P align=left>Автор: Ryan Bloom.<BR>Перевод: 
+                  ApacheDev.ru.<BR></P>
+                  <DIV align=right><A 
+                  href="http://www.onlamp.com/pub/a/apache/2001/04/26/apache_2.html">Оригинал 
+                  статьи</A></DIV>
+                  <P><I>Редакторский комментарий: Райн Блум (Ryan Bloom) был 
+                  одним из основных разработчиков сервера Apache 2.0. Мы 
+                  встретили его на выставке Linux World в Нью-Йорке и попросили 
+                  его написать серию статей, описывающих новую версию Apache, 
+                  для наших читателей. Это первая его статья, рассказывающая, 
+                  что нового появилось в Apache 2.0 и как его установить. 
+                  </I></P>
+                  <P><I>Разработчики Apache работали над Apache 2.0 последние 2 
+                  года, и 4 Апреля первая бета версия Apache 2.0 была выпущена. 
+                  Это первая из серии статья, в которой мы объясняем чем Apache 
+                  2.0 отличается от Apache 1.3 и чего пользователям сервера 
+                  следует опасаться. </I></P>
+                  <H4>Зачем делать апгрэйд?</H4>
+                  <P>Одно из самых важных изменений - это добавление поддержки 
+                  многонитеевость в Apache 2.0. Версия 1.3 использовала потоки 
+                  для обработки запросов, и это существенно повышало 
+                  производительность на многих операционных системах. Нити же, 
+                  совместно с потоками, делают Apache 2.0 более масштабируемой. 
+                  </P>
+                  <P>Второе значимое отличие от Apache 1.3 - это фильтрация 
+                  ввода/вывода, которая позволяет одному модулю изменять вывод 
+                  другого модуля. Такая возможность была необходима в Apache 1.3 
+                  для CGI скриптов с SSI тэгами. Но это не было возможно в 
+                  версии 1.3, но благодаря фильтрации ввода/вывода это стало 
+                  возможным при работе с Apache 2.0. </P>
+                  <P>Apache 2.0 также предоставляет поддержку SSL без 
+                  модификации ядра сервера. Минимально необходимая поддержка SSL 
+                  реализована в модуле mod_tls, которая в недалеком будущем 
+                  расшириться до полной поддержки SSL. </P>
+                  <P>Первая трудность при использовании Apache 2.0, это 
+                  инсталляция и конфигурация сервера Apache. Есть две формы 
+                  конфигурации сервера: при компиляции и перед запуском. Эта 
+                  статья описывает получение дистрибутива, его компиляцию и 
+                  установку сервера.</P>
+                  <H4>Установка и конфигурация сервера Apache 2.0 </H4>
+                  <P>Перед тем как мы начнем, скачайте последнюю версию сервера 
+                  Apache 2.0. Наилучшее место для получения стабильной копии 
+                  Apache - это <A href="http://httpd.apache.org/">официальный 
+                  сайт веб сервера</A>. Если вы разработчик, и вам потребовалась 
+                  последняя разработанная версия, то вам следует отправиться на 
+                  <A href="http://dev.apache.org/">страницу разработчиков 
+                  Apache</A>, и почитать, перейдя по ссылкам, о получении кода 
+                  из CVS. </P>
+                  <P>Это статья предполагает, что вы используете дистрибутив 
+                  Apache 2.0.15, хотя в будущих версиях Apache все должно 
+                  выглядеть похожим. <BR>Сейчас вы получили дистрибутив, то 
+                  распакуйте его, используя команду: </P>
+                  <P><FONT color=#9999ff><I>tar -xvzf httpd-2*.tar.gz 
+                  </I></FONT></P>
+                  <P>После этого мы можем приступить к конфигурации Apache. В 
+                  предыдущих версиях Apache, были две различные модели настройки 
+                  сервера, каждая из которых развивалась отдельно. Первый метод 
+                  был использование текстового файла, контролирующего состав 
+                  сборки. Второй была autoconf - подобная система, которая 
+                  реально только модифицировала тестовый файл под себя.</P>
+                  <P>В Apache 2.0, разработчики решили, что более интересно 
+                  написание веб-сервера, который поддерживает второй метод 
+                  настройки. Поэтому, Apache 2.0 использует autoconf и libtool 
+                  для определения компонентов сборки. Дистрибутивы, скачанные с 
+                  сайта Apache, уже имеют созданные конфигурационные скрипты, но 
+                  для тех, кто скачал разрабатываемую версию, необходимо 
+                  сгенерировать конфигурационный скрипт командой<I> <FONT 
+                  color=#9999ff>./buildconf</FONT></I>. Данная команда проверить 
+                  все директории дистрибутива, чтобы убедиться в том, что у вас 
+                  есть все необходимые компоненты для Apache. </P>
+                  <TABLE align=right border=1 cellPadding=1 cellSpacing=2 
+                  style="BORDER-BOTTOM: rgb(204,204,204) 1px solid; BORDER-LEFT: rgb(204,204,204) 1px solid; BORDER-RIGHT: rgb(204,204,204) 1px solid; BORDER-TOP: rgb(204,204,204) 1px solid; MARGIN: 8px" 
+                  width=250>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=#ffffff 
+                      style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-RIGHT: medium none; BORDER-TOP: medium none" 
+                      vAlign=top width=250>
+                        <P class=smalltext><A 
+                        href="http://bolero.ru//cgi-bin/basket.cgi?act_add=yes&amp;pid=22301894&amp;num=1&amp;partner=apachedev&amp;new=1"><IMG 
+                        align=left 
+                        alt="Apache. Настольная книга администратора." border=0 
+                        src="http://apachedev.ru/images/books/4.gif"></A> <B><A 
+                        href="http://bolero.ru//cgi-bin/basket.cgi?act_add=yes&amp;pid=22301894&amp;num=1&amp;partner=apachedev&amp;new=1">Apache. 
+                        Настольная книга администратора</A></B><BR>Боуэн Р., 
+                        Ридруэйо Д., Лиска А.<BR>ДиаСофт, 384 стр. <BR>Цена: 
+                        242,00 руб.<BR><A 
+                        href="http://bolero.ru//cgi-bin/dsc.cgi?22301894&amp;partner=apachedev&amp;new=1">Подробнее</A><A 
+                        href="http://bolero.ru//cgi-bin/basket.cgi?act_add=yes&amp;pid=22301894&amp;num=1&amp;partner=apachedev&amp;new=1">Купить</A></P></TD></TR></TBODY></TABLE>
+                  <P></P>
+                  <P>После этого, у вас должен появиться конфигурационный скрипт 
+                  в корневом каталоге дистрибутива Apache. Это скрипт, который 
+                  фактически сконфигурирует сервер Apache. Тем не менее, данный 
+                  скрипт имеет множество опций, которые позволят пользователю 
+                  контролировать каждый аспект сборки Apache. Полный список этих 
+                  опций можно получит выполнив команду: ./configure --help.</P>
+                  <P>Обсуждение каждой опции выходит за рамки данной статьи, но 
+                  я опишу несколько наиболее простых и важных опций. </P>
+                  <P>
+                  <LI><I>--prefix.</I> Определяет место инсталляции сервера 
+                  apache. <BR>
+                  <LI><I>--with-maintainer-mode.</I> Компиляция с отлаживаемой 
+                  информацией. Данная опция будет оставаться важной, по крайней 
+                  мере, до тех пор, пока не будет стабильной версии сервера. 
+<BR>
+                  <LI><I>--with-mpm.</I> Определяет модуль поддержки 
+                  многопроцессности, который будет использоваться. 
+                  Многопроцессность - это встроенная возможность Apache. Более 
+                  полное описание этих возможностей сервера могут быть найдены в 
+                  онлайне. <BR>
+                  <LI><I>--enable-module.</I> Определяет какие модули будут 
+                  встроены в ядро Apache. Это может быть либо список модулей, 
+                  либо слово most, которое задает минимально необходимый список 
+                  модулей. <BR>
+                  <LI><I>--enable-mods-shared.</I> Определяет какие модули 
+                  следует компилировать отдельно от сервер 
+                  <P>Многопроцессные модули (MPMs) сервера позволяют вам 
+                  настроить Apache 2.0 для любого сайта. Что работает на одном 
+                  сайте или операционной системе, может некорректно работать при 
+                  другом окружении. Чтобы решить эту проблему, системные 
+                  администраторы могут выбрать режим работы сервера. Некоторые 
+                  операционные системы поддерживают больше режимов работы 
+                  сервера, чем другие. Например, У Unix есть 3 стандартных MPM: 
+                  <BR>
+                  <BLOCKQUOTE><I>Prefork</I> - модель, как у Apache 1.3. 
+                    Родительский процесс создает множество дочерних процессов, 
+                    которые обрабатывают запросы. Каждый дочерний процесс имеет 
+                    одну нить и может обработать только один запрос за раз. 
+                    Когда нагрузка увеличивается, сервер создает новые дочерние 
+                    процессы для обработки поступающих запросов.<BR><I>Threaded 
+                    </I>- модель, подобная Prefork, за исключением того, что 
+                    каждый дочерний процесс имеет постоянное количество нитей. 
+                    Точное количество нитей определяется при запуске из файла 
+                    <I>httpd.conf </I><BR><I>Perchild</I> - Родительский процесс 
+                    создает определенное количество дочерних процессов, каждый с 
+                    минимальным количеством нитей. Когда нагрузка на сервер 
+                    возрастает, потоки создают новые нити, чтобы обработать 
+                    возрастающий трафик. </BLOCKQUOTE>
+                  <P>С другой стороны, Windows имеет только одну опцию. </P>
+                  <BLOCKQUOTE>
+                    <P><I>Winnt</I> - модель, как у Apache 1.3, где только два 
+                    процесса: дочерний, обрабатывающий запросы и родительский, 
+                    отвечающий за контроль над дочерним процессом для 
+                    уверенности в постоянной обработке запросов. </P></BLOCKQUOTE>
+                  <H4>Компиляция сервера. </H4>
+                  <P>После того, как выполнился конфигурационный скрипт, 
+                  необходимо скомпилировать сервер. Это делается с помощью 
+                  команды <FONT color=#9999ff><I>make </I></FONT>в корневой 
+                  директории исходников сервера. Последний шаг - это фактически 
+                  установить новый сервер, что делается командой <FONT 
+                  color=#9999ff><I>make install</I></FONT>. Эта команда 
+                  скопирует все необходимые файлы в директорию, определенную 
+                  опцией -prefix конфигурационного скрипта. Если данная опция не 
+                  была указана, то путь /usr/local/apache/ будет использоваться 
+                  по умолчанию. </P>
+                  <TABLE align=left border=1 cellPadding=1 cellSpacing=2 
+                  style="BORDER-BOTTOM: rgb(204,204,204) 1px solid; BORDER-LEFT: rgb(204,204,204) 1px solid; BORDER-RIGHT: rgb(204,204,204) 1px solid; BORDER-TOP: rgb(204,204,204) 1px solid; MARGIN: 8px" 
+                  width=250>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=#ffffff 
+                      style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-RIGHT: medium none; BORDER-TOP: medium none" 
+                      vAlign=top width=250>
+                        <P class=smalltext><A 
+                        href="http://bolero.ru//cgi-bin/basket.cgi?act_add=yes&amp;pid=22237080&amp;num=1&amp;partner=apachedev&amp;new=1"><IMG 
+                        align=left alt="Администрирование Apache." border=0 
+                        src="http://apachedev.ru/images/books/2.jpg"></A> <B><A 
+                        href="http://bolero.ru//cgi-bin/basket.cgi?act_add=yes&amp;pid=22237080&amp;num=1&amp;partner=apachedev&amp;new=1">Администрирование 
+                        Apache</A></B><BR>М. Арнольд и др.<BR>ЛОРИ, 432 стр. 
+                        <BR>Цена: 169,00 руб.<BR><A 
+                        href="http://bolero.ru//cgi-bin/dsc.cgi?22237080&amp;partner=apachedev&amp;new=1">Подробнее</A><A 
+                        href="http://bolero.ru//cgi-bin/basket.cgi?act_add=yes&amp;pid=22237080&amp;num=1&amp;partner=apachedev&amp;new=1">Купить</A></P></TD></TR></TBODY></TABLE>
+                  <P>Вот мы почти все и сделали. Если установка прошла успешно, 
+                  то необходимо перейти в созданную директорию и запустить 
+                  сервер командой <FONT color=#9999ff><I>./bin/apachectl 
+                  start.</I></FONT> Тем не менее, нам необходимо знать какой 
+                  порт прослушивает сервер. Если вы устанавливали сервер под 
+                  пользователем root, то сервер слушает 80 порт, как стандартный 
+                  HTTP порт, но если вы производили установку под другим 
+                  пользователем, то сервер работает с портом 8080. Номер порта 
+                  может быть изменен в файле httpd.conf в директиве Port. Итак, 
+                  запустите свой любимый браузер и запросите страницу с адресом, 
+                  либо http://localhost/, или http://localhost:8080/, в 
+                  зависимости от используемого порта. Вы должны увидеть 
+                  стандартную веб-страницу Apache. Если этого не произошло, то 
+                  журнал ошибок расскажет вам в чем проблема.</P>
+                  <P>Вы только что настроили ваш первый сервер Apache 2.0 и 
+                  готовы обрабатывать веб-страницы. Однако помните, что данный 
+                  сервер пока не является релизом, поэтому иногда могут 
+                  произойти ошибки. Если вы их обнаружили, пожалуйста, отправьте 
+                  их описание в <A href="http://bugs.apache.org/">базу ошибок 
+                  сервера</A>.</P>
+                  <P>В следующей статье, я расскажу больше о конфигурации 
+                  сервера перед запуском, также я расскажу о том, как перейти с 
+                  сервера apache 1.3 на сервер apache 2.0. </P>
+                  <CENTER></CENTER>
+                  <HR>
+                  Дата публикации: 08/04/2005<BR>Прочитано: 3542 
+                  раз<BR><B>Дополнительно на данную тему:</B>
+                  <HR>
+                  <IMG border=0 height=14 
+                  src="modules/Pages/images/page_pic.gif" width=10> <A 
+                  href="http://www.apachedev.ru/modules.php?name=Pages&amp;go=page&amp;pid=5" 
+                  style="TEXT-DECORATION: none"><B>Переход с сервера Apache 1.3 
+                  на Apache 2.0</B></A><BR><IMG border=0 height=14 
+                  src="modules/Pages/images/page_pic.gif" width=10> <A 
+                  href="http://www.apachedev.ru/modules.php?name=Pages&amp;go=page&amp;pid=6" 
+                  style="TEXT-DECORATION: none"><B>Написание фильтров для Apache 
+                  2.0</B></A><BR><IMG border=0 height=14 
+                  src="modules/Pages/images/page_pic.gif" width=10> <A 
+                  href="http://www.apachedev.ru/modules.php?name=Pages&amp;go=page&amp;pid=7" 
+                  style="TEXT-DECORATION: none"><B>Написание выходных фильтров 
+                  Apache 2.0</B></A><BR><IMG border=0 height=14 
+                  src="modules/Pages/images/page_pic.gif" width=10> <A 
+                  href="http://www.apachedev.ru/modules.php?name=Pages&amp;go=page&amp;pid=8" 
+                  style="TEXT-DECORATION: none"><B>Написание входных фильтров 
+                  Apache 2.0</B></A><BR><IMG border=0 height=14 
+                  src="modules/Pages/images/page_pic.gif" width=10> <A 
+                  href="http://www.apachedev.ru/modules.php?name=Pages&amp;go=page&amp;pid=9" 
+                  style="TEXT-DECORATION: none"><B>Модули Apache 
+                  2.0</B></A><BR><IMG border=0 height=14 
+                  src="modules/Pages/images/page_pic.gif" width=10> <A 
+                  href="http://www.apachedev.ru/modules.php?name=Pages&amp;go=page&amp;pid=10" 
+                  style="TEXT-DECORATION: none"><B>Основы управления ресурсами в 
+                  Apache: APR Пулы 
+          (pools)</B></A><BR></LI></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><BR>
+      <TABLE bgColor=#efce68 border=0 cellPadding=0 cellSpacing=1 
+        width="100%"><TBODY>
+        <TR>
+          <TD>
+            <TABLE bgColor=#efefef border=0 cellPadding=8 cellSpacing=1 
+            width="100%">
+              <TBODY>
+              <TR>
+                <TD>
+                  <CENTER><A href="javascript:history.go(-1)">Назад</A> | <A 
+                  href="http://www.apachedev.ru/modules.php?name=Pages">Начало</A> 
+                  | <A 
+                  href="http://www.apachedev.ru/modules.php?name=Pages&amp;go=page&amp;pid=4#">Наверх</A></CENTER></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE align=center bgColor=#000000 border=0 cellPadding=0 cellSpacing=0 
+width=750>
+  <TBODY>
+  <TR>
+    <TD height=5 width=750><IMG alt="" border=0 height=5 
+      src="themes/ApacheDev/images/bottombar.gif" width=750></TD></TR>
+  <TR>
+    <TD width="100%"><IMG alt="" border=0 height=1 
+      src="themes/ApacheDev/images/pixel.gif" 
+width=1></TD></TR></TBODY></TABLE><BR><BR>
+<TABLE align=center border=0 cellPadding=0 cellSpacing=0 width=750>
+  <TBODY>
+  <TR align=middle>
+    <TD colSpan=3 width="100%"><FONT class=footmsg>Web site engine code is 
+      Copyright © 2003 by <A href="http://phpnuke.org/"><FONT 
+      class=footmsg_l>PHP-Nuke</FONT></A>. All Rights Reserved. PHP-Nuke is Free 
+      Software released under the <A href="http://www.gnu.org/"><FONT 
+      class=footmsg_l>GNU/GPL license</FONT></A>.<BR>Открытие страницы: 0.03 
+      секунды<BR></FONT></TR></TBODY></TABLE></BODY></HTML>

@@ -1,0 +1,80 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>preg_match_all</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="preg-grep.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="preg-match.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.preg-match-all">preg_match_all</A></H1><A NAME="AEN71047"></A><P>(PHP 3&#62;= 3.0.9, PHP 4)</P>
+<p>preg_match_all - выполняет глобальный поиск совпадения регулярного выражения.<A NAME="AEN71050"></A></p>
+<H2>Описание</H2><p>int <B>preg_match_all</B> (string pattern, string subject, array matches [, int flags])</p>
+<P>Ищет в <TT><I>subject</I></TT> все совпадения с регулярным выражением <TT><I>pattern</I></TT> и помещает их в
+<TT><I>matches</I></TT> в порядке, специфицированном в <TT><I>order</I></TT>.</P>
+<P>После нахождения первого совпадения последующий поиск продолжается до нахождения последнего совпадения.</P>
+<P><TT><I>flags</I></TT> может быть комбинацией следующих флагов (обратите внимание, что нет смысла использовать
+<TT><B>PREG_PATTERN_ORDER</B></TT> вместе с <TT><B>PREG_SET_ORDER</B></TT>):
+<DL><DT>PREG_PATTERN_ORDER</DT><DD><P>Упорядочивает результаты таким образом, что $matches[0] это массив 
+полных совпадений с патэрном, $matches[1] это массив строк, совпавших с первым субпатэрном в скобках, и так далее.
+<A NAME="AEN71082"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>preg_match_all ("|&#60;[^&#62;]+&#62;(.*)&#60;/[^&#62;]+&#62;|U", 
+    "&#60;b&#62;example: &#60;/b&#62;&#60;div align=left&#62;this is a test&#60;/div&#62;", 
+    $out, PREG_PATTERN_ORDER);
+print $out[0][0].", ".$out[0][1]."\n";
+print $out[1][0].", ".$out[1][1]."\n";</PRE></TD></TR></TABLE><P>Этот пример выдаст:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;b&#62;example: &#60;/b&#62;, &#60;div align=left&#62;this is a test&#60;/div&#62;
+example: , this is a test</PRE></TD></TR></TABLE>
+<p>Итак, $out[0] содержит массив строк, совпавших со всем патэрном, а $out[1] содержит массив строк, заключённых в тэги.</DD>
+<DT>PREG_SET_ORDER</DT><DD><P>Упорядочивает результаты таким образом, что $matches[0] это массив 
+первого набора совпадений, $matches[1] это массив второго набора совпадений,  и так далее.<A NAME="AEN71090"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>preg_match_all ("|&#60;[^&#62;]+&#62;(.*)&#60;/[^&#62;]+&#62;|U", 
+    "&#60;b&#62;example: &#60;/b&#62;&#60;div align=left&#62;this is a test&#60;/div&#62;", 
+    $out, PREG_SET_ORDER);
+print $out[0][0].", ".$out[0][1]."\n";
+print $out[1][0].", ".$out[1][1]."\n";</PRE></TD></TR></TABLE><p>Этот пример выдаст:<A NAME="AEN71092"></A></p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;b&#62;example: &#60;/b&#62;, example: 
+&#60;div align=left&#62;this is a test&#60;/div&#62;, this is a test</PRE></TD></TR></TABLE>
+<p>В данном случае $matches[0] это первый набор совпадений, а $matches[0][0] содержит текст, совпавший с полным патэрном, $matches[0][1]
+содержит текст, совпавший с первым субпатэрном, и так далее. Аналогично $matches[1] это второй набор совпадений, etc.</DD>
+<DT>PREG_OFFSET_CAPTURE</DT><DD><P>Если этот флаг установлен, для каждого возникшего совпадения будет 
+возвращено дополнительное строковое смещение. Заметьте, что это изменяет return-значение 
+в массиве, где каждый элемент является массивом, состоящим из совпавшей 
+строки в смещении 0 и её строкового смещения в <TT><I>subject</I></TT> - в смещении <TT>1</TT>.
+Этот флаг доступен, начиная с <TT>PHP</TT> 4.3.0.</P></DD></DL>
+<P>Если никакой флаг упорядочивания не задан, принимается <TT><B>PREG_PATTERN_ORDER</B></TT>.</P>
+<P>Возвращает количество полных совпадений с патэрном (это может быть нуль), или <TT><B>FALSE</B></TT> при ошибке.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN71107"></A><h5>Пример 1. Получение всех телефонных номеров из текста.</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>preg_match_all ("/\(?  (\d{3})?  \)?  (?(1)  [\-\s] ) \d{3}-\d{4}/x",
+                "Call 555-1212 or 1-800-555-1212", $phones);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN71111"></A><h5>Пример 2. Поиск совпадений с HTML-тэгами (greedy/жадный)</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>// \\2 это пример обратной ссылки/backreferencing. Это говорит pcre, что
+// она обязана совпасть со вторым набором скобок в регулярном выражении,
+// что будет в данном случае ([\w]+). Дополнительный backslash необходим,
+// поскольку строка в двойных кавычках.
+$html = "&#60;b&#62;bold text&#60;/b&#62;&#60;a href=howdy.html&#62;click me&#60;/a&#62;;
+
+preg_match_all ("/(&#60;([\w]+)[^&#62;]*&#62;)(.*)(&#60;\/\\2&#62;)/", $html, $matches);
+
+for ($i=0; $i&#60; count($matches[0]); $i++) {
+  echo "matched: ".$matches[0][$i]."\n";
+  echo "part 1: ".$matches[1][$i]."\n";
+  echo "part 2: ".$matches[3][$i]."\n";
+  echo "part 3: ".$matches[4][$i]."\n\n";
+}</PRE></TD></TR></TABLE></TD></TR></TABLE><p>Этот пример выдаст:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>matched: &#60;b&#62;bold text&#60;/b&#62;
+part 1: &#60;b&#62;
+part 2: bold text
+part 3: &#60;/b&#62;
+
+matched: &#60;a href=howdy.html&#62;click me&#60;/a&#62;
+part 1: &#60;a href=howdy.html&#62;
+part 2: click me
+part 3: &#60;/a&#62;</PRE></TD></TR></TABLE><P>См. также <A HREF="preg-match.html"><B>preg_match()</B></A>,
+<A HREF="preg-replace.html"><B>preg_replace()</B></A>
+и <A HREF="preg-split.html"><B>preg_split()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="preg-grep.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="preg-match.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">preg_grep</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.pcre.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">preg_match</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

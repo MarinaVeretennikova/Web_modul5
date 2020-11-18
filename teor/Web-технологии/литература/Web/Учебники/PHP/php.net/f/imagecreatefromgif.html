@@ -1,0 +1,32 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>imagecreatefromgif</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="imagecreatefromgd.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="imagecreatefromjpeg.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>    
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="imagecreatefromgif">imagecreatefromgif</A></H1><A NAME="AEN32044"></A><P>(PHP 3, PHP 4)</P>
+<p>imagecreatefromgif - создаёт новое изображение из файла или URL.<A NAME="AEN32047"></A></p><H2>Описание</H2>
+<p>resource <B>imagecreatefromgif</B> (string filename)</p><P><B>imagecreatefromgif()</B> возвращает идентификатор изображения, полученного из данного файла filename.</P>
+<P><B>imagecreatefromgif()</B> возвращает пустую строку при неудаче. Выводит также сообщение об ошибке, 
+которое отображается браузере как разорванная.  Для облегчения отладки 
+следующий пример будет выдавать GIF ошибки:<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN32059"></A>
+<h5>Пример 1. Обработка ошибки при создании (благодарим vic@zymsys.com)</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>function LoadGif ($imgname) {
+    $im = @imagecreatefromgif ($imgname); /* попытка открыть */
+    if (!$im) { /* See if it failed */
+        $im = imagecreate (150, 30); /* создание пустого изображения */
+        $bgc = imagecolorallocate ($im, 255, 255, 255);
+        $tc = imagecolorallocate ($im, 0, 0, 0);
+        imagefilledrectangle ($im, 0, 0, 150, 30, $bgc);
+        
+    /* вывод errmsg */
+        imagestring ($im, 1, 5, 5, "Error loading $imgname", $tc);
+    }
+    return $im;
+}</PRE></TD></TR></TABLE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>поскольку вся поддержка GIF была удалена из GD-библиотеки в версии 1.6, 
+эта функция недоступна, если вы используете эту версию GD-библиотеки.</P></BLOCKQUOTE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="imagecreatefromgd.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="imagecreatefromjpeg.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">imagecreatefromgd</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.image.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">imagecreatefromjpeg</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

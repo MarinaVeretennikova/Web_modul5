@@ -1,0 +1,27 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>ifx_fieldproperties</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ifx-fetch-row.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ifx-fieldtypes.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.ifx-fieldproperties">ifx_fieldproperties</A></H1><A NAME="AEN36276"></A><P>(PHP 3&#62;= 3.0.3, PHP 4)</P>
+<p>ifx_fieldproperties - список свойств SQL-полей.<A NAME="AEN36279"></A></p><H2>Описание</H2><p>array <B>ifx_fieldproperties</B> (int result_id)</p>
+<P>Возвращает ассоциативный массив с именами полей в качестве ключей и свойствами SQL-полей как данными для запроса с
+<TT><I>result_id</I></TT>. Возвращает <TT><B>FALSE</B></TT> при ошибке.</P>
+<P>Возвращает Informix SQL-fieldproperties каждого поля запроса как ассоциативный массив. Свойства кодированы так:
+"SQLTYPE;length;precision;scale;ISNULLABLE", где SQLTYPE = Informix-тип вроде "SQLVCHAR" etc., а ISNULLABLE = "Y" или "N".</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN36291"></A><h5>Пример 1. Informix SQL fieldproperties</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$properties = ifx_fieldproperties ($resultid);
+if (! isset($properties)) {
+  ... error ...
+}
+for ($i = 0; $i &#60; count($properties); $i++) {
+    $fname = key ($properties);
+    printf ("%s:\t type =  %s\n", $fname, $properties[$fname]);
+    next ($properties);
+}</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ifx-fetch-row.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ifx-fieldtypes.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ifx_fetch_row</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.ifx.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ifx_fieldtypes</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,49 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Справочник: Некоторые Макросы Конфигурации</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="zend.where-to-go.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="api-macros.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="zend.configuration-macros">Глава 42. Справочник: Некоторые макросы конфигурации</A></H1>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="#zend.configuration-macros.config-m4"><TT>config.m4</TT></A></DT></DL>
+<H1><A NAME="zend.configuration-macros.config-m4"><TT>config.m4</TT></A></H1><P>Файл <TT>config.m4</TT>
+обрабатывается скриптом <TT>buildconf</TT> и обязан содержать все инструкции, исполняемые при конфигурировании. Например, 
+сюда может входить проверка требуемых внешних файлов, таких как header-файлы, 
+библиотеки и так далее. PHP определяет набор макросов, которые могут быть 
+использованы в этом процессе. Наиболее часто используемые перечислены в Таблице 9.18.</P>
+<A NAME="AEN87226"></A><h6>Рисунок 42-1. Таблица 9.18. M4-макросы для <TT>config.m4</TT></h6>
+<A NAME="AEN87229"></A>
+<TABLE BORDER="1" width="100%"><TR><th WIDTH="62%">Макрос</th><th WIDTH="38%">Описание</th></TR>
+<TR><TD WIDTH="62%"><TT>AC_MSG_CHECKING(message)</TT></TD><TD WIDTH="38%">Печатает текст "checking &#60;message&#62;" в ходе работы
+<TT>configure</TT>.</TD></TR><TR><TD WIDTH="62%"><TT>AC_MSG_RESULT(value)</TT></TD>
+<TD WIDTH="38%">Передаёт результат в <TT>AC_MSG_CHECKING</TT>; в качестве <TT>value</TT> должен
+специфицировать <TT>yes</TT> или <TT>no</TT>.</TD></TR><TR><TD WIDTH="62%">
+<TT>AC_MSG_ERROR(message)</TT></TD><TD WIDTH="38%">Печатает <TT>message</TT> как сообщение об ошибке в ходе
+<TT>configure</TT> и прерывает выполнение скрипта.</TD></TR><TR><TD WIDTH="62%">
+<TT>AC_DEFINE(name,value,description)</TT></TD><TD WIDTH="38%">Добавляет<TT>#define</TT> в <TT>php_config.h</TT>
+со значением<TT>value</TT> и комментарием <TT>description</TT> (это используется при условной компиляции вашего модуля).</TD>
+</TR><TR><TD WIDTH="62%"><TT>AC_ADD_INCLUDE(path)</TT></TD><TD WIDTH="38%">Добавляет include path/путь компилятора; например, используется, если 
+необходимо добавить в модуль пути поиска header-файлов.</TD></TR><TR><TD WIDTH="62%">
+<TT>AC_ADD_LIBRARY_WITH_PATH(libraryname,librarypath)</TT></TD><TD WIDTH="38%">Специфицирует дополнительную библиотеку.</TD>
+</TR><TR><TD WIDTH="62%"><TT>AC_ARG_WITH(modulename,description,unconditionaltest,conditionaltest)</TT></TD>
+<TD WIDTH="38%">Весьма мощный макрос, добавляющий модуль с <TT>description/описанием</TT> в вывод
+<TT>configure --help</TT>. PHP проверяет, задана ли опция <TT>--with-&#60;modulename&#62;</TT> скрипту<TT> configure</TT>.
+Если да, запускает скрипт <TT>unconditionaltest</TT> (например, <TT>--with-myext=yes</TT>), и в этом случае значение опции содержится в переменной
+<TT>$withval</TT>. Иначе - выполняет <TT>conditionaltest</TT>.</TD></TR><TR>
+<TD WIDTH="62%"><TT>PHP_EXTENSION(modulename,[shared])</TT></TD>
+<TD WIDTH="38%">Этот макрос <i>обязан</i> вызываться в PHP
+для конфигурирования вашего расширения. Вы можете предоставить 
+второй аргумент в&nbsp; дополнение к имени модуля, указывающий, 
+намереваетесь ли вы компилировать его как
+shared-модуль. Это даст во время компиляции такое определение вашего исходника: <TT>COMPILE_DL_&#60;modulename&#62;</TT>.</TD>
+</TR></TABLE></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="zend.where-to-go.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="api-macros.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Что дальше?</TD>
+<th WIDTH="34%" VALIGN="top"><a href="zend.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">API-макросы</TD>
+</TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

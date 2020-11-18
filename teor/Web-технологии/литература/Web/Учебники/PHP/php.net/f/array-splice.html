@@ -1,0 +1,57 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>array_splice</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="array-slice.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="array-sum.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.array-splice">array_splice</A></H1><A NAME="AEN7725"></A>
+<P>(PHP 4)</P><p>array_splice - удаляет часть массива и замещает её чем-либо.<A NAME="AEN7728"></A><H2>Описание</H2><p>array <B>array_splice</B> (array input, int offset [, int length [, array replacement]])</p>
+<P><B>array_splice()</B> удаляет элементы, указанные смещением <TT><I>offset</I></TT> и длиной
+<TT><I>length</I></TT> из массива <TT><I>input</I></TT> и замещает их элементами массива <TT><I>replacement</I></TT>, если он предоставлен. Функция возвращает массив, содержащий извлечённые 
+элементы.</P><P>Если <TT><I>offset</I></TT> положительное, то удаляемая часть отсчитывается смещением от начала массива
+<TT><I>input</I></TT>. Если <TT><I>offset</I></TT> отрицательное, то удаляемая часть начинается на указанную величину от конца 
+массива <TT><I>input</I></TT>.</P><P>Если <TT><I>length</I></TT> отсутствует, удаляется всё, начиная от
+<TT><I>offset</I></TT> до конца массива.<br>Если <TT><I>length</I></TT> специфицирована и положительная, удаляется указанное количество элементов.<br>
+Если <TT><I>length</I></TT> специфицирована и отрицательная, то конец удаляемой части будет находиться на 
+указанное количество элементов от конца массива.<br><b><i>Подсказка</i></b>: для удаления элементов от
+<TT><I>offset</I></TT> до конца массива, когда <TT><I>replacement</I></TT> также специфицирован, используйте
+<TT>count($input)</TT> для <TT><I>length</I></TT>.</P><P>Если массив <TT><I>replacement</I></TT> специфицирован, то удаляемые элементы замещаются элементами из этого массива.
+Если <TT><I>offset</I></TT> и <TT><I>length</I></TT> таковы, что ничего не удаляется,
+то элементы массива <TT><I>replacement</I></TT> вставляются вместо специфицированных смещением
+<TT><I>offset</I></TT>.<br><b><i>Подсказка</i></b>: если replacement это один элемент, нет необходимости помещать
+<TT>array()</TT> вокруг него, если только элемент сам по себе не является массивом.</P>
+<P>Следующие эквиваленты:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>array_push ($input, $x, $y)     array_splice ($input, count ($input), 0,
+                                             array ($x, $y))
+array_pop ($input)              array_splice ($input, -1)
+array_shift ($input)            array_splice ($input, 0, 1)
+array_unshift ($input, $x, $y)  array_splice ($input, 0, 0, array ($x, $y))
+$a[$x] = $y                     array_splice ($input, $x, 1, $y)</PRE></TD></TR></TABLE>
+<P>возвращают массив, состоящий из удалённых элементов.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN7776"></A><h5>Пример 1. array_splice()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$input = array ("red", "green", "blue", "yellow");
+array_splice ($input, 2);
+// $input это теперь массив ("red", "green")
+
+$input = array ("red", "green", "blue", "yellow");
+array_splice ($input, 1, -1);
+// $input это теперь массив ("red", "yellow")
+
+$input = array ("red", "green", "blue", "yellow");
+array_splice ($input, 1, count($input), "orange");
+// $input это теперь массив ("red", "orange")
+
+$input = array ("red", "green", "blue", "yellow");
+array_splice ($input, -1, 1, array("black", "maroon"));
+// $input это теперь массив ("red", "green",
+//          "blue", "black", "maroon")</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>См. также <A HREF="array-slice.html"><B>array_slice()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="array-slice.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="array-sum.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">array_slice</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.array.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">array_sum</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

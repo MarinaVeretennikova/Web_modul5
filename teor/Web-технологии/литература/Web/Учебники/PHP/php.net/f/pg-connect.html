@@ -1,0 +1,36 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>pg_connect</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0"  WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="pg-close.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="pg-connection-busy.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.pg-connect">pg_connect</A></H1><A NAME="AEN66486"></A><P>(PHP 3, PHP 4)</P>
+<p>pg_connect - открывает PostgreSQL-соединение.<A NAME="AEN66489"></A></p><H2>Описание</H2><p>resource <B>pg_connect</B> (string connection_string)</p>
+<P><B>pg_connect()</B> возвращает ресурс соединения, необходимый для других функций PostgreSQL.</P>
+<P><B>pg_connect()</B> открывает соединение с БД PostgreSQL <TT><I>connection_string</I></TT>. Возвращает ресурс соединения при успехе. Возвращает
+<TT><B>FALSE</B></TT>, если соединение не может быть установлено. <TT><I>connection_string</I></TT> должна быть строкой в кавычках.
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN66504"></A><h5>Пример 1. Использование pg_connect</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$dbconn = pg_connect ("dbname=mary");
+// соединяет с БД "mary"
+$dbconn2 = pg_connect ("host=localhost port=5432 dbname=mary");
+// соединяет с БД "mary" на хосте "localhost" по порту "5432"
+$dbconn3 = pg_connect ("host=sheep port=5432 dbname=mary user=lamb password=foo");
+// соединяет с БД "mary" на хосте "sheep" с username и password
+$conn_string = "host=sheep port=5432 dbname=test user=lamb password=bar";
+$dbconn4 = pg_connect ($conn_string);
+// соединяет с БД "test" на хосте "sheep" с username и password
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><p>Для <TT><I>connection_string</I></TT> доступны аргументы:
+<TT><I>host</I></TT>, <TT><I>port</I></TT>, <TT><I>tty</I></TT>, <TT><I>options</I></TT>, <TT><I>dbname</I></TT>,
+<TT><I>user</I></TT> и <TT><I>password</I></TT>.</p><P>Если второй вызов <B>pg_connect()</B> сделан с той же <TT><I>connection_string</I></TT>, новой соединение не устанавливается, а возвращается ресурс уже открытого 
+соединения. Вы можете иметь одновременно несколько соединений с одной БД, если используете разные строки соединения.</P>
+<P>Старый синтаксис с несколькими параметрами <B>$conn = pg_connect ("host", "port", "options", "tty", "dbname")
+</B> не рекомендуется использовать.</P><P>См. также <A HREF="pg-pconnect.html"><B>pg_pconnect()</B></A>,
+<A HREF="pg-close.html"><B>pg_close()</B></A>, <A HREF="pg-host.html"><B>pg_host()</B></A>,
+<A HREF="pg-port.html"><B>pg_port()</B></A>, <A HREF="pg-tty.html"><B>pg_tty()</B></A>,
+<A HREF="pg-options.html"><B>pg_options()</B></A> и <A HREF="pg-dbname.html"><B>pg_dbname()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0"  WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="pg-close.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="pg-connection-busy.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">pg_close</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.pgsql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">pg_connection_busy</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

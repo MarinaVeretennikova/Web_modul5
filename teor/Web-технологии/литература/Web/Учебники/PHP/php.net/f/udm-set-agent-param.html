@@ -1,0 +1,106 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>udm_set_agent_param</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="udm-open-stored.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ref.msql.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>    
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.udm-set-agent-param">udm_set_agent_param</A></H1><A NAME="AEN49780"></A><P>(PHP 4 &#62;= 4.0.5)</P>
+<p>udm_set_agent_param - устанавливает параметры сессии агента mnoGoSearch.<A NAME="AEN49783"></A></p>
+<H2>Описание</H2><p>int <B>udm_set_agent_param</B> (int agent, int var, string val)</p>
+<P><B>udm_set_agent_param()</B> возвращает <TT><B>TRUE</B></TT> при успехе, <TT><B>FALSE</B></TT> при ошибке. Определяет параметры сессии mnoGoSearch.</P>
+<P>Имеются следующие параметры и значения:</P>
+<UL><LI><P>UDM_PARAM_PAGE_NUM - используется для выбора номера страницы результата 
+поиска (результаты возвращаются страницей, начиная с 0, с UDM_PARAM_PAGE_SIZE результатов на страницу).</P></LI>
+<LI><P>UDM_PARAM_PAGE_SIZE - количество результатов поиска, отображаемых на одной странице.</P></LI>
+<LI><P>UDM_PARAM_SEARCH_MODE - режим поиска. Доступны значения: UDM_MODE_ALL -
+искать все слова; UDM_MODE_ANY - искать любое слово; UDM_MODE_PHRASE - 
+поиск фразы; UDM_MODE_BOOL - булев поиск. См. в <A HREF="udm-find.html"><B>udm_find()</B></A> детали о булевом поиске.</P></LI>
+<LI><P>UDM_PARAM_CACHE_MODE - включает/выключает режим кэширования результатов поиска. 
+Если включён, машина поиска сохранит результаты поиска на диске. Если аналогичный поиск выполняется позднее, 
+машина возьмёт результаты из кэша, что быстрее. Доступны значения: UDM_CACHE_ENABLED, UDM_CACHE_DISABLED.</P></LI>
+<LI><P>UDM_PARAM_TRACK_MODE - включает/выключает режим trackquery. Начиная с 
+версии 3.1.2, mnoGoSearch имеет поддержку трэкинга запросов. Заметьте, что этот трэкинг реализован только в SQL-версии и недоступен во 
+встроенной БД. Для использования трэкинга вы должны создать таблицы для поддержки трэкинга. 
+Для MySQL используйте create/mysql/track.txt. При выполнении поиска конечный этап использует эти таблицы для хранения 
+слов запроса, количества найденных документов и и текущий UNIX timestamp в секундах.
+Доступные значения: UDM_TRACK_ENABLED, UDM_TRACK_DISABLED.</P></LI>
+<LI><P>UDM_PARAM_PHRASE_MODE - определяет, использует ли индексная БД фразы (параметр "phrase" в indexer.conf).
+Возможные значения: UDM_PHRASE_ENABLED и UDM_PHRASE_DISABLED. Заметьте, что, если включён поиск фраз (UDM_PHRASE_ENABLED),
+можно также искать в любом режиме (ANY, ALL, BOOL или PHRASE). В версии 3.1.10 mnoGoSearch поиск фраз поддерживается только в режимах sql 
+и встроенной БД, а, начиная с 3.1.11, фразы поддерживаются также в режиме cachemode.</P><P>Примеры фраз для поиска:</P>
+<P>"Arizona desert" - этот запрос возвращает все индексированные документы, содержащие фразу 
+"Arizona desert". Заметьте, что нужно поместить двойные кавычки вокруг фразы.</P></LI>
+<LI><P>UDM_PARAM_CHARSET - определяет локальный charset/набор символов. Доступны 
+значения: набор charsets, поддерживаемых mnoGoSearch, например, koi8-r, cp1251, ...</P></LI>
+<LI><P>UDM_PARAM_STOPFILE - определяет имя и путь к файлу stopwords. (Есть небольшое отличие от mnoGoSearch
+- в то время как во mnoGoSearch введён относительный путь или 
+никакого пути, он ищет файл относительно UDM_CONF_DIR, модель ищет файл 
+относительно текущего пути, т.е. пути, где выполняется php-скрипт.)</P></LI>
+<LI><P>UDM_PARAM_STOPTABLE - загружает stop-слова из данной SQL-таблицы. Вы 
+можете использовать несколько команд StopwordTable.
+Эта команда не действует, если скомпилировано без поддержки SQL-БД.</P></LI>
+<LI><P>UDM_PARAM_WEIGHT_FACTOR - представляет weight-факторы для специфических частей документа. 
+В настоящее время поддерживаются body, title, keywords, description, url.
+Для активации этой возможности используйте степени 2 в *Weight командах файла indexer.conf.<br>
+Представим, что у нас имеются следующие weights:</P>
+<P>&nbsp;&nbsp;URLWeight&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1<br>&nbsp;&nbsp;BodyWeight&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2<br>
+&nbsp;&nbsp;TitleWeight&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4<br>&nbsp;&nbsp;KeywordWeight&nbsp; 8<br>
+&nbsp;&nbsp;DescWeight&nbsp;&nbsp;&nbsp;&nbsp; 16<br>&nbsp;</P>
+<P>Поскольку индексатор использует битовую операцию OR для weights слов, 
+когда некоторые слова представлены несколько раз в том же документе, можно 
+на этапе поиска определять появление слова в разных частях документа. Слово, 
+которое появляется только в теле/body, будет иметь агрегатный вес 00000010 (в двоичной нотации).
+Слово, используемое во всех частях документа, будет иметь агрегатный вес 00011111.</P>
+<P>Значением этого параметра является строка 16-ричных цифр ABCDE. Каждая 
+цифра является фактором для соответствующего бита в весе слова. Для данной выше конфигурации весов:</P>
+<P><br>&nbsp;&nbsp;&nbsp;E&nbsp;это фактор для веса&nbsp;1&nbsp;&nbsp;(бит URL&nbsp;Weight)<br>
+&nbsp;&nbsp;&nbsp;D&nbsp;это фактор для веса&nbsp;2&nbsp;&nbsp;(бит BodyWeight)<br>
+&nbsp;&nbsp;&nbsp;C&nbsp;это фактор для веса&nbsp;4&nbsp;&nbsp;(бит TitleWeight)<br>
+&nbsp;&nbsp;&nbsp;B&nbsp;это фактор для веса&nbsp;8&nbsp;&nbsp;(бит KeywordWeight)<br>
+&nbsp;&nbsp;&nbsp;A&nbsp;это фактор для веса&nbsp;16&nbsp;(бит DescWeight)<br>&nbsp;</P>
+<h5>Примеры:</h5><P>UDM_PARAM_WEIGHT_FACTOR=00001 будет искать только в URLs.</P>
+<P>UDM_PARAM_WEIGHT_FACTOR=00100 будет искать только в Titles.</P>
+<P>UDM_PARAM_WEIGHT_FACTOR=11100 будет искать в Title, Keywords, Description, но не в URL и в Body.</P>
+<P>UDM_PARAM_WEIGHT_FACTOR=F9421 будет искать в:</P>
+<P><br>&nbsp;&nbsp;&nbsp;&nbsp;Description с фактором 15&nbsp;&nbsp;(F&nbsp;hex)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Keywords&nbsp;с фактором &nbsp;9<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Title&nbsp;с фактором &nbsp;4<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Body&nbsp;с фактором &nbsp;2<br>&nbsp;&nbsp;&nbsp;&nbsp;URL&nbsp;с фактором&nbsp;1<br>&nbsp;</P>
+<P>Если переменная UDM_PARAM_WEIGHT_FACTOR опущена, принимается оригинальное weight-значение 
+для сортировки результатов. Для данной выше конфигурации весов это означает, что описание документа имеет самый большой вес 16.</P></LI>
+<LI><P>UDM_PARAM_WORD_MATCH - совпадение слова. Вы можете использовать этот 
+параметр для выбора типа совпадения слов. Это работает только в режимах "single" 
+и "multi" с использованием БД на основе SQL и встроенной БД. Не работает в 
+режиме cachemode и других режимах, поскольку они используют CRC слов и не поддерживают поиск подстрок. Доступны значения:</P>
+<P>UDM_MATCH_BEGIN - совпадение начала слов;</P><P>UDM_MATCH_END - совпадение конца слов;</P>
+<P>UDM_MATCH_WORD - совпадение всего слова;</P><P>UDM_MATCH_SUBSTR - совпадение подстроки.</P></LI>
+<LI><P>UDM_PARAM_MIN_WORD_LEN - определяет минимальную длину слова.
+Любое слово, короче этого лимита, считается stopword. Заметьте, что 
+значение этого параметра включается, т.е., если UDM_PARAM_MIN_WORD_LEN=3,
+слово длиной в 3 символа не будет считаться stopword, а слово длиной в 2 символа - считается. По умолчанию значение 1.</P></LI>
+<LI><P>UDM_PARAM_ISPELL_PREFIXES - возможные значения: UDM_PREFIXES_ENABLED и 
+UDM_PREFIXES_DISABLED, включающие/выключающие использование префиксов.
+Например, если слово "tested" имеется в запросе на поиск, также ищутся слова вроде "test", 
+"testing", etc. По умолчанию поддерживаются только суффиксы. Префиксы 
+обычно изменяют значение слов, например, если кто-нибудь ищет слово "tested", 
+то другому нужно только "untested". Поддержка префиксов может понадобиться 
+также для целей проверки правописания на сайте. для включения 
+ispell вы должны загрузить ispell-данные функцией <A HREF="udm-load-ispell-data.html"><B>udm_load_ispell_data()</B></A>.</P>
+</LI><LI><P>UDM_PARAM_CROSS_WORDS - включает/выключает поддержку перекрёстных слов/crosswords.
+Возможные значения: UDM_CROSS_WORDS_ENABLED и UDM_CROSS_WORDS_DISABLED.</P>
+<P>corsswords даёт возможность присваивать слова между тэгами &#60;a href="xxx"&#62; и &#60;/a&#62;
+также документу, к которому ведёт ссылка. Это работает в режиме SQL-БД и 
+не поддерживается во встроенной БД и в Cachemode.</P><BLOCKQUOTE><P><B>Примечание: </B>
+Crosswords поддерживаются только во mnoGoSearch 3.1.11 или новее.</P></BLOCKQUOTE></LI>
+<LI><P>UDM_PARAM_VARDIR - специфицирует специальный путь к директории, где 
+индексатор хранит данные при использовании встроенной БД и режима cache. По умолчанию используется директория
+<TT>/var</TT> инсталяции mnoGoSearch. Может иметь только строковые значения. Этот параметр доступен 
+в PHP 4.1.0 или новее.</P></LI><LI><P>UDM_PARAM_VARDIR - специфицирует специальный путь к директории, где 
+индексатор хранит данные при использовании встроенной БД и режима cache. По 
+умолчанию используется директория <TT>/var</TT> инсталяцииmnoGoSearch. Может иметь только строковые значения. Этот параметр доступен 
+в PHP 4.1.0 или новее.</P></LI></UL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top" ><AHREF="udm-open-stored.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ref.msql.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">udm_open_stored</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.mnogo.html">Вверх</A></th><TD  WIDTH="33%" VALIGN="top" ALIGN="right">Функции mSQL</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

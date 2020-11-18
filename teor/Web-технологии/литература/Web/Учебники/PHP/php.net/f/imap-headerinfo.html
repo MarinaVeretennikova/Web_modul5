@@ -1,0 +1,65 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>imap_headerinfo</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD><TABLE
+WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="imap-header.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="imap-headers.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.imap-headerinfo">imap_headerinfo</A></H1><A NAME="AEN34946"></A><P>(PHP 3, PHP 4)</P>
+<p>imap_headerinfo - читает шапку/header сообщения.<A NAME="AEN34949"></A></p><H2>Описание</H2>
+<p>object <B>imap_headerinfo</B> ( int imap_stream, int msg_number [, int fromlength [, int subjectlength [, string defaulthost]]])</p>
+<P>Эта функция возвращает объект различных элементов шапки.<A NAME="AEN34971"></A></P>
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; remail, date, Date, subject, Subject, in_reply_to, message_id,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; newsgroups, followup_to, references<br><br>флаги сообщения:<br><br>
+&nbsp;&nbsp; Recent - 'R', если последнее и видимо, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'N', если последнее и невидимо, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' ', если не последнее<br>
+&nbsp;&nbsp; Unseen - 'U', если невидимо И не последнее,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' ', если 
+видимо ИЛИ невидимо и и последнее<br>&nbsp;&nbsp; Answered - 'A', если на него ответили, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' ', если не ответили<br>
+&nbsp;&nbsp; Deleted - 'D', если удалено, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' ', если не удалено<br>
+&nbsp;&nbsp; Draft - 'X', если отложено/draft,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' ', если не draft<br>
+&nbsp;&nbsp; Flagged - 'F', если установлен флаг, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' ', если флаг не установлен</P><P>Обратите внимание, что поведение несколько непарное. Если вы хотите
+знать, является ли сообщение Unseen, вы обязаны проверить на<br><br>
+Unseen&nbsp;==&nbsp;'U'&nbsp;||&nbsp;Recent&nbsp;==&nbsp;'N'<br><br>
+toaddress&nbsp;(полный: строка, до 1024 символов)<br><br>
+to[] (возвращает массив объектов из строки To, содержащий):<br>
+&nbsp;&nbsp; personal<br>&nbsp;&nbsp; adl<br>&nbsp;&nbsp; mailbox<br>&nbsp;&nbsp; host<br><br>
+fromaddress (полный: строка, до 1024 символов)<br><br>
+from[] (возвращает массив объектов из строки From, содержащий):<br>
+&nbsp;&nbsp; personal<br>&nbsp;&nbsp; adl<br>&nbsp;&nbsp; mailbox<br>&nbsp;&nbsp; host<br><br>
+ccaddress (полный cc: строка, до 1024 символов)<br>
+cc[] (возвращает массив объектов из строки Cc, содержащий):<br>
+&nbsp;&nbsp; personal<br>&nbsp;&nbsp; adl<br>&nbsp;&nbsp; mailbox<br>&nbsp;&nbsp; host<br><br>
+bccaddress (полная bcc-строка, до 1024 символов)<br>
+bcc[] (возвращает массив объектов из строки Bcc, содержащий):<br>
+&nbsp;&nbsp; personal<br>&nbsp;&nbsp; adl<br>&nbsp;&nbsp; mailbox<br>&nbsp;&nbsp; host<br><br>
+reply_toaddress (полный reply_to: строка, до 1024 символов)<br>
+reply_to[] (возвращает массив объектов из строки Reply_to, содержащий):<br>
+&nbsp;&nbsp; personal<br>&nbsp;&nbsp; adl<br>&nbsp;&nbsp; mailbox<br>&nbsp;&nbsp; host<br><br>
+senderaddress (полный sender: строка, до 1024 символов)<br>
+sender[] (возвращает массив объектов из строки sender, содержащий):<br>
+&nbsp;&nbsp; personal<br>
+&nbsp; adl<br>
+&nbsp;&nbsp; mailbox<br>
+&nbsp;&nbsp; host<br>
+<br>
+return_path&nbsp;(полный return-path: строка, до 1024 символов)<br>
+return_path[] (возвращает массив объектов из строки return_path, содержащий):<br>
+&nbsp;&nbsp; personal<br>
+&nbsp;&nbsp; adl<br>
+&nbsp;&nbsp; mailbox<br>
+&nbsp;&nbsp; host<br>
+<br>
+udate (дата mail-сообщения в формате unix time)<br><br>
+fetchfrom (из строки, сформатировано для вмещения <TT><I>fromlength</I></TT> символов)<br><br>
+fetchsubject (строка темы, сформатированная для вмещения <TT><I>subjectlength</I></TT> символов)</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="imap-header.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="imap-headers.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">imap_header</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.imap.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">imap_headers</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

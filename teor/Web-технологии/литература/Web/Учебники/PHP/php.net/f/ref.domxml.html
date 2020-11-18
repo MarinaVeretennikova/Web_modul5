@@ -1,0 +1,344 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции DOM XML</TITLE><LINK REL="HOME" TITLE="PHP Manual" HREF="../index.html">
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="rewinddir.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="domattribute-name.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.domxml"></A>XXV. Функции DOM XML</h1><A NAME="AEN18908"></A>
+<H1><A NAME="domxml.intro">Введение</A></H1><TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>Это расширение является ЭКСПЕРИМЕНТАЛЬНЫМ. Поведение этого расширения, имена его функций и всё, что задокументировано, может измениться в последующих релизах РНР без предупреждения. Вы предупреждены и можете использовать это расширение только под вашу ответственность.</P></TD></TR></TABLE>
+<P>Расширение domxml может быть переопределено в версии PHP 4.3.0 в пользу 
+лучшего соответствия стандарту DOM. В этом расширении всё ещё имеются 
+некоторые старые функции, но они более не должны использоваться. Особо нужно 
+исключить не-объектно-ориентированные функции.</P>
+<P>Это расширение позволяет работать с XML-документами с помощью DOM API. Оно также предоставляет функцию
+<A HREF="domxml-xmltree.html"><B>domxml_xmltree()</B></A> для включения всего XML-документа в дерево PHP-объектов. В настоящее время это 
+дерево должно считаться read-only - вы можете его модифицировать, но это не 
+имеет смысла, поскольку <A HREF="domdocument-dump-mem.html"><B>DomDocument_dump_mem()</B></A> не может быть применена. Следовательно, если вы хотите читать XML-файл и 
+записывать модифицированную его версию, используйте функции <A HREF="domdocument-create-element.html">
+<B>DomDocument_create_element()</B></A>, <A HREF="domdocument-create-text-node.html">
+<B>DomDocument_create_text_node()</B></A>, <B>set_attribute()</B>, etc. и в конце -
+<A HREF="domdocument-dump-mem.html"><B>DomDocument_dump_mem()</B></A>.</P>
+<H1><A NAME="domxml.requirements">Требования</A></H1><P>Это расширение использует
+<A HREF="http://www.xmlsoft.org" TARGET="_top">GNOME xml-библиотеки</A>. Загрузите и установите эту библиотеку. Вам понадобится как минимум версия libxml-2.2.7.</P>
+<H1><A NAME="domxml.installation">Установка</A></H1><P>Это расширение доступно, если PHP был сконфигурирован с опцией
+<TT>--with-dom=[DIR]</TT>.</P><H1><a name="domxml.deprecated">Не рекомендуемые функции</a></H1>
+<P>Имеются некоторые функции, которые не вписываются стандарт DOM и не должны 
+поэтому использоваться; они перечислены в следующей таблице. Функция <A HREF="domnode-append-child.html">
+<B>DomNode_append_child()</B></A> изменила поведение. Она добавляет теперь потомка, а не родственника. Если это 
+нарушает работу вашего приложения, используйте не-DOM-функцию
+<A HREF="domnode-append-sibling.html"><B>DomNode_append_sibling()</B></A>.<A NAME="AEN18936"></A></P>
+<h6>Таблица 1. Не рекомендуемые функции и замены для них</h6><TABLE BORDER="1"><TR><TH>Старая функция</TH>
+<TH>Новая функция</TH></TR><TBODY><TR><TD>xmldoc</TD><TD>
+<A HREF="domxml-open-mem.html"><B>domxml_open_mem()</B></A></TD></TR><TR><TD>xmldocfiel</TD>
+<TD><A HREF="domxml-open-file.html"><B>domxml_open_file()</B></A></TD></TR><TR>
+<TD>domxml_new_xmldoc</TD><TD><A HREF="domxml-new-doc.html"><B>domxml_new_doc()</B></A></TD></TR><TR>
+<TD>domxml_dump_mem</TD><TD><A HREF="domdocument-dump-mem.html"><B>DomDocument_dump_mem()</B></A></TD></TR>
+<TR><TD>domxml_dump_mem_file</TD><TD><A HREF="domdocument-dump-file.html"><B>DomDocument_dump_file()</B></A></TD></TR>
+<TR><TD>DomDocument_dump_mem_file</TD><TD><A HREF="domdocument-dump-file.html"><B>DomDocument_dump_file()</B></A>
+</TD></TR><TR><TD>DomDocument_add_root</TD><TD><A HREF="domdocument-create-element.html">
+<B>DomDocument_create_element()</B></A> с последующей <A HREF="domnode-append-child.html">
+<B>DomNode_append_child()</B></A></TD></TR><TR><TD>DomDocument_dtd</TD><TD>
+<A HREF="domdocument-doctype.html"><B>DomDocument_doctype()</B></A></TD></TR><TR><TD>DomDocument_root</TD>
+<TD><A HREF="domdocument-document-element.html"><B>DomDocument_document_element()</B></A></TD></TR><TR>
+<TD>DomDocument_children</TD><TD><A HREF="domnode-child-nodes.html"><B>DomNode_child_nodes()</B></A></TD></TR>
+<TR><TD>DomDocument_imported_node</TD><TD>Замены нет.</TD></TR><TR><TD>DomNode_add_child</TD>
+<TD>Создать новый узел с помощью, например, <A HREF="domdocument-create-element.html">
+<B>DomDocument_create_element()</B></A> и добавить его функцией
+<A HREF="domnode-append-child.html"><B>DomNode_append_child()</B></A>.</TD></TR><TR><TD>DomNode_children</TD>
+<TD><A HREF="domnode-child-nodes.html"><B>DomNode_child_nodes()</B></A></TD></TR><TR><TD>DomNode_parent</TD>
+<TD><A HREF="domnode-parent-node.html"><B>DomNode_parent_node()</B></A></TD></TR><TR><TD>DomNode_new_child</TD>
+<TD>Создать новый узел с помощью, например, <A HREF="domdocument-create-element.html">
+<B>DomDocument_create_element()</B></A> и добавить его функцией
+<A HREF="domnode-append-child.html"><B>DomNode_append_child()</B></A>.</TD></TR><TR><TD>DomNode_set_content</TD>
+<TD>Создать новый узел с помощью, например, <A HREF="domdocument-create-text-node.html">
+<B>DomDocument_create_text_node()</B></A> и добавить его функцией
+<A HREF="domnode-append-child.html"><B>DomNode_append_child()</B></A>.</TD></TR><TR><TD>DomNode_get_content</TD>
+<TD>Содержимое является просто текстовым узлом, и доступ к нему может быть получен 
+с помощью <A HREF="domnode-child-nodes.html"><B>DomNode_child_nodes()</B></A>.</TD></TR><TR>
+<TD>DomNode_set_content</TD><TD>Содержимое является просто текстовым узлом и может добавлено с помощью
+<A HREF="domnode-append-child.html"><B>DomNode_append_child()</B></A>.</TD></TR></TBODY></TABLE>
+<H1><A NAME="domxml.constants">Предопределённые константы</A></H1>
+<P>Эти константы определены данным расширением и будут доступны только в том случае, если либо вкомпилированы в РНР, либо динамически загружены на этапе прогона.</P>
+<A NAME="AEN19022"></A><h6>Таблица 2. XML-константы</h6><TABLE BORDER="1"><TR><TH>Константа</TH><TH>Значение</TH>
+<TH>Описание</TH></TR><TBODY><TR><TD><TT><B>XML_ELEMENT_NODE</B></TT>
+(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>1</TD><TD>Узел является элементом</TD>
+</TR><TR><TD><TT><B>XML_ATTRIBUTE_NODE</B></TT> (<A HREF="../types.integer.html">
+<B>integer</B></A>)</TD><TD>2</TD><TD>Узел является атрибутом</TD></TR><TR><TD><TT><B>XML_TEXT_NODE</B></TT>
+(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>3</TD><TD>Узел является блоком текста</TD>
+</TR><TR><TD><TT><B>XML_CDATA_SECTION_NODE</B></TT>(<A HREF="../types.integer.html">
+<B>integer</B></A>)</TD><TD>4</TD><TD>&nbsp;</TD></TR><TR><TD><TT><B>XML_ENTITY_REF_NODE</B></TT>
+(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>5</TD><TD>&nbsp;</TD></TR><TR><TD>
+<TT><B>XML_ENTITY_NODE</B></TT>(<A HREF="../types.integer.html"><B>integer</B></A>)</TD>
+<TD>6</TD><TD>Узел является мнемоникой вроде &#38;nbsp;</TD></TR><TR><TD><TT><B>XML_PI_NODE</B></TT>
+(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>7</TD><TD>Узел является инструкцией процессинга</TD>
+</TR><TR><TD><TT><B>XML_COMMENT_NODE</B></TT>(<A HREF="../types.integer.html">
+<B>integer</B></A>)</TD><TD>8</TD><TD>Узел является комментарием</TD></TR><TR><TD>
+<TT><B>XML_DOCUMENT_NODE</B></TT>(<A HREF="../types.integer.html"><B>integer</B></A>)</TD>
+<TD>9</TD><TD>Узел является документом</TD></TR><TR><TD><TT><B>XML_DOCUMENT_TYPE_NODE</B></TT>
+(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>10</TD><TD>&nbsp;</TD></TR><TR><TD>
+<TT><B>XML_DOCUMENT_FRAG_NODE</B></TT>(<A HREF="../types.integer.html"><B>integer</B></A>)</TD>
+<TD>11</TD><TD>&nbsp;</TD></TR><TR><TD><TT><B>XML_NOTATION_NODE</B></TT>
+(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>12</TD><TD>&nbsp;</TD></TR><TR><TD>
+<TT><B>XML_GLOBAL_NAMESPACE</B></TT>(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>1</TD>
+<TD>&nbsp;</TD></TR><TR><TD><TT><B>XML_LOCAL_NAMESPACE</B></TT>
+(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>2</TD><TD>&nbsp;</TD></TR><TR><TD>
+<TT><B>XML_HTML_DOCUMENT_NODE</B></TT>(<A HREF="../types.integer.html"><B>integer</B></A>)</TD>
+<TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR><TD><TT><B>XML_DTD_NODE</B></TT>
+(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR>
+<TD><TT><B>XML_ELEMENT_DECL_NODE</B></TT> (<A HREF="../types.integer.html"><B>integer</B></A>)</TD>
+<TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR><TD><TT><B>XML_ATTRIBUTE_DECL_NODE</B></TT>
+(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR>
+<TD><TT><B>XML_ENTITY_DECL_NODE</B></TT> (<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>&nbsp;</TD>
+<TD>&nbsp;</TD></TR><TR><TD><TT><B>XML_NAMESPACE_DECL_NODE</B></TT>
+(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR>
+<TD><TT><B>XML_ATTRIBUTE_CDATA</B></TT> (<A HREF="../types.integer.html"><B>integer</B></A>)
+</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR><TD><TT><B>XML_ATTRIBUTE_ID</B></TT>
+(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><TT><B>XML_ATTRIBUTE_IDREF</B></TT> (<A HREF="../types.integer.html"><B>integer</B></A>)
+</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR><TD><TT><B>XML_ATTRIBUTE_IDREFS</B></TT>
+(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR>
+<TD><TT><B>XML_ATTRIBUTE_ENTITY</B></TT>
+(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR>
+<TD><TT><B>XML_ATTRIBUTE_NMTOKEN</B></TT> (<A HREF="../types.integer.html"><B>integer</B></A>)
+</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR><TD><TT><B>XML_ATTRIBUTE_NMTOKENS</B></TT>
+(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR>
+<TD><TT><B>XML_ATTRIBUTE_ENUMERATION</B></TT>
+(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR>
+<TD><TT><B>XML_ATTRIBUTE_NOTATION</B></TT> (<A HREF="../types.integer.html"><B>integer</B></A>)</TD>
+<TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR><TD><TT><B>XPATH_UNDEFINED</B></TT>
+(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><TT><B>XPATH_NODESET</B></TT> (<A HREF="../types.integer.html"><B>integer</B></A>)
+</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR><TD><TT><B>XPATH_BOOLEAN</B></TT>
+(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR>
+<TD><TT><B>XPATH_NUMBER</B></TT> (<A HREF="../types.integer.html"><B>integer</B></A>)</TD>
+<TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR><TD><TT><B>XPATH_STRING</B></TT>
+(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><TT><B>XPATH_POINT</B></TT>
+(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR>
+<TD><TT><B>XPATH_RANGE</B></TT> (<A HREF="../types.integer.html"><B>integer</B></A>)</TD>
+<TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR><TD><TT><B>XPATH_LOCATIONSET</B></TT>
+(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><TT><B>XPATH_USERS</B></TT> (<A HREF="../types.integer.html"><B>integer</B></A>)
+</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR><TD><TT><B>XPATH_NUMBER</B></TT>
+(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR></TBODY></TABLE>
+<H1><a name="domxml.classes">Классы</a></H1><P>API этого модуля следует, насколько возможно, стандарту DOM Level 2. 
+Поэтому данный API является полностью объектно-ориентированным.
+Хорошо было бы иметь доступ к стандарту DOM при использовании этого модуля.
+Хотя данный API является объектно-ориентированным, имеется много функций, 
+которые можно вызывать не-объектно-ориентированным путём с помощью передачи 
+объекта, с которым работают, как первого аргумента. Эти функции в основном 
+предназначены для сохранения совместимости со старыми версиями расширения, но 
+больше не рекомендуются для использования в новых разработках.</P>
+<P>Этот API отличается от официального DOM API двумя вещами. Во-первых, все 
+атрибуты класса реализованы как функции&nbsp; с тем же именем, а во-вторых - имена&nbsp; 
+функций следую соглашению PHP по именованию. Это значит, что DOM-функция lastChild() будет записана как last_child().</P>
+<P>Этот модуль определяет несколько классов, которые перечислены -
+включая их методы - в следующих таблицах. Классы с эквивалентом в DOM Standard именуются DOMxxx.
+<A NAME="AEN19271"></A></P><h6>Таблица 3. Список классов</h6><TABLE BORDER="1"><TR><TH>Имя класса</TH>
+<TH>Родительский класс</TH></TR><TBODY><TR><TD>DomAttribute</TD><TD>DomNode</TD></TR><TR><TD>DomCData</TD>
+<TD>DomNode</TD></TR><TR><TD>DomComment</TD><TD>DomCData : DomNode</TD></TR><TR><TD>DomDocument</TD>
+<TD>DomNode</TD></TR><TR><TD>DomDocumentType</TD><TD>DomNode</TD></TR><TR><TD>DomElement</TD><TD>DomNode</TD>
+</TR><TR><TD>DomEntity</TD><TD>DomNode</TD></TR><TR><TD>DomEntityReference</TD><TD>DomNode</TD></TR><TR>
+<TD>DomProcessingInstruction</TD><TD>DomNode</TD></TR><TR><TD>DomText</TD><TD>DomCData : DomNode</TD></TR>
+<TR><TD>Parser</TD><TD>Пока ещё называется DomParser</TD></TR><TR><TD>XPathContext</TD><TD>&nbsp;</TD></TR>
+</TBODY></TABLE><P><A NAME="AEN19316"></A><h6>Таблица 4. Класс DomDocument (DomDocument : DomNode)</h6>
+<TABLE BORDER="1"><TR><TH>Имя метода</TH><TH>Имя функции</TH><TH>Примечание</TH></TR><TBODY><TR>
+<TD>doctype</TD><TD><A HREF="domdocument-doctype.html"><B>DomDocument_doctype()</B></A></TD>
+<TD>&nbsp;</TD></TR><TR><TD>document_elemnent</TD><TD>
+<A HREF="domdocument-document-element.html"><B>DomDocument_document_element()</B></A></TD><TD>&nbsp;</TD>
+</TR><TR><TD>create_element</TD><TD><A HREF="domdocument-create-element.html"><B>DomDocument_create_element()</B>
+</A></TD><TD>&nbsp;</TD></TR><TR><TD>create_text_node</TD><TD>
+<A HREF="domdocument-create-text-node.html"><B>DomDocument_create_text_node()</B></A></TD><TD>&nbsp;</TD></TR>
+<TR><TD>create_comment</TD><TD><A HREF="domdocument-create-comment.html"><B>DomDocument_create_comment()</B></A>
+</TD><TD>&nbsp;</TD></TR><TR><TD>create_cdata_section</TD><TD>
+<A HREF="domdocument-create-cdata-section.html"><B>DomDocument_create_cdata_section()</B></A></TD>
+<TD>&nbsp;</TD></TR><TR><TD>create_processing_instruction</TD><TD>
+<A HREF="domdocument-create-processing-instruction.html"><B>DomDocument_create_processing_instruction()</B>
+</A></TD><TD>&nbsp;</TD></TR><TR><TD>create_attribute</TD><TD>
+<A HREF="domdocument-create-attribute.html"><B>DomDocument_create_attribute()</B></A></TD>
+<TD>&nbsp;</TD></TR><TR><TD>create_entity_reference</TD><TD>
+<A HREF="domdocument-create-entity-reference.html"><B>DomDocument_create_entity_reference()</B></A>
+</TD><TD>&nbsp;</TD></TR><TR><TD>get_elements_by_tagname</TD><TD>
+<A HREF="domdocument-get-elements-by-tagname.html"><B>DomDocument_get_elements_by_tagname()</B></A></TD><TD>&nbsp;</TD>
+</TR><TR><TD>get_element_by_id</TD><TD><A HREF="domdocument-get-element-by-id.html"><B>DomDocument_get_element_by_id()</B>
+</A></TD><TD>&nbsp;</TD></TR><TR><TD>dump_mem</TD><TD><A HREF="domdocument-dump-mem.html"><B>DomDocument_dump_mem()</B>
+</A></TD><TD>не DOM стандарт</TD></TR><TR><TD>dump_file</TD><TD><A HREF="domdocument-dump-file.html"><B>
+DomDocument_dump_file()</B></A></TD><TD>не DOM стандарт</TD></TR><TR><TD>html_dump_mem</TD><TD>
+<A HREF="domdocument-html-dump-mem.html"><B>DomDocument_html_dump_mem()</B></A></TD>
+<TD>не DOM стандарт</TD></TR><TR><TD>xpath_init</TD><TD>xpath_init</TD><TD>не DOM стандарт</TD></TR>
+<TR><TD>xpath_new_context</TD><TD>xpath_new_context</TD><TD>не DOM стандарт</TD></TR><TR><TD>xptr_new_context</TD>
+<TD>xptr_new_context</TD><TD>не DOM стандарт</TD></TR></TABLE><P><A NAME="AEN19408"></A>
+<h6>Таблица 5. Класс DomElement (DomElement : DomNode)</h6><TABLE BORDER="1"><TR><TH>Имя метода</TH>
+<TH>Имя функции</TH><TH>Примечание</TH></TR><TBODY><TR><TD>tagname</TD><TD>
+<A HREF="domelement-tagname.html"><B>DomElement_tagname()</B></A></TD><TD>&nbsp;</TD></TR><TR>
+<TD>get_attribute</TD><TD><A HREF="domelement-get-attribute.html"><B>DomElement_get_attribute()</B></A>
+</TD><TD>&nbsp;</TD></TR><TR><TD>set_attribute</TD><TD><A HREF="domelement-set-attribute.html">
+<B>DomElement_set_attribute()</B></A></TD><TD>&nbsp;</TD></TR><TR><TD>remove_attribute</TD>
+<TD><A HREF="domelement-remove-attribute.html"><B>DomElement_remove_attribute()</B></A></TD><TD>&nbsp;</TD></TR>
+<TR><TD>get_attribute_node</TD><TD><A HREF="domelement-get-attribute-node.html"><B>DomElement_get_attribute_node()</B>
+</A></TD><TD>&nbsp;</TD></TR><TR><TD>set_attribute_node</TD><TD>
+<A HREF="domelement-set-attribute-node.html"><B>DomElement_set_attribute_node()</B></A></TD>
+<TD>&nbsp;</TD></TR><TR><TD>get_elements_by_tagname</TD><TD><A HREF="domelement-get-elements-by-tagname.html">
+<B>DomElement_get_elements_by_tagname()</B></A></TD><TD>&nbsp;</TD></TR><TR><TD>has_attribute</TD>
+<TD><A HREF="domelement-has-attribute.html"><B>DomElement_has_attribute()</B></A></TD><TD>&nbsp;</TD></TR></TABLE>
+<P><A NAME="AEN19458"></A><h6>Таблица 6. Класс DomNode</h6><TABLE BORDER="1"><TR><TH>Имя метода</TH>
+<TH>Примечание</TH></TR><TBODY><TR><TD><A HREF="domnode-node-name.html"><B>DomNode_node_name()</B>
+</A></TD><TD>&nbsp;</TD></TR><TR><TD><A HREF="domnode-node-value.html"><B>DomNode_node_value()</B></A>
+</TD><TD>&nbsp;</TD></TR><TR><TD><A HREF="domnode-node-type.html"><B>DomNode_node_type()</B></A></TD>
+<TD>&nbsp;</TD></TR><TR><TD><A HREF="domnode-last-child.html"><B>DomNode_last_child()</B></A></TD>
+<TD>&nbsp;</TD></TR><TR><TD><A HREF="domnode-first-child.html"><B>DomNode_first_child()</B></A></TD>
+<TD>&nbsp;</TD></TR><TR><TD><A HREF="domnode-child-nodes.html"><B>DomNode_child_nodes()</B></A></TD>
+<TD>&nbsp;</TD></TR><TR><TD><A HREF="domnode-previous-sibling.html"><B>DomNode_previous_sibling()</B>
+</A></TD><TD>&nbsp;</TD></TR><TR><TD><A HREF="domnode-next-sibling.html"><B>DomNode_next_sibling()</B>
+</A></TD><TD>&nbsp;</TD></TR><TR><TD><A HREF="domnode-parent-node.html"><B>DomNode_parent_node()</B></A>
+</TD><TD>&nbsp;</TD></TR><TR><TD><A HREF="domnode-owner-document.html"><B>DomNode_owner_document()</B>
+</A></TD><TD>&nbsp;</TD></TR><TR><TD><A HREF="domnode-insert-before.html"><B>DomNode_insert_before()</B>
+</A></TD><TD>&nbsp;</TD></TR><TR><TD><A HREF="domnode-append-child.html"><B>DomNode_append_child()</B>
+</A></TD><TD>&nbsp;</TD></TR><TR><TD><A HREF="domnode-append-sibling.html"><B>DomNode_append_sibling()</B>
+</A></TD><TD>Нет в DOM-стандарте. Эта функция эмулирует бывшее поведение
+<A HREF="domnode-append-child.html"><B>DomNode_append_child()</B></A>.</TD></TR><TR><TD>
+<A HREF="domnode-remove-child.html"><B>DomNode_remove_child()</B></A></TD><TD>&nbsp;</TD></TR><TR>
+<TD><A HREF="domnode-has-child-nodes.html"><B>DomNode_has_child_nodes()</B></A></TD><TD>&nbsp;</TD>
+</TR><TR><TD><A HREF="domnode-has-attributes.html"><B>DomNode_has_attributes()</B></A></TD><TD>&nbsp;</TD>
+</TR><TR><TD><A HREF="domnode-clone-node.html"><B>DomNode_clone_node()</B></A></TD><TD>&nbsp;</TD>
+</TR><TR><TD><A HREF="domnode-attributes.html"><B>DomNode_attributes()</B></A></TD><TD>&nbsp;</TD>
+</TR><TR><TD><A HREF="domnode-unlink-node.html"><B>DomNode_unlink_node()</B></A></TD><TD>Нет в DOM-стандарте</TD>
+</TR><TR><TD><A HREF="domnode-replace-node.html"><B>DomNode_replace_node()</B></A></TD><TD>Нет в DOM-стандарте</TD>
+</TR><TR><TD><A HREF="domnode-set-content.html"><B>DomNode_set_content()</B></A></TD>
+<TD>Нет в DOM-стандарте, не рекомендуется</TD></TR><TR><TD><A HREF="domnode-get-content.html">
+<B>DomNode_get_content()</B></A></TD><TD>Нет в DOM-стандарте, не рекомендуется</TD></TR><TR><TD>
+<A HREF="domnode-dump-node.html"><B>DomNode_dump_node()</B></A></TD><TD>Нет в DOM-стандарте</TD></TR>
+<TR><TD><A HREF="domnode-is-blank-node.html"><B>DomNode_is_blank_node()</B></A></TD><TD>Нет в DOM-стандарте</TD>
+</TR></TABLE><P><A NAME="AEN19564"></A><h6>Таблица 7. Класс DomAttribute (DomAttribute : DomNode)</h6>
+<TABLE BORDER="1"><TR><TH>Имя метода</TH><TH>&nbsp;</TH><TH>Примечание</TH></TR><TBODY><TR><TD>name</TD>
+<TD><A HREF="domattribute-name.html"><B>DomAttribute_name()</B></A></TD><TD>&nbsp;</TD></TR><TR><TD>value</TD>
+<TD><A HREF="domattribute-value.html"><B>DomAttribute_value()</B></A></TD><TD>&nbsp;</TD></TR>
+<TR><TD>specified</TD><TD><A HREF="domattribute-specified.html"><B>DomAttribute_specified()</B></A></TD>
+<TD>&nbsp;</TD></TR></TABLE><P><A NAME="AEN19589"></A><h6>Таблица 8. Класс DomProcessingInstruction (DomProcessingInstruction : DomNode)</h6>
+<TABLE BORDER="1"><TR><TH>Имя метода</TH><TH>Имя функции</TH><TH>Примечание</TH></TR><TBODY><TR>
+<TD>target</TD><TD><A HREF="domprocessinginstruction-target.html">
+<B>DomProcessingInstruction_target()</B></A></TD><TD>&nbsp;</TD></TR><TR><TD>data</TD><TD>
+<A HREF="domprocessinginstruction-data.html"><B>DomProcessingInstruction_data()</B></A></TD>
+<TD>&nbsp;</TD></TR></TABLE><P><A NAME="AEN19609"></A><h6>Таблица 9. Класс Parser</h6><TABLE BORDER="1">
+<TR><TH>Имя метода</TH><TH>Имя функции</TH><TH>Примечание</TH></TR><TBODY><TR><TD>add_chunk</TD>
+<TD><B>Parser_add_chunk()</B></TD><TD>&nbsp;</TD></TR><TR><TD>end</TD><TD><B>Parser_end()</B></TD>
+<TD>&nbsp;</TD></TR><</TABLE><P><A NAME="AEN19629"></A><h6>Таблица 10. Класс XPathContext</h6>
+<TABLE BORDER="1"><TR><TH>Имя метода</TH><TH>Имя функции</TH><TH>Примечание</TH></TR><TBODY><TR>
+<TD>eval</TD><TD><B>XPathContext_eval()</B></TD><TD>&nbsp;</TD></TR><TR><TD>eval_expression</TD>
+<TD><B>XPathContext_eval_expression()</B></TD><TD>&nbsp;</TD></TR><TR><TD>register_ns</TD><TD>
+<B>XPathContext_register_ns()</B></TD><TD>&nbsp;</TD></TR></TABLE><P><A NAME="AEN19654"></A>
+<h6>Таблица 11. Класс DomDocumentType (DomDocumentType : DomNode)</h6><TABLE BORDER="1"><TR>
+<TH>Имя метода</TH><TH>Имя функции</TH><TH>Примечание</TH></TR><TBODY><TR><TD>name</TD>
+<TD><A HREF="domdocumenttype-name.html"><B>DomDocumentType_name()</B></A></TD><TD>&nbsp;</TD></TR>
+<TR><TD>entities</TD><TD><A HREF="domdocumenttype-entities.html"><B>DomDocumentType_entities()</B></A>
+</TD><TD>&nbsp;</TD></TR><TR><TD>notations</TD><TD><A HREF="domdocumenttype-notations.html"><B>DomDocumentType_notations()</B>
+</A></TD><TD>&nbsp;</TD></TR><TR><TD>public_id</TD><TD><A HREF="domdocumenttype-public-id.html">
+<B>DomDocumentType_public_id()</B></A></TD><TD>&nbsp;</TD></TR><TR><TD>system_id</TD><TD>
+<A HREF="domdocumenttype-system-id.html"><B>DomDocumentType_system_id()</B></A></TD><TD>&nbsp;</TD></TR>
+<TR><TD>internal_subset</TD><TD><A HREF="domdocumenttype-internal-subset.html"><B>DomDocumentType_internal_subset()</B>
+</A></TD><TD>&nbsp;</TD></TR></TABLE><P>Класс DomDtd происходит от DomNode. DomComment происходит от DomCData.</P>
+<H1><A NAME="domxml.examples">Примеры</A></H1><P>Многие примеры в этом справочнике требуют строки xml. Вместо повторения 
+этой строки в каждом примере, она будет помещена в файл и включена в каждый 
+пример. Этот include-файл показан в следующем разделе-примере. Вы можете также 
+создать xml-документ и читать его с помощью <B>DomDocument_open_file()</B>.</P><TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN19699"></A><h5>Пример 1. Include-файл example.inc с xml-строкой</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$xmlstr = "&#60;?xml version='1.0' standalone='yes'?&#62;
+&#60;!DOCTYPE chapter SYSTEM '/share/sgml/Norman_Walsh/db3xml10/db3xml10.dtd'
+[ &#60;!ENTITY sp \"spanish\"&#62;
+]&#62;
+&#60;!-- lsfj  --&#62;
+&#60;chapter language='en'&#62;&#60;title language='en'&#62;Title&#60;/title&#62;
+ &#60;para language='ge'&#62;
+  &#38;amp;sp;
+  &#60;!-- комментарий --&#62;
+  &#60;informaltable ID='findme' language='&#38;amp;sp;'&#62;
+   &#60;tgroup cols='3'&#62;
+    &#60;tbody&#62;
+&#60;row&#62;&#60;entry&#62;a1&#60;/entry&#62;&#60;entry
+morerows='1'&#62;b1&#60;/entry&#62;&#60;entry&#62;c1&#60;/entry&#62;&#60;/row&#62;
+&#60;row&#62;&#60;entry&#62;a2&#60;/entry&#62;&#60;entry&#62;c2&#60;/entry&#62;&#60;/row&#62;
+&#60;row&#62;&#60;entry&#62;a3&#60;/entry&#62;&#60;entry&#62;b3&#60;/entry&#62;&#60;entry&#62;c3&#60;/entry&#62;&#60;/row&#62;
+    &#60;/tbody&#62;
+   &#60;/tgroup&#62;
+  &#60;/informaltable&#62;
+ &#60;/para&#62;
+&#60;/chapter&#62;";
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><DL><DT><B>Содержание</B></DT>
+<DT><A HREF="domattribute-name.html">DomAttribute-&#62;name</A> - возвращает имя атрибута</DT>
+<DT><A HREF="domattribute-specified.html">DomAttribute-&#62;specified</A> - проверяет, специфицирован ли атрибут</DT>
+<DT><A HREF="domattribute-value.html">DomAttribute-&#62;value</A> - возвращает значение атрибута</DT>
+<DT><A HREF="domdocument-add-root.html">DomDocument-&#62;add_root [не рекомендуется применять]</A> - добавляет узел root</DT>
+<DT><A HREF="domdocument-create-attribute.html">DomDocument-&#62;create_attribute</A> - создаёт новый атрибут</DT>
+<DT><A HREF="domdocument-create-cdata-section.html">DomDocument-&#62;create_cdata_section</A> - создаёт новый узел cdata</DT>
+<DT><A HREF="domdocument-create-comment.html">DomDocument-&#62;create_comment</A> - создаёт новый узел комментария</DT>
+<DT><A HREF="domdocument-create-element.html">DomDocument-&#62;create_element</A> - создаёт новый узел элемента</DT>
+<DT><A HREF="domdocument-create-entity-reference.html">DomDocument-&#62;create_entity_reference</A> -</DT>
+<DT><A HREF="domdocument-create-processing-instruction.html">DomDocument-&#62;create_processing_instruction</A> - создаёт новый узел PI</DT>
+<DT><A HREF="domdocument-create-text-node.html">DomDocument-&#62;create_text_node</A> - создаёт новый текстовый узел</DT>
+<DT><A HREF="domdocument-doctype.html">DomDocument-&#62;doctype</A> - возвращает тип документа</DT>
+<DT><A HREF="domdocument-document-element.html">DomDocument-&#62;document_element</A> - возвращает узел элемента root</DT>
+<DT><A HREF="domdocument-dump-file.html">DomDocument-&#62;dump_file</A> - выполняет дамп внутреннего дерева XML в файл</DT>
+<DT><A HREF="domdocument-dump-mem.html">DomDocument-&#62;dump_mem</A> - выполняет дамп внутреннего дерева XML в строку</DT>
+<DT><A HREF="domdocument-get-element-by-id.html">DomDocument-&#62;get_element_by_id</A> - ищет элемент с определённым id</DT>
+<DT><A HREF="domdocument-get-elements-by-tagname.html">DomDocument-&#62;get_elements_by_tagname</A> -</DT>
+<DT><A HREF="domdocument-html-dump-mem.html">DomDocument-&#62;html_dump_mem</A> - выполняет дамп внутреннего дерева XML в строку как HTML</DT>
+<DT><A HREF="domdocumenttype-entities.html">DomDocumentType-&#62;entities</A> - возвращает список мнемоник</DT>
+<DT><A HREF="domdocumenttype-internal-subset.html">DomDocumentType-&#62;internal_subset</A> - возвращает внутренний поднабор</DT>
+<DT><A HREF="domdocumenttype-name.html">DomDocumentType-&#62;name</A> - возвращает имя типа документа</DT>
+<DT><A HREF="domdocumenttype-notations.html">DomDocumentType-&#62;notations</A> - возвращает список нотаций</DT>
+<DT><A HREF="domdocumenttype-public-id.html">DomDocumentType-&#62;public_id</A> - возвращает public id типа документа</DT>
+<DT><A HREF="domdocumenttype-system-id.html">DomDocumentType-&#62;system_id</A> - возвращает system id типа документа</DT>
+<DT><A HREF="domelement-get-attribute-node.html">DomElement-&#62;get_attribute_node</A> - возвращает значение атрибута</DT>
+<DT><A HREF="domelement-get-attribute.html">DomElement-&#62;get_attribute</A> - возвращает значение атрибута</DT>
+<DT><A HREF="domelement-get-elements-by-tagname.html">DomElement-&#62;get_elements_by_tagname</A> - добавляет новый атрибут</DT>
+<DT><A HREF="domelement-has-attribute.html">DomElement-&#62;has_attribute</A> - добавляет новый атрибут</DT>
+<DT><A HREF="domelement-remove-attribute.html">DomElement-&#62;remove_attribute</A> - добавляет новый атрибут</DT>
+<DT><A HREF="domelement-set-attribute-node.html">DomElement-&#62;set_attribute_node</A> - добавляет новый атрибут</DT>
+<DT><A HREF="domelement-set-attribute.html">DomElement-&#62;set_attribute</A> - добавляет новый атрибут</DT>
+<DT><A HREF="domelement-tagname.html">DomElement-&#62;tagname</A> - возвращает имя элемента</DT>
+<DT><A HREF="domnode-append-child.html">DomNode-&#62;append_child</A> - добавляет нового потомка в конец потомков</DT>
+<DT><A HREF="domnode-append-sibling.html">DomNode-&#62;append_sibling</A> - добавляет нового родственника в узел</DT>
+<DT><A HREF="domnode-attributes.html">DomNode-&#62;attributes</A> - возвращает список атрибутов</DT>
+<DT><A HREF="domnode-child-nodes.html">DomNode-&#62;child_nodes</A> - возвращает потомков узла</DT>
+<DT><A HREF="domnode-clone-node.html">DomNode-&#62;clone_node</A> - клонирует узел</DT>
+<DT><A HREF="domnode-dump-node.html">DomNode-&#62;dump_node</A> - дамп отдельного узла</DT>
+<DT><A HREF="domnode-first-child.html">DomNode-&#62;first_child</A> - возвращает первого потомка узла</DT>
+<DT><A HREF="domnode-get-content.html">DomNode-&#62;get_content</A> - получает содержимое узла</DT>
+<DT><A HREF="domnode-has-attributes.html">DomNode-&#62;has_attributess</A> - проверяет, имеет ли узел атрибуты</DT>
+<DT><A HREF="domnode-has-child-nodes.html">DomNode-&#62;has_child_nodes</A> - проверяет, имеет ли узел потомков</DT>
+<DT><A HREF="domnode-insert-before.html">DomNode-&#62;insert_before</A> - вставляет новый узел как потомка</DT>
+<DT><A HREF="domnode-is-blank-node.html">DomNode-&#62;is_blank_node</A> - проверяет, является ли узел чистым</DT>
+<DT><A HREF="domnode-last-child.html">DomNode-&#62;last_child</A> - возвращает последнего потомка узла</DT>
+<DT><A HREF="domnode-next-sibling.html">DomNode-&#62;next_sibling</A> - возвращает следующего родственника узла</DT>
+<DT><A HREF="domnode-node-name.html">DomNode-&#62;node_name</A> - возвращает имя узла</DT>
+<DT><A HREF="domnode-node-type.html">DomNode-&#62;node_type</A> - возвращает тип узла</DT>
+<DT><A HREF="domnode-node-value.html">DomNode-&#62;node_value</A> - возвращает значение узла</DT>
+<DT><A HREF="domnode-owner-document.html">DomNode-&#62;owner_document</A> - возвращает документ, к которому этот узел принадлежит</DT>
+<DT><A HREF="domnode-parent-node.html">DomNode-&#62;parent_node</A> - возвращает предка узла</DT>
+<DT><A HREF="domnode-prefix.html">DomNode-&#62;prefix</A> - возвращает префикс пространства имён узла</DT>
+<DT><A HREF="domnode-previous-sibling.html">DomNode-&#62;previous_sibling</A> - возвращает предыдущего родственника узла</DT>
+<DT><A HREF="domnode-remove-child.html">DomNode-&#62;remove_child</A> - удаляет потомка из списка потомков</DT>
+<DT><A HREF="domnode-replace-child.html">DomNode-&#62;replace_child</A> - замещает потомка</DT>
+<DT><A HREF="domnode-replace-node.html">DomNode-&#62;replace_node</A> - замещает узел</DT>
+<DT><A HREF="domnode-set-content.html">DomNode-&#62;set_content</A> - устанавливает содержимое узла</DT>
+<DT><A HREF="domnode-set-name.html">DomNode-&#62;set_name</A> - устанавливает имя узла</DT>
+<DT><A HREF="domnode-unlink-node.html">DomNode-&#62;unlink_node</A> - удаляет узел</DT>
+<DT><A HREF="domprocessinginstruction-data.html">DomProcessingInstruction-&#62;data</A> - возвращает данные pi-узла</DT>
+<DT><A HREF="domprocessinginstruction-target.html">DomProcessingInstruction-&#62;target</A> - возвращает цель/target pi-узла</DT>
+<DT><A HREF="domxml-new-doc.html">domxml_new_doc</A> - создаёт новый пустой XML-документ</DT>
+<DT><A HREF="domxml-open-file.html">domxml_open_file</A> - создаёт DOM-объект из XML-файл</DT>
+<DT><A HREF="domxml-open-mem.html">domxml_open_mem</A> - создаёт DOM-объект XML-документа</DT>
+<DT><A HREF="domxml-version.html">domxml_version</A> - получает версию XML-библиотеки</DT>
+<DT><A HREF="domxml-xmltree.html">domxml_xmltree</A> - создаёт дерево PHP-объектов из XML-документа</DT>
+<DT><A HREF="xpath-eval-expression.html">xpath_eval_expression</A> - вычисляет XPath Location Path в данной строке</DT>
+<DT><A HREF="xpath-eval.html">xpath_eval</A> - вычисляет XPath Location Path в данной строке</DT>
+<DT><A HREF="xpath-new-context.html">xpath_new_context</A> - создаёт новый xpath-контекст</DT>
+<DT><A HREF="xptr-eval.html">xptr_eval</A> - вычисляет XPtr Location Path в данной строке</DT>
+<DT><A HREF="xptr-new-context.html">xptr_new_context</A> - создаёт новый XPath Context</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="rewinddir.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="domattribute-name.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">rewinddir</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">DomAttribute-&#62;name</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

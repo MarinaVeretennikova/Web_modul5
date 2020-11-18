@@ -1,0 +1,85 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>Предопределённые Переменные</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="variables.html">Назад</A></TD>
+<th WIDTH="80%">Глава 7. Переменные</th><TD WIDTH="10%" ALIGN="right">
+<A HREF="variables.scope.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="language.variables.predefined">Предопределённые переменные</a></H1>
+<P>В PHP имеется большое количество предопределённых переменных, доступных 
+любому скрипту. Многие эти переменные, однако, невозможно полностью 
+задокументировать, так как они зависят от сервера, на котором происходит работа, 
+его версии и установок и других факторов. Некоторые из этих переменных будут 
+недоступны при запуске РНР из командной строки. Список этих переменных см. в 
+приложении <a href="appendixG.variables.html">Предопределённые переменные</a>.</P>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th>Предупреждение!</th></TR><TR><TD>
+<P>В PHP 4.2.0 и позднее, набор по умолчанию предопределённых переменных, 
+доступных в глобальной области видимости, изменён. Отдельные переменные 
+ввода и сервера <i>по умолчанию</i> больше не размещаются 
+непосредственно в глобальной области видимости; они размещаются в
+<a href="#language.variables.superglobals">суперглобальных массивах</a>.</P>
+<P>Вы можете форсировать старое поведение, установив <A HREF="configuration.html#ini.register-globals">register_globals</A>
+в 'On' в вашем файле <TT>php.ini</TT>.</P><P>Дополнительно см.
+<A HREF="http://www.php.net/release_4_1_0.php" TARGET="_top">PHP 4.1.0 Release Announcement</A>.</P></TD></TR></TABLE>
+<P>Начиная с версии 4.1.0, PHP предоставляет набор предопределённых массивов, 
+содержащих переменные web-сервера (если они имеются), окружения и 
+пользовательского ввода. Эти новые массивы более специализированы, так как 
+автоматически являются глобальными - т.е. автоматически доступны в любой 
+области видимости. Поэтому их часто называют 'автоглобалы' или 'суперглобалы'. (В PHP нет механизма реализации 
+пользовательских суперглобалов.)<br>Суперглобалы перечислены ниже; см. также 
+список их содержимого и обсуждение предопределённых переменных PHP и их природы 
+в приложении
+<a href="appendixG.variables.html">Предопределённые переменные</a>.</P>
+<P>Если некоторые переменные в <A HREF="configuration.html#ini.variables-order">variables_order</A>
+не установлены, их соответствующие суперглобальные массивы также остаются пустыми.</P>
+<h5>Суперглобалы PHP</h5><DL><DT>
+<A HREF="appendixG.variables.html#reserved.variables.globals">$GLOBALS</A></DT><DD>
+<P>Содержит ссылку на каждую переменную, доступную в данный момент в 
+глобальной области видимости данного скрипта. Ключами этого массива являются имена глобальных переменных.</P></DD><DT>
+<A HREF="appendixG.variables.html#reserved.variables.server">$_SERVER</A></DT><DD>
+<P>Переменные, установленные web-сервером или как-либо иначе относящиеся к 
+среде окружения выполнения текущего скрипта. Аналогичен старому массиву <TT>$HTTP_SERVER_VARS</TT>
+(который ещё доступен, но не рекомендуется).</P></DD>
+<DT><A HREF="appendixG.variables.html#reserved.variables.get">$_GET</A></DT>
+<DD><P>Переменные, предоставляемые скрипту через HTTP GET. Аналогичен старому массиву
+<TT>$HTTP_GET_VARS</TT> (который ещё доступен, но не рекомендуется).</P></DD>
+<DT><A HREF="appendixG.variables.html#reserved.variables.post">$_POST</A></DT>
+<DD><P>Переменные, предоставляемые скрипту через HTTP POST. Аналогичен старому 
+массиву <TT>$HTTP_POST_VARS</TT> (который ещё доступен, но не рекомендуется).</P></DD>
+<DT><A HREF="appendixG.variables.html#reserved.variables.cookies">$_COOKIE</A></DT>
+<DD><P>Переменные, предоставляемые скрипту через HTTP cookies. Аналогичен 
+старому массиву <TT>$HTTP_COOKIE_VARS</TT> (который ещё доступен, но не рекомендуется).</P></DD>
+<DT><A HREF="appendixG.variables.html#reserved.variables.files">$_FILES</A></DT>
+<DD><P>Переменные, предоставляемые скрипту через HTTP post-загрузку файлов.
+Аналогичен старому массиву <TT>$HTTP_POST_FILES</TT> (который ещё доступен, но не рекомендуется).
+См. дополнительно <A HREF="file-upload.html#features.file-upload.post-method">загрузка методом POST</A>.</P>
+</DD><DT><A HREF="appendixG.variables.html#reserved.variables.environment">$_ENV</A></DT>
+<DD><P>Переменные, предоставляемые скрипту через среду окружения. Аналогичен 
+старому массиву <TT>$HTTP_ENV_VARS</TT> (который ещё доступен, но не рекомендуется).</P></DD>
+<DT><A HREF="appendixG.variables.html#reserved.variables.request">$_REQUEST</A></DT>
+<DD><P>Переменные, предоставляемые скрипту через любой механизм пользовательского ввода,
+и которым, следовательно, нельзя доверять.</P></DD>
+<DD><P>
+<b>Примечание:</b> при запуске из командной строки этот массив <i>не</i> включит вхождения <TT>argv</TT>
+и <TT>argc</TT>; они представлены в массиве <TT>$_SERVER</TT>. Наличие и порядок включения
+переменных в этот массив определяются в соответствии с директивой конфигурации
+<A HREF="configuration.html#ini.variables-order">variables_order</A>.<br>
+Этот массив не имеет прямых аналогов в версиях PHP до 4.1.0.</P></DD>
+<DT><A HREF="appendixG.variables.html#reserved.variables.session">$_SESSION</A></DT>
+<DD><P>Переменные, зарегистрированные на данный момент в сессии скрипта. 
+Аналогичен старому массиву <TT>$HTTP_SESSION_VARS</TT> (который ещё доступен, но не рекомендуется). См. также раздел
+<a href="f/ref.session.html">Функции обслуживания сессий</a>.</P></DD></DL>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="variables.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="variables.scope.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Переменные</TD>
+<th WIDTH="34%" VALIGN="top"><a href="variables.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Область видимости переменной</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

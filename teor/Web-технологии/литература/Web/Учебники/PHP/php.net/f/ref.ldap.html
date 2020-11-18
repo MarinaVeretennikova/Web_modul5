@@ -1,0 +1,146 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции LDAP</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="java-last-exception-get.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="ldap-8859-to-t61.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.ldap"></A>XLIX. Функции LDAP</h1><A NAME="AEN38704"></A>
+<H1><A NAME="ldap.intro">Введение в LDAP</A></H1><P>LDAP это Lightweight Directory Access Protocol - протокол, используемый
+для доступа к "Directory Servers".  Directory это особый вид базы данных, 
+которая содержит информацию как древовидную структуру.</P>
+<P>Концепция аналогична структуре директорий жёсткого диска,
+но в данном контексте root/корневая директория это "The world/Земной шар", 
+а первый уровень поддиректорий это "countries/страны".  Ещё ниже идут 
+уровни структуры директорий, содержащие вхождения для companies/компаний,
+organisations/организаций или мест, а ещё ниже находятся вхождения 
+директорий для people/людей и, возможно, оборудования или документов.</P>
+<P>Чтобы обратиться к файлу в поддиректории на жёстком диске, вы вводите что-нибудь вроде</P>
+<P>/usr/local/myapp/docs<br>&nbsp;</P><P>Слэш отделяет каждое подразделение ссылки, а последовательность читается 
+слева направо.</P><P>Эквивалентом для полной квалифицированной ссылки на файл в LDAP является "distinguished 
+name/различительное имя", называемое просто "dn". Примером dn может быть:</P>
+<P><br>&nbsp;&nbsp;&nbsp;&nbsp;cn=John&nbsp;Smith,ou=Accounts,o=My&nbsp;Company,c=US<br>&nbsp;</P>
+<P>Запятая работает как слэш, а последовательность читается справа налево.  
+Вы можете прочитать это dn как ...</P><P><br>
+&nbsp;&nbsp;&nbsp;&nbsp;country&nbsp;=&nbsp;US<br>
+&nbsp;&nbsp;&nbsp;&nbsp;organization&nbsp;=&nbsp;My&nbsp;Company<br>
+&nbsp;&nbsp;&nbsp;&nbsp;organizationalUnit&nbsp;=&nbsp;Accounts<br>
+&nbsp;&nbsp;&nbsp;&nbsp;commonName&nbsp;=&nbsp;John&nbsp;Smith<br>&nbsp;</P>
+<P>Точно так же, поскольку нет твёрдых правил организации структуры 
+директорий на жёстком диске, directory server  manager (менеждер сервера директорий) может настроить любую структуру, 
+необходимую для осуществления поставленных задач.  Однако есть некоторые соглашения, которые при этом используются: вы не можете записать код для 
+доступа к серверу директорий, если не знаете его структуру, хотя можете использовать БД без знания того, что доступно.</P>
+<H1><a name="ldap-example">Полный пример кода</a></H1>
+<P>Запрашиваем информацию для всех вхождений, где фамилия начинается с &quot;S", 
+с сервера директорий и отображаем их с именем и email-адресом.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN38720"></A><h5>Пример 1. Пример поиска LDAP</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>&#60;?php
+// базовая последовательность в LDAP это: соединиться, связать, найти, интерпретировать
+// результат поиска, закрыть соединение
+
+echo "&#60;h3&#62;LDAP query test&#60;/h3&#62;";
+echo "Connecting ...";
+$ds=ldap_connect("localhost");  // обязан быть правильный LDAP-сервер!
+echo "connect result is ".$ds."&#60;p&#62;";
+
+if ($ds) { 
+    echo "Binding ..."; 
+    $r=ldap_bind($ds);     // это "anonymous" связка, обычно с доступом read-only
+
+    echo "Bind result is ".$r."&#60;p&#62;";
+
+    echo "Searching for (sn=S*) ...";
+    // Search surname entry
+    $sr=ldap_search($ds,"o=My Company, c=US", "sn=S*");  
+    echo "Search result is ".$sr."&#60;p&#62;";
+
+    echo "Number of entires returned is ".ldap_count_entries($ds,$sr)."&#60;p&#62;";
+
+    echo "Getting entries ...&#60;p&#62;";
+    $info = ldap_get_entries($ds, $sr);
+    echo "Data for ".$info["count"]." items returned:&#60;p&#62;";
+
+    for ($i=0; $i&#60;$info["count"]; $i++) {
+        echo "dn is: ". $info[$i]["dn"] ."&#60;br&#62;";
+        echo "first cn entry is: ". $info[$i]["cn"][0] ."&#60;br&#62;";
+        echo "first email entry is: ". $info[$i]["mail"][0] ."&#60;p&#62;";
+    }
+
+    echo "Closing connection";
+    ldap_close($ds);
+
+} else {
+    echo "&#60;h4&#62;Unable to connect to LDAP-сервер&#60;/h4&#62;";
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><H2><A NAME="ldap.using">Использование вызовов PHP LDAP</A></H2>
+<P>Вам нужно получить и скомпилировать клиентские библиотеки LDAP из пакета ldap-3.3 University of Michigan 
+или Netscape Directory SDK 3.0.  Вам нужно также перекомпилировать PHP с включённой поддержкой LDAP, прежде чем вызовы PHP к LDAP заработают.</P>
+<P>Прежде чем начать использование вызовов LDAP, вам необходимо знать:
+<UL><LI><P>Имя или адрес сервера директорий, который вы будете использовать</P></LI>
+<LI><P>"base dn" сервера (часть world-директории, которая содержится на этом сервере, которая может быть "o=My
+Company,c=US")</P></LI><LI><P>Нужен ли вам пароль для доступа к этому серверу (многие серверы 
+предоставляют доступ для чтения для "anonymous bind", но требуют пароля для других действий)</P></LI></UL>
+<P>Типичная последовательность вызова LDAP в вашем приложении будет соответствовать такому патэрну:
+<P>ldap_connect()&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;установить соединение 
+  с сервером<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br>
+ldap_bind()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;anonymous/анонимный 
+  или аутентифицированный "login"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br>
+сделать что-нибудь типа поиска или обновления директории<br>
+&nbsp;&nbsp;и вывести результаты<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br>
+ldap_close()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;"logout"</P>
+<H2><a name="ldap.moreinfo">Дополнительная информация</a></H2>
+<P>Большое количество информации о LDAP можно найти на:</P><UL><LI><P>
+<A HREF="http://developer.netscape.com/tech/directory/" TARGET="_top">Netscape</A></P></LI>
+<LI><P><A HREF="http://www.umich.edu/~dirsvcs/ldap/index.html" TARGET="_top">University of Michigan</A></P></LI>
+<LI><P><A HREF="http://www.openldap.org/" TARGET="_top">OpenLDAP Project</A></P></LI>
+<LI><P><A HREF="http://www.innosoft.com/ldapworld" TARGET="_top">LDAP World</A></P></LI></UL>
+<P>Netscape SDK содержит хороший Programmer's Guide в формате .html.</P>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="ldap-8859-to-t61.html">ldap_8859_to_t61</A> - транслирует 8859-символы в t61-символы</DT>
+<DT><A HREF="ldap-add.html">ldap_add</A> - добавляет вхождения в LDAP-директорию</DT>
+<DT><A HREF="ldap-bind.html">ldap_bind</A> - связывает с LDAP-директорией</DT>
+<DT><A HREF="ldap-close.html">ldap_close</A> - закрывает ссылку на LDAP-сервер</DT>
+<DT><A HREF="ldap-compare.html">ldap_compare</A> - сравнивает значение атрибута, найденного во вхождении, специфицированном с помощью DN</DT>
+<DT><A HREF="ldap-connect.html">ldap_connect</A> - соединяет с LDAP-сервером</DT>
+<DT><A HREF="ldap-count-entries.html">ldap_count_entries</A> - подсчитывает количество вхождений при поиске</DT>
+<DT><A HREF="ldap-delete.html">ldap_delete</A> - удаляет вхождение их директории</DT>
+<DT><A HREF="ldap-dn2ufn.html">ldap_dn2ufn</A> - конвертирует DN в формат User Friendly Naming</DT>
+<DT><A HREF="ldap-err2str.html">ldap_err2str</A> - конвертирует номер ошибки LDAP в строку сообщения об ошибке</DT>
+<DT><A HREF="ldap-errno.html">ldap_errno</A> - возвращает номер ошибки LDAP последней команды LDAP</DT>
+<DT><A HREF="ldap-error.html">ldap_error</A> - возвращает сообщение об ошибке LDAP последней команды LDAP</DT>
+<DT><A HREF="ldap-explode-dn.html">ldap_explode_dn</A> - делит DN на части-компоненты</DT>
+<DT><A HREF="ldap-first-attribute.html">ldap_first_attribute</A> - возвращает первый атрибут</DT>
+<DT><A HREF="ldap-first-entry.html">ldap_first_entry</A> - возвращает первый результирующий id</DT>
+<DT><A HREF="ldap-first-reference.html">ldap_first_reference</A> - возвращает первую ссылку</DT>
+<DT><A HREF="ldap-free-result.html">ldap_free_result</A> - освобождает память результата</DT>
+<DT><A HREF="ldap-get-attributes.html">ldap_get_attributes</A> - получает атрибуты из вхождения результата поиска</DT>
+<DT><A HREF="ldap-get-dn.html">ldap_get_dn</A> - получает DN результирующего вхождения</DT>
+<DT><A HREF="ldap-get-entries.html">ldap_get_entries</A> - получает все результирующие вхождения</DT>
+<DT><A HREF="ldap-get-option.html">ldap_get_option</A> - получает текущее значение данной опции</DT>
+<DT><A HREF="ldap-get-values-len.html">ldap_get_values_len</A> - получает все бинарные значения из результирующего вхождения</DT>
+<DT><A HREF="ldap-get-values.html">ldap_get_values</A> - получает все значения из результирующего вхождения</DT>
+<DT><A HREF="ldap-list.html">ldap_list</A> - одноуровневый поиск</DT>
+<DT><A HREF="ldap-mod-add.html">ldap_mod_add</A> - добавляет значения атрибутов текущим атрибутам</DT>
+<DT><A HREF="ldap-mod-del.html">ldap_mod_del</A> - удаляет значения атрибутов из текущих атрибутов</DT>
+<DT><A HREF="ldap-mod-replace.html">ldap_mod_replace</A> - заменяет значения атрибутов новыми</DT>
+<DT><A HREF="ldap-modify.html">ldap_modify</A> - модифицирует LDAP-вхождение</DT>
+<DT><A HREF="ldap-next-attribute.html">ldap_next_attribute</A> - получает следующий атрибут в результате</DT>
+<DT><A HREF="ldap-next-entry.html">ldap_next_entry</A> - получает следующее результирующее вхождение</DT>
+<DT><A HREF="ldap-next-reference.html">ldap_next_reference</A> - получает следующую ссылку</DT>
+<DT><A HREF="ldap-parse-reference.html">ldap_parse_reference</A> - извлекает информацию из вхождения ссылки</DT>
+<DT><A HREF="ldap-parse-result.html">ldap_parse_result</A> - извлекает информацию из результата</DT>
+<DT><A HREF="ldap-read.html">ldap_read</A> - читает вхождение</DT>
+<DT><A  HREF="ldap-rename.html">ldap_rename</A> - модифицирует имя вхождения</DT>
+<DT><A  HREF="ldap-search.html">ldap_search</A> - ищет дерево LDAP</DT>
+<DT><A HREF="ldap-set-option.html">ldap_set_option</A> - устанавливает значение данной опции</DT>
+<DT><A HREF="ldap-set-rebind-proc.html">ldap_set_rebind_proc</A> - устанавливает callback-функцию для выполнения повторных связок при referral chasing</DT>
+<DT><A HREF="ldap-sort.html">ldap_sort</A> - сортирует результирующие вхождения LDAP</DT>
+<DT><A HREF="ldap-start-tls.html">ldap_start_tls</A> - стартует TLS</DT>
+<DT><A HREF="ldap-t61-to-8859.html">ldap_t61_to_8859</A> - транслирует t61-символы в 8859-символы</DT>
+<DT><A HREF="ldap-unbind.html">ldap_unbind</A> - отвязывает от LDAP-директории</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%"  BORDER="0"CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="java-last-exception-get.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ldap-8859-to-t61.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">java_last_exception_get</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ldap_8859_to_t61</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

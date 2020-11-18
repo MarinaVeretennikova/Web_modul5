@@ -1,0 +1,180 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции PostgreSQL</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="posix-uname.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD  WIDTH="10%"  ALIGN="right"><A HREF="pg-affected-rows.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.pgsql"></A>LXXX. Функции PostgreSQL</h1><A NAME="AEN66216"></A>
+<P>Postgres, разработанный в оригинале департаментом UC Berkeley Computer Science
+Department, был пионером многих объектно-ориентированных концепций, ставших 
+теперь доступными в некоторых коммерческих БД.  Он предоставляет поддержку языка
+SQL92/SQL99, целостности транзакций и расширяемости типов.  PostgreSQL это 
+открытый ресурс, потомок оригинального Berkeley-кода.</P>
+<P>PostgreSQL это  продукт, доступный бесплатно. Для 
+использования поддержки PostgreSQL вам необходим PostgreSQL 6.5 или новее. PostgreSQL 7.0 
+или новее - для всех возможностей модуля PostgreSQL. PostgreSQL поддерживает 
+многие кодировки символов, включая кодировку многобайтных символов. Текущая 
+версия и информация о PostgreSQL находятся на <A HREF="http://www.postgresql.org/" TARGET="_top">http://www.postgresql.org/</A>.</P>
+<P>Чтобы включить поддержку PostgreSQL, необходима опция <TT>--with-pgsql[=DIR]</TT> при компиляции
+PHP. Если модуль совместно используемых/shared объектов доступен, PostgreSQL-модуль 
+может быть загружен с использованием директивы <A HREF="../configuration.html#ini.extension">extension</A> в файле
+<TT>php.ini</TT> или функции <A HREF="dl.html"><B>dl()</B></A>. Поддерживаемые ini-директивы описаны в файле
+<TT>php.ini-dist</TT>, поставляемом вместе с исходным кодом дистрибутива.</P><TABLE CLASS="warning" BORDER="1" WIDTH="100%">
+<TR><th><B>Предупреждение!</B></th></TR><TR><TD><P>Использование модуля PostgreSQL с PHP 4.0.6 не рекомендуется из-за жучка в
+коде обработки уведомляющих сообщений. Используйте 4.1.0 или новее.</P></TD></TR></TABLE>
+<TABLE CLASS="warning"  BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>Имена PostgreSQL-функций будут изменены в релизе 4.2.0 для подтверждения соответствия существующим стандартам кодировки. Большая 
+часть новых имён будет иметь дополнительные символы подчёркивания, например, pg_lo_open(). Некоторые функции переименовываются для 
+обеспечения целостности. например, pg_exec() в pg_query(). Старые имена можно использовать в 4.2.0 и в некоторых релизах 4.2.0, 
+но они могут быть удалены в будущем.</P></table><A NAME="AEN66230"></A><h6><B>Таблица 1. </B>Изменения имён функций</h6>
+<center><TABLE BORDER="1" cellpadding="0" cellspacing="0"><TR><TH>Старое имя</TH><TH>Новое имя</TH></TR>
+<TBODY><TR><TD><B>pg_exec()</B></TD><TD><A HREF="pg-query.html"><B>pg_query()</B></A></TD></TR><TR>
+<TD><B>pg_getlastoid()</B></TD><TD><A HREF="pg-last-oid.html"><B>pg_last_oid()</B></A></TD></TR>
+<TR><TD><B>pg_cmdtuples()</B></TD><TD><A HREF="pg-affected-rows.html"><B>pg_affected_rows()</B></A></TD>
+</TR><TR><TD><B>pg_numrows()</B></TD><TD><A HREF="pg-num-rows.html"><B>pg_num_rows()</B></A></TD></TR><TR>
+<TD><B>pg_numfields()</B></TD><TD><A HREF="pg-num-fields.html"><B>pg_num_fields()</B></A></TD></TR>
+<TR><TD><B>pg_fieldname()</B></TD><TD><A HREF="pg-field-name.html"><B>pg_field_name()</B></A></TD></TR>
+<TR><TD><B>pg_fieldsize()</B></TD><TD><A HREF="pg-field-size.html"><B>pg_field_size()</B></A></TD></TR>
+<TR><TD><B>pg_fieldnum()</B></TD><TD><A HREF="pg-field-num.html"><B>pg_field_num()</B></A></TD></TR>
+<TR><TD><B>pg_fieldprtlen()</B></TD><TD><A HREF="pg-field-prtlen.html"><B>pg_field_prtlen()</B></A></TD>
+</TR><TR><TD><B>pg_fieldisnull()</B></TD><TD><A HREF="pg-field-is-null.html"><B>pg_field_is_null()</B></A>
+</TD></TR><TR><TD><B>pg_freeresult()</B></TD><TD><A HREF="pg-free-result.html"><B>pg_free_result()</B></A></TD>
+</TR><TR><TD><B>pg_result()</B></TD><TD><A HREF="pg-fetch-result.html"><B>pg_fetch_result()</B></A></TD></TR>
+<TR><TD><B>pg_loreadall()</B></TD><TD><A HREF="pg-lo-read-all.html"><B>pg_lo_read_all()</B></A></TD></TR>
+<TR><TD><B>pg_locreate()</B></TD><TD><A HREF="pg-lo-create.html"><B>pg_lo_create()</B></A></TD></TR>
+<TR><TD><B>pg_lounlink()</B></TD><TD><A HREF="pg-lo-unlink.html"><B>pg_lo_unlink()</B></A></TD></TR>
+<TR><TD><B>pg_loopen()</B></TD><TD><A HREF="pg-lo-open.html"><B>pg_lo_open()</B></A></TD></TR><TR><TD>
+<B>pg_loclose()</B></TD><TD><A HREF="pg-lo-close.html"><B>pg_lo_close()</B></A></TD></TR><TR>
+<TD><B>pg_loread()</B></TD><TD><A HREF="pg-lo-read.html"><B>pg_lo_read()</B></A></TD></TR>
+<TR><TD><B>pg_lowrite()</B></TD><TD><A HREF="pg-lo-write.html"><B>pg_lo_write()</B></A></TD></TR><TR>
+<TD><B>pg_loimport()</B></TD><TD><A HREF="pg-lo-import.html"><B>pg_lo_import()</B></A></TD></TR><TR>
+<TD><B>pg_loexport()</B></TD><TD><A HREF="pg-lo-export.html"><B>pg_lo_export()</B></A></TD></TR></TBODY></TABLE></center>
+<P>Старый синтаксис <A HREF="pg-connect.html"><B>pg_connect()</B></A>/<A HREF="pg-pconnect.html">
+<B>pg_pconnect()</B></A> будет не рекомендован, с целью поддержки в будущем асинхронных соединений. 
+Пожалуйста, используйте строку соединения для <A HREF="pg-connect.html"><B>pg_connect()</B></A>
+и <A HREF="pg-pconnect.html"><B>pg_pconnect()</B></A>.</P></TD></TR></TABLE>
+<P>Не все функции поддерживаются во всех построениях/builds. Это зависит от версии вашей
+libpq (The PostgreSQL C Client interface) и от того, как libpq 
+скомпилирована. Если имеется отсутствующая функция, libpq не поддерживает возможности, требуемые для этой функции.</P>
+<P>Важно также, чтобы вы использовали libpq более новую, чем PostgreSQL
+Server, с которым соединяетесь. Если вы используете libpq более старую, чем ожидает PostgreSQL Server, у вас будут проблемы.</P>
+<P>Начиная с версии 6.3 (03/02/1998), PostgreSQL использует по умолчанию сокет 
+домена unix. TCP-порт НЕ открывается по умолчанию. В таблице описаны эти новые 
+возможности соединений. Этот сокет можно найти в in <TT>/tmp/.s.PGSQL.5432</TT>.
+Данная опция может быть включена флагом '-i' для <B>postmaster</B>, и его значением будет : "прослушивать
+TCP/IP-сокеты, а также сокеты Unix-домена&quot;.<A NAME="AEN66353"></A><h6>Таблица 2. Postmaster и PHP</h6>
+<TABLE BORDER="1" width="737"><TR><TH width="114">Postmaster</TH><TH width="240">PHP</TH><TH width="361">Статус</TH>
+</TR><TBODY><TR><TD width="114">postmaster &#38;</TD><TD width="240">pg_connect("dbname=MyDbName");</TD>
+<TD width="361">OK</TD></TR><TR><TD width="114">postmaster -i &#38;</TD><TD width="240">pg_connect("dbname=MyDbName");</TD>
+<TD width="361">OK</TD></TR><TR><TD width="114">postmaster &#38;</TD><TD width="240">pg_connect("host=localhost dbname=MyDbName");</TD>
+<TD width="361">Невозможно соединиться с PostgreSQL server: connectDB() терпит неудачу:
+Работает ли postmaster и принимает ли TCP/IP (with -i) соединение по 'localhost' и порту '5432'? в
+/path/to/file.php на строке 20.</TD></TR><TR><TD width="114">postmaster -i &#38;</TD>
+<TD width="240">pg_connect("host=localhost dbname=MyDbName");</TD><TD width="361">OK</TD></TR></TBODY></TABLE>
+<P>Соединение с PostgreSQL-сервером может быть установлено следующими парами значений в командной строке:
+<B>$conn = pg_connect("host=myHost port=myPort tty=myTTY options=myOptions
+dbname=myDB user=myUser password=myPassword &quot;)</B>;</P>
+<P>Предыдущий синтаксис: <B>$conn = pg_connect ("host", "port", "options", "tty", "dbname")</B>
+теперь не рекомендуется.</P><P>Переменные окружения влияют на поведение PostgreSQL server/client. Например, PostgreSQL-модуль 
+будет искать переменную окружения PGHOST, если hostname отсутствует в строке 
+соединения. Поддерживаемые переменные окружения отличаются в разных версиях. 
+См. детали в PostgreSQL Programmer's Manual (libpq - Environment Variables).</P>
+<P>Убедитесь, что вы установили переменные окружения для соответствующего пользователя. Используйте
+<TT>$_ENV</TT> или <A HREF="getenv.html"><B>getenv()</B></A> для проверки того, какие переменные окружения доступны текущему процессу.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN66386"></A><h5>Пример 1. Установка параметров по умолчанию
+</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>PGHOST=pgsql.example.com
+PGPORT=7890
+PGDATABASE=web-system
+PGUSER=web-user
+PGPASSWORD=secret
+PGDATESTYLE=ISO
+PGTZ=JST
+PGCLIENTENCODING=EUC-JP
+
+export PGHOST PGPORT PGDATABASE PGUSER PGPASSWORD PGDATESTYLE PGTZ PGCLIENTENCODING</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Начиная работу с PostgreSQL 7.1.0, вы можете сохранять 1GB в поле типа text. 
+В более старых версиях могут быть ограничения на размер блоков (по умолчанию 
+было 8KB, максимум был 32KB, определяемые на этапе компиляции).</P>
+<P>Для использования интерфейса больших объектов/large object (lo) необходимо включать
+lo-функции внутри блока транзакции. Блок транзакции начинается с SQL-оператора <B>BEGIN</B>, и, если транзакция была верной, заканчивается
+<B>COMMIT</B> или <B>END</B>. Если транзакция терпит неудачу, она должна быть закрыта с помощью
+<B>ROLLBACK</B> или <B>ABORT</B>.<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN66396"></A>
+  <h5>
+Пример 2. Использование больших объектов (Large Objects)</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+    $database = pg_connect ("dbname=jacarta");
+    pg_query ($database, "begin");
+    $oid = pg_lo_create ($database);
+    echo "$oid\n";
+    $handle = pg_lo_open ($database, $oid, "w");
+    echo "$handle\n";
+    pg_lo_write ($handle, "large object data");
+    pg_lo_close ($handle);
+    pg_query ($database, "commit");
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><p>Вы не должны закрывать соединение с PostgreSQL-сервером до закрытия large-объекта.</p>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="pg-affected-rows.html">pg_affected_rows</A> - возвращает количество задействованных записей (пар/tuples)</DT>
+<DT><A HREF="pg-cancel-query.html">pg_cancel_query</A> - отменяет async-запрос</DT>
+<DT><A HREF="pg-client-encoding.html">pg_client_encoding</A> - получает клиентскую кодировку</DT>
+<DT><A HREF="pg-close.html">pg_close</A> - закрывает PostgreSQL-соединение</DT>
+<DT><A HREF="pg-connect.html">pg_connect</A> - открывает PostgreSQL-соединение</DT>
+<DT ><AHREF="pg-connection-busy.html">pg_connection_busy</A> - получает, закрыто соединение или нет</DT>
+<DT><A HREF="pg-connection-reset.html">pg_connection_reset</A> - восстанавливает соединение (reconnect)</DT>
+<DT><A HREF="pg-connection-status.html">pg_connection_status</A> - получает статус соединения</DT>
+<DT><A HREF="pg-convert.html">pg_convert</A> - конвертирует значение ассоциативного массива в значение, подходящее для оператора SQL</DT>
+<DT><A HREF="pg-copy-from.html">pg_copy_from</A> - вставляет записи в таблицу из массива</DT>
+<DT><A HREF="pg-copy-to.html">pg_copy_to</A> - копирует таблицу в массив</DT>
+<DT><A HREF="pg-dbname.html">pg_dbname</A> - получает имя базы данных</DT>
+<DT><A HREF="pg-delete.html">pg_delete</A> - удаляет записи</DT>
+<DT><A HREF="pg-end-copy.html">pg_end_copy</A> - синхронизирует с PostgreSQL backend</DT>
+<DT><A HREF="pg-escape-bytea.html">pg_escape_bytea</A> - мнемонизирует/еscape binary для типа bytea</DT>
+<DT><A HREF="pg-escape-string.html">pg_escape_string</A> - мнемонизирует string для типа text/char</DT>
+<DT><A HREF="pg-fetch-array.html">pg_fetch_array</A> - извлекает ряд как массив</DT>
+<DT><A HREF="pg-fetch-object.html">pg_fetch_object</A> - извлекает ряд как объект</DT>
+<DT><A HREF="pg-fetch-result.html">pg_fetch_result</A> - возвращает значения из результирующего ресурса</DT>
+<DT><A HREF="pg-fetch-row.html">pg_fetch_row</A> - получает ряд как перечислимый массив</DT>
+<DT><A HREF="pg-field-is-null.html">pg_field_is_null</A> - проверяет, является ли поле <TT><B>NULL</B></TT></DT>
+<DT><A HREF="pg-field-name.html">pg_field_name</A> - возвращает имя поля</DT>
+<DT><A HREF="pg-field-num.html">pg_field_num</A> - возвращает номер именованного поля</DT>
+<DT><A HREF="pg-field-prtlen.html">pg_field_prtlen</A> - возвращает печатаемый размер</DT>
+<DT><A HREF="pg-field-size.html">pg_field_size</A> - возвращает внутренний размер хранения именованного поля</DT>
+<DT><A HREF="pg-field-type.html">pg_field_type</A> - возвращает имя типа для соответствующего номера поля</DT>
+<DT><A HREF="pg-free-result.html">pg_free_result</A> - освобождает результирующую память</DT>
+<DT><A HREF="pg-get-result.html">pg_get_result</A> -  получает результат асинхронного запроса</DT>
+<DT><A HREF="pg-host.html">pg_host</A> - возвращает имя хоста, ассоциированного с соединением</DT>
+<DT><A HREF="pg-insert.html">pg_insert</A> - вставляет массив в таблицу</DT>
+<DT><A HREF="pg-last-error.html">pg_last_error</A> - получает строку последнего сообщения об ошибке соединения</DT>
+<DT><A HREF="pg-last-notice.html">pg_last_notice</A> - возвращает последнее уведомление от PostgreSQL-сервера</DT>
+<DT><A HREF="pg-last-oid.html">pg_last_oid</A> - возвращает oid последнего объекта</DT>
+<DT><A HREF="pg-lo-close.html">pg_lo_close</A> - закрывает large-объект</DT>
+<DT><A HREF="pg-lo-create.html">pg_lo_create</A> - создаёт large-объект</DT>
+<DT><A HREF="pg-lo-export.html">pg_lo_export</A> - экспортирует large-объект в файл</DT>
+<DT><A HREF="pg-lo-import.html">pg_lo_import</A> - импортирует large-объект из файла</DT>
+<DT><A HREF="pg-lo-open.html">pg_lo_open</A> - открывает large-объект</DT>
+<DT><A HREF="pg-lo-read-all.html">pg_lo_read_all</A> - читает весь large-объект и отправляет его браузеру</DT>
+<DT><A HREF="pg-lo-read.html">pg_lo_read</A> - читает large-объект</DT>
+<DT><A HREF="pg-lo-seek.html">pg_lo_seek</A> - ищет позицию large-объекта</DT>
+<DT><A HREF="pg-lo-tell.html">pg_lo_tell</A> - возвращает текущую позицию large-объекта</DT>
+<DT><A HREF="pg-lo-unlink.html">pg_lo_unlink</A> - удаляет large-объект</DT>
+<DT><A HREF="pg-lo-write.html">pg_lo_write</A> - записывает large-объект</DT>
+<DT><A HREF="pg-metadata.html">pg_metadata</A> - получает метаданные для таблицы</DT>
+<DT><A HREF="pg-num-fields.html">pg_num_fields</A> - возвращает количество полей</DT>
+<DT><A HREF="pg-num-rows.html">pg_num_rows</A> - возвращает количество рядов</DT>
+<DT><A HREF="pg-options.html">pg_options</A> - получает опции, ассоциированные с данным соединением</DT>
+<DT><A HREF="pg-pconnect.html">pg_pconnect</A> - открывает постоянное PostgreSQL-соединение</DT>
+<DT ><AHREF="pg-port.html">pg_port</A> - возвращает номер порта, ассоциированного с соединением</DT>
+<DT><A HREF="pg-put-line.html">pg_put_line</A> - отправляет NULL-законченную строку в PostgreSQL backend</DT>
+<DT><A HREF="pg-query.html">pg_query</A> - выполняет запрос</DT>
+<DT><A HREF="pg-result-error.html">pg_result_error</A> - получает сообщение об ошибке, ассоциированное с результатом</DT>
+<DT><A HREF="pg-result-status.html">pg_result_status</A> - получает статус результата выполнения запроса</DT>
+<DT><A HREF="pg-select.html">pg_select</A> - выбирает записи</DT>
+<DT ><AHREF="pg-send-query.html">pg_send_query</A> - отправляет асинхронный запрос/query</DT>
+<DT><A HREF="pg-set-client-encoding.html">pg_set_client_encoding</A> - устанавливает клиентскую кодировку</DT>
+<DT><A HREF="pg-trace.html">pg_trace</A> - включает трассировку PostgreSQL-соединения</DT>
+<DT><A HREF="pg-tty.html">pg_tty</A> - возвращает tty-имя, ассоциированное с соединением</DT>
+<DT><A HREF="pg-untrace.html">pg_untrace</A> - отключает трассировку PostgreSQL-соединения</DT>
+<DT><A HREF="pg-update.html">pg_update</A> - обновляет таблицу</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="posix-uname.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="pg-affected-rows.html">Вперёд</A></TD></TR>
+<TR><TD WIDTH="33%" VALIGN="top">posix_uname</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top">pg_affected_rows</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

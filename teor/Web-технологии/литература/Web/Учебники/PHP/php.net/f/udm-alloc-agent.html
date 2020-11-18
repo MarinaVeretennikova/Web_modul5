@@ -1,0 +1,34 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>udm_alloc_agent</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="udm-add-search-limit.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="udm-api-version.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="udm-alloc-agent">udm_alloc_agent</A></H1><A NAME="AEN49242"></A><P>(PHP 4 &#62;= 4.0.5)</P>
+<p>udm_alloc_agent - размещает сессию mnoGoSearch.<A NAME="AEN49245"></A></p><H2>Описание</H2>
+<p>int <B>udm_alloc_agent</B> (string dbaddr [, string dbmode])</p>
+<P><B>udm_alloc_agent()</B> возвращает идентификатор mnogosearch-агента при успехе, <TT><B>FALSE</B></TT> при ошибке. Эта функция создаёт сессию с параметрами БД.</P>
+<P><TT><I>dbaddr</I></TT> - описание БД в URL-стиле. Опции (type, host, database name, port, user и password) для соединения с SQL-БД.
+Не имеет значения для встроенной поддержки текстовых файлов. Формат: DBAddr DBType:[//[DBUser[:DBPass]@]DBHost[:DBPort]]/DBName/<br>
+В настоящее время поддерживаются следующие значения DBType: mysql, pgsql, msql, solid, mssql, oracle, 
+ibase. Фактически это не важно для поддержки встроенных библиотек.
+Но пользователи ODBC должны специфицировать одно из поддерживаемых значений. Если тип вашей БД не поддерживается, вы можете использовать "unknown".</P>
+<P><TT><I>dbmode</I></TT> - вы можете выбрать режим SQL БД для хранения слов. Если специфицирован "single", 
+все слова хранятся в той же таблице. Если выбран "multi", слова размещаются в 
+разных таблицах, в зависимости от их длины. Режим "multi" обычно быстрее, но 
+требует больше таблиц в БД. Если специфицирован режим "crc", mnoGoSearch 
+хранит 32-битные integer IDы слов, вычисленные алгоритмом CRC32, а не слова. 
+Этот метод требует меньше дискового пространства и быстрее по сравнению с режимами "single"
+и "multi". "crc-multi" использует ту же структуру хранения, что и 
+"crc", но также хранит слова&nbsp; в разных таблицах, в зависимости от длины слов, как формат "multi".<br>
+Формат: DBMode single/multi/crc/crc-multi</P><BLOCKQUOTE><P><B>Примечание: </B><TT><I>dbaddr</I></TT>
+и <TT><I>dbmode</I></TT> обязаны совпадать с используемыми в ходе индексации.</P></BLOCKQUOTE>
+<BLOCKQUOTE><P><B>Примечание: </B>фактически эта функция не открывает соединение с БД и не проверяет, 
+соответственно, login и password. Реальное соединение с БД и проверка login/password 
+выполняется функцией <A HREF="udm-find.html"><B>udm_find()</B></A>.</P></BLOCKQUOTE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="udm-add-search-limit.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="udm-api-version.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">udm_add_search_limit</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.mnogo.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">udm_api_version</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,46 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>xml_set_processing_instruction_handler</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="xml-set-object.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="xml-set-start-namespace-decl-handler.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.xml-set-processing-instruction-handler">xml_set_processing_instruction_handler</A></H1>
+<A NAME="AEN82694"></A><P>(PHP 3&#62;= 3.0.6, PHP 4)</P><p>xml_set_processing_instruction_handler - 
+настраивает обработчик инструкции процессинга/processing instruction (PI).<A NAME="AEN82697"></A></p>
+<H2>Описание</H2><p>bool <B>xml_set_processing_instruction_handler</B> (resource parser, string handler)</p>
+<P>Устанавливает функцию обработчика processing instruction (PI) для XML-разборщика
+<TT><I>parser</I></TT>.<br><TT><I>handler</I></TT> это строка с именем функции, которая обязана существовать в момент вызова
+<A HREF="xml-parse.html"><B>xml_parse()</B></A> для <TT><I>parser</I></TT>.</P>
+<P>Инструкция процессинга имеет формат:<A NAME="AEN82714"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?
+       <TT
+
+><I
+>target</I
+></TT
+> 
+       <TT
+
+><I
+>data</I
+></TT
+>?&#62;</PRE></TD></TR></TABLE><p>Вы можете поместить PHP-код внутрь такого тэга, но имейте в виду 
+ограничение: в XML PI конечный тэг для PI (<TT>?&#62;</TT>) не может быть в кавычках,
+поэтому данная последовательность символов не должна появляться в PHP-коде, 
+который вы внедрили с PIs в XML-документы. Если же это так, остаток РНР-кода, 
+а также "реальный" конечный тэг PI, будут рассматриваться как символьные данные.</p>
+<P>Функция <TT><I>handler</I></TT> обязана принимать три параметра:
+<B><TT><I>handler</I></TT></B> (resource parser, string target, string data)
+<DL><DT><TT><I>parser</I></TT></DT><DD><P>Это ссылка на XML-разборщик, вызывающий обработчик.</P></DD>
+<DT><TT><I>target</I></TT></DT><DD><P>Это цель PI.</P></DD>
+<DT><TT><I>data</I></TT></DT><DD><P>Содержит PI-данные.</P></DD></DL>
+<P>Если функция обработчика установлена как пустая строка, или <TT><B>FALSE</B></TT>, обработчик отключается/disabled.</P>
+<P><TT><B>TRUE</B></TT> возвращается, если обработчик настроен, а <TT><B>FALSE</B></TT>, если
+<TT><I>parser</I></TT> не является разборщиком.</P><BLOCKQUOTE><P><B>Примечание: </B>вместо имени функции может быть предоставлен также массив, содержащий ссылку на 
+объект и имя метода.</P></BLOCKQUOTE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="xml-set-object.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="xml-set-start-namespace-decl-handler.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">xml_set_object</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.xml.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">xml_set_start_namespace_decl_handler</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

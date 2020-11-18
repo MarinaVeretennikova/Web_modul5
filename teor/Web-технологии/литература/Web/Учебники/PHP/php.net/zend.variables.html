@@ -1,0 +1,144 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Создание Переменных</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="zend.arguments.write-safety.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="zend.variables.long.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="zend.variables">Глава 34. Создание Переменных</A></H1>
+<DL><DT><B>Содержание</B></DT><DT><a href="#zend.variables.overview">Обзор</a></DT>
+<DT><A HREF="zend.variables.long.html">Longs (Integers)</A></DT>
+<DT><A HREF="zend.variables.float.html">Doubles (Floats)</A></DT>
+<DT><a href="zend.variables.string.html">Строки</a></DT>
+<DT><a href="zend.variables.boolean.html">Булевы</a></DT>
+<DT><a href="zend.variables.array.html">Массивы</a></DT>
+<DT><a href="zend.variables.object.html">Объекты</a></DT>
+<DT><a href="zend.variables.resource.html">Ресурсы</a></DT>
+<DT><A HREF="zend.variables.global.html">Макросы для автоматического создания глобальных переменных</A></DT>
+<DT><a href="zend.variables.constant.html">Создание констант</a></DT></DL>
+<P>При обмене данными вашего собственного расширения с PHP-скриптами одним из 
+самых важных вопросов является создание переменных. В это разделе показано, 
+как работать с типами переменных, поддерживаемых PHP.</P>
+<H1><a name="zend.variables.overview">Обзор</a></H1><P>Для создания новых переменных, видимых "извне" при выполнении скрипта, вам 
+необходимо выделить новый <TT>zval</TT>-контейнер,
+заполнить его значениями и ввести его во внутреннюю таблицу символов Zend. 
+Базовый процесс - общий при создании всех переменных:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>zval *new_variable;
+
+/* разместить и инициализировать новый контейнер */
+MAKE_STD_ZVAL(new_variable);
+
+/* установить здесь тип и содержимое переменной, см. последующие разделы */
+
+/* ввести эту переменную с именем "new_variable_name" в таблицу символов */
+ZEND_SET_SYMBOL(EG(active_symbol_table), "new_variable_name", new_variable);
+
+/* теперь переменная доступна скрипту как $new_variable_name */</PRE></TD></TR></TABLE>
+<p>Макрос <TT>MAKE_STD_ZVAL</TT> размещает новый <TT>zval</TT>-контейнер через использование
+<TT>ALLOC_ZVAL</TT> и инициализирует его с помощью<TT>INIT_ZVAL</TT>. В соответствии с реализацией Zend на момент написания, <i>инициализация</i> 
+означает установку счётчика ссылок на <TT>1</TT> и очистку флага <TT>is_ref</TT>, но этот процесс может быть в дальнейшем расширен - поэтому хорошо было бы 
+сохранить использование <TT>MAKE_STD_ZVAL</TT> вместо <TT>ALLOC_ZVAL</TT>. Если вы хотите оптимизировать скорость работы
+(и не должны явным образом инициализировать здесь <TT>zval</TT>-контейнер), вы можете использовать
+<TT>ALLOC_ZVAL</TT>, но это не рекомендуется, так как не гарантирует целостности данных.</p>
+<P><TT>ZEND_SET_SYMBOL</TT> заботится о внесении новой переменной в таблицу символов Zend. Этот макрос 
+проверяет, существует ли уже это значение таблице символов и конвертирует 
+новый символ в ссылку, если это так (с автоматическим уничтожением старого
+<TT>zval</TT>-контейнера). Это предпочтительный метод, если скорость не является критичной и 
+вы хотели бы ограничить размер используемой памяти.</P>
+<P>Обратите внимание, что <TT>ZEND_SET_SYMBOL</TT> использует глобалы Zend-исполнителя/executor через макрос
+<TT>EG</TT>. Специфицируя <TT>EG(active_symbol_table)</TT>, вы получаете доступ к текущей активной таблице символов, работая с активной 
+локальной областью видимости. Локальная область видимости может быть 
+разной, в зависимости от того, была ли функция вызвана из другой функции.</P>
+<P>Если вам необходимо оптимизировать на скорость и вы не позаботитесь об 
+оптимальном использовании памяти, вы можете пропустить проверку на 
+существование переменной с тем же значением и форсировать вместо этого 
+вставку в таблицу символов через с использованием <B>zend_hash_update()</B>:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>zval *new_variable;
+
+/* разместить и инициализировать новый контейнер */
+MAKE_STD_ZVAL(new_variable);
+
+/* установить здесь тип и содержимое переменной, см. последующие разделы */
+
+/* ввести эту переменную с именем "new_variable_name" в таблицу символов */
+zend_hash_update(
+    EG(active_symbol_table),
+    "new_variable_name",
+    strlen("new_variable_name") + 1,
+    &#38;new_variable,
+    sizeof(zval *),
+    NULL
+);</PRE></TD></TR></TABLE>
+<p>Это стандартный метод, используемый в большинстве модулей.</p>
+<P>Переменные, сгенерированные вышеприведённым кодом, всегда будут иметь локальную 
+область видимости, так что они находятся в контексте, в котором функция была вызвана.<br>
+Для создания новой переменной с глобальной областью видимости используйте 
+тот же самый метод, но обращайтесь к другой таблице символов:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>zval *new_variable;
+
+// разместить и инициализировать новый контейнер
+MAKE_STD_ZVAL(new_variable);
+
+//
+// установить здесь тип и содержимое переменной
+//
+
+// ввести эту переменную с именем "new_variable_name" в таблицу символов
+ZEND_SET_SYMBOL(&#38;EG(symbol_table), "new_variable_name", new_variable);</PRE></TD></TR></TABLE>
+<p>Макрос <TT>ZEND_SET_SYMBOL</TT> теперь вызван со ссылкой на главную, глобальную таблицу символов по ссылке
+<TT>EG(symbol_table)</TT>.</p>
+<dl><dd><b>Примечание:</b> переменная <TT>active_symbol_table</TT> это указатель, а <TT>symbol_table</TT>
+- не указатель. По этой причине вы должны использовать <TT>EG(active_symbol_table)</TT> и
+<TT>&#38;EG(symbol_table)</TT> как параметры для <TT>ZEND_SET_SYMBOL</TT> - он требует указателя.</dd></dl>
+<P>Аналогично для получения более эффективно работающей версии вы можете жёстко 
+кодировать обновление таблицы символов:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>zval *new_variable;
+
+// разместить и инициализировать новый контейнер
+MAKE_STD_ZVAL(new_variable);
+
+//
+// установить здесь тип и содержимое переменной
+//
+
+// ввести эту переменную с именем "new_variable_name" в глобальную таблицу символов
+zend_hash_update(
+    &#38;EG(symbol_table),
+    "new_variable_name",
+    strlen("new_variable_name") + 1,
+    &#38;new_variable,
+    sizeof(zval *),
+    NULL
+);</PRE></TD></TR></TABLE>
+<p>В Листинге 9.10 показан пример исходного кода, создающего две переменные - <TT>local_variable</TT>
+с локальной видимостью и <TT>global_variable</TT> с глобальной видимостью (см. Рисунок 9.7). Полный пример находится на CD-ROM.</p>
+<dl><dd><b>Примечание:</b> вы увидите, что глобальная переменная теперь 
+недоступна из функции. Это потому, что она не импортирована в локальную 
+область видимости с использованием <TT>global $global_variable;</TT> в PHP-исходнике.</dd></dl>
+<A NAME="AEN86324"></A><h5>Рисунок 34-1. Листинг 9.10. Создание переменных с различными областями видимости.</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>ZEND_FUNCTION(variable_creation)
+{
+    zval *new_var1, *new_var2;
+
+    MAKE_STD_ZVAL(new_var1);
+    MAKE_STD_ZVAL(new_var2);
+
+    ZVAL_LONG(new_var1, 10);
+    ZVAL_LONG(new_var2, 5);
+
+    ZEND_SET_SYMBOL(EG(active_symbol_table), "local_variable", new_var1);
+    ZEND_SET_SYMBOL(&#38;EG(symbol_table), "global_variable", new_var2);
+
+    RETURN_NULL();
+
+}</PRE></TD></TR></TABLE><P><IMG SRC="imag/Zend_6_variable_creation.png" width="609" height="629"></P>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="zend.arguments.write-safety.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="zend.variables.long.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Гарантия безопасной записи других параметров</TD>
+<th WIDTH="34%" VALIGN="top"><a href="zend.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Long (Integer)</TD>
+</TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

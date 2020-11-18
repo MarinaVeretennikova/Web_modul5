@@ -1,0 +1,122 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>Переменные вне PHP</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="variables.variable.html">Назад</A></TD>
+<th WIDTH="80%">Глава 7. Переменные</th><TD WIDTH="10%" ALIGN="right">
+<A HREF="constants.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="language.variables.external">Переменные  вне PHP</a></H1>
+<H2><A NAME="language.variables.external.form">HTML-формы (GET и POST)</A></H2>
+<P>Когда форма отправляется в PHP-скрипт, любые переменные этой формы автоматически делаются доступными скрипту
+PHP. Если опция конфигурации <A HREF="configuration.html#ini.track-vars">track_vars</A>
+включена/on, то эти переменные будут находиться в ассоциативных массивах<TT> $_POST</TT>,
+<TT>$_GET</TT> и/или <TT>$_FILES</TT>, в соответствии с источником переменной в вопросе.</P>
+<P>Дополнительно об этих переменных см. <a href="variables.predefined.html">Предопределённые переменные</a>.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><h5><A NAME="AEN4240"></A>Пример 7-1. Простая переменная формы</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;form action="foo.php" method="post"&#62;
+    Name: &#60;input type="text" name="username"&#62;&#60;br&#62;
+    &#60;input type="submit"&#62;
+&#60;/form&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Когда такая форма отправляется на сервер, значение из поля ввода text будет доступно в
+<TT>$_POST['username']</TT>. Если директива конфигурации <A HREF="configuration.html#ini.register-globals">register_globals</A>
+включена/on, то эта переменная будет также доступна как <TT>$username</TT> в глобальной области видимости.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>директива конфигурации <A HREF="configuration.html#ini.magic-quotes-gpc">magic_quotes_gpc</A>
+действует на значения Get, Post и Cookie.  Если она включена, значение (It's &quot;PHP!&quot;) 
+автоматически становится (It\'s \"PHP!\"). Мнемонизирование необходимо для вставки в БД. См. также
+<A HREF="f/addslashes.html"><B>addslashes()</B></A>,
+<A HREF="f/stripslashes.html"><B>stripslashes()</B></A> и 
+<A HREF="configuration.html#ini.magic-quotes-sybase">magic_quotes_sybase</A>.</P></BLOCKQUOTE>
+<P>PHP также понимает массивы в контексте переменных формы 
+(см. <a href="html.html">соответствующий faq</a>).  Вы можете, 
+например, сгруппировать взаимосвязанные переменные или использовать эту 
+возможность для запроса значений из списка множественного выбора select:</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+  <h5><A NAME="AEN4256"></A>Пример 7-2. Более сложные переменные формы</h5>
+  <TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;form action="array.php" method="post"&#62;
+    Name: &#60;input type="text" name="personal[name]"&#62;&#60;br&#62;
+    Email: &#60;input type="text" name="personal[email]"&#62;&#60;br&#62;
+    Beer: &#60;br&#62;
+    &#60;select multiple name="beer[]"&#62;
+        &#60;option value="warthog"&#62;Warthog
+        &#60;option value="guinness"&#62;Guinness
+        &#60;option value="stuttgarter"&#62;Stuttgarter Schwabenbr&#228;u
+        &#60;/select&#62;
+    &#60;input type="submit"&#62;
+&#60;/form&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>В PHP 3 использование переменной массива формы ограничено одномерными 
+массивами. В PHP 4 таких ограничений нет.</P>
+<H3><a name="language.variables.external.form.submit">Имена переменных при отправке изображения</a></H3>
+<P>При отправке формы возможно использование изображения/image вместо 
+стандартной кнопки submit с помощью тэга такого вида:</P><A NAME="AEN4263"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;input type="image" src="image.gif" name="sub"&#62;</PRE></TD></TR></TABLE>
+<P>Когда пользователь щёлкает в каком-либо месте изображения, 
+соответствующая форма передаётся на сервер с двумя дополнительными 
+переменными: sub_x и sub_y. Они содержат координаты щелчка. Опытные 
+программисты могут заметить, что фактические имена переменных, 
+отправляемые браузером, содержат точку, а не символ подчёркивания, но PHP 
+конвертирует точку в символ подчёркивания автоматически.</P>
+<H2>Куки <A NAME="language.variables.external.cookies">HTTP</A></H2>
+<P>PHP прозрачно поддерживает куки HTTP, как определено в <A HREF="http://www.netscape.com/newsref/std/cookie_spec.html" TARGET="_top">
+Netscape's Spec</A>.  Куки это механизм хранения данных на удалённом браузере и отслеживания или 
+идентификации с их помощью ответов пользователя.  Вы можете устанавливать куки функцией
+<A HREF="f/setcookie.html"><B>setcookie()</B></A>. Куки являются частью HTTP-шапки/header, поэтому функция SetCookie обязана 
+вызываться до любого вывода, высылаемого браузеру.  Это такое же ограничение, как и для функции
+<A HREF="f/header.html"><B>header()</B></A>. Любые куки, высылаемые вам с этого клиента, автоматически конвертируются в
+PHP-переменную точно так же, как и GET и POST-данные.</P>
+<P>Если вы хотите присвоить несколько значений одной куке, просто добавьте <I>[]</I> в имя куки.  Например:</P>
+<A NAME="AEN4274"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>setcookie("MyCookie[]", "Testing", time()+3600);</PRE></TD></TR></TABLE>
+<P>Обратите внимание, что эта кука/cookie замещает предыдущую куку с тем же 
+именем, если только path или domain не отличаются.  Так,
+для приложения shopping cart вы можете захотеть сохранить счётчик/counter и передать его.  То есть:</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+  <h5><A NAME="AEN4277"></A>Пример 7-3. SetCookie</h5>
+  <TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$Count++;
+setcookie("Count", $Count, time()+3600);
+setcookie("Cart[$Count]", $item, time()+3600);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<H2><a name="language.variables.external.environment">Переменные окружения</a></H2>
+<P>PHP автоматически делает переменные окружения доступными как нормальные переменные PHP.</p><A NAME="AEN4283"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>echo $HOME;  /* Показывает переменную окружения HOME, если она установлена. */</PRE></TD></TR></TABLE>
+<P>Поскольку информация, приходящая через механизмы GET, POST и Cookie, также 
+автоматически создаёт переменные PHP, иногда бывает лучше явно считывать 
+переменную из окружения, чтобы гарантировать получение правильной версии.  Функция
+<A HREF="f/getenv.html"><B>getenv()</B></A> может использоваться для этого. Вы можете также установить переменную 
+окружения функцией <A HREF="f/putenv.html"><B>putenv()</B></A>.</P>
+<H2><a name="language.variables.external.dot-in-names">Точки в именах входящих переменных</a></H2>
+<P>Обычно PHP не изменяет имена переменных при передаче их скрипту. Однако 
+нужно отметить, что точка (dot, period, full stop) не является правильным 
+символом в имени PHP-переменной. Посмотрим на такое имя:</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$varname.ext;  /* неправильное имя переменной */</PRE></TD></TR></TABLE>
+<p>Разборщик видит теперь имя переменной <TT>$varname</TT>, за которым идёт операция конкатенации строк, а затем идёт голая строка (т.е. 
+строка без кавычек, которая не совпадает ни с одним известным ключевым или 
+зарезервированным словом) 'ext'. Очевидно, это не тот результат, который ожидался.</p>
+<P>Поэтому важно подчеркнуть, что PHP будет автоматически заменять любые 
+точки в именах входящих переменных на символы подчёркивания.</P>
+<H2><a name="language.variables.determining-type-of">Определение типов переменных</a></H2>
+<P>Поскольку PHP определяет типы переменных и конвертирует их
+(обычно) так, как нужно, не всегда бывает очевидно, какой тип имеет данная 
+переменная в данное время.  PHP имеет несколько функций, которые определяют тип переменной. Это
+<A HREF="f/gettype.html"><B>gettype()</B></A>,
+<A HREF="f/is-array.html"><B>is_array()</B></A>,
+<A HREF="f/is-float.html"><B>is_float()</B></A>,
+<A HREF="f/is-int.html"><B>is_int()</B></A>,
+<A HREF="f/is-object.html"><B>is_object()</B></A> и
+<A HREF="f/is-string.html"><B>is_string()</B></A>.</P>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="variables.variable.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="constants.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">Переменные имена переменных</TD><th WIDTH="34%" VALIGN="top">
+<a href="variables.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Константы</TD>
+</TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

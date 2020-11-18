@@ -1,0 +1,41 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>dbase_create</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE  WIDTH="100%"BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="dbase-close.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="dbase-delete-record.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.dbase-create">dbase_create</A></H1><A NAME="AEN16160"></A><P>(PHP 3, PHP 4)</P>
+<p>dbase_create - создаёт БД dBase.<A NAME="AEN16163"></A></p><H2>Описание</H2>
+<p>int <B>dbase_create</B> (string filename, array fields)</p>
+<P>Параметр <TT><I>fields</I></TT> это массив массивов, где каждый массив описывает формат одного поля БД. Каждое 
+поле состоит из имени, символа, указывающего тип поля, размера и точности.</P>
+<P>Имеются следующие типы полей:<DL><DT>L</DT><DD><P>Boolean. Не имеют размера и точности.</P></DD>
+<DT>M</DT><DD><P>Memo. (Эти не поддерживаются в PHP.)  Не имеют размера и точности.</P></DD>
+<DT>D</DT><DD><P>Date (дата, хранимая как YYYYMMDD).  Не имеют размера и точности.</P></DD>
+<DT>N</DT><DD><P>Number. Имеют размер и точность (количество цифр после десятичной точки).</P></DD>
+<DT>C</DT><DD><P>String.</P></DD></DL><P>Если БД успешно создана, возвращается dbase_identifier, иначе возвращается
+<TT><B>FALSE</B></TT>.<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN16200"></A>
+<h5>Пример 1. Создание файла БД dBase.</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>// "name" Бд
+$dbname = "/tmp/test.dbf";
+
+// "definition/определение" БД
+$def =
+    array(
+        array("date",     "D"),
+        array("name",     "C",  50),
+        array("age",      "N",   3, 0),
+        array("email",    "C", 128),
+        array("ismember", "L")
+    );
+
+// создание
+if (!dbase_create($dbname, $def))
+    print "&#60;strong&#62;Error!&#60;/strong&#62;";</PRE></TD></TR></TABLE></TD></TR></TABLE>
+</TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="dbase-close.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="dbase-delete-record.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">dbase_close</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.dbase.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">dbase_delete_record</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

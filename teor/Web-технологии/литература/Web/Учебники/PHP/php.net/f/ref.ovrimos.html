@@ -1,0 +1,51 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Ovrimos SQL</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="ora-rollback.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="ovrimos-close.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.ovrimos"></A>LXXIII. Функции Ovrimos SQL</h1><A NAME="AEN60332"></A>
+<P>Ovrimos SQL Server это клиент/серверный транзакционный RDBMS в сочетании с Web-возможностями и быстрыми транзакциями.</P>
+<P>Ovrimos SQL Server доступен с <A HREF="http://www.ovrimos.com/" TARGET="_top">www.ovrimos.com</A>. Чтобы включить поддержку в PHP, просто скомпилируйте php с параметром '--with-ovrimos'
+в скрипте configure. Вам необходимо установить библиотеку sqlcli, имеющуюся в дистрибутиве Ovrimos SQL Server.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN60337"></A><h5>Пример 1. Соединение с Ovrimos SQL Server и выбор из системной таблицы
+</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$conn = ovrimos_connect ("server.domain.com", "8001", "admin", "password");
+if ($conn != 0) {
+    echo ("Connection ok!");
+    $res = ovrimos_exec ($conn, "select table_id, table_name from sys.tables");
+    if ($res != 0) {
+        echo "Statement ok!";
+        ovrimos_result_all ($res);
+        ovrimos_free_result ($res);
+    }
+    ovrimos_close($conn);
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Здесь будет установлено соединение с SQL Server.</p>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="ovrimos-close.html">ovrimos_close</A> - закрывает соединение с ovrimos</DT>
+<DT><A HREF="ovrimos-commit.html">ovrimos_commit</A> - подтверждает транзакцию</DT>
+<DT><A HREF="ovrimos-connect.html">ovrimos_connect</A> - соединяется со специфицированной БД</DT>
+<DT><A HREF="ovrimos-cursor.html">ovrimos_cursor</A> - возвращает имя курсора</DT>
+<DT><A HREF="ovrimos-exec.html">ovrimos_exec</A> - выполняет оператор SQL</DT>
+<DT><A HREF="ovrimos-execute.html">ovrimos_execute</A> - выполняет подготовленный оператор SQL</DT>
+<DT><A HREF="ovrimos-fetch-into.html">ovrimos_fetch_into</A> - извлекает ряд из результирующего набора</DT>
+<DT><A HREF="ovrimos-fetch-row.html">ovrimos_fetch_row</A> - извлекает ряд из результирующего набора</DT>
+<DT><A HREF="ovrimos-field-len.html">ovrimos_field_len</A> - возвращает длину столбца вывода</DT>
+<DT ><AHREF="ovrimos-field-name.html">ovrimos_field_name</A> - возвращает имя столбца вывода</DT>
+<DT><A HREF="ovrimos-field-num.html">ovrimos_field_num</A> - возвращает индекс (с базой 1) столбца вывода</DT>
+<DT><A HREF="ovrimos-field-type.html">ovrimos_field_type</A> - возвращает тип (числовой) столбца вывода</DT>
+<DT><A HREF="ovrimos-free-result.html">ovrimos_free_result</A> - освобождает специфицированный result_id</DT>
+<DT><A HREF="ovrimos-longreadlen.html">ovrimos_longreadlen</A> - специфицирует, сколько байт запрашивается из long-типов данных</DT>
+<DT><A HREF="ovrimos-num-fields.html">ovrimos_num_fields</A> - возвращает количество столбцов</DT>
+<DT ><AHREF="ovrimos-num-rows.html">ovrimos_num_rows</A> - возвращает количество рядов, участвующих в операциях обновления</DT>
+<DT><A HREF="ovrimos-prepare.html">ovrimos_prepare</A> - подготавливает оператор SQL</DT>
+<DT><A HREF="ovrimos-result-all.html">ovrimos_result_all</A> - печатает весь результирующий набор как HTML-таблицу</DT>
+<DT><A HREF="ovrimos-result.html">ovrimos_result</A> - запрашивает столбец вывода</DT>
+<DT><A HREF="ovrimos-rollback.html">ovrimos_rollback</A> - откатывает транзакцию</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="ora-rollback.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="ovrimos-close.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">Ora_Rollback</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">ovrimos_close</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

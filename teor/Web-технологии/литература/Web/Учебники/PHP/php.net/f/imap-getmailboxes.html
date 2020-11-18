@@ -1,0 +1,51 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>imap_getmailboxes</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="imap-get-quota.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="imap-getsubscribed.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.imap-getmailboxes">imap_getmailboxes</A></H1><A NAME="AEN34850"></A>
+<P>(PHP 3&#62;= 3.0.12, PHP 4)</P><p>imap_getmailboxes - 
+читает список mailbox'ов, возвращает детальную информацию о каждом.<A NAME="AEN34853"></A></p><H2>Описание</H2>
+<p>array <B>imap_getmailboxes</B> (int imap_stream, string ref, string pattern)</p>
+<P>Возвращает массив объектов, содержащих информацию о mailbox'ах. Каждый 
+объект имеет атрибуты: <TT><I>name</I></TT>, специфицирующий полное имя mailbox'а; <TT><I>delimiter</I></TT>,
+ограничитель иерархии для той части её, в которой находится данный mailbox; и <TT><I>attributes</I></TT>.
+<TT><I>Attributes</I></TT> это битовая маска, проверяемая относительно:
+<UL><LI><P>LATT_NOINFERIORS - этот mailbox не имеет "потомков/children" (ниже него нет mailbox'ов).</P></LI>
+<LI><P>LATT_NOSELECT - это лишь контейнер, а не mailbox - вы не можете открыть его.</P></LI>
+<LI><P>LATT_MARKED - этот mailbox помечен. Используется только в UW-IMAPD.</P></LI>
+<LI><P>LATT_UNMARKED - этот mailbox не помечен. Используется только в UW-IMAPD.</P></LI></UL>
+<P>Имена mailbox'ов, содржащие интернациональные символы за пределами 
+печатаемого диапазона ASCII, будут кодированы и могут быть декодированы с помощью
+<A HREF="imap-utf7-decode.html"><B>imap_utf7_decode()</B></A>.</P><P><TT><I>ref</I></TT> нормально должен быть просто спецификацией сервера, как описано в
+<A HREF="imap-open.html"><B>imap_open()</B></A>, а <TT><I>pattern</I></TT> специфицирует, где в иерархии mailbox'ов начинать поиск. Если вам нужны все 
+mailbox'ы, передайте '*' для <TT><I>pattern</I></TT>.</P><P>Есть два специальных символа, которые вы можете передавать как часть
+<TT><I>pattern</I></TT>: '*' и '%'.<br>'*' означает: вернуть все mailbox'ы. Если вы передаёте
+<TT><I>pattern</I></TT> как '*', вы получите список всей иерархии mailbox'ов.<br>
+'%' означает: возвратить только текущий уровень. '%' как параметр <TT><I>pattern</I></TT> возвратит только mailbox'ы верхнего уровня; '~/mail/%' в UW_IMAPD will 
+возвратит каждый mailbox в директории ~/mail, но не в подкаталогах данного каталога/директории.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN34893"></A><h5>Пример 1. imap_getmailboxes()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$mbox = imap_open("{your.imap.host}","username","password",OP_HALFOPEN)
+      or die("can't connect: ".imap_last_error());
+ 
+$list = imap_getmailboxes($mbox,"{your.imap.host}","*");
+if(is_array($list)) {
+  reset($list);
+  while (list($key, $val) = each($list))
+  {
+    print "($key) ";
+    print imap_utf7_decode($val-&#62;name).",";
+    print "'".$val-&#62;delimiter."',";
+    print $val-&#62;attributes."&#60;br&#62;\n";
+  }
+} else
+  print "imap_getmailboxes failed: ".imap_last_error()."\n";
+ 
+imap_close($mbox);</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="imap-getsubscribed.html">
+<B>imap_getsubscribed()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="imap-get-quota.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="imap-getsubscribed.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">imap_get_quota</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.imap.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">imap_getsubscribed</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

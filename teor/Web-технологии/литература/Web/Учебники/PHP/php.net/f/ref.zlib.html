@@ -1,0 +1,81 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Zlib-Компрессии</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="zip-read.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="gzclose.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.zlib"></A>CX. Функции Zlib-компрессии</h1><A NAME="AEN84509"></A>
+<P>Этот модуль использует функции <A HREF="http://www.gzip.org/zlib/" TARGET="_top">zlib</A>, авторы
+Jean-loup Gailly и Mark Adler, для прозрачного чтения и записи 
+архивированных файлов gzip (.gz). вы должны использовать версию zlib &#62;= 1.0.9 с этим модулем.</P>
+<P>Этот модуль содержит версии большинства <A HREF="ref.filesystem.html">filesystem</A>-функций, которые работают с gzip-архивами (а также с&nbsp; несжатыми файлами, 
+но не с сокетами).</P><BLOCKQUOTE><P><B>Примечание: </B>версия 4.0.4 вводит fopen-оболочку для .gz-файлов, так что вы можете 
+использовать специальный 'zlib:' URL для доступа к сжатым файлам прозрачно, 
+с помощью нормальных f*() функций доступа к файлам, если введёте к filename 
+или path префикс 'zlib:' при вызове <A HREF="fopen.html"><B>fopen()</B></A>.</P>
+<P>В версии 4.3.0 этот специальный префикс был изменён на 'zlib://', чтобы 
+предотвратить разночтение с именами файлов, содержащими ':'.</P>
+<P>Это требует библиотеки времени выполнения С, которая предоставляет функцию <TT>fopencookie()</TT>. Насколько я знаю, GNU libc является единственной библиотекой, предоставляющей эту возможность.</P></BLOCKQUOTE>
+<H1><a name="zlib-example">Небольшой пример кода</a></H1>
+<P>Здесь открывается временный файл и в него записывается тестовая строка, 
+затем дважды печатается содержимое этого файла.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN84523"></A>
+<h5>Пример 1. Небольшой пример Zlib</h5><TABLE  BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>&#60;?php
+
+$filename = tempnam ('/tmp', 'zlibtest').'.gz';
+print "&#60;html&#62;\n&#60;head&#62;&#60;/head&#62;\n&#60;body&#62;\n&#60;pre&#62;\n";
+$s = "Only a test, test, test, test, test, test, test, test!\n";
+
+// открыть файл для записи с максимальным сжатием
+$zp = gzopen($filename, "w9");
+
+// записать строку в файл
+gzwrite($zp, $s);
+
+// закрыть файл
+gzclose($zp);
+
+// открыть файл для чтения
+$zp = gzopen($filename, "r");
+
+// считать три символа
+print gzread($zp, 3);
+
+// выводить до конца файла и закрыть его
+gzpassthru($zp);
+
+print "\n";
+
+// открыть файл и напечатать его содержимое (во второй раз)
+if (readgzfile($filename) != strlen($s)) {
+echo "Error with zlib functions!";
+}
+unlink($filename);
+print "&#60;/pre&#62;\n&#60;/h1&#62;&#60;/body&#62;\n&#60;/html&#62;\n";
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><DL><DT><B>Содержание</B></DT>
+<DT><A HREF="gzclose.html">gzclose</A> - закрывает открытый указатель gz-файла</DT>
+<DT><A HREF="gzcompress.html">gzcompress</A> - сжимает строку</DT>
+<DT><A HREF="gzdeflate.html">gzdeflate</A> - выкачивает строку</DT>
+<DT><A HREF="gzencode.html">gzencode</A> - создаёт gzip-сжатуюю строку</DT>
+<DT><A HREF="gzeof.html">gzeof</A> - проверяет end-of-file в указателе gz-файла</DT>
+<DT><A HREF="gzfile.html">gzfile</A> - читает весь gz-файл в массив</DT>
+<DT><A HREF="gzgetc.html">gzgetc</A> - получает символ из указателя на gz-файл</DT>
+<DT><A HREF="gzgets.html">gzgets</A> - получает строчку из указателя файла</DT>
+<DT><A HREF="gzgetss.html">gzgetss</A> - получает строчку из указателя gz-файла и вырезает тэги HTML</DT>
+<DT><A HREF="gzinflate.html">gzinflate</A> - закачивает выкачанную строку</DT>
+<DT><A HREF="gzopen.html">gzopen</A> - открывает gz-файл</DT>
+<DT><A HREF="gzpassthru.html">gzpassthru</A> - выводит оставшиеся в указателе gz-файла данные</DT>
+<DT><A HREF="gzputs.html">gzputs</A> - записывает в указатель gz-файла</DT>
+<DT><A HREF="gzread.html">gzread</A> - Binary-safe чтение gz-файла</DT>
+<DT><A HREF="gzrewind.html">gzrewind</A> - возвращает в начало позицию указателя gz-файла</DT>
+<DT><A HREF="gzseek.html">gzseek</A> - ищет указатель gz-файла</DT>
+<DT><A HREF="gztell.html">gztell</A> - говорит указателю gz-файла позицию чтения/записи</DT>
+<DT><A HREF="gzuncompress.html">gzuncompress</A> - разжимает выкачанную строку</DT>
+<DT><A HREF="gzwrite.html">gzwrite</A> - Binary-safe запись в gz-файл</DT>
+<DT><A HREF="readgzfile.html">readgzfile</A> - выводит gz-файл</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%"  BORDER="0"CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="zip-read.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%"ALIGN="right" VALIGN="top"><A HREF="gzclose.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">zip_read</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">gzclose</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

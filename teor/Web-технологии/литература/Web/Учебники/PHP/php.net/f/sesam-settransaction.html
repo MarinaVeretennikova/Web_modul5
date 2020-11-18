@@ -1,0 +1,35 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>sesam_settransaction</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="sesam-seek-row.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ref.session.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.sesam-settransaction">sesam_settransaction</A></H1><A NAME="AEN73212"></A><P>(только PHP 3 CVS)</P>
+<p>sesam_settransaction - устанавливает параметры транзакции SESAM.<A NAME="AEN73215"></A></p><H2>Описание</H2>
+<p>bool <B>sesam_settransaction</B> (int isolation_level, int read_only)<P>Возвращает <TT><B>TRUE</B></TT>, если значение правильное и операция
+<B>settransaction()</B> прошла успешно, иначе <TT><B>FALSE</B></TT>.</P><P><B>sesam_settransaction()</B> переопределяет значения по умолчанию параметров транзакции "isolation level" и "read-only" (которые 
+устанавливаются в файле конфигурации SESAM), чтобы оптимизировать последовательные запросы и гарантировать целостность БД. Переопределённые 
+значения используются только&nbsp; для следующей транзакции.</P><P><B>sesam_settransaction()</B> может вызываться только до старта транзакции, а не после того как транзакция уже стартовала.</P>
+<P>Для упрощения использования в РНР-скриптах были предопределены следующие РНР-константы (см. в руководстве SESAM детальное объяснение семантики):
+<A NAME="AEN73235"></A><h6>Таблица 1. Правильные значения параметра <TT><I>"Isolation_Level"</I></TT></h6>
+<TABLE BORDER="1"><TR><TH>Значение</TH><TH>Константа</TH><TH>Смысл</TH></TR><TBODY><TR><TD>1</TD>
+<TD><TT>SESAM_TXISOL_READ_UNCOMMITTED</TT></TD><TD>читать без подтверждения</TD></TR><TR><TD>2</TD>
+<TD><TT>SESAM_TXISOL_READ_COMMITTED</TT></TD><TD>читать подтверждённую</TD></TR><TR><TD>3</TD>
+<TD><TT>SESAM_TXISOL_REPEATABLE_READ</TT></TD><TD>повторяемое чтение</TD></TR><TR><TD>4</TD>
+<TD><TT>SESAM_TXISOL_SERIALIZABLE</TT></TD><TD>сериализована</TD></TR></TBODY></TABLE>
+<A NAME="AEN73265"></A><h6>Таблица 2. Правильные значения параметра <TT><I>"Read_Only"</I></TT></h6>
+<TABLE BORDER="1"><TR><TH>Значение</TH><TH>Константа</TH><TH>Смысл</TH></TR><TBODY><TR><TD>0</TD>
+<TD><TT>SESAM_TXREAD_READWRITE</TT></TD><TD>Read/Write</TD></TR><TR><TD>1</TD>
+<TD><TT>SESAM_TXREAD_READONLY</TT></TD><TD>Read-Only</TD></TR></TBODY></TABLE>
+<P>Значения, установленные функцией <B>sesam_settransaction()</B>, переопределяют значения по умолчанию, специфицированные в
+<A HREF="../configuration.html#ini.sesam-configfile">файле конфигурации SESAM</A>.</P><TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN73289"></A><h5>Пример 1. Установка параметров транзакции SESAM</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+sesam_settransaction (SESAM_TXISOL_REPEATABLE_READ,
+                     SESAM_TXREAD_READONLY);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="sesam-seek-row.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ref.session.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">sesam_seek_row</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.sesam.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Функции обслуживания сессий</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

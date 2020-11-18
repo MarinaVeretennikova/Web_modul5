@@ -1,0 +1,455 @@
+<html>
+<head>
+<title>Подсветка пунктов меню </title>
+<meta name=keywords content="script language JavaScript Cookie">
+
+<script language="JavaScript">
+<!--
+function MM_swapImgRestore() { //v3.0
+  var i,x,a=document.MM_sr;
+  
+  for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++)
+   x.src=x.oSrc;
+}
+
+function MM_preloadImages() { //v3.0
+  var d=document; 
+  if(d.images)
+   { 
+    if(!d.MM_p) 
+     d.MM_p=new Array();
+     
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; 
+    
+    for(i=0; i<a.length; i++)
+     if(a[i].indexOf("#")!=0)
+      {
+       d.MM_p[j]=new Image; 
+       d.MM_p[j++].src=a[i];
+      }
+   }//if
+}
+
+function MM_findObj(n, d)
+{ 
+  var p,i,x;  
+  if(!d) 
+   d=document; 
+   
+  if((p=n.indexOf("?"))>0&&parent.frames.length)
+   {
+    d=parent.frames[n.substring(p+1)].document; 
+    n=n.substring(0,p);
+   }
+   
+  if(!(x=d[n])&&d.all) 
+   x=d.all[n]; 
+   
+  for(i=0;!x&&i<d.forms.length;i++) 
+   x=d.forms[i][n];
+   
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) 
+   x=MM_findObj(n,d.layers[i].document); 
+   
+return x;
+}
+
+function MM_swapImage()
+{
+  var i,j=0,x,a=MM_swapImage.arguments; 
+  document.MM_sr=new Array; 
+  
+  for(i=0;i<(a.length-2);i+=3)
+   if((x=MM_findObj(a[i]))!=null)
+    {
+     document.MM_sr[j++]=x; 
+     if(!x.oSrc)
+      x.oSrc=x.src; 
+      
+     x.src=a[i+2];
+    }
+}
+//-->
+</script>
+
+<style>
+pre {background:#E5E5E5}
+</style>
+
+</head>
+
+<body onload="MM_preloadImages(
+'image/p03a.gif', 
+'image/b26a.gif',
+'image/b25a.gif',
+'image/b24a.gif',
+'image/b23a.gif',
+'image/b22a.gif',
+'image/p13a.gif',
+'image/b24a.gif',
+'image/b25a.gif',
+'image/b26a.gif');">
+
+<table align=center width=90%>
+<tr><td>
+
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c05.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c05.html">Язык JavaScript</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c05_nav.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c05_nav.html">Навигация по сайту</a>
+</table>
+
+<h3>Подсветка пунктов меню</h3>
+<p align=justify>
+За два года работы по созданию веб-сайтов мы применяли JavaScript всего несколько раз, в основном
+для подсветки пунктов меню при наведении курсора мышки.
+Практика показала, что на большинстве сайтов JavaScript вообще не используется. 
+Прежде, чем приступить
+к написанию этой главы, я просмотрел ресурсы в Интернет и книги, посвященные JavaScript, надеясь найти
+действительно оправданное применение Java-скриптов. Но мои поиски не увенчались успехом. Мне попадались примеры
+изменения шрифта, цвета фона, калькуляторы и другие, на мой взгляд, совершенно бесполезные вещи в
+плане создания веб-сайта для профессионального разработчика. 
+<br>
+Одним из самых распространенных использовании JavaScript, безусловно, является скрипт для сбора информации
+о настройках клиента. Самый распространенный, потому что он используется на каждой странице, где 
+установлен счетчик посещений. Все наиболее распространенные счетчики: list.ru, rambler.ru, spylog.ru и др.
+используют JavaScript для сбора информации и ведения статистики. Но он вам пригодится, только если вы 
+решите написать свою систему учета посещений веб-сайтов. Как уже было сказано, наиболее полезным для
+сайтостроителя будет скрипт для подсвечивания меню, т.е. для замены одной картинки на другую.
+Здесь и далее приведены примеры использования JavaScript'ов без пояснения самого кода JavaScript.
+Целью данной книги является построение веб-сайтов, а не конкретно JavaScript. Если вас заинтересует
+сам язык JavaScript, то могу порекомендовать Джерри Браненбау "JavaScript", издательство "Питер",
+оригинал вышел в 1999 в издетельстве O'REILLY. 
+
+<br>
+
+
+Для переключения картинок вам необходимо включить следующий код в заголовке html-файла,
+внутри команды head.
+
+<pre>
+&lt;script language="JavaScript"&gt;
+&lt;!--
+function MM_swapImgRestore() { //v3.0
+  var i,x,a=document.MM_sr;
+  
+  for(i=0;a&&i&lt;a.length&&(x=a[i])&&x.oSrc;i++)
+   x.src=x.oSrc;
+}
+
+function MM_preloadImages() { //v3.0
+  var d=document; 
+  if(d.images)
+   { 
+    if(!d.MM_p) 
+     d.MM_p=new Array();
+     
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; 
+    
+    for(i=0; i&lt;a.length; i++)
+     if(a[i].indexOf("#")!=0)
+      {
+       d.MM_p[j]=new Image; 
+       d.MM_p[j++].src=a[i];
+      }
+   }//if
+}
+
+function MM_findObj(n, d)
+{ 
+  var p,i,x;  
+  if(!d) 
+   d=document; 
+   
+  if((p=n.indexOf("?"))&gt;0&&parent.frames.length)
+   {
+    d=parent.frames[n.substring(p+1)].document; 
+    n=n.substring(0,p);
+   }
+   
+  if(!(x=d[n])&&d.all) 
+   x=d.all[n]; 
+   
+  for(i=0;!x&&i&lt;d.forms.length;i++) 
+   x=d.forms[i][n];
+   
+  for(i=0;!x&&d.layers&&i&lt;d.layers.length;i++) 
+   x=MM_findObj(n,d.layers[i].document); 
+   
+return x;
+}
+
+function MM_swapImage()
+{
+  var i,j=0,x,a=MM_swapImage.arguments; 
+  document.MM_sr=new Array; 
+  
+  for(i=0;i&lt;(a.length-2);i+=3)
+   if((x=MM_findObj(a[i]))!=null)
+    {
+     document.MM_sr[j++]=x; 
+     if(!x.oSrc)
+      x.oSrc=x.src; 
+      
+     x.src=a[i+2];
+    }
+}
+//--&gt;
+&lt;/script&gt;
+</pre>
+
+В команде body надо сделать предварительную загрузку всех картинок второго плана.
+Как видно ниже, через запятую в апострофах передаются пути к этим картинкам.
+<pre>
+&lt;body onload="MM_preloadImages(
+'image/p03a.gif', 
+'image/b26a.gif',
+'image/b25a.gif',
+'image/b24a.gif',
+'image/b23a.gif',
+'image/b22a.gif',
+'image/p13a.gif',
+'image/b24a.gif',
+'image/b25a.gif',
+'image/b26a.gif');"&gt;
+</pre>
+
+Теперь переходим к рассмотрению кода для переключения картинки при наведение курсора мыши.
+В чистом виде он будет выглядеть так:
+
+<pre>
+&lt;img 
+src="image/p03.gif"  alt="Home" width="92" height="43" border="0" 
+onMouseOut="MM_swapImgRestore()" 
+onMouseOver="MM_swapImage('home','','image/p03a.gif',0)"
+name="home"&gt;
+</pre>
+При наведении курсора мышки на домик, его картинка поменяется на другую,
+как-будто он подсветился.
+<img 
+src="p03.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/image/p03.gif"  alt="Home" width="92" height="43" border="0" 
+onMouseOut="MM_swapImgRestore()" 
+onMouseOver="MM_swapImage('home','','image/p03a.gif',0)"
+name="home">
+
+<br>
+Далее следует пример с сайта http://www.oxygensoftware.com, где можно посмотреть реальное
+использование смены картинок пунктов меню и насколько это улучшает внешний вид сайта.
+Самое главное, что даже если у пользователя не поддерживается JavaScript или он отключен, то 
+сайт все равно будет нормально просматриваться. Не будет только переключения картинок.
+
+<pre>
+&lt;table border="0" width="780" height="108" cellspacing="0" cellpadding="0"&gt;
+  &lt;tr&gt;
+    &lt;td width="122" height="108"&gt;&lt;img border="0" 
+    usemap="#mm" src="image/p00.gif" width="122" height="108"&gt;&lt;/td&gt;
+&lt;map name="mm"&gt;
+&lt;area shape="rect" coords="0,0,120,88"  href="/index.shtml"&gt;          
+&lt;area shape="rect" coords="3,89,46,103" href="/map/index.shtml"&gt;
+&lt;area shape="rect" coords="86,88,114,105" href="http://www.oxygensoftware.ru" 
+alt="Russian"&gt;&lt;/map&gt;       
+
+
+    &lt;td width="658" height="108"&gt;&lt;img src="image/p01.gif" width="299" 
+    height="43"&gt;&lt;img
+    src="image/p02.gif" width="267" height="43"&gt;&lt;a href=/index.shtml 
+onMouseOut="MM_swapImgRestore()" 
+onMouseOver="MM_swapImage('h1','','image/p03a.gif',0)"&gt;&lt;img 
+src="image/p03.gif"  alt="Home" width="92" height="43" border="0" 
+name="h1"&gt;&lt;/a&gt;&lt;img src="image/p11.gif" width="299" 
+height="42"&gt;&lt;img src="image/p12.gif"
+    width="267" height="42"&gt;&lt;a 
+href="/feedback/index.shtml" 
+onMouseOut="MM_swapImgRestore()" 
+onMouseOver="MM_swapImage('h2','','image/p13a.gif',0)"&gt;&lt;img 
+src="image/p13.gif" width="92" height="42" border="0"
+    name="h2" alt="Feedback"&gt;&lt;/a&gt;&lt;img src="image/b21.gif" 
+    width="277" height="23" usemap="#Map" border="0"&gt;&lt;map 
+    name="Map"&gt;&lt;area shape="rect" coords="-4,4,250,20" 
+    href="mailto:company@oxygensoftware.com"&gt;&lt;/map&gt;&lt;a 
+href=/maillist/index.shtml
+onMouseOut="MM_swapImgRestore()" 
+onMouseOver="MM_swapImage('m1','','image/b22a.gif',0)"&gt;&lt;img 
+src="image/b22.gif"
+    width="85" height="23" border="0" name="m1"&gt;&lt;/a&gt;&lt;a 
+href=/links/index.shtml 
+onMouseOut="MM_swapImgRestore()" 
+onMouseOver="MM_swapImage('m2','','image/b23a.gif',0)"&gt;&lt;img 
+src="image/b23.gif" width="74"
+ height="23" border="0"
+    name="m2"&gt;&lt;/a&gt;&lt;a href=/feedback/index.shtml 
+onMouseOut="MM_swapImgRestore()" 
+onMouseOver="MM_swapImage('m3','','image/b24a.gif',0)"&gt;&lt;img
+    src="image/b24.gif" width="74" height="23" border="0" 
+    name="m3"&gt;&lt;/a&gt;&lt;a 
+href=/guestbook/index.shtml
+onMouseOut="MM_swapImgRestore()" 
+onMouseOver="MM_swapImage('m4','','image/b25a.gif',0)"&gt;&lt;img
+ src="image/b25.gif"
+    width="74" height="23" border="0" name="m4"&gt;&lt;/a&gt;&lt;a 
+href=/forum/index.shtml 
+onMouseOut="MM_swapImgRestore()" 
+onMouseOver="MM_swapImage('m5','','image/b26a.gif',0)"&gt;&lt;img 
+src="image/b26.gif" width="74" height="23" border="0"
+    name="m5"&gt;&lt;/a&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+
+</pre> 
+</td></tr>
+</table>
+
+
+<table border="0" width="780" height="108" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="122" height="108"><img border="0" usemap="#mm" src="p00.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/image/p00.gif" width="122" height="108"></td>
+<map name="mm">
+<area shape="rect" coords="0,0,120,88"  href="javascript:if(confirm('http://alice.stup.ac.ru/index.shtml  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/index.shtml'" tppabs="http://alice.stup.ac.ru/index.shtml">        
+<area shape="rect" coords="3,89,46,103" href="javascript:if(confirm('http://alice.stup.ac.ru/map/index.shtml  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/map/index.shtml'" tppabs="http://alice.stup.ac.ru/map/index.shtml">
+<area shape="rect" coords="86,88,114,105" href="javascript:if(confirm('http://www.oxygensoftware.ru/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.oxygensoftware.ru/'" tppabs="http://www.oxygensoftware.ru/" alt="Russian"></map>          
+
+
+    <td width="658" height="108"><img src="p01.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/image/p01.gif" width="299" height="43"><img
+    src="p02.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/image/p02.gif" width="267" height="43"><a href="javascript:if(confirm('http://alice.stup.ac.ru/index.shtml  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/index.shtml'" tppabs="http://alice.stup.ac.ru/index.shtml" 
+onMouseOut="MM_swapImgRestore()" 
+onMouseOver="MM_swapImage('h1','','image/p03a.gif',0)"><img 
+src="p03.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/image/p03.gif"  alt="Home" width="92" height="43" border="0" name="h1"></a><img src="p11.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/image/p11.gif" width="299" height="42"><img src="p12.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/image/p12.gif"
+    width="267" height="42"><a 
+href="javascript:if(confirm('http://alice.stup.ac.ru/feedback/index.shtml  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/feedback/index.shtml'" tppabs="http://alice.stup.ac.ru/feedback/index.shtml" 
+onMouseOut="MM_swapImgRestore()" 
+onMouseOver="MM_swapImage('h2','','image/p13a.gif',0)"><img src="p13.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/image/p13.gif" width="92" height="42" border="0"
+    name="h2" alt="Feedback"></a><img src="b21.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/image/b21.gif" width="277" height="23" usemap="#Map" border="0"><map name="Map"><area shape="rect" coords="-4,4,250,20" 
+    href="mailto:company@oxygensoftware.com"></map><a 
+href="javascript:if(confirm('http://alice.stup.ac.ru/maillist/index.shtml  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/maillist/index.shtml'" tppabs="http://alice.stup.ac.ru/maillist/index.shtml"
+onMouseOut="MM_swapImgRestore()" 
+onMouseOver="MM_swapImage('m1','','image/b22a.gif',0)"><img src="b22.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/image/b22.gif"
+    width="85" height="23" border="0" name="m1"></a><a 
+href="javascript:if(confirm('http://alice.stup.ac.ru/links/index.shtml  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/links/index.shtml'" tppabs="http://alice.stup.ac.ru/links/index.shtml" 
+onMouseOut="MM_swapImgRestore()" 
+onMouseOver="MM_swapImage('m2','','image/b23a.gif',0)"><img src="b23.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/image/b23.gif" width="74"
+ height="23" border="0"
+    name="m2"></a><a href="javascript:if(confirm('http://alice.stup.ac.ru/feedback/index.shtml  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/feedback/index.shtml'" tppabs="http://alice.stup.ac.ru/feedback/index.shtml" 
+onMouseOut="MM_swapImgRestore()" 
+onMouseOver="MM_swapImage('m3','','image/b24a.gif',0)"><img
+    src="b24.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/image/b24.gif" width="74" height="23" border="0" name="m3"></a><a 
+href="javascript:if(confirm('http://alice.stup.ac.ru/guestbook/index.shtml  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/guestbook/index.shtml'" tppabs="http://alice.stup.ac.ru/guestbook/index.shtml"
+onMouseOut="MM_swapImgRestore()" 
+onMouseOver="MM_swapImage('m4','','image/b25a.gif',0)"><img src="b25.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/image/b25.gif"
+    width="74" height="23" border="0" name="m4"></a><a 
+href="javascript:if(confirm('http://alice.stup.ac.ru/forum/index.shtml  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://alice.stup.ac.ru/forum/index.shtml'" tppabs="http://alice.stup.ac.ru/forum/index.shtml" 
+onMouseOut="MM_swapImgRestore()" 
+onMouseOver="MM_swapImage('m5','','image/b26a.gif',0)"><img src="b26.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/image/b26.gif" width="74" height="23" border="0"
+    name="m5"></a></td>
+  </tr>
+</table>
+
+
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #1 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=0-9260" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=0?9260" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=0'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69019-bn=0-9260" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=0?9260"
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #2 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=1?Rnd_Num" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=1'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=1?Rnd_Num" 
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="erle.cgi-51599-9260" tppabs="http://www.linkexchange.ru/cgi-bin/erle.cgi?51599?9260" frameborder=0 
+    vspace=0 hspace=0 width=468 height=60 marginwidth=0 marginheight=0 scrolling=no>
+    <a href="javascript:if(confirm('http://www.linkexchange.ru/users/goto.map  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://www.linkexchange.ru/users/goto.map'" tppabs="http://www.linkexchange.ru/users/goto.map" target=_top>
+    <img src="rle.cgi-51599-9260" tppabs="http://www.linkexchange.ru/cgi-bin/rle.cgi?51599?9260" alt="RLE Banner Network" border=0 height=60 width=468></a>
+    </iframe>
+
+<!-- Russian LinkExchange code START - BANNER #1 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=0-9260" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=0?9260"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=0'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69021-bn=0-9260" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=0?9260"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+<!-- Russian LinkExchange code START - BANNER #2 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=1-9260" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=1?9260"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=1'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69021-bn=1-9260" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=1?9260"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+</td></tr>
+</table>
+
+</body>
+</html>

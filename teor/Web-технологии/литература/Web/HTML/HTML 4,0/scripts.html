@@ -1,0 +1,663 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML LANG="en">
+
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1251">
+<TITLE>Скрипты в документах HTML</TITLE>
+<LINK REL="previous" HREF="forms.html" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html">
+<LINK REL="next" HREF="intro-1.html" tppabs="http://www.citforum.ru/internet/html40/sgml/intro.html">
+<LINK rel="contents" href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">
+<LINK REL="STYLESHEET" HREF="tppmsgs/msgs0.htm#18" tppabs="http://www.citforum.ru/internet/html40/style/default.css" TYPE="text/css">
+</HEAD>
+<BODY>
+<div class="navbar">
+<center>&nbsp;<a href="forms.html" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html">назад</a> &nbsp; <a href="intro-1.html" tppabs="http://www.citforum.ru/internet/html40/sgml/intro.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center><hr>
+</div>
+
+<H1 ALIGN="center"><a name="h-18">18</a> <A NAME="scripts">Скрипты</A></H1>
+<div class="subtoc"><p><strong>Содержание</strong>
+<ol>
+<li><a href="#h-18.1">
+<span class="index-inst" title="script::introduction to">
+Введение в скрипты</span></a>
+<li><a href="#h-18.2">Разработка документов для агентов пользователей, поддерживающих скрипты</a>
+<ol>
+<li><a href="#h-18.2.1">Элемент <samp class="einst2">SCRIPT</SAMP></a>
+<li><a href="#h-18.2.2">
+<span class="index-inst" title="scripting language::specification
+of|language::of script">Указание языка скрипта</span></a>
+<ul>
+<li><a href="#h-18.2.2.1">
+<span class="index-inst" title="default::scripting language|scripting
+language::default">Язык скрипта по умолчанию</span>
+</a>
+<li><a href="#h-18.2.2.2">
+<span class="index-inst" title="scripting language::local declaration">
+Локальное объявление языка скрипта</span></a>
+<li><a href="#h-18.2.2.3">
+<span class="index-inst" title="element::references from
+scripts|script::references to elements">Ссылки из скрипта на элементы HTML</span></a>
+</ul>
+<li><a href="#h-18.2.3">
+<span class="index-inst" title="events|intrinsic events">
+Внутренние события</span></a>
+<li><a href="#h-18.2.4">
+<span class="index-inst" title="document::dynamic modification with
+script|script::used to modify document">Динамическое изменение документов</span></a>
+</ol>
+<li><a href="#h-18.3">
+<span class="index-inst" title="script::when unsupported">
+Разработка документов для агентов пользователей, не поддерживающих скрипты</span></a>
+<ol>
+<li><a href="#h-18.3.1">Элемент <samp class="einst2">NOSCRIPT</SAMP></a>
+<li><a href="#h-18.3.2">
+<span class="index-inst" title="user agent::and script
+data|comments::used to hide script data|script::comments to
+hide">Как скрыть скрипт от агентов пользователей</span></a>
+</ol>
+</ol>
+</div>
+
+<h2><a name="h-18.1">18.1</a> 
+<span class="index-inst" title="script::introduction to"><a name="idx-script">
+Введение в скрипты</a></span></h2>
+
+Клиентский <DFN>скрипт</DFN> - это программа, которая может сопровождать документ HTML или непосредственно быть внедренной в него. Эта программа выполняется на клиентской машине при загрузке документа или в другое время, например, когда активизируется ссылка. Поддержка скриптов в HTML не зависит от языка скрипта. 
+
+<P>
+<span class="index-inst" title="script::uses of"><a name="idx-script-1">
+Скрипты</a></span> предлагают авторам средства усиления интерактивности документов HTML. Например:</P>
+
+<UL>
+<LI>Скрипты могут оцениваться во время загрузки документа и динамически изменять содержимое документа.</LI>
+
+<LI>Скрипты могут использоваться в форме для обработки вводимых данных. Дизайнеры могут динамически заполнять поля формы в зависимости от значений других полей. Они могут проверять, попадают ли введенные данные в предопределенный диапазон значений, соответствие полей и т.д.</LI>
+
+<LI>Скрипты могут включаться событиями, оказывающими влияние на документ,
+например, загрузкой, выгрузкой, фокусом элемента, перемещением мыши и т.д. 
+</LI>
+
+<LI>Скрипты могут связываться с управляющими элементами формы (например, с кнопками) для представления элементов пользовательского интерфейса.</LI>
+</UL>
+
+<P>Авторы могут прикреплять к документу HTML два типа скриптов:</P>
+
+<UL>
+<LI>
+<span class="index-inst" title="script::executed when document
+loaded"><a name="idx-script-2">Скрипты,</a></span> выполняющиеся один раз при загрузке документа агентом пользователя. Скрипты, описанные в элементе <a href="scripts.html#edef-SCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#edef-SCRIPT" class="noxref"><SAMP CLASS="einst">SCRIPT</SAMP></a>, выполняются при загрузке документа. Для агентов пользователя, не обрабатывающих скрипты, авторы могут определить альтернативное содержимое с помощью элемента <a href="scripts.html#edef-NOSCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#edef-NOSCRIPT" class="noxref"><SAMP CLASS="einst">NOSCRIPT</SAMP></a>.</LI>
+
+<LI>
+<span class="index-inst" title="script::executed on event"><a name="idx-script-3">
+Скрипты,</a></span> выполняемые каждый раз, когда происходит определенное событие. Эти скрипты могут назначаться ряду элементов с помощью атрибутов <A
+HREF="#events">внутренних событий</A>.</LI>
+</UL>
+
+<DIV CLASS="note">
+<P><EM><strong>Примечание.</strong>
+Более подробная информация приводится в разделах о <A HREF=
+"notes.html#notes-scripting" tppabs="http://www.citforum.ru/internet/html40/appendix/notes.html#notes-scripting">макросах скриптов</A>.</EM>
+</P>
+</DIV>
+
+<H2><a name="h-18.2">18.2</a> Разработка документов для агентов пользователя, поддерживающих скрипты</H2>
+
+<P>Следующие разделы относятся к агентам пользователей, поддерживающих скрипты.</P>
+
+<H3><a name="h-18.2.1">18.2.1</a> Элемент <A NAME="edef-SCRIPT"><SAMP CLASS="edef">SCRIPT</SAMP></A></H3>
+
+<div class="dtd-fragment">
+<PRE CLASS="dtd-fragment">
+&lt;!ELEMENT <a href="scripts.html#edef-SCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#edef-SCRIPT" class="noxref"><samp class="einst">SCRIPT</samp></a> - - <a href="dtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Script">%Script;</a>          -- выражение script --&gt;
+&lt;!ATTLIST SCRIPT
+  <a href="links.html#adef-charset" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-charset" class="noxref"><samp class="ainst-SCRIPT">charset</samp></a>     <a href="dtd.html#Charset" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Charset">%Charset;</a>      #IMPLIED  -- кодировка символов связанного ресурса --
+  <a href="scripts.html#adef-type-SCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-type-SCRIPT" class="noxref"><samp class="ainst-SCRIPT">type</samp></a>        <a href="dtd.html#ContentType" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#ContentType">%ContentType;</a>  #REQUIRED - тип содержимого языка скрипты --
+  <a href="scripts.html#adef-language" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-language" class="noxref"><samp class="ainst-SCRIPT">language</samp></a>    <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata">CDATA</a>          #IMPLIED  -- предопределенное имя языка серипта --
+  <a href="scripts.html#adef-src-SCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-src-SCRIPT" class="noxref"><samp class="ainst-SCRIPT">src</samp></a>         <a href="dtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#URI">%URI;</a>          #IMPLIED  -- URI внешнего скрипта --
+  <a href="scripts.html#adef-defer" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-defer" class="noxref"><samp class="ainst-SCRIPT">defer</samp></a>       (defer)        #IMPLIED  -- агент пользователя может отложить выполнение скрипта --
+  &gt;
+</PRE>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>обязателен</strong></em></p>
+
+<DIV CLASS="adef-list">
+<P><EM>Определения атрибутов</EM></P>
+<DL>
+<DT><A NAME="adef-src-SCRIPT"><SAMP CLASS="adef">src</SAMP></A> =
+<A HREF="types.html#type-uri" tppabs="http://www.citforum.ru/internet/html40/types.html#type-uri"><EM>uri</EM></A> 
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+</DT>
+
+<DD>Этот атрибут определяет местоположение внешнего скрипта.
+
+<DT><A NAME="adef-type-SCRIPT"><SAMP CLASS="adef">type</SAMP></A> =
+<A HREF="types.html#type-content-type" tppabs="http://www.citforum.ru/internet/html40/types.html#type-content-type"><EM>content-type</EM></A> 
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+</DT>
+
+<dd>Этот атрибут задает язык скрипта содержимого элемента и имеет приоритет над языком скрипта, заданным по умолчанию. Язык скрипта указывается как тип содержимого (например, "text/javascript"). Авторы должны указать значение этого атрибута. Значение по умолчанию для этого атрибута не задано.</dd>
+
+<DT><A NAME="adef-language"><SAMP CLASS="adef">language</SAMP></A>
+= <A HREF="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata"><EM>cdata</EM></A> 
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+</DT>
+
+<DD><a href="conform.html#deprecated" tppabs="http://www.citforum.ru/internet/html40/conform.html#deprecated"><STRONG>Нежелателен.</STRONG></a>Этот атрибут определяет язык скрипта содержимого этого элемента. Его значением является идентификатор языка, но поскольку идентификаторы не стандартизованы, этот атрибут является <a href="conform.html#deprecated" tppabs="http://www.citforum.ru/internet/html40/conform.html#deprecated">нежелательным,</a> вместо него нужно использовать атрибут <SAMP CLASS="ainst">type</SAMP>.</DD>
+
+<dt><a name="adef-defer"><samp class="adef">defer</samp></a> <a
+href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+
+<dd>Если этот логический атрибут установлен, он обеспечивает для агента пользователя подсказку о том, что скрипт не будет генерировать содержимое документа (например, "document.write" в javascript) и таким образом агент пользователя может продолжать синтаксический разбор и представление документа.
+</DL>
+</DIV>
+
+<div class="aref-list">
+<P><em>Атрибуты, определяемые в любом другом месте</em> 
+<ul>
+<LI><a href="links.html#adef-charset" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-charset" class="noxref"><SAMP class="ainst">charset</SAMP></a> (<A href=
+"charset.html#doc-char-set" tppabs="http://www.citforum.ru/internet/html40/charset.html#doc-char-set">кодировка символов</A>)</LI>
+</ul>
+</div>
+
+<P>Элемент <a href="scripts.html#edef-SCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#edef-SCRIPT" class="noxref"><SAMP CLASS="einst">SCRIPT</SAMP></a> помещает скрипт в документа. Этот элемент может указываться в элементе <a href="global.html#edef-HEAD" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HEAD" class="noxref"><SAMP CLASS="einst">HEAD</SAMP></a> или <a href="global.html#edef-BODY" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-BODY" class="noxref"><SAMP CLASS="einst">BODY</SAMP></a> документа HTML несколько раз.</P>
+
+<P>Скрипт может определяться в содержимом элемента <SAMP CLASS
+="einst">SCRIPT</SAMP> или во внешнем файле. Если не установлен атрибут <a href="forms.html#adef-src" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-src" class="noxref"><SAMP CLASS="ainst">src</SAMP></a>, агенты пользователя должны интерпретировать содержимое элемента как скрипт. Если для для атрибута <a href="forms.html#adef-src" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-src" class="noxref"><SAMP
+CLASS="ainst">src</SAMP></a> установлено значение URI, агенты пользователей должны игнорировать содержимое этого элемента и загружать скрипт через URI. Обратите внимание, что атрибут <a href="links.html#adef-charset" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-charset" class="noxref"><samp class="ainst">charset</samp></a> относится к <a href="charset.html" tppabs="http://www.citforum.ru/internet/html40/charset.html">кодировке символов</a> скрипта, назначаемого атрибутом <a href="forms.html#adef-src" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-src" class="noxref"><SAMP CLASS="ainst">src</SAMP></a>; он не относится к содержимому элемента <a href="scripts.html#edef-SCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#edef-SCRIPT" class="noxref"><samp class="einst">SCRIPT</samp></a>.
+</P>
+
+<P>Скрипты оцениваются <EM>ядром скрипта,</EM> которое агент пользователя должен знать.</P>
+
+<P><a href="types.html#type-script" tppabs="http://www.citforum.ru/internet/html40/types.html#type-script">Синтаксис данных скрипта</a>
+зависит от языка скрипта.
+
+<H3><a name="h-18.2.2">18.2.2</a> 
+<span class="index-inst" title="scripting language::specification
+of|language::of script"><a name="idx-scripting_language">Указание языка скрипта</a></span></H3>
+
+<P>Поскольку документ HTML не предполагает определенный язык скрипта, авторы документа должны явно сообщить агентам пользователей язык каждого скрипта. Это может выполняться с помощью объявления скрипта по умолчанию или с помощью локального объявления.</P>
+
+<H4>
+<span class="index-inst" title="default::scripting language|scripting
+language::default"><A NAME="default-script">Язык скрипта по умолчанию</A></span>
+<a name="h-18.2.2.1">&nbsp;</a></H4>
+
+<P>Авторы должны указывать язык скрипта по умолчанию для всех скриптов в документе, включив следующее объявление <a href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><SAMP CLASS="einst">META</SAMP></a> в тег <a href="global.html#edef-HEAD" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HEAD" class="noxref"><SAMP
+CLASS="einst">HEAD</SAMP></a>:
+</P>
+
+<PRE>
+&lt;META http-equiv="Content-Script-Type" content="type"&gt;
+</PRE>
+
+<P>где "type" - <a href="types.html#type-content-type" tppabs="http://www.citforum.ru/internet/html40/types.html#type-content-type">тип содержимого</a>, именующий язык скрипта. Примерами значений являются "text/tcl", "text/javascript", "text/vbscript".</P>
+
+<P>
+<span class="index-inst" title="HTTP::Content-Script-Type header|Content-Script-Type header">
+Если отсутствует объявление <a name="idx-HTTP" href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><SAMP CLASS="einst">META</SAMP></a>, значение по умолчанию может устанавливаться с помощью заголовка протокола HTTP "Content-Script-Type".</span></P>
+
+<PRE>
+    Content-Script-Type: тип
+</PRE>
+
+<P>где "тип" - <a href="types.html#type-content-type" tppabs="http://www.citforum.ru/internet/html40/types.html#type-content-type">тип содержимого,</a> именующий язык скрипта.</P>
+
+<P>Агенты пользователей должны определять язык скрипта по умолчанию для документа в соответствии со следующими действиями (приоритет от высшего к низшему):
+
+<ol>
+<li>Если в объявлении <a href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><samp class="einst">META</samp></a> задается "Content-Script-Type", язык скрипта по умолчанию задается последним таким объявлением в потоке символов.
+<li>В противном случае, если в заголовках HTTP задается "Content-Script-Type", язык скрипта по умолчанию задается последним таким объявлением в потоке символов.
+</ol>
+
+<P>Документы, в которых не указан язык скрипта по умолчанию, но содержатся элементы, задающие <a href="#events">внутренние события</a>, некорректны. Агенты пользователей могут предпринимать попытки интерпретировать некорректно заданные скрипты, но это не обязательно.  Средства разработки должны генерировать информацию о языке скрипта по умолчанию во избежание создания некорректных документов.
+
+<H4>
+<span class="index-inst" title="scripting language::local declaration"><a name="idx-scripting_language-2">
+Локаьлное объявление языка скрипта</a></span><a name="h-18.2.2.2">&nbsp;</a></H4>
+
+<P>Язык скрипта можно задавать в каждом элементе <a href="scripts.html#edef-SCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#edef-SCRIPT" class="noxref"><SAMP CLASS="einst">SCRIPT</SAMP></a> с помощью атрибута <SAMP CLASS="ainst">type</SAMP>. Если не указан язык скрипта по умолчанию, этот атрибут должен устанавливаться для каждого элемента <a href="scripts.html#edef-SCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#edef-SCRIPT" class="noxref"><SAMP CLASS="einst">SCRIPT</SAMP></a>. Если задан язык скрипта по умолчанию, атрибут <SAMP CLASS="ainst">type</SAMP> имеет приоритет над ним.</P>
+
+<DIV CLASS="example">
+<P>В этом примере мы объявляем язык скриптов по умолчанию: "text/tcl". В заголовок включается элемент <a href="scripts.html#edef-SCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#edef-SCRIPT" class="noxref"><SAMP CLASS="einst">SCRIPT</SAMP></a>, сам скрипт находится во внешнем файле и использует язык "text/vbscript". Кроме того, один элемент <SAMP CLASS="einst">SCRIPT</SAMP> находится в теле документа и содержит другой скрипт, написанный на языке "text/javascript".</P>
+
+<PRE>
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+     "http://www.w3.org/TR/REC-html40/strict.dtd"&gt;
+&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;TITLE&gt;Документ со скриптами&lt;/TITLE&gt;
+&lt;META http-equiv="Content-Script-Type" content="text/tcl"&gt;
+&lt;SCRIPT type="text/vbscript" src="http://someplace.com/progs/vbcalc"&gt;
+&lt;/SCRIPT&gt;
+&lt;/HEAD&gt;
+&lt;BODY&gt;
+&lt;SCRIPT type="text/javascript"&gt;
+<EM>...код JavaScript...</EM>
+&lt;/SCRIPT&gt;
+&lt;/BODY&gt;
+&lt;/HTML&gt;
+</PRE>
+
+</DIV>
+
+<H4>
+<span class="index-inst" title="element::references from
+scripts|script::references to elements"> <a name="htmlrefs">Ссылки из скрипта на элементы HTML</a></span><a name="h-18.2.2.3">&nbsp;</a></H4>
+
+<P>Каждый язык скриптов имеет собственные соглашения относительно ссылок на объекты HTML в скрипте. В данной спецификации не определяется стандартный механизм для ссылки на объекты HTML.</P>
+
+<P>Однако скрипты должны ссылаться на элементы в соответствии с назначенным им именем. Ядро скриптов должно соблюдать при идентификации элемента следующие правила приоритета: атрибут <a href="links.html#adef-name-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-name-A" class="noxref"><SAMP CLASS="ainst-A">name</SAMP></a> имеет преимущество над атрибутом <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><SAMP CLASS=
+"ainst">id</SAMP></a>, если установлены оба эти атрибута. В противном случае используется установленный атрибут.</P>
+
+<H3><a name="h-18.2.3">18.2.3</a> 
+<span class="index-inst" title="events|intrinsic events">
+<A NAME="events">Внутренние события</A></span></H3>
+
+<DIV CLASS="note">
+<P><EM><STRONG>Примечание.</STRONG> Сообщаем авторам документов HTML, что в области внутренних событий (например, в привязке скриптов к событиям) весьма вероятны изменения. Работа в этой области ведется членами рабочей группы по объектной модели документов W3C (W3C Document Object Model Working Group) (более подробную информацию можно найти на Web-сайте W3C по адресу <A HREF="tppmsgs/msgs0.htm#1" tppabs="http://www.w3.org/">http://www.w3.org/</A>).</EM></P>
+</DIV>
+
+<DIV CLASS="adef-list">
+<P><EM>Определения атрибутов</EM></P>
+
+<DL>
+<DT><A NAME="adef-onload"><SAMP CLASS="adef">onload</SAMP></A>
+ = <a href="types.html#type-script" tppabs="http://www.citforum.ru/internet/html40/types.html#type-script"><em>скрипт</em></a>
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+</DT>
+
+<DD>Событие <SAMP>onload</SAMP> происходит, когда агент пользователя заканчивает загружать окно или все фреймы элемента <a href="frames.html#edef-FRAMESET" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-FRAMESET" class="noxref"><SAMP CLASS="einst">FRAMESET</SAMP></a>. Этот атрибут может использоваться в элементах <a href="global.html#edef-BODY" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-BODY" class="noxref"><SAMP CLASS="einst">BODY</SAMP></a> и <a href="frames.html#edef-FRAMESET" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-FRAMESET" class="noxref"><SAMP CLASS="einst">FRAMESET</SAMP></a>. </DD>
+
+<DT><A NAME="adef-onunload"><SAMP CLASS="adef">onunload</SAMP></A>
+ = <a href="types.html#type-script" tppabs="http://www.citforum.ru/internet/html40/types.html#type-script"><em>скрипт</em></a>
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+</DT>
+
+<DD>Событие <SAMP>onunload</SAMP> происходит, когда агент пользователя удаляет документиз окна или фрейма. Этот атрибут может использоваться в элементах <a href="global.html#edef-BODY" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-BODY" class="noxref"><SAMP CLASS="einst">BODY</SAMP></a> и <a href="frames.html#edef-FRAMESET" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-FRAMESET" class="noxref"><SAMP CLASS="einst">FRAMESET</SAMP></a>. </DD>
+
+<DT><A NAME="adef-onclick"><SAMP CLASS="adef">onclick</SAMP></A>
+ = <a href="types.html#type-script" tppabs="http://www.citforum.ru/internet/html40/types.html#type-script"><em>скрипт</em></a>
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+</DT>
+
+<DD>Событие <SAMP>onclick</SAMP> происходит при однократном щелчке кнопки указующего устройства на элементе. Этот атрибут может использоваться с большинством элементов. </DD>
+
+<DT><A NAME="adef-ondblclick"><SAMP CLASS="adef">ondblclick</SAMP></a>
+ = <a href="types.html#type-script" tppabs="http://www.citforum.ru/internet/html40/types.html#type-script"><em>скрипт</em></a>
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+</DT>
+
+<DD>Событие <SAMP>ondblclick</SAMP> происходит при двойном щелчке клавиши указующего устройства на элементе. Этот атрибут может использоваться с большинством элементов. </DD>
+
+<DT><A NAME="adef-onmousedown"><SAMP CLASS="adef">onmousedown</SAMP></A>
+ = <a href="types.html#type-script" tppabs="http://www.citforum.ru/internet/html40/types.html#type-script"><em>скрипт</em></a>
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+
+</DT> 
+
+<DD>Событие <SAMP>onmousedown</SAMP> происходит при нажатии кнопки указующего устройства на элементе. Этот атрибут может использоваться с большинством элементов. </DD>
+
+<DT><A NAME="adef-onmouseup"><SAMP CLASS="adef">onmouseup</SAMP></a>
+ = <a href="types.html#type-script" tppabs="http://www.citforum.ru/internet/html40/types.html#type-script"><em>скрипт</em></a>
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+
+</DT>
+
+<DD>Событие <SAMP>onmouseup</SAMP> происходит при отпускании кнопки указующего устройства на элементе. Этот атрибут может использоваться с большинством элементов. </DD>
+
+<DT><A NAME="adef-onmouseover"><SAMP CLASS="adef">onmouseover</SAMP></A>
+ = <a href="types.html#type-script" tppabs="http://www.citforum.ru/internet/html40/types.html#type-script"><em>скрипт</em></a>
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+
+</DT>
+
+<DD>Событие <SAMP>onmouseover</SAMP> происходит при перемещении указующего устройства на элемент. Этот атрибут может использоваться с большинством элементов. </DD>
+
+<DT><A NAME="adef-onmousemove"><SAMP CLASS="adef">onmousemove</SAMP></A>
+ = <a href="types.html#type-script" tppabs="http://www.citforum.ru/internet/html40/types.html#type-script"><em>скрипт</em></a>
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+
+</DT>
+
+<DD>Событие <SAMP>onmousemove</SAMP> происходит при перемещении указующего устройства, когда оно находится на элементе. Этот атрибут может использоваться с большинством элементов. </DD>
+
+<DT><A NAME="adef-onmouseout"><SAMP CLASS="adef">onmouseout</SAMP></a>
+ = <a href="types.html#type-script" tppabs="http://www.citforum.ru/internet/html40/types.html#type-script"><em>скрипт</em></a>
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+
+</DT>
+
+<DD>Событие <SAMP>onmouseout</SAMP> происходит при перемещении указующего устройства за пределы элемента. Этот атрибут может использоваться с большинством элементов. </DD>
+
+<DT><A NAME="adef-onfocus"><SAMP CLASS="adef">onfocus</SAMP></A>
+ = <a href="types.html#type-script" tppabs="http://www.citforum.ru/internet/html40/types.html#type-script"><em>скрипт</em></a>
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+
+</DT>
+
+<DD>Событие <SAMP>onfocus</SAMP> происходит при получении элементом фокуса с помощью указующего устройства или последовательности перехода. Этот атрибут может использоваться со следующими элементами: <a href="forms.html#edef-LABEL" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-LABEL" class="noxref"><SAMP CLASS="einst">LABEL</SAMP></a>, <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><SAMP CLASS="einst">INPUT</SAMP></a>, <SAMP CLASS
+="einst">SELECT</SAMP>, <a href="forms.html#edef-TEXTAREA" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-TEXTAREA" class="noxref"><SAMP CLASS="einst">TEXTAREA</SAMP></a> и <a href="forms.html#edef-BUTTON" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-BUTTON" class="noxref"><SAMP CLASS="einst">BUTTON</SAMP></a>. </DD>
+
+<DT><A NAME="adef-onblur"><SAMP CLASS="adef">onblur</SAMP></A>
+ = <a href="types.html#type-script" tppabs="http://www.citforum.ru/internet/html40/types.html#type-script"><em>скрипт</em></a>
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+</DT>
+
+<DD>Событие <SAMP>onblur</SAMP> происходит при переходе фокуса с этого элемента с помощью указующего устройства или последовательности перехода. Оно может использоваться с теми же элементами, что и <SAMP>onfocus</SAMP>. </DD>
+
+<DT><A NAME="adef-onkeypress"><SAMP CLASS="adef">onkeypress</SAMP></a>
+ = <a href="types.html#type-script" tppabs="http://www.citforum.ru/internet/html40/types.html#type-script"><em>скрипт</em></a>
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+</DT>
+
+<DD>Событие <SAMP>onkeypress</SAMP> происходит при нажатии и отпускании клавиши на элементе. Этот атрибут может использоваться с большинством элементов. </DD>
+
+<DT><A NAME="adef-onkeydown"><SAMP CLASS="adef">onkeydown</SAMP></a>
+ = <a href="types.html#type-script" tppabs="http://www.citforum.ru/internet/html40/types.html#type-script"><em>скрипт</em></a>
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+</DT>
+
+<DD>Событие <SAMP>onkeydown</SAMP> происходит при нажатии клавиши на элементе. Этот атрибут может использоваться с большинством элементов. </DD>
+
+<DT><A NAME="adef-onkeyup"><SAMP CLASS="adef">onkeyup</SAMP></A>
+ = <a href="types.html#type-script" tppabs="http://www.citforum.ru/internet/html40/types.html#type-script"><em>скрипт</em></a>
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+</DT>
+
+<DD>Событие <SAMP>onkeyup</SAMP> происходит при отпускании клавиши на элементе. Этот атрибут может использоваться с большинством элементов. 
+</DD>
+
+<DT><A NAME="adef-onsubmit"><SAMP CLASS="adef">onsubmit</SAMP></A>
+ = <a href="types.html#type-script" tppabs="http://www.citforum.ru/internet/html40/types.html#type-script"><em>скрипт</em></a>
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+</DT>
+
+<DD>Событие <SAMP>onsubmit</SAMP> происходит при отправке формы. Оно используется только в элементе <a href="forms.html#edef-FORM" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-FORM" class="noxref"><SAMP CLASS="einst">FORM</SAMP></a>. </DD>
+
+<DT><A NAME="adef-onreset"><SAMP CLASS="adef">onreset</SAMP></A>
+ = <a href="types.html#type-script" tppabs="http://www.citforum.ru/internet/html40/types.html#type-script"><em>скрипт</em></a>
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+</DT>
+
+<DD>Событие <SAMP>onreset</SAMP> происходит при сбросе формы. Оно используется только в элементе <a href="forms.html#edef-FORM" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-FORM" class="noxref"><SAMP CLASS="einst">FORM</SAMP></a>. </DD>
+
+<DT><A NAME="adef-onselect"><SAMP CLASS="adef">onselect</SAMP></A>
+ = <a href="types.html#type-script" tppabs="http://www.citforum.ru/internet/html40/types.html#type-script"><em>скрипт</em></a>
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+</DT>
+
+<DD>Событие <SAMP>onselect</SAMP> происходит при выделении пользователем некоторого текста в текстовом поле. Этот атрибут может использоваться с элементами <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><SAMP
+CLASS="einst">INPUT</SAMP></a> и <a href="forms.html#edef-TEXTAREA" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-TEXTAREA" class="noxref"><SAMP CLASS="einst">TEXTAREA</SAMP></a>. </DD>
+
+<DT><A NAME="adef-onchange"><SAMP CLASS="adef">onchange</SAMP></A>
+ = <a href="types.html#type-script" tppabs="http://www.citforum.ru/internet/html40/types.html#type-script"><em>скрипт</em></a>
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+</DT>
+
+<DD>Событие <SAMP>onchange</SAMP> происходит при потере управляющим элементом фокуса ввода, <EM>если</EM> его значение было изменено с момента получения фокуса. Этот атрибут используется со следующими элементами: <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><SAMP CLASS="einst">INPUT</SAMP></a>, <a href="forms.html#edef-SELECT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-SELECT" class="noxref"><SAMP CLASS="einst">SELECT</SAMP></a> и <a href="forms.html#edef-TEXTAREA" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-TEXTAREA" class="noxref"><SAMP CLASS="einst">TEXTAREA</SAMP></a>. </DD>
+</DL>
+</DIV>
+
+<P>Действие можно связать с определенным рядом событий, происходящих при взаимодействии пользователя с агентом. Значением каждого из перечисленных выше "внутренних событий" является скрипт.  Этот скрипт выполняется, если это событие происходит для этого элемента. <a href="types.html#type-script" tppabs="http://www.citforum.ru/internet/html40/types.html#type-script">Синтаксис скрипта</a> зависит от языка скрипта.
+</P>
+
+<P>
+<span class="index-inst" title="control::events for"><a name="idx-control">
+Элементы управления</a></span>, такие как <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><SAMP CLASS="einst">INPUT</SAMP></a>, <a href="forms.html#edef-SELECT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-SELECT" class="noxref"><SAMP CLASS="einst">SELECT</SAMP></a>, <a href="forms.html#edef-BUTTON" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-BUTTON" class="noxref"><SAMP CLASS="einst">BUTTON</SAMP></a>, <a href="forms.html#edef-TEXTAREA" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-TEXTAREA" class="noxref"><SAMP CLASS="einst">TEXTAREA</SAMP></a> и <a href="forms.html#edef-LABEL" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-LABEL" class="noxref"><SAMP CLASS="einst">LABEL</SAMP></a> реагируют на внутренние события. Если они не отображаются в форме, они могут использоваться для улучшения графического интерфейса доумента.</P>
+
+<P>Например, авторы могут включить в документы кнопки, которые не используются для отправки формы, но при нажатии которых происходит некоторое взаимодействие с сервером.</P>
+
+<P>В следующем примере показан возможное поведение управляющего элемента и интерфейса пользователя в зависимости то внутренних событий.</P>
+
+<DIV CLASS="example">
+<P>В этом примере userName является обязательным текстовым полем. Если пользователь не заполняет это поле, событие <SAMP>onblur</SAMP> вызывает функцию JavaScript для проверки значения поля userName.</P>
+
+<PRE>
+&lt;INPUT NAME="userName" onblur="validUserName(this.value)"&gt;
+</PRE>
+
+<P>Вот еще один пример JavaScript:</P>
+
+<PRE>
+&lt;INPUT NAME="num"
+    onchange="if (!checkNum(this.value, 1, 10)) 
+        {this.focus();this.select();} else {thanks()}"
+    VALUE="0"&gt;
+</PRE>
+
+</DIV>
+
+<DIV CLASS="example">
+<P>Вот пример обработчика событий для текстового поля на языке VBScript:
+</P>
+
+<PRE>
+    &lt;INPUT name="edit1" size="50"&gt;    
+    &lt;SCRIPT type="text/vbscript"&gt;
+      Sub edit1_changed()
+        If edit1.value = "abc" Then
+          button1.enabled = True
+        Else
+          button1.enabled = False
+        End If
+      End Sub
+    &lt;/SCRIPT&gt;
+</PRE>
+
+<P>Вот тот же пример с использованием Tcl:</P>
+
+<PRE>
+    &lt;INPUT name="edit1" size="50"&gt;
+    &lt;SCRIPT type="text/tcl"&gt;
+      proc edit1_changed {} {
+        if {[edit value] == abc} {
+          button1 enable 1
+        } else {
+          button1 enable 0
+        }
+      }
+      edit1 onChange edit1_changed
+    &lt;/SCRIPT&gt;
+</PRE>
+
+</DIV>
+
+<DIV CLASS="example">
+<P>Вот пример привязки события внутри скрипта на языке JavaScript. Для начала простой обработчик щелчка мыши:</P>
+
+<PRE>
+    
+&lt;BUTTON type="button" name="mybutton" value="10"&gt;
+&lt;SCRIPT type="text/javascript"&gt;
+      function my_onclick() {
+         . . .
+      }
+    document.form.mybutton.onclick = my_onclick
+ &lt;/SCRIPT&gt;
+ &lt;/BUTTON&gt;
+</PRE>
+
+<P>Вот более интересный обработчик окна:</P>
+
+<PRE>
+    
+&lt;SCRIPT type="text/javascript"&gt;
+      function my_onload() {
+         . . .
+      }
+
+      var win = window.open("some/other/URI")
+      if (win) win.onload = my_onload
+&lt;/SCRIPT&gt;
+</PRE>
+
+<P>На языке Tcl это выглядит следующим образом:</P>
+
+<PRE>
+ &lt;SCRIPT type="text/tcl"&gt;
+     proc my_onload {} {
+       . . .
+     }
+     set win [window open "some/other/URI"]
+     if {$win != ""} {
+         $win onload my_onload
+     }
+ &lt;/SCRIPT&gt;
+</PRE>
+
+</DIV>
+
+<DIV CLASS="note">
+<P><EM>Обратите внимание, что выражение "document.write" или эквивалентные выражения в обработчиках внутренних событий создают и выполняют запись в новый документ, а не изменяют текущий.</EM></P>
+</DIV>
+
+<H3><a name="h-18.2.4">18.2.4</a> 
+<span class="index-inst" title="document::dynamic modification with
+script|script::used to modify document"><a name="idx-document">Динамическое изменение документов</a></span></H3>
+
+Скрипты, выполняемые при загрузке документа, могут динамически изменять содержимое документа. Такая возможность зависит от самого языка скрипта (например, выражение "document.write" в объектной модели HTML поддерживается некоторыми производителями). 
+
+<P>Динамическое изменение документа может моделироваться следующим образом:</P>
+
+<OL>
+<LI>Все элементы <a href="scripts.html#edef-SCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#edef-SCRIPT" class="noxref"><SAMP CLASS="einst">SCRIPT</SAMP></a> оцениваются по порядку при загрузке документа. </LI>
+
+<LI>Оцениваются все конструкции скрипта в данном элементе <a href="scripts.html#edef-SCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#edef-SCRIPT" class="noxref"><SAMP CLASS="einst">SCRIPT</SAMP></a>, генерирующие SGML CDATA. Сгенерированный текст вставляется в документ вместо элемента <a href="scripts.html#edef-SCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#edef-SCRIPT" class="noxref"><SAMP CLASS="einst">SCRIPT</SAMP></a>. </LI>
+
+<LI>Сгенерированные CDATA оцениваются повторно. </LI>
+</OL>
+
+<P>Документы HTML ограничиваются требованием соответствия HTML DTD до и после обработки элементов <a href="scripts.html#edef-SCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#edef-SCRIPT" class="noxref"><SAMP CLASS="einst">SCRIPT</SAMP></a>.</P>
+
+<DIV CLASS="example">
+<P>В следующем примере показано, как скрипты могут динамически изменять документ. Следующий скрипт:</P>
+
+<PRE>
+ &lt;TITLE&gt;Тестовый документ&lt;/TITLE&gt;
+ &lt;SCRIPT type="text/javascript"&gt;
+     document.write("&lt;p&gt;&lt;b&gt;Hello World!&lt;\/b&gt;")
+ &lt;/SCRIPT&gt;
+</PRE>
+
+<P>имеет тот же эффект, что и разметка HTML:</P>
+
+<PRE>
+ &lt;TITLE&gt;Тестовый документ&lt;/TITLE&gt;
+ &lt;P&gt;&lt;B&gt;Hello World!&lt;/B&gt;
+</PRE>
+</DIV>
+
+<H2><a name="h-18.3">18.3</a> 
+<span class="index-inst" title="script::when unsupported"><a name="idx-script-6">Разработка документов для агентов пользователей, не поддерживающих скрипты</a></span></H2>
+
+<P>В следующих разделах обсуждается создание документов для агентов пользователей, не поддерживающих скрипты.
+
+<H3><a name="h-18.3.1">18.3.1</a> Элемент <A NAME="edef-NOSCRIPT"><SAMP CLASS="edef">NOSCRIPT</SAMP></A></H3>
+
+<div class="dtd-fragment">
+<PRE CLASS="dtd-fragment">
+&lt;!ELEMENT <a href="scripts.html#edef-NOSCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#edef-NOSCRIPT" class="noxref"><samp class="einst">NOSCRIPT</samp></a> - - (<a href="dtd.html#block" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#block">%block;</a>)+
+  -- альтернативное содержимое для представления без скриптов --&gt;
+&lt;!ATTLIST NOSCRIPT
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  &gt;
+</PRE>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>обязателен</strong></em></p>
+
+Элемент <a href="scripts.html#edef-NOSCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#edef-NOSCRIPT" class="noxref"><SAMP CLASS="einst">NOSCRIPT</SAMP></a> позволяет авторам определять альтернативное содержимое, когда скрипт не выполняется. Содержимое элемента <a href="scripts.html#edef-NOSCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#edef-NOSCRIPT" class="noxref"><SAMP CLASS="einst">NOSCRIPT</SAMP></a> должно генерироваться агентам пользователей, поддерживающими скрипты, только в следующих случаях: 
+
+<UL>
+<LI>Агент пользователя сконфигурирован так, чтобы не выполнять скрипты. </LI>
+
+<LI>Агент пользователя не поддерживает язык скриптов, используемый элементом <a href="scripts.html#edef-SCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#edef-SCRIPT" class="noxref"><SAMP CLASS="einst">SCRIPT</SAMP></a>. </LI>
+</UL>
+
+<P>Агенты пользователей, не поддерживающие клиентские скрипты, должны представлять содержимое этого элемента.</P>
+
+<DIV CLASS="example">
+<P>В следующем примере агент пользователя, выполняющий элемент <a href="scripts.html#edef-SCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#edef-SCRIPT" class="noxref"><SAMP CLASS="einst">SCRIPT</SAMP></a>, включит в документ динамически создаваемые данные. Если агент пользователя не поддерживает скрипты, пользователь может загрузить эти данные по ссылке.</P>
+
+<PRE>
+&lt;SCRIPT type="text/tcl"&gt;
+ <EM>...скирпт на языке Tcl для вставки данных...</EM>
+&lt;/SCRIPT&gt;
+&lt;NOSCRIPT&gt;
+ &lt;P&gt;Доступ к данным &lt;A href="http://someplace.com/data"&gt;.&lt;/A&gt;
+&lt;/NOSCRIPT&gt;
+</PRE>
+</DIV>
+
+<H3><a name="h-18.3.2">18.3.2</a> 
+<span class="index-inst" title="user agent::and script
+data|comments::used to hide script data|script::comments to
+hide"><a name="idx-user_agent">Как скрыть скрипт от агентов пользователей</a></span></H3>
+
+<p>Агенты пользователей, не распознающие элемент <a href="scripts.html#edef-SCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#edef-SCRIPT" class="noxref"><SAMP CLASS="einst">SCRIPT</SAMP></a>, могут представить его в виде текста.  Некоторые ядра скриптов, включая ядра для языков JavaScript, VBScript и Tcl, позволяют включать выражения скриптов в комментарий SGML. Агенты пользователей, не распознающие элемент <a href="scripts.html#edef-SCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#edef-SCRIPT" class="noxref"><SAMP CLASS= "einst">SCRIPT</SAMP></a>, будут игнорировать комментарии, а ядро скрипта обнаружит и выполнит его.
+
+<P>Другим решением этой проблемы является хранение скриптов во внешних документах и ссылка на них с помощью атрибута <a href="forms.html#adef-src" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-src" class="noxref"><SAMP CLASS="ainst">src</SAMP></a>.</P>
+
+<DIV CLASS="example">
+<P><STRONG>Комментирование скриптов JavaScript</STRONG><BR>
+Ядро JavaScript допускает использование строки "&lt;!--" а начале элемента SCRIPT и игнорирует дальнейшие символы, до конца строки. JavaScript интерпретирует символ "//" как начало комментария, продолжающегося до конца текущей строки. Это необходимо, чтобы строка "--&gt;" не разбиралась синтаксическим анализатором JavaScript.</P>
+
+<PRE>
+&lt;SCRIPT type="text/javascript"&gt;
+&lt;!--  скрыть содержимое скрипта от старых браузеров
+  function square(i) {
+    document.write("Вызов передал ", i ," в функцию.","&lt;BR&gt;")
+    return i * i
+  }
+  document.write("Функция вернула ",square(5),".")
+// конец скрытого содержимого  --&gt;
+&lt;/SCRIPT&gt;
+</PRE>
+
+</DIV>
+
+<DIV CLASS="example">
+<P><STRONG>Комментирование скриптов в VBScript</STRONG><BR>
+В VBScript комментарием считается весь текст, начиная с символа одиночной кавычки до конца строки. Это может использоваться для комментирования строки "--&gt;" от VBScript, напрмер:</P>
+
+<PRE>
+   &lt;SCRIPT type="text/vbscript"&gt;
+     &lt;!--
+       Sub foo()
+        ...
+       End Sub
+     ' --&gt;
+    &lt;/SCRIPT&gt;
+</PRE>
+
+</DIV>
+
+<DIV CLASS="example">
+<P><STRONG>Комментирование скриптов в TCL</STRONG><BR>
+В Tcl комментарием считается текст от символа "#" до конца строки:</P>
+
+<PRE>
+&lt;SCRIPT type="text/tcl"&gt;
+&lt;!--  скрыть содержимое скрипта от старых браузеров
+  proc square {i} {
+    document write "Вызов передал $i в функцию.&lt;BR&gt;"
+    return [expr $i * $i]
+  }
+  document write "Функция вернула [square 5]."
+# конец скрытого содержимого  --&gt;
+&lt;/SCRIPT&gt;
+</PRE>
+
+</DIV>
+
+<DIV CLASS="note">
+<P><EM><strong>Примечание.</strong>
+Некоторые браузеры считают концом комментариев первый символ "&gt;". В этом случае Вы можете перенести операнды для операторов отношения и сдвига (например, используя "y &lt; x" вместо "x &gt; y") или использовать определенные в языке скрипта способы обхода символа "&gt;".</EM></P>
+</DIV>
+<div class="navbar">
+<hr><center><a href="forms.html" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html">назад</a> &nbsp; <a href="intro-1.html" tppabs="http://www.citforum.ru/internet/html40/sgml/intro.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center></div>
+</BODY>
+</HTML>
+
+

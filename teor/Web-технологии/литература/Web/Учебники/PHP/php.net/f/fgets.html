@@ -1,0 +1,33 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>fgets</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="fgetcsv.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="fgetss.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.fgets">fgets</A></H1><A NAME="AEN23438"></A><P>(PHP 3, PHP 4)</P>
+<p>fgets - получает строку из указателя на файл.<A NAME="AEN23441"></A></p><H2>Описание</H2>
+<p>string <B>fgets</B> (int fp [, int length])</p><P>Возвращает строку размером длина строки - 1 байт, прочитанную из файла, на
+который указывает fp. Чтение заканчивается при достижении точки length - 1 
+байт, символа newline (который включается в return-значение) или
+EOF (смотря что будет найдено первым). Если length не специфицирован, по 
+умолчанию length будет 1k, или 1024 байт.</P><P>Если возникла ошибка, возвращает <TT><B>FALSE</B></TT>.</P>
+<P>Обычные недочёты:</P><P>Те, кто использует семантику 'C' с функцией <B>fgets()</B>, должны учитывать отличия при возвращении
+<TT>EOF</TT>.</P><P>Указатель на файл обязан быть правильным и указывать на файл, успешно 
+открытый функциями <A HREF="fopen.html"><B>fopen()</B></A>, <A HREF="popen.html"><B>popen()</B></A> или
+<A HREF="fsockopen.html"><B>fsockopen()</B></A>.</P>
+<P>Вот простой пример:<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN23464"></A>
+<h5>Пример 1. Построчное чтение файла</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$fd = fopen ("/tmp/inputfile.txt", "r");
+while (!feof ($fd)) {
+    $buffer = fgets($fd, 4096);
+    echo $buffer;
+}
+fclose ($fd);</PRE></TD></TR></TABLE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+параметр <TT><I>length</I></TT> стал необязательным в PHP 4.2.0.</P></BLOCKQUOTE>
+<P>См. также <A HREF="fread.html"><B>fread()</B></A>, <A HREF="fopen.html"><B>fopen()</B></A>,
+<A HREF="popen.html"><B>popen()</B></A>, <A HREF="fgetc.html"><B>fgetc()</B></A>,
+<A HREF="fsockopen.html"><B>fsockopen()</B></A> и <A HREF="socket-set-timeout.html"><B>socket_set_timeout()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="fgetcsv.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="fgetss.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">fgetcsv</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.filesystem.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">fgetss</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

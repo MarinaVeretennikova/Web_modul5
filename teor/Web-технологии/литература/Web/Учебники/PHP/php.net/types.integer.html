@@ -1,0 +1,96 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>Целые Числа</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="types.boolean.html">Назад</A></TD>
+<th WIDTH="80%">Глава 6. Типы</th><TD WIDTH="10%" ALIGN="right">
+<A HREF="types.float.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="language.types.integer">Целые числа</a></H1>
+<P><A HREF="types.integer.html"><B>integer</B></A> это число из набора Z = {..., -2, -1, 0, 1, 2, ...}</P>
+<P>См. также: <a href="f/ref.gmp.html">Целые числа произвольного размера</a> 
+и <a href="types.float.html">Числа с плавающей точкой</a></P>
+<H2><a name="language.types.integer.syntax">Синтаксис</a></H2>
+<P>Целые числа могут специфицироваться в десятеричной (база 10), 16-ричной (база 16) 
+или 8-ричной (база 8) нотации с необязательным знаком (- или +).</P>
+<P>Если вы используете 8-ричную нотацию, первым символом числа должен быть <TT>0</TT> (нуль), для
+16-ричной нотации первыми символами числа будут <TT>0x</TT>.<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<h5>
+<A NAME="AEN3528"></A>Пример 6-1. Целочисленные литералы</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$a = 1234; # 10-ричное число
+$a = -123; # отрицательное число
+$a = 0123; # 8-ричное число (экивалентно 10-ричному 83)
+$a = 0x1A; # шестнадцатеричное число (экивалентно 10-ричному 26)</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Размер integer зависит от платформы, хотя максимальное значение около 2 
+миллионов является обычным (то есть 32-битное знаковое). PHP не поддерживает беззнаковые 
+integer.<H2><a name="language.types.integer.overflow">Переполнение</a></H2>
+<P>Если вы специфицируете число за рамками диапазона типа <A HREF="types.integer.html">
+<B>integer</B></A>, оно будет интерпретировано как <A HREF="types.float.html"><B>float</B></A>.
+Также, если вы выполняете операцию, которая даёт в результате число за 
+пределами диапазона типа <A HREF="types.integer.html"><B>integer</B></A>, будет возвращено
+<A HREF="types.float.html"><B>float</B></A>.<A NAME="AEN3538"></A></p><TABLE BORDER="0" BGCOLOR="#E0E0E0"  CELLPADDING="5"><TR><TD><PRE>$large_number =  2147483647;
+var_dump($large_number);
+// на выходе: int(2147483647)
+
+$large_number =  2147483648;
+var_dump($large_number);
+// на выходе: float(2147483648)
+
+// это подходит также для специфицированных 16-ричных чисел:
+var_dump( 0x80000000 );
+// на выходе: float(2147483648)
+
+$million = 1000000;
+$large_number =  50000 * $million;
+var_dump($large_number);
+// на выходе: float(50000000000)</PRE></TD></TR></TABLE><br>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th>Предупреждение!</th></TR><TR><TD>
+<P>К сожалению, в РНР был замечен bug, поэтому не всегда была корректна 
+работа с отрицательными числами. Например: если выполнить <TT>-50000 * $million</TT>, результат будет<br>
+<TT>-429496728</TT>. Однако, когда оба операнда - положительные, проблем не возникает.</P>
+<P> Это устранено в PHP 4.1.0.</P></TD></TR></TABLE>
+<P>В PHP нет операции целочисленного деления. <TT>1/2</TT> даст <A HREF="types.float.html">
+<B>float</B></A> <TT>0.5</TT>.</p><A NAME="AEN3549"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>var_dump( 25/7 );
+// на выходе: float(3.5714285714286)</PRE></TD></TR></TABLE>
+<H2><A NAME="language.types.integer.casting">Конвертация в integer</A></H2>
+<P>Для явной конвертации значения в <A HREF="types.integer.html"><B>integer</B></A>
+используйте приведение <TT>(int)</TT> или <TT>(integer)</TT>.
+Однако в большинстве случаев вам нет необходимости использовать 
+приведение/cast, поскольку значение будет конвертировано автоматически, если 
+операция, функция или структура управления требует <B><A HREF="types.integer.html">integer</A></B>-аргумента.</P>
+<P>См. также <a href="lang/types.type-juggling.html">Трюки с типами</a>.</P>
+<H3><a name="language.types.integer.casting.from-boolean">Из </a> <A HREF="types.boolean.html">boolean</A>
+</H3><P><TT><B>FALSE</B></TT> даст <TT>0</TT> (нуль), а <TT><B>TRUE</B></TT> даст <TT>1</TT> (единицу).</P>
+<H3><a name="language.types.integer.casting.from-float">Из </a> <A HREF="types.float.html">float</A></H3><P>При конвертации float в integer, число округляется <i>в сторону нуля</i>.</P>
+<P>Если float выходит за диапазон integer (обычно это <TT>+/- 2.15e+9 = 2^31</TT>), 
+результат будет неопределённым, поскольку float не имеет достаточной 
+точности для выдачи точного integer-результата.
+В этом случае не будет выдано ни предупреждения, ни даже какого-либо уведомления!</P>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th>Предупреждение!</th></TR><TR><TD>
+<P>Никогда не приводите неизвестную дробь к <A HREF="types.integer.html"><B>integer</B></A>,
+так как это может дать непредсказуемый результат.
+<A NAME="AEN3578"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>echo (int) ( (0.1+0.7) * 10 ); // выведет 7!</PRE></TD></TR></TABLE>
+<p>См. дополнительно <a href="types.float.html#warn.float-precision">предупреждение о числах с плавающей точкой</a>.</TD>
+</TR></TABLE><H3><a name="language.types.integer.casting.from-string">Из string</a></H3>
+<P>См. <a href="lang/types.string.html#language.types.string.conversion">Конвертация строк</a></P>
+<H3><a name="language.types.integer.casting.from-other">Из других типов</a></H3>
+<TABLE CLASS="caution" BORDER="1" WIDTH="100%"><TR><th>Внимание!</th></TR><TR><TD>
+<P>Поведение при конвертации в integer для других типов не определено. В 
+настоящее время поведение такое же, как если бы значение сначала было
+<A HREF="types.boolean.html#language.types.boolean.casting">конвертировано в boolean</A>.
+Однако <i>не</i> полагайтесь на это поведение, так как оно может быть изменено без предупреждения.</P></TD></TR></TABLE>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="types.boolean.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="types.float.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Булев</TD>
+<th WIDTH="34%" VALIGN="top"><a href="types.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Числа с плавающей точкой</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

@@ -1,0 +1,76 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>sesam_query</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="sesam-num-fields.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="sesam-rollback.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.sesam-query">sesam_query</A></H1><A NAME="AEN73080"></A><P>(только PHP 3 CVS)</P>
+<p>sesam_query - выполняет SESAM SQL-запрос и готовит результат.<A NAME="AEN73083"></A></p><H2>Описание</H2>
+<p>string <B>sesam_query</B> (string query [, bool scrollable])</p><P>Возвращает&nbsp; SESAM "result identifier" при успехе,
+<TT><B>FALSE</B></TT> при ошибке.</P><P>Ресурс "result_id" используется другими функциями для запрашивания 
+результатов выполнения query/запроса.</P><P><B>sesam_query()</B> отправляет запрос текущей активной БД на сервере. Могут выполняться как "immediate"
+SQL-операторы, так и "select type" запросы. Если выполняется "immediate" оператор, то курсор не выделяется, а последующий вызов
+<A HREF="sesam-fetch-row.html"><B>sesam_fetch_row()</B></A> или
+<A HREF="sesam-fetch-result.html"><B>sesam_fetch_result()</B></A> возвращает пустой результат (нулевые столбцы, указывающие end-of-result). Для "select
+type" операторов выделяются дескриптор результата и (прокручиваемый или последовательный, в зависимости от необязательного булева параметра
+<TT><I>scrollable</I></TT>) курсор. Если <TT><I>scrollable</I></TT> отсутствует, курсор будет последовательным/sequential.</P>
+<P>При использовании "scrollable" курсоров курсор может свободно позиционироваться в результирующем наборе. Для каждого "scrollable" запроса 
+имеются глобальные значения по умолчанию для прокручиваемого/scrolling типа (инициализируется:
+<TT>SESAM_SEEK_NEXT</TT>) и смещение прокрутки, которое может быть установлено однократно функцией
+<A HREF="sesam-seek-row.html"><B>sesam_seek_row()</B></A>, либо каждый раз при извлечении ряда функцией
+<A HREF="sesam-fetch-row.html"><B>sesam_fetch_row()</B></A>.</P><P>Для "immediate" операторов количество задействованных рядов сохраняется
+для запрашивания функцией <A HREF="sesam-affected-rows.html"><B>sesam_affected_rows()</B></A>.</P>
+<P>См. также <A HREF="sesam-fetch-row.html"><B>sesam_fetch_row()</B></A> и <A HREF="sesam-fetch-result.html"><B>sesam_fetch_result()</B></A>.
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN73112"></A><h5>Пример 1. Показать все ряды таблицы "phone" как html-таблицу</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+if (!sesam_connect ("phonedb", "demo", "otto"))
+    die ("cannot connect");
+$result = sesam_query ("select * from phone");
+if (!$result) {
+    $err = sesam_diagnostic();
+    die ($err["errmsg"]);
+}
+echo "&#60;TABLE BORDER&#62;\n";
+// Добавить шапку title с именами столбцов над результатом:
+if ($cols = sesam_field_array ($result)) {
+    echo " &#60;TR&#62;&#60;TH COLSPAN=".$cols["count"]."&#62;Result:&#60;/TH&#62;&#60;/TR&#62;\n";
+    echo " &#60;TR&#62;\n";
+    for ($col = 0; $col &#60; $cols["count"]; ++$col) {
+        $colattr = $cols[$col];
+        /* Span the table head over SESAM's "Multiple Fields": */
+        if ($colattr["count"] &#62; 1) {
+            echo "  &#60;TH COLSPAN=".$colattr["count"]."&#62;".$colattr["name"].
+                "(1..".$colattr["count"].")&#60;/TH&#62;\n";
+            $col += $colattr["count"] - 1;
+        } else
+            echo "  &#60;TH&#62;" . $colattr["name"] . "&#60;/TH&#62;\n";
+    }
+    echo " &#60;/TR&#62;\n";
+}
+
+do {
+    // Извлечь результат блоками максимум по 100 рядов.
+    $ok = sesam_fetch_result ($result, 100);
+    for ($row=0; $row &#60; $ok["rows"]; ++$row) {
+        echo " &#60;TR&#62;\n";
+        for ($col = 0; $col &#60; $ok["cols"]; ++$col) {
+            if (isset($ok[$col][$row]))
+                echo "  &#60;TD&#62;" . $ok[$col][$row] . "&#60;/TD&#62;\n";
+            } else {
+                echo "  &#60;TD&#62;-empty-&#60;/TD&#62;\n";
+            }
+        }
+        echo " &#60;/TR&#62;\n";
+    }
+} 
+while ($ok["truncated"]) { // пока ещё могут быть данные
+    echo "&#60;/TABLE&#62;\n";
+}
+// освободить result id
+sesam_free_result($result);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="sesam-num-fields.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="sesam-rollback.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">sesam_num_fields</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.sesam.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">sesam_rollback</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

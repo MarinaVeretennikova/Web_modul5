@@ -1,0 +1,288 @@
+<html>
+<title>Проектирование</title>
+<meta name=keywords content="ERWin CASE СУБД проектирование">
+<meta name=description content="">
+
+<body>
+<table align=center width=90%>
+<tr><td>
+
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c13_model.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c13_model.html">Реляционная система управления базами данных</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c13_erwin.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c13_erwin.html">CASE-средство проектирования баз данных ERWin</a>
+</table>
+
+
+<h3>Проектирование</h3> 
+ <p align=justify>
+ <b>Целью проектирования базы данных</b> <em>является определение таблиц, столбцов и отношений на основе
+ заданного набора данных и предъявляемых функциональных требований к системе.</em>
+ <br><br>
+Функциональные требования есть ни что иное, как SQL-запросы к базе данных.
+Обращаем ваше  внимание на то, что данное определение цели проектирования принципиально отличается
+от распространенного в классической литературе. Так, например, К. Дейт 
+в книге "Введение в системы баз данных" формулирует задачу проектирования
+базы данных, как определение таблиц, столбцов и отношений <b>независимо</b> от функциональных
+требований, а лишь на основе самих данных. "В общем проблема формулируется следующим образом:
+как в некоторой базе данных для заданного набора данных выбрать подходящую 
+логическую структуру?" - пишет К.Дейт.
+При этом он не дает определения, а что же такое "подходящая логическая структура". Как вы 
+помните, в главе "Язык SQL" было сказано, что основное назначение базы данных - хранение 
+данных, многопользовательский доступ к ним и операции над ними. Практика
+показывает, что проектировать базу данных без учета операций над ними НЕВОЗМОЖНО. Нет ничего 
+универсального. Чем шире универсальность, тем уже применимость системы. Поясним сказанное на простом
+примере. Пусть у нас есть данные о курсах, преподавателях,
+читающих курсы и учебниках по данным курсам.
+
+<table align=center  width=300  border=1 cellspacing=0 cellpadding=2>
+<tr bgcolor="#CCCCFF"> <td> Курс<td> Преподаватель <td> Учебник
+<tr bgcolor="#EEEEEE"> <td> Физика<td>  Иванов<td>   Бутиков
+<tr bgcolor="#CCCCCC"> <td> Физика<td>  Иванов<td>   Савченко
+<tr bgcolor="#EEEEEE"> <td> Физика<td>  Петров<td>   Бутиков
+<tr bgcolor="#CCCCCC"> <td> Физика<td>  Петров<td>   Савченко
+<tr bgcolor="#EEEEEE"> <td> Физика<td>  Сидоров<td>  Бутиков
+<tr bgcolor="#CCCCCC"> <td> Математика<td> Иванов <td> Яковлев
+<tr bgcolor="#EEEEEE"> <td> Математика<td> Иванов <td> Сканави
+<tr bgcolor="#CCCCCC"> <td> Математика<td> Петров<td> Яковлев
+</table>
+ В зависимости от функциональных требований
+к системе каждый столбец данной таблицы может быть либо сущностью, либо атрибутом сущности,
+поэтому мы получаем разные структуры такой базы данных. Допустим, если мы автоматизируем работу
+библиотеки, то сущностью будут учебники, а данные о преподавателях и курсах пойдут, как атрибуты.
+В такой системе, в большинстве запросов нас будут интересовать учебники и предметы, а
+преподаватели просто, как сопутствующая информация. Напротив, если же мы создаем
+систему для отдела кадров, то нас будут интересовать в первую очередь преподаватели, во вторую читаемые
+ими курсы, и в самую последнюю очередь, отдел кадров интересуется учебниками, которые нужны преподавателю.
+Данный пример, конечно, очень упрощен, но тем не менее он отражает суть вопроса. 
+<br>
+<br>
+Итак, перейдем к сути вопроса. Опять же таки, в абсолютном большинстве книжек про базы
+данных написано про нормализацию... Эту нормализацию давно никто не применяет
+и доподлинно неизвестно, а была ли эта нормализация, или же она 
+существовала в воображении теоретиков.
+Мы не будем здесь разбирать абстрактные примеры
+и бороться с ветряными мельницами! За несколько лет работы и проектирования баз данных
+автору и многим его коллегам не приходилось действовать так, как учит теория и как написано
+в любой дурацкой книге технического пИсателя, не способного ни на что, кроме тупого
+переписывания справочников и других книжек. 
+<br>
+Во-первых, стоит сделать важное замечание. Процесс проектирования - это итерационный процесс.
+Среди этапов проектирования можно выделить следующие:
+<ol>
+<li> Сбор данных 
+<li> Сбор функциональных требований
+<li> На основе функциональных требований выявление сущностей и отношений между ними.
+ Здесь выяснится, что каких-то данных не хватает или выбраны не те
+отношения.
+<li> Сбор дополнительных данных, здесь выяснится, что на основе дополнительных данных 
+появились дополнительные функциональные требования
+<li> Сбор дополнительных функциональных требований и переход к третьему пункту, пока система не
+сбалансируется.
+</ol>
+
+<p align=justify>
+ В простых системах можно уложиться в 1-2 итерации.
+ Рассмотрим пример проектирования базы данных для системы конференций. Конференция в 
+ реальном мире представляет собой съезд специалистов, каждый из которых делает доклад(ы). 
+ После доклада у слушателей имеется возможность задать вопросы.
+ Конференция обычно делится на несколько тематических секций.
+ Такого рода информационная система
+ должна иметь три уровня доступа:
+<ol> 
+<li>Пользовательский.
+<li>Автора статей.
+<li>Администратора конференции.
+</ol>
+
+
+Функциональные требования к пользовательской части веб-сервера:
+<ul>
+<li>Просмотр статей.
+<li>Регистрация слушателя в системе.
+<li>Редактирование слушателем своих данных.
+<li>Возможность анонимного входа.
+<li>Добавление  отзыва на статью.
+<li>Возможность получения уведомления об ответе на свой отзыв по электронной почте.
+<li>Поиск статей по ключевым словам.
+</ul>
+
+Функциональные требования к уровню доступа авторов статей:
+<ul>
+<li>Регистрация автора в системе.
+<li>Редактирование автором своих данных.
+<li>Добавление автором статьи в конференцию.
+<li>Редактирование автором параметров своей статьи.
+<li>Получение уведомления об отзыве на свою статью по электронной почте.
+<li>Добавление отзыва на свою статью статью под своим уникальным именем.
+</ul>
+
+Функциональные требования к администраторскому доступу:
+<ul>  
+<li>Разрешение регистрации автора.
+<li>Разрешение публикации статьи.
+<li>Рассылка информационного сообщения по всем электронным адресам пользователей системы.
+</ul>
+
+<p align=justify>
+Очевидным образом напрашиваются следующие сущности: конференция, секция, 
+ доклад, вопрос, специалист (автор доклада). Также довольно очевидно, что 
+в конференции много секций, т.е. отношение один ко многим, в секции много докладов,
+на доклад много отзывов. Пока не совсем понятно, как соотносятся с этими таблицами 
+администраторы, авторы и слушатели. Для начала давайте заполним эти таблицы
+атрибутами. В таблице конференций (conf) будет первичный ключ conf_id и название (name).
+Аналогичным образом и для секции (sec), sec_id, name. В таблице секции будет еще
+присутствовать внешний ключ, который будет ссылаться на первичный ключ conf_id таблицы 
+конференций для осуществления связи один ко многим.
+В обе эти таблицы также можно включить 
+поле описание (description), но это не обязательно. Далее идет таблица докладов article.
+В таблице докладов у нас первичный ключ - article_id, внешний ключ sec_id, который ссылается
+на первичный ключ таблицы секций, название доклада - name, ключевые слова - keywords,
+аннотация доклада - description, page - номер страницы в печатном сборнике и it_date - дата
+публикации. Теперь переходим к таблице отзывов на доклады - response. 
+В этой таблице будет первичный ключ response_id, внешний ключ article_id, тема отзыва subj,
+текст отзыва it_text, иконка с улыбающейся рожицей smile и дата отзыва it_date.
+В таблице отзывов должны быть сведения об авторе отзыва. Но тут возникает вопрос.
+Казалось бы, можно просто добавить внешний ключ, ссылающийся на таблицу авторов и проблема решена.
+Но не так все просто. Если вы так поступите, то вы обяжете всех регистрироваться в вашей
+системе. С точки зрения базы данных это хорошее решение, т.к. в этом случае внешний ключ не будет содержать
+NULL-значений и будет обеспечиваться целостность базы данных. Но вот с точки зрения
+пользователя веб-сайта это плохо. Пользователь думает: "Ребята, да я вас не знаю, с чего мне тут
+регистрироваться, как вы будете использовать мои данные, да я вообще зашел сюда один раз статью
+сына прочитать и т.д.." А что делать, если пользователь хочет при подаче отзыва на статью указать
+адрес электронной почты отличный от того, что он указал при регистрации? Многие пользователи, опасаясь
+получения всевозможной незапрашиваемой корреспонденции - рекламы и т.п., имеют несколько почтовых
+ящиков. Адрес своего главного почтового ящика они дают только друзьям и для деловых контактов и стараются
+его особо нигде не светить. Для всех остальных случаев заводится ящик на бесплатном сервере, например,
+mail.ru или chat.ru. Итак, возвращаясь к нашим баранам, решение со внешним ключом не очень
+хорошее. Значит нам надо включить в таблицу response еще поля: имя автора, адрес электронной почты автора
+и адрес его веб-узла. Такое решение имеет тоже небольшой недостаток - избыточность данных.
+Если у пользователя поменяется адрес электронной почты, то нет никакой возможности изменить этот
+адрес в таблице отзывов. В общем-то это проблема не страшная, т.е. ничего катастрофического в
+том, что автор отзыва не получит сообщения по электронной почте о том, что появился еще один
+отзыв по теме данного доклада, нет. Можно сказать, что спасение утопающего есть дело рук
+самого утопающего. Мы пойдем именно по этому пути. Но если вам уж так захочется все-таки решить эту проблему, то 
+в таблицу отзывов надо включить и внешний ключ и три атрибута об авторе отзыва. Но
+в этом случае нужно контролировать условие, что либо внешний ключ содержит NULL-значение, 
+либо поля name, email & http содержат NULL-значения, иначе получится противоречие.
+Осталось решить, что же делать с администраторами, авторами докладов и слушателями авторов
+отзывов на доклады. Поскольку все они люди, но с разным статусом, то будем хранить о них данные в одной таблице.
+Назовем ее таблица авторов - authors. В этой таблице будет первичный ключ author_id, имя
+автора - name, пароль pwd, дата регистрации в системе - it_date, адрес электронной почты - email
+и права доступа - state. Поскольку у одного автора может много докладов, а у одного доклада
+много авторов, то они относятся, как многие ко многим. Итак, получаем:<br>
+
+<center>
+<img src="c13rvs.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/c13rvs.jpg">
+</center>
+
+</td></tr>
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #1 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=0-9126" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=0?9126" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=0'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69019-bn=0-9126" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=0?9126"
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #2 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=1?Rnd_Num" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=1'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=1?Rnd_Num" 
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="erle.cgi-51599-9126" tppabs="http://www.linkexchange.ru/cgi-bin/erle.cgi?51599?9126" frameborder=0 
+    vspace=0 hspace=0 width=468 height=60 marginwidth=0 marginheight=0 scrolling=no>
+    <a href="javascript:if(confirm('http://www.linkexchange.ru/users/goto.map  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://www.linkexchange.ru/users/goto.map'" tppabs="http://www.linkexchange.ru/users/goto.map" target=_top>
+    <img src="rle.cgi-51599-9126" tppabs="http://www.linkexchange.ru/cgi-bin/rle.cgi?51599?9126" alt="RLE Banner Network" border=0 height=60 width=468></a>
+    </iframe>
+
+<!-- Russian LinkExchange code START - BANNER #1 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=0-9126" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=0?9126"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=0'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69021-bn=0-9126" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=0?9126"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+<!-- Russian LinkExchange code START - BANNER #2 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=1-9126" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=1?9126"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=1'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69021-bn=1-9126" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=1?9126"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+</td></tr>
+</table>
+
+</body>
+</html>

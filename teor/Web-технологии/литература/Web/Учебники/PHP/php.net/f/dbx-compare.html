@@ -1,0 +1,46 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>dbx_compare</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="dbx-close.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="dbx-connect.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.dbx-compare">dbx_compare</A></H1><A NAME="AEN16741"></A><P>(PHP 4 &#62;= 4.1.0)</P>
+<p>dbx_compare - сравнивает два ряда для целей сортировки.<A NAME="AEN16744"></A></p><H2>Описание</H2>
+<p>int <B>dbx_compare</B> (array row_a, array row_b, string column_key [, int flags])</p>
+<P><B>dbx_compare()</B> возвращает <TT>0</TT>, если <TT>row_a[$column_key]</TT> равно 
+<TT>row_b[$column_key]</TT>, и <TT>1</TT> или <TT>-1</TT>, если первое больше или меньше сторого, соответственно, или наоборот, если 
+<TT><I>flag</I></TT> установлен на <TT><B>DBX_CMP_DESC</B></TT>.<br><B>dbx_compare()</B> это вспомогательная функция в дополнение к 
+<A HREF="dbx-sort.html"><B>dbx_sort()</B></A>, облегчающая создание и использование этой специальной функции сортировки.</P>
+<P>Параметр <TT><I>flags</I></TT> может быть установлен для специфицирования направления сравнения:
+<UL><LI><P><TT><B>DBX_CMP_ASC</B></TT> - в порядке возрастания</P></LI><LI><P><TT><B>DBX_CMP_DESC</B></TT> - в порядке убывания</P>
+</LI></UL>и предпочтительный тип сравнения:<UL><LI><P><TT><B>DBX_CMP_NATIVE</B></TT> - нет конвертации типов</P>
+</LI><LI><P><TT><B>DBX_CMP_TEXT</B></TT> - сравнивать как строки</P></LI><LI><P><TT><B>DBX_CMP_NUMBER</B></TT>
+- сравнивать численно</P></LI></UL>Одно из направлений и одна из констант типа могут комбинироваться битовой
+операцией OR (|). Значение по умолчанию параметра <TT><I>flags</I></TT> такое: <TT><B>DBX_CMP_ASC</B></TT> | <TT>
+<B>DBX_CMP_NATIVE</B></TT>.<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN16794"></A>
+  <h5>Пример 1. dbx_compare()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+function user_re_order ($a, $b) {
+    $rv = dbx_compare ($a, $b, "parentid", DBX_CMP_DESC);
+    if ( !$rv ) {
+        $rv = dbx_compare ($a, $b, "id", DBX_CMP_NUMBER);
+    }
+    return $rv;
+}
+
+$link   = dbx_connect (DBX_ODBC, "", "db", "username", "password")
+    or die ("Could not connect");
+
+$result = dbx_query ($link, "SELECT id, parentid, description FROM table ORDER BY id");
+    // данные в $result теперь упорядочены по id
+
+dbx_sort ($result, "user_re_order");
+    // данные в $result теперь упорядочены по parentid (по убыванию), затем по id
+
+dbx_close ($link);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="dbx-sort.html"><B>dbx_sort()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="dbx-close.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="dbx-connect.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">dbx_close</TD><th WIDTH="34%" VALIGN="top"><A HREF="ref.dbx.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">dbx_connect</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

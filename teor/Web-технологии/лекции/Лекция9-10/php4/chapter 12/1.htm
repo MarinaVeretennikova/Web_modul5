@@ -1,0 +1,1314 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE></TITLE>
+<META content="TEXT/HTML; CHARSET=WINDOWS-1251" http-equiv=CONTENT-TYPE>
+<META content="Microsoft FrontPage 4.0" name=GENERATOR>
+<STYLE></STYLE>
+</HEAD>
+<body background=../fon.jpg>
+<ul>
+
+  <li><a href="#a"><font face="Times New Roman" size=3>Глава 12.
+    Шаблоны</font> </a> </li>
+  <ul>
+    <li><a href="#b"><font face="Times New Roman" size="3">О чем
+      говорилось выше</font>
+      </a>
+    </li>
+    <li><a href="#c"><font face="Times New Roman" size="3">Нетривиальная
+      система шаблонов</font>
+      </a>
+      <ul>
+        <li><a href="#d"><font face="Times New Roman" size="3">Регистрация
+          файлов</font></a></li>
+        <li><a href="#e"><font face="Times New Roman" size="3">Регистрация
+          переменных</font></a></li>
+        <li><a href="#f"><font face="Times New Roman" size="3">Обработка
+          файла</font></a></li>
+        <li><a href="#g"><font face="Times New Roman" size="3">Вывод
+          файла</font></a></li>
+        <li><a href="#h"><font face="Times New Roman" size="3">Расширение
+          класса template</font></a></li>
+        <li><a href="#i"><font face="Times New Roman" size="3">Недостатки
+          системы шаблонов</font></a></li>
+        <li><a href="#j"><font face="Times New Roman" size="3">Необоснованные
+          надежды на «идеальное решение»</font></a></li>
+        <li><a href="#k"><font face="Times New Roman" size="3">Снижение
+          быстродействия</font></a></li>
+        <li><a href="#l"><font face="Times New Roman" size="3">Ориентация
+          дизайна на PHP</font></a></li>
+      </ul>
+    </li>
+    <li><a href="#m"><font face="Times New Roman" size="3">Проект:
+      адресная книга</font></a></li>
+    <li><a href="#n"><font face="Times New Roman" size="3">Итоги</font></a></li>
+  </ul>
+</ul>
+<A NAME="a"></A><b>
+<p>&nbsp;</p>
+<p></b><font COLOR="#000000" face="Times New Roman" size="5">ГЛАВА</font> <font COLOR="#000000" face="Times New Roman" size="5">12</font></p>
+<p><font COLOR="#000000" face="Times New Roman" size="5">Шаблоны</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Шаблоны
+можно рассматривать как «расширение»
+программного кода. Шаблоны не только
+автоматизируют утомительный процесс
+кодирования, но и обеспечивают структурное
+деление проекта в рабочих группах. Роль
+такого деления возрастает с увеличением
+объемов проекта и численности групп, а
+также с усложнением архитектуры проекта,
+причем не только на стадии
+программирования, но и при последующем
+сопровождении программы.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Сказанное
+стоит пояснить на конкретном примере.
+Допустим, у нас имеется команда
+разработчиков, состоящая из web-дизайнеров и
+программистов. В идеале группа web-дизайнеров
+трудится над созданием привлекательного и
+удобного сайта, а группа программистов в
+это время работает над эффективностью и
+широтой возможностей web-приложения. К
+счастью, шаблоны заметно упрощают подобное
+структурирование процесса. Настоящая глава
+посвящена созданию системы шаблонов,
+обеспечивающих подобное «разделение труда».</font></p>
+<b>
+<p><A NAME="b"></A>
+<font color="#000000" face="Times New Roman" size="4">О чем
+говорилось выше</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">До
+настоящего момента я упоминал о двух разных
+подходах к созданию шаблонов РНР:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">внедрение
+    HTML в код РНР;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">включение
+    файлов в страницу.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Хотя первая
+схема более понятна и проще реализуется,
+она также в большей степени ограничивает
+вашу свободу действий. Главная проблема
+заключается в том, что код РНР смешивается с
+компонентами HTML, образующими макет
+страницы. Возникающие при этом проблемы
+связаны не только с необходимостью
+потенциальной поддержки одновременного
+доступа к странице и ее модификации, но и с
+повышенной вероятностью ошибок при
+непосредственном просмотре и
+редактировании страниц.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Вторая схема
+во многих ситуациях оказывается гораздо
+удобнее первой. Тем не менее, хотя структура
+«заголовок — основная часть — колонтитул»
+(см. главу 9)</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">хорошо
+подходит для структурирования
+относительно малых сайтов с четко
+определенным форматом, с увеличением
+объемов и сложности проекта эти
+ограничения проявляются все заметнее.
+Попытки решения этих проблем привели к
+разработке новой схемы применения шаблонов,
+более сложной по сравнению с двумя первыми,
+но и обладающей существенно большей
+гибкостью. В этой схеме разделяются два
+главных компонента web-приложения: дизайн и
+программирование. Подобное деление
+обеспечивает возможность параллельной
+разработки (web-дизайн и программирование)
+без необходимости постоянной координации
+на протяжении всего рабочего цикла. Более
+того, оно позволяет в будущем
+модифицировать один компонент, не влияя на
+работу другого. В следующем разделе я
+покажу, как устроена одна из таких схем «нетривиальных
+шаблонов». Следует помнить, что эта схема
+существует не только в РНР. Более того, она
+появилась задолго до РНР и в настоящее
+время используется в нескольких языках,
+включая РНР, Perl и Java Server Pages. To, что описано в
+этой главе, — не более чем адаптация этой
+схемы применительно к РНР.</font></p>
+<b>
+<p><A NAME="c"></A>
+<font color="#000000" face="Times New Roman" size="4">Нетривиальная
+система шаблонов</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Как
+говорилось ранее, главной целью при
+разработке подобных систем шаблонов
+является фактическое отделение дизайна от
+функциональных возможностей. Собственно,
+эта система и создается для того, чтобы
+программисты и дизайнеры могли независимо
+трудиться над своими аспектами приложения, </font><i><font COLOR="#000000">не
+мешая </font></i><font COLOR="#000000">работе другой
+группы.</font></font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">К счастью,
+сделать это проще, чем кажется на первый
+взгляд, — при условии, что <i>до</i></font><i><font COLOR="#000000">
+начала </font></i><font COLOR="#000000">разработки было
+проведено некоторое предварительное
+планирование. В листинге 12.1 представлен
+некий базовый шаблон, созданный на основе
+материала этой главы.</font></font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+12.1.</font></font></i></b><font COLOR="#000000" size="3" face="Times New Roman"><i>
+</i></font><i><font size="3" face="Times New Roman"><font COLOR="#000000">Пример
+шаблона</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;:::::{page_title}:::::&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=&quot;{bg_color}&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Welcome to your default
+home page. {user_name}!&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">You have 5 MB and 3
+email addresses at your disposal.&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Have fun!</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Обратите
+внимание на три строки (page_title, bg_color и userjiame),
+заключенные в фигурные скобки ({ }). Фигурные
+скобки имеют особый смысл при обработке
+шаблонов — заключенная в них строка
+интерпретируется как имя переменной,
+вместо которого подставляется ее значение.
+Дизайнер строит страницу по своему
+усмотрению; все, что от него потребуется, —
+включать в соответствующие места документа
+эти ключевые строки. Конечно, программисты
+и дизайнеры должны заранее согласовать
+имена всех переменных!</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Итак, как же
+работает эта схема? Прежде всего, возможно,
+нам придется одновременно работать с
+несколькими шаблонами, обладающими одними
+и теми же общими атрибутами. В таких
+ситуациях применение технологии объектно-ориентированного
+программирования (ООП) оказывается
+особенно эффективным. По этой причине все
+функции построения и выполнения операций с
+шаблонами будут оформлены в виде методов
+класса. Определение класса начинается так:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class template {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">VAR $files = array( );</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">VAR $variables = array( );</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">VAR $openi ng_escape = '{';</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">VAR $closing_escape =
+'}';</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В массиве
+$files хранятся идентификаторы файлов и
+содержимое каждого файла. Атрибут $variables
+представляет собой двухмерный массив для
+хранения файлового идентификатора (ключа) и
+всех соответствующих переменных,
+обрабатываемых в схеме шаблонов. Наконец,
+атрибуты $opening_escape и $closing_escape задают
+ограничители для частей шаблона, которые
+должны заменяться системой. Как было
+показано в листинге 12.1, в наших примерах в
+качестве ограничителей будут
+использоваться фигурные скобки ({ }). Впрочем,
+вы можете изменить два последних атрибута и
+выбрать ограничители по своему усмотрению.
+Главное — проследите за тем, чтобы эти
+символы не использовались для других целей.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Каждый метод
+класса решает конкретную задачу,
+соответствующую той или иной операции в
+процессе обработки шаблона. На простейшем
+уровне этот процесс можно разделить на
+четыре стадии.</font></p>
+<b>
+<ul>
+  <li><font size="3" face="Times New Roman"><font COLOR="#000000">Регистрация
+    файлов </font></font></b><font size="3" face="Times New Roman"><font COLOR="#000000">—
+  регистрация всех файлов, обрабатываемых
+  сценариями</font></font> <font COLOR="#000000" size="3" face="Times New Roman">шаблонов.</font></li>
+<b>
+<li><font size="3" face="Times New Roman"><font COLOR="#000000">Регистрация
+  переменных </font></font></b><font size="3" face="Times New Roman"><font COLOR="#000000">—
+регистрация всех переменных, которые
+должны</font></font> <font COLOR="#000000" size="3" face="Times New Roman">заменяться
+своими значениями в зарегистрированных
+файлах.</font></li>
+<b>
+<li><font size="3" face="Times New Roman"><font COLOR="#000000">Обработка
+  файлов </font></font></b><font size="3" face="Times New Roman"><font COLOR="#000000">—
+замена всех переменных, находящихся между
+ограничителями, в зарегистрированных
+файлах.</font></font></li>
+<b>
+<li><font size="3" face="Times New Roman"><font COLOR="#000000">Вывод
+  файла </font></font></b><font size="3" face="Times New Roman"><font COLOR="#000000">—
+вывод обработанных зарегистрированных
+файлов в браузере.</font></font></li>
+</ul>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="prim.gif" align=left width="36" height="35">Применение
+концепций ООП в РНР рассматривалось в главе
+6. Если вы не знакомы с ООП, я рекомендую
+бегло просмотреть главу 6 перед тем, как
+читать дальше.</font></p>
+</i>
+<p><A NAME="d"></A>
+<font color="#000000" face="Times New Roman" size="4">Регистрация
+файлов</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">В
+процессе </font><i><font COLOR="#000000">регистрации </font></i><font COLOR="#000000">содержимое
+файла сохраняется в массиве с ключом,
+однозначно идентифицирующим этот файл.
+Метод register_file( ) открывает и читает
+содержимое файла, имя которого передается в
+качестве параметра. Код этого метода
+приведен в листинге 12.2.</font></font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+12.2. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Метод
+регистрации файла</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">function register_file($file_id,
+$file_name) {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Открыть
+$file_name для чтения или завершить программу</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// с выдачей
+сообщения об ошибке.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$fh = fopen($file_name,
+&quot;r&quot;) or die(&quot;Couldn't open $file_name!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Прочитать
+все содержимое файла $file_name в переменную.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$file_contents = fread($fh, filesize($file_name));</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Присвоить
+содержимое элементу массива</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// с ключом $file_id.
+$this-&gt;files[$file_id] = $file_contents;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// </font><font size="3" face="Courier New"><font COLOR="#000000">Работа
+с файлом завершена, закрыть его.</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">fclose($fh);</font></p>
+<p><font color="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Параметр
+$file_id содержит идентификатор — «псевдоним»
+для последующих операций с файлом,
+упрощающий последующие вызовы метода.
+Идентификатор используется в качестве
+ключа для индексирования массива $files.
+Пример регистрации файла:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Включить
+класс шаблона</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">include(&quot;tempiate.class&quot;):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Создать
+новый экземпляр класса</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$template = new template:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Зарегистрировать файл &quot;homepage.html&quot;,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+присвоив ему псевдоним &quot;home&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$template-&gt;register_file(&quot;home&quot;,
+&quot;homepage.html&quot;);</font></p>
+<p><A NAME="e"></A>
+<font color="#000000" face="Times New Roman" size="4">Регистрация
+переменных</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">После
+регистрации файлов необходимо
+зарегистрировать все переменные, которые
+будут интерпретироваться особым образом.
+Метод register_variables( ) (листинг 12.3) работает по
+тому же принципу, что и register_file( ), — он
+читает имена переменных и сохраняет их в
+массиве $variables.</font></p>
+<b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000"><i>Листинг
+12.3. </i> </font></font></b><i><font COLOR="#000000" size="3" face="Times New Roman">Метод
+регистрации переменнных</font></i></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function
+register_vanables($file_id, $variable_name) {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Попытаться
+создать массив,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// содержащий
+переданные имена переменных</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$input_variables -
+explode(&quot;.&quot;, $variable_name);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Перебрать
+имена переменных</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while (Iist($value) =
+each($input_variables)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Присвоить
+значение очередному элементу массива</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$this-&gt;variables
+$this-&gt;variables[$file_id][] = $value:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">В
+параметре $file_id передается ранее </font><i><font COLOR="#000000">присвоенный
+</font></i><font COLOR="#000000">псевдоним файла. Например,
+в предыдущем примере файлу homepage.html был
+присвоен псевдоним home. Обратите внимание —
+при регистрации имен переменных, которые
+должны особым образом обрабатываться в
+файле homepage.html, вы должны ссылаться на файл
+по псевдониму! В параметре $variable_name
+передаются имена одной или нескольких
+переменных, регистрируемых для указанного
+псевдонима. Пример:</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Включить
+класс шаблона include(&quot;tempiate.class&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Создать
+новый экземпляр класса $template = new template;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Зарегистрировать файл &quot;homepage.html&quot;,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+присвоив ему псевдоним &quot;home&quot; $template-&gt;register_file(&quot;home&quot;,
+&quot;homepage.html&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Зарегистрировать несколько переменных</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$template-&gt;register_variablest&quot;home&quot;,
+&quot;page_title.bg_color,user_name&quot;);</font></p>
+<p><A NAME="f"></A>
+<font color="#000000" face="Times New Roman" size="4">Обработка
+файла</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">После того
+как файлы и переменные будут
+зарегистрированы в системе шаблонов, можно
+переходить к обработке зарегистрированных
+файлов и замене всех ссылок на переменные с
+соответствующими значениями. Метод file_parser( )
+приведен в листинге 12.4.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+12.4. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Метод
+обработки файла</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">function file_parser($file_id)
+{</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Сколько
+переменных зарегистрировано для данного
+файла?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$varcount = count($this-&gt;variables[$file_id]);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Сколько
+файлов зарегистрировано?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$keys = array_keys($this-&gt;files):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Если файл
+$file_id существует в массиве</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$this-&gt;files</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// и с ним
+связаны зарегистрированные переменные</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">If ( (in_array($file_id.
+$keys)) &amp;&amp; ($varcount &gt; 0) ) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Сбросить $x
+$x = 0:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Пока
+остаются переменные для обработки...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while ($x
+&lt; sizeof($this-&gt;variables[$file_id])) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Получить
+имя очередной переменной $string = $this-&gt;variables[$file_id][$x];</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Получить
+значение переменной. Обратите внимание:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+для получения значения используется
+конструкция $$.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Полученное значение
+подставляется в файл вместо</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// указанного
+имени переменной.GLOBAL $$string:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Построить
+точный текст замены вместе с
+ограничителями</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$needle = $this-&gt;opening_escape.$string.$this-&gt;closing_escape;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Выполнить
+замену.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$this-&gt;files[$file_id] = str_replace( $needle.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$$string.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$this-&gt;files[$file_id]);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Увеличить $х $x++;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Сначала мы
+проверяем, присутствует ли указанное имя
+файла в массиве $this-&gt;files. Если файл был
+зарегистрирован, мы также проверяем, были
+ли для него зарегистрированы переменные, и
+если были — значения этих переменных
+подставляются в содержимое $file_id. Пример:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Включить
+класс шаблона include(&quot;template. class&quot;) ;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$page_title = &quot;Welcome
+to your homepage!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$bg_color = &quot;white&quot;; $user_name = &quot;Chef
+Jacques&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Создать
+новый экземпляр класса</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$template = new template;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Зарегистрировать файл &quot;homepage.html&quot;,</font></p>
+<i>
+<p><font face="Courier New"><font COLOR="#000000" size="3">II </font></font></i><font size="3" face="Courier New"><font COLOR="#000000">присвоив
+ему псевдоним &quot;home&quot;</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$template-&gt;register_file(
+&quot;home&quot;, &quot;homepage.html&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Зарегистрировать несолько переменных</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$template-&gt;register_variables(&quot;home&quot;,
+&quot;page_titie, bg_color, user_name&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$template-&gt;file_parser(&quot;home&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Поскольку
+переменные page_title, bg_color и user_name были
+зарегистрированы, значения каждой
+переменной (присвоенные в начале сценария)
+подставляются в страницу homepage.html,
+хранящуюся в массиве files (атрибуте объекта-шаблона).
+На этом предварительная подготовка
+завершается, остается лишь вывести
+полученный шаблон в браузере. Эта операция
+рассматривается в следующем разделе.</font></p>
+<p><A NAME="g"></A>
+<font color="#000000" face="Times New Roman" size="4">Вывод файла</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Вероятно,
+после обработки файла вы захотите
+отправить его в браузер, чтобы пользователь
+увидел результат обработки шаблона. В нашем
+примере для вывода</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">файла
+создается отдельный метод, приведенный в
+листинге 12.5, однако в зависимости от
+ситуации вывод также может интегрироваться
+с методом f i I e_parser().</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+12.5. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Метод
+вывода файла в браузере</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">function pnnt_file($file_id)
+{</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вывести
+содержимое файла с идентификатором</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$file_id print
+$this-&gt;files[$file id];</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Все очень
+просто — при вызове print_file( ) содержимое
+файла, представленного ключом $file_id,
+передается в браузер.</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">В
+листинге 12.6 приведен пример использования
+класса template.</font></font></p>
+<p><font size="3" face="Times New Roman"><b><i><font COLOR="#000000">Листинг 12.6. </font></i></b></font><i><font size="3" face="Times New Roman"><font COLOR="#000000">Пример
+использования класса template</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">// Включить
+класс шаблона, include(&quot;tempiate.class&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Присвоить
+значения переменным</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$page_title = &quot;Welcome to your
+homepage!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$bg_color = &quot;white&quot;; $user_name = &quot;Chef Jacques&quot;:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Создать
+новый экземпляр класса $template= new template;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Зарегистрировать файл &quot;homepage.html&quot; с
+псевдонимом &quot;home&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$template-&gt;register_file(&quot;home&quot;,
+&quot;homepage.html&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Зарегистрировать переменные</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$template-&gt;register_variables(&quot;home&quot;,
+&quot;page_title, bg_color.user_name&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$template-&gt;file_parser(&quot;home&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Передать
+результат в браузер</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$template-&gt;print_file(&quot;home&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если бы
+шаблон, приведенный в листинге 12.1, хранился
+в файле homepage.html в одном каталоге со
+сценарием из листинга 12.6, то в браузер был
+бы направлен следующий код HTML:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;:::::Welcome
+to your homepage!:::::&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=white&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Welcome to your default
+home page, Chef Jacques!&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">You have 5 MB and 3
+email addresses at your disposal.&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Have fun!</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как видно из
+приведенного примера, все
+зарегистрированные переменные были
+заменены соответствующими значениями. При
+всей своей простоте класс tempi ate</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">обеспечивает
+стопроцентное разделение уровней
+программирования и дизайна. Полный код
+класса template приведен в листинге 12.7.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+12.7. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Полный
+код класса template</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">class template {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">VAR $files = array( );</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">VAR $variables = array( );</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">VAR $opening_escape = '{';</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">VAR $closing_escape = '}'
+;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Функция:
+register_file( )</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+сохранение в массиве содержимого файла.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+определяемого идентификатором $file_id</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function register_file($file_id.
+$file_name) {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Открыть
+$file_name для чтения или завершить программу</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// с выдачей
+сообщения об ошибке.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$fh = fopen($file_name,
+&quot;r&quot;) or die(&quot;Couldn't open $file_name!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Прочитать
+все содержимое файла $file_name в переменную.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$file_contents = fread($fh, filesize($file_name));</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Присвоить
+содержимое элементу массива</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// с ключом $file_id.
+$this-&gt;files[$file_id] = $file_contents;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Работа с
+файлом завершена, закрыть его.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">fclose($fh):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font> <font COLOR="#000000" size="3" face="Courier New">//
+Функция: register_variables( )</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+сохранение переменных, переданных</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// в
+параметре $variable_name. в массиве с ключом $file_id.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function register_variables($file_id,
+$variable_name) {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Попытаться
+создать массив.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// содержащий
+переданные имена переменных</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$input_variables =
+explode(&quot;.&quot;, $vahable_name);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Перебрать
+имена переменных</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while (list(, $value) =
+each($input_variables)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Присвоить
+значение очередному элементу массива $this-&gt;variables
+$this-&gt;variables[$file_id][] = $value:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">} //
+Функция: file_parser( )</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+замена всех зарегистрированных переменных</font></p>
+<p><font color="#000000" size="3" face="Courier New">// в файле с идентификатором $file_id</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function file_parser($file_id)
+{</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Сколько
+переменных зарегистрировано для данного
+файла?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$varcount = count($this-&gt;variables[$file_id]):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Сколько
+файлов зарегистрировано?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$keys = array_keys($this-&gt;files):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Если файл
+$file_id существует в массиве $this-&gt;files</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// и с ним
+связаны зарегистрированные переменные</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ( (in_array($file_id.
+$keys)) &amp;&amp; ($varcount &gt; 0) ) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Сбросить $х
+$x - 0;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Пока
+остаются переменные для обработки...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while ($x
+&lt; sizeof($this-&gt;variables[$file_id])) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Получить
+имя очередной переменной</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$string = $this-&gt;variables[$file_id][$x];</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Получить
+значение переменной. Обратите внимание:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+для получения значения используется
+конструкция $$.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Полученное значение
+подставляется в файл вместо</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// указанного
+имени переменной.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">GLOBAL $$string;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Построить
+точный текст замены вместе с
+ограничителями</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$needle = $this-&gt;opemng_escape.$string.$this-&gt;closing_escape;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Выполнить
+замену.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$this-&gt;files[$file_id] = str_replace( $needle, $$string,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$this-&gt;files[$file_idj);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Увеличить $х $x++;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font color="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Функция:
+print_file()</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+вывод содержимого файла,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+определяемого параметром $file_id</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function print_file($file_id)
+{</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вывести
+содержимое файла с идентификатором $file_id</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print $this-&gt;files[$file_id];</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">} //END template.class</font></p>
+<p><A NAME="h"></A>
+<font COLOR="#000000" face="Times New Roman" size="4">Расширения
+класса template</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Конечно,
+класс tempi ate обладает весьма ограниченными
+возможностями, хотя для проектов,
+создаваемых на скорую руку, он вполне
+подходит. Объектно-</font><font COLOR="#000000" size="3" face="Times New Roman">ориентированные
+схемы хороши тем, что они позволяют легко
+наращивать функциональность, не беспокоясь
+о возможных нарушениях работы
+существующего кода. Допустим, вы решили
+создать новый метод, который будет
+загружать значения для последующей замены
+из базы данных. Хотя такой метод устроен
+чуть сложнее, чем метод file_parser( ),
+производящий простую замену глобальных
+переменных, его реализация на базе SQL
+состоит из нескольких строк и легко
+инкапсулируется в отдельном методе. Более
+того, мы создадим нечто подобное в проекте
+адресной книги, завершающем эту главу.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В класс tempi ate
+можно внести несколько очевидных
+усовершенствований. Первое — объединение
+функций register_file( ) и register_variables( ),
+обеспечивающее автоматическую регистрацию
+переменных для каждого регистрируемого
+файла. Конечно, при этом также необходимо
+реализовать проверку ошибок, чтобы
+предотвратить регистрацию неверных файлов
+и переменных.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Однако на
+этом возможности усовершенствования
+далеко не исчерпаны. Подумайте, как бы вы
+реализовали методы, работающие с целыми
+массивами? На самом деле это проще, чем
+кажется на первый взгляд. Проанализируйте
+решение, использованное в проекте адресной
+книги в конце главы. Общие принципы легко
+трансформируются под любую конкретную
+реализацию.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Общие схемы
+работы с шаблонами были реализованы на
+нескольких языках и ни в коем случае не
+являются чем-то принципиально новым. В Web
+можно найти немало информации о реализации
+шаблонов. Рекомендую два особенно
+интересных ресурса — сборники статей,
+написанных с ориентацией на JavaScript:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.netscape.com/viewsource/long_ssjs/long_ssjs.html">http://www.netscape.com/viewsource/long_ssjs/long_ssjs.html</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.netscape.com/viewsource/schroder_template/schroder_template.html">http://www.netscape.com/viewsource/schroder_template/schroder_template.html</a>.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующей
+статье затронута тема использования
+шаблонов применительно к Java Server Pages:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www-4.ibm.com/software/webservers/appserv/doc/guide/asgdwp.html">http://www-4.ibm.com/software/webservers/appserv/doc/guide/asgdwp.html</a>.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Кроме того,
+описанная схема построения шаблонов
+используется в нескольких библиотеках РНР,
+среди которых наибольший интерес
+представляют следующие:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">PHPLib Base Library:
+    <a href="http://phplib.netuse.de">http://phplib.netuse.de</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Richard Hayes's
+Template Class: <a href="http://www.heyes-computing.net">http://www.heyes-computing.net</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Fast Template: <a href="http://www.thewebmasters.net/php">http://www.thewebmasters.net/php</a>.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">На сайте
+ресурсов РНР, PHPBuilder (<a href="http://www.phpbuilder.com">http://www.phpbuilder.com</a>), также
+имеется несколько интересных учебников,
+посвященных обработке шаблонов. Кроме того,
+загляните на сайт РНР Classes Repository (<a href="http://phpclasses.UpperDesign.com">http://phpclasses.UpperDesign.com</a>),
+здесь также можно найти несколько
+реализаций.</font></p>
+<p><A NAME="i"></A>
+<font color="#000000" face="Times New Roman" size="4">Недостатки
+системы шаблонов</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Хотя
+рассмотренная система шаблонов
+справляется со своей главной задачей —
+полным разделением дизайна и
+программирования, она не лишена
+недостатков. Некоторые из этих недостатков
+перечислены ниже.</font></p>
+<p><A NAME="j"></A>
+<font color="#000000" face="Times New Roman" size="4">Необоснованные
+надежды на «идеальное решение»</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Шаблоны
+помогают четко выделить в проекте аспекты
+программирования и дизайна, но они не
+заменяют нормального взаимодействия между
+этими аспектами. Более того, правильность
+их работы зависит от предварительного
+согласования списка переменных, заменяемых
+в процессе обработки шаблона. Как и в любом
+успешном проекте, переходить к написанию
+кода РНР следует лишь после тщательной
+проработки спецификации всего приложения.
+Это значительно уменьшает вероятность
+ошибок при последующей обработке,
+приводящих к непредвиденным последствиям
+при использовании шаблонов.</font></p>
+<p><A NAME="k"></A>
+<font color="#000000" face="Times New Roman" size="4">Снижение
+быстродействия</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Затраты на
+обработку файлов приводят к некоторому
+замедлению работы программы. В какой мере
+замедляется работа, зависит от ряда
+факторов, в том числе от размера страницы,
+размера запроса SQL (если они задействован) и
+аппаратной конфигурации компьютера. Как
+правило, эти потери настолько малы, что ими
+можно пренебречь, но в некоторых ситуациях
+они оказываются довольно значительными (например,
+при одновременной обработке нескольких
+шаблонов в условиях высокого трафика).</font></p>
+<p><A NAME="l"></A>
+<font color="#000000" face="Times New Roman" size="4">Ориентация
+дизайна на РНР</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Одна из
+главных целей создания шаблонов
+заключается в том, чтобы по возможности
+изолировать дизайнера от программного кода
+при редактировании внешнего вида и
+поведения страницы. В идеальном случае
+дизайнер должен обладать некоторыми
+навыками программирования или, по крайней
+мере, быть знакомым с общими концепциями —
+переменными, циклами и условными командами.
+Дизайнеру, абсолютно не разбирающемуся в
+них, применение шаблонов практически
+ничего не даст, кроме относительно
+бесполезных сведений из области синтаксиса.
+В общем, независимо от того, захотите вы
+пользоваться этим типом шаблонов или нет, я
+настоятельно рекомендую потратить немного
+времени и обучить дизайнера азам языка РНР...
+а еще лучше — купить ему эту книгу! От этого
+выиграют обе стороны, поскольку дизайнер
+приобретет дополнительные навыки и станет
+более ценным членом рабочей группы, а у
+программиста появится новый источник идей.
+Может, дизайнер и не изобретет ничего
+выдающегося, но зато он взглянет на
+ситуацию под новым углом зрения, обычно
+недоступным для программиста.</font></p>
+<b>
+<p><A NAME="m"></A>
+<font color="#000000" face="Times New Roman" size="4">Проект:
+адресная книга</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Хотя системы
+шаблонов хорошо подходят для многих типов
+web-приложений, они приносят особенную
+пользу в приложениях, ориентированных на
+выборку и вывод данных, в которых особенно
+важно обеспечить правильное
+форматирование.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Примером
+такого приложения является адресная книга.
+Представьте себе обычную (бумажную)
+адресную книгу: все страницы выглядят
+практически одинаково, различаются разве
+что буквы, с которых начинаются имена на
+конкретной странице. Аналогичный подход
+можно применить и к адресной книге на базе
+Web. Форматирование в данном случае играет
+еще более важную роль, поскольку не
+исключено, что данные придется
+экспортировать в другое приложение в каком-нибудь
+специфическом формате. Подобные приложения
+прекрасно работают на базе шаблонов,
+поскольку дизайнеру остается лишь создать
+единый формат страницы, который будет
+использоваться для всех 26 букв алфавита.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Прежде всего,
+необходимо решить, какие данные и в каком
+формате будут храниться в адресной книге.
+Конечно, оптимальным носителем информации
+в данном случае является база данных,
+поскольку это упростит такие полезные
+операции, как поиск и сортировка данных. В
+своем примере я воспользуюсь СУБД MySQL.
+Определение таблицы выглядит следующим
+образом:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">mysql&gt;CREATE table
+addressbook (</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">last_name char(35) NOT NULL,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">first_name char(20) MOT
+NULL,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">tel
+char(20) NOT NULL,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">email char(55) NOT NULL );</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Разумеется,
+вы можете самостоятельно добавить поля для
+хранения адреса, города и т. д. Для
+наглядности я буду использовать
+сокращенную таблицу, приведенную ранее.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Теперь я
+возьму на себя роль дизайнера и займусь
+созданием шаблонов. Для этого проекта нужны
+два шаблона. Код первого, «родительского»
+шаблона book.html приведен в листинге 12.8.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+12.8. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Основной
+шаблон адресной книги book.html</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;:::::{page_title}:::::&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=&quot;white&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;table cellpadding=2
+cellspacing=2 width=600&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;h1&gt;Address Book: {letter}&lt;/h1&gt; &lt;tr&gt;&lt;td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=a&quot;&gt;A&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=b&quot;&gt;B&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=c&quot;&gt;C&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=d&quot;&gt;D&lt;/a&gt;&nbsp;|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=e&quot;&gt;E&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=f&quot;&gt;F&lt;/a&gt;&nbsp;|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index,php?letter=g&quot;&gt;G&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=h&quot;&gt;H&lt;/a&gt;&nbsp;|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=i&quot;&gt;I&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=j&quot;&gt;J&lt;/a&gt;&nbsp;|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=k&quot;&gt;K&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=l&quot;&gt;L&lt;/a&gt;&nbsp;|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=m&quot;&gt;M&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=n&quot;&gt;N&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=o&quot;&gt;O&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=p&quot;&gt;P&lt;/a&gt;&nbsp;|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=q&quot;&gt;Q&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=r&quot;&gt;R&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=s&quot;&gt;S&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=t&quot;&gt;T&lt;/a&gt;&nbsp;|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=u&quot;&gt;U&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=v&quot;&gt;V&lt;/a&gt;&nbsp;|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=w&quot;&gt;W&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=x&quot;&gt;X&lt;/a&gt;&nbsp;|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=y&quot;&gt;Y&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;index.php?letter=z&quot;&gt;Z&lt;/a&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> &lt;/td&gt;&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">{rows.addresses}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/table&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как видите,
+файл в основном состоит из ссылок с разными
+буквами алфавита. Если щелкнуть на букве, в
+браузере отображается информация обо всех
+контактах в адресной книге, фамилии которых
+начинаются с указанной буквы.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В странице
+встречаются три имени переменных,
+заключенных в ограничители: page_title, letter и
+rows_addresses. Смысл первых двух переменных
+очевиден: текст в заголовке страницы и
+буква адресной книги, использованная для
+выборки текущих адресных данных. Третья
+переменная относится к дополнительному
+шаблону (листинг 12.9) и определяет файл
+конфигурации таблицы, включаемый в
+основной шаблон. Файлы конфигурации таблиц
+используются в связи с тем, что в сложных
+страницах может быть одновременно
+задействовано несколько шаблонов, в каждом
+из которых данные форматируются в виде
+таблиц HTML. Шаблон rows.addresses (листинг 12.9)
+выполняет вспомогательные функции и
+вставляется в основной шаблон book.html. Вскоре
+вы поймете, почему это необходимо.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+12.9.</font></font></i></b><font COLOR="#000000" size="3" face="Times New Roman"><i>
+</i></font><i><font size="3" face="Times New Roman"><font COLOR="#000000">Вспомогательный
+шаблон rows.addresses</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;tr&gt;&lt;td bgcolor=&quot;#c0c0c0&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;{last_name},{first_name}&lt;/b&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;tr&gt;&lt;td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;{telephone}&lt;/b&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;tr&gt;&lt;td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;&lt;a href =
+&quot;mailto:{email}&quot;&gt;{email}&lt;/a&gt;&lt;/b&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В листинге
+12.9 встречаются четыре переменных,
+заключенных в ограничители: last_name, first_name,
+telephone и emal. Смысл этих переменных очевиден (см.
+определение таблицы addressbook). Следует
+заметить, что этот файл состоит только из
+табличных тегов строк (&lt;tr&gt;...&lt;/tr&gt;) и
+ячеек (&lt;td&gt;...&lt;/td&gt;). Дело в том, что этот
+файл вставляется в шаблон многократно, по
+одному разу для каждого адреса,
+прочитанного из базы данных. Поскольку имя
+переменной rows.addresses в листинге 12.8
+включается внутрь тегов &lt;table&gt;...&lt;/table&gt;,
+форматирование HTML будет обработано
+правильно. Чтобы вы лучше поняли, как
+работает этот шаблон, взгляните на рис. 12.1 —
+на нем изображена копия страницы адресной
+книги. Затем проанализируйте листинг 12.10,
+содержащий исходный текст этой страницы. Вы
+увидите, что содержимое файла rows.addresses
+многократно встречается в странице.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+12.10.</font></font></i></b><font COLOR="#000000" size="3" face="Times New Roman"><i>
+</i></font><i><font size="3" face="Times New Roman"><font COLOR="#000000">Исходный
+текст страницы, изображенной на рис. 12.1</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;:::::Address
+Book:::::&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=&quot;white&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;table cellpadd1ng=2
+cellspacing=2 width=600&gt;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">&lt;hl&gt;Address Book:
+f&lt;/hl&gt;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">&lt;tr&gt;&lt;td&gt;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">&lt;a href=&quot;index.php?letter=a&quot;&gt;A&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">&lt;a href=&quot;index.php?letter=b&quot;&gt;B&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">&lt;a href=&quot;index.php?letter=c&quot;&gt;C&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">&lt;a href=&quot;index.php?letter=d&quot;&gt;D&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">&lt;a href=&quot;index.php?letter=e&quot;&gt;E&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">&lt;a href=&quot;index.php?letter=f&quot;&gt;F&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">&lt;a href=&quot;index.php?letter=g&quot;&gt;G&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000"> &lt;a href=&quot;index.php?letter=h&quot;&gt;H&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">&lt;a href=&quot;index.php?letter=i&quot;&gt;I&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000"> &lt;a href=&quot;index.php?letter=j&quot;&gt;J&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">&lt;a href=&quot;index.php?letter=k&quot;&gt;K&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000"> &lt;a href=&quot;index.php?letter=l&quot;&gt;L&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">&lt;a href=&quot;index.php?letter=m&quot;&gt;M&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000"> &lt;a href=&quot;index.php?1etter=n&quot;&gt;N&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">&lt;a href=&quot;index.php?letter=o&quot;&gt;0&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000"> &lt;a href=&quot;index.php?letter=p&quot;&gt;P&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">&lt;a href=&quot;index.php?letter=q&quot;&gt;Q&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000"> &lt;a href=&quot;index.php?letter=r&quot;&gt;R&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">&lt;a href=&quot;index.php?letter=s&quot;&gt;S&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000"> &lt;a href=&quot;index.php?letter=t&quot;&gt;T&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">&lt;a href=&quot;index.php?letter=u&quot;&gt;U&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000"> &lt;a href=&quot;index.php?letter=v&quot;&gt;V&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">&lt;a href=&quot;index.php?letter=w&quot;&gt;W&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000"> &lt;a href=&quot;index.php?letter=x&quot;&gt;X&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">&lt;a href=&quot;index.php?letter=y&quot;&gt;Y&lt;/a&gt;
+|&nbsp;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000"> &lt;a href=&quot;index.php?letter=z&quot;&gt;Z&lt;/a&gt;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000"> &lt;/td&gt;&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;tr&gt;&lt;t</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">bgcolor=&quot;#c0c0c0&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;Fries.Bobby&lt;/b&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;tr&gt;&lt;td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;(212)
+563-5678&lt;/b&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;tr&gt;&lt;td&gt;
+&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=&quot;mailto:bobby@fries.com&quot;&gt;bobby@fries.com&lt;/a&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/b&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;tr&gt;&lt;td
+bgcolor=&quot;#c0c0c0&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;Frenchy.Pierre&lt;/b&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;tr&gt;&lt;td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;002-(30)-09-7654321&lt;/b&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;tr&gt;&lt;td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;&lt;a href =
+&quot;mailto:frenchy@frenchtv.com&quot;&gt;<br>frenchy@frenchtv.com&lt;/a&gt;&lt;/b&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/table&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как видно из
+приведенного листинга, в адресной книге
+хранятся записи двух лиц, фамилии которых
+начинаются с буквы F: Bobby Fries и Pierre Frenchy.
+Соответственно в таблицу вставляются
+данные двух записей.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Дизайнерская
+часть проекта адресной книги завершена, и я
+перехожу к роли программиста. Возможно, вас
+удивит тот факт, что класс tempiate. class (см.
+листинг 12.7) практически не изменился, если
+не считать появления одного нового метода
+— address_sql( ). Код этого метода приведен в
+листинге 12.11.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+12.11. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Обработка
+данных, полученных в результате запроса</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">class template {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">VAR $files = array( );</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">VAR $variab!es = array( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">VAR $sql = array();</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">VAR $opening_escape -
+'{';</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">VAR $closing_escape =
+'}';</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">VAR $host = &quot;localhost&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">VAR $user = &quot;root&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">VAR $pswd = &quot;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">VAR $db = &quot;book&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">VAR $address table =
+&quot;addressbook&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function address_sql($file_id,
+$vanable_name, $letter) {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Подключиться к серверу MySQL и выбрать базу
+данных&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> mysql_connect($this-&gt;host, $this-&gt;user, $this-&gt;pswd)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or
+die(&quot;Couldn't connect to MySQL server!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">mysql_select_db($this-&gt;db)
+or die('Couldn't select MySQL database!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Обратиться
+с запросом к базе данных</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;SELECT
+last_name, first_name, tel, email</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">FROM $this-&gt;address_table
+WHERE lastjiame LIKE '$letter%' &quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$result = mysql_query($query);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Открыть
+файл &quot;rows.addresses&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// и
+прочитать его содержимое в переменную</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$fh - fopen(&quot;$variable_name&quot;,
+&quot;r&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$file_contents = fread($fh,
+filesize(&quot;rows.addresses&quot;) ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Заменить
+имена переменных в ограничителях</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// данными из
+базы.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while ($row =
+mysql_fetch_array($result)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$new_row = $file_contents;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$new_row=str_replace($this-&gt;opening_escape.<br>&quot;last_name&quot;.$this-&gt;closing_escape.&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$row[&quot;last_name&quot;].
+$new_row);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$new_row=</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">str_replace($th1s-&gt;opening_escape.<br>&quot;first_name&quot;.$this-&gt;closing_escape.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$row[&quot;first_name&quot;], $new_row);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$new_row=str_replace($this-&gt;opening_escape.<br>&quot;telephone&quot;.$this-&gt;closing_escape.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&nbsp;$row[&quot;tel&quot;],
+$new_row);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$new_row = str_replace($this-&gt;opening_escape.<br>&quot;email&quot;.$this-&gt;closing_escape,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&nbsp;$row[&quot;email&quot;],</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$new_row);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Присоединить запись к итоговой строке
+замены</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$complete_table .= $new_row;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$sql_array_key = $variable_name;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$this-&gt;sql[$sql_array_key] = $complete_table;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Включить
+ключ в массив variables для последующего поиска</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$this-&gt;variables[$file_id][ ] = $variable_name;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Закрыть
+файловый манипулятор fclose(lfh);</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Комментариев,
+приведенных в листинге 12.11, вполне
+достаточно для того, чтобы вы разобрались в
+происходящем, однако я должен сделать
+несколько важных замечаний. Во-первых,
+обратите внимание на то, что файл rows.addresses
+открывается </font><i><font COLOR="#000000">только один
+раз. </font></i><font COLOR="#000000">Возможен и другой
+вариант — многократно открывать и
+закрывать файл rows.addresses, каждый раз
+производя замену и присоединяя его
+содержимое к переменной $complete_table. Впрочем,
+такое решение будет крайне неэффективным.
+Потратьте немного времени и разберитесь в
+том, как новые данные таблицы в цикле
+присоединяются к переменной $complete_table.</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Второе, на
+что следует обратить внимание при
+просмотре листинга 12.11, — появление пяти
+новых атрибутов класса: $host, $user, $pswd, $db и
+$address_table. В этих атрибутах хранится
+информация, необходимая для сервера SQL.
+Полагаю, смысл каждого атрибута понятен без
+объяснений, а если нет — вернитесь и
+повторите материал главы 11.</font></p>
+<p><font size="3" face="Times New Roman">&nbsp;<img border="0" src="12.1.jpg" width="475" height="204"></font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Рис. 12.1. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Страница
+адресной книги</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Все, что
+осталось сделать — написать файл index.php,
+инициирующий обработку шаблонов, Код этого
+файла приведен в листинге 12.12. Если щелкнуть
+на одной из ссылок (index.php?letter=буква) на
+странице book.html (см. листинг 12.8), загружается
+страница index.php, которая, в свою очередь,
+заново строит book.html с включением новой
+информации.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+12.12.</font></font></i></b><font COLOR="#000000" size="3" face="Times New Roman"><i>
+</i></font><i><font size="3" face="Times New Roman"><font COLOR="#000000">Обработчик
+шаблонов index.php</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">include(&quot;Listing12-11.php&quot;);
+$page_title = &quot;Address Book&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// По
+умолчанию загружается страница с фамилиями,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// начинающимися с буквы 'а' if (! isset($letter) ) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$letter = &quot;а&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif ;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$tpl = new template;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$tpl-&gt;register_file(&quot;book&quot;,
+&quot;book.html&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$tpl-&gt;register_variables(&quot;book&quot;, &quot;page_title.letter&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$tpl -&gt;address_sql(&quot;book&quot;, &quot;rows.addresses&quot;, &quot;$letter&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$tpl -&gt;file_parser(&quot;book&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$tpl-&gt;phnt_fil(&quot;book&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Перед вами
+практический пример, показывающий, как при
+помощи шаблонов организовать эффективное
+разделение труда между программистом и
+дизайнером. Подумайте, как бы вы
+использовали шаблоны для организации своих
+разработок. Готов поспорить, что вы найдете
+им полезное применение.</font></p>
+<b>
+<p><A NAME="n"></A>
+<font color="#000000" face="Times New Roman" size="4">Итоги</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В этой главе
+была представлена концепция, особенно
+важная как для РНР, так и для web-программирования
+в целом, — применение шаблонов. Глава
+началась с обзора двух схем; упоминавшихся
+ранее, — простой замены переменных
+средствами РНР и логическим делением
+страницы при помощи включаемых файлов.
+Затем мы познакомились с третьей схемой
+применения шаблонов, позволяющей полностью
+отделить программирование от дизайна
+страницы. Оставшаяся часть главы была
+посвящена анализу класса, построенного для
+реализации шаблонов такого рода. Главу
+завершает пример практического
+использования шаблонов в адресной книге на
+базе Web. В частности, в этой главе
+рассматривались следующие темы:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">для чего
+    нужны шаблоны;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">простой
+    шаблон № 1: внедрение РНР в HTML;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">простой
+    шаблон № 2: разделение компонентов
+    страницы при помощи включаемых файлов;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">нетривиальное
+    использование шаблонов для полного
+    разделения программирования и дизайна;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">класс для
+    работы с шаблонами;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">регистрация
+    файлов;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">регистрация
+    переменных;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">подстановка
+    значений переменных в файл;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">вывод
+    файла в браузере;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">недостатки
+    шаблонов;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">адресная
+    книга, расширяющая стандартный класс
+    шаблона за счет применения запросов SQL.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующей
+главе мы продолжим знакомство с
+разработкой динамических web-приложений. Вы
+узнаете, как при помощи cookie и отслеживания
+сеансовых данных наделить ваш web-сайт
+новыми интерактивными возможностями.</font></p>
+</BODY></HTML>

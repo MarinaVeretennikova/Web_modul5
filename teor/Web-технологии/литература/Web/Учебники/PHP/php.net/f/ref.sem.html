@@ -1,0 +1,48 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Semaphore, Shared Memory и IPC</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="sql-regcase.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="ftok.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.sem"></A>XC. Функции Semaphore, Shared Memory и IPC</h1><A NAME="AEN71745"></A>
+<P>Этот модуль предоставляет оболочки для семейства функций System V IPC.
+Он включает семафоры, shared-память и внутрипроцессные сообщения/inter-process messaging (IPC).</P>
+<P>Семафоры могут использоваться для предоставления эксклюзивного доступа к 
+ресурсам на текущей машине или для ограничения количества процессов, которые могут одновременно использовать ресурс.</P>
+<P>Этот модуль также предоставляет функции для работы с shared-памятью с 
+использованием совместно используемой памяти System V. Shared-память может 
+использоваться для предоставления доступа к глобальным переменным. Различные httpd-демоны и даже другие программы
+(такие как Perl, C, ...) могут получать доступ к этим данным, что даёт 
+глобальный обмен данными. Помните, что shared-память НЕ защищена от 
+одновременного доступа. Используйте семафоры для синхронизации.<A NAME="AEN71749"></A>
+<h6>Таблица 1. Ограничения Shared-памяти в ОС Unix</h6><TABLE BORDER="1"><TBODY><TR><TD>SHMMAX</TD>
+<TD>максимальный размер shared-памяти, нормально 131072 байт</TD></TR><TR><TD>SHMMIN</TD>
+<TD>минимальный размер shared-памяти, нормально 1 байт</TD></TR><TR><TD>SHMMNI</TD>
+<TD>максимальное количество сегментов shared-памяти в системе, нормально 100</TD></TR>
+<TR><TD>SHMSEG</TD><TD>максимальное количество сегментов shared-памяти на процесс, нормально 6</TD></TR></TBODY></TABLE>
+<P>Функции сообщений могут использоваться для отправки и получения сообщений 
+в/из других процессов.  Они являются простым и эффективным средством обмена 
+данными между процессами без необходимости без необходимости настройки 
+альтернативного использования сокетов домена unix.</P><BLOCKQUOTE><P><B>Примечание: </B>эти функции не работаю на системах Windows.</P></BLOCKQUOTE>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="ftok.html">ftok</A> - конвертирует pathname и идентификатор проекта в ключ System V IPC</DT>
+<DT><A HREF="msg-get-queue.html">msg_get_queue</A> - создаёт очередь сообщений или присоединяет к ней</DT>
+<DT><A HREF="msg-receive.html">msg_receive</A> - получает сообщение из очереди сообщений</DT>
+<DT><A HREF="msg-remove-queue.html">msg_remove_queue</A> - разрушает очередь сообщений</DT>
+<DT><A HREF="msg-send.html">msg_send</A> - отправляет сообщение в очередь сообщений</DT>
+<DT><A HREF="msg-set-queue.html">msg_set_queue</A> - устанавливает информацию в структуре данных очереди сообщений</DT>
+<DT><A HREF="msg-stat-queue.html">msg_stat_queue</A> - возвращает информацию из структуры данных очереди сообщений</DT>
+<DT><A HREF="sem-acquire.html">sem_acquire</A> - получает семафор</DT>
+<DT><A HREF="sem-get.html">sem_get</A> - получает id семафора</DT>
+<DT><A HREF="sem-release.html">sem_release</A> - освобождает семафор</DT>
+<DT><A HREF="sem-remove.html">sem_remove</A> - удаляет семафор</DT>
+<DT><A HREF="shm-attach.html">shm_attach</A> - создаёт или открывает сегмент shared-памяти</DT>
+<DT><A HREF="shm-detach.html">shm_detach</A> - отсоединяет от сегмента shared-паямти</DT>
+<DT><A HREF="shm-get-var.html">shm_get_var</A> - возвращает переменную из shared-памяти</DT>
+<DT><A HREF="shm-put-var.html">shm_put_var</A> - вставляет или обновляет переменную в shared-памяти</DT>
+<DT><A HREF="shm-remove-var.html">shm_remove_var</A> - удаляет переменную из shared-памяти</DT>
+<DT><A HREF="shm-remove.html">shm_remove</A> - удаляет shared-память из Unix-систем</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="sql-regcase.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="ftok.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">sql_regcase</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">ftok</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

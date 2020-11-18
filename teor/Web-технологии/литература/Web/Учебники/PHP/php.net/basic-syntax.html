@@ -1,0 +1,91 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>Базовый Синтаксис</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="langref.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="instruction-separation.html">Вперёд</A></TD></TR></TABLE></TD></TR>
+<TR BGCOLOR="#333366"><TD><IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR>
+</TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD>
+<TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%"><H1><A NAME="language.basic-syntax">Глава 5. Базовый синтаксис</A></H1>
+<DL><DT><B>Содержание</B></DT><DT ><a href="#language.basic-syntax.phpmode">Выход из HTML</a></DT>
+<DT><a href="instruction-separation.html">Разделение Инструкций</a></DT>
+<DT><a href="comments.html">Комментарии</a></DT></DL>
+<H1><A NAME="language.basic-syntax.phpmode">Выход из HTML</A></H1>
+<P>Когда PHP разбирает файл, он просто передаёт текст файла, пока не обнаружит 
+один из специальных тэгов, который говорит о необходимости начать 
+интерпретацию текста как кода PHP. Разборщик выполняет весь найденный код 
+до закрывающего тэга PHP, который говорит разборщику, что нужно снова 
+начать просто передавать текст. Этот механизм позволяет внедрять PHP-код в HTML: 
+всё за пределами тэгов PHP остаётся без изменений, а внутри тэгов - разбирается как код.</P>
+<P>Имеются четыре набора тэгов, которые используются для обозначения блоков кода PHP.<br>
+Только два из них (&#60;?php. . .?&#62; и &#60;script
+language="php"&#62;. . .&#60;/script&#62;) всегда доступны; другие можно 
+включать и отключать из файла конфигурации <TT>php.ini</TT>. Хотя сокращённые тэги и тэги в стиле ASP могут быть удобны, они не так 
+переносимы, как их длинные версии. Также, если вы предполагаете внедрять
+PHP-код в XML или XHTML, нужно использовать форму &#60;?php. . .?&#62; для соответствия XML.</P>
+<P>Тэги, поддерживаемые PHP:</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN3361"></A><h5>Пример 5-1. Способы выхода из HTML</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>1.  &#60;?php echo("если вы хотите работать с документами XHTML или XML, делайте так\n"); ?&#62;
+
+2.  &#60;? echo ("это простейшая SGML-инструкция процессинга\n"); ?&#62;
+    &#60;?= выражение ?&#62; Это аббревиатура для "&#60;? echo выражение ?&#62;"
+    
+3.  &#60;script language="php"&#62;
+        echo ("некоторые редакторы (вроде FrontPage) не любят
+              инструкции процессинга");
+    &#60;/script&#62;
+
+4.  &#60;% echo ("Вы можете по выбору использовать тэги в стиле ASP"); %&#62;
+    &#60;%= $variable; # Это аббревиатура для "&#60;% echo . . ." %&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Первый способ, &#60;?php. . .?&#62;, это предпочтительный метод, так как он 
+позволяет использовать PHP в коде, соответствующем правилам XML, таком как XHTML.</P>
+<P>Второй способ вообще невозможен. Сокращённые тэги доступны только тогда, 
+когда они подключены. Это можно сделать функцией <B>short_tags()</B> (только в PHP 3), включив
+установку конфигурации <A HREF="configuration.html#ini.short-open-tag">short_open_tag</A> в PHP
+config-файле, или скомпилировав PHP с опцией --enable-short-tags в <B>configure</B>. Даже если вы по
+умолчанию включили в php.ini-dist, использование сокращённых тэгов не рекомендуется.</P>
+<P>Четвёртый способ доступен, только если тэги в стиле ASP включены с 
+использованием установки конфигурации <A HREF="configuration.html#ini.asp-tags">asp_tags</A>.
+<BLOCKQUOTE><P><B>Примечание: </B>поддержка тэгов ASP-стиля была введена в версии 3.0.4.</P></BLOCKQUOTE>
+<BLOCKQUOTE><P><B>Примечание: </B>
+  использование сокращённых тэгов должно быть исключено при разработке 
+приложений или библиотек, предназначенных для распространения или при публикации на
+PHP-серверы, которые вами не контролируются, поскольку сокращённые тэги
+могут не поддерживаться на целевом сервере.  Для обеспечения 
+переносимости и распространения кода не используйте сокращённые тэги.</P></BLOCKQUOTE>
+<P>Закрывающий тэг блока будет иметь следом за собой ведомый символ newline, 
+если он имеется. Также закрывающий тэг автоматически подразумевает точку с 
+запятой; вам не нужно также вводить символ &quot;точка с запятой&quot; в конце последней строки PHP-блока.</P>
+<P>PHP позволяет использовать структуры такого вида:<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN3377"></A><h5>Пример 5-2. Advanced escaping/продвинутая замена</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+if ($expression) { 
+    ?&#62;
+    &#60;strong&#62;Это правильно.&#60;/strong&#62;
+    &#60;?php 
+} else { 
+    ?&#62;
+    &#60;strong&#62;Это неправильно.&#60;/strong&#62;
+    &#60;?php 
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Этот код работает так, как ожидается, поскольку, когда PHP встречает 
+закрывающие тэги ?&#62;, он просто начинает выводить всё, что обнаруживает 
+после них, до обнаружения другого открывающего тэга. Этот пример, конечно, 
+надуманный, но при выводе больших блоков текста выход из режима разбора
+PHP обычно более эффективен, чем отправка всего текста через
+<A HREF="f/echo.html"><B>echo()</B></A> или <A HREF="f/print.html">
+<B>print()</B></A> или что-нибудь похожее.</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD>
+</TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="langref.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="instruction-separation.html">Вперёд</A>
+</TD></TR><TR><TD WIDTH="33%" VALIGN="top">Справочник Языка</TD><th WIDTH="34%" VALIGN="top">
+<a href="langref.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Разделение инструкций</TD>
+</TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

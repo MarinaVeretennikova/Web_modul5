@@ -1,0 +1,1038 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0057)http://www.intuit.ru/department/pl/plphp/13/plphp_13.html -->
+<HTML><HEAD><TITLE>INTUIT.ru::Интернет-Университет Информационных Технологий</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251"><LINK 
+href="Регулярные выражения.files/printable.css" type=text/css rel=stylesheet>
+<META content="MSHTML 6.00.2900.2180" name=GENERATOR></HEAD>
+<BODY leftMargin=0 topMargin=6 marginwidth="0" marginheight="6">
+<DIV align=left><SPAN style="FONT-WEIGHT: bold; COLOR: #000000">&nbsp;&nbsp; 
+<SPAN style="FONT-SIZE: 12pt">Интернет-Университет Информационных 
+Технологий</SPAN> </SPAN></DIV>&nbsp;&nbsp; <SPAN 
+style="COLOR: #330066; TEXT-DECORATION: underline" 
+align="rright">http://www.INTUIT.ru</SPAN> 
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD colSpan=3 height=8><IMG height=8 
+      src="Регулярные выражения.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD class=orang colSpan=3 height=1><IMG height=1 
+      src="Регулярные выражения.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD colSpan=3 height=8><IMG height=8 
+      src="Регулярные выражения.files/empty.gif" width=1></TD></TR>
+  <TR vAlign=top>
+    <TD><IMG height=1 src="Регулярные выражения.files/empty.gif" width=8></TD>
+    <TD><!-- content -->
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=head>Язык программирования PHP</TD></TR>
+        <TR>
+          <TD height=4><IMG height=4 
+            src="Регулярные выражения.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD class=orang height=1><IMG height=1 
+            src="Регулярные выражения.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Регулярные выражения.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD><SPAN class=headsub>13. Лекция: Регулярные выражения: версия для 
+            печати и PDA</SPAN> <BR><SPAN class=rtxt>В лекции рассматривается 
+            понятие регулярного выражения, реализация механизма регулярных 
+            выражений в языке PHP, их синтаксис и семантика. Пример – задача 
+            контекстного поиска.</SPAN> </TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Регулярные выражения.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD class=orang height=1><IMG height=1 
+            src="Регулярные выражения.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Регулярные выражения.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD>
+            <H3>Понятие регулярного выражения</H3>
+            <P><A name=keyword-context.1></A><SPAN class=keyword_def>Регулярное 
+            выражение</SPAN> (regular expression, сокращенно <SPAN 
+            class=keyword>РВ</SPAN>) – это технология, которая позволяет задать 
+            шаблон и осуществить поиск данных, соответствующих этому шаблону, в 
+            заданном тексте, представленном в виде строки. </P>
+            <P>Кроме того, с помощью <SPAN class=keyword>регулярных 
+            выражений</SPAN> можно изменить и удалить данные, разбить строку по 
+            шаблону на подстроки и многое другое. </P>
+            <P>Одно из распространенных применений <SPAN class=keyword>РВ</SPAN> 
+            – это проверка строки на соответствие каким-либо правилам. Например, 
+            следующее <SPAN class=keyword>РВ</SPAN> предназначено для проверки 
+            того, что строка содержит корректный e-mail–адрес:</P>
+            <DIV class=example><PRE>/^\w+([\.\w]+)*\w@\w((\.\w)*\w+)*\.\w{2,3}$/
+</PRE></DIV>
+            <P>Выглядит, конечно, жутко, но зато работает. И если уметь 
+            пользоваться этим механизмом виртуозно, то жить становится легче. 
+            </P>
+            <P>Вернемся к нашему определению <SPAN class=keyword>РВ</SPAN>. В 
+            нем несколько раз повторяется термин «шаблон». Что это такое? В 
+            принципе, интуитивно понятно, но попробуем все же пояснить. </P>
+            <P>Давайте подумаем, что представляет собой корректный e-mail–адрес. 
+            Это набор букв, цифр и символов подчеркивания, после которых идет 
+            специальный символ «собака» <SPAN class=texample>@</SPAN>, затем еще 
+            один такой же набор, содержащий имя сервера, точку (<SPAN 
+            class=texample>.</SPAN>) и две или три буквы, указывающие на зону 
+            домена, к которой принадлежит почтовый ящик (ru, com, org и т.д.). 
+            Приведенное выше <SPAN class=keyword>РВ</SPAN> формализует данное 
+            описание на языке, понятном компьютеру. И описывает не какой-то 
+            конкретный электронный адрес, а все возможные корректные электронные 
+            адреса. Таким образом, производится формальное задание множества 
+            правильных e-mail'ов с помощью шаблона <SPAN 
+            class=keyword>регулярного выражения</SPAN>. Другие примеры шаблонов 
+            – это шаблоны MS Word и html-формы. </P>
+            <P>Механизм <SPAN class=keyword>регулярных выражений</SPAN> задает 
+            правила построения шаблонов и осуществляет поиск данных по этому 
+            шаблону в указанной строке. </P>
+            <P>В дальнейшем изложении термины <SPAN class=keyword>РВ</SPAN> и 
+            «шаблон» часто будут использоваться как синонимы, но важно понимать, 
+            что это не совсем одно и то же. Шаблон задает какой-то тип данных, а 
+            <SPAN class=keyword>РВ</SPAN> – это механизм, который производит 
+            поиск и включает в себя шаблон и опции поиска, а также задает язык 
+            написания шаблонов.</P>
+            <H3>Регулярные выражения в PHP</H3>
+            <P><SPAN class=keyword>Регулярные выражения</SPAN> пришли из UNIX и 
+            Perl. Как упоминалось выше, с помощью <SPAN class=keyword>регулярных 
+            выражений</SPAN> можно искать и изменять текст, разбивать строку на 
+            подстроки и т.д. В PHP существуют такие удобные и мощные средства 
+            работы со строками, как <SPAN class=texample>explode</SPAN> 
+            (разбиение строки на подстроки), <SPAN class=texample>strstr</SPAN> 
+            (нахождение подстроки), <SPAN class=texample>str_replace</SPAN> 
+            (замена всех вхождений подстроки). Возникает вопрос – зачем 
+            придумывать что-то еще? </P>
+            <P>Основное преимущество <SPAN class=keyword>РВ</SPAN> заключается в 
+            том, что они позволяют организовать более гибкий поиск, т.е. найти 
+            то, о чем нет точного знания, но есть примерное представление. 
+            Например, нужно найти все семизначные номера телефонов, 
+            встречающиеся в тексте. Мы не ищем какой-то заранее известный нам 
+            номер телефона, мы знаем только, что искомый номер состоит из семи 
+            цифр. Для этого можно воспользоваться следующим <SPAN 
+            class=keyword>РВ</SPAN>:</P>
+            <DIV class=example><PRE>/\d{3}-\d{2}-\d{2}/m
+</PRE></DIV>
+            <P>В PHP существует два различных механизма для обработки <SPAN 
+            class=keyword>регулярных выражений</SPAN>: <SPAN 
+            class=keyword>POSIX-совместимые</SPAN> и <SPAN 
+            class=keyword>Perl-совместимые</SPAN> (сокращенно <SPAN 
+            class=keyword>PCRE</SPAN>). Их <SPAN class=keyword>синтаксис</SPAN> 
+            во многом похож, однако <SPAN class=keyword>Perl-совместимые 
+            регулярные выражения</SPAN> более мощные и к тому же работают 
+            намного быстрее. Начиная с версии PHP 4.2.0, <SPAN 
+            class=keyword>PCRE</SPAN> входят в набор базовых модулей и 
+            подключены по умолчанию. <SPAN class=keyword>POSIX-совместимые 
+            РВ</SPAN> включены по умолчанию только в версию PHP для Windows. 
+</P>
+            <P>Основные функции для работы с <SPAN 
+            class=keyword>Perl-совместимыми регулярными выражениями</SPAN>: 
+            <SPAN class=texample>preg_match(pattern, string, [result, 
+            flags])</SPAN> и <SPAN class=texample>preg_match_all(pattern, 
+            string, result, [flags])&gt;</SPAN>, где: </P>
+            <P><SPAN class=texample>pattern</SPAN> – <SPAN class=keyword>шаблон 
+            регулярного выражения</SPAN>; </P>
+            <P><SPAN class=texample>string</SPAN> – строка, в которой 
+            производится поиск; </P>
+            <P><SPAN class=texample>result</SPAN> – содержит массив результатов 
+            (нулевой элемент массива содержит соответствие всему шаблону, первый 
+            – первому «захваченному» <SPAN class=keyword>подшаблону</SPAN> и 
+            т.д.); </P>
+            <P><SPAN class=texample>flags</SPAN> – необязательный параметр, 
+            определяющий то, как упорядочены результаты поиска. </P>
+            <P>Эти функции осуществляют поиск по шаблону и возвращают информацию 
+            о том, сколько раз произошло совпадение. Для <SPAN 
+            class=texample><SPAN class=keyword>preg_match()</SPAN></SPAN> это 
+            <SPAN class=texample>0</SPAN> (нет совпадений) или <SPAN 
+            class=texample>1</SPAN>, поскольку поиск прекращается, как только 
+            найдено первое совпадение. Функция <SPAN class=texample><SPAN 
+            class=keyword>preg_match_all()</SPAN></SPAN> производит поиск до 
+            конца строки и поэтому находит все совпадения. Все точные совпадения 
+            содержатся в первом элементе массива <SPAN 
+            class=texample>result</SPAN> у каждой из этих функций (для <SPAN 
+            class=texample><SPAN class=keyword>preg_match_all()</SPAN></SPAN> 
+            этот элемент – тоже массив). </P>
+            <P>Про «захват» элементов будет рассказано в разделе, посвященном 
+            <SPAN class=keyword>подвыражениям</SPAN>. </P>
+            <P>Аналогом <SPAN class=texample><SPAN 
+            class=keyword>preg_match</SPAN></SPAN> является булева функция 
+            POSIX-расширения <SPAN class=texample>ereg(string pattern, string 
+            string [, array regs])</SPAN> </P>
+            <P>Функция <SPAN class=texample><SPAN 
+            class=keyword>ereg()</SPAN></SPAN> возвращает <SPAN 
+            class=texample>TRUE</SPAN>, если совпадение найдено, и <SPAN 
+            class=texample>FALSE</SPAN> – в противном случае. </P>
+            <P>Приводимые далее примеры можно тестировать на перечисленных 
+            функциях. Например, так:</P>
+            <DIV class=example><PRE>&lt;?
+//строка, в которой нужно что-то найти
+$str = "Мой телефонный номер: ".
+"33-22-44. Номер моего редактора: ".
+"222-44-55 и 323-22-33";
+//шаблон, по которому искать.
+//Задает поиск семизначных номеров.
+$pattern = "/\d{3}-\d{2}-\d{2}/m";
+//функция, осуществляющая поиск
+$num_match = preg_match_all ($pattern,
+                       $str, $result);
+//вывод результатов поиска
+for ($i=0;$i&lt;$num_match;$i++) 
+    echo "Совпадение $i: ".
+               $result[0][$i]."&lt;br&gt;";
+?&gt;
+</PRE></DIV>
+            <H3>Синтаксис регулярных выражений</H3>
+            <P>Строгое определение <SPAN class=keyword>регулярного 
+            выражения</SPAN> выглядит довольно громоздко. Начнем с неформального 
+            описания. </P>
+            <P><SPAN class=keyword>Регулярное выражение</SPAN> представляет 
+            собой строку. Эта строка состоит из собственно <SPAN 
+            class=keyword>регулярного выражения</SPAN> (шаблона), выделенного с 
+            помощью специального символа разделителя (это могут быть символы 
+            «<SPAN class=texample>/</SPAN>» , «<SPAN class=texample>|</SPAN>», 
+            «<SPAN class=texample>{</SPAN>«, «<SPAN class=texample>!</SPAN>» и 
+            т.п ) и <SPAN class=keyword>модификатора</SPAN>, влияющего на способ 
+            обработки <SPAN class=keyword>РВ</SPAN>. </P>
+            <P>В дальнейшем это описание будет расширено. </P>
+            <P>Например, в <SPAN class=keyword>регулярном выражении</SPAN> <SPAN 
+            class=texample>/\d{3}-\d{2}-\d{2}/m</SPAN> символ «<SPAN 
+            class=texample>/</SPAN>»является разделителем, <SPAN 
+            class=texample>\d{3}-\d{2}-\d{2}</SPAN> – непосредственно <SPAN 
+            class=keyword>регулярное выражение</SPAN> (шаблон), а <SPAN 
+            class=texample>m</SPAN> – <SPAN class=keyword>модификатор</SPAN>. 
+            </P>
+            <P>Мощь <SPAN class=keyword>регулярных выражений</SPAN> порождена в 
+            основе своей их способностью включать в шаблон альтернативы и 
+            повторения. Они кодируются в шаблоне с помощью <SPAN 
+            class=keyword>метасимволов</SPAN>. <SPAN 
+            class=keyword>Метасимвол</SPAN> отличается от любого другого символа 
+            тем, что имеет специальное значение. </P>
+            <P>Одним из основных <SPAN class=keyword>метасимволов</SPAN> 
+            является <SPAN class=keyword>обратный слэш</SPAN> «<SPAN 
+            class=texample>\</SPAN>». Он меняет тип символа, следующего за ним, 
+            на противоположный, т.е. если это был обычный символ, то он МОЖЕТ 
+            превратиться в <SPAN class=keyword>метасимвол</SPAN>, если это был 
+            <SPAN class=keyword>метасимвол</SPAN>, то он теряет свое специальное 
+            значение и становится обычным символом (это нужно для того, чтобы 
+            вставлять в текст специальные символы как обычные). Например, символ 
+            <SPAN class=texample>d</SPAN> в обычном режиме не имеет никаких 
+            специальных значений, но <SPAN class=texample>\d</SPAN> есть <SPAN 
+            class=keyword>метасимвол</SPAN>, означающий «любая цифра». Символ 
+            «<SPAN class=texample>.</SPAN>» в обычном режиме означает «любой 
+            единичный символ», а «<SPAN class=texample>\.</SPAN>» означает 
+            просто точку. </P>
+            <P>Другое назначение <SPAN class=keyword>обратного слэша</SPAN> – 
+            кодирование непечатных символов, таких как : </P>
+            <P><SPAN class=texample>\n</SPAN> – cимвол перевода строки; </P>
+            <P><SPAN class=texample>\e </SPAN>– символ escape; </P>
+            <P><SPAN class=texample>\t</SPAN> – cимвол табуляции; </P>
+            <P><SPAN class=texample>\xhh</SPAN> – символ в шестнадцатеричном 
+            коде, например <SPAN class=texample>\x41</SPAN> есть буква <SPAN 
+            class=texample>A</SPAN> и т.д. </P>
+            <P>Еще одно назначение <SPAN class=keyword>обратного слэша</SPAN> – 
+            обозначение генерируемых символьных типов, таких как: </P>
+            <P><SPAN class=texample>\d</SPAN> – любая десятичная цифра (<SPAN 
+            class=texample>0-9</SPAN>); </P>
+            <P><SPAN class=texample>\D</SPAN> – любой символ, не являющийся 
+            десятичной цифрой; </P>
+            <P><SPAN class=texample>\s</SPAN> – любой пустой символ (пробел или 
+            табуляция); </P>
+            <P><SPAN class=texample>\S</SPAN> – любой символ, не являющийся 
+            пустым; </P>
+            <P><SPAN class=texample>\w</SPAN> – символ, используемый для 
+            написания Perl-слов (это буквы, цифры и символ подчеркивания), так 
+            называемый «словарный символ»; </P>
+            <P><SPAN class=texample>\W</SPAN> – несловарный символ (все символы, 
+            кроме определяемых <SPAN class=texample>\w</SPAN>). </P>
+            <P>Что имеется в виду под «символьным типом»? Просто каждый <SPAN 
+            class=keyword>метасимвол</SPAN> принимает значение (одно) из класса 
+            возможных значений, заданных автоматически или вручную. Символьные 
+            типы, задаваемые пользователем, описываются с помощью квадратных 
+            скобок (подробнее об этом позже). Выше приведены символьные типы, 
+            диапазон значений которых заранее определен языком программирования. 
+            </P>
+            <P>Пример использования приведенных выше <SPAN 
+            class=keyword>метасимволов</SPAN>:</P>
+            <DIV class=example><PRE>/\d\d\d plus \d is \w\w\w/ 
+</PRE></DIV>
+            <P>Это <SPAN class=keyword>РВ</SPAN> означает: трехзначное число, за 
+            которым следует подстрока <SPAN class=texample>plus</SPAN>, любая 
+            цифра, затем <SPAN class=texample>is</SPAN> и слово из трех 
+            словарных символов. В частности, данному <SPAN 
+            class=keyword>РВ</SPAN> удовлетворяют строки: «<SPAN 
+            class=texample>123 plus 3 is sum</SPAN>», «<SPAN class=texample>213 
+            plus 4 is 217</SPAN>». </P>
+            <P>Вообще различают два множества <SPAN 
+            class=keyword>метасимволов</SPAN>: те, что распознаются в любом 
+            месте шаблона, за исключением внутренности квадратных скобок, и те, 
+            что распознаются внутри квадратных скобок. </P>
+            <P>Квадратные скобки <SPAN class=texample>[ ]</SPAN> применяются для 
+            <SPAN class=keyword>описания подмножеств</SPAN> и внутри <SPAN 
+            class=keyword>регулярного выражения</SPAN> рассматриваются как один 
+            символ, который может принимать значения, перечисленные внутри этих 
+            скобок. Однако если первым символом внутри скобок является <SPAN 
+            class=texample>^</SPAN>, то значением символьного класса могут быть 
+            только символы, НЕ перечисленные внутри скобок. </P>
+            <P><B>Примеры:</B></P>
+            <OL>
+              <LI>Символьный класс <SPAN class=texample>[абвгд]</SPAN> задает 
+              один из символов <SPAN class=texample>а</SPAN>, <SPAN 
+              class=texample>б</SPAN>, <SPAN class=texample>в</SPAN>, <SPAN 
+              class=texample>г</SPAN>, <SPAN class=texample>д</SPAN>, а класс 
+              <SPAN class=texample>[^абвгд]</SPAN> задает любой символ, кроме 
+              <SPAN class=texample>а</SPAN>, <SPAN class=texample>б</SPAN>, 
+              <SPAN class=texample>в</SPAN>, <SPAN class=texample>г</SPAN>, 
+              <SPAN class=texample>д</SPAN>. 
+              <LI>Если написать <SPAN class=texample>[2бул]ки]</SPAN>, то это 
+              выражение интерпретируется как один из символов <SPAN 
+              class=texample>2</SPAN>, <SPAN class=texample>б</SPAN>, <SPAN 
+              class=texample>у</SPAN>, <SPAN class=texample>л</SPAN>, за которым 
+              следует строка <SPAN class=texample>ки]</SPAN>, потому что первая 
+              встретившаяся закрывающая квадратная скобка (разбор происходит 
+              слева направо) заканчивает определение символьного класса. То есть 
+              это <SPAN class=keyword>РВ</SPAN> совпадет с одной из строк <SPAN 
+              class=texample>2ки]</SPAN>, <SPAN class=texample>бки]</SPAN>, 
+              <SPAN class=texample>уки]</SPAN> или <SPAN 
+              class=texample>лки]</SPAN>. 
+              <LI>С помощью <SPAN class=keyword>РВ</SPAN><SPAN class=texample> 
+              [0-9А-Яа-я]</SPAN> можно задать любую букву или цифру.</LI></OL>
+            <P><SPAN class=keyword>Метасимволы</SPAN>, распознаваемые вне 
+            квадратных скобок, можно разделить на группы следующим образом: 
+            определяющие положение искомого текста в строке, связанные с <SPAN 
+            class=keyword>подвыражениями</SPAN>, ограничивающие символьный 
+            класс, <SPAN class=keyword>квантификаторы</SPAN> и перечисление 
+            альтернатив. </P>
+            <P><B>Примеры (^ и $)</B></P>
+            <OL start=0>
+              <LI>Пусть дан такой текст, записанный в виде строки: 
+              <DIV class=example><PRE>$str = "11 aaa bbb ".
+           "ccc 22 ddd ".
+              "eee ggg 33";
+</PRE></DIV>
+              <DIV class=xml_table_env><A name=table.13.1></A>
+              <TABLE class=xml_table cellSpacing=1 cellPadding=2 border=0>
+                <CAPTION>Таблица 13.1. Метасимволы, распознаваемые ВНУТРИ 
+                квадратных скобок</CAPTION>
+                <TBODY>
+                <TR>
+                  <TH bgColor=#d8d8d8>Метасимвол</TH>
+                  <TH bgColor=#d8d8d8>Значение</TH></TR>
+                <TR>
+                  <TD vAlign=top bgColor=#eaeaea><SPAN 
+                  class=texample>\</SPAN></TD>
+                  <TD vAlign=top bgColor=#eaeaea>Переходный символ со 
+                    множеством назначений</TD></TR>
+                <TR>
+                  <TD vAlign=top bgColor=#eaeaea><SPAN 
+                  class=texample>^</SPAN></TD>
+                  <TD vAlign=top bgColor=#eaeaea>Отрицание класса, но только 
+                    если это первый символ (например, «<SPAN 
+                    class=texample>^\d</SPAN>» задает все, кроме цифр)</TD></TR>
+                <TR>
+                  <TD vAlign=top bgColor=#eaeaea><SPAN 
+                  class=texample>-</SPAN></TD>
+                  <TD vAlign=top bgColor=#eaeaea>Задает диапазон символов 
+                    (например, «<SPAN class=texample>0-9</SPAN>» задает все 
+                    цифры, «<SPAN class=texample>A-Z</SPAN>» – все латинские 
+                    буквы)</TD></TR>
+                <TR>
+                  <TD vAlign=top bgColor=#eaeaea><SPAN 
+                  class=texample>]</SPAN></TD>
+                  <TD vAlign=top bgColor=#eaeaea>Вычисляет символьный 
+                класс</TD></TR></TBODY></TABLE></DIV>
+              <P><SPAN class=keyword>Регулярное выражение</SPAN> <SPAN 
+              class=texample>/\d\d/m</SPAN> может быть сопоставлено следующим 
+              подстрокам: <SPAN class=texample>11</SPAN>, <SPAN 
+              class=texample>22</SPAN>, <SPAN class=texample>33</SPAN>. Если в 
+              начале <SPAN class=keyword>РВ</SPAN> стоит <SPAN 
+              class=texample>^</SPAN>, то совпадения ищутся в начале строки, 
+              поэтому выражение <SPAN class=texample>/^\d\d/m</SPAN> найдет 
+              только <SPAN class=texample>11</SPAN>. </P>
+              <P>Когда в конце <SPAN class=keyword>РВ</SPAN> стоит знак доллара 
+              <SPAN class=texample>$</SPAN>, поиск производится в конце строки, 
+              поэтому выражение <SPAN class=texample>/\d\d$/m</SPAN> найдет 
+              только <SPAN class=texample>33</SPAN>. </P>
+              <P>Шаблону же <SPAN class=texample>/^\d\d\d$/</SPAN> будет 
+              удовлетворять строка, целиком состоящая из трехзначного числа 
+              (т.е. она и начинается и заканчивается этим числом).</P>
+              <LI>Найдем все html-теги, расположенные в начале каждой строки 
+              файла <SPAN class=texample>1.htm</SPAN>. 
+              <DIV class=example><PRE>&lt;?
+//считываем файл в строку
+$str = file_get_contents('1.htm');
+$pattern = "!^&lt;[^/]+&gt;!mU";
+// осуществляем поиск
+$n = preg_match_all ($pattern, 
+                     $str, $res);
+// выводим результаты 
+for ($i=0;$i&lt;$n;$i++)  
+   echo htmlspecialchars($res[0][$i]).
+                         "&lt;br&gt;";
+?&gt;
+</PRE></DIV>
+              <DIV class=xml_table_env><A name=table.13.2></A>
+              <TABLE class=xml_table cellSpacing=1 cellPadding=2 border=0>
+                <CAPTION>Таблица 13.2. Метасимволы, распознаваемые ВНЕ 
+                квадратных скобок</CAPTION>
+                <TBODY>
+                <TR>
+                  <TH bgColor=#d8d8d8>Метасимвол</TH>
+                  <TH bgColor=#d8d8d8>Значение</TH></TR>
+                <TR>
+                  <TD vAlign=top bgColor=#eaeaea><SPAN 
+                  class=texample>\</SPAN></TD>
+                  <TD vAlign=top bgColor=#eaeaea>Переходный символ со 
+                    множеством назначений</TD></TR>
+                <TR>
+                  <TD vAlign=top bgColor=#eaeaea><SPAN 
+                  class=texample>^</SPAN></TD>
+                  <TD vAlign=top bgColor=#eaeaea>Объявляет начало объекта (или 
+                    строки в многострочном режиме). То есть этот символ 
+                    определяет, что искомый текст должен находиться в начале 
+                    строки. Альтернатива: «<SPAN class=texample>\A</SPAN>»</TD></TR>
+                <TR>
+                  <TD vAlign=top bgColor=#eaeaea><SPAN 
+                  class=texample>$</SPAN></TD>
+                  <TD vAlign=top bgColor=#eaeaea>Объявляет конец объекта (или 
+                    строки в многострочном режиме). То есть этот символ 
+                    определяет, что искомый текст должен находиться в конце 
+                    строки. Альтернативы: «<SPAN class=texample>\Z</SPAN>», 
+                    «<SPAN class=texample>\z</SPAN>»</TD></TR>
+                <TR>
+                  <TD vAlign=top bgColor=#eaeaea><SPAN 
+                  class=texample>.</SPAN></TD>
+                  <TD vAlign=top bgColor=#eaeaea>Совпадает с любым символом, 
+                    кроме символа перевода строки (по умолчанию)</TD></TR>
+                <TR>
+                  <TD vAlign=top bgColor=#eaeaea><SPAN 
+                  class=texample>[</SPAN></TD>
+                  <TD vAlign=top bgColor=#eaeaea>Начинает определение 
+                    символьного класса</TD></TR>
+                <TR>
+                  <TD vAlign=top bgColor=#eaeaea><SPAN 
+                  class=texample>]</SPAN></TD>
+                  <TD vAlign=top bgColor=#eaeaea>Заканчивает определение 
+                    символьного класса</TD></TR>
+                <TR>
+                  <TD vAlign=top bgColor=#eaeaea><SPAN 
+                  class=texample>|</SPAN></TD>
+                  <TD vAlign=top bgColor=#eaeaea>Разделяет перечисление <SPAN 
+                    class=keyword>альтернативных вариантов</SPAN></TD></TR>
+                <TR>
+                  <TD vAlign=top bgColor=#eaeaea><SPAN 
+                  class=texample>(</SPAN></TD>
+                  <TD vAlign=top bgColor=#eaeaea>Начинает <SPAN 
+                    class=keyword>подшаблон</SPAN> регулярное (<SPAN 
+                    class=keyword>подвыражение</SPAN>)</TD></TR>
+                <TR>
+                  <TD vAlign=top bgColor=#eaeaea><SPAN 
+                  class=texample>)</SPAN></TD>
+                  <TD vAlign=top bgColor=#eaeaea>Заканчивает <SPAN 
+                    class=keyword>подшаблон</SPAN></TD></TR>
+                <TR>
+                  <TD vAlign=top bgColor=#eaeaea><SPAN 
+                  class=texample>?</SPAN></TD>
+                  <TD vAlign=top bgColor=#eaeaea>Расширяет значение «<SPAN 
+                    class=texample>(</SPAN>», <SPAN 
+                    class=keyword>квантификаторов</SPAN> <SPAN 
+                    class=texample>0</SPAN> или <SPAN class=texample>1</SPAN>, и 
+                    <SPAN class=keyword>квантификатор</SPAN> минимизации</TD></TR>
+                <TR>
+                  <TD vAlign=top bgColor=#eaeaea><SPAN 
+                  class=texample>*</SPAN></TD>
+                  <TD vAlign=top bgColor=#eaeaea>0 или больше повторений 
+                    (<SPAN class=keyword>квантификатор</SPAN>)</TD></TR>
+                <TR>
+                  <TD vAlign=top bgColor=#eaeaea><SPAN 
+                  class=texample>+</SPAN></TD>
+                  <TD vAlign=top bgColor=#eaeaea>1 или больше повторений 
+                    (<SPAN class=keyword>квантификатор</SPAN>)</TD></TR>
+                <TR>
+                  <TD vAlign=top bgColor=#eaeaea><SPAN 
+                  class=texample>{</SPAN></TD>
+                  <TD vAlign=top bgColor=#eaeaea>Начинает 
+                    минимальный/максимальный <SPAN 
+                    class=keyword>квантификатор</SPAN></TD></TR>
+                <TR>
+                  <TD vAlign=top bgColor=#eaeaea><SPAN 
+                  class=texample>}</SPAN></TD>
+                  <TD vAlign=top bgColor=#eaeaea>Заканчивает 
+                    минимальный/максимальный <SPAN 
+                    class=keyword>квантификатор</SPAN></TD></TR></TBODY></TABLE></DIV>
+              <P>Шаблон ограничен восклицательными знаками. Первая «<SPAN 
+              class=texample>^</SPAN>» значит, что мы ищем совпадения в начале 
+              строк, потом идет символ «<SPAN class=texample>&lt;</SPAN>» – его 
+              и ищем в строке, после него должно идти все, что угодно, кроме 
+              <SPAN class=keyword>обратного слэша</SPAN> (конструкция «<SPAN 
+              class=texample>[^\]</SPAN>» ), «<SPAN class=texample>+</SPAN>» 
+              говорит, что стоящий перед ним символ повторяется один и более раз 
+              и заканчивается все это символом «<SPAN 
+              class=texample>&gt;</SPAN>». Таким образом, выделяются все теги в 
+              начале строк.</P>
+              <LI>Мы хотим убедиться, что имя автора было записано правильно 
+              (сначала фамилия с большой буквы, потом инициалы через точку) и 
+              находится в конце строки. 
+              <DIV class=example><PRE>&lt;?
+//считываем файл в строку
+$str = file_get_contents('1.htm');
+$pattern = "!\s[А-Яа-я]+".
+ "\s([А-Я]\.\s*)([А-Я]\.\s*)$!m";
+// шаблон ограничен восклицатель-
+// ными знаками, m – модификатор,
+// включающий многострочный режим
+// первый \s означает, что перед 
+// фамилией должен идти пустой 
+// символ (например, пробел)  
+// [А-Яа-я] задает одну из букв  
+// алфавита в любом регистре,а в  
+// комбинации со знаком плюс 
+// определяет,что эта буква 
+// повторяется один и более 
+// раз следующий \s означает, что 
+// между фамилией  и инициалами 
+// должен быть пробел
+// Далее идет подвыражение,  
+// определяющее инициалы.
+// Это буква от А до Я, после
+// которой стоит точка ('\.')
+// Экранируем точку, чтобы   
+// избавиться от ее специального   
+// значения. После буквы с точкой 
+// может идти или не идти пробел 
+// или несколько. Вся конструкция 
+// повторяется минимум два раза.
+// Последний символ $ означает,
+// что фамилия с инициалами
+// должны находиться в конце 
+// строки. 
+//осуществляем поиск
+$n = preg_match_all ($pattern,
+                     $str, $res);
+// выводим результаты
+for ($i=0;$i&lt;$n;$i++) 
+   echo htmlspecialchars($res[0][$i]).
+                         "&lt;br&gt;"; 
+?&gt;
+</PRE></DIV></LI></OL>
+            <P><B>Примеры ( | и .)</B></P>
+            <OL>
+              <LI>Пусть имеется некий текст. Нам нужно найти всех упомянутых в 
+              нем людей со званиями.</LI></OL>
+            <DIV class=example><PRE>&lt;?
+$str = "Доцент Смирнов совершил". 
+   "открытие. Его учителем была ".
+     "профессор Иванова. ".
+       "Этим открытием Смирнов ".
+        "завоевал себе степень ".
+          "доктора. Раньше он был ".
+           "только кандидат.";
+$pattern = "/(профессор|доцент)".
+            "\s[А-Яа-я]+(\s|\.)/i";
+// осуществляем поиск
+$n = preg_match_all ($pattern, $str,
+                                $res);
+// выводим результаты
+for ($i=0;$i&lt;$n;$i++) 
+   echo htmlspecialchars($res[0][$i]).
+                         "&lt;br&gt;";
+?&gt;
+</PRE></DIV>
+            <P><SPAN class=keyword>Метасимвол</SPAN> прямая черта « <SPAN 
+            class=texample>|</SPAN> » позволяет задавать <SPAN 
+            class=keyword>альтернативные варианты</SPAN>. В примере мы хотели 
+            найти всех профессоров или доцентов. Для этого было создано <SPAN 
+            class=keyword>подвыражение</SPAN> «<SPAN 
+            class=texample>(профессор|доцент)</SPAN>». После звания через пробел 
+            фамилия человека, которому оно принадлежит, – для этого существует 
+            комбинация «<SPAN class=texample>\s[А-Яа-я]+</SPAN>». После фамилии 
+            идет либо опять пробел, либо точка, если это конец предложения. 
+            Получаем опять два <SPAN class=keyword>альтернативных 
+            варианта</SPAN>: «<SPAN class=texample>(\s|\.)</SPAN>» (здесь точка 
+            экранируется <SPAN class=keyword>обратным слэшем</SPAN>, чтобы она 
+            понималась как обычная точка, без специального значения).</P>
+            <H4>Подвыражения (подшаблоны)</H4>
+            <P>В нескольких примерах мы уже использовали <SPAN 
+            class=keyword>подвыражения</SPAN>. Настало время разобраться, что же 
+            это такое и какими свойствами они обладают </P>
+            <P>В <SPAN class=keyword>РВ</SPAN> <SPAN 
+            class=keyword>подшаблоны</SPAN> выделяют, заключая в круглые скобки. 
+            Для их обозначения кроме термина «<SPAN 
+            class=keyword>подшаблон</SPAN>» также используют термин «<SPAN 
+            class=keyword>подвыражение</SPAN>». <SPAN 
+            class=keyword>Подшаблоны</SPAN> могут быть вложенными. Выделение 
+            части <SPAN class=keyword>регулярного выражения</SPAN> в виде 
+            регулярного <SPAN class=keyword>подвыражения</SPAN> делает 
+            следующее.</P>
+            <OL>
+              <LI>Локализует множество альтернатив. 
+              <P>Например, шаблон</P>
+              <DIV class=example><PRE>жар(кое|птица|)</PRE></DIV>совпадает с одним из слов «<SPAN 
+              class=texample>жаркое</SPAN>», «<SPAN 
+              class=texample>жарптица</SPAN>» и «<SPAN 
+              class=texample>жар</SPAN>». Тогда как без скобок это было бы 
+              «<SPAN class=texample>жаркое</SPAN>», «<SPAN 
+              class=texample>птица</SPAN>» и пустая строка. 
+              <LI>Устанавливает <SPAN class=keyword>подшаблон</SPAN> как 
+              «захватывающий» <SPAN class=keyword>подшаблон</SPAN>. Это значит, 
+              что, когда какая-то подстрока в тексте совпала с шаблоном, все 
+              подстроки, которые совпали с <SPAN 
+              class=keyword>подшаблонами</SPAN> этого <SPAN 
+              class=keyword>РВ</SPAN>, тоже возвращаются в качестве результата. 
+              Скобки, обозначающие начало <SPAN class=keyword>подшаблона</SPAN>, 
+              пересчитываются слева направо (начиная с 1) для того, чтобы 
+              узнать, сколько <SPAN class=keyword>подшаблонов</SPAN> нужно 
+              захватить. 
+              <P>Например, имеется такой шаблон:</P>
+              <DIV class=example><PRE>победитель получит 
+       ((золотую|позолоченный)
+                  (медаль|кубок))
+</PRE></DIV>и строка, в которой ищутся совпадения с этим шаблоном: 
+              «<SPAN class=texample>победитель получит золотую медаль</SPAN>». 
+              Тогда кроме этой фразы будут еще захвачены и выданы как результаты 
+              поиска следующие совпадения в <SPAN 
+              class=keyword>подвыражениях</SPAN>: «<SPAN class=texample>золотую 
+              медаль</SPAN>», «<SPAN class=texample>золотую</SPAN>», «<SPAN 
+              class=texample>медаль</SPAN>», пронумерованные 1, 2, 3 
+              соответственно.</LI></OL>
+            <P>Однако это не всегда удобно. Для того чтобы избавиться от 
+            «захватывающего» эффекта <SPAN class=keyword>подвыражения</SPAN>, 
+            после открывающей скобки пишут «<SPAN class=texample>?:</SPAN>». 
+            Тогда это <SPAN class=keyword>подвыражение</SPAN> в результат поиска 
+            не включается и при нумерации остальных <SPAN 
+            class=keyword>подшаблонов</SPAN> с «захватывающим» эффектом не 
+            учитывается. </P><A name=example.13.1></A>
+            <DIV class=example><PRE>победитель получит 
+      ((?:золотую|позолоченный)
+                  (медаль|кубок))</PRE><SPAN class=objectName>Пример 
+            13.1. Применение ?:</SPAN></DIV>
+            <P>Тогда в условиях предыдущего примера получим искомую строку 
+            «<SPAN class=texample>победитель получит золотую медаль</SPAN>» и 
+            строки «<SPAN class=texample>золотую медаль</SPAN>», «<SPAN 
+            class=texample>медаль</SPAN>», пронумерованные 1 и 2 соответственно. 
+            </P>
+            <P>Если в html-файле название находится после <SPAN 
+            class=texample>&lt;body&gt;</SPAN> и отделено от него только 
+            пробелами или переводами строк, заключено в тег <SPAN 
+            class=texample>&lt;h1&gt;</SPAN> и после него тоже может идти 
+            сколько-то пробелов и переводов строк, то его можно найти с помощью 
+            следующего скрипта:</P><A name=example.13.2></A>
+            <DIV class=example><PRE>&lt;?
+//считываем файл в строку
+$str = file_get_contents('1.htm');
+$pattern = "/&lt;body.*?&gt;[\n\s]*&lt;h1&gt;".
+              "(.*?)&lt;\/h1&gt;[\n\s]*/m";
+// осуществляем поиск
+$n = preg_match_all ($pattern, $str, $res);
+echo $res[1][0]; // выводим заголовок
+?&gt;
+</PRE><SPAN class=objectName>Пример 13.2. Поиск названия в 
+            html-файле</SPAN></DIV>
+            <P>Заметим, что здесь выводится первое захваченное <SPAN 
+            class=keyword>подвыражение</SPAN>, поскольку нам интересно только 
+            само название, а не все <SPAN class=keyword>РВ</SPAN>. Так как в 
+            этом <SPAN class=keyword>РВ</SPAN> есть только одно <SPAN 
+            class=keyword>подвыражение</SPAN>, то его значение содержится в 
+            нулевом элементе первого массива результатов.</P>
+            <H4>Повторения (квантификаторы)</H4>
+            <P>В предыдущих примерах мы часто писали комбинации типа <SPAN 
+            class=texample>\d\d</SPAN>. Это значит, что цифра должна повторяться 
+            два раза. А что же делать, если повторений очень много или мы не 
+            знаем, сколько именно? Оказывается, нужно использовать специальные 
+            <SPAN class=keyword>метасимволы</SPAN>. </P>
+            <P>Повторения описываются с помощью так называемых <SPAN 
+            class=keyword>квантификаторов</SPAN> (<SPAN 
+            class=keyword>метасимволов</SPAN>, задающих количественные 
+            отношения). Существует два типа <SPAN 
+            class=keyword>квантификаторов</SPAN>: общие (задаются с помощью 
+            фигурных скобок) и сокращенные (это исторически сложившиеся 
+            сокращения наиболее распространенных <SPAN 
+            class=keyword>квантификаторов</SPAN>). </P>
+            <P><SPAN class=keyword>Квантификаторы</SPAN> могут следовать за 
+            любым из перечисленных элементов:</P>
+            <UL>
+              <LI>одиночный символ (возможно, в комбинации с <SPAN 
+              class=keyword>обратным слэшем</SPAN>); 
+              <LI><SPAN class=keyword>метасимвол</SPAN> «точка»; 
+              <LI>символьный класс; 
+              <LI>обратная ссылка (о них расскажем позднее); 
+              <LI><SPAN class=keyword>подшаблон</SPAN>.</LI></UL>
+            <P><SPAN class=keyword>Общие квантификаторы</SPAN> задают 
+            минимальное и максимальное число дозволенных повторений элемента; 
+            эти два числа, разделенные запятой, заключаются в фигурные скобки. 
+            Числа не должны превышать 65 536 и первое число должно быть меньше 
+            или равно второму. Например, </P>
+            <DIV class=example><PRE>x{1,3}</PRE></DIV>
+            <P>говорит о том, что символ «x» должен повторяться минимум один, а 
+            максимум три раза. Соответственно этому шаблону удовлетворяют 
+            строки: <SPAN class=texample>x</SPAN>, <SPAN 
+            class=texample>xx</SPAN>, <SPAN class=texample>xxx</SPAN>. </P>
+            <P>Если второй параметр отсутствует, но запятая есть, то повторений 
+            может быть сколько угодно. Таким образом,</P>
+            <DIV class=example><PRE>[aeuoi]{2,}</PRE></DIV>
+            <P>значит, что любой из символов «<SPAN class=texample>a</SPAN>», 
+            «<SPAN class=texample>e</SPAN>», «<SPAN class=texample>u</SPAN>», 
+            «<SPAN class=texample>o</SPAN>», «<SPAN class=texample>i</SPAN>» в 
+            строке может повторяться два и более раз, а <SPAN 
+            class=keyword>регулярное выражение</SPAN></P>
+            <DIV class=example><PRE>\d{3}</PRE></DIV>
+            <P>задает ровно три цифры. </P>
+            <P><SPAN class=keyword>Сокращенные квантификаторы</SPAN> задают 
+            наиболее используемые количественные отношения (повторения). Они 
+            придуманы для удобства, чтобы не перегружать и без того сложные 
+            выражения лишним синтаксисом. </P>
+            <P>Исходя из исторических традиций три наиболее часто встречающихся 
+            <SPAN class=keyword>квантификатора</SPAN> имеют следующие 
+            обозначения: </P>
+            <P><SPAN class=texample>*</SPAN> эквивалентно <SPAN 
+            class=texample>{0,}</SPAN> – то есть это ноль и более повторений; 
+            </P>
+            <P><SPAN class=texample>+</SPAN> эквивалентно <SPAN 
+            class=texample>{1,}</SPAN> – то есть это одно и более повторений; 
+            </P>
+            <P><SPAN class=texample>?</SPAN> эквивалентно <SPAN 
+            class=texample>{0,1}</SPAN> – то есть это ноль или одно повторение. 
+            </P>
+            <P>Есть еще один важный момент, на который стоит обратить внимание 
+            при изучении <SPAN class=keyword>квантификаторов</SPAN>. По 
+            умолчанию все <SPAN class=keyword>квантификаторы «жадные»</SPAN>, 
+            они стараются захватить как можно больше повторений элемента. То 
+            есть если указать, что символ должен повторяться один и более раз 
+            (например, с помощью <SPAN class=texample>*</SPAN>), совпадение 
+            произойдет со строкой, содержащей наибольшее число повторений 
+            указанного символа. Это может создать проблемы, например, при 
+            попытке выделить комментарии в программе на языке Cи или PHP. 
+            Комментарии в Cи и PHP записываются между символами <SPAN 
+            class=texample>/*</SPAN> и <SPAN class=texample>*/</SPAN>, внутри 
+            которых тоже могут встречаться символы <SPAN class=texample>*</SPAN> 
+            и <SPAN class=texample>/</SPAN>. И попытка выявить Си-комментарии с 
+            помощью шаблона</P>
+            <DIV class=example><PRE>/\* .* \*/</PRE></DIV>
+            <P>в строке </P>
+            <DIV class=example><PRE>/* первый комментарий */ 
+     не комментарий 
+/* второй комментарий */</PRE></DIV>
+            <P>не увенчается успехом из-за <SPAN class=keyword>«жадности»</SPAN> 
+            элемента «<SPAN class=texample>.*</SPAN>» (будет найдена также 
+            строка «не комментарий»). </P>
+            <P>Для решения этой проблемы нужно написать знак вопроса после <SPAN 
+            class=keyword>квантификатора</SPAN>. Тогда он перестанет быть <SPAN 
+            class=keyword>«жадным»</SPAN> и попытается захватить как можно 
+            меньшее число повторений элемента, к которому он применен (<SPAN 
+            class=keyword>квантификатор</SPAN> применяется к элементу, что стоит 
+            перед ним). Так что шаблон</P>
+            <DIV class=example><PRE>/\* .*? \*/</PRE></DIV>
+            <P>успешно выделяет Си-комментарии. </P>
+            <P>В PHP существует <SPAN class=keyword>опция PCRE_UNGREEDY</SPAN>, 
+            которая делает все <SPAN class=keyword>квантификаторы</SPAN> <SPAN 
+            class=keyword>«не жадными»</SPAN> по умолчанию и <SPAN 
+            class=keyword>«жадными»</SPAN>, если после них идет знак вопроса. 
+            </P><A name=example.13.3></A>
+            <DIV class=example><PRE>&lt;?
+//Рассмотрим html-файл, где имеется 
+//следующая строка:
+$str = "&lt;div id=1&gt;Привет&lt;/div&gt; ".
+   "&lt;p&gt;Текст, не заключенный в тег ".
+        "div&lt;/p&gt;&lt;div id=2&gt;Пока&lt;/div&gt;";
+// Если мы хотим найти текст,  
+// содержащийся между тегами div, 
+// естественно написать такой шаблон:
+$pattern = "!&lt;div id=1&gt;.*&lt;/div&gt;!si";
+// Но этот шаблон слишком "жадный"  
+// и захватит также и текст, 
+// заключенный в нашем примере между 
+// тегами &lt;p&gt;. Чтобы этого избежать, 
+// нужно написать следующий шаблон, 
+// отличающийся только наличием знака 
+// вопроса, который запрещает 
+// квантификатору быть "жадным".
+$pattern1 = "!&lt;div id=1&gt;.*?&lt;/div&gt;!si";
+// Запускаем поиск в строке $str
+// совпадений с шаблонами 
+// $pattern и $pattern1
+$s = preg_match_all ($pattern, $str,
+                                $res);
+$js = preg_match_all ($pattern1,
+                         $str, $res1);
+//выводим результаты поиска
+// функция htmlspecialchars позволяет 
+// выводить html без 
+// его обработки браузером
+echo "Жадный шаблон:". 
+       htmlspecialchars($res[0][0]).
+                               "&lt;br&gt;";
+echo "Нежадный шаблон:".
+        htmlspecialchars($res1[0][0]);
+?&gt;
+</PRE><SPAN class=objectName>Пример 13.3. Использование "жадных" 
+            квантификаторов</SPAN></DIV>
+            <P>Результаты работы скрипта:</P>
+            <DIV class=example><PRE>«Жадный» шаблон:&lt;div id=1&gt;Привет&lt;/div&gt; 
+&lt;p&gt;Текст,не заключенный в тег div&lt;/p&gt;
+&lt;div id=2&gt;Пока&lt;/div&gt; 
+«Нежадный» шаблон:&lt;div id=1&gt;Привет&lt;/div&gt; 
+</PRE></DIV>
+            <P>Теперь мы в принципе можем решить задачу выделения содержания из 
+            html-файла, если оно заключено в теге <SPAN class=texample>&lt;div 
+            id=content&gt;</SPAN>. Предлагаем читателям проделать это 
+            самостоятельно.</P>
+            <H3>Модификаторы PCRE</H3>
+            <P>Еще один немаловажный элемент <SPAN class=keyword>регулярного 
+            выражения</SPAN> – это список применяемых к нему <SPAN 
+            class=keyword>модификаторов</SPAN>. <A 
+            name=keyword-context.2></A><SPAN 
+            class=keyword_def>Модификаторы</SPAN> – это выдаваемая 
+            интерпретатору <SPAN class=keyword>регулярных выражений</SPAN> 
+            инструкция по обработке данного выражения. Например, считать, что 
+            все символы <SPAN class=keyword>регулярного выражения</SPAN> 
+            соответствуют как большим, так и маленьким буквам в строке, где 
+            производится поиск. Примеры <SPAN class=keyword>модификаторов</SPAN> 
+            приведены в <A 
+            href="http://www.intuit.ru/department/pl/plphp/13/plphp_13.html#table.13.3">таблице 
+            13.3</A>.</P>
+            <DIV class=xml_table_env><A name=table.13.3></A>
+            <TABLE class=xml_table cellSpacing=1 cellPadding=2 border=0>
+              <CAPTION>Таблица 13.3. Наиболее часто используемые 
+              модификаторы</CAPTION>
+              <TBODY>
+              <TR>
+                <TH bgColor=#d8d8d8>Обозначение</TH>
+                <TH bgColor=#d8d8d8>Описание</TH></TR>
+              <TR>
+                <TD vAlign=top bgColor=#eaeaea><SPAN class=texample>i</SPAN> 
+                  (<SPAN class=texample>PCRE_CASELESS</SPAN>)</TD>
+                <TD vAlign=top bgColor=#eaeaea>Если указан этот <SPAN 
+                  class=keyword>модификатор</SPAN>, то буквы в шаблоне совпадают 
+                  с буквами и верхнего, и нижнего регистра в строке</TD></TR>
+              <TR>
+                <TD vAlign=top bgColor=#eaeaea><SPAN class=texample>m</SPAN> 
+                  (<SPAN class=texample>PCRE_MULTILINE</SPAN>)</TD>
+                <TD vAlign=top bgColor=#eaeaea>По умолчанию строка, подающаяся 
+                  на вход интерпретатору <SPAN class=keyword>РВ</SPAN>, 
+                  рассматривается как состоящая из одной линии. Этот <SPAN 
+                  class=keyword>модификатор</SPAN> включает поддержку 
+                  многострокового режима</TD></TR>
+              <TR>
+                <TD vAlign=top bgColor=#eaeaea><SPAN class=texample>s</SPAN> 
+                  (<SPAN class=texample>PCRE_DOTALL</SPAN>)</TD>
+                <TD vAlign=top bgColor=#eaeaea>Если установлен этот <SPAN 
+                  class=keyword>модификатор</SPAN>, то <SPAN 
+                  class=keyword>метасимвол</SPAN> точка «<SPAN 
+                  class=texample>.</SPAN>» совпадает с любым символом, ВКЛЮЧАЯ 
+                  символ перевода строки</TD></TR>
+              <TR>
+                <TD vAlign=top bgColor=#eaeaea><SPAN class=texample>x</SPAN> 
+                  (<SPAN class=texample>PCRE_EXTENDED</SPAN>)</TD>
+                <TD vAlign=top bgColor=#eaeaea>Заставляет интерпретатор 
+                  игнорировать пробелы между символами в шаблоне, за исключением 
+                  пробелов, экранированных <SPAN class=keyword>обратным 
+                  слэшем</SPAN> или находящихся внутри символьного класса, а 
+                  также между неэкранированным символом <SPAN 
+                  class=texample>#</SPAN> вне символьного класса и символом 
+                  новой строки</TD></TR>
+              <TR>
+                <TD vAlign=top bgColor=#eaeaea><SPAN class=texample>U</SPAN> 
+                  (<SPAN class=texample>PCRE_UNGREEDY</SPAN>)</TD>
+                <TD vAlign=top bgColor=#eaeaea>Этот <SPAN 
+                  class=keyword>модификатор</SPAN> инвертирует <SPAN 
+                  class=keyword>«жадность» квантификаторов</SPAN>, т.е. они 
+                  становятся <SPAN class=keyword>«нежадными»</SPAN> по умолчанию 
+                  и <SPAN class=keyword>«жадными»</SPAN> если предшествуют 
+                  символу «<SPAN 
+            class=texample>?</SPAN>»</TD></TR></TBODY></TABLE></DIV>
+            <H3>Регулярные выражения для «продвинутых»</H3>
+            <P>В последующих разделах обсуждаются более сложные конструкции 
+            работы с <SPAN class=keyword>регулярными выражениями</SPAN>, без 
+            которых в принципе можно обойтись. Поэтому мы не будем в них особо 
+            углубляться, а приведем лишь общие сведения.</P>
+            <H4>Обратная ссылка</H4>
+            <P><A name=keyword-context.3></A>Вне определения символьного класса 
+            (это тот, что задается квадратными скобками) комбинация <SPAN 
+            class=keyword>обратный слэш</SPAN> и цифра больше нуля (например, 
+            <SPAN class=texample>\1</SPAN>) называется <SPAN 
+            class=keyword_def>обратной ссылкой</SPAN> и представляет собой 
+            ссылку на захваченное ранее регулярное <SPAN 
+            class=keyword>подвыражение</SPAN>. Этих <SPAN 
+            class=keyword>подвыражений</SPAN> ровно столько, сколько 
+            открывающихся круглых скобок (перед которыми нет знака вопроса) 
+            стоит левее данного элемента. </P>
+            <P><SPAN class=keyword>Обратная ссылка</SPAN> совпадает с конкретным 
+            выбранным значением <SPAN class=keyword>подвыражения</SPAN>, на 
+            которое она ссылается, а не с любым возможным значением этого <SPAN 
+            class=keyword>подвыражения</SPAN>. Таким образом, шаблон </P>
+            <DIV class=example><PRE>(ответствен|надеж)ный проявляет \1ность</PRE></DIV>
+            <P>совпадет со строками «<SPAN class=texample>ответственный 
+            проявляет ответственность</SPAN>», «<SPAN class=texample>надежный 
+            проявляет надежность</SPAN>» и не совпадет со строкой «<SPAN 
+            class=texample>ответственный проявляет надежность</SPAN>». </P>
+            <P><SPAN class=keyword>Обратные ссылки</SPAN> могут использоваться 
+            внутри <SPAN class=keyword>подвыражений</SPAN>. При первом 
+            использовании <SPAN class=keyword>подвыражения</SPAN> ссылка внутри 
+            него не срабатывает, но при последующих повторениях <SPAN 
+            class=keyword>подшаблона</SPAN> она работает, как описано выше.</P>
+            <H4>Утверждения</H4>
+            <P><SPAN class=keyword>Утверждение</SPAN> – это проверка символов, 
+            следующих до или после текущего символа. Простейшие <SPAN 
+            class=keyword>утверждения</SPAN> закодированы последовательностями 
+            <SPAN class=texample>\A</SPAN>, <SPAN class=texample>\Z</SPAN>, 
+            <SPAN class=texample>^</SPAN>, <SPAN class=texample>$</SPAN> и т.д. 
+            Более сложные <SPAN class=keyword>утверждения </SPAN>кодируются с 
+            помощью <SPAN class=keyword>подшаблонов</SPAN>. Постараемся вкратце 
+            описать, как это делается. </P>
+            <P>Существует два типа <SPAN class=keyword>утверждений</SPAN>: те, 
+            что смотрят за текущую позицию в исходной строке (<SPAN 
+            class=keyword>«смотрящие вперед»</SPAN>), и те, что смотрят на 
+            символы перед текущей позицией (<SPAN class=keyword>«смотрящие 
+            назад»</SPAN>). </P>
+            <P><SPAN class=keyword>Утверждения</SPAN>, закодированные <SPAN 
+            class=keyword>подшаблонами</SPAN>, сравниваются как обычные <SPAN 
+            class=keyword>подшаблоны</SPAN>, за исключением того, что при их 
+            обработке не происходит изменения текущей позиции. </P>
+            <P><SPAN class=keyword>«Смотрящие вперед» утверждения</SPAN> ищут 
+            совпадения в строке за текущей позицией поиска и начинаются с <SPAN 
+            class=texample>(?=</SPAN> для позитивных <SPAN 
+            class=keyword>утверждений</SPAN> и с <SPAN class=texample>(?!</SPAN> 
+            для негативных. Например,</P>
+            <DIV class=example><PRE>\w+(?=;)</PRE></DIV>
+            <P>совпадает со словом, заканчивающимся точкой с запятой (не включая 
+            точку с запятой в результат поиска), и </P>
+            <DIV class=example><PRE>foo(?!bar)</PRE></DIV>
+            <P>совпадает с любым появлением <SPAN class=texample>foo</SPAN>, 
+            после которого нет <SPAN class=texample>bar</SPAN>. Как все 
+            происходит? Берем строку и ищем в ней <SPAN 
+            class=texample>foo</SPAN>. Как только нашли, заглядываем вперед 
+            (текущая позиция при этом не меняется) и смотрим, идет ли далее 
+            <SPAN class=texample>bar</SPAN>. Если нет, то совпадение с шаблоном 
+            найдено, иначе продолжаем поиск. </P>
+            <P><SPAN class=keyword>Регулярное выражение</SPAN></P>
+            <DIV class=example><PRE>(?!foo)bar</PRE></DIV>
+            <P>не найдет все вхождения <SPAN class=texample>bar</SPAN>, перед 
+            которыми нет <SPAN class=texample>foo</SPAN>, потому что оно <SPAN 
+            class=keyword>«смотрит вперед»</SPAN>, а перед ним никаких символов 
+            нет. Поэтому в данном шаблоне <SPAN class=texample>?!foo</SPAN> 
+            всегда верно. </P>
+            <P><SPAN class=keyword>«Смотрящие назад» утверждения</SPAN> ищут 
+            совпадения перед текущей позицией. Позитивные <SPAN 
+            class=keyword>утверждения</SPAN> этого типа начинаются с <SPAN 
+            class=texample>(?&lt;=</SPAN> , негативные – с <SPAN 
+            class=texample>(?&lt;!</SPAN> . <SPAN class=keyword>Смотрящим назад 
+            утверждениям</SPAN> позволено искать только строки фиксированной 
+            длины, т.е. в них нельзя использовать <SPAN 
+            class=keyword>квантификаторы</SPAN>. Например,</P>
+            <DIV class=example><PRE>(?&lt;!foo)bar</PRE></DIV>
+            <P>находит все появления <SPAN class=texample>bar</SPAN>, перед 
+            которыми нет <SPAN class=texample>foo</SPAN>. </P>
+            <P>В начале лекции мы хотели научиться находить в html-файле 
+            упоминание об авторе. Это можно сделать с помощью <SPAN 
+            class=keyword>«смотрящих назад» утверждений</SPAN> в <SPAN 
+            class=keyword>РВ</SPAN> (хотя можно и проще).</P><A 
+            name=example.13.4></A>
+            <DIV class=example><PRE>&lt;?
+//считываем файл в строку
+$str = file_get_contents('1.htm');
+$pattern = "/(?&lt;=Автор:)\s[А-Я]".
+        "[а-я]*\s([А-Я]\.\s*){1,2}/m";
+// осуществляем поиск
+$n = preg_match_all ($pattern, $str, $res);
+// выводим результаты
+for ($i=0;$i&lt;$n;$i++)  
+   echo htmlspecialchars($res[0][$i]).
+                         "&lt;br&gt;";
+?&gt;
+</PRE><SPAN class=objectName>Пример 13.4. «Смотрящие назад» 
+            утверждения</SPAN></DIV>
+            <P>Часть <SPAN class=keyword>РВ</SPAN> после <SPAN 
+            class=keyword>утверждения</SPAN> определяет, что мы ищем строку 
+            (ФИО), которая начинается с пробела, большой буквы, затем идут 
+            маленькие буквы в произвольном количестве, пробел и инициалы через 
+            точку. <SPAN class=keyword>Утверждение</SPAN> задает то, что перед 
+            данной строкой должно стоять «Автор:». </P>
+            <P>Дату можно вычислить похожим образом. Оставляем это в качестве 
+            упражнения.</P>
+            <H4>Условные подвыражения</H4>
+            <P>Как в любом языке программирования, в <SPAN 
+            class=keyword>РВ</SPAN> существуют условные конструкции. Применяются 
+            они к <SPAN class=keyword>подвыражениям</SPAN>. То есть можно 
+            заставить процессор <SPAN class=keyword>РВ</SPAN> выбирать <SPAN 
+            class=keyword>подшаблон</SPAN> в зависимости от условия или выбирать 
+            между двумя альтернативными шаблонами в зависимости от результата 
+            <SPAN class=keyword>утверждения</SPAN> или от того, совпал ли 
+            предыдущий захваченный <SPAN class=keyword>подшаблон</SPAN>. 
+            Существуют две формы <SPAN class=keyword>условных 
+            подвыражений</SPAN>:</P>
+            <DIV class=example><PRE>(?(условие)шаблон_выполняемый_если_
+           условие_верно)
+(?(условие)шаблон_если_условие_верно
+    |шаблон_если_условие_неверно)
+</PRE></DIV>
+            <P>Существует два типа условий. Если текст между круглыми скобками 
+            состоит из последовательности цифр, то условие удовлетворяется, если 
+            захваченное <SPAN class=keyword>подвыражение</SPAN> с этим номером 
+            ранее совпало. </P><A name=example.13.5></A>
+            <DIV class=example><PRE>( \( )?  [^()]+  (?(1) \) )
+</PRE><SPAN class=objectName>Пример 13.5. Условные 
+            подвыражения</SPAN></DIV>
+            <P>Первая часть этого <SPAN class=keyword>РВ</SPAN> опционально 
+            совпадает с открывающейся круглой скобкой, и если этот символ 
+            присутствует, то устанавливает его как первое захваченное <SPAN 
+            class=keyword>подвыражение</SPAN>. </P>
+            <P>Вторая часть совпадает с одним или более символами, не 
+            заключенными в круглые скобки. </P>
+            <P>Третья часть <SPAN class=keyword>РВ</SPAN> – это <SPAN 
+            class=keyword>условное подвыражение</SPAN>, которое проверяет, 
+            совпало ли первое множество скобок или нет (попалась ли нам в строке 
+            открывающая круглая скобка). Если попалась, то есть объект (строка) 
+            начинается с символа «<SPAN class=texample>(</SPAN>», то условие 
+            верно и вычисляется условный шаблон, а именно требуется наличие 
+            закрывающей круглой скобки. В противном случае <SPAN 
+            class=keyword>подшаблон</SPAN> ни с чем не совпадает. </P>
+            <P>Если условие – не последовательность цифр, то оно должно быть 
+            <SPAN class=keyword>утверждением</SPAN>. Это может быть позитивное 
+            или негативное <SPAN class=keyword>«смотрящее вперед»</SPAN> или 
+            <SPAN class=keyword>«смотрящее назад»</SPAN> <SPAN 
+            class=keyword>утверждение</SPAN>. </P><A name=example.13.6></A>
+            <DIV class=example><PRE>(?(?=[^a-z]*[a-z])\d{2}-[a-z]{3}-\d{2}
+     |\d{2}-\d{2}-\d{2})
+</PRE><SPAN class=objectName>Пример 13.6. Условные 
+            подвыражения</SPAN></DIV>
+            <P>Условие здесь – позитивное <SPAN class=keyword>«смотрящее вперед» 
+            утверждение</SPAN>. Оно совпадает с любой последовательностью не 
+            букв, после которых идет буква. Другими словами, оно проверяет 
+            присутствие хотя бы одной буквы в строке для поиска. Если буква 
+            найдена, то производится сравнение по первому <SPAN 
+            class=keyword>альтернативному варианту</SPAN> шаблона <SPAN 
+            class=texample>(\d{2}-[a-z]{3}-\d{2})</SPAN>, иначе – по второму 
+            <SPAN class=texample>(\d{2}-\d{2}-\d{2})</SPAN>. Этому шаблону 
+            удовлетворяют строки двух типов: <SPAN 
+            class=texample>dd-aaa-dd</SPAN> или <SPAN 
+            class=texample>dd-dd-dd</SPAN>, где <SPAN class=texample>d</SPAN> – 
+            любая цифра, <SPAN class=texample>a</SPAN> – любая буква.</P>
+            <H3>Заключение</H3>
+            <P>Итак, мы рассмотрели механизм <SPAN class=keyword>регулярных 
+            выражений</SPAN>, их <SPAN class=keyword>синтаксис</SPAN> и 
+            семантику, показали примеры их использования. Безусловно, эта лекция 
+            не охватывает все тонкости данного механизма. О <SPAN 
+            class=keyword>регулярных выражениях</SPAN> пишут целые книги! Мы же 
+            постарались лишь в общих чертах познакомить читателей с их основами. 
+            Вообще механизм <SPAN class=keyword>регулярных выражений</SPAN> 
+            присутствует почти во всех языках программирования с небольшими 
+            отличиями, но суть остается той же. Так что надеемся, что знания, 
+            полученные в процессе чтения этой лекции, помогут при изучении 
+            других языков и пригодятся на практике.</P></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Регулярные выражения.files/empty.gif" 
+      width=1></TD></TR></TBODY></TABLE><!-- /content --></TD>
+    <TD><IMG height=1 src="Регулярные выражения.files/empty.gif" 
+  width=8></TD></TR></TBODY></TABLE><!-- /bottom -->
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD class=orang height=1><IMG height=1 
+      src="Регулярные выражения.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD class=ltxt align=middle>© 2003-2005 INTUIT.ru. Все права 
+  защищены.</TD></TR></TBODY></TABLE><!-- /bottom --></BODY></HTML>

@@ -1,0 +1,34 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>socket_strerror</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="socket-shutdown.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="socket-write.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="socket-strerror">socket_strerror</A></H1><A NAME="AEN76815"></A><P>(PHP 4 &#62;= 4.1.0)</P>
+<p>socket_strerror - возвращает строку - описание ошибки сокета.<A NAME="AEN76818"></A></p><H2>Описание</H2>
+<p>string <B>socket_strerror</B> (int errno)</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD><P>Эта функция - ЭКСПЕРИМЕНТАЛЬНАЯ. Поведение, имя и всё остальное, что задокументировано для данной функции может быть изменено в будущих релизах РНР без предупреждения. Вы можете использовать эту функцию только на свой страх и риск.
+</P></TD></TR></TABLE><P><B>socket_strerror()</B> принимает в качеств параметра <TT><I>errno</I></TT> код ошибки сокета, возвращённый функцией
+<A HREF="socket-last-error.html"><B>socket_last_error()</B></A>, и возвращает соответствующий объясняющий текст. Вместо того чтобы заставлять 
+системный include-файл найти, что означает '-111', вы просто передаёте это значение в
+<B>socket_strerror()</B>, и она объясняет, что произошло.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN76835"></A><h5>Пример 1. socket_strerror()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+if (false == ($socket = @socket_create(AF_INET, SOCK_STREAM, 0))) {
+   echo "socket_create() failed: reason: " . socket_strerror(socket_last_error()) . "\n";
+} 
+
+if (false == (@socket_bind($socket, '127.0.0.1', 80))) {
+ <font size="1"> echo "socket_bind() failed: reason: " . socket_strerror(socket_last_error($socket)) . "\n";</font>
+}
+?&#62;</PRE></TD></TR></TABLE><P>Ожидаемый вывод этого примера (предполагая, что скрипт не запущен с привилегиями root):
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>socket_bind() failed: reason: Permission denied</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>См. также <A HREF="socket-accept.html"><B>socket_accept()</B></A>,
+<A HREF="socket-bind.html"><B>socket_bind()</B></A>, <A HREF="socket-connect.html"><B>socket_connect()</B></A>,
+<A HREF="socket-listen.html"><B>socket_listen()</B></A> и <A HREF="socket-create.html"><B>socket_create()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="socket-shutdown.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="socket-write.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">socket_shutdown</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.sockets.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">socket_write</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

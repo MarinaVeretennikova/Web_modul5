@@ -1,0 +1,41 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>eval</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="die.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="exit.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.eval">eval</A></H1><A NAME="AEN48742"></A><P>(unknown)</P>
+<p>eval - вычисляет строку как PHP-код.<A NAME="AEN48745"></A></p><H2>Описание</H2>
+<p>mixed <B>eval</B> (string code_str)</p><P><B>eval()</B> вычисляет строку, заданную в
+<TT><I>code_str</I></TT>, как код PHP. Помимо всего прочего,
+это может оказаться полезным для хранения кода в текстовом поле БД для последующего исполнения.</P>
+<P>При использовании <B>eval()</B> необходимо помнить о нескольких вещах. Запомните, что передаваемая строка 
+обязана быть правильным кодом PHP, включая окончание операторов точкой с 
+запятой, чтобы разборщик не отвалил на строке после <B>eval()</B>, и правильное escap-ируйте в
+<TT><I>code_str</I></TT>.</P><P>Также помните, что значения, заданные переменным в
+<B>eval()</B>, останутся действовать затем и в основном скрипте.</P>
+<P>Оператор <TT>return</TT> завершит вычисление строки немедленно. В PHP 4 <B>eval()</B> возвращает
+<TT><B>FALSE</B></TT>, если не вызвана <A HREF="return.html"><B>return()</B></A> в вычисляемом коде,
+и в этом случае возвращается значение, передаваемое в <A HREF="return.html"><B>return()</B></A>.
+В PHP 3 <B>eval()</B> не возвращает значения.</P><TABLE WIDTH="100%"  BORDER="0"><TR><TD><A NAME="AEN48770"></A>
+<h5>Пример 1. eval() - простое объединение текста</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+$string = 'cup';
+$name = 'coffee';
+$str = 'This is a $string with my $name in it.&#60;br&#62;';
+echo $str;
+eval ("\$str = \"$str\";");
+echo $str;
+?&#62;</PRE></TD></TR></TABLE><P>Этот пример выведет:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>This is a $string with my $name in it.
+This is a cup with my coffee in it.</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<BLOCKQUOTE><P><B>Подсказка: </B>как всегда при выводе результатов непосредственно в браузер, вы можете 
+использовать <a href="ref.outcontrol.html">функции управления выводом</a> 
+для захвата вывод этой функции и сохранения его, например в <A HREF="../types.string.html">
+<B>string</B></A>.</P></BLOCKQUOTE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="die.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="exit.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">die</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.misc.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">exit</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

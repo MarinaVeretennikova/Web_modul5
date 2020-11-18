@@ -1,0 +1,35 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>imap_delete</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%"  BORDER="0"CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="imap-createmailbox.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="imap-deletemailbox.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.imap-delete">imap_delete</A></H1><A NAME="AEN34468"></A><P>(PHP 3, PHP 4)</P>
+<p>imap_delete - помечает сообщение на удаление из текущего mailbox.<A NAME="AEN34471"></A></p>
+<H2>Описание</H2><p>int <B>imap_delete</B> (int imap_stream, int msg_number [, int flags])</p>
+<P>Возвращает <TT><B>TRUE</B></TT>.</P><P><B>imap_delete()</B> помечает на удаление сообщения, перечисленные в
+<TT><I>msg_number</I></TT>. Необязательный параметр <TT><I>flags</I></TT> имеет только одну опцию,
+<TT><I>FT_UID</I></TT>, которая говорит функции, что нужно рассматривать аргумент <TT><I>msg_number</I></TT> как
+<TT><I>UID</I></TT>. Сообщения, помеченные на удаление, будут оставаться в mailbox до тех пор, 
+пока не будет вызвана <A HREF="imap-expunge.html"><B>imap_expunge()</B></A> или
+<A HREF="imap-close.html"><B>imap_close()</B></A> с опцией CL_EXPUNGE.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>POP3 mailbox'ы не сохраняют свои флаги в промежутке между соединениями, 
+поэтому <A HREF="imap-expunge.html"><B>imap_expunge()</B></A> обязана вызываться в ходе того же соединения, чтобы сообщения, помеченные на 
+удаление, действительно были вычищены.</P></BLOCKQUOTE><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN34500"></A><h5>Пример 1. imap_delete()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$mbox = imap_open ("{your.imap.host}INBOX", "username", "password")
+    or die ("can't connect: " . imap_last_error());
+
+$check = imap_mailboxmsginfo ($mbox);
+print "Messages before delete: " . $check-&#62;Nmsgs . "&#60;br&#62;\n" ;
+imap_delete ($mbox, 1);
+$check = imap_mailboxmsginfo ($mbox);
+print "Messages after  delete: " . $check-&#62;Nmsgs . "&#60;br&#62;\n" ;
+imap_expunge ($mbox);
+$check = imap_mailboxmsginfo ($mbox);
+print "Messages after expunge: " . $check-&#62;Nmsgs . "&#60;br&#62;\n" ;
+imap_close ($mbox);</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="imap-createmailbox.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="imap-deletemailbox.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">imap_createmailbox</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.imap.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">imap_deletemailbox</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,44 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>openlog</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="long2ip.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="pfsockopen.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="openlog">openlog</A></H1><A NAME="AEN53052"></A><P>(PHP 3, PHP 4)</P>
+<p>openlog - открывает соединение с системным логером.<A NAME="AEN53055"></A></p><H2>Описание</H2>
+<p>int <B>openlog</B> (string ident, int option, int facility)</p>
+<P><B>openlog()</B> открывает соединение программы с системным логером. Строка <TT><I>ident</I></TT> добавляется к кадждому сообщению. Значения для
+<TT><I>option</I></TT> и <TT><I>facility</I></TT> даны ниже. Аргумент <TT><I>option</I></TT> используется для указания на то, что опции логина были использованы при 
+генерации log-сообщения. Аргумент <TT><I>facility</I></TT> используется для специфицирования типа программы, выполнившей логинг сообщения. 
+Это позволяет специфицировать (в syslog конфигурации вашей машины), как будут обрабатываться сообщения, 
+приходящие из различных средств обслуживания. Использовать <B>openlog()</B> не обязательно. Она будет автоматически вызываться функцией
+<A HREF="syslog.html"><B>syslog()</B></A>, если необходимо; тогда <TT><I>ident</I></TT> будет по умолчанию
+<TT><B>FALSE</B></TT>.<A NAME="AEN53081"></A></P><h6>Таблица 1. Опции openlog()</h6><TABLE BORDER="1">
+<TR><TH>Константа</TH><TH>Описание</TH></TR><TBODY><TR><TD>LOG_CONS</TD>
+<TD>если имеется ошибка при отправке данных в системный логер, записать непосредственно в системную консоль</TD>
+</TR><TR><TD>LOG_NDELAY</TD><TD>немедленно открыть соединение с системным логером</TD></TR>
+<TR><TD>LOG_ODELAY</TD><TD>(по умолчанию) задержать открытие соединения, пока не будет выполнен логинг первого сообщения</TD></TR>
+<TR><TD>LOG_PERROR</TD><TD>печатать log-сообщение также в стандартную ошибку</TD></TR>
+<TR><TD>LOG_PID</TD><TD>включить PID в каждое сообщение</TD></TR></TBODY></TABLE>
+<p>Вы можете использовать одну или более этих опций. при использовании нескольких опций вам необходимо
+<TT>OR</TT> их, т.е., чтобы открыть соединение немедленно, записать в консоль и включить PID 
+в каждое сообщение, вы используете: <TT>LOG_CONS | LOG_NDELAY | LOG_PID</TT><A NAME="AEN53108"></A></p>
+<h6>Таблица 2. <B>Средства обслуживания openlog()</B></h6><TABLE BORDER="1"><TR><TH>Константа</TH>
+<TH>Описание</TH></TR><TBODY><TR><TD>LOG_AUTH</TD><TD>сообщения безопасности/авторизации (используйте вместо неё LOG_AUTHPRIV
+в системах, где эта константа определена)</TD></TR><TR><TD>LOG_AUTHPRIV</TD>
+<TD>сообщения безопасности/авторизации (private)</TD></TR><TR><TD>LOG_CRON</TD><TD>демон часов (cron и at)</TD>
+</TR><TR><TD>LOG_DAEMON</TD><TD>другие системные демоны</TD></TR><TR><TD>LOG_KERN</TD><TD>сообщения ядра</TD></TR>
+<TR><TD>LOG_LOCAL0 ... LOG_LOCAL7</TD><TD>зарезервированы для локального использования</TD></TR>
+<TR><TD>LOG_LPR</TD><TD>подсистема line printer</TD></TR><TR><TD>LOG_MAIL</TD><TD>подсистема mail</TD></TR>
+<TR><TD>LOG_NEWS</TD><TD>подсистема USENET news</TD></TR><TR><TD>LOG_SYSLOG</TD><TD>сообщения, генерируемые syslogd внутренне</TD>
+</TR><TR><TD>LOG_USER</TD><TD>общие пользовательские сообщения</TD></TR><TR><TD>LOG_UUCP</TD>
+<TD>подсистема UUCP</TD></TR></TBODY></TABLE>
+<P>См. также <A HREF="define-syslog-variables.html"><B>define_syslog_variables()</B></A>,
+<A HREF="syslog.html"><B>syslog()</B></A> и
+<A HREF="closelog.html"><B>closelog()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="long2ip.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="pfsockopen.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">long2ip</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.network.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">pfsockopen</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

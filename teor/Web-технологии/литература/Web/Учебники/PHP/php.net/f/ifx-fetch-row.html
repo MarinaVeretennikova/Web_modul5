@@ -1,0 +1,50 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>ifx_fetch_row</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ifx-errormsg.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ifx-fieldproperties.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="ifx-fetch-row">ifx_fetch_row</A></H1><A NAME="AEN36242"></A><P>(PHP 3&#62;= 3.0.3, PHP 4)</P>
+<p>ifx_fetch_row - получает ряд как перечислимый массив.<A NAME="AEN36245"></A></p><H2>Описание</H2>
+<p>array <B>ifx_fetch_row</B> (int result_id [, mixed position])</p>
+<P>Возвращает ассоциативный массив, соответствующий извлечённому ряду, или <TT><B>FALSE</B></TT>, если рядов больше нет.</P>
+<P>Blob-столбцы возвращаются как целочисленные blob id-значения для использования в
+<A HREF="ifx-get-blob.html"><B>ifx_get_blob()</B></A>, если только вы не использовали
+ifx_textasvarchar(1) или ifx_byteasvarchar(1), - в этих случаях blob'ы возвращаются как строковые значения.
+Возвращает <TT><B>FALSE</B></TT> при ошибке.</P><P><TT><I>result_id</I></TT> это правильный resultid, возвращённый функцией
+<A HREF="ifx-query.html"><B>ifx_query()</B></A> или <A HREF="ifx-prepare.html"><B>ifx_prepare()</B></A> (только запросы select!).</P>
+<P><TT><I>position</I></TT> это необязательный параметр для операций "извлечения" в "scroll"-курсорах:
+"NEXT", "PREVIOUS", "CURRENT", "FIRST", "LAST" или число. Если вы специфицировали число, выполняется извлечение "absolute".  Этот параметр не 
+обязателен и верен только для SCROLL-курсоров.</P><P><B>ifx_fetch_row()</B> извлекает один ряд данных из результата, ассоциированного со специфицированным 
+идентификатором результата. Ряд возвращается как массив. Каждый результирующий столбец сохраняется как смещение массива, начиная со смещения 0, 
+с именем столбца в качестве ключа.</P><P>Последующие вызовы <B>ifx_fetch_row()</B> будут возвращать следующий ряд результирующего набора или
+<TT><B>FALSE</B></TT>, если рядов больше нет.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN36272"></A>
+<h5>Пример 1. Informix-извлечение рядов</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$rid = ifx_prepare ("select * from emp where name like " . $name,
+                     $connid, IFX_SCROLL);
+if (! $rid) {
+    ... error ...
+}
+$rowcount = ifx_affected_rows($rid);
+if ($rowcount &#62; 1000) {
+    printf ("Too many rows in result set (%d)\n&#60;br&#62;", $rowcount);
+    die ("Please restrict your query&#60;br&#62;\n");
+}
+if (! ifx_do ($rid)) {
+   ... error ...
+}
+$row = ifx_fetch_row ($rid, "NEXT");
+while (is_array($row)) {
+    for(reset($row); $fieldname=key($row); next($row)) {
+        $fieldvalue = $row[$fieldname];
+        printf ("%s = %s,", $fieldname, $fieldvalue);
+    }
+    printf("\n&#60;br&#62;");
+    $row = ifx_fetch_row ($rid, "NEXT");
+}
+ifx_free_result ($rid);</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ifx-errormsg.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ifx-fieldproperties.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ifx_errormsg</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.ifx.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ifx_fieldproperties</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

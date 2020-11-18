@@ -1,0 +1,250 @@
+<html>
+<title>Регистрация доменных имен</title>
+<meta name=keywords content="Apache httpd httpd.conf SSI регистрация доменов">
+<style>
+pre {background:#E5E5E5}
+</style>
+<body>
+<table align=center width=90%>
+<tr><td>
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c06.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c06.html">Веб-сервер</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c06_apache.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c06_apache.html">Конфигурирование веб-сервера Apache</a>
+</table>
+
+<h3>Регистрация доменных имен</h3>
+<p align="justify">
+DNS (Domain Name System) - доменная система имен косвенно относится
+к созданию сайтов. Однако, как показывает мой опыт, с ней связано
+наибольшее количество вопросов и проблем у менеджеров Интернет-проектов.
+DNS - распределенная база данных, основной функцией которой является преобразование
+имен компьютеров в IP-адреса и наоборот.
+Далее будет рассказано о том,
+как зарегистрировать доменное имя, сколько будет стоить поддержание сайта в год,
+ и чего следует опасаться.
+<br><br>
+В сети Интернет все сервера имеют IP-адреса, например 194.226.32.34.
+Связь и маршрутизация пакетов в сети осуществляется на основе IP-адресов.
+Люди разговаривают словами, а машины - 
+цифрами.
+Когда вы набираете в своем обозревателе имя сайта, допустим www.freebsd.org,
+то сначала ваш обозреватель обращается к ближайшему DNS-серверу с запросом об
+IP-адресе сервера с именем www.freebsd.org. Этот DNS-сервер смотрит в своей базе
+данных, если он находит такое символическое имя, то возвращает ответ с IP-адресом
+, иначе он отправляет запрос другим DNS-серверам. Так происходит до тех пор, пока не 
+найдется DNS-сервер с данными о требуемом домене или выяснится, что такого домена 
+не существует. DNS позволяет вам не зависеть
+от конкретного IP-адреса. Допустим, вы сменили провайдера, и ваш веб-сайт
+переехал на другой IP-адрес. Доменное имя у вас сохранилось, вам надо 
+только обновить информацию в первичном DNS-сервере, который обслуживает ваш домен.
+<br><br>
+Самое первое, что вам 
+необходимо сделать перед появлением на свет вашего сайта - зарегистрировать
+его имя. Регистрация доменов второго уровня (ваш_сервер.ru) в зоне ru стоит 36$.
+Для этого вам необходимо сначала зарегистрироваться в базе данных
+<a href="javascript:if(confirm('http://www.ripn.ru/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.ripn.ru/'" tppabs="http://www.ripn.ru/">РосНИИРОС 
+(Российский Научно-Исследовательский Институт Развития Общественных Сетей)</a>.
+Для регистрации доменов в других зонах обращайтесь на сайт <a href="javascript:if(confirm('http://www.internic.net/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.internic.net/'" tppabs="http://www.internic.net/">http://www.internic.net</a>
+Вы можете зарегистрироваться как физическое, так и юридическое лицо.
+Юридическое лицо, т.е. организация, может регистрировать домены в зонах 
+org.ru, net.ru, com.ru, причем эта услуга бесплатная. Физические лица не
+могут регистрировать домены в этих зонах. Получить всю необходимую информацию, 
+а также  занести себя в базу данных РосНИИРОС можно на сайте <a href="javascript:if(confirm('http://www.ripn.ru/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.ripn.ru/'" tppabs="http://www.ripn.ru/">http://www.ripn.ru</a>.
+Следующим шагом после регистрации в базе данных будет заключение договора.
+Текст договора доступен в двух вариантах (WORD HTML) на сайте 
+<a href="javascript:if(confirm('http://www.ripn.ru/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.ripn.ru/'" tppabs="http://www.ripn.ru/">http://www.ripn.ru</a>. Распечатав и заполнив
+этот документ в двух экземплярах, вы должны подъехать к ним для
+заключения договора или прислать его по почте.
+<br><br>
+После заключения договора вы можете регистрировать домены. 
+Для регистрации вам необходимо отправить заявку в РосНИИРОС.
+Но прежде вам надо проверить свободен ли домен. Это можно сделать
+в UNIX командой: whois -h whois.ripn.net your_domain.ru или же
+можно получить эту же информацию на страничке
+<a href="javascript:if(confirm('http://www.ripn.net:8080/nic/whois/index.html  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.ripn.net:8080/nic/whois/index.html'" tppabs="http://www.ripn.net:8080/nic/whois/index.html">http://www.ripn.net:8080/nic/whois/index.html</a>.
+У них на сайте хороший веб-интерфейс, который позволяет регистрировать
+домены в online. Квитанцию на оплату можно распечатать там же и сразу
+оплатить в любом отделение сбербанка.
+После того, как вы оплатили домен второго уровня, он будет зарезервирован
+за вами сроком на один год. Каждый год надо оплачивать перерегистрацию.
+
+<br><br>
+Следующим шагом будет поиск площадки для размещения вашего сайта. Эта услуга
+провайдера называется хостингом. Стоимость ее колеблется от 6 до 50 
+долларов в месяц.
+Все зависит от объема вашего сайта, наличия базы данных, количества почтовых
+ящиков и других атрибутов. Дисковое пространство постоянно дешевеет.
+На сегодняшний день разместить сайт с базой данных и 
+объемом до 50Мб можно за $10/месяц. Выбрав провайдера и оплатив хостинг,
+вам предстоит установить в соответствие вашему доменному имени IP-адрес
+провайдера.
+
+<br><br>
+РосНИИРОС делегирует доменное имя(зону) после успешного тестирования
+двух DNS-серверов, в которых имеются записи о вашем домене.
+Теперь более подробно о том, что такое делегирование, и чем оно отличается от
+регистрации домена. Дело в том, что  купить домен может любой желающий, имеющий
+достаточное количество денег. Вам даже не потребуется ничего заполнять, можете просто
+приехать в организацию, предоставляющую Интернет-услуги, и за дополнительные деньги они заполнят за вас все документы.
+Владельцем домена будете вы. Но реально ему никакой сервер в Интернет не соответствует.
+После делегирования вашему домену будет соответствовать реальный сервер в Интернет.
+Если вас не устроит провайдер, то вы всегда можете сменить DNS-сервера на нового
+провайдера. Управлять своим доменом вы можете через веб-интерфейс на сайте 
+http://www.ripn.ru, отправляя письма по электронной почте или по факсу.
+Регистрация - это получение прав на владение конкретным доменом. Делегирование - 
+это связывание символьного имени домена с конкретным IP-адресом.
+<br>
+Два DNS-сервера требуется на случай, если один выйдет из строя.
+Один из этих DNS-серверов является первичным. У него хранится и редактируется 
+информация, касающаяся вашего домена и поддоменов. Вторичный сервер просто
+дублирует информацию первичного DNS-сервера, регулярно связываясь с ним
+и скачивая к себе записи о вашем домене. Тем самым, для того чтобы
+изменить IP-адрес, вам надо исправить информацию в базе данных первичного
+DNS-сервера. В большинстве случаев эти два DNS-сервера находятся у вашего
+провайдера. Просто попросите его внести информацию о вашем домене в его DNS-сервера
+и отправить запрос в РосНИИРОС о делегировании домена.
+ На самом деле, ничего сложного
+в DNS-серверах нет, однако провайдеры берут за эту услугу деньги, и немалые.
+Так, например, размещение информации в двух DNS-серверах РосНИИРОС вам
+обойдется в 70 долларов сроком на один год.
+
+<br><br>
+
+Теперь окончательно подсчитаем расходы на поддержание вашего веб-сайта.
+Услуги хостинга  10$/месяц, в год это $120.
+Регистрация домена - $36(в РосНИИРОС), если будете сами регистрировать.
+Если кому-нибудь поручите, то еще $14 - накладные расходы.
+Особое внимание обратите  на правильность регистрации. Владельцем домена должны 
+быть именно вы. Существует целый ряд жуликов, которые специализируются на
+перепродаже доменных имен. Не забывайте  каждый год вовремя
+оплачивать перерегистрацию
+домена в РосНИИРОС, иначе у вас уведут доменное имя и предложат вам его купить
+снова, но уже не за $36, а за $36К. Цена зависит от раскрученности вашего сайта.
+Поддержка двух DNS-серверов вам обойдется от $25 до $70.
+Итого содержание сайта вам обойдется порядка $160-$200 в год.
+<br><br>
+
+Теперь о безопасности, или на что стоит обратить особое внимание. Есть проблема
+перехвата и перепродажи доменных имен. Например, вы являетесь представителем
+какой-нибудь очень солидной фирмы в России и хотите зарегистрировать домен
+firma.ru. Про это узнает спекулянт и регистрирует домен на свое имя, а потом предлагает
+вам его выкупить за очень большие деньги. Может быть и другая ситуация: вы 
+попросили своего Интернет-провайдера зарегистрировать вам домен. Он зарегистрировал, но
+на свое имя. В последствии, он разорился, или вы от него хотите перейти к другому 
+провайдеру. Но опять получилось, что домен зарегистрирован не на вас и вам не пренадлежит.
+Есть еще один очень распространенный миф по поводу WWW. Владеть можно только
+зоной, т.е. доменом второго уровня - zona.ru.  Все поддомены третьего и более
+низких уровней, т.е. любые слова слева после второй точки, принадлежат владельцу зоны.
+Например, comp1.zona.ru, igor.zona.ru, test.zona.ru & www.zona.ru - это домены третьего
+уровня, и все они будут принадлежать владельцу домена(зоны) zona.ru. Обратите 
+<b>ОСОБОЕ ВНИМАНИЕ</b> на то, что www.zona.ru это не одно и тоже, что zona.ru.
+www.zona.ru - это такой же домен третьего уровня, как и test.zona.ru, а zona.ru - это домен второго уровня.
+Будьте бдительны: есть продавцы воздуха, которые с удовольствием продадут вам
+www.domain.ru, хотя никакого смысла это иметь не будет. Домен третьего уровня сложился исторически.
+DNS появилась за долго до World Wide Web (Всемирная паутина). Были и есть компьютеры с именем ftp.zona.ru.
+В этом случае, файловый сервер находится на машине ftp.zona.ru, а веб-сервер на машине www.zona.ru.
+В настоящее время уже пошла тенденция отхода от www. Я рекомендую делать автоматическое 
+перенаправление с веб-сайта www.zona.ru на просто zona.ru.  
+<br>
+И последнее о чем здесь необходимо сказать - как выбирать доменное имя.
+Привыборе доменного имени ваша цель выбрать такое имя, которое 
+легче будет запомнить пользователям.
+Для этого придерживайтесь следующих правил:
+<ol>
+<li>Иметь однозначное произношение и написание, чтобы избежать ошибок в написании.
+<li>Имя должно быть осмысленным, т.е. вызывать ассоциации с вашим
+проектом.
+<li>По возможности коротким.
+</ol>
+Эти правила перечислены в порядке их значимости. Если имя допускает разлиное
+произношение и его можно написать с ошибкой, то это плохое имя. Имеет смысл
+регистрировать несколько доменных имен близких по написанию. Например, если в произношении
+есть звуки, которые могут быть двояко написаны - ph(f), k(c), i(e), a(o) и другие, то уместно
+зарезервировать и запасное имя, если позволяют средства. С точки зрения второго 
+правила имена типа Rambler, Yandex, Aport плохие, т.к. ровно ни о чем не говорят.
+Поисковая машина с именем poisk или даже search запоминалась бы легче. Имена 
+более семи символов плохо запоминаются и сильно растет вероятность сделать орфографическую 
+ошибку. 
+
+
+
+
+
+
+
+</td></tr>
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?6135  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?6135'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?6135" target=_top>
+    <img src="itsoft-6135" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?6135" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?6135  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?6135'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?6135" target=_top>
+    <img src="itsoft-6135" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?6135" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="itsoft-6135-1" tppabs="http://rb1.rotabanner.com/cgi-bin/iframe/itsoft?6135"
+ width=468 height=60 marginwidth=0 marginheight=0 scrolling=no 
+ frameborder=0><a href="javascript:if(confirm('http://rb1.rotabanner.com/cgi-bin/href/itsoft?6135  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb1.rotabanner.com/cgi-bin/href/itsoft?6135'" tppabs="http://rb1.rotabanner.com/cgi-bin/href/itsoft?6135" 
+ target=_top><img src="itsoft-6135-2" tppabs="http://rb1.rotabanner.com/cgi-bin/banner/itsoft?6135" 
+ alt="RB1" width=468 height=60 border=0 ismap></a></iframe>
+
+</body>
+</html>

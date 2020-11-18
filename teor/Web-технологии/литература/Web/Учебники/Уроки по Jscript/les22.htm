@@ -1,0 +1,260 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0031)http://jsp.newmail.ru/les22.htm -->
+<HTML><HEAD><TITLE>Урок 22. If и Else</TITLE>
+<META content="text/html; charset=windows-1251" http-equiv=Content-Type>
+<META 
+content="html javascript джаваскрипт советы для начинающих script уроки код&#13;&#10;руководство основы design дизайн веб-страницы web pages" 
+name=Keywords>
+<META 
+content="Самое толковое руководство по основам javascript на русском языке. If и Else" 
+name=Description>
+<SCRIPT language=javascript>
+<!--
+if (document.images) {
+ar_r = new Image(33,33); ar_r.src = "i/ar_r.gif"; 
+ar_r1 = new Image(33,33); ar_r1.src = "i/ar_r1.gif"; 
+none = new Image(79,35); none.src = "i/none.gif"; 
+next = new Image(79,35); next.src = "i/next.gif"; 
+prev = new Image(79,35); prev.src = "i/prev.gif";
+ar_l = new Image(33,33); ar_l.src = "i/ar_l.gif";
+ar_l1 = new Image(79,35); ar_l1.src = "i/ar_l1.gif";
+}
+function swap(imgName,imgObjName) {
+if (document.images) {
+  document.images[imgName].src = eval(imgObjName + ".src");
+}}
+
+function rand()
+      {now=new Date()
+       num=(now.getSeconds())%10
+       num=num+1
+      }
+    function guessnum()
+      { guess=prompt("Угадай, какое?")
+      if (eval(guess) == num)
+         {alert("ПРАВИЛЬНО!!!")
+          rand()
+         }
+      else
+        alert("Нет. Попробуй еще раз.")
+  }
+function toc() {
+OpenWindow=window.open('toc.html', 'toc', config='width=300,scrollbars=1,resizable=1,status=1')
+self.name="one"
+}
+//-->
+</SCRIPT>
+<LINK href="les22.files/blue.css" rel=STYLESHEET type=text/css>
+<META content="MSHTML 5.00.2614.3500" name=GENERATOR></HEAD>
+<BODY background=les22.files/Life_blue.gif bgColor=#334775 onload=rand() 
+text=#334775>
+<DIV 
+style="HEIGHT: 35px; LEFT: 10px; POSITION: absolute; TOP: 10px; WIDTH: 160px"><A 
+href="http://jsp.newmail.ru/les21.htm" 
+onmouseout="swap('left','ar_l');swap('none','none')" 
+onmouseover="swap('left','ar_l1');swap('none','prev')"><IMG border=0 height=33 
+name=left src="les22.files/ar_l.gif" width=33></A>&nbsp;<A href="" 
+onmouseout="swap('left','ar_l');swap('right','ar_r')" 
+onmouseover="swap('left','ar_l1');swap('right','ar_r1')"><IMG border=0 height=35 
+name=none src="les22.files/none.gif" width=79></A>&nbsp;<A 
+href="http://jsp.newmail.ru/les23.htm" 
+onmouseout="swap('right','ar_r');swap('none','none')" 
+onmouseover="swap('right','ar_r1');swap('none','next')"><IMG border=0 height=33 
+name=right src="les22.files/ar_r.gif" width=33></A> </DIV>
+<H1 align=right>Урок 22<BR>If и Else</H1>
+<P align=right><B><FONT color=#fb4462>красным цветом даны примечания <A 
+href="http://jsp.newmail.ru/me.html">переводчика</A></FONT></B><BR><A 
+href="http://jsp.newmail.ru/les22.htm#concept">Концепция</A>__<A 
+href="http://jsp.newmail.ru/les22.htm#script">Скрипт</A>__<A 
+href="http://jsp.newmail.ru/les22.htm#effect">Эффект</A>__<A 
+href="http://jsp.newmail.ru/les22.htm#decon">Разбор скрипта</A>__<A 
+href="http://jsp.newmail.ru/les22.htm#assig">Задание</A></P>
+<P align=right><A href="http://jsp.newmail.ru/les22.htm#" 
+onclick=toc()>Оглавление (в новом окне)</A></P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="50%"><IMG height=13 
+      src="les22.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="30%">
+      <P align=right><IMG height=13 src="les22.files/b_t_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%">
+      <H2><A name=concept>Концепция</A></H2>
+      <P align=justify><B>С</B>егодня у нас в меню случайное число, две функции 
+      и знакомство с командой<B> Else</B> на закуску.</P>
+      <P align=justify>If/Else <FONT color=red>(если/иначе)</FONT> дают вам 
+      дополнительный контроль над программой, позволяя принимать решения на оба 
+      случая: и когда условие выполнено, и когда не выполнено.</P>
+      <H2><A name=script>Скрипт</A></H2>
+      <P class=cou>&lt;HTML&gt;<BR>&lt;HEAD&gt;<BR>&lt;SCRIPT 
+      LANGUAGE="JavaScript"&gt;<BR>function rand()<BR>&nbsp; {now=new 
+      Date()<BR>&nbsp;&nbsp; num=(now.getSeconds())%10<BR>&nbsp;&nbsp; 
+      num=num+1<BR>&nbsp;&nbsp; }<BR>function guessnum()<BR>&nbsp; 
+      {guess=prompt("Угадай, какое?")<BR>&nbsp;&nbsp; if (eval(guess) == 
+      num)<BR>&nbsp;&nbsp; {alert("ПРАВИЛЬНО!!!")<BR>&nbsp;&nbsp;&nbsp; 
+      rand()<BR>&nbsp;&nbsp;&nbsp; }<BR>&nbsp;&nbsp;&nbsp;&nbsp; 
+      else<BR>&nbsp;&nbsp;&nbsp; alert("Нет. Попробуй еще 
+      раз.")<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<BR>&nbsp; 
+      &lt;/SCRIPT&gt;<BR>&lt;BODY onLoad="rand()"&gt;<BR><BR>&nbsp; &lt;h3&gt;Я 
+      загадал число от 1 до 10&lt;/h3&gt;<BR><BR>&nbsp; &lt;FORM 
+      NAME="myform"&gt;<BR><BR>&nbsp;&nbsp;&nbsp; &lt;INPUT TYPE="button" 
+      VALUE="Угадай" <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NAME="b1" 
+      onClick="guessnum()"&gt;<BR><BR>&nbsp; 
+      &lt;/FORM&gt;<BR>&lt;/BODY&gt;<BR>&lt;/HTML&gt;</P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd vAlign=bottom width="50%"><IMG height=13 
+      src="les22.files/b_b_l.gif" width=12></TD>
+    <TD bgColor=#cef3fd vAlign=bottom width="30%">
+      <P align=right><IMG height=13 src="les22.files/b_b_r.gif" width=13></P></TD>
+    <TD width="20%"></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P>
+<DIV align=right>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="85%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=30 vAlign=top width="50%"><IMG height=13 
+      src="les22.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd vAlign=top width="50%">
+      <P align=right><IMG height=13 src="les22.files/b_t_r.gif" 
+  width=13></P></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%">
+      <H2><A name=effect>Эффект</A> </H2>
+      <P><FONT size=4>Я загадал число от 1 до 10 </FONT></P>
+      <FORM name=myform>
+      <P><INPUT name=b1 onclick=guessnum() type=button value=Угадай> 
+    </P></FORM></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%"><IMG height=13 
+      src="les22.files/b_b_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=13 vAlign=bottom width="50%">
+      <P align=right><IMG height=13 src="les22.files/b_b_r.gif" 
+  width=13></P></TD></TR></TBODY></TABLE></DIV>
+<P>.</P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="50%"><IMG height=13 
+      src="les22.files/b_t_l.gif" width=13></TD>
+    <TD bgColor=#cef3fd height=22 vAlign=top width="30%">
+      <P align=right><IMG height=13 src="les22.files/b_t_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd colSpan=2 
+    style="PADDING-LEFT: 10pt; PADDING-RIGHT: 10pt" vAlign=top width="85%"><A 
+      name=decon>
+      <H2>Разбор скрипта</A> </H2>
+      <UL>
+        <LI>Начнем со строки BODY:
+        <P class=cou>&lt;body bgcolor="хххххх" onLoad="rand()"&gt;</P>
+        <P>На этот раз функция запускается не кнопкой через onClick, а командой 
+        onLoad, чтобы к тому времени, когда пользователь нажмет на кнопку, число 
+        уже было выбрано. Если сделать это, как в прошлом уроке, то каждый раз, 
+        нажимая на кнопку, вы будете получать новое число. А оно должно 
+        оставаться одним и тем же, пока вы гадаете.</P>
+        <LI>Первая функция:
+        <P class=cou>function rand() {<BR>now=new 
+        Date()<BR>num=(now.getSeconds())%10<BR>num=num+1<BR>}</P>
+        <P>Функция выбирает наугад число от 0 до 9 и привязывает его к 
+        <B>num</B>. Потом прибавляет к num единицу, чтобы выбор осуществлялся 
+        между 1 и 10. Мы делали это на <A href="http://jsp.newmail.ru/les21.htm" 
+        id=l>прошлом уроке</A>.</P>
+        <LI>Вторая функция:
+        <P class=cou>function guessnum()<BR>&nbsp; {guess=prompt("Угадай, 
+        какое?")<BR>&nbsp;&nbsp; if (eval(guess) == num)<BR>&nbsp;&nbsp; 
+        {alert("ПРАВИЛЬНО!!!")<BR>&nbsp;&nbsp;&nbsp; 
+        rand()<BR>&nbsp;&nbsp;&nbsp; }<BR>&nbsp;&nbsp;&nbsp;&nbsp; 
+        else<BR>&nbsp;&nbsp;&nbsp; alert("Нет. Попробуй еще 
+        раз.")<BR>&nbsp;&nbsp;&nbsp;&nbsp;}</P>
+        <P>Этот фрагмент написала Эндри, потому что она очень умная. В памяти 
+        компьютера уже есть число, полученное через первую функцию. Вторая дает 
+        вам возможность угадать его. Смотрите, что происходит:
+        <UL>
+          <LI>С помощью запроса создается переменная <B>guess</B> <FONT 
+          color=red>(догадка)</FONT>. <BR><FONT color=red>Функция <B>eval()</B> 
+          вычисляет или выполняет строку в скобках (выражение, команду или 
+          последовательность команд) и подставлает полученное значение вместо 
+          себя. Она не является методом какого-либо объекта, но может 
+          использовать свойства уже существующего. В данном случае переводит 
+          текст, полученный с помощью запроса, в нашу функцию для последующей 
+          обработки.</FONT> <BR>Обратите внимание на {фигурные скобки}. Все это 
+          очень похоже на <A href="http://jsp.newmail.ru/les21.htm" id=l>Урок 
+          21</A>.<BR>
+          <LI>Переходим к IF/Else. Если <FONT color=red>(if)</FONT> guess <FONT 
+          color=red>(догадка)</FONT> равна загаданному числу num, тогда 
+          запускается команда alert("ПРАВИЛЬНО"). 
+          <LI>Если это не так, а иначе <FONT color=red>(else)</FONT>, тогда 
+          запускается другая команда alert. </LI></UL>
+        <LI>Это вам уже знакомо:
+        <P class=cou>&lt;form name="myform"&gt;<BR>&lt;input type="button" 
+        value="Угадай" name="b1" onClick="guessnum()"&gt;<BR>&lt;/form&gt;</P>
+        <P>Кнопка запускает функцию, которая дает возможность угадать задуманное 
+        число.</P></LI></UL>
+      <H2><A name=assig>Ваше задание</A></H2>
+      <P align=justify><B>П</B>ридется вам постараться! Измените сегодняшний 
+      скрипт так, чтобы при неверной догадке он сообщал пользователю, что он 
+      назвал слишком большое или слишком маленькое число.</P>
+      <P align=justify><B>Подсказка!</B> В этом случае возможны только три 
+      решения: слишком много, слишком мало или правильно. Подумайте вот о чем: 
+      нужна ли вам команда Else или сойдет и парочка дополнительных If?</P>
+      <P>Возможный ответ <A href="http://jsp.newmail.ru/assig22.htm" 
+      id=l>здесь</A></P></TD>
+    <TD width="15%"></TD></TR>
+  <TR>
+    <TD bgColor=#cef3fd vAlign=bottom width="50%"><IMG height=13 
+      src="les22.files/b_b_l.gif" width=12></TD>
+    <TD bgColor=#cef3fd vAlign=bottom width="30%">
+      <P align=right><IMG height=13 src="les22.files/b_b_r.gif" width=13></P></TD>
+    <TD width="15%"></TD></TR></TBODY></TABLE>
+<P align=right><A 
+href="http://jsp.newmail.ru/les22.htm#concept">Концепция</A>__<A 
+href="http://jsp.newmail.ru/les22.htm#script">Скрипт</A>__<A 
+href="http://jsp.newmail.ru/les22.htm#effect">Эффект</A>__<A 
+href="http://jsp.newmail.ru/les22.htm#decon">Разбор скрипта</A>__<A 
+href="http://jsp.newmail.ru/les22.htm#assig">Задание</A> </P>
+<P align=right><FONT size=5><A href="http://jsp.newmail.ru/les23.htm">Вперед, на 
+Урок 23</A></FONT></P>
+<DIV align=right>
+<TABLE width="75%">
+  <TBODY>
+  <TR>
+    <TD><FONT color=#cef3fd>
+      <P align=justify class=small>авторы <A 
+      href="http://www.htmlgoodies.com/primers/jsp/me.html">Джо Бернс</A> и 
+      Эндри Грауни. <A href="http://www.htmlgoodies.com/">Оригинал и многое 
+      другое на английском языке</A> © <A 
+      href="http://www.earthweb.com/">EarthWeb Inc.</A> <BR>Перевод, оформление 
+      и верстка © Татьяна. </FONT></P></TD></TR></TBODY></TABLE></DIV><!-- HotLog -->
+<SCRIPT language=javascript>
+hotlog_js="1.0";hotlog_d=document; hotlog_n=navigator;hotlog_rn=Math.random();
+hotlog_n_n=(hotlog_n.appName.substring(0,3)=="Mic")?0:1;
+hotlog_r=""+hotlog_rn+"&s=15862&r="+escape(hotlog_d.referrer)+"&pg="+
+escape(window.location.href);
+hotlog_d.cookie="hotlog=1"; hotlog_r+="&c="+(hotlog_d.cookie?"Y":"N");
+hotlog_d.cookie="hotlog=1; expires=Thu, 01-Jan-70 00:00:01 GMT"</SCRIPT>
+
+<SCRIPT language=javascript1.1>
+hotlog_js="1.1";hotlog_r+="&j="+(navigator.javaEnabled()?"Y":"N")</SCRIPT>
+
+<SCRIPT language=javascript1.2>
+hotlog_js="1.2";hotlog_s=screen;
+hotlog_r+="&wh="+hotlog_s.width+'x'+hotlog_s.height+"&px="+((hotlog_n_n==0)?
+hotlog_s.colorDepth:hotlog_s.pixelDepth)</SCRIPT>
+
+<SCRIPT language=javascript1.3>hotlog_js="1.3"</SCRIPT>
+
+<SCRIPT language=javascript>hotlog_r+="&js="+hotlog_js;
+hotlog_d.write("<img src=\"http://hit2.hotlog.ru/cgi-bin/hotlog/count?"+
+hotlog_r+"&\" border=0 width=1 height=1>")</SCRIPT>
+<NOSCRIPT><IMG border=0 height=1 src="les22.files/count" width=1></NOSCRIPT> <!-- /HotLog --><!--webbot bot="HTMLMarkup" startspan ALT="Site Meter" -->
+<SCRIPT>var site="sm2jsp"</SCRIPT>
+
+<SCRIPT language=JavaScript1.2 src="les22.files/counter.js">
+</SCRIPT>
+<!-- Copyright (c) 1999-2000 Site Meter --><!--webbot
+bot="HTMLMarkup" endspan --></BODY></HTML>

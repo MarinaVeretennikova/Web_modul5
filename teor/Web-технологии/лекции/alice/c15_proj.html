@@ -1,0 +1,222 @@
+<html>
+<title>Проектирование информационных систем</title>
+<meta name=keywords content="Проектирование информационных систем Программирование Отладка Тестирование Производительность Переносимость Надежность и качество">
+<body>
+<table align=center width=90%>
+<tr><td>
+
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c15.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c15.html">Разработка информационных систем </a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c15_prog.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c15_prog.html">Программирование</a>
+</table>
+
+
+<h3>Проектирование информационных систем</h3>
+<p align=justify>
+   Начнем с рассмотрения общей архитектуры.
+   Для начала, давайте выделим характерные особенности информационных систем подобного рода,
+   функционирующих в сети Интернет на веб-сайтах, т.к. задача проектирования базируется 
+   на характеристиках той или иной системы и предъявляемых функциональных требованиях. Итак:
+<ul>
+<li> вся информация и все вычисления хранятся и выполняются на сервере
+<li> у каждого клиента свой броузер
+<li> многопользовательский доступ
+<li> разграничение доступа
+<li> ограничения по объему передаваемой информации
+<li> повышенные требования к безопасности
+<li> повышенные требования к производительности
+<li> переносимость
+</ul>
+<p align=justify>
+Рассмотрим по порядку эти характеристики. На переднем плане первые два пункта.
+Они представляют собой наиболее важное отличие от информационных систем, функционирующих 
+в закрытых сетях. Мы не имеем возможности хранить и обрабатывать какую-либо информацию
+на стороне клиента. Все должно выполнятся на сервере. При разработке информационной системы
+с клиентским программным обеспечением можно было бы хранить часть пользовательской 
+информации и обрабатывать ее на стороне клиента. Такая возможность позволила бы нам
+разгрузить сервер и трафик сети. Например, в случае анализа посетителей веб-сайтов, мы
+хранили бы основные объемы информации у клиентов, а на сервере - лишь общедоступные статистические
+отчеты, выжимки и сравнительные показатели с другими клиентами. Но мы не имеем такой
+возможности, поэтому надо тратить большие деньги на накопители жестких дисков и 
+вычислительные мощности серверов. Многопользовательский доступ и разграничение
+доступа являются общими требованиями для всех информационных систем. Важным критерием
+является ограничение по объему передаваемой информации. На сервере может быть канал с большой пропускной
+способность, но по этому каналу идет информация от множества клиентов. В свою очередь,
+у пользователя информация идет только для него, но очень часто пользователи сидят
+на плохих каналах, например, на модемном соединении, или же просто, в силу удаленности
+и большого количества шлюзов между клиентом и сервером, скорость передачи информации очень
+медленная. В связи с тем, что в сети Интернет находится огромное количество людей, среди которых
+есть и злоумышленники, то необходимо предъявлять повышенные требования к безопасности.
+Вы не можете написать инструкцию пользователю: делай так, а не иначе, а вот здесь у нас
+дырка, чтобы ее обойти, делайте так-то. Вы не знаете, чего ожидать от пользователя.
+В связи с тем, что на сервере происходят все вычисления, и что пользователь
+хочет работать в режиме реального времени и не намерен ждать и 30 секунд, выполнение
+отдельно взятой CGI-программы должно происходить максимально быстро. И наконец,
+переносимость. Конечно, эта особенность не столь важна, но допустим, вам потребовалось открыть зеркало
+сайта на другом континенте. Принципиально надо решить две проблемы. Во-первых, настройка серверной
+платформы и вашего программного обеспечения для функционирования вашей информационной системы. 
+Во-вторых, перевод системы на другой язык. На другом континенте может просто не оказаться
+ни требуемой вашей информационной системой платформы, ни специалистов, которые бы могли
+все это установить, настроить и поддерживать. Например, будет другая разновидность Unix.
+Все эти характерные особенности, в основном, и определяют стадию проектирования.
+ <br>
+ <img src="1" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/1" alt="Здесь картинка с архитектурой ИС" width=200 height=150>
+  <br>
+ В процессе проектирования информационной системы можно выделить три основных
+ этапа:
+ <ol>
+ <li> проектирование пользовательского интерфейса;
+ <li> проектирование базы данных;
+ <li> проектирование связующей системы CGI-программ.
+ </ol>
+<p align=justify>
+На первом этапе проектирования необходимо выяснить требования пользователей к системе
+и, на основании этих требований, сделать макет сайта, показывающего все HTML-формы и HTML-файлы
+отчетов взаимодействия с информационной системой. Желательно, чтобы HTML-формы содержали
+некоторые данные по умолчанию и ссылались на HTML-документы, которые, предполагается, будут
+результатом выполнения запроса к системе. В этом случае, пользователям будет легче понять,
+что же вы спроектировали.
+<br>  
+ Проектирование базы данных подробно обсуждалось в главе "Проектирование баз данных", 
+ поэтому здесь повторяться не будем. Отметим лишь, что данный этап скрыт от пользователей, 
+ и вся ответственность за выбор верного решения ложится на вас, как на разработчика.
+<br> 
+ На третьем этапе выясняется набор CGI-программ. Что делает каждая CGI-программа, и взаимосвязи
+ между ними. Сразу хочется отметить одну очень распространенную ошибку начинающих 
+ веб-разработчиков, которые в одной программе реализуют несколько функций. Например, при
+ разработке гостевой книги делается один CGI-скрипт, который вызывается во всех
+ HTML-формах: и при показе сообщений, и при добавлении, еще хуже, если туда же
+ включают функции администраторского доступа, т.е. удаление и редактирование сообщений.
+ Есть три существенных причины, по которым не стоит так делать. Во-первых, это потенциальная
+ дыра в безопасности. Во-вторых, загрузка и выполнение такой CGI-программы будет происходить
+ медленнее. И в-третьих, такую программу сложно модифицировать, тестировать и отлаживать, т.к.
+ она сама по себе представляет сложность из-за объема исходного текста.
+ <br>
+ Наиболее правильным решением является однозначная связь между функциональным требованием
+ и CGI-программой. Одна функция (операция) - одна CGI-программа. В этом случае, исходный код
+ будет простым и небольшим, а следовательно, значительно снижается вероятность пропустить в нем дыру
+ в безопасности. Загрузка и выполнение такой программы будет происходить значительно быстрее.
+ И самое главное, модифицировать и поддерживать такую программу будет значительно легче.
+ <br>
+ Помимо того, чтобы расписать, какая программа какую функцию выполняет, вам необходимо установить взаимосвязи между
+ ними. Это такая паутинная схема. В простых системах она простая, в больших ее сложность возрастает 
+ нелинейно. Конечно, можно расставлять связи по месту. В простых системах вообще ничего не
+ рисуют, т.к. и так все очевидно. Но вот в больших системах, особенно, если вы работаете в команде из
+ нескольких человек, полезно иметь визуальное представление, откуда и какой CGI-скрипт вызывается,
+ и куда вы попадете после его выполнения. Принципиально, как мы уже рассматривали в главе 
+ "CGI-программирвание", CGI-программа может выдавать либо текст, либо перенаправлять на другой
+ адрес в Интернет, либо же выдавать картинку или еще какой файл. Вот такого рода схемку,
+ набросанную от руки, полезно иметь, чтобы ясно представлять себе архитектуру проекта.
+ 
+ 
+</td></tr>
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #1 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=0-5176" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=0?5176" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=0'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69019-bn=0-5176" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=0?5176"
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #2 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=1?Rnd_Num" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=1'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=1?Rnd_Num" 
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="erle.cgi-51599-5176" tppabs="http://www.linkexchange.ru/cgi-bin/erle.cgi?51599?5176" frameborder=0 
+    vspace=0 hspace=0 width=468 height=60 marginwidth=0 marginheight=0 scrolling=no>
+    <a href="javascript:if(confirm('http://www.linkexchange.ru/users/goto.map  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://www.linkexchange.ru/users/goto.map'" tppabs="http://www.linkexchange.ru/users/goto.map" target=_top>
+    <img src="rle.cgi-51599-5176" tppabs="http://www.linkexchange.ru/cgi-bin/rle.cgi?51599?5176" alt="RLE Banner Network" border=0 height=60 width=468></a>
+    </iframe>
+
+<!-- Russian LinkExchange code START - BANNER #1 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=0-5176" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=0?5176"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=0'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69021-bn=0-5176" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=0?5176"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+<!-- Russian LinkExchange code START - BANNER #2 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=1-5176" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=1?5176"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=1'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69021-bn=1-5176" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=1?5176"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+</td></tr>
+</table>
+
+</body>
+</html>

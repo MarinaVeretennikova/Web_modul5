@@ -1,0 +1,28 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>ifx_prepare</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ifx-pconnect.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ifx-query.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.ifx-prepare">ifx_prepare</A></H1><A NAME="AEN36509"></A><P>(PHP 3&#62;= 3.0.4, PHP 4)</P>
+<p>ifx_prepare - готовит SQL-оператор для выполнения.<A NAME="AEN36512"></A></p><H2>Описание</H2><p>int <B>ifx_prepare</B> (string query, int conn_id [, int cursor_def, mixed blobidarray])</p>
+<P>Возвращает целочисленный <TT><I>result_id</I></TT> для использования функцией
+<A HREF="ifx-do.html"><B>ifx_do()</B></A>. Устанавливает <TT><I>affected_rows</I></TT> для запрашивания функцией
+<A HREF="ifx-affected-rows.html"><B>ifx_affected_rows()</B></A>.</P><P>Готовит <TT><I>query</I></TT> в соединении
+<TT><I>conn_id</I></TT>. Для запросов "select" объявляется и открывается курсор. Необязательный параметр
+<TT><I>cursor_type</I></TT> позволяет создать "scroll" и/или "hold"-курсор. Это битовая маска, которая 
+может быть IFX_SCROLL, IFX_HOLD или то и другое вместе.</P><P>Для любого типа запроса приблизительное количество задействованных рядов
+сохраняется для запрашивания функцией by <A HREF="ifx-affected-rows.html"><B>ifx_affected_rows()</B></A>.</P>
+<P>Если у вас в запросе имеются столбцы BLOB (BYTE или TEXT), вы можете добавить параметр <TT><I>blobidarray</I></TT>, содержащий соответствующие "blob ids", и должны заменить эти столбцы знаком "?" 
+в тексте запроса.</P><P>Если содержимое столбца TEXT (или BYTE) позволяет, вы можете также 
+использовать "ifx_textasvarchar(1)" и "ifx_byteasvarchar(1)".  Это даст 
+возможность рассматривать столбцы TEXT (или BYTE) точно так, как если бы они 
+были простыми (но long) столбцами VARCHAR для select-запросов, и вам не нужно будет беспокоиться о blob id'ах.</P>
+<P>При наличии ifx_textasvarchar(0) или ifx_byteasvarchar(0) (ситуация по умолчанию), select-запросы будут возвращать BLOB-столбцы как blob id'ы
+(целочисленное значение).  Вы можете получить значение blob как строку или файл с помощью blob-функций (см. далее).</P>
+<P>См. также <A HREF="ifx-do.html"><B>ifx_do()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ifx-pconnect.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ifx-query.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ifx_pconnect</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.ifx.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ifx_query</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,32 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>mysql_pconnect</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="mysql-num-rows.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="mysql-ping.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.mysql-pconnect">mysql_pconnect</A></H1><A NAME="AEN51899"></A><P>(PHP 3, PHP 4)</P>
+<p>mysql_pconnect - открывает постоянное соединение с MySQL-сервером.<A NAME="AEN51902"></A></p><H2>Описание</H2>
+<p>resource <B>mysql_pconnect</B> ([string server [, string username [, string password]]])</p>
+<P>Возвращает положительный идентификатор ссылки MySQL при успехе, <TT><B>FALSE</B></TT> при ошибке.</P>
+<P><B>mysql_pconnect()</B> устанавливает соединение с MySQL-сервером. Следующие значения по умолчанию 
+предусмотрены для опущенных необязательных параметров: <TT><I>server</I></TT> = 'localhost:3306', <TT><I>username</I></TT> = имя пользователя - владельца серверного процесса,
+<TT><I>password</I></TT> = пустой пароль.</P><P>Параметр <TT><I>server</I></TT> может также содержать номер порта, например, "hostname:port", или путь к 
+сокету, например, ":/path/to/socket", для локального хоста.<BLOCKQUOTE><P><B>Примечание: </B>
+поддержка ":port" была добавлена в 3.0B4.</P><P>Поддержка ":/path/to/socket" была добавлена в 3.0.10.</P></BLOCKQUOTE>
+<P><B>mysql_pconnect()</B> работает очень похоже на <A HREF="mysql-connect.html"><B>mysql_connect()</B></A>, с двумя отличиями.</P>
+<P>Во-первых, при соединении функция пытается сначала найти (постоянную) ссылку, уже открытую с теми же host,
+username и password. Если она найдена, возвращается её идентификатор вместо открытия нового соединения.</P>
+<P>Во-вторых, соединение с SQL-сервером не закрывается по окончании 
+выполнения скрипта. Ссылка остаётся открытой для последующего использования (<A HREF="mysql-close.html"><B>mysql_close()</B></A> не закрывает ссылки, установленные функцией
+<B>mysql_pconnect()</B>).</P><P>Ссылки этого типа называются поэтому 'persistent/постоянные'.</P><BLOCKQUOTE>
+<P><B>Примечание: </B>обратите внимание, что ссылки это&nbsp; типа работают только тогда, когда 
+вы используете модульную версию PHP. См. в разделе
+<a href="../persistent-connections.html">Постоянное соединение с БД</a> дополнительную информацию.</P></BLOCKQUOTE>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD><P>Использование постоянных соединений может потребовать некоторой настройки 
+конфигурации Apache и MySQL, чтобы гарантировать, что вы не превысите количество соединений, допускаемых MySQL.</P></TD>
+</TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="mysql-num-rows.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="mysql-ping.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">mysql_num_rows</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.mysql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">mysql_ping</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

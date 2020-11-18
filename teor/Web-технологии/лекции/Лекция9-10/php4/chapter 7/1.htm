@@ -1,0 +1,1744 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE></TITLE>
+<META content="TEXT/HTML; CHARSET=WINDOWS-1251" http-equiv=CONTENT-TYPE>
+<META content="Microsoft FrontPage 4.0" name=GENERATOR>
+<STYLE></STYLE>
+</HEAD>
+<body background=../fon.jpg>
+<ul>
+
+  <li><a href="#a"><font face="Times New Roman" size=3>Глава 7.
+    Файловый ввод/вывод и файловая система</font></a> </li>
+  <ul>
+    <li><a href="#b"><font face="Times New Roman" size="3">Проверка
+      существования и размера файла</font></a>
+    </li>
+    <li><a href="#c"><font face="Times New Roman" size="3">Открытие и
+      закрытие файлов</font></a>
+    </li>
+    <li><a href="#d"><font face="Times New Roman" size="3">Запись в
+      файл</font></a></li>
+    <li><a href="#e"><font face="Times New Roman" size="3">Чтение из
+      файла</font></a></li>
+    <li><a href="#f"><font face="Times New Roman" size="3">Чтение
+      файла в массив</font></a></li>
+    <li><a href="#g"><font face="Times New Roman" size="3">Перенаправление
+      файла в стандартный выходной поток</font></a></li>
+    <li><a href="#h"><font face="Times New Roman" size="3">Открытие
+      файлового манипулятора процесса</font></a></li>
+    <li><a href="#i"><font face="Times New Roman" size="3">Открытие
+      соединения через сокет</font></a></li>
+    <li><a href="#j"><font face="Times New Roman" size="3">Запуск
+      внешних программ</font></a>
+      <ul>
+        <li><a href="#k"><font face="Times New Roman" size="3">Обратные
+          апострофы</font></a></li>
+      </ul>
+    </li>
+    <li><a href="#l"><font face="Times New Roman" size="3">Работа с
+      файловой системой</font></a>
+    </li>
+    <li><a href="#m"><font face="Times New Roman" size="3">Отображение
+      и изменение характеристик файлов</font></a>
+    </li>
+    <li><a href="#n"><font face="Times New Roman" size="3">Копирование
+      и переименование файлов</font></a></li>
+    <li><a href="#o"><font face="Times New Roman" size="3">Удаление
+      файлов</font></a></li>
+    <li><a href="#p"><font face="Times New Roman" size="3">Работа с
+      каталогами</font></a>
+    </li>
+    <li><a href="#q"><font face="Times New Roman" size="3">Проект 1:
+      простой счетчик обращений</font></a></li>
+    <li><a href="#r"><font face="Times New Roman" size="3">Проект 2:
+      построение карты сайта</font></a>
+    </li>
+    <li><a href="#s"><font face="Times New Roman" size="3">Итоги</font></a></li>
+  </ul>
+</ul>
+<A NAME="a"></A>
+<p>&nbsp;</p>
+<p><font color="#000000" face="Times New Roman" size="5">ГЛАВА 7</font></p>
+<p><font color="#000000" face="Times New Roman" size="5">Файловый ввод/вывод и файловая система</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Данная глава
+посвящена одному из важнейших аспектов РНР
+— средствам файлового ввода/вывода. Как
+нетрудно предположить, входные и выходные
+потоки данных интенсивно используются при
+разработке web-приложений. Не ограничиваясь
+простым чтением/записью файлов, РНР
+предоставляет в распоряжение программиста
+средства просмотра и модификации серверной
+информации, а также запуска внешних
+программ. Этим средствам и посвящена
+настоящая глава.</font></p>
+<b>
+<p><A NAME="b"></A><font color="#000000" face="Times New Roman" size="4">Проверка
+существования и размера файла</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Прежде чем
+пытаться работать с файлом, желательно
+убедиться в том, что он существует. Для
+решения этой задачи обычно используются
+две функции:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">file_exists( ) и is_file( ).</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">file_exists( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция f
+ilе_ехists ( ) проверяет, существует ли заданный
+файл. Если файл существует, функция
+возвращает TRUE, в противном случае
+возвращается FALSE. Синтаксис функции file_exists(
+):</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">bool file_exists(string файл)
+</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Пример
+проверки существования файла:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (! file_exists ($filename))
+:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;File
+$filename does not exist!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif:</font></p>
+<p><b>is_file( )</b></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция is_file(
+)
+проверяет существование заданного файла и
+возможность выполнения с ним операций
+чтения/записи. В сущности, is_file( )
+представляет собой более надежную версию
+file_exists( ), которая проверяет не только факт
+существования файла, но и то, поддерживает
+ли он чтение и запись данных:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">bool is_file(string файл) </font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Следующий
+пример показывает, как убедиться в
+существовании файла и возможности
+выполнения операций с ним:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$file = &quot;somefile.txt&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (is_file($file)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;The file
+$file is valid and exists!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;The file
+$file does not exist or it is not a valid file!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif:</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Убедившись в
+том, что нужный файл существует и с ним
+можно выполнять различные операции чтения/записи,
+можно переходить к следующему шагу —
+открытию файла.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">filesize( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция filesize(
+)
+возвращает размер (в байтах) файла с
+заданным именем или FALSE в случае ошибки.
+Синтаксис функции filesize( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">int filesize(string имя_файла)</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Предположим,
+вы хотите определить размер файла pastry.txt.
+Для получения нужной информации можно
+воспользоваться функцией filesize( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$fs = filesize(&quot;pastry.txt&quot;);
+print &quot;Pastry.txt is $fs bytes.&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Выводится
+следующий результат:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Pastry.txt is 179 bytes.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Прежде чем
+выполнять операции с файлом, необходимо
+открыть его и связать с файловым
+манипулятором, а после завершения работы с
+файлом его следует закрыть. Эти темы
+рассматриваются в следующем разделе.</font></p>
+<b>
+<p><A NAME="c"></A><font color="#000000" face="Times New Roman" size="4">Открытие и
+закрытие файлов</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Прежде чем
+выполнять операции ввода/вывода с файлом,
+необходимо открыть его функцией fopen( ).</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">fopen( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+fopen( ) открывает файл (если он существует) и
+возвращает целое число — так называемый </font><i><font COLOR="#000000">файловый
+манипулятор </font></i><font COLOR="#000000">(file handle).
+Синтаксис функции fopen( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int fopen (string </font> <font size="3"><font COLOR="#000000">файл,
+string режим [, int </font></font></font><font COLOR="#000000" size="3" face="Courier New">включение_пути])</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Открываемый
+файл может находиться в локальной файловой
+системе, существовать в виде стандартного
+потока ввода/вывода или представлять файл в
+удаленной системе, принимаемой средствами
+HTTP или FTP.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Параметр
+файл может задаваться в нескольких формах,
+перечисленных ниже:</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если
+параметр содержит имя локального файла,
+функция fopen( ) открывает этот файл и
+возвращает манипулятор.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если
+параметр задан в виде php://stdin, php://stdout или php://stderr,
+открывается соответствующий стандартный
+поток ввода/вывода.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если
+параметр начинается с префикса http://,
+функция открывает подключение HTTP к серверу
+и возвращает манипулятор для указанного
+файла.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если
+параметр начинается с префикса ftp://, функция
+открывает подключение FTP к серверу и
+возвращает манипулятор для указанного
+файла. В этом случае следует обратить
+особое внимание на два обстоятельства: если
+сервер не поддерживает пассивный режим FTP,
+вызов fopen( ) завершается неудачей. Более того,
+FTP-файлы открываются либо для чтения, либо
+для записи.</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="prim.gif" align=left width="36" height="35">При
+работе в пассивном режиме сервер ЯР ожидает
+подключения со стороны клиентов. При
+работе в активном режиме сервер сам
+устанавливает соединение с клиентом. По
+умолчанию обычно используется активный
+режим.</font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Параметр
+режим определяет возможность выполнения
+чтения и записи в файл. В табл. 7.1
+перечислены некоторые значения,
+определяющие режим открытия файла.</font></p>
+<b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Таблица
+7.1.<i>
+ </i> </font></font></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Режимы
+открытия файла</font></font></i>&nbsp;</p>
+<table border="1" width="500" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="136" align="center">
+<b>
+<font COLOR="#000000" size="3" face="Times New Roman">Режим</font>
+</b>
+    </td>
+    <td width="358" align="center"><b><font COLOR="#000000" size="3" face="Times New Roman">Описание</font>
+</b>
+    </td>
+  </tr>
+  <tr>
+    <td width="150" align="center">
+      <p align="center">r</p>
+    </td>
+    <td width="350"><font COLOR="#000000" size="3" face="Times New Roman">Только
+чтение. Указатель текущей позиции
+устанавливается в начало файла</font>
+    </td>
+  </tr>
+  <tr>
+    <td width="150" align="center">r+</td>
+    <td width="350"><font COLOR="#000000" size="3" face="Times New Roman"> Чтение и
+запись. Указатель текущей позиции
+устанавливается в начало файла</font></td>
+  </tr>
+  <tr>
+    <td width="150" align="center">w</td>
+    <td width="350"><font COLOR="#000000" size="3" face="Times New Roman">Только
+      запись. Указатель текущей позиции
+      устанавливается в начало файла, а все
+      содержимое файла уничтожается. Если
+      файл не существует, функция пытается
+      создать его</font>
+    </td>
+  </tr>
+  <tr>
+    <td width="150" align="center">w+</td>
+    <td width="350"><font COLOR="#000000" size="3" face="Times New Roman">Чтение и запись. Указатель текущей позиции
+устанавливается в начало файла, а все
+содержимое файла уничтожается. Если файл не
+существует, функция пытается создать его&nbsp;</font>
+    </td>
+  </tr>
+  <tr>
+    <td width="150" align="center">a</td>
+    <td width="350"><font COLOR="#000000" size="3" face="Times New Roman">Только запись. Указатель текущей позиции
+устанавливается в конец файла. Если файл</font>
+<font COLOR="#000000" size="3" face="Times New Roman">не
+существует, функция пытается создать его</font></td>
+  </tr>
+  <tr>
+    <td width="150" align="center">a+</td>
+    <td width="350"><font COLOR="#000000" size="3" face="Times New Roman">Чтение и
+запись. Указатель текущей позиции
+устанавливается в конец файла. Если файл не
+существует, функция пытается создать его</font></td>
+  </tr>
+</table>
+<b>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если
+необязательный третий параметр включение_пути
+равен 1, то путь к файлу определяется по
+отношению к каталогу включаемых файлов,
+указанному в файле php.ini (см. главу 1).</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Ниже
+приведен пример открытия файла функцией fopen(
+).
+Вызов die( ), используемый в сочетании с fopen( ),
+обеспечивает вывод сообщения об ошибке в
+том случае, если открыть файл не удастся:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$file = &quot;userdata.txt&quot;;
+// Некоторый файл</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$fh = fopen($file,
+&quot;a+&quot;) or die(&quot;File ($file) does not exist!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Следующий
+фрагмент открывает подключение к сайту РНР
+(http://www.php.net):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$site = &quot;http://www.php.net&quot;:
+// Сервер, доступный через HTTP</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$sh = fopen($site.,
+&quot;r&quot;);&nbsp;&nbsp;&nbsp;&nbsp; //Связать манипулятор с индексной
+страницей Php.net</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">После
+завершения работы файл всегда следует
+закрывать функцией fclose( ).</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">fclose ( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+fclose( ) закрывает файл с заданным
+манипулятором. При успешном закрытии
+возвращается TRUE, при неудаче — FALSE.
+Синтаксис функции fclose( ): </font></font></p>
+<p><font face="Courier New" size="3"><font COLOR="#000000">int fclose(int </font><font COLOR="#000000">манипулятор)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция fclose(
+) успешно закрывает только те файлы, которые
+были ранее открыты функциями fopen( ) или fsockopen(
+). Пример закрытия файла:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$file = &quot;userdata.txt&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (file_exists($file)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$fh = fopen($file,
+&quot;r&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Выполнить
+операции с файлом</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">fclose($fh);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;File Sfile
+does not exist!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<b>
+<p><A NAME="d"></A><font color="#000000" face="Times New Roman" size="4">Запись в
+файл</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">С открытыми
+файлами выполняются две основные операции
+— чтение и запись.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">is_writeable( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+is_writeable( ) позволяет убедиться в том, что файл
+существует и для него разрешена операция
+записи. Возможность записи проверяется как
+для файла, так и для каталога. Синтаксис
+функции is_writeable( ):</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">bool is_writeable (string файл)</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Одно важное
+обстоятельство: скорее всего, РНР будет
+работать под идентификатором пользователя,
+используемым web-сервером (как правило, «nobody»).
+Пример использования is_writeable( ) приведен в
+описании функции fwrite( ).</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">fwrite ( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+fwrite( ) записывает содержимое строковой
+переменной в файл, заданный файловым
+манипулятором. Синтаксис функции fwrite( ):
+</font></font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">int fwrite(int манипулятор, string
+переменная [, int длина])
+</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если при
+вызове функции передается необязательный
+параметр длина, запись останавливается
+либо после записи указанного количества
+символов, либо при достижении конца строки.
+Проверка возможности записи в файл
+продемонстрирована в следующем примере:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Информация
+о трафике на пользовательском сайте</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$data =
+&quot;08:13:00|12:37:12|208.247.106.187|Win98&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$filename = &quot;somefile.txt&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Если файл
+существует и в него возможна запись</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ( is_writeable($filename)
+) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Открыть
+файл и установить указатель текущей
+позиции в конец файла</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$fh = fopen($filename,
+&quot;a+&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Записать
+содержимое $data в файл</font></p>
+<p><font color="#000000" size="3" face="Courier New">$</font><font COLOR="#000000" size="3" face="Courier New">success - fwrite($fh,
+$data);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Закрыть
+файл</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">fclose($fh); else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Could not
+open Sfilename for writing&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="prim.gif" align=left width="36" height="35">Функция
+fputs( ) является псевдонимом fwrite( ) и может
+использоваться всюду, где используется fwrite(
+).</font></p>
+</i><b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">fputs( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+fputs( ) является псевдонимом fwrite( ) и имеет
+точно такой же синтаксис. Синтаксис функции
+fputs( ): </font></font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">int fputs(int манипулятор,
+string переменная [, int длина]) </font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Лично я
+предпочитаю использовать fputs( ). Следует
+помнить, что это всего лишь вопрос стиля,
+никак не связанный с какими-либо различиями
+между двумя функциями.</font></p>
+<b>
+<p><A NAME="e"></A><font color="#000000" face="Times New Roman" size="4">Чтение из
+файла</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Несомненно,
+чтение является самой главной операцией,
+выполняемой с файлами. Ниже описаны
+некоторые функции, повышающие
+эффективность чтения из файла. Синтаксис
+этих функций практически точно копирует
+синтаксис аналогичных функций записи.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">is_readable( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция i
+s_readable( ) позволяет убедиться в том, что файл
+существует и для него разрешена операция
+чтения. Возможность чтения проверяется как
+для файла, так и для каталога. Синтаксис
+функции is_readable( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">boo! is_readable (string
+</font></font><font size="3" face="Courier New"><font COLOR="#000000">файл]</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Скорее всего,
+РНР будет работать под идентификатором
+пользователя, используемым web-сервером (как
+правило, «nobody»), поэтому для того чтобы
+функция is_readable( ) возвращала TRUE, чтение из
+файла должно быть разрешено всем желающим.
+Следующий пример показывает, как убедиться
+в том, что файл существует и доступен для
+чтения:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ( is_readable($filename)
+) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Открыть
+файл и установить указатель текущей
+позиции в конец файла</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$fh = fopen($filename,
+&quot;r&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;$filename
+is not readable!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">fread( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+fread( ) читает из файла, заданного файловым
+манипулятором, заданное количество байт.
+Синтаксис функции fwrite( ): </font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">int fread(int манипулятор,
+int длина) </font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Манипулятор
+должен ссылаться на открытый файл,
+доступный для чтения (см. описание функции
+is_readable( )). Чтение прекращается после
+прочтения заданного количества байт или
+при достижении конца файла. Рассмотрим
+текстовый файл pastry.txt, приведенный в
+листинге 7.1. Чтение и вывод этого файла в
+браузере осуществляется следующим
+фрагментом:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$fh = fopen('pastry.txt',
+&quot;r&quot;) or die(&quot;Can't open file!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$file = fread($fh,
+filesize($fh));</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print $file;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">fclose($fh);</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Используя
+функцию fllesize( ) для определения размера
+pastry.txt в байтах, вы гарантируете, что функция
+fread( ) прочитает все содержимое файла.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+7.1. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Текстовый
+файл pastry.txt</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">Recipe: Pastry Dough</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">1 1/4 cups all-purpose
+flour</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">3/4 stick (6
+tablespoons) unsalted butter, chopped</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">2 tablespoons vegetable
+shortening 1/4 teaspoon salt</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">3 tablespoons water</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">fgetc( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+fgetc( ) возвращает строку, содержащую один
+символ из файла в текущей позиции указателя,
+или FALSE при достижении конца файла.
+Синтаксис функции fgetc( ):</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">string fgetc (int манипулятор)</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Манипулятор
+должен ссылаться на открытый файл,
+доступный для чтения (см. описание функции
+is_readable( ) ранее в этой главе). В следующем
+примере продемонстрированы посимвольное
+чтение и вывод файла с использованием
+функции fgetc( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$fh = fopen(&quot;pastry.txt&quot;,
+&quot;r&quot;); while (! feof($fh)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$char = fgetc($fh):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print $char; endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">fclose($fh);</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">fgets( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+fgets( ) возвращает строку, прочитанную от
+текущей позиции указателя в файле,
+определяемом файловым манипулятором.
+Файловый указатель должен ссылаться на
+открытый файл, доступный для чтения (см.
+описание функции is_readable( ) ранее в этой главе).
+Синтаксис функции fgets( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string fgets (int </font> </font><font COLOR="#000000" size="3" face="Courier New">манипулятор,
+int длина)</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Чтение
+прекращается при выполнении одного из
+следующих условий:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">из файла
+прочитано длина — 1 байт;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">из файла
+прочитан символ новой строки (включается в
+возвращаемую строку);</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">из файла
+прочитан признак конца файла (EOF).</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если вы
+хотите организовать построчное чтение
+файла, передайте во втором параметре
+значение, заведомо превышающее количество
+байт в строке. Пример построчного чтения и
+вывода файла:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$fh = fopen(&quot;pastry.txt&quot;,
+&quot;r&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while (! feof($fh));</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$line = fgets($fh,
+4096);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print $line. &quot;&lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">fclose($fh):</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">fgetss( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция fgetss(
+) полностью аналогична fgets( ) за одним
+исключением — она пытается удалять из
+прочитанного текста все теги HTML и РНР:</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string </font></font><font size="3" face="Courier New"><font COLOR="#000000">fgetss
+(Int манипулятор, int
+длина [, string разрешенные_теги])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Прежде чем
+переходить к примерам, ознакомьтесь с
+содержимым листинга 7.2 — этот файл
+используется в листингах 7.3 и 7.4.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+7.2. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Файл
+science.html</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;Breaking
+News - Science&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;h1&gt;Alien
+lifeform discovered&lt;/h1&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;August 20.
+2000&lt;/b&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Early this morning, a
+strange new form of fungus was found growing in the closet of W. J.</font> <font COLOR="#000000" size="3" face="Courier New">Gilmore's old apartment
+refrigerator. It is not known if powerful radiation emanating from</font> <font COLOR="#000000" size="3" face="Courier New">the tenant's computer
+monitor aided in this evolution.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000"><i>Листинг 7.З.
+</i>
+</font></font></b><i><font COLOR="#000000">Удаление
+тегов из файла HTML перед отображением в
+браузере</font></i></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font color="#000000" size="3" face="Courier New">$fh = fopen(&quot;science.html&quot;,
+&quot;r&quot;);</font></p>
+<p><font color="#000000" size="3" face="Courier New">while (! feof($fh)) :</font></p>
+<p><font color="#000000" size="3" face="Courier New">print fgetss($fh,
+2048);</font></p>
+<p><font color="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font color="#000000" size="3" face="Courier New">fclose($fh);</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Результат
+приведен ниже. Как видите, из файла science.html
+были удалены все теги HTML, что привело к
+потере форматирования:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Breaking News - Science
+Alien lifeform discovered August 20. 2000 Early this morning, a strange new form
+of fungus was found growing in the closet of W. J. Gilmore's old apartment
+refrigerator. It is not known if powerful radiation emanating from the tenant's
+computer monitor aided in this evolution.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В некоторых
+ситуациях из файла удаляются все теги,
+кроме некоторых — например, тегов разрыва
+строк &lt;br&gt;. Листинг 7.4 показывает, как это
+делается.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+7.4. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Выборочное
+удаление тегов из файла HTML</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$fh =
+fopenC'science.html&quot;, &quot;r&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$allowable = &quot;&lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while (! feof($fh)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print fgetss($fh. 2048,
+$allowable);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">fclose($fh);</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Результат:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Breaking News - Science
+Alien lifeform discovered August 20. 2000 Early this morning, a strange new form
+of fungus was found growing in the closet of W. J. Gilmore's old apartment
+refrigerator. It is not known if powerful radiation emanating from the tenant's
+computer monitor aided in this evolution.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как видите,
+функция fgetss( ) упрощает преобразование
+файлов, особенно при наличии большого
+количества файлов HTML, отформатированных
+сходным образом.</font></p>
+<b>
+<p><A NAME="f"></A><font color="#000000" face="Times New Roman" size="4">Чтение файла
+в массив</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция file( )
+загружает все содержимое файла в
+индексируемый массив. Каждый элемент
+массива соответствует одной строке файла.
+Синтаксис функции filе ( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">array </font></font><font size="3" face="Times New Roman"><font COLOR="#000000">file
+(string файл [, int включение_пути])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если
+необязательный третий параметр включение_пути
+равен 1, то путь к файлу определяется по
+отношению к каталогу включаемых файлов,
+указанному в файле php.ini (см. главу 1). В
+листинге 7.5 функция file( ) используется для
+загрузки файла pastry.txt (см. листинг 7.1).</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+7.5. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Загрузка
+файла pastry.txt функцией file( )</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$file_array = file(
+&quot;pastry.txt&quot; );</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while ( list( $line_num.
+$line ) = eacht($file_array ) ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;b&gt;Line
+$line_num:&lt;/b&gt; &quot;, htmlspecialchars($line ), &quot;&lt;br&gt;\n&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Каждая
+строка массива выводится вместе с номером:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Line 0: Recipe: Pastry
+Dough</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Line 1: 1 1/4 cups
+all-purpose flour</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Line 2: 3/4 stick (6
+tablespoons) unsalted butter, chopped</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Line 3: 2 tablespoons
+vegetable shortening</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Line 4: 1/4 teaspoon
+salt</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Line 5: 3 tablespoons
+water</font></p>
+<b>
+<p><A NAME="g"></A><font color="#000000" face="Times New Roman" size="4">Перенаправление
+файла в стандартный выходной поток</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция readfile(
+) читает содержимое файла и направляет его в
+стандартный вывод (в большинстве случаев —
+в браузер). Синтаксис функции readfile( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font><font size="3" face="Times New Roman"><font COLOR="#000000">readfile
+(string файл [, int включение_пути])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+возвращает количество прочитанных байтов.
+Файл может находиться в локальной файловой
+системе, существовать в виде стандартного
+потока ввода/вывода или представлять файл в
+удаленной системе, принимаемой средствами
+HTTP или FTP. Параметр файл задается по тем же
+правилам, что и в функции fopen( ).</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Предположим,
+у вас имеется файл latorre.txt, содержимое
+которого вы хотите вывести в браузере:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Restaurant &quot;La Тоrrе.&quot; located in Nettuno, Italy, offers an eclectic blend of
+style. history, and fine seafood cuisine. Within the walls of the medieval borgo
+surrounding the city, one can dine while watching the passersby shop in the
+village boutiques. Comfort coupled with only the freshest seafare make La Torre
+one of Italy's finest restaurants.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">При
+выполнении следующего фрагмента все
+содержимое latorre.txt направляется в
+стандартный выходной поток:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$restaurant_file =
+&quot;latorre.txt&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Направить
+весь файл в стандартный выходной поток</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">readfile($restaurant_filе);</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<b>
+<p><A NAME="h"></A><font color="#000000" face="Times New Roman" size="4">Открытие
+файлового манипулятора процесса</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">popen( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Наряду с
+обычными файлами можно открывать файловые
+манипуляторы для взаимодействия с
+процессами на сервере. Задача решается
+функцией рореn( ), которая имеет следующий
+синтаксис:</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int popen (string команда,
+string режим) </font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Параметр
+команда определяет выполняемую системную
+команду, а параметр режим описывает режим
+доступа:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Открыть
+файл &quot;spices.txt&quot; для записи</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$fh = fopen(&quot;spices.txt&quot;,&quot;w&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Добавить
+несколько строк текста</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">fputs($fh, &quot;Parsley,
+sage, rosemary\n&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">fputs($fh, &quot;Paprika,
+salt, pepper\n&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">fputs($fh, &quot;Basil,
+sage, ginger\n&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Закрыть
+манипулятор</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">fclose($fh);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Открыть
+процесс UNIX grep для поиска слова Basil в файле
+spices.txt</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$fh - popen(&quot;grep
+Basil &lt; spices.txt&quot;, &quot;r&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вывести
+результат работы grep</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">fpassthru($fh);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Результат
+выглядит так:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Basil, sage, ginger</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+fpassthru( ) является аналогом функции passthru( ),
+рассматриваемой в разделе «Запуск внешних
+программ» этой главы.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">pclose( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">После
+выполнения всех операций файл или процесс
+необходимо закрыть. Функция pclose( ) закрывает
+соединение с процессом, заданным
+манипулятором, по аналогии с тем, как
+функция fclose( ) закрывает файл, открытый
+функцией fopen( ). Синтаксис функции pclose( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int pclose (int </font> </font><font COLOR="#000000" size="3" face="Courier New">манипулятор}</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">В
+параметре </font><i><font COLOR="#000000">манипулятор </font></i><font COLOR="#000000">передается
+манипулятор, полученный ранее при успешном
+вызове рореn( ).</font></font></p>
+<b>
+<p><A NAME="i"></A><font color="#000000" face="Times New Roman" size="4">Открытие
+соединения через сокет</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">РНР не
+ограничивается взаимодействием с файлами и
+процессами — вы также можете устанавливать
+соединения через сокеты. </font><i><font COLOR="#000000">Сокет
+</font></i><font COLOR="#000000">(socket) представляет собой
+программную абстракцию, позволяющую
+устанавливать связь с различными службами
+другого компьютера.</font></font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">fsockopen( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+fsockopen( ) устанавливает сокетное соединение с
+сервером в Интернете</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">через
+протокол TCP или UDP. Синтаксис функции fsockopen( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int fsockopen (string
+узел, int порт [, int код_ошибки [, string текст_ошибки
+[, int тайм-аут]]]) </font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Необязательные
+параметры код_ошибки и текст_ошибки
+содержат информацию, которая будет
+выводиться в случае неудачи при
+подключении к серверу. Оба параметра должны
+передаваться по ссылке. Третий
+необязательный параметр, тайм-аут, задает
+продолжительность ожидания ответа от
+сервера (в секундах). В листинге 7.6
+продемонстрировано применение функции
+fsockopen( ) для получения информации о сервере.
+Однако перед рассмотрением листинга 7.6
+необходимо познакомиться еще с одной
+функцией — socket_set_blocking( ).</font></p>
+<p><img border="0" src="prim.gif" align=left width="36" height="35"><i><font COLOR="#000000">UDP
+(User Datagram Protocol) — коммуникационный протокол,
+не ориентированный на соединение.</font></p>
+</i><b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">socket_set_blocking( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+socket_set_b1ocki ng( ) позволяет установить контроль
+над тайм-аутом для операций с сервером:</font></p>
+<p><font COLOR="#000000" size="3">socket_set_blocking(int манипулятор,
+boolean режим)
+</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Параметр
+манипулятор задает открытый ранее сокет, а
+параметр режим выбирает режим, в который
+переключается сокет (TRUE для блокирующего
+режима, FALSE для неблокирующего режима).
+Пример использования функций fsockopen( ) и
+socket_set_blocking( ) приведен в листинге 7.6.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+7.6. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Использование
+функции fsockopen() для получения информации о
+сервере</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function getthehost($host.$path)
+{</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Открыть подключение к узлу</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$fp - fsockopen($host,
+80, &amp;$errno, &amp;$errstr, 30);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Перейти в блокирующий
+режим</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">socket_set_blocking($fp, 1),</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Отправить заголовки</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">fputs($fp,&quot;GET $path HTTP/1.1\r\n&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">fputs ($fp, &quot;Host:
+$host\r\n\r\n&quot;); $x = 1;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Получить
+заголовки</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while($x &lt; 10) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$headers = fgets ($fp,
+4096);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print $headers;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$x++;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Закрыть
+манипулятор</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">fclose($fp);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">getthehost(&quot;www.
+apress.com&quot;, &quot;/&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В результате
+выполнения листинга 7.6 выводится следующий
+результат:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">НТТР/1.1 200 OK Server:
+Microsoft-IIS/4.0 Content-location:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">http://www.apress.com/0efault.htm
+Date: Sat. 19 Aug 2000 23:03:25 GMT</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Content-Type: text/html
+Accept-Ranges: bytes
+Last-Modified: Wed. 19 Jul</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">2000 20:25:06 GMT ETag:
+&quot;f0a61666dbff1bf1:34a5&quot; Content-Length: 1311</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">pfsockopen( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+pfsockopen( ) представляет собой устойчивую (persistent)
+версию fsockopen( ). Это означает, что соединение
+не будет автоматически разорвано по
+завершении сценария, в котором была вызвана
+функция. Синтаксис функции pfsockopen( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000">int </font><font size="3"><font COLOR="#000000">pfsockopen
+(string узел, int порт [, int код_ошибки [, string текст _ошибки
+[, int </font></font></font><font COLOR="#000000" size="3" face="Courier New">тайм-аут]]])</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В
+зависимости от конкретных целей вашего
+приложения может оказаться удобнее
+использовать pfsockopen( ) вместо fsockopen( ).</font></p>
+<b>
+<p><A NAME="j"></A><font color="#000000" face="Times New Roman" size="4">Запуск
+внешних программ</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Сценарии РНР
+также могут выполнять программы,
+находящиеся на сервере. Такая возможность
+особенно часто используется при
+администрировании системы через web-браузер,
+а также для более удобного получения
+сводной информации о системе.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">ехес( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+ехес( ) запускает заданную программу и
+возвращает последнюю строку ее выходных
+данных. Синтаксис функции ехес( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000">string </font><font size="3"><font COLOR="#000000">exec
+(string команда [, string массив [, int </font></font></font><font COLOR="#000000" size="3" face="Courier New">возврат]])</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Обратите
+внимание: функция ехес( ) только выполняет
+команду, не выводя результатов ее работы.
+Все выходные данные команды можно
+сохранить в необязательном параметре
+массив. Кроме того, если при заданном
+параметре массив также задается переменная
+возврат, последней присваивается код
+возврата выполненной команды.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Листинг 7.7
+показывает, как использовать функцию ехес( )
+для выполнения системной функции UNIX ping.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+7.7. </font></font></i></b><font size="3" face="Times New Roman"><i><font COLOR="#000000">Проверка
+связи с сервером с применением функции ехес(
+)</font></i></font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">exec(&quot;ping -с 5
+www.php.net&quot;, $ping);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// В Windows - exec(&quot;ping
+-n 5 www.php.net. $ping);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">for ($i=0; $i&lt; count($ping);$i++)
+:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;br&gt;$ping[$i]&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endfor;</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Результат:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">PING www.php.net
+(208.247.106.187): 56 data bytes</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">64 bytes from 208.247.106.187: icmp_seq=0 ttl=243
+time=66.602 ms</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">64 bytes from 208.247.106.187: icmp_seq=1 ttl=243 time=55.723 ms</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">64 bytes from 208.247.106.187: icmp_seq=2 ttl=243 time=70.779 ms</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">64 bytes from
+208.247.106.187: icmp_seq=3 ttl=243 time=55.339 ms</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">64 bytes from
+208.247.106.187: icmp_seq=4 ttl=243 time=69.865 ms</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">-- www.php.net ping
+statistics --</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">5 packets transmitted.
+5 packets received. 0% packet loss</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">round-trip min/avg/max/stddev
+- 55.339/63.662/70.779/6.783 ms</font></p>
+<p><A NAME="k"></A><font color="#000000" face="Times New Roman" size="4">Обратные
+апострофы</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Существует и
+другой способ выполнения системных команд,
+не требующий вызова функций, — выполняемая
+команда заключается в обратные апострофы (`
+`), а результаты ее работы отображаются в
+браузере. Пример:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$output = `ls`;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;pre&gt;$output&lt;/pre&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Этот
+фрагмент выводит в браузер содержимое
+каталога, в котором находится сценарий.</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="prim.gif" align=left width="36" height="35">Внутренний
+параметр ping -с 5 (-п 5 в системе Windows) задает
+количество опросов сервера.</font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если вы
+хотите просто вернуть неформатированные
+результаты выполнения команды,
+воспользуйтесь функцией passthru( ), описанной
+ниже.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">passthru( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+passthru( ) работает почти так же, как ехес( ), за
+одним исключением — она автоматически
+выводит результаты выполнения команды.
+Синтаксис функции passthru( ): </font></font></p>
+<p><font face="Courier New"><font COLOR="#000000">void </font><font size="3"><font COLOR="#000000">passthru(string
+команда [, int </font></font></font><font COLOR="#000000" size="3" face="Courier New">возврат])</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если при
+вызове passthru( ) передается необязательный
+параметр возврат, этой переменной
+присваивается код возврата выполненной
+команды.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">escapeshellcmd( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+escapeshellcmd( ) экранирует все потенциально
+опасные символы, которые могут быть введены
+пользователем (например, на форме HTML), для
+выполнения команд exec( ), passthru( ), system( ) или
+рореn( ). Синтаксис:</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string escapeshellcmd
+(string </font></font><font size="3" face="Courier New"><font COLOR="#000000">команда)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">К
+пользовательскому вводу всегда следует
+относиться с определенной долей
+осторожности, но даже в этом случае
+пользователи могут вводить команды,
+которые будут исполняться функциями
+запуска системных команд. Рассмотрим
+следующий фрагмент:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$user_input = `rm -rf
+*`; // Удалить родительский каталог и все его
+подкаталоги</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">ехес($user_input); // Выполнить $user_input
+!!!</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если не
+предпринять никаких мер предосторожности,
+такая команда приведет к катастрофе.
+Впрочем, можно воспользоваться функций
+escapeshellcmd( ) для экранирования
+пользовательского ввода:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$user_input = `rm - rf
+*`; // Удалить родительский каталог и все его
+подкаталоги</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">ехес( escapeshellcmd($user_input)); //
+Экранировать опасные символы</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+escapeshellcmd( ) экранирует символ *, предотвращая
+катастрофические последствия выполнения
+команды.</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="prim.gif" align=left width="36" height="35">Безопасность
+является одним из важнейших аспектов
+программирования в среде Web, поэтому я
+посвятил целую главу этой теме и ее
+отношению к программированию РНР. За
+дополнительной информацией обращайтесь к
+главе 16.</font></p>
+</i><b>
+<p><A NAME="l"></A><font color="#000000" face="Times New Roman" size="4">Работа с
+файловой системой</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В РНР
+существуют функции для просмотра и
+выполнения различных операций с файлами на
+сервере. Информация об атрибутах серверных
+файлов (местонахождение, владелец и
+привилегии) часто бывает полезной.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">basename( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+basename( ) выделяет имя файла из переданного
+полного имени. Синтаксис функции basename( ):</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">string basename(string полное_имя)</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Выделение
+базового имени файла из полного имени
+происходит следующим образом:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$path = &quot;/usr/local/phppower/htdocs/index.php&quot;;
+$file = basename($path); // $file = &quot;index.php&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Фактически
+эта функция удаляет из полного имени путь и
+оставляет только имя файла.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">getlastmod( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+getlastmod( ) возвращает дату и время последней
+модификации страницы, из которой
+вызывается функция. Синтаксис функции
+getlastmod( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">int getlastmod(void)</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Возвращаемое
+значение соответствует формату даты/времени
+UNIX, и для его форматирования можно
+воспользоваться функцией date( ). Следующий
+фрагмент выводит дату последней
+модификации страницы:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">echo &quot;Last
+modified: &quot;.date( &quot;H:i:s a&quot;. getlastmod( ) );</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">stat( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция stat( )
+возвращает индексируемый массив с
+подробной информацией о файле с заданным
+именем:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">array stat(string
+имя_файла)</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В элементах
+массива возвращается следующая информация:</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">0 У</font><font COLOR="#000000" size="3" face="Courier New">стройство</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">1 Индексный
+узел (inode)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">2 Режим
+защиты индексного узла</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">3 Количество
+ссылок</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">4
+Идентификатор пользователя владельца</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">5
+Идентификатор группы владельца</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">6 Тип
+устройства индексного узла</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">7 Размер в
+байтах</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">8 Время
+последнего обращения</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">9 Время
+последней модификации</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">10 Время
+последнего изменения</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">11 Размер
+блока при вводе/выводе в файловой системе</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">12 Количество</font><font COLOR="#000000" size="3" face="Times New Roman">
+выделенных блоков</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Таким
+образом, если вы хотите узнать время
+последнего обращения к файлу, обратитесь к
+элементу 8 возвращаемого массива.
+Рассмотрим пример:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$file - &quot;datafile.txt&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">list($dev, $inode, $inodep,
+$nlink, $uid, $gid, $inodev, $size, $atime, $mtime, $ctime,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$bsize) = stat($file);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;$file is
+$size bytes. &lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Last access
+time: $atime &lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Last
+modification time: $mtime &lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Результат:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">popen.php is 289 bytes.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Last access time:
+August 15 2000 12:00:00</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Last modification time:
+August 15 2000 10:07:18</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В этом
+примере я воспользовался конструкцией list ()
+для присваивания имен каждому
+возвращаемому значению. Конечно, с таким же
+успехом можно вернуть массив, в цикле
+перебрать элементы и вывести всю
+необходимую информацию. Как видите, функция
+stat ( ) позволяет получить различные полезные
+сведения о файле.</font></p>
+<b>
+<p><A NAME="m"></A><font color="#000000" face="Times New Roman" size="4">Отображение
+и изменение характеристик файлов</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">У каждого
+файла в системах семейства UNIX есть три
+важные характеристики:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">принадлежность
+группе;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">владелец;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">разрешения (permissions).</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Все эти
+характеристики можно изменить при помощи
+соответствующих функций РНР. Функции,
+описанные в этом разделе, не работают в
+системах семейства Windows.</font></p>
+<p><img border="0" src="prim.gif" align=left width="36" height="35"><i><font COLOR="#000000" size="3" face="Times New Roman">Если
+у вас нет опыта работы в операционных
+системах UNIX, информацию о характеристиках
+файловой системы UNIX можно получить по
+адресу <a href="http://sunsite.auc.dk/linux-newbie/FAQ2.htm"> http://sunsite.auc.dk/linux-newbie/FAQ2.htm</a>. Темы
+принадлежности группе, владения и
+разрешений рассматриваются в разделе 3.2.6.</font></p>
+</i><b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">chgrp( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция chgrp( )
+пытается сменить группу, которой
+принадлежит заданный файл.</font> <font COLOR="#000000" size="3" face="Times New Roman">Синтаксис
+функции chgrp( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font><font COLOR="#000000" size="3" face="Times New Roman">chgrp
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">имя_файла,
+mixed группа)</font></font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">filegroup( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+filegroup( ) возвращает идентификатор группы
+владельца файла с заданным именем или FALSE в
+случае ошибки. Синтаксис функции filegroup( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int filegroup (string
+</font></font><font size="3" face="Courier New"><font COLOR="#000000">имя_файла)</font></font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">chmod( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция chmod( )
+изменяет разрешения файла с заданным
+именем. Синтаксис</font> <font COLOR="#000000" size="3" face="Times New Roman">функции chmod(
+):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font><font COLOR="#000000" size="3" face="Times New Roman">chmod
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">имя_файла,
+int разрешения)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Разрешения
+задаются в восьмеричной системе. Специфика
+задания параметра функции chmod ( )
+продемонстрирована в следующем примере:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">chmod(&quot;data_file.txt&quot;,
+g+r); // He работает</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">chmod(&quot;data_file.txt&quot;,
+766); // Не работает</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">chmod(&quot;data_file.txt&quot;,
+0766); // Работает</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">fileperms( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+fileperms( ) возвращает разрешения файла с
+заданным именем или FALSE в случае ошибки.
+Синтаксис функции fileperms( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int fileperms (string
+</font></font><font size="3" face="Courier New"><font COLOR="#000000">имя_файла)</font></font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">chown( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+chown( ) пытается сменить владельца файла.
+Право изменения владельца файла
+предоставляется только привилегированному
+пользователю. Синтаксис функции chown( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int chown (string </font></font><font size="3" face="Courier New"><font COLOR="#000000">имя_файла,
+mixed пользователь)</font></font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">fileowner( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+fileowner( ) возвращает идентификатор
+пользователя для владельца файла с
+заданным именем. Синтаксис функции fileowner( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int fileowner (string
+</font></font><font size="3" face="Courier New"><font COLOR="#000000">имя_файла)</font></font></p>
+<b>
+<p><A NAME="n"></A><font color="#000000" face="Times New Roman" size="4">Копирование
+и переименование файлов</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">К числу
+других полезных системных функций, которые
+могут выполняться в сценариях РНР,
+относятся копирование и переименование
+файлов на сервере. Эти операции выполняются
+двумя функциями: сору( ) и rename( ).</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">сору( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Скопировать
+файл в сценарии РНР ничуть не сложнее, чем
+при помощи команды UNIX ср. Задача решается
+функцией РНР сору( ). Синтаксис функции</font> <font COLOR="#000000" size="3" face="Times New Roman">сору( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font><font COLOR="#000000" size="3" face="Times New Roman">copy
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">источник,
+string приемник)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция сору(
+) пытается скопировать файл источник в файл
+приемник; в случае успеха возвращается TRUE, а
+при неудаче — FALSE. Если файл приемник не
+существует, функция сору( ) создает его.
+Следующий пример показывает, как создать
+резервную копию файла при помощи функции
+сору( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$data_file = &quot;datal.txt&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">copy($data_file.
+$data_file'.bak') or die(&quot;Could not copy $data_file&quot;);</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">rename ( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+rename( ) переименовывает файл. В случае успеха
+возвращается TRUE, a при неудаче — FALSE.
+Синтаксис функции rename( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">bool rename (string </font></font><font size="3" face="Courier New"><font COLOR="#000000">старое_имя,
+string новое_имя)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Пример
+переименования файла функцией rename( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$data_file = &quot;datal.txt&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">rename($data file,
+$datafile'.old') or die (&quot;Could not rename $data file&quot;);</font></p>
+<b>
+<p><A NAME="o"></A><font color="#000000" face="Times New Roman" size="4">Удаление
+файлов</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">unlink( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция unlink(
+) удаляет файл с заданным именем. Синтаксис:</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font><font COLOR="#000000" size="3" face="Times New Roman">unlink
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">файл)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если вы
+работаете с РНР в системе Windows, при
+использовании этой функции иногда
+возникают проблемы. В этом случае можно
+воспользоваться описанной выше функцией
+system( ) и удалить файл командой DOS del:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">system (&quot;del
+filename.txt&quot;);</font></p>
+<b>
+<p><A NAME="p"></A><font color="#000000" face="Times New Roman" size="4">Работа с
+каталогами</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функции РНР
+позволяют просматривать содержимое
+каталогов и перемещаться по ним. В листинге
+7.8 изображена типичная структура каталогов
+в системе UNIX.</font></p>
+<b>
+<p><i><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+7.8. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Типичная
+структура каталогов</font></font></i></p>
+<p><font COLOR="#000000" size="3" face="Courier New">drwxr-xr-x 4 root wheel
+512 Aug 13 13:51 book/</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">drwxr-xr-x 4 root wheel
+512 Aug 13 13:51 code/</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">-rw-r--r-- 1 root wheel
+115 Aug 4 09:53 index.html</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">drwxr-xr-x 7 root wheel
+1024 Jun 29 13:03 manual/</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">-rw-r--r-- 1 root wheel
+19 Aug 12 12:15 test.php</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">dirname( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+dirname( ) дополняет basename( ) — она извлекает путь
+из полного имени файла. Синтаксис функции
+dirname( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string dirname (string
+</font></font><font size="3" face="Courier New"><font COLOR="#000000">путь)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Пример
+использования dirname( ) для извлечения пути из
+полного имени:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$path = &quot;/usr/locla/phppower/htdocs/index.php&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$file = dirname($path);
+// $file = &quot;usr/local/phppower/htdocs&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция dirname(
+) иногда используется в сочетании с
+переменной $SCRIPT_FILENAME для получения полного
+пути к сценарию, из которого выполняется
+команда:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$dir - dirname($SCRIPT_FILENAME);</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">is_dir( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция is_dir(
+) проверяет, является ли файл с заданным
+именем каталогом:</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">bool </font></font><font COLOR="#000000" size="3" face="Times New Roman">is_dir
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">имя_файла)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующем
+примере используется структура каталогов
+из листинга 7.8:</font></p>
+<p><font color="#000000" size="3" face="Courier New">$</font><font COLOR="#000000" size="3" face="Courier New">isdir = is_dir(&quot;index.html&quot;);
+// Возвращает FALSE</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$isdir = is_dir(&quot;book&quot;);&nbsp;
+//
+Возвращает TRUE</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">mkdir()</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+mkdir( ) делает то же, что и одноименная команда
+UNIX, — она создает новый каталог. Синтаксис
+функции mkdir( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int mkdir (string </font></font><font size="3" face="Courier New"><font COLOR="#000000">путь,
+int режим)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Параметр
+путь определяет путь для создания нового
+каталога. Не забудьте завершить параметр
+именем нового каталога! Параметр режим
+определяет разрешения, назначаемые
+созданному каталогу.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">opendir( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Подобно тому
+как функция fopen( ) открывает манипулятор для
+работы с заданным файлом, функция opendir( )
+открывает манипулятор для работы с
+каталогом.</font> <font COLOR="#000000" size="3" face="Times New Roman">Синтаксис
+функции opendir( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int opendir (string </font></font><font size="3" face="Courier New"><font COLOR="#000000">путь)</font></font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">closedir( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+closedir( ) закрывает манипулятор каталога,
+переданный в качестве параметра. Синтаксис
+функции closedir( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">void closedir(int </font></font><font size="3" face="Courier New"><font COLOR="#000000">манипулятор_каталога)</font></font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">readdir( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция readdir(
+) возвращает очередной элемент заданного
+каталога. Синтаксис:</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string </font></font><font COLOR="#000000" size="3" face="Times New Roman">readdir(int
+</font><font size="3" face="Courier New"><font COLOR="#000000">манипулятор_каталога)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">С помощью
+этой функции можно легко вывести список
+всех файлов и подкаталогов, находящихся в
+текущем каталоге:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$dh = opendir(' . );</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while ($file = readdir($dh))
+:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;$file &lt;br&gt;&quot;;
+endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">closedir($dh);</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">chdir( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+chdir( ) работает так же, как команда UNIX cd, — она
+осуществляет переход в каталог, заданный
+параметром. Синтаксис функции chdir( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int chdir (string </font></font><font size="3" face="Courier New"><font COLOR="#000000">каталог)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующем
+примере мы переходим в подкаталог book/ и
+выводим его содержимое:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$newdir = &quot;book&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">chdir($newdir) or die(&quot;Could
+not change to directory ($newdir)&quot;); $dh = opendir(' . ');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Files:&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while ($file = readdir($dh))
+;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;$file &lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">closedir($dh);</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">rewinddir( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+rewlnddir( ) переводит указатель текущей позиции
+в начало каталога, открытого функцией opendir(
+). Синтаксис функции rewinddir( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">void rewinddir (int </font></font><font size="3" face="Courier New"><font COLOR="#000000">нанипулятор_каталога)</font></font></p>
+<b>
+<p><A NAME="q"></A><font color="#000000" face="Times New Roman" size="4">Проект 1:
+простой счетчик обращений</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Сценарий,
+представленный в этом разделе,
+подсчитывает количество обращений к
+странице, в которой он находится. Прежде чем
+переходить к программному коду в листинге
+7.9, просмотрите алгоритм, написанный на
+псевдокоде:</font></p>
+<ol>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Присвоить
+переменной $access имя файла, в котором будет
+храниться значение счетчика.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Использовать функцию filе( ) для чтения
+содержимого $access в массив $visits. Префикс @
+перед именем функции подавляет возможные
+ошибки (например, отсутствие файла с
+заданным именем).</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Присвоить
+переменной $current_visitors значение первого (и
+единственного) элемента массива $visits.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Увеличить
+значение $current_visitors на 1.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Открыть
+файл $access для записи и установить указатель
+текущей позиции в начало файла.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Записать
+значение $current_visitors в файл $access.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Закрыть
+манипулятор, ссылающийся на файл $access.</font></li>
+</ol>
+<b>
+<p><i><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+7.9. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Простой
+счетчик обращений</font></font></i></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Сценарий:
+простой счетчик обращений</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+сохранение количества обращений в файле</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$access = &quot;hits.txt&quot;;
+// Имя файла выбирается произвольно</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$visits = @file($access);
+// Прочитать содержимое файла в масссив</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$current_visitors = $visits[0]; // Извлечь первый (и
+единственный) элемент</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">++$current_visitors; //
+Увеличить счетчик обращений</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$fh = fopen($access. &quot;w&quot;);
+// Открыть файл hits.txt и установить</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// указатель
+текущей позиции в начало файла</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@fwrite($fh,
+$current_visitors);// Записать новое значение
+счетчика</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// в файл &quot;hits.txt&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">fclose($fh);&nbsp; // Закрыть
+манипулятор файла &quot;hits.txt&quot;</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<b>
+<p><A NAME="r"></A><font color="#000000" face="Times New Roman" size="4">Проект 2:
+построение карты сайта</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Сценарий,
+приведенный в листинге 7.10, строит карту
+сайта — иерархическое изображение всех
+папок и файлов на сервере, начиная с
+заданного каталога. При вычислении
+отступов элементов, из которых состоит
+карта сайта, используются функции,
+определенные в этой и предыдущих главах.
+Прежде чем переходить к программе,
+просмотрите алгоритм, написанный на
+псевдокоде:</font></p>
+<ol>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Объявить
+служебные переменные для хранения
+родительского каталога, имени графического
+файла с изображением папки, названия
+страницы и флага серверной ОС (Windows или
+другая система).</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Объявить
+функцию display_directory( ), которая читает
+содержимое каталога и форматирует его для
+вывода в браузере.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Построить
+путь к каталогу объединением имени,
+передаваемого в переменной</font> <font COLOR="#000000" size="3" face="Times New Roman">$dir1, с
+    $dir.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Открыть
+каталог и прочитать его содержимое.
+Отформатировать имена каталога и файлов и
+вывести их в браузере.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Если
+текущий файл является каталогом,
+рекурсивно вызвать функцию display_di rectory( ) и
+передать ей имя нового каталога для вывода.
+Вычислить отступ, используемый при
+форматировании вывода.</font></li>
+</ol>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если файл не
+является каталогом, он форматируется для
+отображения в виде гиперссылки (а также
+вычисляется отступ, используемый при
+форматировании).</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+7.10. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Программа
+sitemap.php</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">// Файл:
+sitemap.php</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+построение карты сайта</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Каталог, с
+которого начинается построение карты</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$beg_path = &quot;C:\Program
+FilesVApache Group\Apache\htdocs\phprecipes&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Файл с
+графическим изображением папки.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Путь
+должен задаваться Относительно* корневого
+каталога сервера Apache</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$folder_location =
+&quot;C:\My Documents\PHP for Programmers\FINAL CHPS\graphics\folder.gif&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Текст в
+заголовке окна $page_name = &quot;PHPRecipes SiteMap&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// В какой
+системе будет использоваться сценарий - Linux
+или Windows?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// (0 - Windows; 1 - Linux)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$usingjinux = 0;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Функция:
+display_directory</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+чтение содержимого каталога, определяемого
+параметром</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $dir1, с
+последующим форматированием иерархии
+каталогов и файлов.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Функция
+может вызываться рекурсивно.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function
+display_directory ($dir1, $folder_location, $using_linux, $init_depth) {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Обновить
+путь</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$dir.= $dir1;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Sdh = opendir($dir);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while($file = readdir($dh))
+:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Элементы
+каталогов &quot;.&quot; и &quot;..&quot; не выводятся.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ( ($file !=
+&quot;.&quot;) &amp;&amp; ($file != &quot;..&quot;) ) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ($using_linux == 0 )
+:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$depth = explode(&quot;\\&quot;,
+$dir): else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$depth = explode(&quot;/&quot;,
+$dir); endif ; $curtent_depth = sizeof( $depth);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Построить
+путь по правилам используемой операционной
+системы. if ($using_linux == 0) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$tab_depth =
+$current_deptn - $init_depth;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$file = $dir. &quot;\\&quot;,
+$file; else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$file = $dir.
+&quot;/&quot;,$file; endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Переменная
+$file содержит каталог? if ( is dir($file) ) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$х = 0;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вычислить
+отступ</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while ( $х &lt; ($tab_depth
+* 2) ) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&amp;nbsp;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$х++; endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;img src=\&quot;$folder_location\&quot;
+alt=\&quot;[dir]\&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&quot;.basename($file).&quot;&lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Увеличить счетчик &amp;nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Рекурсивный
+вызов функции display_directory()</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">display_directory($file,
+$folder_location, $using_linux, $init_depth);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// He каталог</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Построить
+путь по правилам используемой</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+операционной системы.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ($using_linux == 0) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$tab_depth = ($current_depth
+- $init_depth) - 2; $x = 0;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вычислить
+отступ</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while ( $x &lt; (($tab_depth
+* 2) + 5) ) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&amp;nbsp;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$x++;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;a
+href =</font><font COLOR="#000000" size="3" face="Courier New">\ &quot;&quot; .$dir.&quot;\\&quot;.basename($file).&quot;\&quot;&gt;&quot;.basename($file).&quot;&lt;/a&gt;
+&lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;a href
+= \&quot;&quot;.$dir.&quot;/&quot;.basename($file).&quot;\&quot;&gt;&quot;.basename($file).&quot;&lt;/a&gt;
+&lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif; // Is_dir(file)
+endif: // If ! &quot;.&quot; or &quot;..&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Закрыть
+каталог closedir($dh);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html &gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt; &lt;?
+print &quot;$page_name&quot;; ?&gt; &lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=&quot;#ffffff&quot;
+text=&quot;#000000&quot; link=&quot;#000000&quot; vlink=&quot;#000000&quot;
+alink=&quot;#000000&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вычислить
+начальный отступ</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ($using_linux == 0)
+:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$depth = explode(&quot;\\&quot;,
+$beg_path);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$depth = explode(&quot;/&quot;,
+$beg_path);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$init_depth = sizeof($depth);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">display_directory ($beg_path,
+$folder_location, $using_linux, $init_depth);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">На рис. 7.1
+изображен результат выполнения сценария
+для каталога с несколькими главами этой
+книги.</font></p>
+<p><font size="3" face="Times New Roman">&nbsp;<img border="0" src="7.1.jpg" width="495" height="339"></font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Рис. 7.1. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Вывод
+структуры каталога на сервере с
+использованием сценария sitemap.php</font></font></p>
+</i><b>
+<p><A NAME="s"></A><font color="#000000" face="Times New Roman" size="4">Итоги</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В этой главе
+были представлены многие средства РНР,
+предназначенные для работы с файлами. В
+частности, мы рассмотрели следующие
+вопросы:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">проверку
+существования файлов;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">открытие и
+закрытие файлов и потоков ввода/вывода;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">запись в
+файл и чтение из него;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">перенаправление
+файла в выходной поток;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">запуск
+внешних программ;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">операции с
+файловой системой.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Материал
+этой главы подготовил почву для следующей
+главы, «Строки и регулярные выражения»,
+поскольку при разработке web-приложений
+обработка строк и операции ввода/вывода
+очень тесно связаны.</font></p>
+
+</BODY></HTML>

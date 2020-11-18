@@ -1,0 +1,104 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции FrontBase</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="user-error.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="fbsql-affected-rows.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.fbsql"></A>XVIII. Функции FrontBase</h1><A NAME="AEN21376"></A>
+<H1><A NAME="fbsql.intro">Введение</A></H1><P>Эти функции дают доступ к серверам БД FrontBase.
+Дополнительно о FrontBase см. <A HREF="http://www.frontbase.com/" TARGET="_top">http://www.frontbase.com/</A>.
+</P><P>Документация о FrontBase находится на <A
+HREF="http://www.frontbase.com/cgi-bin/WebObjects/FrontBase.woa/wa/productsPage?currentPage=Documentation"
+TARGET="_top">http://www.frontbase.com/cgi-bin/WebObjects/FrontBase.woa/wa/productsPage?currentPage=Documentation</A>.</P>
+<P>Поддержка Frontbase была введена в PHP 4.0.6.</P><H1><A NAME="fbsql.requirenments">Требования</A></H1>
+<P>Чтобы использовать эти функции, вы обязаны установить сервер БД FrontBase 
+или как минимум клиентские библиотеки fbsql. Вы можете получить FrontBase по адресу
+<A HREF="http://www.frontbase.com/" TARGET="_top">http://www.frontbase.com/</A>.</P>
+<H1><A NAME="fbsql.installation">Установка</A></H1><P>Чтобы иметь доступ к этим функциям, вы обязаны скомпилировать PHP с 
+поддержкой fbsql путём использования опции <TT>--with-fbsql</TT>. Если вы используете эту опцию без специфицирования пути к fbsql,
+PHP ищет клиентские библиотеки fbsql в месте установки по умолчанию для 
+данной платформы. Те, кто установил FrontBase в нестандартное место, должны 
+всегда специфицировать путь к fbsql:<TT>--with-fbsql=/path/to/fbsql</TT>. Это заставит PHP использовать клиентские библиотеки, установленные FrontBase, 
+и исключит конфликты.</P><H1><A NAME="fbsql.resources">Типы ресурсов</A></H1><H1>
+<A NAME="fbsql.constants">Предопределённые константы</A></H1><P>Эти константы определены данным расширением и будут доступны только в том случае, если либо вкомпилированы в РНР, либо динамически загружены на этапе прогона.</P>
+<DL><DT><TT><B>FBSQL_ASSOC</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FBSQL_NUM</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FBSQL_BOTH</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FBSQL_LOCK_DEFERRED</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FBSQL_LOCK_OPTIMISTIC</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FBSQL_LOCK_PESSIMISTIC</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FBSQL_ISO_READ_UNCOMMITTED</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FBSQL_ISO_READ_COMMITTED</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FBSQL_ISO_REPEATABLE_READ</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FBSQL_ISO_SERIALIZABLE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FBSQL_ISO_VERSIONED</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FBSQL_UNKNOWN</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FBSQL_STOPPED</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FBSQL_STARTING</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FBSQL_RUNNING</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FBSQL_STOPPING</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FBSQL_NOEXEC</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FBSQL_LOB_DIRECT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FBSQL_LOB_HANDLE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT></DL>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="fbsql-affected-rows.html">fbsql_affected_rows</A> - 
+получает количество рядов, задействованных в предыдущей операции FrontBase</DT>
+<DT><A HREF="fbsql-autocommit.html">fbsql_autocommit</A> - включает или отключает autocommit (автоподтверждение транзакций)</DT>
+<DT><A HREF="fbsql-change-user.html">fbsql_change_user</A> - изменяет действующего пользователя активного соединения</DT>
+<DT><A HREF="fbsql-close.html">fbsql_close</A> - закрывает соединение с FrontBase</DT>
+<DT><A HREF="fbsql-commit.html">fbsql_commit</A> - подтверждает транзакцию с БД</DT>
+<DT><A HREF="fbsql-connect.html">fbsql_connect</A> - открывает соединение с FrontBase-сервером</DT>
+<DT><A HREF="fbsql-create-blob.html">fbsql_create_blob</A> - создаёт BLOB</DT>
+<DT><A HREF="fbsql-create-clob.html">fbsql_create_clob</A> - создаёт CLOB</DT>
+<DT><A HREF="fbsql-create-db.html">fbsql_create_db</A> - создаёт БД FrontBase</DT>
+<DT><A HREF="fbsql-data-seek.html">fbsql_data_seek</A> - перемещает внутренний результирующий указатель</DT>
+<DT><A HREF="fbsql-database-password.html">fbsql_database_password</A> - устанавливает или запрашивает пароль для БД FrontBase</DT>
+<DT><A HREF="fbsql-database.html">fbsql_database</A> - получает или устанавливает имя БД, используемое в соединении</DT>
+<DT><A HREF="fbsql-db-query.html">fbsql_db_query</A> - отправляет FrontBase query/запрос</DT>
+<DT><A HREF="fbsql-db-status.html">fbsql_db_status</A> - получает статус данной БД</DT>
+<DT><A HREF="fbsql-drop-db.html">fbsql_drop_db</A> - удаляет БД FrontBase</DT>
+<DT><A HREF="fbsql-errno.html">fbsql_errno</A> — возвращает числовое значение сообщения об ошибке предыдущей операции FrontBase</DT>
+<DT><A HREF="fbsql-error.html">fbsql_error</A> — возвращает текст сообщения об ошибке предыдущей операции FrontBase</DT>
+<DT><A HREF="fbsql-fetch-array.html">fbsql_fetch_array</A> - 
+извлекает результирующий ряд как ассоциативный массив, числовой массив, либо и тот, и другой</DT>
+<DT><A HREF="fbsql-fetch-assoc.html">fbsql_fetch_assoc</A> - извлекает результирующий ряд как ассоциативный массив</DT>
+<DT><A HREF="fbsql-fetch-field.html">fbsql_fetch_field</A> - получает информацию столбца из результата и возвращает её как объект</DT>
+<DT><A HREF="fbsql-fetch-lengths.html">fbsql_fetch_lengths</A> - получает длину каждого вывода в результате</DT>
+<DT><A HREF="fbsql-fetch-object.html">fbsql_fetch_object</A> - извлекает результирующий ряд как объект</DT>
+<DT><A HREF="fbsql-fetch-row.html">fbsql_fetch_row</A> - получает результирующий ряд как перечислимый массив</DT>
+<DT><A HREF="fbsql-field-flags.html">fbsql_field_flags</A> - получает флаги, ассоциированные со специфицированным полем в результате</DT>
+<DT><A HREF="fbsql-field-len.html">fbsql_field_len</A> — возвращает длину специфицированного роля</DT>
+<DT><A HREF="fbsql-field-name.html">fbsql_field_name</A> - получает имя специфицированного поля в результате</DT>
+<DT><A HREF="fbsql-field-seek.html">fbsql_field_seek</A> - устанавливает результирующий указатель на специфицированное смещение поля</DT>
+<DT><A HREF="fbsql-field-table.html">fbsql_field_table</A> - получает имя таблицы, в которой находится специфицированное поле</DT>
+<DT><A HREF="fbsql-field-type.html">fbsql_field_type</A> - получает тип специфицированного поля в результате</DT>
+<DT><A HREF="fbsql-free-result.html">fbsql_free_result</A> - освобождает результирующую память</DT>
+<DT><A HREF="fbsql-get-autostart-info.html">fbsql_get_autostart_info</A> - пока нет описания</DT>
+<DT><A HREF="fbsql-hostname.html">fbsql_hostname</A> - получает или устанавливает имя хоста, используемое в соединении</DT>
+<DT><A HREF="fbsql-insert-id.html">fbsql_insert_id</A> - получает id, сгенерированный в предыдущей операции INSERT</DT>
+<DT><A HREF="fbsql-list-dbs.html">fbsql_list_dbs</A> - выводит список БД, доступных на FrontBase-сервере</DT>
+<DT><A HREF="fbsql-list-fields.html">fbsql_list_fields</A> - выводит список результирующих полей FrontBase</DT>
+<DT><A HREF="fbsql-list-tables.html">fbsql_list_tables</A> - выводит список таблиц в БД FrontBase</DT>
+<DT><A HREF="fbsql-next-result.html">fbsql_next_result</A> - перемещает внутренний результирующий указатель на следующий результат</DT>
+<DT><A HREF="fbsql-num-fields.html">fbsql_num_fields</A> - получает количество полей в результате</DT>
+<DT><A HREF="fbsql-num-rows.html">fbsql_num_rows</A> - получает количество рядов в результате</DT>
+<DT><A HREF="fbsql-password.html">fbsql_password</A> - получает или устанавливает user password, используемый в соединении</DT>
+<DT><A HREF="fbsql-pconnect.html">fbsql_pconnect</A> - открывает постоянное соединение с FrontBase-сервером</DT>
+<DT><A HREF="fbsql-query.html">fbsql_query</A> - отправляет FrontBase query</DT>
+<DT><A HREF="fbsql-read-blob.html">fbsql_read_blob</A> - читает BLOB из БД</DT>
+<DT><A HREF="fbsql-read-clob.html">fbsql_read_clob</A> - читает CLOB из БД</DT>
+<DT><A HREF="fbsql-result.html">fbsql_result</A> - получает результирующие данные</DT>
+<DT><A HREF="fbsql-rollback.html">fbsql_rollback</A> - откатывает транзакцию в данной БД</DT>
+<DT><A HREF="fbsql-select-db.html">fbsql_select_db</A> - выбирает БД FrontBase</DT>
+<DT><A HREF="fbsql-set-lob-mode.html">fbsql_set_lob_mode</A> - устанавливает режим запрашивания LOB для результирующего набора FrontBase</DT>
+<DT><A HREF="fbsql-set-transaction.html">fbsql_set_transaction</A> - устанавливает блокировку и изоляцию транзакции</DT>
+<DT><A HREF="fbsql-start-db.html">fbsql_start_db</A> - стартует БД на локальном или удалённом сервере</DT>
+<DT><A HREF="fbsql-stop-db.html">fbsql_stop_db</A> - останавливает БД на локальном или удалённом сервере</DT>
+<DT><A HREF="fbsql-tablename.html">fbsql_tablename</A> - получает табличное имя поля</DT>
+<DT><A HREF="fbsql-username.html">fbsql_username</A> - получает или устанавливает host user, используемого в соединении</DT>
+<DT><A HREF="fbsql-warnings.html">fbsql_warnings</A> - включает или отключает предупреждения FrontBase</DT>
+</DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%"  VALIGN="top">
+<A HREF="user-error.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="fbsql-affected-rows.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">user_error</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">fbsql_affected_rows</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

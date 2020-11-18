@@ -1,0 +1,36 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>xslt_set_log</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="xslt-set-error-handler.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="xslt-set-sax-handler.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="xslt-set-log">xslt_set_log</A></H1><A NAME="AEN83332"></A><P>(PHP 4 &#62;= 4.0.6)</P>
+<p>xslt_set_log - устанавливает log-файл для записи log-сообщений.<A NAME="AEN83335"></A></p><H2>Описание</H2>
+<p>void <B>xslt_set_log</B> (resource xh, mixed log)</p>
+<DL><DT><TT><I>xh</I></TT></DT><DD><P>Ссылка на XSLT-разборщик.</P></DD>
+<DT><TT><I>log</I></TT></DT><DD><P>Булево значение, включающее/выключающее логинг, либо строковая 
+константа, содержащая logfile, в который также записываются ошибки.</P></DD></DL>
+<P>Эта функция позволяет установить файл, в который записываются XSLT log-сообщения. XSLT log-сообщения 
+отличаются от error-сообщений тем, что log-сообщения не являются на самом деле error-сообщениями, 
+а относятся к статусу процессора XSLT. Они используются при отладке XSLT, когда что-то не так.</P>
+<P>По умолчанию логинг отключён; для его включения вы обязаны сначала вызывать 
+<B>xslt_set_log()</B> с булевым параметром, включающим логинг, затем, если вы хотите установить log-файл 
+для отладки, вы обязаны передать строку с именем файла:<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN83361"></A><h5>Пример 1. Использование возможностей XSLT-логинга</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+$xh = xslt_create();
+xslt_set_log($xh, true);
+xslt_set_log($xh, getcwd() . 'myfile.log');
+
+$result = xslt_process($xh, 'dog.xml', 'pets.xsl');
+print($result);
+
+xslt_free($xh);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="xslt-set-error-handler.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="xslt-set-sax-handler.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">xslt_set_error_handler</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.xslt.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">xslt_set_sax_handler</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

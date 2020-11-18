@@ -1,0 +1,43 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>odbc_setoption</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="odbc-rollback.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="odbc-specialcolumns.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.odbc-setoption">odbc_setoption</A></H1><A NAME="AEN57548"></A><P>(PHP 3&#62;= 3.0.6, PHP 4)</P>
+<p>odbc_setoption - настраивает ODBC. Возвращает <TT><B>FALSE</B></TT> при ошибке, иначе
+<TT><B>TRUE</B></TT>.<A NAME="AEN57553"></A></p><H2>Описание</H2><p>int <B>odbc_setoption</B> (resource id, int function, int option, int param)</p>
+<P>Эта функция позволяет работать с опциями ODBC для определённого соединения 
+или результата запроса. Она была написана для того, чтобы помочь преодолеть 
+проблемы с навороченными ODBC-драйверами.  Вам, вероятно, понадобится 
+использоваться эту функцию, только если вы программист ODBC и понимаете эффект 
+использования разных опций. Вам действительно нужен большой опыт работы с ODBC, 
+чтобы объяснить работу различных опций и используемых значений. Различные версии драйвера поддерживают разные опции.</P>
+<P>Поскольку действие зависит от ODBC-драйвера, использование этой функции 
+для публичной работы настоятельно не рекомендуется.  Также некоторые опции ODBC 
+недоступны для этой функции, поскольку они обязаны быть установлены до 
+установления соединения или подготовки запроса.  Однако, если ваш босс не 
+заказал вам  определённую работу с РНР для коммерческого применения, можете её использовать.</P>
+<P><TT><I>id</I></TT> это id соединения или id результата, в котором изменяются настройки. Для SQLSetConnectOption(), 
+это id соединения. Для SQLSettmtOption() это id результата.</P><P><TT><I>Function</I></TT> это используемая ODBC-функция. Значение должно быть 1 для SQLSetConnectOption() 
+и 2 для SQLSettmtOption().</P><P>Параметр <TT><I>option</I></TT> это устанавливаемая опция.</P>
+<P>Параметр <TT><I>param</I></TT> это значение данной <TT><I>option</I></TT>.<TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN57581"></A><h5>Пример 1. Примеры ODBC Setoption</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>// 1. Option 102 из SQLSetConnectOption() это SQL_AUTOCOMMIT.
+//    Значение 1 в SQL_AUTOCOMMIT это SQL_AUTOCOMMIT_ON.
+//    Этот пример имеет тот же эффект, что и
+//    odbc_autocommit($conn, true);
+
+odbc_setoption ($conn, 1, 102, 1);
+
+// 2. Option 0 из SQLSetstmtOption() это SQL_QUERY_TIMEOUT.
+//    Этот пример устанавливает таймаут запроса по истечении 30 секунд.
+
+$result = odbc_prepare ($conn, $sql);
+odbc_setoption ($result, 2, 0, 30);
+odbc_execute ($result);</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="odbc-rollback.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="odbc-specialcolumns.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">odbc_rollback</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.odbc.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">odbc_specialcolumns</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

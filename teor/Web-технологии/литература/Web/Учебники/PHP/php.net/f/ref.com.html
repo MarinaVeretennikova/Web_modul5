@@ -1,0 +1,75 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Поддержки COM для Windows</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="ccvs-void.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="../class.com.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.com"></A>VIII. Функции поддержки COM для Windows</h1><A NAME="AEN10423"></A>
+<H1><A NAME="com.intro">Введение</A></H1><P>COM это технология, позволяющая использовать код, написанный на любом 
+языке (любым языком) с помощью стандартных соглашений вызова, и скрывающая 
+позади API детали реализации, такие как: на какой машине хранится Компонент и 
+исполняющий его файл. Можно представлять это как супермеханизм
+Remote Procedure Call (RPC) с некоторыми базовыми объектами. При этом реализация отделена от интерфейса.</P>
+<P>COM поощряет отслеживание версий, отделение реализации от интерфейса и 
+скрытие таких деталей реализации, как местоположение исполняемого файла и язык, на котором он написан.</P>
+<P>COM-функции доступны только в Windows-версии PHP.</P><H1><a name="com.constants">Предопределённые константы</a></H1>
+<P>Эти константы определены данным расширением и будут доступны только в том 
+случае, если это расширение вкомпилировано в PHP или загружается динамически на этапе выполнения.</P>
+<DL><DT><TT><B>CLSCTX_INPROC_SERVER</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CLSCTX_INPROC_HANDLER</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CLSCTX_LOCAL_SERVER</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CLSCTX_REMOTE_SERVER</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CLSCTX_SERVER</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CLSCTX_ALL</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>VT_NULL</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>VT_EMPTY</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>VT_UI1</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>VT_I2</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>VT_I4</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>VT_R4</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>VT_R8</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>VT_BOOL</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>VT_ERROR</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>VT_CY</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>VT_DATE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>VT_BSTR</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>VT_DECIMAL</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>VT_UNKNOWN</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>VT_DISPATCH</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>VT_VARIANT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>VT_I1</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>VT_UI2</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>VT_UI4</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>VT_INT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>VT_UINT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>VT_ARRAY</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>VT_BYREF</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CP_ACP</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CP_MACCP</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CP_OEMCP</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CP_UTF7</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CP_UTF8</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CP_SYMBOL</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CP_THREAD_ACP</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+</DL><H1><a name="com.seealso">См также</a></H1><P>Дополнительно о COM прочтите
+<A HREF="http://www.microsoft.com/Com/resources/comdocs.asp" TARGET="_top">COM-спецификацию </A> или
+<A HREF="http://www.developmentor.com/dbox/yacl.htm" TARGET="_top">Yet Another COM Library (YACL)</A> Don'а Box'а.</P>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="../class.com.html">COM</A> - класс COM</DT>
+<DT><A HREF="../class.variant.html">VARIANT</A> - класс VARIANT</DT>
+<DT><A HREF="com-addref.html">com_addref</A> - увеличивает счётчик ссылок компонентов</DT>
+<DT><A HREF="com-get.html">com_get</A> - получает значение свойства COM-компонента</DT>
+<DT><A HREF="com-invoke.html">com_invoke</A> - вызывает метод COM-компонента</DT>
+<DT><A HREF="com-isenum.html">com_isenum</A> - &quot;выгребает&quot; IEnumVariant</DT>
+<DT><A HREF="com-load-typelib.html">com_load_typelib</A> - загружает Typelib</DT>
+<DT><A HREF="com-load.html">com_load</A> - создаёт новую ссылку на COM-компонент</DT>
+<DT><A HREF="com-propget.html">com_propget</A> - получает значение свойства COM-компонента</DT>
+<DT><A HREF="com-propput.html">com_propput</A> — присваивает значение свойству COM-компонента</DT>
+<DT><A HREF="com-propset.html">com_propset</A> — присваивает значение свойству COM-компонента</DT>
+<DT><A HREF="com-release.html">com_release</A> - уменьшает счётчик ссылок компонентов</DT>
+<DT><A HREF="com-set.html">com_set</A> -     присваивает значение свойству COM-компонента</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ccvs-void.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="../class.com.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ccvs_void</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">COM</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

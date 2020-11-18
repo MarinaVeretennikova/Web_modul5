@@ -1,0 +1,35 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>tempnam</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="symlink.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="tmpfile.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.tempnam">tempnam</A></H1><A NAME="AEN24998"></A><P>(PHP 3, PHP 4)</P>
+<p>tempnam - создаёт файл с&nbsp; уникальным именем.<A NAME="AEN25001"></A></p><H2>Описание</H2>
+<p>string <B>tempnam</B> (string dir, string prefix)</p>
+<P>Создаёт файл с уникальным именем filename в специфицированной директории.
+Если директория не существует, <B>tempnam()</B> может генерировать файл в системной временной директории и возвращать её имя.</P>
+<P>До PHP 4.0.6 поведение функции <B>tempnam()</B> зависело от системы. В Windows переменная окружения TMP переопределяет параметр
+<TT><I>dir</I></TT>, в Linux переменная окружения TMPDIR имеет приоритет, а в SVR4 всегда 
+используется ваш параметр <TT><I>dir</I></TT>, если директория, на которую он указывает, существует. При сомнениях 
+проконсультируйтесь в вашей системной документации о функции tempnam(3).</P>
+<P>Возвращает новый временный filename, или строку <TT><B>FALSE</B></TT> при неудаче.<TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN25020"></A><h5>Пример 1. tempnam()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$tmpfname = tempnam ("/tmp", "FOO");
+
+$fp = fopen($tmpfname, "w");
+fwrite($fp, "writing to tempfile");
+fclose($fp);
+
+// здесь сделать чего-нибудь
+
+unlink($tmpfname);</PRE></TD></TR></TABLE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+поведение этой функции изменилось в 4.0.3. Создаётся также временный файл, чтобы исключить race-условие, где файл может появиться в файловой системе 
+в период между генерацией строки и до созданием файла скриптом. Заметьте, 
+что вам нужно удалить файл, если он вам больше не нужен, это не будет сделано автоматически.</P></BLOCKQUOTE>
+<P>См. также <A HREF="tmpfile.html"><B>tmpfile()</B></A> и <A HREF="unlink.html"><B>unlink()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="symlink.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="tmpfile.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">symlink</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.filesystem.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">tmpfile</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,32 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>mssql_next_result</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="mssql-min-message-severity.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="mssql-num-fields.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="mssql-next-result">mssql_next_result</A></H1><A NAME="AEN45838"></A><P>(PHP 4 &#62;= 4.0.5)</P>
+<p>mssql_next_result - перемещает внутренний результирующий указатель на следующий результат.<A NAME="AEN45841"></A></p>
+<H2>Описание</H2><p>bool <B>mssql_next_result</B> (int result_id)</p>
+<P>При отправке более одного SQL-оператора серверу или выполнении хранимой процедуры с несколькими результатами эта функция заставит сервер возвращать 
+несколько результирующих наборов. Эта функция будет тестировать на предмет 
+дополнительных результатов, доступных с сервера. Если дополнительный 
+результирующий набор существует, то существующий результирующий набор будет 
+освобождён и будет подготовлено извлечение рядов нового результирующего набора. Функция возвратит <TT><B>TRUE</B></TT>, если дополнительный результирующий набор был доступен, иначе
+<TT> <B>FALSE</B></TT>.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN45852"></A>
+<h5>Пример 1. mssql_next_result()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+    $link = mssql_connect ("localhost", "userid", "secret");
+    mssql_select_db("MyDB", $link);
+    $SQL = "Select * from table1 select * from table2";
+    $rs = mssql_query($SQL, $link);
+    do {
+        while ($row = mssql_fetch_row($rs)) {
+        }
+    } while (mssql_next_result($rs));
+    mssql_free_result($rs);
+    mssql_close ($link);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="mssql-min-message-severity.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="mssql-num-fields.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">mssql_min_message_severity</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.mssql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">mssql_num_fields</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

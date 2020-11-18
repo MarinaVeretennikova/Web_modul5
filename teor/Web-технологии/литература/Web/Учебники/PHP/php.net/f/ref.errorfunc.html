@@ -1,0 +1,67 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Обработки Ошибок и Логинга</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="dotnet-load.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="error-log.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.errorfunc"></A>XXVII. Функции обработки ошибок и логинга</h1><A NAME="AEN21012"></A>
+<H1><A NAME="errorfunc.intro">Введение</A></H1><P>Имеются функции для обработки ошибок и логинга. Они позволяют определять 
+ваши собственные правила обработки ошибок, а также модифицировать способ 
+логинга ошибок. Это позволяет настроить работу с ошибками так, как вам это необходимо.</P>
+<P>С помощью функций логинга вы можете направлять сообщения на другие машины, 
+по email (или email на шлюз пэйджеров!), в системные logs,
+etc., так что вы сможете выборочно записывать и отслеживать самые важные 
+части ваших приложений и web-сайтов.</P><P> Функции сообщения об ошибках позволяют специализировать уровень и тип ошибок, 
+начиная с простых уведомлений и заканчивая специализированными функциями, 
+возвращаемыми при возникновении ошибок.</P><H1><A NAME="errorfunc.requirenments">Требования</A></H1>
+<P>Эти функции всегда доступны как часть стандартного модуля.</P><H1><A NAME="errorfunc.installation">Установка</A></H1>
+<P>Нет специальных требований по установке этих функций, так как они являются частью ядра РНР.</P>
+<H1><A NAME="errorfunc.constants">Предопределённые константы</A></H1><P>Эти константы являются частью ядра РНР и всегда доступны.</P>
+<A NAME="AEN21027"></A><h6>Таблица 1. Ошибки и логинг</h6><TABLE BORDER="1"><TR><TH>Значение</TH>
+<TH>Константа</TH><TH>Описание</TH></TR><TBODY><TR><TD>1</TD><TD><TT><B>E_ERROR</B></TT> 
+(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>
+Фатальные ошибки времени выполнения/run-time. Указывает на ошибки, которые 
+не могут быть устранены, такие как проблемы выделения памяти.
+Выполнение скрипта останавливается.</TD></TR><TR><TD>2</TD><TD><TT><B>E_WARNING</B></TT> 
+(<A HREF="../types.integer.html"><B>integer</B></A>)</TD><TD>
+Предупреждения времени выполнения (нефатальные ошибки). Выполнение скрипта не останавливается.</TD></TR>
+<TR><TD>4</TD><TD><TT><B>E_PARSE</B></TT>(<A HREF="../types.integer.html"><B>integer</B></A>)
+</TD><TD>Ошибки разбора при компиляции. ошибки разбора должны генерироваться только разборщиком.</TD></TR>
+<TR><TD>8</TD><TD><TT><B>E_NOTICE</B></TT> (<A HREF="../types.integer.html"><B>integer</B></A>)
+</TD><TD>Уведомления времени выполнения. При работе скрипта возникло нечто, что 
+может указывать на ошибку, но может также появиться и при нормальном выполнении скрипта.</TD></TR><TR>
+<TD>16</TD><TD><TT><B>E_CORE_ERROR</B></TT> (<A HREF="../types.integer.html"><B>integer</B></A>)
+</TD><TD>Фатальные ошибки, возникающие при начальном старте РНР. Напоминает <TT><B>E_ERROR</B></TT>, но генерируется ядром PHP.</TD>
+</TR><TR><TD>32</TD><TD><TT><B>E_CORE_WARNING</B></TT> (<A HREF="../types.integer.html"><B>integer</B></A>)
+</TD><TD>Предупреждения (нефатальные ошибки), возникающие при начальном старте РНР. Напоминает
+<TT><B>E_WARNING</B></TT>, но генерируется ядром PHP. Только в PHP 4.</TD></TR><TR><TD>64</TD><TD>
+<TT><B>E_COMPILE_ERROR</B></TT> (<A HREF="../types.integer.html"><B>integer</B></A>)
+</TD><TD>Фатальные ошибки компиляции. Напоминает <TT><B>E_ERROR</B></TT>,
+но генерируется машиной Zend Scripting Engine. Только в PHP 4.</TD></TR><TR><TD>128</TD><TD>
+<TT><B>E_COMPILE_WARNING</B></TT> (<A HREF="../types.integer.html"><B>integer</B></A>) </TD><TD>
+Предупреждения времени компиляции (нефатальные ошибки). Напоминает <TT><B>E_WARNING</B></TT>, но генерируется машиной Zend
+Scripting Engine. Только в PHP 4.</TD></TR><TR><TD>256</TD><TD><TT><B>E_USER_ERROR</B></TT> 
+(<A HREF="../types.integer.html"><B>integer</B></A>) </TD><TD>
+Генерируемое пользователем сообщение об ошибке. Напоминает <TT><B>E_ERROR</B></TT>, но генерируется в РНР-коде путём использования РНР-функции
+<A HREF="trigger-error.html"><B>trigger_error()</B></A>. Только в PHP 4.</TD></TR><TR><TD>512</TD>
+<TD><TT><B>E_USER_WARNING</B></TT> (<A HREF="../types.integer.html"><B>integer</B></A>)
+</TD><TD>Генерируемое пользователем предупреждение. Напоминает <TT><B>E_WARNING</B></TT>, но генерируется в РНР-коде путём использования РНР-функции
+<A HREF="trigger-error.html"><B>trigger_error()</B></A>. Только в PHP 4.</TD></TR><TR><TD>1024</TD>
+<TD><TT><B>E_USER_NOTICE</B></TT> (<A HREF="../types.integer.html"><B>integer</B></A>) </TD><TD>
+Генерируемое пользователем уведомление. Напоминает <TT><B>E_NOTICE</B></TT>, но генерируется в РНР-коде путём использования РНР-функции
+<A HREF="trigger-error.html"><B>trigger_error()</B></A>. Только в PHP 4.</TD></TR><TR><TD>2047</TD>
+<TD><TT><B>E_ALL</B></TT> (<A HREF="../types.integer.html"><B>integer</B></A>) </TD><TD>
+Все ошибки и предупреждения, если поддерживаются.</TD></TR></TBODY></TABLE>
+<H1><A NAME="errorfunc.seealso">См. также</A></H1><P> Дополнительно см. раздел <a href="../error-handling.html">
+Обработка ошибок</a>.</P><DL><DT><B>Содержание</B></DT><DT><A HREF="error-log.html">error_log</A> - отправляет сообщение об ошибке</DT>
+<DT><A HREF="error-reporting.html">error_reporting</A> - устанавливает, о каких РНР-ошибках сообщается</DT>
+<DT><A HREF="restore-error-handler.html">restore_error_handler</A> - восстанавливает предыдущую функцию-обработчик ошибок</DT>
+<DT><A HREF="set-error-handler.html">set_error_handler</A> - устанавливает пользовательскую функцию-обработчик ошибок</DT>
+<DT><A HREF="trigger-error.html">trigger_error</A> - генерирует сообщение об ошибке/предупреждение/уведомление пользовательского уровня</DT>
+<DT><A HREF="user-error.html">user_error</A> - генерирует сообщение об ошибке/предупреждение/уведомление пользовательского уровня</DT>
+</DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="dotnet-load.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="error-log.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">dotnet_load</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">error_log</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,75 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>mysql_fetch_array</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="mysql-escape-string.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="mysql-fetch-assoc.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.mysql-fetch-array">mysql_fetch_array</A></H1><A NAME="AEN51204"></A><P>(PHP 3, PHP 4)</P>
+<p>mysql_fetch_array - извлекает результирующий ряд как ассоциативный массив, числовой массив или 
+и тот, и другой.<A NAME="AEN51207"></A></p><H2>Описание</H2><p>array <B>mysql_fetch_array</B> (resource result [, int result_type])</p>
+<P>Возвращает массив, соответствующий извлечённому ряду, или <TT><B>FALSE</B></TT>, если рядов больше нет.</P>
+<P><B>mysql_fetch_array()</B> это расширенная версия <A HREF="mysql-fetch-row.html"><B>mysql_fetch_row()</B></A>. Помимо сохранения данных в числовых индексах результирующего массива, она
+также хранит данные в ассоциативных индексах, используя в качестве ключей имена полей.</P>
+<P>Если два или более столбцов результата имеют одинаковые имена полей,
+последний столбец имеет приоритет. Для доступа к другим столбцам с тем же 
+именем вы обязаны использовать числовой индекс столбца или создать для столбца 
+псевдоним. Для столбцов с псевдонимами вы не можете получить доступ к их 
+содержимому через оригинальное имя столбца (в нашем примере, используя <TT>'field'</TT>).
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN51225"></A><h5>Пример 1. Запрос с дублирующими именами полей</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>select table1.field as foo table2.field as bar from table1, table2</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Важно подчеркнуть, что <B>mysql_fetch_array() </B>работает <i>ненамного</i> медленнее, чем
+<A HREF="mysql-fetch-row.html"><B>mysql_fetch_row()</B></A>, но предоставляет важное дополнительное значение.</P>
+<P>Необязательный второй аргумент <TT><I>result_type</I></TT> в <B>mysql_fetch_array()</B> является константой и может иметь следующие значения: MYSQL_ASSOC, MYSQL_NUM и
+MYSQL_BOTH. Это было добавлено в PHP 3.0.7. MYSQL_BOTH это значение по умолчанию данного аргумента.</P>
+<P>Используя MYSQL_BOTH, вы получите массив с ассоциативными и числовыми 
+индексами. Используя MYSQL_ASSOC, вы получите только ассоциативные индексы (как 
+при работе <A HREF="mysql-fetch-assoc.html"><B>mysql_fetch_assoc()</B></A>). Используя MYSQL_NUM, вы получите только числовые индексы (как при работе
+<A HREF="mysql-fetch-row.html"><B>mysql_fetch_row()</B></A>).</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN51238"></A><h5>Пример 2. mysql_fetch_array с MYSQL_NUM</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+    mysql_connect("localhost", "mysql_user", "mysql_password") or
+        die("could not connect");
+    mysql_select_db("mydb");
+
+    $result = mysql_query("SELECT id, name FROM mytable");
+
+    while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
+        printf ("ID: %s  Name: %s", $row[0], $row[1]);  
+    }
+
+    mysql_free_result($result);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN51241"></A><h5>Пример 3. mysql_fetch_array с MYSQL_ASSOC</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+    mysql_connect("localhost", "mysql_user", "mysql_password") or
+        die("could not connect");
+    mysql_select_db("mydb");
+
+    $result = mysql_query("SELECT id, name FROM mytable");
+
+    while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+        printf ("ID: %s  Name: %s", $row["id"], $row["name"]);
+    }
+
+    mysql_free_result($result);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN51244"></A>
+<h5>Пример 4. mysql_fetch_array с MYSQL_BOTH</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;?php
+    mysql_connect("localhost", "mysql_user", "mysql_password") or
+        die("could not connect");
+    mysql_select_db("mydb");
+
+    $result = mysql_query("SELECT id, name FROM mytable");
+
+    while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+        printf ("ID: %s  Name: %s", $row[0], $row["name"]);
+    }
+
+    mysql_free_result($result);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Детали см. в
+<A HREF="mysql-fetch-row.html"><B>mysql_fetch_row()</B></A> и <A HREF="mysql-fetch-assoc.html"><B>mysql_fetch_assoc()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="mysql-escape-string.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="mysql-fetch-assoc.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">mysql_escape_string</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.mysql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">mysql_fetch_assoc</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,43 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>imagesetstyle</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="imagesetpixel.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="imagesetthickness.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="imagesetstyle">imagesetstyle</A></H1><A NAME="AEN33265"></A><P>(PHP 4 &#62;= 4.0.6)</P>
+<p>imagesetstyle - устанавливает стиль рисования линии.<A NAME="AEN33268"></A></p><H2>Описание</H2><p>int <B>imagesetstyle</B> (resource image, array style)</p>
+<P><B>imagesetstyle()</B> устанавливает стиль, используемый всеми функциями рисования линий (такими как
+<A HREF="imageline.html"><B>imageline()</B></A> и <A HREF="imagepolygon.html"><B>imagepolygon()</B></A>), при рисовании специальным цветом
+<TT>IMG_COLOR_STYLED</TT> или линий изображения цветом <TT>IMG_COLOR_STYLEDBRUSHED</TT>.</P>
+<P>Параметр <TT><I>style</I></TT> это массив пикселов. Следующий пример скрипта рисует пунктирную линию из верхнего левого в 
+правый нижний угол канвы:<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN33287"></A>
+<h5>Пример 1. imagesetstyle</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;?php
+header ("Content-type: image/png");
+$im  = imagecreate (100, 100);
+$w   = imagecolorallocate ($im, 255, 255, 255);
+$red = imagecolorallocate ($im, 255, 0, 0);
+
+/* Рисует пунктирную линию: 5 красных пикселов, 5 белых */
+$style = array ($red,$red,$red,$red,$red,$w,$w,$w,$w,$w);
+imagesetstyle ($im, $style);
+imageline ($im, 0, 0, 100, 100, IMG_COLOR_STYLED);
+
+/* Рисует линию счастливого детства с использованием imagesetbrush() и imagesetstyle */
+$style = array ($w,$w,$w,$w,$w,$w,$w,$w,$w,$w,$w,$w,$red);
+imagesetstyle ($im, $style);
+
+$brush = imagecreatefrompng ("http://www.libpng.org/pub/png/images/smile.happy.png");
+imagecolortransparent ($brush, $w);
+imagesetbrush ($im, $brush);
+imageline ($im, 100, 0, 0, 100, IMG_COLOR_STYLEDBRUSHED);
+
+imagepng ($im);
+imagedestroy ($im);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="imagesetbrush.html"><B>imagesetbrush()</B></A>,
+<A HREF="imageline.html"><B>imageline()</B></A>.</P><BLOCKQUOTE><P><B>Примечание: </B>эта функция была введена в PHP 4.0.6.</P></BLOCKQUOTE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+  <IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="imagesetpixel.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="imagesetthickness.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">imagesetpixel</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.image.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">imagesetthickness</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

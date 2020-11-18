@@ -1,0 +1,42 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>yaz_search</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="yaz-scan.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="yaz-sort.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.yaz-search">yaz_search</A></H1><A NAME="AEN83843"></A><P>(PHP 4 &#62;= 4.0.1)</P>
+<p>yaz_search - готовит для поиска.<A NAME="AEN83846"></A></p><H2>Описание</H2>
+<p>int <B>yaz_search</B> (int id, string type, string query)<BR></p>
+<P><B>yaz_search()</B> готовит для поиска в цели/target с заданным id. Аргумент type представляет тип 
+запроса - только "rpn" поддерживается сейчас, и в этом случае третий аргумент специфицирует Type-1 query (RPN). 
+Как и <A HREF="yaz-connect.html"><B>yaz_connect()</B></A>, эта функция является не-блокирующей и только подготавливает поиск, 
+выполняемый позднее при вызове <A HREF="yaz-wait.html"><B>yaz_wait()</B></A>.</P><A NAME="AEN83864"></A>
+<H2>RPN query/запрос</H2><P>RPN query это текстуальное представление Type-1 query, как определено в 
+стандарте Z39.50. Однако в текстовом представлении в YAZ используется 
+префиксная нотация, то есть операция предшествует операнду. Строка запроса/query string 
+это последовательность лексем, где пробел игнорируется, если не окружён 
+двойными кавычками. Лексемы, начинающиеся с at-символа (<TT>@</TT>), считаются операциями, иначе они рассматриваются как термины поиска.</P>
+<A NAME="AEN83868"></A><h6>Таблица 1. RPN-операции</h6><TABLE BORDER="1"><TR><TH>Синтаксис</TH><TH>Описание</TH></TR>
+<TBODY><TR><TD><TT>@and query1 query2</TT></TD><TD>пересечение query1 и query2</TD></TR><TR>
+<TD><TT>@or query1 query2</TT></TD><TD>union/объединение query1 и query2</TD></TR><TR><TD>
+<TT>@not query1 query2</TT></TD><TD>query1, и не query2</TD></TR><TR><TD><TT>@set name</TT></TD><TD>ссылка на результирующий набор</TD>
+</TR><TR><TD><TT>@attrset set query</TT></TD><TD>специфицирует attribute-set для запроса. Эта конструкция допускается только 
+однократно - в начале всего запроса/query</TD></TR><TR><TD><TT>@attr set type=value query</TT></TD><TD>применяет атрибут к запросу. type и value это целые числа, специфицирующие attribute-type 
+и attribute-value соответственно.<br>set, если задан, специфицирует attribute-set.</TD></TR></TBODY></TABLE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN83900"></A><h5>Пример 1. Примеры запроса</h5>
+<P>Query/запрос<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>computer</PRE></TD></TR></TABLE>
+<p>совпадает с документами, где появляется слово "computer". Атрибуты не специфицированы.</p>
+<P>Запрос<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>"donald knuth"</PRE></TD></TR></TABLE>
+<p>совпадает с документами, где появляется слово "donald knuth".</p>
+<P>Для запроса<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>@attr 1=4 art</PRE></TD></TR></TABLE>
+<p>attribute type равен 1 (использование Bib-1), attribute value равно 4 Title), поэтому он должен совпасть с документами, где
+<TT>art</TT> появляется в заголовке.</p><P>Более сложный пример:<TABLE  BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>@attrset gils @and @attr 1=4 art @attr 1=1003 "donald knuth"</PRE></TD></TR></TABLE>
+<p>Этот запрос использует набор атрибутов GILS. Совпадает с документами, где <TT>art</TT> появляется в заголовке/title и
+<TT>donald knuth</TT> появляется в author.</TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="yaz-scan.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top" ><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="yaz-sort.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">yaz_scan</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.yaz.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">yaz_sort</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

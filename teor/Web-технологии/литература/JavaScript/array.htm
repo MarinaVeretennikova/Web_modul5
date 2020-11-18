@@ -1,0 +1,875 @@
+<HTML>
+<!--
+Author:	Paul Khramtsov
+Date:	May 17, 1998
+-->
+<HEAD>
+<title>Web-engineering (Introduction to the JavaScript. Arrays.)</title>
+<link rel="stylesheet" type="text/css" href="page.css" tppabs="http://webclass.polyn.kiae.su/classes/css/page.css">
+<!--Charset-->
+<script language=JavaScript src="jsc.pgm" tppabs="http://webclass.polyn.kiae.su/classes/css/jsc.pgm"></script>
+<script language=JavaScript>
+<!--
+var str="";
+c = new Array(30,"Это значение");
+var wid=null;
+function v(a,b)
+{
+x=a.split('=');
+y=b.split('=');
+return x[1]-y[1];
+}
+// -->
+</script>
+</HEAD>
+<body style="color:navy;background-color:white;background-image:url(../images/main/rope.gif);" onLoad="jump();">
+<SCRIPT SRC="count.js" tppabs="http://counter.hotlog.ru/cgi-bin/hotlog/count.js"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">js=0</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.1">js=1</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.2">js=2</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.3">js=3</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">HotLOG(1686,js)</SCRIPT>
+<noscript><img src="count-s=1686" tppabs="http://hit.hotlog.ru/cgi-bin/hotlog/count?s=1686" border=0 width=1 height=1></noscript>
+<!-- Логотип -->
+<div class=logo>
+
+<table border=0 cellpadding=0 cellspacing=0 width=560>
+
+<tr><td><img src="sea003.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea003.gif" width=560 height=5 border=0 hspace=0 vspace=0 align=left></td></tr>
+
+<tr><td><img src="sea000.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea000.gif" width=560 height=15 border=0 hspace=0 vspace=0 align=left></td></tr>
+<!--
+<tr><td><a href=../homef.htm onMouseover="document.sea001.src='../images/main/hweb.gif';return true;" onMouseout="document.sea001.src='../images/main/sea001.gif';return true;"><img name=sea001 src=../images/main/sea001.gif width=560 height=15 border=0 hspace=0 vspace=0 align=left></a></td></tr>
+-->
+<tr><td><img name=sea001 src="sea001.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea001.gif" width=560 height=15 border=0 hspace=0 vspace=0 align=left></td></tr>
+
+<tr><td><img src="sea002.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea002.gif" width=560 height=5 border=0 hspace=0 vspace=0 align=left></td></tr>
+
+</table>
+
+</div>
+<!-- Конец логотипа -->
+<!-- Главное меню -->
+<div class=menu>
+<table border=0 cellpadding=0 cellspacing=0 width=560>
+<tr>
+<td><a href="jsid.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/jsid.htm"><img src="manual.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/manual.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Конспект></a></td>
+<td><img src="ref.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/ref.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Справочник></td>
+<td><img src="work.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/work.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Задания></td>
+<td><img src="ex.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/ex.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Примеры></td>
+<td><a href="arrayt.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/test/arrayt.htm"><img src="tests.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/tests.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Контроль></a></td>
+<td><img src="coach.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/coach.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Тьютор></td>
+<td><a href="javascript:if(confirm('http://webclass.polyn.kiae.su/classes/fsub.htm  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://webclass.polyn.kiae.su/classes/fsub.htm'" tppabs="http://webclass.polyn.kiae.su/classes/fsub.htm"><img src="lcheck.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/lcheck.gif" border=0 hspace=0 vspace=0 height=20 width=74 alt=Подписка></a></td>
+</tr>
+</table>
+</div>
+<!-- Конец главного меню -->
+<!-- Навигационное дерево -->
+<div class=navy>
+<table border=0 cellspacing=0 cellpadding=0 width=560>
+<tr>
+<td height=15 class=tree>
+<a class=tree href="javascript:if(confirm('http://webclass.polyn.kiae.su/classes/homef.htm  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://webclass.polyn.kiae.su/classes/homef.htm'" tppabs="http://webclass.polyn.kiae.su/classes/homef.htm">Web-инжиниринг(Оглавление)</a>
+</td>
+<tr>
+<td height=15 class=tree>
+<img src="treetc-1.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main//treetc.gif" border=0 hspace=2 align=top width=15 height=15 vspace=0>
+Объектная модель в World Wide Web. Динамический HTML
+</td>
+</tr>
+<tr>
+<td height=15 class=tree>
+<img name=down src="treevl.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treevl.gif" border=0 hspace=2 align=top width=15 height=15 vspace=0>
+<img src="treetc.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treetc.gif" border=0 hspace=2 align=top width=15 height=15 vspace=0>
+<a class=tree id=current href="treejsi.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/treejsi.htm">Введение в JavaScript</a>
+</td>
+</tr>
+</table>
+</div>
+<!-- Конец навигационного дерева -->
+<!-- Меню последовательного просмотра -->
+<div class=next>
+<map name=top_menu>
+<area shape=rect coords="500,0,560,15" href="func.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/func.htm">
+</map>
+<img src="menu_l.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/menu_l.gif" width=560 height=15 vspace=0 hspace=0 border=0 usemap=#top_menu>
+</div>
+<!-- Конец меню последовательного просмотра -->
+<!-- Начало текста документа -->
+<div class=main name=main>
+<a name=top></a>
+<span class=myheader>Массивы</span>
+
+
+
+<p class=just>
+
+
+
+<span class=letter>М</span>ассивы делятся на встроенные(document.links[], document.images[],...) и определяемые пользователем (автором документа). Встроенные массивы мы подробно обсуждаем в разделах <a href="image.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/image.htm">"Программируем картинки"</a>, <a href="form.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/form.htm">"Программируем формы"</a> и <a href="hyper.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/hyper.htm">"Программируем гипертекстовые переходы"</a>. Поэтому подробно остановимся на массивах, определяемых пользователем. Для массивов определено несколько методов:
+
+
+
+<ul>
+
+
+
+<li><a href=#join>join()</a>
+
+
+
+<li><a href=#rev>reverse()</a>
+
+
+
+<li><a href=#sort>sort()</a>
+
+
+
+</ul>
+
+
+
+<p class=just>
+
+
+
+и свойство length, которое позволяет получить число элементов массива. Это свойство активно используется в примерах данного раздела. Например, при обсуждении метода <a href=#join>join()</a>.
+
+
+
+<p class=just>
+
+
+
+Для определения массива пользователя существует специальный конструктор:
+
+
+
+<p><span class=tags>
+
+
+
+a = new Array();<br>
+
+
+
+b = new Array(10);<br>
+
+
+
+c = new Array(10,"Это значение");
+
+
+
+</span>
+
+
+
+<p class=just>
+
+
+
+Пример использования:
+
+
+
+<p><span class=tags>
+
+
+
+&lt;script&gt;<br>
+
+
+
+c = new Array(30,"Это значение");<br>
+
+
+
+&lt;/script&gt;<br>
+
+
+
+&lt;form&gt;&lt;input size=&&nbsp{c[0];};<br>
+
+
+
+value=&&nbsp;{c[1];}; <br>
+
+
+
+onFocus="this.blur();"&gt;<br>
+
+
+
+&lt;/form&gt;<br>
+
+
+
+<form name=f><input name=i size="&{c[0];};" value="&{c[1];};" onFocus="this.blur();"></form><br>
+
+
+
+</span>
+
+<script>
+
+document.f.i.size=c[0];
+
+document.f.i.value=c[1];
+
+</script>
+
+<p class=just>
+
+
+
+Как видно из этого примера, массив может состоять из разнородных элементов. Массивы не могут быть многомерными.
+
+
+
+<p class=just>
+
+
+
+Для работы с массивами в JavaScript применяются методы join(), reverse(), sort(), а также массивы обладают свойством длины length.
+
+
+
+<a name=join></a>
+
+
+
+<p><em>Метод join()</em>
+
+
+
+<p class=just>
+
+
+
+Метод join() позволяет объединить элементы массива в одну строку. Он является обратной функцией к методу split(), который применяется к объектам типа STRING. Рассмотрим пример преобразования локального URL в URL схемы http:
+
+
+
+<p><span class=tags>
+
+
+
+window.location:<br>
+
+
+
+<script>
+
+
+
+document.write(window.location.href+"<p>");
+
+
+
+document.write("Выполнили:<br>b = window.location.href.split('/');<br>");
+
+
+
+b = window.location.href.split("/")
+
+
+
+document.write("<p>Получили массив b:<br>");
+
+
+
+for(i=0;i<b.length;i++)
+
+
+
+document.write("b["+i+"]="+b[i]+"<br>");
+
+
+
+document.write("<p>Заменили схему и вставили \"host:port\":<br>");
+
+
+
+document.write("for(i=0;i&lt;b.length;i++)<br>");
+
+
+
+document.write("{<br>");
+
+
+
+document.write("if(b[i]==\"file:\") b[i] = \"http:/\";<br>");
+
+
+
+document.write("if(b[i]==\"c%7C\") b[i] = \"remote.host.domain:80\";<br>");
+
+
+
+document.write("}<br>");
+
+
+
+document.write("<p>Получили массив b:<br>");
+
+
+
+for(i=0;i<b.length;i++)
+
+
+
+{
+
+
+
+if(b[i]=="file:") b[i] = "http:/";
+
+
+
+if(b[i]=="c%7C") b[i] = "remote.host.domain:80"
+
+
+
+}
+
+
+
+for(i=0;i<b.length;i++)
+
+
+
+document.write("b["+i+"]="+b[i]+"<br>");
+
+
+
+document.write("<p>Слили элементы массива b:<br>");
+
+
+
+document.write("l=b.join(\"/\");<br>")
+
+
+
+l=b.join("/");
+
+
+
+document.write("<p>Получили в результате:<br>");
+
+
+
+document.write(l+"<br>")
+
+
+
+</script>
+
+
+
+</span>
+
+
+
+</span>
+
+
+
+<p class=just>
+
+
+
+Другой пример использования метода join() - замена символа в строке:
+
+
+
+<p><span class=tags>
+
+
+
+str = "document.img1.src='http://images/imag1.gif';"<br>
+
+
+
+document.write(str);<p>
+
+
+
+Исходная строка:<br>
+
+
+
+<script>
+
+
+
+str = "document.img1.src='imag1.gif'/*tpa=http://images/imag1.gif*/;"
+
+
+
+document.write(str);
+
+
+
+</script>
+
+
+
+<p>
+
+
+
+Заменяем в строке все единицы на двойки:<br>
+
+
+
+b = str.split('1');<br>
+
+
+
+str = b.join('2');<p>
+
+
+
+и получаем следующий результат:<br>
+
+
+
+<script>
+
+
+
+b = str.split('1');
+
+
+
+str = b.join('2');
+
+
+
+document.write(str);
+
+
+
+</script>
+
+
+
+</span>
+
+
+
+</span>
+
+
+
+<p class=just>
+
+
+
+Последний пример показывает, что массив пользователя можно получить и без явного применения конструктора массива. Массив элементов строки получается просто как результат действия функции split().
+
+
+
+<!-- В начало страницы -->
+
+
+
+<p align=right><a href=#top class=tree id=home><img src="treeup.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeup.gif" border=0 align=top hspace=2><br>начало страницы<img src="treeru.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeru.gif" border=0 align=top hspace=2></a><br>
+
+
+
+<!-- Конец перехода -->
+
+
+
+<a name=rev></a>
+
+
+
+<p><em>Метод reverse()</em>
+
+
+
+<p class=just>
+
+
+
+Метод reverse() применяется для изменения на противоположный порядка элементов массива внутри массива. Предположим, массив  натуральных чисел упорядочен по возрастанию:
+
+
+
+<p><span class=tags>
+
+
+
+a = new Array(1,2,3,4,5);
+
+
+
+</span>
+
+
+
+<p class=just>
+
+
+
+Упорядочим его по убыванию:
+
+
+
+<p><span class=tags>
+
+
+
+a.reverse();<br>
+
+
+
+<script>
+
+
+
+a = new Array(1,2,3,4,5);
+
+
+
+a.reverse();
+
+
+
+for(i=0;i<a.length;i++)
+
+
+
+document.write("a["+i+"]="+a[i]+"<br>");
+
+
+
+</script>
+
+
+
+</span>
+
+
+
+<p class=just>
+
+
+
+Можно, наверное, придумать и более разумный пример, но, к сожалению, на практике встречаться с этим методом приходилось не часто.
+
+
+
+<!-- В начало страницы -->
+
+
+
+<p align=right><a href=#top class=tree id=home><img src="treeup.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeup.gif" border=0 align=top hspace=2><br>начало страницы<img src="treeru.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeru.gif" border=0 align=top hspace=2></a><br>
+
+
+
+<!-- Конец перехода -->
+
+
+
+<a name=sort></a>
+
+
+
+<p><em>Метод sort()</em>
+
+
+
+<p class=just>
+
+
+
+Как это принято в современных интерпретируемых языках, например в Perl, метод sort() позволяет отсортировать элементы массива в соответствии с некоторой функцией сортировки, чье имя используется в качестве аргумента метода:
+
+
+
+<p><span class=tags>
+
+
+
+a = new Array(1,6,9,9,3,5);<br>
+
+
+
+function g(a,b)<br>
+
+
+
+{<br>
+
+
+
+if(a > b) return 1;<br>
+
+
+
+if(a < b) return -1;<br>
+
+
+
+if(a==b) return 0;<br>
+
+
+
+}<br>
+
+
+
+b = a.sort(g);<br>
+
+
+
+</span>
+
+
+
+<p class=just>
+
+
+
+В результате выполнения этого кода получим массив следующего вида:
+
+
+
+<p><span class=tags>
+
+
+
+<script>
+
+
+
+a = new Array(1,6,9,9,3,5);
+
+
+
+function g(a,b)
+
+
+
+{
+
+
+
+if(a > b) return 1;
+
+
+
+if(a < b) return -1;
+
+
+
+if(a==b) return 0;
+
+
+
+}
+
+
+
+b = a.sort(g);
+
+
+
+for(i=0;i<b.length;i++) document.write("b["+i+"]="+b[i]+"<br>");
+
+
+
+</script>
+
+
+
+</span>
+
+
+
+<p class=just>
+
+
+
+Возможность задания произвольной функции сортировки дает возможность гибкого анализа строковых объектов. Одним из таких примеров может служить анализ строки атрибута src контейнера IMG, если картинка подставляется скриптом, и сортировка полей формы по значениям:
+
+
+
+<p><span class=tags>
+
+
+
+document.image.src = "http://www.kuku.ru:80/cgi-bin/image?x=10&y=20&z=15";<br>
+
+
+
+</span>
+
+
+
+<p class=just>
+
+
+
+Выделим x и y. Затем отсортируем их:
+
+
+
+<p><span class=tags>
+
+
+
+str = "http://www.kuku.ru:80/cgi-bin/image?x=10&y=20&z=15";<br>
+
+
+
+s = str.split('?');<br>
+
+
+
+s1 = s[1].split('&');<br>
+
+
+
+s2 = s1.sort(v);<br>
+
+
+
+for(i=0;i&lt;s2.length;i++) document.write("s2["+i+"]='"+s2[i]+"'&lt;br&gt;");<p>
+
+
+
+<script>
+
+
+
+str = "http://www.kuku.ru/cgi-bin/image?x=10&y=20&z=15";
+
+
+
+s = str.split('?');
+
+
+
+s1 = s[1].split('&');
+
+
+
+s2 = s1.sort(v);
+
+
+
+for(i=0;i<s2.length;i++) document.write("s2["+i+"]='"+s2[i]+"'<br>");
+
+
+
+</script>
+
+
+
+</span>
+
+
+
+</p>
+
+
+
+<p class=just>
+
+
+
+Аналогичные манипуляции можно проделать с любым массивом. Если не указывать функции в аргументе метода сортировки, то элементы массива сортируются в лексикографическом порядке. Это значит, что они сначала преобразуются в строки, а только потом сортируются.
+
+
+
+<!-- В начало страницы -->
+
+
+
+<p align=right><a href=#top class=tree id=home><img src="treeup.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeup.gif" border=0 align=top hspace=2><br>начало страницы<img src="treeru.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeru.gif" border=0 align=top hspace=2></a><br>
+
+
+
+<!-- Конец перехода -->
+
+
+
+<p><!-- Конец текста документа -->
+
+
+
+<!-- Меню последовательного просмотра(нижнее) -->
+
+
+
+<map name=bmenu>
+
+
+
+<area shape=rect coords="0,0,60,15" href="data.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/data.htm">
+
+
+
+<area shape=rect coords="500,0,560,15" href="func.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/func.htm">
+
+
+
+</map>
+
+
+
+<p>
+
+
+
+<img src="bottom_l.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/bottom_l.gif" border=0 width=560 height=15 border=0 usemap=#bmenu hspace=0 vspace=0><br>
+
+
+
+<!-- Конец меню последовательного просмотра(нижнее) -->
+
+
+
+<!-- Нижний логотип -->
+
+
+
+<a href="javascript:if(confirm('http://www.citmgu.ru/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.citmgu.ru/'" tppabs="http://www.citmgu.ru/"><img src="bottom.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/bottom.gif" border=0 width=560 height=15></a>
+<!-- SpyLOG v2 f:0211 -->
+<script language="javascript">
+u="http://webclass.polyn.kiae.su/classes/jsi/u686.25.spylog.com";d=document;nv=navigator;na=nv.appName;p=1;
+bv=Math.round(parseFloat(nv.appVersion)*100);
+n=(na.substring(0,2)=="Mi")?0:1;rn=Math.random();z="p="+p+"&rn="+rn;y="";
+y+="<a href='http://"+u+"/cnt?f=3&p="+p+"&rn="+rn+"' target=_blank>";
+y+="<img src='http://"+u+"/cnt?"+z+"&r="+escape(d.referrer)+"&pg="+escape(window.location.href)+"' border=0  width=0 height=0  alt='SpyLOG'>";
+y+="</a>"; d.write(y);if(!n) { d.write("<"+"!--"); }//--></script><noscript>
+<a href="javascript:if(confirm('http://u686.25.spylog.com/cnt?f=3&p=1  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://u686.25.spylog.com/cnt?f=3&p=1'" tppabs="http://u686.25.spylog.com/cnt?f=3&p=1" target=_blank>
+<img src="cnt-p=1" tppabs="http://u686.25.spylog.com/cnt?p=1" alt='SpyLOG' border='0'  width=0 height=0 >
+</a></noscript><script language="javascript1.2"><!--
+if(!n) { d.write("--"+">"); }//--></script>
+<!-- SpyLOG  -->
+
+
+
+<!-- Конец нижнего логотипа -->
+
+
+
+</div>
+
+
+
+</BODY>
+
+
+
+</HTML>
+
+
+

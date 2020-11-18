@@ -1,0 +1,57 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>printer_set_option</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="printer-select-pen.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="printer-start-doc.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.printer-set-option">printer_set_option</A></H1><A NAME="AEN69497"></A><P>(unknown)</P>
+<p>printer_set_option - конфигурирует соединение принтера.<A NAME="AEN69500"></A></p><H2>Описание</H2><p>bool <B>printer_set_option</B> (resource handle, int option, mixed value)</p>
+<P>Функция устанавливает нижеуказанные опции текущего соединения. <TT><I>handle</I></TT> обязан быть правильным дескриптором принтера.
+<TT><I>option</I></TT> может быть одной из следующих констант:<UL><LI><P><TT><I>PRINTER_COPIES</I></TT>:
+устанавливает, сколько копий должно быть напечатано, <TT><I>value</I></TT>обязано быть integer.</P></LI>
+<LI><P><TT><I>PRINTER_MODE</I></TT>: специфицирует тип данных (text, raw или emf), <TT><I>value</I></TT> обязано быть строкой.</P>
+</LI><LI><P><TT><I>PRINTER_TITLE</I></TT>: специфицирует имя документа, <TT><I>value</I></TT> обязано быть строкой.</P>
+</LI><LI><P><TT><I>PRINTER_ORIENTATION</I></TT>: специфицирует ориентацию бумаги, <TT><I>value</I></TT> может быть PRINTER_ORIENTATION_PORTRAIT или 
+PRINTER_ORIENTATION_LANDSCAPE.</P></LI><LI><P><TT><I>PRINTER_RESOLUTION_Y</I></TT>: специфицирует y-разрешение в DPI,
+<TT><I>value</I></TT> обязано быть integer.</P></LI><LI><P><TT><I>PRINTER_RESOLUTION_X</I></TT>:
+специфицирует the x-разрешение в DPI, <TT><I>value</I></TT> обязано быть integer.</P></LI>
+<LI><P><TT><I>PRINTER_PAPER_FORMAT</I></TT>: специфицирует предопределённый формат бумаги; установите <TT><I>value</I></TT> в PRINTER_FORMAT_CUSTOM, если хотите специфицировать особый формат с помощью 
+PRINTER_PAPER_WIDTH и PRINTER_PAPER_LENGTH.<br><TT><I>value</I></TT> может быть одной из следующих констант:</P>
+<UL><LI><P><TT><I> PRINTER_FORMAT_CUSTOM</I></TT>: позволяет специфицировать особый формат бумаги.</P></LI>
+<LI><P><TT><I> PRINTER_FORMAT_LETTER</I></TT>: специфицирует стандартный формат letter (8 1/2- на 11-дюймов).</P></LI>
+<LI><P><TT><I> PRINTER_FORMAT_LETTER</I></TT>: специфицирует стандартный формат legal (8 1/2- на 14-дюймов).</P></LI>
+<LI><P><TT><I>PRINTER_FORMAT_A3</I></TT>: специфицирует стандартный формат A3 (297- на 420-миллиметров).</P></LI>
+<LI><P><TT><I>PRINTER_FORMAT_A4</I></TT>: специфицирует стандартный формат A4 (210- на 297-миллиметров).</P></LI>
+<LI><P><TT><I>PRINTER_FORMAT_A5</I></TT>: специфицирует стандартный формат A5 (148- на 210-миллиметров).</P></LI>
+<LI><P><TT><I>PRINTER_FORMAT_B4</I></TT>: специфицирует стандартный формат B4 (250- на 354-миллиметров).</P></LI>
+<LI><P><TT><I>PRINTER_FORMAT_B5</I></TT>: специфицирует стандартный формат B5 (182- на 257-миллиметров).</P></LI>
+<LI><P><TT><I>PRINTER_FORMAT_FOLIO</I></TT>: специфицирует стандартный формат FOLIO (8 1/2- на 13-дюймов).</P></LI>
+</UL></LI><LI><P><TT><I>PRINTER_PAPER_LENGTH</I></TT>: если PRINTER_PAPER_FORMAT установлен PRINTER_FORMAT_CUSTOM, 
+PRINTER_PAPER_LENGTH специфицирует специальную длину бумаги в mm, <TT><I>value</I></TT> обязано быть integer.</P>
+</LI><LI><P><TT><I>PRINTER_PAPER_WIDTH</I></TT>: если PRINTER_PAPER_FORMAT установлен  PRINTER_FORMAT_CUSTOM, 
+PRINTER_PAPER_WIDTH специфицирует специальную ширину бумаги в mm, <TT><I>value</I></TT> обязано быть integer.</P></LI>
+<LI><P><TT><I>PRINTER_SCALE</I></TT>: специфицирует фактор, которым масштабируется печатаемый вывод. 
+Размер страницы масштабируется от физического размера страницы на фактор масштабирования/100. Например, если вы установили масштабирование 50, вывод 
+будет в половину оригинального размера. <TT><I>value</I></TT> обязано быть integer.</P></LI>
+<LI><P><TT><I>PRINTER_BACKGROUND_COLOR</I></TT>: специфицирует цвет фона для актуального контекста устройства, 
+<TT><I>value</I></TT> обязано быть строкой, содержащей rgb информацию в 16-ричном формате, например, "005533".</P></LI>
+<LI><P><TT><I>PRINTER_TEXT_COLOR</I></TT>: специфицирует цвет текста для актуального контекста устройства, 
+<TT><I>value</I></TT> обязано быть строкой, содержащей rgb информацию в 16-ричном формате, например, "005533".</P></LI>
+<LI><P><TT><I>PRINTER_TEXT_ALIGN</I></TT>: специфицирует выравнивание текста для актуального контекста устройства, 
+<TT><I>value</I></TT> может комбинироваться, с помощью OR, из следующих констант:</P><UL>
+<LI><P><TT><I>PRINTER_TA_BASELINE</I></TT>: текст будет выровнен по базовой линии.</P></LI>
+<LI><P><TT><I>PRINTER_TA_BOTTOM</I></TT>: текст будет выровнен по низу.</P></LI>
+<LI><P><TT><I>PRINTER_TA_TOP</I></TT>: текст будет выровнен по верху.</P></LI>
+<LI><P><TT><I>PRINTER_TA_CENTER</I></TT>: текст будет выровнен по центру.</P></LI>
+<LI><P><TT><I>PRINTER_TA_LEFT</I></TT>: текст будет выровнен влево.</P></LI>
+<LI><P><TT><I>PRINTER_TA_RIGHT</I></TT>: текст будет выровнен вправо.</P></LI></UL></LI></UL>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN69618"></A><h5>Пример 1. printer_set_option()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$handle = printer_open();
+printer_set_option($handle, PRINTER_SCALE, 75);
+printer_set_option($handle, PRINTER_TEXT_ALIGN, PRINTER_TA_LEFT);
+printer_close($handle);</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="printer-select-pen.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="printer-start-doc.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">printer_select_pen</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.printer.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">printer_start_doc</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

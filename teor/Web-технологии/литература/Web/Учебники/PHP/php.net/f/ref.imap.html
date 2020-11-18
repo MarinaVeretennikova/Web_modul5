@@ -1,0 +1,169 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции IMAP, POP3 и NNTP</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="read-exif-data.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="imap-8bit.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.imap"></A>XLIII. Функции IMAP, POP3 и NNTP</h1><A NAME="AEN33795"></A>
+<H1><A NAME="imap.intro">Введение</A></H1><P>Эти функции не ограничиваются протоколом IMAP ,
+как можно было бы понять из их названия. Основная клиентская С-библиотека также поддерживает
+методы доступа NNTP, POP3 и локального mailbox.</P><H1><A NAME="imap.requirenments">Требования</A></H1>
+<P>Это расширение требует наличия библиотеки c-client. Скачайте последнюю версию с
+<A HREF="ftp://ftp.cac.washington.edu/imap/" TARGET="_top">ftp://ftp.cac.washington.edu/imap/</A> и скомпилируйте её.</P>
+<H1><A NAME="imap.installation">Установка</A></H1><P>Чтобы эти функции работали, вы должны скомпилировать PHP с опцией
+<TT>--with-imap</TT>.</P><P>Затем скопируйте <TT>c-client/c-client.a</TT> в <TT>/usr/local/lib/libc-client.a</TT>
+или какую-нибудь другую директорию в пути link и скопируйте <TT>c-client/c-client.h</TT>,
+<TT>c-client/imap4r1.h</TT>, <TT>c-client/rfc-882.h</TT>, <TT>c-client/mail.h</TT> и
+<TT>c-client/linkage.h</TT> в <TT>/usr/local/include</TT> или какую-нибудь другую директорию в пути include.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>в зависимости от того как c-client была сконфигурирована, вам также может 
+понадобиться добавить <TT>--with-imap-ssl=/path/to/openssl/</TT> и/или <TT>--with-kerberos</TT> в строки конфигурации PHP.</P>
+</BLOCKQUOTE><H1><a name="imap.configuration">Конфигурация</a></H1>
+<P>Это расширение не определяет никаких директив конфигурации.</P><H1><A NAME="imap.resources">Типы ресурсов</A></H1>
+<H1><A NAME="imap.constants">Предопределённые константы</A></H1><P>Эти константы определены данным расширением и будут доступны только в том случае, если либо вкомпилированы в РНР, либо динамически загружены на этапе прогона.</P>
+<DL><DT><TT><B>NIL</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>OP_DEBUG</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>OP_READONLY</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>OP_ANONYMOUS</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>OP_SHORTCACHE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>OP_SILENT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>OP_PROTOTYPE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>OP_HALFOPEN</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>OP_EXPUNGE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>OP_SECURE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CL_EXPUNGE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FT_UID</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FT_PEEK</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FT_NOT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FT_INTERNAL</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>FT_PREFETCHTEXT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>ST_UID</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>ST_SILENT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>ST_SET</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CP_UID</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>CP_MOVE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>SE_UID</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>SE_FREE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>SE_NOPREFETCH</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>SO_FREE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>SO_NOSERVER</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>SA_MESSAGES</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>SA_RECENT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>SA_UNSEEN</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>SA_UIDNEXT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>SA_UIDVALIDITY</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>SA_ALL</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>LATT_NOINFERIORS</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>LATT_NOSELECT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>LATT_MARKED</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>LATT_UNMARKED</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>SORTDATE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>SORTARRIVAL</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>SORTFROM</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>SORTSUBJECT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>SORTTO</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>SORTCC</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>SORTSIZE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>TYPETEXT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>TYPEMULTIPART</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>TYPEMESSAGE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>TYPEAPPLICATION</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>TYPEAUDIO</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>TYPEIMAGE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>TYPEVIDEO</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>TYPEOTHER</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>ENC7BIT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>ENC8BIT</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>ENCBINARY</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>ENCBASE64</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>ENCQUOTEDPRINTABLE</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>ENCOTHER</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT></DL>
+<H1><A NAME="imap.seealso">См. также</A></H1><P>Данный документ не может привести всю информацию об этих функциях. 
+Дополнительно см. информацию в документации к исходнику библиотеки c-client
+(<TT>docs/internal.txt</TT>) и следующие RFC-документы:
+<UL><LI><P><A HREF="http://www.faqs.org/rfcs/rfc2821.html" TARGET="_top">RFC2821</A>: Simple Mail Transfer Protocol (SMTP).</P>
+</LI><LI><P><A HREF="http://www.faqs.org/rfcs/rfc2822.html" TARGET="_top">RFC2822</A>: Стандарт для текстовых сообщений интернет ARPA.</P>
+</LI><LI><P><A HREF="http://www.faqs.org/rfcs/rfc2060.html" TARGET="_top">RFC2060</A>: Internet
+Message Access Protocol (IMAP) Версии 4rev1.</P></LI>
+<LI><P><A HREF="http://www.faqs.org/rfcs/rfc1939.html" TARGET="_top">RFC1939</A>: Post Office Protocol Версии 3 (POP3).</P></LI>
+<LI><P><A HREF="http://www.faqs.org/rfcs/rfc977.html" TARGET="_top">RFC977</A>: Network News Transfer Protocol (NNTP).</P>
+</LI><LI><P><A HREF="http://www.faqs.org/rfcs/rfc2076.html" TARGET="_top">RFC2076</A>: Общие Шапки/Headers
+Internet-Сообщений.</P></LI><LI><P><A HREF="http://www.faqs.org/rfcs/rfc2045.html" TARGET="_top">RFC2045</A>,
+<A HREF="http://www.faqs.org/rfcs/rfc2046.html" TARGET="_top">RFC2046</A>,
+<A HREF="http://www.faqs.org/rfcs/rfc2047.html" TARGET="_top">RFC2047</A>,
+<A HREF="http://www.faqs.org/rfcs/rfc2048.html" TARGET="_top">RFC2048</A> &#38;
+<A HREF="http://www.faqs.org/rfcs/rfc2049.html" TARGET="_top">RFC2049</A>: MultipurposeInternet Mail Extensions (MIME).</P></LI></UL>
+<p>Детальный обзор также имеется в книге
+<A HREF="http://www.oreilly.com/catalog/progintemail/noframes.html" TARGET="_top">Programming Internet Email</A>,
+автор David Wood, и <A HREF="http://www.oreilly.com/catalog/mimap/noframes.html" TARGET="_top">ManagingIMAP</A>,
+авторы Dianna Mullet &#38; Kevin Mullet.</p><TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR>
+<th><B>Предупреждение!</B></th></TR><TR><TD><P> Могут возникнуть проблемы зависания и старта <TT>PHP</TT> при загрузке этого расширения вместе с расширением recode.
+См. также расширение <A HREF="ref.recode.html">recode</A>.</P></TD></TR></TABLE>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="imap-8bit.html">imap_8bit</A> - конвертирует 8-битную строку в закавыченную печатаемую строку</DT>
+<DT><A HREF="imap-alerts.html">imap_alerts</A> - Эта функция возвращает все сообщения-предупреждения IMAP (если имеются), 
+которые возникли в процессе запроса этой страницы или после восстановления стэка предупреждений</DT>
+<DT><A HREF="imap-append.html">imap_append</A> - присоединяет строковое сообщение в специфицированный mailbox</DT>
+<DT><A HREF="imap-base64.html">imap_base64</A> - декодирует BASE64-кодированный текст</DT>
+<DT><A HREF="imap-binary.html">imap_binary</A> - конвертирует 8-битную строку в base64-строку</DT>
+<DT><A HREF="imap-body.html">imap_body</A> - читает тело сообщения</DT>
+<DT><A HREF="imap-bodystruct.html">imap_bodystruct</A> - читает структуру специфицированного раздела тела специфического сообщения</DT>
+<DT><A HREF="imap-check.html">imap_check</A> - проверяет текущий mailbox</DT>
+<DT><A HREF="imap-clearflag-full.html">imap_clearflag_full</A> - очищает флаги в сообщениях</DT>
+<DT><A HREF="imap-close.html">imap_close</A> - закрывает поток IMAP</DT>
+<DT><A HREF="imap-createmailbox.html">imap_createmailbox</A> - создаёт новый mailbox/почтовый ящик</DT>
+<DT><A HREF="imap-delete.html">imap_delete</A> - помечает сообщение для удаления из текущего mailbox</DT>
+<DT><A HREF="imap-deletemailbox.html">imap_deletemailbox</A> - удаляет mailbox</DT>
+<DT><A HREF="imap-errors.html">imap_errors</A> - эта функция возвращает все ошибки IMAP (если имеются), которые возникли в 
+процессе запроса этой страницы или после восстановления стэка ошибок</DT>
+<DT><A HREF="imap-expunge.html">imap_expunge</A> - удаляет все сообщения, помеченные для удаления</DT>
+<DT><A HREF="imap-fetch-overview.html">imap_fetch_overview</A> - читает обзор информации в шапках/headers данного сообщения</DT>
+<DT><A HREF="imap-fetchbody.html">imap_fetchbody</A> - извлекает определённый раздел тела сообщения</DT>
+<DT><A HREF="imap-fetchheader.html">imap_fetchheader</A> - возвращает header сообщения</DT>
+<DT><A HREF="imap-fetchstructure.html">imap_fetchstructure</A> - читает структуру определённого сообщения</DT>
+<DT><A HREF="imap-get-quota.html">imap_get_quota</A> - запрашивает установки уровня квоты и статистику использования mailbox</DT>
+<DT><A HREF="imap-getmailboxes.html">imap_getmailboxes</A> - читает список mailbox'ов, возвращая детальную информацию о каждом</DT>
+<DT><A HREF="imap-getsubscribed.html">imap_getsubscribed</A> - выдаёт список всех подписанных mailbox'ов</DT>
+<DT><A HREF="imap-header.html">imap_header</A> - читает header сообщения</DT>
+<DT><A HREF="imap-headerinfo.html">imap_headerinfo</A> - читает header сообщения</DT>
+<DT><A HREF="imap-headers.html">imap_headers</A> — возвращает header'ы всех сообщений в mailbox</DT>
+<DT><A HREF="imap-last-error.html">imap_last_error</A> - эта функция возвращает последнюю ошибку IMAP (если имеется), которая возникла в процессе запроса этой страницы</DT>
+<DT><A HREF="imap-listmailbox.html">imap_listmailbox</A> - читает список mailbox'ов</DT>
+<DT><A HREF="imap-listsubscribed.html">imap_listsubscribed</A> - выдаёт список всех подписанных mailbox'ов</DT>
+<DT><A HREF="imap-mail-compose.html">imap_mail_compose</A> - создаёт MIME-сообщение на основе данных разделов envelope и body</DT>
+<DT><A HREF="imap-mail-copy.html">imap_mail_copy</A> - копирует специфицированное сообщение в mailbox</DT>
+<DT><A HREF="imap-mail-move.html">imap_mail_move</A> - перемещает специфицированное сообщение в mailbox</DT>
+<DT><A HREF="imap-mail.html">imap_mail</A> - отправляет email-сообщение</DT>
+<DT><A HREF="imap-mailboxmsginfo.html">imap_mailboxmsginfo</A> - получает информацию о текущем mailbox'е</DT>
+<DT><A HREF="imap-mime-header-decode.html">imap_mime_header_decode</A> - декодирует элементы MIME-header'а</DT>
+<DT><A HREF="imap-msgno.html">imap_msgno</A> - эта функция возвращает количество последовательностей сообщений для данного UID</DT>
+<DT><A HREF="imap-num-msg.html">imap_num_msg</A> - задаёт количество сообщений в текущем mailbox</DT>
+<DT><A HREF="imap-num-recent.html">imap_num_recent</A> - задаёт количество оставшихся сообщений в текущем mailbox</DT>
+<DT><A HREF="imap-open.html">imap_open</A> - открывает поток IMAP в mailbox</DT>
+<DT><A HREF="imap-ping.html">imap_ping</A> - проверяет, активен ли поток IMAP</DT>
+<DT><A HREF="imap-popen.html">imap_popen</A> - открывает постоянный поток IMAP в mailbox</DT>
+<DT><A HREF="imap-qprint.html">imap_qprint</A> - конвертирует закавыченную печатаемую строку в 8-битную строку</DT>
+<DT><A HREF="imap-renamemailbox.html">imap_renamemailbox</A> - переименовывает старый mailbox в новый mailbox</DT>
+<DT><A HREF="imap-reopen.html">imap_reopen</A> - повторно открывает поток IMAP в новый mailbox</DT>
+<DT><A HREF="imap-rfc822-parse-adrlist.html">imap_rfc822_parse_adrlist</A> - разбирает строку с адресом</DT>
+<DT><A HREF="imap-rfc822-parse-headers.html">imap_rfc822_parse_headers</A> - разбирает mail header'ы из строки</DT>
+<DT><A HREF="imap-rfc822-write-address.html">imap_rfc822_write_address</A> - Возвращает соответственно сформатированный email адрес с данными mailbox, host и personal info.</DT>
+<DT><A HREF="imap-scanmailbox.html">imap_scanmailbox</A> - читает список mailbox'ов, берёт строку для поиска в тексте mailbox'а</DT>
+<DT><A HREF="imap-search.html">imap_search</A> - эта функция возвращает массив сообщений, совпадающих с данными критериями поиска</DT>
+<DT><A HREF="imap-set-quota.html">imap_set_quota</A> - устанавливает квоту для данного mailbox'а</DT>
+<DT><A HREF="imap-setacl.html">imap_setacl</A> - устанавливает ACL для данного mailbox'а</DT>
+<DT><A HREF="imap-setflag-full.html">imap_setflag_full</A> - устанавливает флаги на сообщениях</DT>
+<DT><A HREF="imap-sort.html">imap_sort</A> — сортирует массив header'ов сообщений</DT>
+<DT><A HREF="imap-status.html">imap_status</A> - эта функция возвращает статус-информацию о mailbox'е, отличном от текущего</DT>
+<DT><A HREF="imap-subscribe.html">imap_subscribe</A> - подписывает на mailbox</DT>
+<DT><A HREF="imap-thread.html">imap_thread</A> - возвращает дерево, распределённое REFERENCES по потокам</DT>
+<DT><A HREF="imap-uid.html">imap_uid</A> - эта функция возвращает UID для данного номера последовательности сообщений</DT>
+<DT><A HREF="imap-undelete.html">imap_undelete</A> - снимает маркировку с сообщения, помеченного для удаления</DT>
+<DT><A HREF="imap-unsubscribe.html">imap_unsubscribe</A> - отменяет подписку на mailbox</DT>
+<DT><A HREF="imap-utf7-decode.html">imap_utf7_decode</A> - декодирует модифицированную UTF-7-кодированную строку</DT>
+<DT><A HREF="imap-utf7-encode.html">imap_utf7_encode</A> — конвертирует 8-битные данные в модифицированный UTF-7-текст</DT>
+<DT><A HREF="imap-utf8.html">imap_utf8</A> -  конвертирует текст в&nbsp; UTF8</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="read-exif-data.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="imap-8bit.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">read_exif_data</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">imap_8bit</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

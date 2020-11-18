@@ -1,0 +1,30 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>socket_listen</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="socket-last-error.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="socket-read.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="socket-listen">socket_listen</A></H1><A NAME="AEN76354"></A><P>(PHP 4 &#62;= 4.1.0)</P>
+<p>socket_listen - прослушивает соединение на сокете.<A NAME="AEN76357"></A></p><H2>Описание</H2><p>bool <B>socket_listen</B> (resource socket [, int backlog])</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD><P>Эта функция - ЭКСПЕРИМЕНТАЛЬНАЯ. Поведение, имя и всё остальное, что задокументировано для данной функции может быть изменено в будущих релизах РНР без предупреждения. Вы можете использовать эту функцию только на свой страх и риск.
+</P></TD></TR></TABLE><P>После того как сокет <TT><I>socket</I></TT> создан с помощью
+<A HREF="socket-create.html"><B>socket_create()</B></A> и связан с именем с помощью
+<A HREF="socket-bind.html"><B>socket_bind()</B></A>, он может прослушивать входящие соединения в сокете <TT><I>socket</I></TT>.</P>
+<P>Для процессинга в очередь ставится максимум <TT><I>backlog</I></TT> соединений. Если запрос соединения достигает заполненной очереди, клиент может 
+получить ошибку с указанием <TT>ECONNREFUSED</TT> или, если протокол допускает ретрансмиссию, запрос может быть проигнорирован, 
+поэтому возможны повторные попытки.</P><BLOCKQUOTE><P><B>Примечание: </B>
+максимальное количество, передаваемое в параметр <TT><I>backlog</I></TT>, сильно зависит от платформы. В linux оно втихую обрезается до
+<TT><B>SOMAXCONN</B></TT>. В win32, если передано <TT><B>SOMAXCONN</B></TT>, провайдер сервиса отвечает за установку backlog сокета в максимальное <i>
+разумное</i> значение. На этой платформе нет стандарта для установки реального backlog-значения.</P></BLOCKQUOTE>
+<P><B>socket_listen()</B> применяется только для сокетов типа <TT><B>SOCK_STREAM</B></TT> или
+<TT><B>SOCK_SEQPACKET</B></TT>.</P><P>Возвращает <TT><B>TRUE</B></TT> при успехе, <TT><B>FALSE</B></TT> при неудаче. Код ошибки можно запросить функцией
+<A HREF="socket-last-error.html"><B>socket_last_error()</B></A>. Этот код может быть передан в
+<A HREF="socket-strerror.html"><B>socket_strerror()</B></A> для получения текстового объяснения ошибки.</P>
+<P>См. также <A HREF="socket-accept.html"><B>socket_accept()</B></A>, <A HREF="socket-bind.html"><B>socket_bind()</B></A>,
+<A HREF="socket-connect.html"><B>socket_connect()</B></A>, <A HREF="socket-create.html"><B>socket_create()</B></A> и
+<A HREF="socket-strerror.html"><B>socket_strerror()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="socket-last-error.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="socket-read.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">socket_last_error</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.sockets.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">socket_read</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

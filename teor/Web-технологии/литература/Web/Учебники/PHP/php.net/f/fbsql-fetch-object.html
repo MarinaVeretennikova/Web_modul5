@@ -1,0 +1,31 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>fbsql_fetch_object</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="fbsql-fetch-lengths.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%"  ALIGN="right"><A HREF="fbsql-fetch-row.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.fbsql-fetch-object">fbsql_fetch_object</A></H1><A NAME="AEN22084"></A><P>(PHP 4 &#62;= 4.0.6)</P>
+<p>fbsql_fetch_object - извлекает результирующий ряд как объект.<A NAME="AEN22087"></A></p>
+<H2>Описание</H2><p>object <B>fbsql_fetch_object</B> (resource result [, int result_type])</p>
+<P>Возвращает объект со свойствами, соответствующий извлечённому ряду, или <TT><B>FALSE</B></TT>, если рядов больше нет.</P>
+<P><B>fbsql_fetch_object()</B> напоминает <A HREF="fbsql-fetch-array.html"><B>fbsql_fetch_array()</B></A>, но с одним отличием - возвращается объект вместо массива.  Неявно, что 
+означает, что вы можете получить доступ к данным только по именам полей, но 
+не по их смещениям (числая являются недопустимыми именами свойств).</P><P>Необязательный аргумент <TT><I>result_type</I></TT>
+это константа, имеющая следующие значения: FBSQL_ASSOC, FBSQL_NUM и FBSQL_BOTH.</P><P>По скорости эта функция идентична
+<A HREF="fbsql-fetch-array.html"><B>fbsql_fetch_array()</B></A> и почти не уступает
+<A HREF="fbsql-fetch-row.html"><B>fbsql_fetch_row()</B></A> (разница несущественна).
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN22108"></A><h5>Пример 1. fbsql_fetch_object()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php 
+fbsql_connect ($host, $user, $password);
+$result = fbsql_db_query ("database", "select * from table");
+while ($row = fbsql_fetch_object ($result)) {
+    echo $row-&#62;user_id;
+    echo $row-&#62;fullname;
+}
+fbsql_free_result ($result);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="fbsql-fetch-array.html">
+<B>fbsql_fetch_array()</B></A> и <A HREF="fbsql-fetch-row.html"><B>fbsql_fetch_row()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE  WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="fbsql-fetch-lengths.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="fbsql-fetch-row.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">fbsql_fetch_lengths</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.fbsql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">fbsql_fetch_row</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

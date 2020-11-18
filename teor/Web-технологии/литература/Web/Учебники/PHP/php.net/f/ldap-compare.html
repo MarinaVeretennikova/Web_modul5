@@ -1,0 +1,55 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>ldap_compare</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ldap-close.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ldap-connect.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.ldap-compare">ldap_compare</A></H1><A NAME="AEN38849"></A><P>(PHP 4 &#62;= 4.0.2)</P>
+<p>ldap_compare - сравнивает значение атрибута, найденное во вхождении, специфицированном с помощью DN.
+<A NAME="AEN38852"></A></p><H2>Описание</H2><p>bool <B>ldap_compare</B> (resource link_identifier, string dn, string attribute, string value)</p>
+<P>Возвращает <TT><B>TRUE</B></TT>, если <TT><I>value</I></TT> совпадает, иначе возвращает <TT><B>FALSE</B></TT>. Возвращает -1 при ошибке.</P>
+<P><B>ldap_compare()</B> используется для сравнения <TT><I>value</I></TT> атрибута <TT><I>attribute</I></TT> со значением того же атрибута во вхождении LDAP-директории, специфицированном 
+параметром <TT><I>dn</I></TT>.</P><P>Следующий пример демонстрирует, как проверить, совпал или нет данный 
+пароль/password с паролем, определённым в специфицированном вхождении DN.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN38879"></A><h5>Пример 1. Полный пример проверки пароля</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;?php
+
+$ds=ldap_connect("localhost");  // принимаем, что LDAP-сервер находится на этом хосте
+      
+if ($ds) {
+
+    // связать 
+    if(ldap_bind($ds)) {
+
+        // prepare data
+        $dn = "cn=Matti Meikku, ou=My Unit, o=My Company, c=FI";
+        $value = "secretpassword";
+        $attr = "password"; 
+
+        // сравнить значение
+        $r=ldap_compare($ds, $dn, $attr, $value);
+
+        if ($r === -1) {
+            echo "Error: ".ldap_error($ds);
+        } elseif ($r === TRUE) {
+            echo "Password correct.";
+        } elseif ($r === FALSE) {
+            echo "Wrong guess! Password incorrect.";
+        }
+
+    } else {
+        echo "Unable to bind to LDAP server.";
+    }          
+
+    ldap_close($ds);
+
+} else {
+    echo "Unable to connect to LDAP server.";
+}
+?&#62;</PRE></TD></TR></TABLE><br></TD></TR></TABLE><TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD><P><B>ldap_compare()</B> НЕ может использоваться для сравнения BINARY-значений!</P>
+</TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>эта функция была введена в 4.0.2.</P></BLOCKQUOTE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+  <IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ldap-close.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ldap-connect.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ldap_close</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.ldap.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ldap_connect</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

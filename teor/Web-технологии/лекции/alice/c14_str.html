@@ -1,0 +1,185 @@
+<html>
+<title>Переполнение буфера и работа со строками</title>
+<meta name=keywords content="">
+<meta name=description content="">
+
+<body>
+<table align=center width=90%>
+<tr><td>
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c14_filt.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c14_filt.html">Фильтрация и форматирование HTML-документов.</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c14_exec.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c14_exec.html">Выполнение команд на сервере и взаимодействие с СУБД.</a>
+
+</table>
+
+
+<h3>Переполнение буфера</h3>
+<p align="justify">
+Переполнение буфера связано с неправильным обращением с оперативной памятью и приводит, в большинстве 
+случаев, к краху программы. Наиболее часто
+эта проблема проявляется при работе со строками, при копировании и форматировании строк.
+Рассмотрим следующий пример:
+<pre>
+char str[4096];
+...
+sprintf(str, "INSERT INTO answer( rezult_id, q_id, answer, mark,\
+ seconds) VALUES ('%s', '%s', '%s', '%s', %d)", 
+ *rezult_id, *q_id, answer, row[1], sec1);
+</pre>
+<p align="justify">
+В случае если размер форматируемой строки окажется больше, чем 4096 символов, то скорее всего произойдет 
+сбой при исполнении программы. Это приведет к сообщению, которое пользователь увидит в своем броузере
+Internal Server Error. Оно означает, что CGI-программа не выдала корректного содержания. Такое случается
+в случае аварийного завершения или неправильного заголовка Content-type.
+Заранее узнать точный размер форматируемой строки не представляется возможным, 
+можно лишь сделать допущения относительно его максимального размера. Иногда эти допущения оказываются
+ошибочными. Мы предполагаем одно, а пользователь программы, в данном случае это посетитель веб-сайта
+ведет себя совершенно по-другому. Мне самому до последнего времени иногда бьют по лбу эти грабли.
+Для того чтобы избежать подобного рода ошибок контролируйте размер переменных поступающих
+на вход CGI-программы и любых других, полученных из файлов или баз данных в ходе выполнения программы.
+Не доверяйте контроль размера переменных атрибуту maxlength или JavaScript! Всегда помните о 
+злоумышленниках, которые могут вызвать вашу CGI-программу со своими параметрами. Делается это очень просто.
+Если CGI-скрипт может принимать параметры методом GET, то в командной строке броузера злоумышленник
+напишет обращение к вашему скрипту: http://your_site.ru/cgi-bin/script?p1=v1&p2=v2...pk=vk.
+Если же скрипт принимает параметры методом POST, то злоумышленник сделает следующий 
+HTML-документ:
+<pre>
+&lt;form method=post action="http://your_site.ru/cgi-bin/script"&gt;
+&lt;input type="hidden" name="p1" value="v1"&gt;
+&lt;input type="hidden" name="p1" value="v1"&gt;
+...
+&lt;input type="hidden" name="pk" value="vk"&gt;
+&lt;/form&gt;
+</pre>
+<p align="justify">
+И как вы догадываетесь, имена параметров, их значения и размеры могут быть какими угодно. 
+В лучшем случае, неправильные параметры приведут к аварийному завершению программы. 
+В худшем, злоумышленник осуществит взлом вашего сервера. Для того чтобы обезопасить себя
+от вызова скриптов вышеуказанными методами, проверяйте значение HTTP_REFERER - откуда был
+вызван CGI-скрипт. Если пользователь нажал кнопку Submit или гиперссылку на скрипт на вашем сайте, 
+то переменная окружения HTTP_REFERER должна содержать адрес вашего сайта.
+Полезно также записывать значение переменной REMOTE_ADDRESS, которая содержит IP-адрес пользователя.
+В случае если вам в гостевой книге напишут какие-либо нецензурные ругательства можно будет
+будет определить, кто это сделал. Но особо полагаться на значение HTTP_REFERER тоже нельзя, т.к.
+это значение посылается броузером. Хакер может взламывать ваш сайт при помощи своего броузера
+собственной разработки или программы telnet и подделать это значение.
+<br><br>
+
+Никогда не используйте функцию sprintf, вместо нее используйте snprintf или LString_Format
+из библиотеки ITCGI. snprintf гарантирует, что переполнения буфера не произойдет, но при 
+этом форматируемая строка будет урезана. LString_Format работает с типом LString, под который
+выделяет динамически необходимое количество памяти.
+
+<pre>
+char str[4096];
+...
+snprintf(str, 4096, "INSERT INTO answer( rezult_id, q_id, answer,\
+  mark, seconds) VALUES ('%s', '%s', '%s', '%s', %d)", 
+  *rezult_id, *q_id, answer, row[1], sec1);
+
+
+================================
+
+LString* sql_query = CreateString();
+....
+LString_Format(sql_query, "CREATE TEMPORARY TABLE IF NOT EXISTS hh \
+SELECT COUNT(*) as hit, ip FROM hit \
+WHERE DATE_FORMAT(it_date, '%%Y-%%m-%%d')='%s' \
+GROUP BY ip ORDER BY hit DESC", *day);
+....
+DeleteString(sql_query);
+
+</pre>
+
+
+<p align="justify">
+Еще один момент, о котором стоит сказать, так это об использовании функции printf
+для вывода HTML-кода. Никогда не пишите printf(html);, т.к. в этом случае все проценты,
+которые находятся в строке html будут интерпретированы функцией printf, как формат передаваемых
+ей параметров. В лучшем случае, эти проценты будут просто съедены, в худшем - последствия непредсказуемы.
+Правильно писать:
+<pre>
+printf("%s", html);
+</pre>
+В этом случае вывод html-кода пройдет нормально и с процентами ничего не случится.
+
+
+
+
+
+
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?2461  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?2461'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?2461" target=_top>
+    <img src="itsoft-2461" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?2461" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?2461  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?2461'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?2461" target=_top>
+    <img src="itsoft-2461" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?2461" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="itsoft-2461-1" tppabs="http://rb1.rotabanner.com/cgi-bin/iframe/itsoft?2461"
+ width=468 height=60 marginwidth=0 marginheight=0 scrolling=no 
+ frameborder=0><a href="javascript:if(confirm('http://rb1.rotabanner.com/cgi-bin/href/itsoft?2461  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb1.rotabanner.com/cgi-bin/href/itsoft?2461'" tppabs="http://rb1.rotabanner.com/cgi-bin/href/itsoft?2461" 
+ target=_top><img src="itsoft-2461-2" tppabs="http://rb1.rotabanner.com/cgi-bin/banner/itsoft?2461" 
+ alt="RB1" width=468 height=60 border=0 ismap></a></iframe>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>fbsql_fetch_array</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%"  BORDER="0"CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="fbsql-error.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="fbsql-fetch-assoc.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.fbsql-fetch-array">fbsql_fetch_array</A></H1><A NAME="AEN21957"></A><P>(PHP 4 &#62;= 4.0.6)</P>
+<p>fbsql_fetch_array - извлекает результирующий ряд как ассоциативный массив, числовой массив или 
+и тот и другой.<A NAME="AEN21960"></A></p><H2>Описание</H2>array <B>fbsql_fetch_array</B> (resource result [, int result_type])<BR>
+<P>Возвращает массив, соответствующий извлечённому ряду, или <TT><B>FALSE</B></TT>, если рядов больше нет.</P>
+<P><B>fbsql_fetch_array()</B> это расширенная версия <A HREF="fbsql-fetch-row.html"><B>fbsql_fetch_row()</B></A>.
+В дополнение к сохранению данных в числовых индексах результирующего массива, 
+она также хранит данные в ассоциативных индексах, используя имена полей в качестве ключей.</P>
+<P>Если два или более столбцов в результате имеют одинаковые имена,
+преимущество имеет последний столбец. Для доступа к другому столбцу (столбцам) 
+с тем же именем вы обязаны использовать числовой индекс столбца или создать для столбца псевдоним.<A NAME="AEN21977"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>select t1.f1 as foo t2.f1 as bar from t1, t2</PRE>
+</TD></TR></TABLE><P>Важно отметить, что использование <B>fbsql_fetch_array()</B> НЕНАМНОГО медленнее, чем
+<A HREF="fbsql-fetch-row.html"><B>fbsql_fetch_row()</B></A>, но предоставляет важное дополнительное значение.</P>
+<P>Необязательный второй аргумент <TT><I>result_type</I></TT> в <B>fbsql_fetch_array()</B> это константа, принимающая следующие значения: FBSQL_ASSOC, FBSQL_NUM и
+FBSQL_BOTH.</P><P>Детали см. в <A HREF="fbsql-fetch-row.html"><B>fbsql_fetch_row()</B></A> и
+<A HREF="fbsql-fetch-assoc.html"><B>fbsql_fetch_assoc()</B></A>.</P><TABLE WIDTH="100%" BORDER="0"><TR>
+<TD><A NAME="AEN21988"></A><h5>Пример 1. <B>fbsql_fetch_array()</B></h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php 
+fbsql_connect ($host, $user, $password);
+$result = fbsql_db_query ("database","select user_id, fullname from table");
+while ($row = fbsql_fetch_array ($result)) {
+    echo "user_id: ".$row["user_id"]."&#60;br&#62;\n";
+    echo "user_id: ".$row[0]."&#60;br&#62;\n";
+    echo "fullname: ".$row["fullname"]."&#60;br&#62;\n";
+    echo "fullname: ".$row[1]."&#60;br&#62;\n";
+}
+fbsql_free_result ($result);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>&nbsp;</TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="fbsql-error.html">Назад</A>
+</TD><th WIDTH="34%"VALIGN="top"><A HREF="../index.html">Оглавление</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="fbsql-fetch-assoc.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">fbsql_error</TD><th WIDTH="34%" VALIGN="top"><A HREF="ref.fbsql.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">fbsql_fetch_assoc</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

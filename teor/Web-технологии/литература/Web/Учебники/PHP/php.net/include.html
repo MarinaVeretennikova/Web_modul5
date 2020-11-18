@@ -1,0 +1,167 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>include</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="f/require.html">Назад</A></TD><th WIDTH="80%">Глава 11. Структуры Управления</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="f/require-once.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+    <IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="include"><AHREF="include.html"><B>include()</B></A></A></H1><P>Оператор
+<B>include()</B> подключает и вычисляет специфицированный файл.</P>
+<P>Нижеследующая документация применима также к <A HREF="f/require.html"><B>require()</B></A>.
+Эти две конструкции идентичны во всём, кроме обработки облома. <B>include()</B> выводит 
+<A HREF="phpdevel-errors.html#internal.e-warning">Warning!</A>, а <A HREF="f/require.html">
+<B>require()</B></A> выдаёт <A HREF="phpdevel-errors.html#internal.e-error">Fatal Error</A>.
+Иначе говоря, используйте <A HREF="f/require.html"><B>require()</B></A>, если вы хотите, чтобы отсутствие файла останавливало процессинг страницы. <B>include()</B> не работает таким образом, скрипт продолжит выполнение. Не забудьте также о 
+соответствующей установке <A HREF="configuration.html#ini.include-path">include_path</A>.</P>
+<P>Когда файл подключён/included, содержащийся в нём код наследует
+<a href="variables.scope.html">область видимости переменной</a> 
+строки, на которой возникло подключение. Любые переменные, доступные на этой 
+строке в вызывающем файле, будут доступны в вызываемом файле, вперёд от этой точки.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN5164"></A><h5>Пример 11-3. Базовый пример <B>
+  include()</B></h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>vars.php
+&#60;?php
+
+$color = 'green';
+$fruit = 'apple';
+
+?&#62;
+
+test.php
+&#60;?php
+
+echo "A $color $fruit"; // A
+
+include 'vars.php';
+
+echo "A $color $fruit"; // A green apple
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Если подключение возникает внутри функции в вызывающем файле,
+то весь код, содержащийся во включаемом файле, будет работать так, как если 
+бы он был определён внутри. Так что он будет следовать области видимости переменной.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN5170"></A><h5>Пример 11-4. Подключение внутри функций</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+function foo()
+{
+global $color;
+
+    include 'vars.php';
+
+    echo "A $color $fruit";
+}
+
+/* vars.php находится в области видимости foo(), поэтому *
+ * $fruit НЕ доступна вне это области видимости *
+ * $color доступна, поскольку мы объявили её как глобальную. */
+
+foo();                    // A green apple
+echo "A $color $fruit";   // A green
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Когда файл подключается, разбор переходит из режима PHP в режим HTML в 
+начале целевого файла и вновь продолжает после конца.  Исходя из этого, любой 
+код внутри файла назначения, который должен выполняться как PHP-код, обязан быть заключён в
+<A HREF="basic-syntax.html#language.basic-syntax.phpmode">правильные стартовый и конечный тэги РНР</A>.</P>
+<P>Если "<A HREF="configuration.html#ini.allow-url-fopen">URL fopen-оболочки</A>"
+включены в PHP (как в конфигурации по умолчанию),
+вы можете специфицировать файл, подключаемый с использованием URL (через HTTP), 
+вместо локального pathname.  Если целевой сервер интерпретирует целевой файл 
+как PHP-код, переменные могут передаваться в подключаемый файл с 
+использованием URL-строки запроса, как в HTTP GET. Строго говоря, это не то же 
+самое, что подключение файла и наследование им области видимости переменных 
+родительского файла; ведь скрипт работает на удалённом сервере, а результат 
+затем подключается в локальный скрипт.</P><TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th>
+<B>Предупреждение!</B></th></TR><TR><TD><P>Windows-версия <TT>PHP</TT> в настоящее время не поддерживает доступ к удалённым файлам с помощью этой 
+функции, даже если <A HREF="configuration.html#ini.allow-url-fopen">allow_url_fopen</A> включена.</P></TD></TR></TABLE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN5182"></A><h5>Пример 11-5. <B> include()</B> через HTTP</h5><TABLE BORDER="0"  BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+/* Здесь предполагается, что www.example.com сконфигурирован для разбора .php *
+ * файлов, а не .txt файлов. Также 'работать' здесь означает, что переменные  *
+ * $foo и $bar доступны в подключённом файле.				      */
+
+// Не будет работать; file.txt не был обработан www.example.com как PHP
+include 'http://www.example.com/file.txt?foo=1&#38;bar=2';
+
+// Не будет работать; ищет файл 'file.php?foo=1&#38;bar=2' в локальной
+// файловой системе.
+include 'file.php?foo=1&#38;bar=2';
+
+// Работает.
+include 'http://www.example.com/file.php?foo=1&#38;bar=2';
+
+$foo = 1;
+$bar = 2;
+include 'file.txt';  // Работает.
+include 'file.php';  // Работает.
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>См. также <a href="remote-files.html">Удалённые файлы</a>,
+<A HREF="f/fopen.html"><B>fopen()</B></A> и <A HREF="f/file.html"><B>file()</B></A>.</p>
+<P>Поскольку <B>include()</B> и <A HREF="f/require.html"><B>require()</B></A> являются специальными конструкциями языка, вы обязаны заключить их в блок 
+операторов, если это внутри условного блока.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN5193"></A>
+<h5>Пример 11-6. include() и условные блоки</h5><TABLE  BORDER="0" CELLPADDING="5" BGCOLOR="#E0E0E0">
+<TR><TD><PRE>&#60;?php
+
+// Это НЕПРАВИЛЬНО, и не будет работать так, как ожидается.
+if ($condition)
+    include $file;
+else
+    include $other;
+
+
+// Это КОРРЕКТНО.
+if ($condition) {
+    include $file;
+} else {
+    include $other;
+}
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Обработка возвращает: можно выполнить оператор <A HREF="f/return.html"><B>return()</B></A> внутри подключённого файла, чтобы прервать обработку этого файла и 
+возвратиться в скрипт, вызвавший его. Также можно возвращать значения из 
+подключённых файлов.  Вы можете принять значение вызова include как обычно.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>в PHP 3 возвращаемое значение может не появиться внутри блока, если это не 
+блок функции; в этом случае <A HREF="f/return.html"><B>return()</B></A> применяется к этой функции, а не ко всему файлу.</P>
+</BLOCKQUOTE><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN5202"></A><h5>Пример 11-7. include() и оператор <A HREF="f/return.html">return()</A></h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>return.php
+&#60;?php
+
+$var = 'PHP';
+
+return $var;
+
+?&#62;
+
+noreturn.php
+&#60;?php
+
+$var = 'PHP';
+
+?&#62;
+
+testreturns.php
+&#60;?php
+
+$foo = include 'return.php';
+
+echo $foo; // печатает 'PHP'
+
+$bar = include 'noreturn.php';
+
+echo $bar; // печатает 1
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P><TT>$bar</TT> имеет значение <TT>1</TT>, поскольку подключение было успешным. Обратите внимание на отличия в примерах.  
+Первый использует <A HREF="f/return.html"><B>return()</B></A> внутри подключённого файла, а другие - нет.</P>
+<P>Другие способы "подключения" файлов в переменные имеются при помощи 
+<A HREF="f/fopen.html"><B>fopen()</B></A>, <A HREF="f/file.html"><B>file()</B></A> или путём использования <B>include()</B> вместе с <a href="f/ref.outcontrol.html">Функциями управления выводом</a>.</P>
+<P>См. также <A HREF="f/require.html"><B>require()</B></A>, <A HREF="f/require-once.html"><B>require_once()</B></A>,
+<A HREF="include-once.html"><B>include_once()</B></A>, <A HREF="f/readfile.html"><B>readfile()</B></A>,
+<A HREF="f/virtual.html"><B>virtual()</B></A> и <A HREF="configuration.html#ini.include-path">include_path</A>.</P></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+    <IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="f/require.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="f/require-once.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">require()</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="control-structures.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+require_once()</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

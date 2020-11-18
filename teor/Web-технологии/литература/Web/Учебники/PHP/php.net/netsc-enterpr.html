@@ -1,0 +1,166 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Серверы Netscape и iPlanet</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="iis.html">Назад</A></TD><th WIDTH="80%">Глава 2. Инсталяция</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="omnihttpd.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="install.netscape-enterprise">Серверы Netscape и iPlanet</A></H1>
+<P>В этом разделе содержится информация об установке РНР для Netscape и iPlanet версий для
+<A HREF="#install.netscape.sun">Sun Solaris</A> и для <A HREF="#install.netscape.windows">Windows</A>.</P>
+<P>Дополнительную информацию о настройке PHP для Netscape Enterprise Server см. по адресу:<A HREF="http://benoit.noss.free.fr/php/install-php4.html" TARGET="_top"><span lang="en-us">
+</span>http://benoit.noss.free.fr/php/install-php4.html</A> </P>
+<H2><A NAME="install.netscape.sun">Установка PHP с Netscape под Sun Solaris</A></H2>
+<P>Для построения PHP с NES или iPlanet web-серверами введите подходящую директорию для инсталяции в опции 
+<A HREF="configure.html#install.configure.with-nsapi">--with-nsapi</A> = <TT><I>DIR</I></TT>.
+Директория по умолчанию обычно <TT>/opt/netscape/suitespot/</TT>. Прочтите также файл <TT>/php-xxx-version/sapi/nsapi/nsapi-readme.txt</TT>.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+  <h5><A NAME="install.netscape-enterprise.solaris"></A>
+  Пример 2-7. Пример инсталяции для Netscape Enterprise на Solaris</h5>
+  <TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>Инструкции для Sun Solaris 2.6 с Netscape Enterprise Server 3.6
+от: bhager@invacare.com
+
+1. Установите следующие пакеты с www.sunfreeware.com или другого сайта загрузки:
+
+    flex-2_5_4a-sol26-sparc-local
+    gcc-2_95_2-sol26-sparc-local
+    gzip-1.2.4-sol26-sparc-local
+    perl-5_005_03-sol26-sparc-local
+    bison-1_25-sol26-sparc-local
+    make-3_76_1-sol26-sparc-local
+    m4-1_4-sol26-sparc-local
+    autoconf-2.13
+    automake-1.4
+    mysql-3.23.24-beta (если нужна поддержка mysql)
+    tar-1.13 (GNU tar)
+
+2. Убедитесь, что ваша переменная path содержит пути к соответствующим директориям.
+    PATH=.:/usr/local/bin:/usr/sbin:/usr/bin:/usr/ccs/bin 
+    export PATH 
+
+3. gunzip php-x.x.x.tar.gz (если у вас есть .gz dist, иначе переходите к 4) 
+4. tar xvf php-x.x.x.tar 
+5. cd ../php-x.x.x 
+
+6. Для выполнения следующего шага убедитесь, что /opt/netscape/suitespot/ находится там,
+   где установлен ваш netscape server. Иначе введите корректный путь:
+ <font size="0.8pt">   /configure --with-mysql=/usr/local/mysql --with-nsapi=/opt/netscape/suitespot/ --enable-track-vars --enable-libgcc</font>
+7. make
+8. make install</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>После выполнения базовой инсталяции и чтения соответствующего
+readme-файла может понадобиться выполнение некоторых дополнительных шагов по конфигурированию.</p></P>
+<P>Во-первых, может понадобиться добавить пути к переменной окружения LD_LIBRARY_PATH 
+для Netscape, чтобы находить все shared libs. Это лучше всего делать в 
+стартовом скрипте вашего Netscape-сервера. 
+Пользователи Windows могут, вероятно, пропустить этот шаг. Стартовый скрипт размещается чаще всего в
+<TT>/path/to/server/https-servername/start</TT></P>
+<P>Вам также может понадобиться отредактировать файлы конфигурации, которые размещаются в
+<TT>/path/to/server/https-servername/config/</TT></P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<h5>
+<A NAME="install.netscape-enterprise.configure"></A>
+Пример 2-8. Пример конфигурации для сервера Netscape Enterprise</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>Инструкции конфигурирования для Netscape Enterprise Server
+от: bhager@invacare.com
+
+1. Добавьте следующую строку к mime.types:
+    type=magnus-internal/x-httpd-php exts=php
+
+2. Добавьте следующее в obj.conf, shlib будет варьироваться, в зависимости от
+    вашей ОС, для unix это будет что-то вроде
+    /opt/netscape/suitespot/bin/libphp4.so.
+
+    Вы должны поместить следующие строки после mime types init.
+    <font size="1">Init fn="load-modules" funcs="php4_init,php4_close,php4_execute,php4_auth_trans" shlib="/php4/nsapiPHP4.dll"</font>
+    Init fn=php4_init errorString="Failed to initialize PHP!"
+
+    &#60;object name="default"&#62;
+    . 
+    . 
+    . 
+    .<font size="1">#ПРИМЕЧАНИЕ следующая строка должна появляться после всех строк 'ObjectType' и перед строками 'AddLog'</font>
+    Service fn="php4_execute" type="magnus-internal/x-httpd-php" 
+    . 
+    . 
+    &#60;/Object&#62;
+
+
+    &#60;Object name="x-httpd-php"&#62; 
+    ObjectType fn="force-type" type="magnus-internal/x-httpd-php" 
+    Service fn=php4_execute 
+    &#60;/Object&#62; 
+
+
+    Конфигурирование аутентификации
+
+    PHP-аутентификация не может использоваться с любыми другими аутентификациями.
+    ВСЯ АУТЕНТИФИКАЦИЯ ПЕРЕПОРУЧАЕТСЯ ВАШЕМУ PHP-СКРИПТУ. Для конфигурирования PHP-
+    аутентификации для всего сервера добавьте следующую строку:
+
+    &#60;Object name="default"&#62;
+    AuthTrans fn=php4_auth_trans
+    .
+    .
+    .
+    .
+    &#60;/Object&#62;
+
+    Для использования PHP-аутентификации в одной директории добавьте:
+
+    &#60;Object ppath="d:\path\to\authenticated\dir\*"&#62;
+    AuthTrans fn=php4_auth_trans
+    &#60;/Object&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Если у вас запущен Netscape Enterprise 4.x, используйте следующее:</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+  <h5><A NAME="AEN1124"></A>
+  Пример 2-9. Пример конфигурирования Netscape Enterprise 4.x</h5>
+  <TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>Поместите эти строки после mime types init и ещё что-нибудь ещё вышеприведённого примера
+конфигурации.
+от: Graeme Hoose (GraemeHoose@BrightStation.com)
+
+<font size="1">Init fn="load-modules" shlib="/path/to/server4/bin/libphp4.so" funcs="php4_init,php4_close,php4_execute,php4_auth_trans"</font>
+Init fn="php4_init" LateInit="yes"</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<H2><a name="install.netscape.windows">Инсталяция PHP с Netscape под Windows</a></H2>
+<P>Для установки PHP как CGI (для Netscape Enterprise Server, iPlanet, возможно, Fastrack):</P>
+<UL><LI><P>Скопируйте <TT>php4ts.dll</TT> в ваш systemroot (директория, где установлена ваша ОС windows)</P></LI>
+<LI><P> Выполните из командной строки ассоциирование файлов. Введите следующие две строки:</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>assoc .php=PHPScript
+ftype PHPScript=c:\php\php.exe %1 %*</PRE></TD></TR></TABLE></LI>
+<LI><P>В Netscape Enterprise Administration Server создайте пустую директорию shellcgi 
+и удалите её сразу вслед за этим (этот шаг создаёт 5 важных строчек в obj.conf и позволяет
+web-серверу обрабатывать shellcgi-скрипты).</P></LI>
+<LI><P>В Netscape Enterprise Administration Server создайте новый mime-тип (Category: type,
+Content-Type: magnus-internal/shellcgi, File Suffix:php).</P></LI>
+<LI><P>Сделайте это для каждого экземпляра web-сервера, где вы хотите запускать РНР.</P></LI></UL>
+<P>Дополнительно об установке PHP как CGI-экзешника можно найти здесь:</P>
+<P><A HREF="http://benoit.noss.free.fr/php/install-php.html" TARGET="_top">http://benoit.noss.free.fr/php/install-php.html</A>
+</P><P>Для установки PHP как NSAPI (для Netscape Enterprise Server, iPlanet, возможно, Fastrack):</P>
+<UL><LI><P>Скопировать <TT>php4ts.dll</TT> в ваш systemroot (директорию, где установлена ваша ОС windows)</P></LI>
+<LI><P>Выполните из командной строки ассоциирование файлов. Введите следующие две строки:</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>assoc .php=PHPScript
+ftype PHPScript=c:\php\php.exe %1 %*</PRE></TD></TR></TABLE></LI>
+<LI><P>В Netscape Enterprise Administration Server создайте новый mime-тип (Category: type,
+Content-Type: magnus-internal/x-httpd-php, File Suffix:php).</P></LI>
+<LI><P>Остановите ваш web-сервис и отредактируйте <TT>obj.conf</TT>.
+В конце раздела Init поместите следующие две строки (обязательно после mime type init!):</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE><font size="1">Init fn="load-modules" funcs="php4_init,php4_close,php4_execute,php4_auth_trans" shlib="c:/php/sapi/php4nsapi.dll"</font>
+Init fn="php4_init" errorString="Failed to initialise PHP!"</PRE></TD></TR></TABLE></LI>
+<LI><P>В разделе <TT>&#60; Object name="default" &#62;</TT> поместите следующую строку, обязательно после всех строк 'ObjectType'
+и перед всеми 'AddLog':</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>Service fn="php4_execute" type="magnus-internal/x-httpd-php"</PRE></TD></TR></TABLE></LI>
+<LI><P>В конце файла создайте новый объект <TT>x-httpd-php</TT>, вставив следующие строки:</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;Object name="x-httpd-php"&#62;
+ObjectType fn="force-type" type="magnus-internal/x-httpd-php"
+Service fn=php4_execute
+&#60;/Object&#62;</PRE></TD></TR></TABLE></LI><LI><P>Рестартуйте ваш web-сервис для применения изменений.</P></LI>
+<LI><P>Сделайте это для каждого экземпляра web-сервера, где вы хотите запускать РНР.</P></LI></UL>
+<P>Дополнительно о настройке PHP как NSAPI-фильтра см. <A HREF="http://benoit.noss.free.fr/php/install-php4.html" TARGET="_top">http://benoit.noss.free.fr/php/install-php4.html</A></P>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="iis.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="omnihttpd.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Серверы IIS/PWS</TD>
+<th WIDTH="34%" VALIGN="top"><a href="inst.installation.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Серверы OmniHTTPd</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

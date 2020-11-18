@@ -1,0 +1,35 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>fgetcsv</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%"  BORDER="0"CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="fgetc.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="fgets.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.fgetcsv">fgetcsv</A></H1><A NAME="AEN23392"></A><P>(PHP 3&#62;= 3.0.8, PHP 4)</P>
+<p>fgetcsv - получает строку из указателя файла и разбирает её на CSV-поля.<A NAME="AEN23395"></A></p>
+<H2>Описание</H2><p>array <B>fgetcsv</B> (int fp, int length [, string delimiter [, string enclosure]])</p>
+<P>Работает, как и <A HREF="fgets.html"><B>fgets()</B></A>, но <B>fgetcsv()</B> разбирает строку на поля в формате
+CSV и возвращает массив, содержащий прочитанные поля. Разделителем полей является запятая, если вы не специфицировали другой разделитель в необязательном 
+третьем параметре. Символ-ограничитель enclosure это двойная кавычка, если иной не специфицирован.
+<TT><I>Delimiter</I></TT> и <TT><I>enclosure</I></TT> не могут быть null, и при их спецификации используется только первый значащий 
+символ.</P><P><TT><I>Fp</I></TT> обязан быть правильным указателем на файл, успешно открытый функциями
+<A HREF="fopen.html"><B>fopen()</B></A>, <A HREF="popen.html"><B>popen()</B></A> или
+<A HREF="fsockopen.html"><B>fsockopen()</B></A>.</P><P><TT><I>Length</I></TT> обязан быть больше самой длинной строки, найденной в CSV-файле (что даёт 
+возможность вставить ведомые символы конца строки).</P><P><B>fgetcsv()</B> возвращает <TT><B>FALSE</B></TT> при ошибке, включая конец файла.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>пустая строка в CSV-файле возвратится как массив из единственного
+<TT><B>NULL</B></TT>-поля и не будет считаться ошибкой.</P><P><TT><I>enclosure</I></TT> введён в PHP 4.3.0.</P></BLOCKQUOTE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN23433"></A><h5>Пример 1. fgetcsv() - Чтение и печать всего содержимого CSV-файла</h5>
+<TABLE  BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$row = 1;
+$fp = fopen ("test.csv","r");
+while ($data = fgetcsv ($fp, 1000, ",")) {
+    $num = count ($data);
+    print "&#60;p&#62; $num fields in line $row: &#60;br&#62;";
+    $row++;
+    for ($c=0; $c &#60; $num; $c++) {
+        print $data[$c] . "&#60;br&#62;";
+    }
+}
+fclose ($fp);</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="fgetc.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="fgets.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">fgetc</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.filesystem.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">fgets</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

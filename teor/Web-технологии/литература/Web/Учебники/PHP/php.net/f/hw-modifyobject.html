@@ -1,0 +1,87 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>hw_Modifyobject</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD><TABLE
+WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="hw-mapid.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="hw-mv.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.hw-modifyobject">hw_Modifyobject</A></H1><A NAME="AEN29058"></A>
+<P>(PHP 3&#62;= 3.0.7, PHP 4)</P><p>hw_Modifyobject - модифицирует запись объекта/object record.<A NAME="AEN29061"></A></p><H2>Описание</H2><p>int <B>hw_modifyobject</B> (int connection, int object_to_change, array remove, array add, int mode)</p>
+<P>Эта команда позволяет удалять, добавлять или модифицировать отдельные 
+атрибуты записи объекта. Объект специфицируется ID объекта <TT><I>object_to_change</I></TT>. Первый массив
+<TT><I>remove</I></TT> это список атрибутов для удаления. Второй массив <TT><I>add</I></TT> это список атрибутов для добавления. Чтобы модифицировать атрибут, нужно 
+удалить старый и добавить новый. <B>hw_modifyobject()</B> всегда удаляет атрибуты перед их добавлением, если только значение удаляемого 
+атрибута не является строкой или массивом.</P>
+<P>Последний параметр определяет, выполняется ли модификация рекурсивно. 1 
+обозначает рекурсивную модификацию. Если некоторые объекты не могут быть 
+модифицированы, они игнорируются без уведомления. <A HREF="hw-error.html"><B>hw_error()</B></A> не может указывать на ошибку, хотя некоторые объекты могут не быть 
+модифицированы.</P><P>Ключами обоих массивов являются имена атрибутов. Значением каждого 
+элемента массива может быть массив, строка или ещё что-нибудь.
+Если это массив, значение каждого атрибута конструируется по ключу каждого 
+элемента плюс двоеточие и и значение каждого элемента. Если это строка, она 
+принимается как значение атрибута. Пустая строка даёт полное удаление атрибута. Если 
+значение не является ни массивом, ни строкой, например целым числом, с 
+атрибутом не выполняются никакие операции вообще. Это необходимо, если вы 
+хотите добавить совершенно новый атрибут, а непросто новое значение для 
+существующего атрибута. Если удаляемый массив содержал пустую строку для 
+данного атрибута, будет сделана попытка удаления этого атрибута, которая 
+потерпит неудачу, поскольку он не существует. Последующее добавление нового 
+значения такому атрибуту также потерпит неудачу. Установка значения для этого 
+атрибута в, например, 0 не вызовет попытки удаления, и добавление произойдёт.</P>
+<P>Если вы хотите изменить 'Name' атрибута с текущим значением 'books' на 'articles', 
+вы должны будете создать жва массива и вызвать <B>hw_modifyobject()</B>.<TABLE WIDTH="100%" BORDER="0"><TR>
+<TD><A NAME="AEN29091"></A><h5>Пример 1. Модификация атрибута</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>// $connect это существующее соединение с Hyperwave-сервером
+       // $objid это ID модифицируемого объекта
+       $remarr = array("Name" =&#62; "books");
+       $addarr = array("Name" =&#62; "articles");
+       $hw_modifyobject($connect, $objid, $remarr, $addarr);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Чтобы удалить/добавить пару name=value из/в запись объекта, просто 
+передайте массив удаления/добавления и установите последний/третий параметр 
+как пустой массив. Если имеется только первый атрибут с добавляемым именем, 
+установите целочисленное значение атрибута в удаляемом массиве.</p>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN29094"></A><h5>Пример 2. Добавление совершенного нового атрибута</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>// $connect это существующее соединение с Hyperwave-сервером
+       // $objid это ID модифицируемого объекта
+       $remarr = array("Name" =&#62; 0);
+       $addarr = array("Name" =&#62; "articles");
+       $hw_modifyobject($connect, $objid, $remarr, $addarr);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<BLOCKQUOTE><P><B>Примечание: </B>
+многоязычные атрибуты, например, 'Title', можно модифицировать двояко. 
+Добавляя значение атрибута в исходной форме 'language':'title', либо 
+предоставляя массив с элементами для каждого языка, как описано выше. Вышеприведённый пример станет тогда:</P></BLOCKQUOTE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN29100"></A><h5>Пример 3. Модификация атрибута Title</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$remarr = array("Title" =&#62; "en:Books");
+       $addarr = array("Title" =&#62; "en:Articles");
+       $hw_modifyobject($connect, $objid, $remarr, $addarr);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>или </p><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN29103"></A><h5>Пример 4. Модификация атрибута Title</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$remarr = array("Title" =&#62; array("en" =&#62; "Books"));
+       $addarr = array("Title" =&#62; array("en" =&#62; "Articles", "ge"=&#62;"Artikel"));
+       $hw_modifyobject($connect, $objid, $remarr, $addarr);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Это удалит английский заголовок 'Books' и добавит английский заголовок 'Articles' и немецкйи заголовок 'Artikel'.</p>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN29106"></A><h5>Пример 5. Удаление атрибута</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$remarr = array("Title" =&#62; "");
+       $addarr = array("Title" =&#62; "en:Articles");
+       $hw_modifyobject($connect, $objid, $remarr, $addarr);</PRE></TD></TR></TABLE></TD></TR></TABLE>     
+<BLOCKQUOTE><P><B>Примечание: </B>это удалит все атрибуты с именем 'Title' и добавит новый атрибут 'Title'. 
+Это удобно, когда вы хотите удалять атрибуты рекурсивно.</P></BLOCKQUOTE>
+<BLOCKQUOTE><P><B>Примечание: </B>если вам нужно удалить все атрибуты с определённым именем, вы должны 
+передать в качестве значения атрибута пустую строку.</P></BLOCKQUOTE>
+<BLOCKQUOTE><P><B>Примечание: </B>только атрибуты 'Title', 'Description' и 'Keyword' будут правильно 
+описывать префикс языка. Если эти атрибуты не задают префикс языка, назначается префикс 'xx'.</P></BLOCKQUOTE>
+<BLOCKQUOTE><P><B>Примечание: </B>атрибут 'Name' это отдельный вопрос. В некоторых случаях он не может быть 
+полностью удалён. Вы получите сообщение 'Change of base
+attribute' (не совсем ясно, когда это происходит). Следовательно, вы 
+всегда должны сначала добавлять новый Name, а затем удалять старый.</P></BLOCKQUOTE>
+<BLOCKQUOTE><P><B>Примечание: </B>вы можете не окружать вызов этой функции вызовами
+<A HREF="hw-getandlock.html"><B>hw_getandlock()</B></A> и <A HREF="hw-unlock.html"><B>hw_unlock()</B></A>.
+<B>hw_modifyobject()</B> выполняет это встроенным способом.</P></BLOCKQUOTE>
+<P>Возвращает <TT><B>TRUE</B></TT>, если ошибка не возникает, иначе <TT><B>FALSE</B></TT>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="hw-mapid.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="hw-mv.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">hw_mapid</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.hyperwave.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">hw_Mv</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

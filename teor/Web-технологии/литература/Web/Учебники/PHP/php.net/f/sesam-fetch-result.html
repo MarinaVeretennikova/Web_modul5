@@ -1,0 +1,34 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>sesam_fetch_result</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="sesam-fetch-array.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="sesam-fetch-row.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.sesam-fetch-result">sesam_fetch_result</A></H1><A NAME="AEN72757"></A>
+<P>(только PHP 3 CVS)</P><p>sesam_fetch_result - возвращает все части результата запроса.<A NAME="AEN72760"></A></p>
+<H2>Описание</H2><p>mixed <B>sesam_fetch_result</B> (string result_id [, int max_rows])</p>
+<P>Возвращает смешанный массив с вхождениями результата запроса, по выбору 
+ограниченный максимумом рядов в параметре <TT><I>max_rows</I></TT>.
+Обратите внимание, что индексы рядов и столбцов имеют базу 0.<A NAME="AEN72773"></A><h6>Таблица 1. 
+Смешанный результирующий набор, возвращаемый <B>функцией sesam_fetch_result()</B></h6><TABLE BORDER="1"><TR>
+<TH>элемент массива</TH><TH>содержимое</TH></TR><TBODY><TR><TD>int $arr["count"]</TD><TD>количество столбцов в результирующем наборе (или нуль, если это был
+"immediate" запрос)</TD></TR><TR><TD>int $arr["rows"]</TD><TD>количество столбцов в результирующем наборе (от нуля до
+<TT><I>max_rows</I></TT>)</TD></TR><TR><TD>bool $arr["truncated"]</TD><TD><TT><B>TRUE</B></TT>, если количество рядов было не менее
+<TT><I>max_rows</I></TT>, иначе <TT><B>FALSE</B></TT>. Обратите внимание, что даже если этот элемент
+<TT><B>TRUE</B></TT>, следующий вызов <B>sesam_fetch_result()</B> может вернуть ноль рядов, поскольку больше нет результирующих вхождений.</TD>
+</TR><TR><TD>mixed $arr[col][row]</TD><TD>результирующие данные для всех полей row(<TT>row</TT>) и
+column(<TT>col</TT>), (где integer индекс <TT>row</TT> находится между 0 и <TT>$arr["rows"]-1</TT>, а
+<TT>col</TT> - между 0 и <TT>$arr["count"]-1</TT>). Поля могут быть пустыми, поэтому вы обязаны проверять существование поля с 
+помощью РНР-функции <A HREF="isset.html"><B>isset()</B></A>. Тип возвращаемых полей зависит от соответствующего SQL-типа, объявленного для 
+данного столбца (см. в разделе <A HREF="ref.sesam.html">SESAM. Обзор. </A>о применяемых конвертациях). SESAM
+"multiple fields" являются "inlined" и рассматриваются как последовательность столбцов.</TD></TR></TBODY></TABLE>
+<p>Заметьте, что количество памяти, используемой большим запросом, может 
+быть гигантским. Используйте параметр <TT><I>max_rows</I></TT> для ограничения максимального количества возвращаемых рядов, если только вы не
+уверены, что ваш результат не будет использовать всю доступную память.</p>
+<P>См. также <A HREF="sesam-fetch-row.html"><B>sesam_fetch_row()</B></A> и
+<A HREF="sesam-field-array.html"><B>sesam_field_array()</B></A> о проверке на наличие "multiple
+fields". См. в описании функции <A HREF="sesam-query.html"><B>sesam_query()</B></A> полный пример использования <B>sesam_fetch_result()</B>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD><TABLE
+WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="sesam-fetch-array.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="sesam-fetch-row.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">sesam_fetch_array</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.sesam.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">sesam_fetch_row</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

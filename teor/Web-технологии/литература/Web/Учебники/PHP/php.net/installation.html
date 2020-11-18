@@ -1,0 +1,205 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>Инсталяция</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR>
+<TR><TD WIDTH="10%"><A HREF="databases.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="build.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="faq.installation">Глава 48. Инсталяция</A></H1>
+<P>В этом разделе собраны общие вопросы об установке PHP. PHP имеется почти для всех операционных систем/ОС (кроме, может быть, 
+MacOS до OSX) и почти для любого web-сервера.</P><P>При установке PHP следуйте инструкциям файла 
+<A HREF="http://cvs.php.net/co.php/php4/INSTALL" TARGET="_top">INSTALL</A>, имеющегося в дистрибутиве.
+Пользователям Windows нужно также прочесть файл 
+<A HREF="http://cvs.php.net/co.php/php4/win32/install.txt" TARGET="_top">install.txt</A>. Несколько подсказок
+для пользователей Windows можно также найти
+<a href="windows.html">здесь</a>.</P>
+<DL><DT>1. <A HREF="#faq.installation.phpini">Unix/Windows: Где у меня должен находиться файл php.ini?</A></DT>
+<DT>2. <A HREF="#faq.installation.nodata">Unix: Я установил PHP, но каждый раз при загрузке документа я получаю 
+сообщение 'Document Contains No Data'! Почему?</A></DT>
+<DT>3. <A HREF="#faq.installation.processing">Unix: Я установил PHP с использованием RPMS, но Apache не
+обрабатывает PHP-страницы! Почему?</A></DT><DT>4. <A HREF="#faq.installation.compile">Unix: Я установил
+PHP с использованием RPMS, но он не компилирует с поддержкой БД, нужной мне! Какова причина?</A></DT>
+<DT>5. <A HREF="#faq.installation.frontpage">Unix: Я вставил на Apache патч расширений FrontPage, и внезапно PHP 
+перестал работать. Совместим ли PHP с расширениями FrontPage для Apache?</A></DT>
+<DT>6. <A HREF="#faq.installation.blankscreen">Unix/Windows: Я установил PHP, но когда пытаюсь получить доступ к файлу 
+PHP-скрипта через браузер, появляется чистый экран.</A></DT>
+<DT>7. <A HREF="#faq.installation.500error">Unix/Windows: Я установил PHP, но когда пытаюсь получить доступ к файлу 
+PHP-скрипта через браузер, получаю ошибку 500 сервера.</A></DT>
+<DT>8. <A HREF="#faq.installation.undefinedsyms"> 
+Некоторые ОС: Я установил PHP без ошибок, но при попытке старта Аpache я получаю ошибки undefined symbol:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>[mybox:user /src/php4] root# apachectl configtest
+ apachectl: /usr/local/apache/bin/httpd Undefined symbols:
+  _compress
+  _uncompress</PRE></TD></TR></TABLE></A></DT>
+<DT>9. <A HREF="#faq.installation.cgierror">Windows: Я установил PHP, но при доступе к файлу PHP-скрипта из браузера 
+я получаю ошибку:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>cgi error:
+ The specified CGI application misbehaved by not
+ returning a complete set of HTTP headers.
+ The headers it did return are:</PRE></TD></TR></TABLE></A></DT>
+<DT>10. <A HREF="#faq.install.phpandiis">Windows: Я выполнил все инструкции, но PHP и IIS - таки да - не работают вместе!</A></DT>
+</DL><B><P><A NAME="faq.installation.phpini"></A><B>1. </B>Unix/Windows: Где у меня должен находиться файл php.ini?</P></B>
+<P>По умолчанию на UNIX он<span lang="en-us"> </span>должен быть в директории <TT>/usr/local/lib</TT>, то есть в
+<TT>&#60;install-path&#62;/lib</TT>.
+Многие хотели бы изменить это положение на этапе компиляции с помощью флага 
+<A HREF="configure.html#install.configure.with-config-file-path">--with-config-file-path</A>.
+Вы можете, например, записать так:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>--with-config-file-path=/etc</PRE></TD></TR></TABLE><p>а затем скопировать <TT>php.ini-dist</TT>
+из дистрибутива в <TT>/etc/php.ini</TT> и отредактировать его, чтобы сделать необходимые локальные изменения.</p>
+<P>На Windows путь по умолчанию для <TT>php.ini</TT> это директория Windows. Если вы используете
+Apache web-сервер, <TT>php.ini</TT> ищется сначала в директории установки Apache, например,
+<TT>c:\program files\apache group\apache</TT>. Таким образом, вы можете иметь разные файлы <TT>php.ini</TT>
+для разных версий Apache на одной машине.</P>
+<P>См. также главу о <a href="configuration.html#configuration.file">файле конфигурации</a>.</P>
+<B><P><A NAME="faq.installation.nodata"></A><B>2. </B>
+Unix: Я установил PHP, но каждый раз при загрузке документа я получаю 
+сообщение 'Document Contains No Data'! Почему?</P></B>
+<P>Возможно это означает, что с PHP есть какие-то проблемы и что имеется перевод 
+ядра в дамп. Посмотрите в error log вашего сервера, не это ли причина, 
+а затем попытайтесь воспроизвести проблему небольшим тестовым заданием. 
+Если вы знаете, как использовать 'gdb', это поможет вам, если вы 
+можете предоставить ваше сообщение о bug для отслеживания 
+разработчиками точного местоположения проблемы.  Если вы используете
+PHP как Apache-модуль, попытайтесь сделать что-нибудь типа:<UL><LI>
+<P>Остановите ваши httpd-процессы</P></LI><LI><P>gdb httpd</P></LI><LI><P>Остановите ваши httpd-процессы</P></LI>
+<LI><P>&#62; run -X -f /path/to/httpd.conf</P></LI><LI><P>Запустите URL, вызвавший проблему, в вашем браузере</P></LI>
+<LI><P>&#62; run -X -f /path/to/httpd.conf</P></LI>
+<LI><P>Если вы получаете дамп ядра, gdb должна сообщить вам об этом сейчас</P></LI><LI><P>type: bt</P></LI>
+<LI><P>Вы должны включить вашу трассировку в ваше сообщение о bug. Это всё нужно отправить по адресу 
+<A HREF="http://bugs.php.net/" TARGET="_top">http://bugs.php.net/</A></P></LI></UL>
+<P>Если ваш скрипт использует функции работы с регулярными выражениями
+(<A HREF="f/ereg.html"><B>ereg()</B></A> и компания), вам необходимо убедиться, что вы скомпилировали PHP и Apache с 
+одним и тем же пакетом регулярных выражений. Это должно выполняться автоматически для PHP и Apache 1.3.x.</P>
+<B><P><A NAME="faq.installation.processing"></A><B>3. </B>
+Unix: Я установил PHP с использованием RPMS, но Apache не обрабатывает PHP-страницы! Почему?</P></B>
+<P>Примем, что вы установили Apache и PHP из RPM-пакетов, 
+тогда вы должны раскомментировать или добавить некоторые или все следующие строки в ваш файл <TT>http.conf</TT>:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE># Extra Modules
+AddModule mod_php.c
+AddModule mod_php3.c
+AddModule mod_perl.c
+
+# Extra Modules
+LoadModule php_module         modules/mod_php.so
+LoadModule php3_module        modules/libphp3.so     /* для PHP 3 */
+LoadModule php4_module        modules/libphp4.so     /* для PHP 4 */
+LoadModule perl_module        modules/libperl.so</PRE></TD></TR></TABLE><p>и добавить:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>AddType application/x-httpd-php3 .php3    /* для PHP 3 */
+AddType application/x-httpd-php .php      /* для PHP 4 */</PRE></TD></TR></TABLE>
+<p>... в глобальные свойства/global properties или в свойства
+VirtualDomain, в который вы хотите добавить поддержку PHP.</p></P>
+<B><P><A NAME="faq.installation.compile"></A><B>4. </B>
+Unix: Я установил PHP с использованием RPMS, но он не компилирует с поддержкой БД, нужной мне! Какова причина?</P></B>
+<P>Из-за способа построения PHP 3 нелегко построить/build полностью гибкий PHP RPM.  
+Этот вопрос адресован в PHP 4. Для PHP 3 мы в настоящее время советуем использовать механизм, 
+описанный в файле INSTALL.REDHAT в дистрибутиве PHP.  Если вы продолжаете настаивать не 
+необходимости использования RPM-версии PHP 3, прочтите...</P>
+<P>Упаковщики RPM устанавливают RPMS для инсталяции без поддержки БД, чтобы 
+упростить процесс установки <i>и</i> из-за того, что RPMS использует 
+для файлов директорию /usr/ вместо стандартной /usr/local/. Вы должны 
+сообщить RPM spec-файлу, какие БД поддерживать, и размещение верхнего уровня вашего сервера БД.</P>
+<P>Следующий пример объяснит процесс добавления поддержки для популярного 
+сервера MySQL через использование mod-инсталяции Apache.</P>
+<P>Самом собой, вся эта информация может уточняться для любого сервера БД, 
+поддерживаемого PHP. Мы примем для данного примера, что вы установили MySQL и Apache полностью с помощью RPMS.
+<UL><LI><P>Сначала удалите mod_php3 :<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>rpm -e mod_php3</PRE></TD></TR></TABLE></LI>
+<LI><P>Затем получите исходный rpm и УСТАНОВИТЕ его, НЕ --rebuild
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>rpm -Uvh mod_php3-3.0.5-2.src.rpm</PRE></TD></TR></TABLE></LI>
+<LI><P>Далее, отредактируйте файл <TT>/usr/src/redhat/SPECS/mod_php3.spec</TT></P>
+<P>В разделе %build добавьте поддержку нужной вам БД и путь/path.</P><P>Для MySQL вы добавляете
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>--with-mysql=/usr \</PRE></TD></TR></TABLE>
+<p>Раздел %build будет выглядеть примерно так:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>./configure --prefix=/usr \
+	--with-apxs=/usr/sbin/apxs \
+	--with-config-file-path=/usr/lib \
+	--enable-debug=no \
+	--enable-safe-mode \
+	--with-exec-dir=/usr/bin \
+	--with-mysql=/usr \
+	--with-system-regex</PRE></TD></TR></TABLE></LI>
+<LI><P>После того как эти изменения внесены, постройте бинарный rpm так:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>rpm -bb /usr/src/redhat/SPECS/mod_php3.spec</PRE></TD></TR></TABLE></LI>
+<LI><P>Затем установите rpm<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>rpm -ivh /usr/src/redhat/RPMS/i386/mod_php3-3.0.5-2.i386.rpm</PRE></TD></TR></TABLE></LI></UL>
+<p>Не забудьте рестартовать Apache, и теперь вы получили PHP 3 с 
+поддержкой MySQL с использованием RPM. Заметьте, что, вероятно, 
+намного проще просто выполнить построение/build из дистрибутивного tarball PHP 3 и следовать инструкциям файла
+<TT>INSTALL.REDHAT</TT>, который имеется в этом дистрибутиве.<B><P><A NAME="faq.installation.frontpage"></A><B>5. </B>
+Unix: Я вставил на Apache патч расширений FrontPage, и внезапно PHP 
+перестал работать. Совместим ли PHP с расширениями FrontPage для Apache?</P></B>
+<P>PHP прекрасно работает с расширениями FrontPage. Проблема в том, что патч FrontPage 
+модифицирует некоторые структуры Apache,
+на которых основывается PHP. Рекомпиляция PHP (с использованием 'make clean ; make')
+после применения патча FP должна решить эту проблему.</P>
+<B><P><A NAME="faq.installation.blankscreen"></A><B>6. </B>
+Unix/Windows: Я установил PHP, но когда пытаюсь получить доступ к файлу 
+PHP-скрипта через браузер, появляется чистый экран.</P></B>
+<P>Выполните в браузере 'view source' и вы, вероятно, обнаружите, что можно 
+увидеть исходный код вашего PHP-скрипта. Это означает, что web-сервер не отправляет скрипт в
+PHP для интерпретации. Что-то неверно в конфигурации сервера - проверьте 
+конфигурацию сервера ещё раз в соответствии с инструкциями по установке PHP.</P>
+<B><P><A NAME="faq.installation.500error"></A><B>7. </B>
+Unix/Windows: Я установил PHP, но когда пытаюсь получить доступ к файлу 
+PHP-скрипта через браузер, получаю ошибку 500 сервера.</P></B>
+<P>Иногда не всё получается, когда сервер пытается запустить PHP. Чтобы увидеть 
+сообщение об ошибке, из командной строки перейдите в директорию содержащую исполняемый файл PHP 
+(<TT>php.exe</TT> в Windows) и запустите <TT>php -i</TT>. Если имеются проблемы с запуском PHP,
+то будет выведено соответствующее сообщение об ошибке, что даст 
+вам ключ к дальнейшим действиям. Если вы получили экран, заполненный кодами html (вывод функции
+<A HREF="f/phpinfo.html"><B>phpinfo()</B></A>), то PHP работает,
+а проблема может иметь отношение к конфигурации вашего сервера, которую нужно перепроверить.</P>
+<B><P><A NAME="faq.installation.undefinedsyms"></A><B>8. </B> 
+Некоторые ОС: Я установил PHP без ошибок, но при попытке старта Аpache я получаю ошибки undefined symbol:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>[mybox:user /src/php4] root# apachectl configtest
+ apachectl: /usr/local/apache/bin/httpd Undefined symbols:
+  _compress
+  _uncompress</PRE></TD></TR></TABLE></B>
+<P>В PHP ничего делать не нужно, а проблема касается клиентских библиотек MySQL. 
+Некоторые требуют --with-zlib, другие - нет. Это рассматривается также в MySQL FAQ.</P>
+<B><P><A NAME="faq.installation.cgierror"></A><B>9. </B>
+Windows: Я установил PHP, но при доступе к файлу PHP-скрипта из браузера я получаю ошибку:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>cgi error:
+ The specified CGI application misbehaved by not
+ returning a complete set of HTTP headers.
+ The headers it did return are:</PRE></TD></TR></TABLE></B>
+<P>Это сообщение означает, что PHP не смог вывести вообще ничего. Чтобы увидеть 
+сообщение об ошибке, из командной строки перейдите в директорию содержащую исполняемый файл PHP 
+(<TT>php.exe</TT> в Windows) и запустите <TT>php -i</TT>. Если имеются проблемы с запуском PHP,
+то будет выведено соответствующее сообщение об ошибке, что даст 
+вам ключ к дальнейшим действиям. Если вы получили экран, заполненный кодами html (вывод функции
+<A HREF="f/phpinfo.html"><B>phpinfo()</B></A>), то PHP работает.</P>
+<P>Если PHP работает из командной строки, попытайтесь снова получить доступ 
+к скрипту через браузер. Если не работает по-прежнему, то может быть одно из следующих:</P>
+<UL><LI><P>Доступ PHP-скрипта к файлам <TT>php.exe</TT>, <TT>php4ts.dll</TT>, <TT>php.ini</TT> или
+любым расширениям PHP, которые вы пытаетесь загрузить, таков, что анонимный пользователь internet
+<TT>ISUR_&#60;machinename&#62;</TT> не имеет к ним доступа.</P></LI>
+<LI><P>Файл скрипта не существует (или, возможно, расположен не там, где вы 
+думаете, относительно корневой директории web root). В IIS вы можете 
+отследить эту ошибку вызвав окно 'check file
+exists' при установке отображения скриптов в
+Internet Services Manager. Если файл скрипта не существует, то сервер 
+возвратит ошибку 404. Дополнительным преимуществом является также 
+то, что IIS выполняет для вас всю необходимую аутентификацию на 
+основе разрешений NTLanMan для файла вашего скрипта.</P></LI></UL>
+<B><P><A NAME="faq.install.phpandiis"></A><B>10. </B>
+Windows: Я выполнил все инструкции, но PHP и IIS - таки да - не работают вместе!</P></B>
+<P>Убедитесь, что любой пользователь PHP-скрипта имеет права для запуска <TT>php.exe</TT>! IIS
+использует пользователя anonymous (анонимного), который добавляется в 
+ходе инсталяции IIS. Этот пользователь должен иметь право на запуск <TT>php.exe</TT>. Также любой
+аутентифицированный пользователь должен получать право на выполнение <TT>php.exe</TT>.
+И вы должны указать IIS4, что PHP это машина скриптов.</P>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="databases.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="build.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">Вопросы о базах данных</TD><th WIDTH="34%" VALIGN="top">
+<a href="faq.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Проблемы построения</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

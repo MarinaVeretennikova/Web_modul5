@@ -1,0 +1,56 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Crack</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR>
+<TR><TD WIDTH="10%"><A HREF="cpdf-translate.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="crack-check.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.crack"></A>XI. Функции Crack</h1><A NAME="AEN13108"></A>
+<H1><A NAME="crack.intro">Введение</A></H1>
+<P>Эти функции позволяют использовать библиотеку CrackLib для проверки
+'строгости' пароля.  'Строгость' пароля проверяется проверкой длины, 
+использованием верхнего и нижнего регистров символов и проверкой относительно 
+специфицированного CrackLib-словаря/dictionary.  CrackLib выдаёт также 
+полные диагностические сообщения, помогающие 'усложнить' пароль.</P>
+<H1><a name="crack.requirements">Требования</a></H1>
+<P>Информацию о CrackLib и саму библиотеку можно найти в
+<A HREF="http://www.users.dircon.co.uk/~crypto/" TARGET="_top">http://www.users.dircon.co.uk/~crypto/</A></P>
+<H1><a name="crack.installation">Установка</a></H1>
+<P>Чтобы использовать эти функции, вы обязаны компилировать PHP с поддержкой Crack 
+путём использования опции <TT>--with-crack[=DIR]</TT>.</P>
+<H1><a name="crack.configuration">Конфигурация этапа выполнения</a></H1>
+<P>Это расширение не определяет никаких директив конфигурации.</P>
+<H1><A NAME="crack.resources">Типы ресурсов</A></H1><P>Это расширение не определяет никакие типы ресурсов.</P>
+<H1><A NAME="crack.constants">Предопределённые константы</A></H1><P>Это расширение не определяет никаких констант.</P>
+<H1><A NAME="crack.examples">Примеры</A></H1><P>Следующий пример показывает, как открыть словарь библиотеки CrackLib, 
+проверить данный пароль, запросить диагностическое сообщение и закрыть словарь.
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN13132"></A><h5>Пример 1. CrackLib
+</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+// открыть CrackLib Dictionary
+$dictionary = crack_opendict('/usr/local/lib/pw_dict')
+     or die('Unable to open CrackLib dictionary');
+
+// выполнить проверку пароля
+$check = crack_check($dictionary, 'gx9A2s0x');
+
+// запросить сообщения
+$diag = crack_getlastmessage();
+echo $diag; // 'strong password'
+
+// закрыть словарь
+crack_closedict($dictionary);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+  если <A HREF="crack-check.html"><B>crack_check()</B></A> возвращает <TT><B>TRUE</B>
+</TT>, <A HREF="crack-getlastmessage.html"><B>crack_getlastmessage()</B></A> возвратит 'strong password'.</P></BLOCKQUOTE>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="crack-check.html">crack_check</A> - выполняет скрытую проверку данного пароля</DT>
+<DT><A HREF="crack-closedict.html">crack_closedict</A> - закрывает открытый CrackLib-словарь</DT>
+<DT><A HREF="crack-getlastmessage.html">crack_getlastmessage</A> - возвращает сообщение о последней скрытой проверке</DT>
+<DT><A HREF="crack-opendict.html">crack_opendict</A> - открывает новый CrackLib-словарь</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="cpdf-translate.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="crack-check.html">Вперёд</A></TD></TR>
+<TR><TD WIDTH="33%" VALIGN="top">cpdf_translate</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="funcref.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">crack_check</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

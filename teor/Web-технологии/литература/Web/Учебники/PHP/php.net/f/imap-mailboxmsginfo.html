@@ -1,0 +1,47 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>imap_mailboxmsginfo</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="imap-mail.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="imap-mime-header-decode.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.imap-mailboxmsginfo">imap_mailboxmsginfo</A></H1><A NAME="AEN35166"></A>
+<P>(PHP 3&#62;= 3.0.2, PHP 4)</P><p>imap_mailboxmsginfo - получает информацию о текущем mailbox'е.<A NAME="AEN35169"></A></p>
+<H2>Описание</H2><p>object <B>imap_mailboxmsginfo</B> (int imap_stream)</p>
+<P>Возвращает информацию о текущем mailbox'е. Возвращает <TT><B>FALSE</B></TT> при ошибке.</P>
+<P>Функция <B>imap_mailboxmsginfo()</B> проверяет статус текущего mailbox'а на сервере. Она похожа на 
+<A HREF="imap-status.html"><B>imap_status()</B></A>, но будет также суммировать размер всех сообщений в mailbox'е, что потребует 
+некоторого дополнительного времени. Она возвращает информацию в объекте со 
+следующими свойствами:<A NAME="AEN35183"></A></P><h6>Таблица 1. Mailbox-свойства</h6>
+<TABLE BORDER="1"><TBODY><TR><TD>Date</TD><TD>дата последнего изменения</TD></TR><TR><TD>Driver</TD>
+<TD>драйвер</TD></TR><TR><TD>Mailbox</TD><TD>имя mailbox'а</TD></TR><TR><TD>Nmsgs</TD>
+<TD>количество сообщений</TD></TR><TR><TD>Recent</TD><TD>количество последних сообщений</TD></TR>
+<TR><TD>Unread</TD><TD>количество непрочитанных сообщений</TD></TR><TR><TD>Deleted</TD><TD>количество удалённых сообщений</TD>
+</TR><TR><TD>Size</TD><TD>размер mailbox'а</TD></TR></TBODY></TABLE><TABLE WIDTH="100%" BORDER="0"><TR>
+<TD><A NAME="AEN35212"></A><h5>Пример 1. imap_mailboxmsginfo()</h5>
+<TABLE BORDER="0"  BGCOLOR="#E0E0E0"CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+$mbox = imap_open("{your.imap.host}INBOX","username", "password")
+      or die("can't connect: ".imap_last_error());
+ 
+$check = imap_mailboxmsginfo($mbox);
+ 
+if($check) {
+    print "Date: "    . $check-&#62;Date    ."&#60;br&#62;\n" ;
+    print "Driver: "  . $check-&#62;Driver  ."&#60;br&#62;\n" ;
+    print "Mailbox: " . $check-&#62;Mailbox ."&#60;br&#62;\n" ;
+    print "Messages: ". $check-&#62;Nmsgs   ."&#60;br&#62;\n" ;
+    print "Recent: "  . $check-&#62;Recent  ."&#60;br&#62;\n" ;
+    print "Unread: "  . $check-&#62;Unread  ."&#60;br&#62;\n" ;
+    print "Deleted: " . $check-&#62;Deleted ."&#60;br&#62;\n" ;
+    print "Size: "    . $check-&#62;Size    ."&#60;br&#62;\n" ;
+} else {
+    print "imap_check() failed: ".imap_last_error(). "&#60;br&#62;\n";
+}
+ 
+imap_close($mbox);
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="imap-mail.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="imap-mime-header-decode.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">imap_mail</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.imap.html">Вверх</A></th><TD  WIDTH="33%"ALIGN="right" VALIGN="top">imap_mime_header_decode</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

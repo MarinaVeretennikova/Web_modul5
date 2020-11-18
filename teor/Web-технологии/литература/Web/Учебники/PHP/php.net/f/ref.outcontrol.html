@@ -1,0 +1,48 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Управления Выводом</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%"  BORDER="0"CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="ovrimos-rollback.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="flush.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.outcontrol"></A>LXXIV. Функции управления выводом</h1><A NAME="AEN60762"></A>
+<P>Функции управления выводом позволяют определять, когда вывод будет 
+отправлен из скрипта.  Это можно использовать в различных ситуациях, особенно 
+если вам нужно выслать шапки/headers браузеру, после того как ваш скрипт начал 
+выводить данные. Функции управления выводом не влияют на шапки, высылаемые функциями
+<A HREF="header.html"><B>header()</B></A> или <A HREF="setcookie.html"><B>setcookie()</B></A>,
+только на такие функции, как <A HREF="echo.html"><B>echo()</B></A>, и на данные между блоками PHP-кода.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN60768"></A><h5>Пример 1. Управление выводом</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+ob_start();
+echo "Hello\n";
+
+setcookie ("cookiename", "cookiedata");
+
+ob_end_flush();
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>В приведённом примере вывод из <A HREF="echo.html">
+<B>echo()</B></A> будет сохранён в буфере вывода, пока <A HREF="ob-end-flush.html"><B>ob_end_flush()</B></A> не будет вызвана. Тем временем вызов
+<A HREF="setcookie.html"><B>setcookie()</B></A> успешно сохранил
+cookie без возникновения ошибки. (Вы не можете нормально отправить шапки/headers 
+браузеру, после того как данные уже были отправлены.)</P>
+<P>См. также <A HREF="header.html"><B>header()</B></A> и
+<A HREF="setcookie.html"><B>setcookie()</B></A>.</P>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="flush.html">flush</A> - очищает буфер вывода</DT>
+<DT><A HREF="ob-clean.html">ob_clean</A> - очищает (удаляет) буфер вывода</DT>
+<DT><A HREF="ob-end-clean.html">ob_end_clean</A> - очищает (удаляет) буфер вывода и выключает буферизацию вывода</DT>
+<DT><A HREF="ob-end-flush.html">ob_end_flush</A> - очищает (отправляет) буфер вывода и включает буферизацию вывода</DT>
+<DT><A HREF="ob-flush.html">ob_flush</A> - очищает (отправляет) буфер вывода</DT>
+<DT><A HREF="ob-get-contents.html">ob_get_contents</A> - возвращает содержимое буфера вывода</DT>
+<DT><A HREF="ob-get-length.html">ob_get_length</A> - возвращает длину буфера вывода</DT>
+<DT><A HREF="ob-get-level.html">ob_get_level</A> - возвращает содержащий/nesting уровень механизма буферизации вывода</DT>
+<DT><A HREF="ob-gzhandler.html">ob_gzhandler</A> - ob_start callback-функцию для буфера вывода gzip</DT>
+<DT><A HREF="ob-implicit-flush.html">ob_implicit_flush</A> - включает/выключает неявную очистку</DT>
+<DT><A HREF="ob-start.html">ob_start</A> - включает буферизацию вывода</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="ovrimos-rollback.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="flush.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ovrimos_rollback</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">flush</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

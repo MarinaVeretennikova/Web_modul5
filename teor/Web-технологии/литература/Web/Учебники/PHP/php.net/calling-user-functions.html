@@ -1,0 +1,47 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Вызов Пользовательских Функций</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="phpdevel.html">Назад</A></TD><th WIDTH="80%">
+Приложение E. Расширение РНР</th><TD WIDTH="10%" ALIGN="right">
+<A HREF="phpdevel-errors.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="calling-user-functions">Вызов пользовательских функций</a></H1>
+<P>Для вызова пользовательских функций из встроенной/внутренней функции вы должны 
+использовать функцию <B>call_user_function()</B>.</P>
+<P><B>call_user_function()</B> возвращает SUCCESS при успешном выполнении и FAILURE, если функция не найдена.  
+Вы должны проверять это return-значение!  Если возвращено SUCCESS, вы сами 
+отвечаете за уничтожение retval pval (или возвращение его как return-значения 
+вашей функции). Если возвращено FAILURE, значение retval будет
+undefined, и вы обязаны не использовать его.</P>
+<P>Все внутренние функции, вызывающие пользовательские функции, <i>обязаны</i> 
+быть reentrant (?). Помимо всего прочего это означает, что они обязаны не 
+использовать глобальные или статические переменные.</P>
+<P><B>call_user_function()</B> принимает 6 аргументов:</P>
+<h5><A NAME="calling-user-functions.function-table">HashTable *function_table</A></h5>
+<P>Это хэш-таблица, в которой функция просматривается.</P>
+<h5><A NAME="calling-user-functions.object">pval *object</A></h5>
+<P>Это указатель на объект, в котором функция вызывается. Это должен быть <TT><B>NULL</B></TT>, если
+вызывается глобальная функция. Если это не <TT><B>NULL</B></TT> (т.е.  имеется указатель на объект), аргумент function_table игнорируется и 
+вместо этого берётся из хэша объекта.  Объект *может*
+быть модифицирован функцией, которая вызывается в нём (эта функция будет
+иметь к нему доступ через $this). Если по каким-то причинам вам это не
+нужно, отправляйте копию объекта.</P><h5><A NAME="calling-user-functions.function-name">pval *function_name</A></h5><P>Имя вызываемой функции. Обязано быть pval типа
+IS_STRING с соответствующими установленными значениями в function_name.str.val и в function_name.str.len.<br>
+function_name модифицируется с помощью call_user_function() - оно конвертируется в нижний регистр.
+Если необходимо сохранить регистр символов, отправляйте копию имени функции.</P>
+<h5><A NAME="calling-user-functions.retval">pval *retval</A></h5><P>Указатель на pval-структуру, в которой сохраняется return-значение
+вызванной функции. Структура должна быть предварительно размещена - <B>call_user_function()</B>
+сама НЕ размещает её.</P><h5><A NAME="calling-user-functions.param-count">int param_count</A></h5>
+<P>Количество параметров, передаваемых функции.</P><h5><A NAME="calling-user-functions.params">pval *params[]</A>
+</h5><P>Массив указателей на значения, которые передаются функции как аргументы; 
+первый аргумент имеет смещение 0, второй - 1, и т.д. Этот массив является массивом указателей на pval'ы;  Указатели 
+отправляются as-is/как-есть в функцию, что означает, что, если функция 
+модифицирует свои аргументы, оригинальные значения изменяются (передача по ссылке).
+Если вам не нужно такое поведение, передавайте копию.</P></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="phpdevel.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="phpdevel-errors.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">Расширение PHP</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="phpdevel.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Сообщение об ошибке</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

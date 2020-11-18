@@ -1,0 +1,32 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>pg_select</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="pg-result-status.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="pg-send-query.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="pg-select">pg_select</A></H1><A NAME="AEN67786"></A><P>(только PHP 4 CVS)</P>
+<p>pg_select - выбирает записи.<A NAME="AEN67789"></A></p><H2>Описание</H2><p>array <B>pg_select</B> (resource connection, string table_name, array assoc_array [, int options])</p>
+<P><B>pg_select()</B> выбирает записи, специфицированные в массиве <TT>assoc_array</TT>, имеющем
+<TT>field=&#62;value</TT>. Для успешного запроса функция возвращает массив, содержащий все записи и 
+поля, соответствующие условию, специфицированному параметром <TT>assoc_array</TT>. Если
+<TT>options</TT> специфицирован, <A HREF="pg-convert.html"><B>pg_convert()</B></A> применяется к
+<TT>assoc_array</TT> со специфицированной опцией.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN67814"></A><h5>Пример 1. pg_select</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php 
+    $db = pg_connect ('dbname=foo');
+    // Это безопасно, поскольку $_POST конвертируется автоматически
+    $rec = pg_select($db, 'post_log', $_POST);
+    if ($rec) {
+        echo "Records selected\n";
+        var_dump($rec);
+    }
+    else {
+        echo "User must have sent wrong inputs\n";
+    }
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>эта функция является экспериментальной.</P></BLOCKQUOTE>
+<P>См. также <A HREF="pg-convert.html"><B>pg_convert()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="pg-result-status.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="pg-send-query.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">pg_result_status</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.pgsql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">pg_send_query</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

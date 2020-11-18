@@ -1,0 +1,80 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Аргументы Функций</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="user-functions.html">Назад</A></TD><th WIDTH="80%">Глава 12. Функции</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="f/returning-values.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="functions.arguments">Аргументы функции</a></H1>
+<P>Информация может передаваться в функцию через список аргументов,
+который является списком разделённых запятыми переменных и/или констант.</P>
+<P>PHP поддерживает разбор аргументов по значению (по умолчанию),
+<a href="#functions.arguments.by-reference">разбор по ссылке</a> и
+<a href="#functions.arguments.default">значения по умолчанию</a>. Списки 
+аргументов Variable-length поддерживаются только в PHP 4 и позднее; см. <A HREF="#functions.variable-arg-list">
+Списки аргументов переменного размера </A>и статьи о функциях
+<A HREF="f/func-num-args.html"><B>func_num_args()</B></A>,
+<A HREF="f/func-get-arg.html"><B>func_get_arg()</B></A> и
+<A HREF="f/func-get-args.html"><B>func_get_args()</B></A>. Аналогичный эффект может быть достигнут в PHP 3 путём передачи функции
+массива аргументов:</p><A NAME="AEN5304"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>function takes_array($input)
+{
+echo "$input[0] + $input[1] = ", $input[0]+$input[1];
+}</PRE></TD></TR></TABLE><H2><a name="functions.arguments.by-reference">Создание аргументов, передаваемых по 
+ссылке</a></H2><P>По умолчанию аргументы передаются в функцию по значению (поэтому, если вы 
+изменяете значение аргумента внутри функции, оно не изменяется за пределами 
+этой функции). Если вы хотите дать функции возможность модифицировать свои 
+аргументы, вы обязаны передавать их по ссылке.</P><P>Если вы всегда хотите передавать аргументы по ссылке, вы можете ввести 
+префикс-амперсанд (&#38;) в имени аргумента в определении функции:</p><A NAME="AEN5310"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>function add_some_extra(&#38;$string)
+{
+$string .= 'and something extra.';
+}
+$str = 'This is a string, ';
+add_some_extra($str);
+echo $str;// выводит 'This is a string, and something extra.'</PRE></TD></TR></TABLE>
+<H2><a name="functions.arguments.default">Значения по умолчанию аргументов</a></H2>
+<P>Функция может определить значения по умолчанию в стиле C++ для скалярных аргументов:</p><A NAME="AEN5315"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>function makecoffee ($type = "cappuccino")
+{
+return "Making a cup of $type.\n";
+}
+echo makecoffee ();
+echo makecoffee ("espresso");</PRE></TD></TR></TABLE><P>Вывод будет таким:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>Making a cup of cappuccino.
+Making a cup of espresso.</PRE></TD></TR></TABLE><P>Значение по умолчанию обязано быть константным выражением, а не (например) 
+переменной или членом класса.</P><P>Обратите внимание, что, при использовании аргументов по умолчанию, любые 
+значения по умолчанию должны находиться справа от любых значений не по 
+умолчанию; иначе что-нибудь может работать не так, как ожидалось. 
+Рассмотрим следующий фрагмент кода:</p><A NAME="AEN5321"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>function makeyogurt ($type = "acidophilus", $flavour)
+{
+return "Making a bowl of $type $flavour.\n";
+}
+ 
+echo makeyogurt ("raspberry");   // не будет работать так, как ожидается</PRE></TD></TR></TABLE>
+<P>Вывод этого примера:</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>Warning!: Missing argument 2 in call to makeyogurt() in 
+/usr/local/etc/httpd/htdocs/php3test/functest.html on line 41
+Making a bowl of raspberry.</PRE></TD></TR></TABLE><P>Теперь сравним с этим:</p><A NAME="AEN5326"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>function makeyogurt ($flavour, $type = "acidophilus")
+{
+return "Making a bowl of $type $flavour.\n";
+}
+ 
+echo makeyogurt ("raspberry");   // работает как положено</PRE></TD></TR></TABLE><P>На выводе этого примера:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>Making a bowl of acidophilus raspberry.</PRE></TD></TR></TABLE>
+<H2>Списки аргументов <a name="functions.variable-arg-list">переменного размера</a></H2>
+<P>В PHP 4 имеется поддержка списков аргументов переменного размера/variable-length 
+в пользовательских функциях. Это довольно легко делается функциями <A HREF="f/func-num-args.html">
+<B>func_num_args()</B></A>, <A HREF="f/func-get-arg.html"><B>func_get_arg()</B></A> и
+<A HREF="f/func-get-args.html"><B>func_get_args()</B></A>.</P><P>Специального синтаксиса не нужно, и списки аргументов могут по-прежнему 
+явно предоставляться в определениях функций и будут вести себя как обычно.</P></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366">
+<TD><IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="user-functions.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="f/returning-values.html">Вперёд</A></TD></TR>
+<TR><TD WIDTH="33%" VALIGN="top">Функции</TD><th WIDTH="34%" VALIGN="top"><A HREF="user-functions.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Возвращаемые значения</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

@@ -1,0 +1,38 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>levenshtein</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="join.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="localeconv.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="levenshtein">levenshtein</A></H1><A NAME="AEN77513"></A><P>(PHP 3&#62;= 3.0.17, PHP 4 &#62;= 4.0.1)</P>
+<p>levenshtein - высчитывает расстояние Левенштайна/Levenshtein между двумя строками.<A NAME="AEN77516"></A></p>
+<H2>Описание</H2><p>int <B>levenshtein</B> (string str1, string str2)</p>
+<p>int <B>levenshtein</B> (string str1, string str2, int cost_ins, int cost_rep, int cost_del)</p>
+<p>int <B>levenshtein</B> (string str1, string str2, function cost)</p>
+<P>Эта функция возвращает Levenshtein-дистанцию между двумя строками-аргументами или -1, если одна из строк-аргументов длиннее предела в 255 
+символов (255 должно быть более чем достаточно для имени или словарного 
+сравнения, и никто в здравом уме не будет делать генетический анализ с помощью PHP).</P>
+<P>Levenshtein-дистанция определяется как минимальное количество символов, которые вы должны заместить, вставить или удалить, чтобы трансформировать
+<TT><I>str1</I></TT> в <TT><I>str2</I></TT>. Сложность алгоритма равна <TT>O(m*n)</TT>, где <TT>n</TT> и <TT>m</TT> это длины строк
+<TT><I>str1</I></TT> и <TT><I>str2</I></TT> (несколько лучше по сравнению с
+<A HREF="similar-text.html"><B>similar_text()</B></A>, которая имеет O(max(n,m)**3), но всё же затратно).</P>
+<P>В простейшем случае функция принимает в качестве параметров только две строки и вычисляет только количество операций вставки, замены или удаления, 
+необходимых для трансформации <TT><I>str1</I></TT> в <TT><I>str2</I></TT>.</P>
+<P>Во втором варианте функция принимает три дополнительных параметра, определяющих цену операций вставки, замены или удаления.  Это более общо и 
+адаптивно, чем первый вариант, но не так эффективно.</P><P>Третий вариант (ещё не реализованный) будет самым общим и адаптивным, но 
+также и самым медленным.  В нём будет вызываться пользовательская функция, которая определит стоимость каждой возможной операции.</P>
+<P>Пользовательская функция будет вызвана со следующими аргументами:
+<UL><LI><P>применяемая операция: 'I', 'R' или 'D'</P></LI><LI><P>фактический символ в строке 1</P></LI>
+<LI><P>фактический символ в строке 2</P></LI><LI><P>позиция в строке 1</P></LI>
+<LI><P>позиция в строке 2</P></LI><LI><P>оставшиеся символы в строке 1</P></LI><LI><P>оставшиеся символы в строке 2</P></LI></UL>
+<p>Пользовательская функция должна возвратить положительное целое число, описывающее цену это конкретной операции, но она может определить использование 
+только нескольких из предоставленных аргументов.<P> Подход с пользовательской функцией предоставляет возможность учесть 
+соотношение и/или разницу между определёнными символами, или даже контекст, в котором эти символы появляются, чтобы определить цену операций вставки, 
+замены и удаления, но ценой потери всей оптимизации, достигнутой для регистров cpu и кэша, которая работала в двух других вариантах.</P>
+<P>См. также <A HREF="soundex.html"><B>soundex()</B></A>, <A HREF="similar-text.html"><B>similar_text()</B></A> и
+<A HREF="metaphone.html"><B>metaphone()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="join.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="localeconv.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">join</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.strings.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">localeconv</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

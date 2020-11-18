@@ -1,0 +1,277 @@
+  <HTML>
+  <HEAD>
+  
+  <TITLE>Справочное руководство по MySQL версии 4.1.0-alpha. - G  Регулярные выражения в MySQL</TITLE>
+   <style> code {color:purple} tt {color:green} samp {color:navy} pre {color:maroon} </style> <meta http-equiv="Content-Type" content="text/html; charset=koi8-r">
+  </HEAD>
+  <BODY BGCOLOR=white TEXT=#000000 LINK=#101090 VLINK=#7030B0>
+Go to the <A HREF="manual.ru_Introduction.html">first</A>, <A HREF="manual.ru_Environment_variables.html">previous</A>, <A HREF="manual.ru_GPL_license.html">next</A>, <A HREF="manual.ru_Concept_Index.html">last</A> section, <A HREF="manual.ru_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="Regexp" HREF="manual.ru_toc.html#Regexp">G  Регулярные выражения в MySQL</A></H1>
+
+<P>
+<A NAME="IDX1845"></A>
+<A NAME="IDX1846"></A>
+<A NAME="IDX1847"></A>
+<A NAME="IDX1848"></A>
+
+</P>
+<P>
+Регулярные выражения (regex, regexp) представляют собой мощный способ
+выполнения сложного поиска.
+
+</P>
+<P>
+В MySQL используется расширенная версия предложенной Генри Спенсером
+(Henry  Spencer) реализации регулярных выражений, которая ориентирована на
+соответствие POSIX 1003.2.
+
+</P>
+<P>
+В данном разделе приведен упрощенный справочник; подробности здесь
+опущены. Чтобы получить более точную информацию, обращайтесь к странице
+руководства Генри Спенсера <code>regex(7)</code>, которая включена в дистрибутив
+исходного кода. See section <A HREF="manual.ru_Credits.html#Credits">C  Благодарности</A>.
+
+</P>
+<P>
+Регулярное выражение описывает набор строк. Простейшее регулярное
+выражение не включает в себя специальных символов. Например, регулярное
+выражение <code>hello</code> означает совпадение с <code>hello</code> и ничего больше.
+
+</P>
+<P>
+В нетривиальных регулярных выражениях используются определенные
+специальные конструкции - это обеспечивает возможность получать
+соответствие для более чем одной строки. Например, регулярное выражение
+<code>hello|word</code> соответствует как <code>hello</code>, так и <code>word</code>.
+
+</P>
+<P>
+Можно привести и более сложный пример: регулярному выражению <code>B[an]*s</code>
+соответствует любая из строк: <code>Bananas</code>, <code>Baaaaas</code>, <code>Bs</code>, а также любая другая
+строка, начинающаяся с <code>B</code>, заканчивающаяся на <code>s</code> и содержащая любое
+количество символов <code>a</code> или <code>n</code> между ними.
+
+</P>
+<P>
+В регулярном выражении могут использоваться любые специальные
+символы/структуры из числа приведенных ниже:
+
+</P>
+<DL COMPACT>
+
+<DT><code>^</code>
+<DD>
+Соответствие началу строки.
+
+
+<pre>
+mysql&#62; SELECT "fo\nfo" REGEXP "^fo$"; 	-&#62; 0
+mysql&#62; SELECT "fofo" REGEXP "^fo"; 	-&#62; 1
+</pre>
+
+<DT><code>$</code>
+<DD>
+Соответствие концу строки.
+
+<pre>
+mysql&#62; SELECT "fo\no" REGEXP "^fo\no$"; -&#62; 1
+mysql&#62; SELECT "fo\no" REGEXP "^fo$"; 	-&#62; 0
+</pre>
+
+<DT><code>.</code>
+<DD>
+Соответствие любому символу (включая перевод строки).
+
+<pre>
+mysql&#62; SELECT "fofo" REGEXP "^f.*"; 	-&#62; 1
+mysql&#62; SELECT "fo\nfo" REGEXP "^f.*"; 	-&#62; 1
+</pre>
+
+<DT><code>a*</code>
+<DD>
+Соответствие любой последовательности из нуля или более символов "a".
+
+<pre>
+mysql&#62; SELECT "Ban" REGEXP "^Ba*n"; 	-&#62; 1
+mysql&#62; SELECT "Baaan" REGEXP "^Ba*n"; 	-&#62; 1
+mysql&#62; SELECT "Bn" REGEXP "^Ba*n"; 	-&#62; 1
+</pre>
+
+<DT><code>a+</code>
+<DD>
+Соответствие любой последовательности из одного или более символов "a ".
+
+<pre>
+mysql&#62; SELECT "Ban" REGEXP "^Ba+n"; 	-&#62; 1
+mysql&#62; SELECT "Bn" REGEXP "^Ba+n"; 	-&#62; 0
+</pre>
+
+<DT><code>a?</code>
+<DD>
+Соответствие как нулю, так и одному символу "a".
+
+
+<pre>
+mysql&#62; SELECT "Bn" REGEXP "^Ba?n"; 	-&#62; 1
+mysql&#62; SELECT "Ban" REGEXP "^Ba?n"; 	-&#62; 1
+mysql&#62; SELECT "Baan" REGEXP "^Ba?n"; 	-&#62; 0
+</pre>
+
+<DT><code>de|abc</code>
+<DD>
+Соответствие как последовательности  de, так и последовательности  abc.
+
+<pre>
+mysql&#62; SELECT "pi" REGEXP "pi|apa"; 		-&#62; 1
+mysql&#62; SELECT "axe" REGEXP "pi|apa"; 		-&#62; 0
+mysql&#62; SELECT "apa" REGEXP "pi|apa"; 		-&#62; 1
+mysql&#62; SELECT "apa" REGEXP "^(pi|apa)$"; 	-&#62; 1
+mysql&#62; SELECT "pi" REGEXP "^(pi|apa)$"; 	-&#62; 1
+mysql&#62; SELECT "pix" REGEXP "^(pi|apa)$"; 	-&#62; 0
+</pre>
+
+<DT><code>(abc)*</code>
+<DD>
+Соответствие нулю или более вхождениям последовательности abc.
+
+<pre>
+mysql&#62; SELECT "pi" REGEXP "^(pi)*$"; 	-&#62; 1
+mysql&#62; SELECT "pip" REGEXP "^(pi)*$"; 	-&#62; 0
+mysql&#62; SELECT "pipi" REGEXP "^(pi)*$"; 	-&#62; 1
+</pre>
+
+<DT><code>{1}</code>
+<DD>
+<DT><code>{2,3}</code>
+<DD>
+Существует более общий способ написания регулярных выражений, позволяющий
+установить соответствия для нескольких вхождений предшествующего элемента.
+
+<DL COMPACT>
+
+<DT><code>a*</code>
+<DD>
+Можно записать как a{0,}.
+
+<DT><code>a+</code>
+<DD>
+Можно записать как a{1,}.
+
+<DT><code>a?</code>
+<DD>
+Можно записать как a{0,1}.
+</DL>
+
+Точнее говоря, элемент, за которым следует ограничение, содержащее одно
+целое число <code>i</code> без запятой, соответствует последовательности, в точности
+состоящей из <code>i</code> вхождений данного элемента. Если за элементом следует
+ограничение, содержащее одно число <code>i</code> и запятую, то устанавливается
+соответствие для последовательности, содержащей <code>i</code> или более вхождений
+данного элемента. Если за элементом следует ограничение, содержащее два
+целых числа <code>i</code> и <code>j</code>, то устанавливается соответствие для последовательности
+от <code>i</code> до <code>j</code> (включительно) вхождений данного элемента. Оба аргумента должны
+находится в диапазоне от <code>0</code> до <code>RE_DUP_MAX</code> (по умолчанию 255) включительно.
+Если существуют оба аргумента, то второй должен быть больше первого или
+равен ему.
+
+<DT><code>[a-dX]</code>
+<DD>
+<DT><code>[^a-dX]</code>
+<DD>
+Устанавливает соответствие для любого символа, являющегося (или не
+являющегося, если используется <code>^</code>) символом <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code> или <code>X</code>. Для
+литерального включения символа <code>]</code> следует сразу же после него написать
+открывающую скобку <code>[</code>. Для литерального включения символа <code>-</code> он должен быть
+написан первым или последним. Таким образом, выражение <code>[0-9]</code> устанавливает
+соответствие для любой десятичной цифры. Любой символ, для которого не
+задано определенное значение внутри пары скобок <code>[]</code>, не имеет специального
+значения и совпадает только с самим собой.
+
+
+<pre>
+mysql&#62; SELECT "aXbc" REGEXP "[a-dXYZ]"; 	-&#62; 1
+mysql&#62; SELECT "aXbc" REGEXP "^[a-dXYZ]$"; 	-&#62; 0
+mysql&#62; SELECT "aXbc" REGEXP "^[a-dXYZ]+$"; 	-&#62; 1
+mysql&#62; SELECT "aXbc" REGEXP "^[^a-dXYZ]+$"; 	-&#62; 0
+mysql&#62; SELECT "gheis" REGEXP "^[^a-dXYZ]+$"; 	-&#62; 1
+mysql&#62; SELECT "gheisa" REGEXP "^[^a-dXYZ]+$"; 	-&#62; 0
+</pre>
+
+<DT><code>[[.characters.]]</code>
+<DD>
+Последовательность символов данного элемента сравнения. Эта
+последовательность представляет собой единственный элемент из списка в
+выражении в скобках. Выражение в скобках, содержащее многосимвольный
+сравнивающий элемент, может, следовательно, искать соответствие более, чем
+одного, например, если последовательность сравнения включает в себя
+элемент сравнения <code>ch</code>, то регулярное выражение <code>[[.ch.]]*c</code> устанавливает
+соответствие с первыми пятью символами выражения <code>chchcc</code>.
+
+<DT><code>[=character_class=]</code>
+<DD>
+Класс эквивалентности, означающий, что последовательности символов всех
+элементов сравнения, включенных в данный класс, эквивалентны между собой.
+Например, если <code>o</code> и <code>(+)</code> являются членами класса эквивалентности, то
+последовательности <code>[[=o=]]</code>, <code>[[=(+)=]]</code> и <code>[o(+)]</code> все являются синонимичными.
+Класс эквивалентности может не быть конечной точкой диапазона.
+
+<DT><code>[:character_class:]</code>
+<DD>
+Имя класса символов, заключенное внутри выражения в скобках <code>[: имя :]</code>,
+обозначает список всех символов, принадлежащих данному классу. Имена
+стандартных классов символов следующие:
+
+<TABLE BORDER WIDTH="100%">
+<TR><TD><strong>Имя</strong> </TD><TD> <strong>Имя</strong> </TD><TD> <strong>Имя</strong>
+</TD></TR>
+<TR><TD>alnum </TD><TD> digit </TD><TD> punct
+</TD></TR>
+<TR><TD>alpha </TD><TD> graph </TD><TD> space
+</TD></TR>
+<TR><TD>blank </TD><TD> lower </TD><TD> upper
+</TD></TR>
+<TR><TD>cntrl </TD><TD> print </TD><TD> xdigit
+</TD></TR>
+</TABLE>
+
+Они обозначают классы символов, определенные на странице <code>ctype(3)</code>. Локаль
+может предоставлять другие классы. Класс символов не может использоваться
+как конечная точка диапазона.
+
+
+<pre>
+mysql&#62; SELECT "justalnums" REGEXP "[[:alnum:]]+"; 	-&#62; 1
+mysql&#62; SELECT "!!" REGEXP "[[:alnum:]]+"; 		-&#62; 0
+</pre>
+
+<DT><code>[[:&#60;:]]</code>
+<DD>
+<DT><code>[[:&#62;:]]</code>
+<DD>
+Эти выражения устанавливают соответствие с нулевой строкой в начале и в
+конце слова соответственно. Слово определяется как последовательность
+символов слова, которой не предшествуют и за которой не следуют символы
+слова. Под символом слова понимается любая буква или цифра (как определено
+в <code>ctype(3)</code>) или подчеркивание (<code>_</code>).
+
+
+<pre>
+mysql&#62; SELECT "a word a" REGEXP "[[:&#60;:]]word[[:&#62;:]]"; 		  -&#62; 1
+mysql&#62; SELECT "a xword a" REGEXP "[[:&#60;:]]word[[:&#62;:]]"; 		  -&#62; 0
+</pre>
+
+</DL>
+
+
+<pre>
+mysql&#62; SELECT "weeknights" REGEXP "^(wee|week)(knights|nights)$"; -&#62; 1
+</pre>
+
+<P><HR><P>
+Go to the <A HREF="manual.ru_Introduction.html">first</A>, <A HREF="manual.ru_Environment_variables.html">previous</A>, <A HREF="manual.ru_GPL_license.html">next</A>, <A HREF="manual.ru_Concept_Index.html">last</A> section, <A HREF="manual.ru_toc.html">table of contents</A>.
+ </BODY>
+ </HTML>

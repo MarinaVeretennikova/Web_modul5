@@ -1,0 +1,154 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>Использование PHP</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="build.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="html.html">Вперёд</A></TD></TR></TABLE></TD></TR>
+<TR BGCOLOR="#333366"><TD><IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE>
+</TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="faq.using">Глава 50. Использование PHP</A></H1><P>В этом разделе собраны наиболее часто встречающиеся при написании 
+PHP-скриптов ошибки.</P><DL><DT>1. <A HREF="#faq.using.anyform">Я хотел бы написать общий PHP-скрипт, обрабатывающий данные из любой 
+формы. Как мне узнать, какие переменные метода POST доступны?</A></DT>
+<DT>2. <A HREF="#faq.using.singlequotes">Мне необходимо конвертировать одинарные кавычки (') в backslash'и с 
+одинарными кавычками. Как это можно сделать с помощью регулярного выражения?</A></DT>
+<DT>3. <A HREF="#faq.using.wrong-order">Когда я выполняю следующие действия, вывод печатается в неправильном порядке:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>function myfunc($argument)
+{
+    echo $argument + 10;
+}
+$variable = 10;
+echo "myfunc($variable) = " . myfunc($variable);</PRE></TD></TR></TABLE>что происходит?</A>
+<DT>4. <A HREF="#faq.using.newlines">Эй, что происходит с моими символами newline?
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;pre&#62;
+&#60;?php echo "This should be the first line."; ?&#62;
+&#60;?php echo "This should show up after the new line above."; ?&#62;
+&#60;/pre&#62;</PRE></TD></TR></TABLE></A></DT>
+<DT>5. <A HREF="#faq.using.headers-sent">Я получаю сообщение 'Предупреждение!: Cannot send session cookie - headers 
+already sent...' или 'Cannot add header information - headers already sent...'.</A></DT>
+<DT>6. <A HREF="#faq.using.header">Мне нужен прямой доступ к информации шапки/header запроса. Как это сделать?</A></DT>
+<DT>7. <A HREF="#faq.using.authentication">Когда я пытаюсь использовать аутентификацию совместно с IIS, я получаю 
+'No Input file specified'.</A></DT><DT>8. <A HREF="#faq.using.netscape">Мой PHP-скрипт работает на IE под Lynx, но на Netscape часть вывода 
+теряется. Если я выполняю &quot;View Source&quot;, я вижу содержимое в IE, но не в Netscape.</A></DT>
+<DT>9. <A HREF="#faq.using.mixml">Как мне смешать XML и PHP? Он жалуется на мои тэги &lt;?xml&gt;!</A></DT>
+<DT>10. <A HREF="#faq.using.editor">Как работать с PHP во FrontPage или другом HTML-редакторе, который настаивает на удалении моего кода?</A></DT>
+<DT>11. <A HREF="#faq.using.variables">Где можно найти полный список предустановленных переменных, и почему они 
+не задокументированы в документации PHP?</A></DT>
+<DT>12. <A HREF="#faq.using.cgi-vars">Я пытаюсь получить доступ к одной из стандартных переменных CGI (таких 
+как $DOCUMENT_ROOT или $HTTP_REFERER) в пользовательской функции, и не могу их найти. Что не так?</A></DT></DL>
+<B><P><A NAME="faq.using.anyform"></A><B>1. </B>
+Я хотел бы написать общий PHP-скрипт, обрабатывающий данные из любой 
+формы. Как мне узнать, какие переменные метода POST доступны?</P></B>
+<P>Убедитесь, что <A HREF="configuration.html#ini.track-vars">track_vars</A> включена в вашем файле
+<TT>php.ini</TT>. Начиная с PHP 4.0.3, эта возможность всегда on/включена. Когда <TT>track_vars</TT> on,
+она создаёт некоторые ассоциативные массивы, самый важный из них: <TT>$_POST</TT> (он используется для вызова из
+<TT>$HTTP_POST_VARS</TT> в <TT>PHP</TT>-версиях до 4.1.0). Так, чтобы написать общий скрипт для обработки переменных 
+метода POST, вам необходимо что-нибудь такое:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>foreach ($_POST as $var =&#62; $value) {
+    echo "$var = $value&#60;br&#62;\n";
+}</PRE></TD></TR></TABLE><B><P><A NAME="faq.using.singlequotes"></A><B>2. </B>
+Мне необходимо конвертировать одинарные кавычки (') в backslash'и с 
+одинарными кавычками. Как это можно сделать с помощью регулярного выражения?</P></B>
+<P>Прежде всего просмотрите функцию <A HREF="f/addslashes.html"><B>addslashes()</B></A>.
+Она делает в точности то, что вам нужно. Вы также должны просмотреть директиву
+<A HREF="configuration.html#ini.magic-quotes-gpc">magic_quotes_gpc</A> в файле <TT>php.ini</TT>.</P>
+<B><P><A NAME="faq.using.wrong-order"></A><B>3. </B>
+Когда я выполняю следующие действия, вывод печатается в неправильном порядке:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>function myfunc($argument)
+{
+    echo $argument + 10;
+}
+$variable = 10;
+echo "myfunc($variable) = " . myfunc($variable);</PRE></TD></TR></TABLE>что происходит?</B>
+<P>Чтобы иметь возможность использовать в выражении результаты работы вашей 
+функции (такие как конкатенация с другими строками в предыдущем примере), вам необходимо
+<I>return\возвратить</I> значение, а не <A HREF="f/echo.html"><B>echo()</B></A> его.</P>
+<B><P><A NAME="faq.using.newlines"></A><B>4. </B>Эй, что происходит с моими символами newline?
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;pre&#62;
+&#60;?php echo "This should be the first line."; ?&#62;
+&#60;?php echo "This should show up after the new line above."; ?&#62;
+&#60;/pre&#62;</PRE></TD></TR></TABLE></B>
+<P>В PHP блок кода завершается символами &quot;?&gt;&quot; или &quot;?&gt;\n&quot; (где \n означает 
+newline/символ новой строки). Так, в приведённом примере, 
+echo-предложения будут на одной строке, так как PHP опускает символы 
+newline после конца блока. Это означает, что необходимо вставить 
+дополнительный newline после каждого блока кода PHP, что заставить РНР выводить новые строки.</P>
+<P>Почему PHP этого не делает? Потому что при форматировании нормального 
+HTML это обычно облегчает вам жизнь, поскольку эти newline вам не нужны, 
+а иначе пришлось бы создавать строки огромной длины или как-нибудь иначе 
+делать исходник страницы нечитабельным, чтобы получить нужный эффект.</P>
+<B><P><A NAME="faq.using.headers-sent"></A><B>5. </B>
+Я получаю сообщение 'Предупреждение!: Cannot send session cookie - headers 
+already sent...' или 'Cannot add header information - headers already sent...'.</P></B>
+<P>Функциям <A HREF="f/header.html"><B>header()</B></A>, 
+<A HREF="f/setcookie.html"><B>setcookie()</B></A> и функциям сессии необходимо добавлять
+шапки/headers в поток вывода. Но шапки 
+могут высылаться только до отправки любого другого содержимого. 
+Проверьте, не высылает ли ваш скрипт шапки уже после высылки содержимого.</P>
+<B><P><A NAME="faq.using.header"></A><B>6. </B>
+Мне нужен прямой доступ к информации шапки/header запроса. Как это сделать?</P></B>
+<P>Функция <A HREF="f/getallheaders.html"><B>getallheaders()</B></A> сделает это,
+если вы запускаете PHP как Apache-модуль. Так, следующий участок кода покажет вам все шапки/headers запроса:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$headers = getallheaders();
+foreach ($headers as $name =&#62; $content) {
+    echo "headers[$name] = $content&#60;br&#62;\n";
+}</PRE></TD></TR></TABLE>
+<B><P><A NAME="faq.using.authentication"></A><B>7. </B>
+Когда я пытаюсь использовать аутентификацию совместно с IIS, я получаю 'No Input file specified'.</P></B>
+<P>Здесь модель безопасности IIS терпит неудачу. Это проблема, общая для всех 
+CGI-программ, работающих под IIS. Здесь нужно создать обычный HTML-файл 
+(не разбираемый PHP) как страницу для входа в аутентифицируемой 
+директории. Затем используйте тэг META для перенаправления на 
+PHP-страницу или сделайте ссылку на PHP-страницу. Тогда PHP распозн&#769;ает 
+аутентификацию корректно. С модулем ISAPI проблем не возникает. Это не 
+должно влиять на другие NT web-серверы. См. дополнительно 
+<A HREF="http://support.microsoft.com/support/kb/articles/q160/4/22.asp" TARGET="_top">http://support.microsoft.com/support/kb/articles/q160/4/22.asp</A>.</P>
+<B><P><A NAME="faq.using.netscape"></A><B>8. </B>
+Мой PHP-скрипт работает на IE под Lynx, но на Netscape часть вывода 
+теряется. Если я выполняю &quot;View Source&quot;, я вижу содержимое в IE, но не в Netscape.</P></B>
+<P>Netscape более строг в отношении html-тэгов (таких как table), нежели 
+IE. Может помочь запуск вашего html-вывода через html validator, такой как 
+<A HREF="http://validator.w3.org/" TARGET="_top">validator.w3.org</A>. Например, это может происходить из-за
+отсутствия закрывающего тэга &lt;/table&gt;.</P>
+<P>Также и IE и Lynx игнорируют любые NUL'и (<TT>\0</TT>) в потоке HTML, а Netscape - нет. Лучший способ
+проверить это - скомпилировать версию <a href="commandline.html">командной строки</a> 
+PHP (известную также как CGI-версия) и запустить ваш скрипт из командной 
+строки. В *nix - пропустите его через <TT>od -c</TT> и посмотрите на любые символы <TT>\0</TT>. Если вы
+в Windows, необходимо найти редактор или другую программу, которая 
+позволяет просматривать двоичные файлы. Когда Netscape обнаруживает NUL 
+в файле, он обычно ничего больше не выводит на данной строке, а IE и Lynx - выводят.</P>
+<B><P><A NAME="faq.using.mixml"></A><B>9. </B>Как мне смешать XML и PHP? Он жалуется на мои тэги &lt;?xml&gt;!</P></B>
+<P>Вам необходимо выключить краткие тэги/short tags, установив
+<A HREF="configuration.html#ini.short-open-tag">short_tags</A> в 0 в файле <TT>php.ini</TT>, или
+использовать подходящую директиву Apache. Вы можете использовать и раздел &lt;File&gt;, чтобы делать это селективно.</P>
+<B><P><A NAME="faq.using.editor"></A><B>10. </B>
+Как работать с PHP во FrontPage или другом HTML-редакторе, который настаивает на удалении моего кода?</P></B>
+<P>Проще всего включить использование ASP-тэгов в вашем коде PHP. Это позволит 
+использовать ограничители кода &lt;% и %&gt; в стиле ASP. Некоторые популярные 
+HTML-реакторы обрабатывают эту ситуацию более интеллигентно (на данный 
+момент). Чтобы включить тэги в стиле ASP, вы должны установить переменную
+<A HREF="configuration.html#ini.asp-tags">asp_tags</A> в <TT>php.ini</TT> или использовать подходящую
+директиву Apache.</P><B><P><A NAME="faq.using.variables"></A><B>11. </B>
+Где можно найти полный список предустановленных переменных, и почему они не задокументированы в документации PHP?</P>
+</B><P>Лучше всего вставить часть <TT>&#60;?php phpinfo(); ?&#62;</TT> на страницу
+и загрузить её. Это&nbsp; покажет все виды информации о вашей 
+установке PHP, включая список переменных окружения, а также специальные 
+переменные, установленные вашим web-сервером. Этот список действительно 
+не может быть задокументирован в документации PHP, поскольку он будет отличаться для каждого сервера.</P>
+<B><P><A NAME="faq.using.cgi-vars"></A><B>12. </B>
+Я пытаюсь получить доступ к одной из стандартных переменных CGI (таких 
+как $DOCUMENT_ROOT или $HTTP_REFERER) в пользовательской функции, и не могу их найти.<br>Что не так?</P></B>
+<P>Переменные окружения являются нормальными глобальными переменными, поэтому вы 
+обязаны либо объявлять их как глобальные переменные в вашей функции
+(используя &quot;<TT>global $DOCUMENT_ROOT;</TT>&quot;, например) или использовать
+массив глобальных переменных (т.е. &quot;<TT>$GLOBALS["DOCUMENT_ROOT"]</TT>".</P>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="build.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="html.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">Проблемы построения</TD><th WIDTH="34%" VALIGN="top">
+<a href="faq.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">PHP и HTML</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

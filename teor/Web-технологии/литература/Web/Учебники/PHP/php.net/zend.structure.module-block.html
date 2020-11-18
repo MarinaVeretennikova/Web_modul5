@@ -1,0 +1,136 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Объявление Блока Zend-Модуля</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="zend.structure.function-block.html">Назад</A></TD><th WIDTH="80%">Глава 32. Исходные Ресурсы. Обсуждение.</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="zend.structure.get-module.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="zend.structure.module-block">Объявление блока Zend-модуля</A></H1>
+<P>Этот блок хранится в структуре <TT>zend_module_entry</TT> и содержит всю информацию, необходимую для описания содержимого этого модуля 
+для Zend. Вы можете просмотреть внутреннее определение этого модуля в Листинге 9.6.</P>
+<A NAME="AEN85674"></A><h5>Рисунок 32-4. Внутреннее объявление <TT>zend_module_entry</TT>.</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>typedef struct _zend_module_entry zend_module_entry;
+
+struct _zend_module_entry {
+    unsigned short size;
+    unsigned int zend_api;
+    unsigned char zend_debug;
+    unsigned char zts;
+    char *name;
+    zend_function_entry *functions;
+    int (*module_startup_func)(INIT_FUNC_ARGS);
+    int (*module_shutdown_func)(SHUTDOWN_FUNC_ARGS);
+    int (*request_startup_func)(INIT_FUNC_ARGS);
+    int (*request_shutdown_func)(SHUTDOWN_FUNC_ARGS);
+    void (*info_func)(ZEND_MODULE_INFO_FUNC_ARGS);
+    char *version;
+    int (*global_startup_func)(void);
+    int (*global_shutdown_func)(void);
+
+[ Остальная часть этой структуры здесь не представляет интереса ]
+
+};</PRE></TD></TR></TABLE><br><A NAME="AEN85678"></A><TABLE BORDER="1"><TR><TH WIDTH="37%">Вхождение</TH>
+<TH WIDTH="63%">Описание</TH></TR><TR><TD WIDTH="37%"><TT>size</TT>, <TT>zend_api</TT>,
+<TT>zend_debug</TT> и <TT>zts</TT></TD><TD WIDTH="63%">Обычно заполняется <TT>"STANDARD_MODULE_HEADER"'ом</TT>, который заполняет эти четыре члена размером всего zend_module_entry,
+<TT>ZEND_MODULE_API_NO</TT>, тем, построение это для отладки или нормальное (<TT>ZEND_DEBUG</TT>), и
+включён ли ZTS (<TT>USING_ZTS</TT>).</TD></TR><TR><TD WIDTH="37%"><TT>name</TT></TD>
+<TD WIDTH="63%">Содержит имя модуля (например, <TT>"File functions"</TT>, <TT>"Socket functions"</TT>,
+<TT>"Crypt"</TT>, etc.). Это имя показывается в <A HREF="f/phpinfo.html"><B>phpinfo()</B></A>
+в разделе "Additional Modules/Дополнительные Модули&quot;.</TD></TR><TR><TD WIDTH="37%"><TT>functions</TT>
+</TD><TD WIDTH="63%">Указывает на блок Zend-функции, обсуждённый в предыдущем разделе.</TD></TR>
+<TR><TD WIDTH="37%"><TT>module_startup_func</TT></TD><TD WIDTH="63%">Эта функция вызывается один раз при инициализации модуля и может 
+использоваться для выполнения предшествующих шагов инициализации (таких 
+как начальное выделение памяти и т.п.). Для указания на неудачу в 
+ходе инициализации возвращается <TT>FAILURE</TT>; иначе - <TT>SUCCESS</TT>. Для маркировки этого поля как неиспользуемого/unused применяйте
+<TT>NULL</TT>. Для объявления функции используйте макрос <TT>ZEND_MINIT</TT>.</TD></TR><TR><TD WIDTH="37%">
+<TT>module_shutdown_func</TT></TD><TD WIDTH="63%">Эта функция вызывается один раз при выключения/shutdown модуля и может 
+использоваться для выполнения предшествующих шагов деинициализации (таких как высвобождение памяти). Это пара к
+<B >module_startup_func()</B>. Для указания на неудачу в ходе инициализации возвращается <TT>FAILURE</TT>;
+иначе - <TT>SUCCESS</TT>. Для маркировки этого поля как неиспользуемого/unused применяйте
+<TT>NULL</TT>. Для объявления функции используйте макрос <TT>ZEND_MSHUTDOWN</TT>.</TD></TR>
+<TR><TD WIDTH="37%"><TT>request_startup_func</TT></TD><TD WIDTH="63%">Эта функция вызывается при каждом запросе страницы и может 
+использоваться для выполнения предшествующих шагов инициализации, 
+необходимых для обработки запроса. Для указания на неудачу здесь 
+возвращается <TT>FAILURE</TT>; иначе - <TT>SUCCESS</TT>. <I>Примечание:</I> Поскольку динамически загружаемые модули загружаются только при запросе 
+страниц, функция старта запроса вызывается сразу после функции старта модуля/module
+startup (оба события инициализации возникают одновременно). Для маркировки этого поля как неиспользуемого/unused применяйте
+<TT>NULL</TT>. Для объявления функции используйте макрос <TT>ZEND_RINIT</TT>.</TD></TR><TR>
+<TD WIDTH="37%"><TT>request_shutdown_func</TT></TD><TD WIDTH="63%">Эта функция вызывается один раз после каждого запроса страницы и
+работает как парная функция для <B>request_startup_func()</B>. Для указания на неудачу здесь возвращается
+<TT>FAILURE</TT>; иначе - <TT>SUCCESS</TT>. <I>Примечание:</I> Поскольку динамически загружаемые модули загружаются только при запросе 
+страниц, после запроса shutdown-функции сразу идёт вызов обработчика отключения модуля
+(оба события деинициализации возникают одновременно). Для маркировки этого поля как неиспользуемого/unused применяйте
+<TT>NULL</TT>. Для объявления функции используйте макрос <TT>ZEND_RSHUTDOWN</TT>.</TD></TR><TR>
+<TD WIDTH="37%"><TT>info_func</TT></TD><TD WIDTH="63%">Если <A HREF="f/phpinfo.html">
+<B>phpinfo()</B></A> вызывается в скрипте, Zend циклически проходит по всем загружаемым модулям и вызывает эту функцию.
+Затем каждый модуль имеет шанс оставить свой собственный "отпечаток"
+на странице вывода.  Обычно это используется для дампа/dump 
+информации окружения или статической информации. Для маркировки этого поля как неиспользуемого/unused применяйте NULL. Для объявления функции используйте макрос
+<TT>ZEND_MINFO</TT>.</TD></TR><TR><TD WIDTH="37%"><TT>version</TT></TD><TD WIDTH="63%">Версия модуля. Вы можете использовать
+<TT>NO_VERSION_YET</TT>, если пока не хотите задать номер версии модуля, но мы рекомендуем добавлять 
+здесь строку версии. Такая строка может выглядеть примерно так (в хронологическом порядке):
+<TT>"2.5-dev"</TT>, <TT>"2.5RC1"</TT>, <TT>"2.5"</TT> или <TT>"2.5pl3"</TT>.</TD></TR><TR>
+<TD WIDTH="37%"><TT>global_startup_func</TT></TD><TD WIDTH="63%">Функции глобального старта используются редко. Вы обычно должны
+пропускать оставшуюся часть этой структуры, размещая макрос <TT>STANDARD_MODULE_PROPERTIES</TT>.
+Для маркировки этого поля как неиспользуемого/unused применяйте NULL. Для объявления функции используйте макрос
+<TT>ZEND_GINIT</TT>.</TD></TR><TR><TD WIDTH="37%"><TT>global_shutdown_func</TT></TD><TD WIDTH="63%">Для
+маркировки этого поля как неиспользуемого/unused применяйте NULL. Для объявления функции используйте макрос
+<TT>ZEND_GSHUTDOWN</TT>.</TD></TR><TR><TD WIDTH="37%">Остальные элементы структуры</TD><TD WIDTH="63%">Они
+используются внутренне и могут быть заполнены с помощью макроса <TT>STANDARD_MODULE_PROPERTIES_EX</TT>.
+Вы не должны присваивать им какие-либо значения. Используйте <TT>STANDARD_MODULE_PROPERTIES_EX</TT>
+только тогда, когда используете startup и shutdown-функции; иначе используйте непосредственно
+<TT>STANDARD_MODULE_PROPERTIES</TT>.</TD></TR></TABLE>
+<P>В нашем примере эта структура реализуется так:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>zend_module_entry firstmod_module_entry =
+{
+    STANDARD_MODULE_HEADER,
+    "First Module",
+    firstmod_functions,
+    NULL, NULL, NULL, NULL, NULL,
+    NO_VERSION_YET,
+    STANDARD_MODULE_PROPERTIES,
+};</PRE></TD></TR></TABLE>
+<p>В своей основе это простейший и минимальный набор значений, который вы 
+можете использовать. Имя модуля устанавливается в <TT>First  Module</TT>, затем делается ссылка на список функций, после чего все startup и shutdown-функции 
+маркируются как неиспользуемые.</p>
+<P>Для справочных целей вы можете найти список макросов, участвующих в 
+объявлении startup и shutdown-функций, в Таблице 9.3. Они пока не 
+используются в нашем базовом примере, но будут продемонстрированы позднее. 
+Вы должны использовать эти макросы для объявления ваших startup и
+shutdown-функций, так как они требуют передачи специальных аргументов
+(<TT>INIT_FUNC_ARGS</TT> и <TT>SHUTDOWN_FUNC_ARGS</TT>), которые автоматически включаются в объявление функции, когда используются с
+предопределёнными макросами. Если вы объявляете вашу функцию самостоятельно, 
+а PHP-разработчики решат, что необходимо изменение списка аргументов,
+вы должны будете изменить исходный код ваших модулей, чтобы обеспечить совместимость.</P>
+<A NAME="AEN85787"></A><h6>Таблица 32-5. Макросы для объявления Startup и Shutdown-функций</h6>
+<A NAME="AEN85789"></A><TABLE BORDER="1"><TR><th WIDTH="41%">Макрос</th><th WIDTH="59%">Описание</th></TR>
+<TR><TD WIDTH="41%"><TT>ZEND_MINIT(module)</TT></TD><TD WIDTH="59%">Объявление функции для старта модуля. Генерируемое имя будет
+<TT>zend_minit_&#60;module&#62;</TT> (например, <TT>zend_minit_first_module</TT>). Используется
+в сочетании с <TT>ZEND_MINIT_FUNCTION</TT>.</TD></TR><TR><TD WIDTH="41%"><TT>ZEND_MSHUTDOWN(module)</TT></TD>
+<TD WIDTH="59%">Объявление функции для отключения модуля. Генерируемое имя будет <TT>zend_mshutdown_&#60;module&#62;</TT>
+(например, <TT>zend_mshutdown_first_module</TT>). Используется в сочетании с <TT>ZEND_MSHUTDOWN_FUNCTION</TT>.</TD>
+</TR><TR><TD WIDTH="41%"><TT>ZEND_RINIT(module)</TT></TD><TD WIDTH="59%"> Объявляет функцию для старта
+запроса. Генерируемое имя будет <TT>zend_rinit_&#60;module&#62;</TT> (например, <TT>zend_rinit_first_module</TT>
+). Используется в сочетании с <TT>ZEND_RINIT_FUNCTION</TT>.</TD></TR><TR><TD WIDTH="41%">
+<TT>ZEND_RSHUTDOWN(module)</TT></TD><TD WIDTH="59%">Объявляет функцию для отключения запроса. Генерируемое имя будет
+<TT>zend_rshutdown_&#60;module&#62;</TT> (например, <TT>zend_rshutdown_first_module</TT>). Используется в
+сочетании с <TT>ZEND_RSHUTDOWN_FUNCTION</TT>.</TD></TR><TR><TD WIDTH="41%"><TT>ZEND_GINIT(module)</TT></TD>
+<TD WIDTH="59%">Объявляет функцию для глобального старта. Генерируемое имя будет <TT>zend_ginit_&#60;module&#62;</TT>
+(например, <TT>zend_ginit_first_module</TT>). Используется в сочетании с <TT>ZEND_GINIT_FUNCTION</TT>.</TD></TR>
+<TR><TD WIDTH="41%"><TT>ZEND_GSHUTDOWN(module)</TT></TD><TD WIDTH="59%">Объявляет функцию для глобального
+выключения. Генерируемое имя будет <TT>zend_gshutdown_&#60;module&#62;</TT> (например,
+<TT>zend_gshutdown_first_module</TT>). Используется в сочетании с <TT>ZEND_GSHUTDOWN_FUNCTION</TT>.</TD></TR>
+<TR><TD WIDTH="41%"><TT>ZEND_MINFO(module)</TT></TD><TD WIDTH="59%">Объявляет функцию для печати информации модуля, используемой при вызове
+<A HREF="f/phpinfo.html"><B>phpinfo()</B></A>. Генерируемое имя будет
+<TT>zend_info_&#60;module&#62;</TT> (например, <TT>zend_info_first_module</TT>). Используется в сочетании с
+<TT>ZEND_MINFO_FUNCTION</TT>.</TD></TR></TABLE></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="zend.structure.function-block.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="zend.structure.get-module.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Объявление блока Zend-функций</TD>
+<th WIDTH="34%" VALIGN="top"><a href="zend.structure.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+Создание <B>get_module()</B></TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

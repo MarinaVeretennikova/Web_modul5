@@ -1,0 +1,174 @@
+<html>
+<title>Производительность</title>
+<meta name=keywords content="Проектирование информационных систем Программирование Отладка Тестирование Производительность Переносимость Надежность и качество">
+<body>
+<table align=center width=90%>
+<tr><td>
+
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c15_test.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c15_test.html">Тестирование</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c15_port.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c15_port.html">Переносимость</a>
+</table>
+
+
+<h3>Производительность</h3>
+<p align=justify>
+Очень важным фактором является производительность системы. Подробно важность производительности
+мы рассмотрели выше, в параграфе "Проектирование информационных систем". Здесь мы не будем повторяться
+и перейдем сразу к методам, которые позволяют увеличить производительность системы.
+Первое и самое главное, что необходимо уяснить, что динамически должны формироваться только
+те страницы сайта, содержание которых зависит от параметров, введенных конкретным пользователем!
+Приведем пример. Допустим, на главной странице сайта показываются новости. Для того чтобы автоматизировать
+работу по поддержке сайта, вы разработали несколько CGI-программ, которые взаимодействуют
+с базой данных, где вы храните свои новости. Решение абсолютно правильное, так и надо делать.
+База данных позволит хранить архив новостей, выполнять по ним поиск, сортировку по различным критериям.
+Но есть одна очень распространенная ошибка. Часто на главную страницу ставят скрипт, который выдает
+последние 10 или 20 новостей. И этот скрипт выдает эти новости каждому пользователю. К вам зашло 1000
+посетителей, и скрипт сработал 1000 раз, и 1000 раз выполнил одну и ту же работу. Это принципиальная ошибка.
+Необходимо просто перегенерировать содержание главной страницы один раз при модификации записей в 
+базе данных. Конечно, пример с новостями может и не очень удачный, т.к. тут не стоит так остро вопрос с производительностью.
+Но в большинстве других, более сложных систем, этот вопрос стоит очень остро. Такой метод называется
+кэшированием. Например, на сайте http://inforg.ru без кэширования пользователю в разделе
+"Пошаговый поиск" пришлось бы ждать несколько минут, пока обработались бы данные. Но поскольку
+содержимое страниц от пользователя не зависит, то там один раз в сутки глубокой ночью
+запускается программа, которая перегенерирует страницы сайта на основе базы данных.
+В портале INFORG собрана информация по десяткам, а может быть, уже сотням тысяч организаций.
+Естественно, имеется возможность производить поиск на основе запроса пользователя, но тут
+уже ничего не поделаешь, и самое главное, пользователь готов ждать, пока его запрос будет обработан.
+Важно также особо отметить, что часто разработчики забывают создавать индексы в базе данных.
+На стадии разработки данных мало, и все работает быстро, а после введения в эксплуатацию
+количество данных начинает быстро расти, и тут выползают все проблемы.
+<br>
+Очень важно рассмотреть методы тестирования производительности. Во-первых, необходимо
+наполнить систему данными. Во-вторых, тестирование необходимо проводить в многопользовательском режиме,
+т.е. чтобы одновременно с ней работало человек десять. Вам необходимо посмотреть производительность
+операционной системы, СУБД и отдельных CGI-программ.  В Unix это можно сделать с помощью утилиты top.
+СУБД MySQL имеет свои утилиты по мониторингу производительности и состоянию системы. В CGI-скриптах
+имеет смысл производить оценку времени выполнения отдельных блоков. Делается это при 
+помощи функций из библиотеки time.h. Если у вас загружена операционная система или СУБД, трясите
+системного администратора, покупайте более мощный сервер. Впрочем, загруженность СУБД, в большинстве
+случаев, будет означать неправильные структуры данных и плохо спроектированные SQL-запросы. Прежде, 
+чем бежать в магазин за новым системным блоком, лучше хорошенько подумайте. Если вы все установите на более производительную технику, а оно все равно будет работать медленно, 
+вам придется взяться за голову. В операционной системе надо поискать процессы, которые пожирают ресурсы.
+В СУБД ищите поля, которые участвуют в условиях отбора, но по ним не стоит индексирование.
+Также в СУБД ищите кривые SQL-запросы. Например, если у вас запрос SELECT выполняет выборку
+данных из более, чем одной таблицы, то это наиболее вероятная проблема слабой производительности. Старайтесь не допускать выборки
+из более, чем трех таблиц. Несколько запросов, выполненных подряд по выборке данных 
+из двух таблиц, выполнятся быстрее, чем один из запрос из нескольких таблиц.
+Если же проблема в вашем CGI-скрипте, то просмотрите все циклы и алгоритмы.
+Оптимизация, как правило, не дает никаких результатов. Не надо перебирать всевозможные опции компилятора,
+они дадут вам ускорение на несколько процентов. Меняйте алгоритмы. Избавляйтесь от лишних
+циклов, выносите за скобки цикла медленные операции, кэшируйте результаты.
+
+
+</td></tr>
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #1 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=0-190" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=0?190" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=0'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69019-bn=0-190" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=0?190"
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #2 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=1?Rnd_Num" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=1'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=1?Rnd_Num" 
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="erle.cgi-51599-190" tppabs="http://www.linkexchange.ru/cgi-bin/erle.cgi?51599?190" frameborder=0 
+    vspace=0 hspace=0 width=468 height=60 marginwidth=0 marginheight=0 scrolling=no>
+    <a href="javascript:if(confirm('http://www.linkexchange.ru/users/goto.map  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://www.linkexchange.ru/users/goto.map'" tppabs="http://www.linkexchange.ru/users/goto.map" target=_top>
+    <img src="rle.cgi-51599-190" tppabs="http://www.linkexchange.ru/cgi-bin/rle.cgi?51599?190" alt="RLE Banner Network" border=0 height=60 width=468></a>
+    </iframe>
+
+<!-- Russian LinkExchange code START - BANNER #1 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=0-190" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=0?190"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=0'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69021-bn=0-190" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=0?190"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+<!-- Russian LinkExchange code START - BANNER #2 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=1-190" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=1?190"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=1'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69021-bn=1-190" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=1?190"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+</td></tr>
+</table>
+
+</body>
+</html>

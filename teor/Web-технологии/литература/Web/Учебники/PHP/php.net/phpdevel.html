@@ -1,0 +1,349 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>Расширение PHP</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" style="border-collapse: collapse" bordercolor="#111111"><TR>
+<TD COLSPAN="3" width="818"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%" height="60"><TR>
+<TD height="51">
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3" style="border-collapse: collapse" bordercolor="#111111" cellspacing="0"><TR>
+<TH COLSPAN="3" height="17">Учебник РНР</TH></TR>
+<TR><TD WIDTH="10%"  height="16"><A HREF="debugger-protocol.html">Назад</A></TD>
+<TD WIDTH="80%"  height="16"></TD>
+<TD WIDTH="10%" ALIGN="right"  height="16">
+<A HREF="calling-user-functions.html">Вперёд</A></TD></TR></TABLE></TD></TR>
+<TR BGCOLOR="#333366"><TD height="1"><IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR>
+</TD></TR></TABLE></TD></TR><TR>
+<TD width="10"><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD VALIGN="TOP" width="806">
+<h1><A NAME="phpdevel">Приложение E. Расширение PHP</A></h1>
+<DL><DT><B>Содержание</B></DT><DT><a href="#phpdevel-addfunc">Добавление функций в PHP</a><br>
+<a href="calling-user-functions.html">Вызов пользовательских функций</a><br>
+<a href="phpdevel-errors.html">Сообщения об ошибках</a></DT></DL><H1>
+<A NAME="phpdevel-addfunc">Добавление функций в PHP</A></H1><H2>
+<a name="phpdevel-addfunc-prototype">Прототип функции</a></H2>
+<P>Все функции выглядят так:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>void php3_foo(INTERNAL_FUNCTION_PARAMETERS) {
+     
+}</PRE></TD></TR></TABLE>
+<p>Даже если ваша функция не принимает аргументов, вызывается она именно так.</p>
+<H2><a name="phpdevel-addfunc-args">Аргументы функции</a></H2>
+<P>Аргументы всегда имеют тип pval.  Этот тип содержит объединение/union, 
+которое содержит фактический тип аргумента.  Так, если ваша функция принимает 
+два аргумента, вы должны записать нечто такое в верхней части вашей функции:</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN88885"></A><h5>Пример E-1. Аргументы функции</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>pval *arg1, *arg2;
+if (ARG_COUNT(ht) != 2 || getParameters(ht,2,&#38;arg1,&#38;arg2)==FAILURE) {
+   WRONG_PARAM_COUNT;
+}</PRE></TD></TR></TABLE></TD></TR></TABLE><blockquote>
+<b>Примечание:</b> аргументы могут передаваться по значению или по ссылке. В 
+обоих случаях вы&nbsp; должны передать &#38;(pval *) в getParameters. Если 
+вы хотите проверить, передан n-ный параметр по ссылке или нет, вы можете 
+использовать функцию ParameterPassedByReference(ht,n). Она возвратит 1 или 0.</blockquote>
+<P>Если вы изменяете любой из переданных параметров, переданы ли они по ссылке 
+или нет, вы можете начать работу с данным параметром, вызвав pval_destructor на 
+нём, или, если это ARRAY, в который вы хотите добавить данные, вы можете 
+использовать функции, аналогичные тем, которые находятся в
+internal_functions.h и манипулируют return_value как ARRAY.</P>
+<P>Также, если вы изменяете параметр на IS_STRING, не забудьте сначала 
+присвоить новую estrdup()'ированную строку и размер строки и только после этого 
+изменяйте тип на IS_STRING. Если вы изменяете строку параметра, который уже 
+является IS_STRING или IS_ARRAY, вы должны сначала запустить на нём pval_destructor.</P>
+<H2><a name="phpdevel-addfunc-varargs">Переменное количество аргументов функции</a></H2>
+<P>Функция может принимать переменное количество аргументов.  Если ваша 
+функция может принять 2 или 3 аргумента, используйте следующее:</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN88894"></A><h5>Пример E-2. Переменное
+количество аргументов функции</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>pval *arg1, *arg2, *arg3;
+int arg_count = ARG_COUNT(ht);
+
+if (arg_count &#60; 2 || arg_count &#62; 3 ||
+    getParameters(ht,arg_count,&#38;arg1,&#38;arg2,&#38;arg3)==FAILURE) {
+    WRONG_PARAM_COUNT;
+}</PRE></TD></TR></TABLE></TD></TR></TABLE><H2><a name="phpdevel-addfunc-using-args">Использование
+аргументов функции</a></H2><P>Тип каждого аргумента хранится в поле (свойстве) типа pval. Этот тип может 
+быть одним из следующих:<A NAME="AEN88900"></A><h6>Таблица E-1. Внутренние типы PHP</h6>
+<TABLE BORDER="1"><TR><TD >IS_STRING</TD><TD >Строка</TD></TR><TR>
+<TD >IS_DOUBLE</TD><TD >Число с плавающей точкой двойной точности</TD></TR><TR>
+<TD >IS_LONG</TD><TD >Длинное целое число</TD></TR><TR>
+<TD >IS_ARRAY</TD><TD >Массив</TD></TR><TR><TD >IS_EMPTY</TD>
+<TD >None/Ничего</TD></TR><TR><TD >IS_USER_FUNCTION</TD>
+<TD >??</TD></TR><TR><TD >IS_INTERNAL_FUNCTION</TD>
+<TD >?? (если что-то из этого не может быть передано функции - удаляется)</TD></TR><TR>
+<TD >IS_CLASS</TD><TD >??</TD></TR><TR><TD >IS_OBJECT</TD>
+<TD >??</TD></TR></TABLE></P><P>Если вы получаете аргумент одного типа и хотите использовать его как другой 
+тип, или если вы просто хотите форсировать приведение аргумента к определённому 
+типу, вы можете использовать одну из следующих функций конвертации типа:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>convert_to_long(arg1);
+convert_to_double(arg1);
+convert_to_string(arg1); 
+convert_to_boolean_long(arg1); /* Если строка равна "" или "0", она становится 0,
+			        в ином случае 1 */
+convert_string_to_number(arg1);  /* Конвертирует строку в LONG или в
+				<span lang="en-us"> </span>DOUBLE, в зависимости от строки */</PRE></TD></TR></TABLE>
+<P>Все эти функции выполняют конвертацию на месте/in-place. Они ничего не возвращают.</P>
+<P>Реальный аргумент хранится в union; членами являются:<UL><LI><P>IS_STRING: arg1-&#62;value.str.val</P></LI>
+<LI><P>IS_LONG: arg1-&#62;value.lval</P></LI><LI><P>IS_DOUBLE: arg1-&#62;value.dval</P></LI></UL>
+<H2><a name="phpdevel-addfunc-memmgmt">Работа с памятью в функциях</a></H2>
+<P>Любая необходимая функции память должна быть выделена с помощью emalloc() или estrdup().  Это абстрактные функции работы с памятью, которые 
+выглядят и работают как нормальные функции malloc() и
+strdup().  Память должна освобождаться с помощью efree().</P>
+<P>В программе имеются два вида памяти: память, которая возвращается 
+разборщику в переменной, и память, которая нужна вам для временного хранения в 
+вашей внутренней функции.  Если вы присваиваете строку переменной, возвращаемой 
+разборщику, вы должны сначала выделить память с помощью emalloc() или
+estrdup().  Эта память НИКОГДА НЕ ДОЛЖНА освобождаться вами, если только вы 
+позднее не переписываете в этой же функции первоначальное присвоение
+(хотя этот стиль программирования нельзя приветствовать).</P>
+<P>Для любого временного/постоянного выделения памяти, необходимой вам в 
+функции/библиотеке, вы должны использовать три функции: emalloc(), estrdup() и efree(). 
+Они ведут себя ТОЧНО ТАК ЖЕ, как и их функции-двойники. Всё что вы emalloc() или estrdup(), вы должны efree()
+в той или иной точке, если это не предполагается делать в конце программы; 
+иначе это приведёт к утечке памяти. Фраза "Они ведут себя ТОЧНО ТАК ЖЕ, как и их 
+функции-двойники" означает: если вы efree() то, что не было
+emalloc()'овано или estrdup()'овано, вы можете получить нарушение 
+сегментации. Поэтому, пожалуйста, будьте бдительны и освобождайте всю выделенную память.</P>
+<P>Если вы компилируете с опцией "-DDEBUG", PHP будет выводить весь листинг 
+памяти, выделенной с помощью emalloc() и estrdup(), но не освобождённой с 
+помощью efree(), при запуске специфицированного скрипта.</P><H2>
+<A NAME="phpdevel-addfunc-symtab">Установка переменных в Таблице Символов</A></H2>
+<P>Имеются несколько макросов, которые облегчают установку переменной в таблице символов:
+<UL><LI><P>SET_VAR_STRING(name,value)</P></LI><LI><P>SET_VAR_DOUBLE(name,value)</P></LI>
+<LI><P>SET_VAR_LONG(name,value)</P></LI></UL>
+<TABLE CLASS="warning" style="border-collapse: collapse" bordercolor="#111111" BORDER="1"><TR>
+<th>Предупреждение</th></TR><TR><TD>
+<P>Соблюдайте осторожность при использовании SET_VAR_STRING. Для части value 
+обязана быть выделена память, поскольку код обслуживания памяти будет 
+пытаться освободить эту позицию позднее. Не передавайте статически размещённую память в SET_VAR_STRING.</P></TD>
+</TR></TABLE><P>Таблицы символов в PHP реализованы как хэш-таблицы.  В любое данное время &#38;symbol_table 
+является указателем на 'главную/main' таблицу символов, а active_symbol_table 
+указывает на текущую активную таблицу символов (они могут быть идентичны, как 
+при старте, или разными, если вы находитесь внутри функции).</P>
+<P>В следующих примерах использована 'active_symbol_table'.  Вы должны 
+заменить её на &amp;symbol_table, если хотите работать именно с 'main' таблицей 
+символов.  Также эта же функция может применяться к массивам, как разъясняется ниже.</P>    
+<TABLE BORDER="0" style="border-collapse: collapse" bordercolor="#111111"><TR><TD>
+<A NAME="AEN88963"></A><h5>Пример E-3. Проверка существования $foo а таблице символов</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>if (hash_exists(active_symbol_table,"foo",sizeof("foo"))) { exists... }
+else { doesn't exist }</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN88966"></A><h5>
+Пример E-4. Определение размера переменной в таблице символов</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>hash_find(active_symbol_table,"foo",sizeof("foo"),&#38;pvalue);
+check(pvalue.type);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Массивы в PHP реализованы с использованием тех же хэш-таблиц, что и в 
+таблицах символов.  Это значит, что две вышеприведённые функции могут 
+также использоваться для проверки переменных в массивах.<P>Если вы хотите определить новый
+массив в таблице символов, вы должны сделать следующее:</P>
+<P>Сначала может понадобиться проверка существования массива и 
+соответствующего выхода через использование hash_exists() или hash_find().</P>
+<P>Инициализируем массив:</P><TABLE BORDER="0" style="border-collapse: collapse" bordercolor="#111111"><TR>
+<TD><A NAME="AEN88973"></A><h5>Пример E-5. Инициализация нового массива</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>pval arr;
+
+if (array_init(&#38;arr) == FAILURE) { failed... };
+hash_update(active_symbol_table,"foo",sizeof("foo"),&#38;arr,sizeof(pval),NULL);</PRE></TD></TR></TABLE>
+</TD></TR></TABLE>
+<p>Этот код объявляет новый массив $foo в активной таблице символов. Это пустой массив.</p>
+<P>Вот как добавить в него новые вхождения:</P><TABLE BORDER="0" style="border-collapse: collapse" bordercolor="#111111">
+<TR><TD><A NAME="AEN88978"></A><h5>Пример E-6. Добавление вхождений в новый массив</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>pval entry;
+  
+entry.type = IS_LONG;
+entry.value.lval = 5;
+  
+/* определяется $foo["bar"] = 5 */
+hash_update(arr.value.ht,"bar",sizeof("bar"),&#38;entry,sizeof(pval),NULL); 
+
+/* определяется $foo[7] = 5 */
+hash_index_update(arr.value.ht,7,&#38;entry,sizeof(pval),NULL); 
+
+/* определяется следующее свободное место в $foo[],
+ * $foo[8], как 5 (работает аналогично php2)
+ */
+hash_next_index_insert(arr.value.ht,&#38;entry,sizeof(pval),NULL);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Если вы хотите изменить значение, вставленное в хэш, вы обязаны сначала 
+запросить его из хэша.  Чтобы избежать этой лишней работы, вы можете 
+предоставить pval ** функции add хэша, и он будет обновлён pval *-адресом 
+элемента, вставленного в хэш.  Если это значение равно <TT><B>NULL</B></TT> (как во всех предыдущих примерах) -
+этот параметр игнорируется.</p><P>hash_next_index_insert() использует примерно ту же логику, что 
+и "$foo[] = bar;" в PHP 2.0.</P><P>Если вы конструируете массив для возвращения из функции, вы можете 
+инициализировать этот массив, выполнив следующее:</P><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>if (array_init(return_value) == FAILURE) { failed...; }</PRE></TD></TR></TABLE>
+<P>... а затем добавляя значения вспомогательными функциями:</P>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>add_next_index_long(return_value,long_value);
+add_next_index_double(return_value,double_value);
+add_next_index_string(return_value,estrdup(string_value));</PRE></TD></TR></TABLE>
+<P>Конечно, если добавление не выполняется сразу после инициализации массива, 
+вам сначала нужно будет найти этот массив:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>pval *arr;
+  
+if (hash_find(active_symbol_table,"foo",sizeof("foo"),(void **)&#38;arr)==FAILURE)
+{ can't find... }
+else { use arr-&#62;value.ht... }</PRE></TD></TR></TABLE></P>
+<P>Заметьте, что hash_find получает указатель на указатель pval, а не указатель pval.</P>
+<P>Любая функция хэша возвращает SUCCESS или FAILURE (кроме hash_exists(), которая возвращает булево значение).</P>
+<H2><a name="phpdevel-addfunc-retsimple">Возвращение простых значений</a></H2>
+<P>Имеются несколько макросов для облегчения получения return-значений из функций.</P>
+<P>Все макросы RETURN_* устанавливают return-значение и возвращают его из функции:<UL><LI>
+<P>RETURN</P></LI><LI><P>RETURN_FALSE</P></LI><LI><P>RETURN_TRUE</P></LI><LI><P>RETURN_LONG(l)</P></LI>
+<LI><P>RETURN_STRING(s,dup)&nbsp; Если dup равно <TT><B>TRUE</B></TT>, дублирует строку</P></LI>
+<LI><P>RETURN_STRINGL(s,l,dup)&nbsp; Возвращает строку (s), специфицируя длину (l)</P></LI>
+<LI><P>RETURN_DOUBLE(d)</P></LI></UL><P>Макросы RETVAL_* устанавливают, но не возвращают, return-значение.<UL>
+<LI><P>RETVAL_FALSE</P></LI><LI><P>RETVAL_TRUE</P></LI><LI><P>RETVAL_LONG(l)</P></LI>
+<LI><P>RETVAL_STRING(s,dup)&nbsp; Если dup равно <TT><B>TRUE</B></TT>, дублирует строку</P></LI>
+<LI><P>RETVAL_STRINGL(s,l,dup)&nbsp;&nbsp; Возвращает строку (s), специфицируя длину (l)</P></LI>
+<LI><P>RETVAL_DOUBLE(d)</P></LI></UL><P>Все вышеприведённые строковые макросы будут estrdup() передаваемый аргумент 's', 
+поэтому вы можете безопасно освободить аргумент после вызова макроса или, 
+альтернативно, использовать статически размещённую память.</P>
+<P>Если ваша функция возвращает булевы ответы success/error, всегда 
+используйте RETURN_TRUE и RETURN_FALSE, соответственно.</P>
+<H2><a name="phpdevel-addfunc-retcomplex">Возвращение сложных значений</a></H2>
+<P>Ваша функция может также возвращать сложные типы данных, такие как объект/object или массив/array.</P>
+<P>Возвращение объекта:<OL TYPE="1"><LI><P>Вызвать object_init(return_value).</P></LI><LI>
+<P>Заполнить его значениями. Функции, предназначенные для этого, перечислены ниже.</P></LI><LI>
+<P>Возможно, зарегистрировать функции для этого объекта.
+Чтобы получать значения из объекта, функции понадобится получить "this" 
+из active_symbol_table.  Его тип должен быть IS_OBJECT, и это как правило таблица регулярного хэш
+(т.е. вы можете использовать функции регулярного хэша на .value.ht).  
+Фактическая регистрация функции может быть выполнена с использованием :
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>add_method( return_value, function_name, function_ptr );</PRE>
+</TD></TR></TABLE></LI></OL><P>Функции для заполнения объекта:<UL><LI><P>add_property_long( return_value,
+property_name, l ) - Добавляет свойство с именем 'property_name', типом long, равное 'l'</P></LI>
+<LI><P>add_property_double( return_value,property_name, d ) - То же самое, только double</P></LI>
+<LI><P>add_property_string( return_value,property_name, str ) - То же самое, только string</P></LI>
+<LI><P>add_property_stringl( return_value,property_name, str, l ) - То же самое, только string длиной 'l'</P></LI>
+</UL><P>Возвращение массива:<OL TYPE="1"><LI><P>Вызвать array_init(return_value)</P></LI>
+<LI><P>Заполнить его значениями. Функции для этого перечислены ниже.</P></LI></OL>
+<P>Вот функции для заполнения массива:<UL><LI><P>add_assoc_long(return_value,key,l) - добавляет ассоциативное вхождение/entry с 
+ключом 'key' и long-значением 'l'</P></LI><LI><P>add_assoc_double(return_value,key,d)</P></LI>
+<LI><P>add_assoc_string(return_value,key,str,duplicate)</P></LI>
+<LI><P>add_assoc_stringl(return_value,key,str,length,duplicate) - специфицирует длину строки</P></LI>
+<LI><P>add_index_long(return_value,index,l) - добавляет вхождение в индексе 'index' с long-значением 'l'</P></LI>
+<LI><P>add_index_double(return_value,index,d)</P></LI><LI><P>add_index_string(return_value,index,str)</P></LI>
+<LI><P>add_index_stringl(return_value,index,str,length)- специфицирует длину строки</P></LI>
+<LI><P>add_next_index_long(return_value,l) - добавляет вхождение в массиве в следующем свободном смещении с long-значением 'l'</P></LI>
+<LI><P>add_next_index_double(return_value,d)</P></LI>
+<LI><P>add_next_index_string(return_value,str)</P></LI>
+<LI><P>add_next_index_stringl(return_value,str,length) - специфицирует длину строки</P></LI></UL>
+<H2><a name="phpdevel-addfunc-reslist">Использование списка ресурсов</a></H2>
+<P>PHP имеет стандартные способы работы с ресурсами различных типов. Это 
+замена всех локальных связанных списков PHP 2.0.</P><P>Доступны функции:<UL><LI>
+<P>php3_list_insert(ptr, type) - возвращает 'id' вновь вставленного ресурса</P></LI>
+<LI><P>php3_list_delete(id) - удаляет ресурс со специфицированным id</P></LI>
+<LI><P>php3_list_find(id,*type) - возвращает указатель ресурса со специфицированным id,
+обновляет 'type' до типа ресурса</P></LI></UL>
+<p>Обычно эти функции используются для SQL-драйверов, но могут также 
+использоваться для чего угодно; например, для обслуживания дескрипторов  файлов.<P>Типичный листинг
+кода выглядит так:</P><TABLE BORDER="0" style="border-collapse: collapse" bordercolor="#111111"><TR>
+<TD><A NAME="AEN89095"></A><h5>Пример E-7. Добавление нового ресурса</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>RESOURCE *resource;
+
+/* ...разместить память для ресурса и получить ресурс... */
+/* добавить новый ресурс в список */
+return_value-&#62;value.lval = php3_list_insert((void *) resource, LE_RESOURCE_TYPE);
+return_value-&#62;type = IS_LONG;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<TABLE BORDER="0" style="border-collapse: collapse" bordercolor="#111111"><TR><TD>
+<A NAME="AEN89098"></A><h5>Пример E-8. Использование существующего ресурса</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>pval *resource_id;
+RESOURCE *resource;
+int type;
+
+convert_to_long(resource_id);
+resource = php3_list_find(resource_id-&#62;value.lval, &#38;type);
+if (type != LE_RESOURCE_TYPE) {
+    php3_error(E_WARNING,"resource index %d has the wrong type",resource_id-&#62;value.lval);
+    RETURN_FALSE;
+}
+/* ...использовать ресурс... */</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<TABLE BORDER="0" style="border-collapse: collapse" bordercolor="#111111"><TR><TD>
+<A NAME="AEN89101"></A><h5>Пример E-9. Удаление существующего ресурса</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>pval *resource_id;
+RESOURCE *resource;
+int type;
+
+convert_to_long(resource_id);
+php3_list_delete(resource_id-&#62;value.lval);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Типы ресурсов должны быть зарегистрированы в php3_list.h, в enum
+list_entry_type.  Кроме того, нужно добавить shutdown-код для любого вновь 
+определённого типа ресурса в list.c's list_entry_destructor()
+(даже если вы ничего особенного при отключении/shutdown делать не хотите, вы обязаны добавить пустой case).</p>
+<H2><A NAME="phpdevel-addfunc-prestable">Использование постоянной таблицы ресурсов</A></H2>
+<P>В PHP есть стандартный способ хранения постоянных ресурсов (т.е. 
+ресурсов, хранимых между вызовами).  Первым эту возможность использовал 
+модуль MySQL, а затем mSQL, поэтому можно получить представление о том, 
+как нужно использовать постоянные ресурсы, просмотрев mysql.c.  Вам нужно просмотреть функции:<br>
+<TABLE BORDER="0"><TR><TD>php3_mysql_do_connect</TD></TR><TR><TD>php3_mysql_connect()</TD></TR>
+<TR><TD>php3_mysql_pconnect()</TD></TR></TABLE><P>Общая идея постоянных модулей такова:<OL TYPE="1">
+<LI><P>Кодировать все ваши модули для работы со списком регулярных ресурсов, рассмотренным в разделе (9).</P></LI>
+<LI><P>Кодировать дополнительные connect-функции, которые проверяют, существует ли уже 
+ресурс в списке постоянных ресурсов.  Если существует, зарегистрировать 
+его в списке постоянных ресурсов как указатель на список существующих 
+ресурсов (поскольку если 1., остальной код должен сработать немедленно).  
+Если не существует, создать его, добавить его в список существующих 
+ресурсов И добавить указатель на него из списка регулярных ресурсов, 
+чтобы весь код мог работать, пока он находится в списке регулярных 
+ресурсов, но при следующем подключении ресурс может быть найден уже в 
+списке существующих ресурсов и использован без&nbsp; необходимости его 
+повторного создания.  Вы должны регистрировать эти ресурсы с различными 
+типами (например, LE_MYSQL_LINK для несуществующей ссылки и LE_MYSQL_PLINK 
+- для существующей ссылки).</P></LI></OL>
+<P>Если вы просмотрите mysql.c, обратите внимание, что, за исключением более 
+сложной функции connect, остальная часть модуля не изменилась.</P>
+<P>Точно такой же интерфейс имеется для списка регулярных ресурсов и для 
+списка постоянных ресурсов, только 'list' заменено на 'plist':</P><UL><LI>
+<P>php3_plist_insert(ptr, type) - возвращает 'id' вновь вставленного ресурса</P></LI>
+<LI><P>php3_plist_delete(id) - удаляет ресурс со специфицированным id</P></LI>
+<LI><P>php3_plist_find(id,*type) - возвращает указатель ресурса со специфицированным id,
+обновляет 'type' на тип этого ресурса</P></LI></UL>
+<P>Более вероятно, однако, что эти функции окажутся бесполезны при попытке реализовать постоянный модуль.
+Обычно бывает нужно использовать тот факт, что список постоянных ресурсов 
+является в действительности хэш-таблицей.  Например, в модулях
+MySQL/mSQL, когда есть вызов pconnect() (постоянное
+connect), функция строит строку вывода host/user/passwd, которая передаётся 
+этой функции, и хэширует SQL-ссылку этой строкой как ключом/key. При следующем вызове pconnect()
+с теми же host/user/passwd, будет сгенерирован тот же key, и функция найдёт SQL-ссылку в постоянном списке.</P>
+<P>Пока документация отсутствует, вы должны просмотреть в mysql.c или в msql.c, 
+как можно использовать возможности хэш-таблиц plist'ов.</P>
+<P>Одно важное замечание: ресурсы, входящие в список постоянных ресурсов 
+обязаны *НЕ* размещаться менеджером памяти PHP,
+т.е. они НЕ должны создаваться с помощью emalloc(), estrdup(), etc.<br>
+Вместо этого нужно использовать регулярные malloc(), strdup(), etc.<br>
+Причина проста - в конце запроса (в конце запуска) каждый участок памяти, 
+выделенный менеджером памяти PHP, удаляется.  Поскольку не предполагается 
+удаление постоянного списка в конце запроса, менеджер памяти PHP нельзя 
+использовать для размещения ресурсов, входящих в этот список.</P>
+<P>Если вы регистрируете ресурс, вводимый в постоянный список, вы должны 
+добавить для него деструктор как в постоянный, так и в непостоянный списки.  
+Деструктор в деструкторе непостоянного списка ничего делать не должен.  
+Деструктор в деструкторе постоянного списка должен соответствующим образом 
+освобождать ресурсы, полученные данным типом (память, SQL-ссылки etc).  
+Как и с непостоянными ресурсами, вы *ОБЯЗАНЫ* добавить деструкторы каждому 
+ресурсу, даже если он не требует уничтожения и деструктор может быть 
+пустым. Запомните: поскольку emalloc() и компания не используются в 
+сочетании с постоянным списком, вы обязаны не использовать здесь efree() вообще.</P>
+<H2><A NAME="phpdevel-addfunc-addcfg">Добавление директив конфигурации времени прогона/runtime</A></H2>
+<P>Многие свойства PHP могут конфигурироваться на этапе прогона программы.  
+Эти директивы конфигурации могут появляться или в файле php3.ini, или - в случае с версией Apache-модуля -
+Apache .conf-файлах.  Преимущество их присутствия в Apache
+.conf-файлах заключается в том, что они могут быть сконфигурированы на 
+уровне директорий.  Это означает, что одна директория может иметь одну
+safemodeexecdir, например, а другая директория - другую.  Эта дробность 
+конфигурации особенно необходима, когда сервер поддерживает наличие несколько виртуальных хостов.</P>
+<P>Вот шаги по добавлению новой директивы:<OL TYPE="1"><LI>
+<P>Добавить директиву в структуру php3_ini_structure в mod_php3.h.</P></LI>
+<LI><P>В main.c отредактировать функцию php3_module_startup
+и добавить соответствующий вызов cfg_get_string() или cfg_get_long().</P></LI>
+<LI><P>Добавить директиву, ограничения и комментарий в структуру php3_commands в mod_php3.c.  
+Обратите внимание на часть restrictions/ограничений. RSRC_CONF являются директивами, которые могут 
+находится только в текущих Apache .conf-файлах.  Любые директивы OR_OPTIONS 
+могут находиться в любом месте, включая нормальные .htaccess-файлы.</P></LI>
+<LI><P>В php3take1handler() или в php3flaghandler() добавить соответствующее вхождение для вашей директивы.</P>
+</LI><LI><P>В разделе конфигурации/configuration функции
+_php3_info() в functions/info.c вам необходимо добавить вашу новую директиву.</P></LI>
+<LI><P>И наконец - вы, конечно, должны использовать новую вашу директиву где-нибудь.  
+Она будет адресоваться как php3_ini.directive.</P></LI></OL><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%">
+<TR BGCOLOR="#333366"><TD><IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR>
+<TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD VALIGN="top">
+<A HREF="debugger-protocol.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="calling-user-functions.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">
+Протокол Отладчика</TD><th WIDTH="34%" VALIGN="top"><a href="appendixes.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Вызов пользовательских функций</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

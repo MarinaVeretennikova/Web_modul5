@@ -1,0 +1,46 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>mb_encode_numericentity</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="mb-encode-mimeheader.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="mb-ereg-match.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="mb-encode-numericentity">mb_encode_numericentity</A></H1><A NAME="AEN42031"></A><P>(PHP 4 &#62;= 4.0.6)</P>
+<p>mb_encode_numericentity - кодирует символы в ссылку числовой строки HTML.<A NAME="AEN42034"></A></p>
+<H2>Описание</H2><p>string <B>mb_encode_numericentity</B> (string str, array convmap [, string encoding])</p>
+<P><B>mb_encode_numericentity()</B> конвертирует специфицированные коды символов строки <TT><I>str</I></TT> в ссылку числовой строки HTML. Возвращает конвертированную строку.</P>
+<P><TT><I>array</I></TT> это массив, специфицирующий кодовую область для конвертации.</P>
+<P><TT><I>encoding</I></TT> это кодировка символов.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN42056"></A><h5>Пример 1. <TT><I>convmap</I></TT></h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>$convmap = array (
+ int start_code1, int end_code1, int offset1, int mask1,
+ int start_code2, int end_code2, int offset2, int mask2,
+ ........
+ int start_codeN, int end_codeN, int offsetN, int maskN );
+// Специфицирует значение Unicode для start_codeN и end_codeN
+// Добавляет offsetN к значению и применяет битовую 'AND' с маской maskN, затем
+// конвертирует значение в ссылку числовой строки.</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN42061"></A><h5>Пример 2. mb_encode_numericentity()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>/* Конвертирует левую часть ISO-8859-1 в ссылку числовой строки HTML */
+$convmap = array(0x80, 0xff, 0, 0xff);
+$str = mb_encode_numericentity($str, $convmap, "ISO-8859-1");
+
+/* Конвертирует пользовательский SJIS-win код в блоке 95-104 в
+   ссылку числовой строки */
+$convmap = array(
+       0xe000, 0xe03e, 0x1040, 0xffff,
+       0xe03f, 0xe0bb, 0x1041, 0xffff,
+       0xe0bc, 0xe0fa, 0x1084, 0xffff,
+       0xe0fb, 0xe177, 0x1085, 0xffff,
+       0xe178, 0xe1b6, 0x10c8, 0xffff,
+       0xe1b7, 0xe233, 0x10c9, 0xffff,
+       0xe234, 0xe272, 0x110c, 0xffff,
+       0xe273, 0xe2ef, 0x110d, 0xffff,
+       0xe2f0, 0xe32e, 0x1150, 0xffff,
+       0xe32f, 0xe3ab, 0x1151, 0xffff );
+$str = mb_encode_numericentity($str, $convmap, "sjis-win");</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>См. также <A HREF="mb-decode-numericentity.html"><B>mb_decode_numericentity()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="mb-encode-mimeheader.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="mb-ereg-match.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">mb_encode_mimeheader</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.mbstring.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">mb_ereg_match</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

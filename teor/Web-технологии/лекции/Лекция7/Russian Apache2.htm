@@ -1,0 +1,343 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+ <head>
+  <title>Russian Apache: Как это работает</title>
+ </head>
+ <body bgcolor="#ffffff" vlink="#254d96" link="0000ff" text="#00114d">
+   <!--begin of Top100-->
+   <a href="http://counter.rambler.ru/top100/"><img src="http://counter.rambler.
+ru/top100.cnt?29788" alt="" width=1 height=1 border=0></a>
+   <!--end of Top100 code-->
+<center>
+   <table border="0" cellspacing="0" cellpadding="0" width=574> 
+    <tr><td>
+      <table border="0" cellspacing="0" cellpadding="0">
+       <tr valign="top">
+	<td width="436" rowspan="2" >
+		<img src="/buttons/m1.gif" width=436 height=81 border=0 alt="Russian Apache"></a></td>
+	<td colspan="2" width="138"><a href="/english/"><img src="/buttons/english.gif" width=138 height=28 border=0 alt="Switch to English"></a></td>
+       </tr>
+       <tr valign="top">
+	<td><a href="/"><img src="/buttons/russian.gif" width=85 height=53 border=0 
+	   alt="Switch to Russian" hspace=0 vspace=0></a></td
+	 >
+	<td><a href="http://apache.lexa.ru:8100/header.mhtml"><img src="/buttons/koi8-r.gif" width=53 height=15 border=0 alt="koi8-r"></a><br>
+	 <a href="http://apache.lexa.ru:8101/header.mhtml"><img src="/buttons/windows.gif" width=53 height=13 border=0 alt="windows=1251"></a><br>
+	 <a href="http://apache.lexa.ru:8102/header.mhtml"><img src="/buttons/cp-866.gif" width=53 height=12 border=0 alt="cp-866"></a><br>
+	 <a href="http://apache.lexa.ru:8103/header.mhtml"><img src="/buttons/iso.gif" width=53 height=13 border=0 alt="iso8859-5"></a></td>
+       </tr>
+      </table>
+    </tr>
+    <tr><td>
+   <table border="0" cellspacing="0" cellpadding="0" width=574>
+    <TR><TD>
+      <table border="0" cellspacing="0" cellpadding="0" width=574>
+       <tr valign="top">
+	<td width="76" height=40><a href="/index.html"><img src="/buttons/but-ra.gif" width=76 height=40 border=0 alt="Russian Apache"></a></td>
+	<td width="84"><a href="/internals.html"><img src="/buttons/but-how.gif" width=84 height=40 border=0 alt="Как это работает"></a></td>
+	<td width="78"><a href="/notes.html"><img src="/buttons/but-recomm.gif" width=78 height=40 border=0 alt="Рекоммендации"></a></td>
+	<td width="78"><a href="/getit.html"><img src="/buttons/but-where.gif" width=78 height=40 border=0 alt="Где взять"></a></td>
+	<td width="84"><a href="/install.html"><img src="/buttons/but-setup.gif" width=84 height=40 border=0 alt="Как установить"></a></td>
+	<td width="78"><a href="/configure.html"><img src="/buttons/but-config.gif" width=78 height=40 border=0 alt="Как настроить"></a></td>
+	<td width="95"><a href="/support.html"><img src="/buttons/but-support.gif" width=95 height=40 border=0 alt="Статус и поддержка"></a></td>
+       </tr>
+       <tr valign=top>
+	<td><a href="/intro.html"><img src="/buttons/but-short.gif" width=76 height=38 border=0 alt="Краткий обзор"></a></td>
+	<td><a href="/faq.html"><img src="/buttons/but-faq.gif" width=84 height=38 border=0 alt="FAQ"></td>
+	<td><a href="/mail-archive/"><img src="/buttons/but-archive.gif" width=78 height=38 border=0 alt="Список рассылки"></a></td>
+	<td><a href="/thanks.html"><img src="/buttons/but-thanks.gif" width=78 height=38 border=0 alt="Благодарности"></a></td>
+	<td><a href="/srch.mhtml"><img src="/buttons/but-search.gif" width=84 height=38 border=0 alt="Поиск по серверу"></a></td>
+	<td colspan=2><a href="/powered.html"><img src="/buttons/but-power.gif" width=173 height=38 border=0 alt="Powered by Russian Apache"></a></td>
+       </tr>
+   </table>
+      </TD>
+    <TD>
+    </tr>
+   </table>
+      </TD>
+</TR></TABLE>
+  </center>
+
+
+  <CENTER>
+   <A NAME="part4"><font size="+2">Как это работает</font></A><br>
+   <img src="line.gif">
+  </center>
+
+  <font size="+3">В</font> этом документе описан алгоритм, по которому 
+  Apache-RUS определяет в какой  кодировке документ должен быть отдан клиенту.
+  В каком-то смысле это повторение  
+  <a href="configure.html">описания директив конфигурации</a>, но порядок 
+  изложения  отвечает именно поведению сервера, при этом подробное описание 
+  директив опущено. <p><font size="-1">В документе описана текущая версия 
+   (PL20-PL24). Конфигурация (в т.ч. и названия директив) старых версий 
+   (PL16 и более старых) отличается и описана в 
+   <a href="configure-old.html">отдельном документе</a>. В тех местах, где 
+   поведение новых и старых версий сервера отличается принципиально сделаны 
+   специальные  оговорки.</font>
+  <p>
+   В дальнейшем тексте термины charset и кодировка используются практически
+   как синонимы.
+  <p>
+
+   <dt>&nbsp;</dt>
+   <center>
+    <font size="+1">
+     <b>Предварительные замечания.</b>
+    </font>
+   </center>
+  <p>
+  Основное назначение модуля, отвечающего за перекодировки, - произвести
+  корректное   преобразование из &quot;charset на диске&quot; 
+  (кодировка хранения)  в &quot;charset у клиента&quot; (кодировка передачи) 
+  при передаче документа  клиенту и произвести обратное преобразование при 
+  приеме информации от 
+  клиента (submit формы и т.п.). Все возможные способы таких преобразований 
+  должно быть описано в конфигурации
+  сервера директивами <a href="configure.html#charsetdecl">CharsetDecl</a> 
+  (объявление серверу о существовании кодовой таблицы) и 
+  <a href="configure.html#charsetrecodetable">CharsetRecodeTable</a> 
+  (описание преобразования из одной кодировки в другую). Все имеющиеся 
+  кодировки и преобразования могут  быть описаны только в конфигурации  
+  сервера/виртуального сервера. Описание директив <b>CharsetDecl</b> и 
+  <b>CharsetRecodeTable</b> в .htaccess/&lt;Directory&gt; не допускается по 
+  очевидной причине - такое описание требует, чтобы сервер переинициализировал 
+  таблицы перекодировки при каждом обращении к такой директории, что ведет 
+  к очень большому количеству лишних действий. Все прочие директивы 
+  <b>Charset...</b> могут быть указаны где угодно.
+  <p>
+   Кодировка хранения (т.е. та, в которой файлы хранятся на диске) должна быть 
+   указана (возможно, отдельно для каждой директории) директивой 
+   <a href="configure.html#charsetsourceenc">CharsetSourceEnc</a> 
+   (описывает все файлы  в директории) или директивой 
+   <a href="configure.html#charsetsourceenc">CharsetByExtension</a>. Директива 
+   <b>CharsetByExtension</b> имеет больший приоритет. При необходимости
+   определять кодировку хранения другим модулем может быть использована
+   переменная окружения <a href="configure.html#control-env-vars">FORCE_SOURCE_CHARSET</a>.
+
+
+   <dt>&nbsp;</dt>
+   <center>
+    <font size="+1">
+     <b>Определение кодировки клиента по Accept-Charset:/Accept:</b>
+    </font>
+   </center>
+  <p>
+  В случае, если в HTTP-заголовках присутствует заголовок 
+  Accept-Charset: SomeCharset или Accept: text/x-cyrillic-SomeCharset, и как 
+  минимум один из запрошенных charset известен
+  серверу (т.е. описан в директивах 
+  <a href="configure.html#charsetdecl">CharsetDecl</a>
+  или <a href="configure.html#charsetalias">CharsetAlias</a>), то сервер выдает
+  документ в соответствии с запрошенным charset. Если серверу известны 
+  несколько из  запрошенных charset, то будет выбран имеющий наибольший 
+  приоритет. Если несколько charset в запросе имеют одинаковый наибольший 
+  приоритет, то будет выбран тот из них,  который раньше описан в директиве 
+  <a href="configure.html#charsetpriority">CharsetPriority</a>.
+  Если при этом отсутствует и директива  <b>CharsetPriority</b>, то 
+  результат выбора из этих charset с наибольшим приоритетом не определен.
+  <p>
+   Если в заголовке Accept-Charset (Accept) указаны только charset неизвестные 
+   серверу и не указан wildcard (*), то поведение сервера зависит от флага
+   <a href="configure.html#charseterrreject">CharsetErrReject</a>. Если этот 
+   флаг включен (On), то клиенту вернут сообщение об ошибке. Если выключен - 
+   сервер    попробует определить charset клиента по прочим параметрам.
+  <p>
+   <b>Полностью отключить распознавание кодировки клиента по заголовку
+    Accept-Charset можно директивой 
+    <a href="configure.html#charsetdisableacceptcharset">CharsetDisableAcceptCharset</a>,
+    однако это нарушение стандарта HTTP и не может быть рекомендовано к
+    применению.</b>
+    Однако существуют частные случаи, когда действие Accept-Charset нужно
+    выключить, например Netscape Communicator 4.x настроенный по-умолчанию
+    шлет заголовок &quot;Accept-Charset: iso-8859-1,*,utf-8&quot;, 
+    соответственно если у вас описан Charset iso-8859-1, то пользователю
+    с NC 4.x будет всегда показан именно iso-8859-1. Для отключения
+    распознавания Accept-Charset в таких <i>конкретных</i> случаях может
+    быть использована директива
+    <a href="configure.html#charsetbrokenaccept">CharsetBrokenAccept</a>.
+   <p>
+
+   <dt>&nbsp;</dt>
+   <center>
+    <font size="+1">
+     <b>Определение кодировки клиента по прочим параметрам</b>
+    </font>
+   </center>
+  <p>
+  Если заголовки AcceptCharset/Accept в запросе отсутствуют, либо по ним не 
+  удалось   произвести выбор кодировки, то сервер попробует определить 
+  кодировку пользователя  по трем параметрам:
+  <UL>
+   <LI>По переменной окружения 
+    <a href="configure.html#control-env-vars">FORCE_CHARSET</a>, выставленной
+    другим модулем.
+   <LI>По номеру порта (работает начиная с версии PL20.2). В случае, когда 
+    TCP-port  к которому идет обращение совпадает с одним из описанных 
+    директивой     <a href="configure.html#charsetbyport">CharsetByPort</a>, 
+    то будет  выбрана эта кодировка.
+   <LI>По Hostname сервера. В случае, если hostname сервера (виртуального 
+    сервера) начинается с названия charset 
+    (<a href="configure.html#charsetdecl">CharsetDecl</a>) или с алиаса 
+    Charset 
+    (<a href="configure.html#charsetalias">CharsetAlias</a>), 
+    то в качестве клиентской кодировки будет   выбрана эта кодировка.
+   <LI>По префиксу URL. Если URL начинается с /charset-name/path/to/file.html 
+    или с /~user/charset-name/path/to/file.html, то будет выбрана эта 
+    кодировка.
+   <LI>По программному обеспечению пользователя (HTTP-заголовку User-Agent). 
+    Если в заголовке User-Agent есть  подстрока, описанная в директиве 
+    <a href="configure.html#charsetagent">CharsetAgent</a>, то будет выбрана
+    соответствующая кодировка. Если совпадающих подстрок несколько, то 
+    сработает самая длинная. Если совпадающих подстрок несколько и они имеют 
+    одинаковую длину, то выбор из них не определен.
+  </UL>
+
+  Порядок срабатывания этих способов определяется директивой
+  <a href="configure.html#charsetselectionorder">CharsetSelectionOrder</a> 
+  (В версиях до PL16 можно было менять местами только порядок срабатывания 
+  Directory Prefix/UserAgent и выключать (по отдельности) Hostname prefix и 
+  Directory Prefix).
+  <p>
+   Необходимая &quot;строгость&quot; совпадения Hostname сервера/префикса 
+   filename с  именем/алиасом какой-то кодировки может быть отрегулирована
+   директивой 
+   <a href="configure.html#charsetstricturimatch">CharsetStrictURIMatch</a>.
+   В режиме &quot;Off&quot; (умолчание)  выбор кодировки по 
+   Hostname/Directory производится сервером в случае совпадения <b>начала</b>
+   имени сервера/имени директории с названием/алиасом какого-то charset.
+   В режиме &quot;On&quot; производится более строгая проверка - с именем
+   charset должны совпасть полное имя сервера или его host part (для выбора
+   по hostname) и, соответственно, полное название директории (для выбора
+   по имени директории).
+   
+   <dt>&nbsp;</dt>
+   <center>
+    <font size="+1">
+     <b>Определение кодировки клиента по прочим параметрам</b>
+    </font>
+   </center>
+  <p>
+  <center><font size="+1">Если у сервера ничего не получилось</font></center>
+  <br>
+  Если сервер не сумел определить кодировку клиента, то документ будет отдан в 
+  кодировке, определенной директивой 
+  <a href="configure.html#charsetdefault">CharsetDefault</a>.
+  Если <b>CharsetDefault</b> не указана, то будет использован charset, 
+  описанный  первым в директиве 
+  <a href="configure.html#charsetpriority">CharsetPriority</a>, а если нет и
+  этой директивы, то charset, описанный первой директивой 
+  <a href="configure.html#charsetdecl">CharsetDecl</a>.
+  <p>
+
+  <center><font size="+1"><a name="ssi">SSI</a></font></center><br>
+  Т.к. все директивы (кроме <b>CharsetDecl</b> и <b>CharsetRecodeTable</b>) 
+  могут  быть  указаны где угодно, то это позволяет хранить документы в любой 
+  смеси кодировок. Некоторые осложнения могут вызвать ServerSideIncludes. 
+  Правило простое - на файл (в том числе включаемый через SSI) действуют 
+  правила той директории, где он физически находится.
+  
+  <p>
+
+  <center>
+   <font size="+1">HTTP-заголовок Content-Type: text/html; charset=...</font>
+  </center><br>
+  На выдачу сервером  <code>; charset=CharsetName</code> в заголовке 
+  <b>Content-Type:</b> влияет установлена ли директива 
+  <a href="configure.html#charsetmatchlanguage">CharsetUseMultiViews</a>.
+  Если она установлена в <i>On</i>, то charest=... выдается при соблюдении
+  таких трех условий одновременно:
+  <OL>
+   <LI>Броузер клиента не является 
+    <a href="configure.html#charsetbadagent">&quot;Bad Agent&quot;</a>
+   <LI>Опция MultiViews (поддержка многоязыковой выдачи) включена (On)
+   <LI>Язык документа, описанный через директиву <b>AddLanguage</b>, совпадает
+    с языком Charset, описанным директивой 
+    <a href="configure.html#charsetdecl">CharsetDecl</a>.
+  </OL>
+  Если опция <b>CharsetUseMultiViews</b> выключена (Off), то charset=....
+  выдается для всех документов.  
+
+<hr>
+<center>
+<table width=90% cellspacing=0 celpadding=0 bgcolor="#aaaaaa">
+<tr><td>
+<table width=100% cellspacing=4 celpadding=4 bgcolor="#eeeeee">
+<tr><td >
+<center>
+<table width=90% cellspacing=0 celpadding=0 bgcolor="#aaaaaa">
+<tr><td>
+<table width=100% cellspacing=4 celpadding=4 bgcolor="#eeeeee">
+<tr><td ><div class=adv>
+<A HREF="http://www.zagdoma.ru/2/1/">строительство коттеджей под ключ</A>
+
+<a href="http://www.strahovka-news.ru/">Страхование - новостная лента</a>
+
+
+</div>
+</td></tr></table>
+</td></tr></table>
+</center>
+
+</td></tr></table>
+</td></tr></table>
+</center>
+  <hr>
+
+<br>
+<br>
+
+<center>
+<table width=100%>
+<tr><td align=center>
+<font size="-1">
+   <a href="/index.html">[ <b>Russian Apache</b> ]</a>
+   <a href="/internals.html">[ Как это работает ]</a>
+   <a href="/notes.html">[ Рекомендации ]</a> 
+   <a href="/getit.html">[ Где взять ]</a> 
+   <a href="/install.html">[ Как установить ]</a>
+   <a href="/configure.html">[ Как настроить ]</a><br>
+   <a href="/support.html">[ Статус и поддержка ]</a>
+   <a href="/intro.html">[ Краткий обзор ]</a>
+   <a href="/faq.html">[ FAQ ]</a> 
+   <a href="/mail-archive/">[ Список рассылки ]</a>
+   <a href="/thanks.html">[ Благодарности ]</a>
+   <a href="/search.html">[ Поиск по серверу ]</a><br>
+   <a href="/powered.html">[ Powered by Russian Apache ]</a><br>
+</td></tr></table>
+<br>
+
+  <table width="800" border="0" cellspacing="0" cellpadding="0">
+   <tr>
+    <td align="CENTER">
+  <font size="-1"><b>"Russian Apache"</b> includes software developed 
+   by the Apache Group for use in the Apache HTTP server project 
+   (http://www.apache.org/) See 
+   <a href="/thanks.html#LICENSE">Apache LICENSE</a>.<br>
+   Copyright (C) 1995-2001 The Apache Group. All rights reserved.<br>
+   Copyright (C) 1996 Dm. Kryukov; Copyright (C)
+   1997-2002 <a href="http://www.lexa.ru/">Alex Tutubalin</a>. Design (C) 1998 Max Smolev.
+	    </font>
+	  </td>
+       <td width=10></td>   
+         <td valign=top>
+<a href="http://counter.rambler.ru/top100/"><FONT size=1>[AD]</FONT><AD- =0></a>
+          </td>    
+	</tr>
+      </table>
+</center>
+
+
+ </body>
+</html>
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: html3
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:1
+sgml-indent-data:t
+End:
+-->

@@ -1,0 +1,89 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>COM</TITLE><LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="f/ref.com.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="class.variant.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="class.com">COM</A></H1><A NAME="AEN10655"></A>(unknown)<p>COM - класс COM.</p>
+<A NAME="AEN10658"></A><H2>Синопсис</H2><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$obj = new COM("server.object")</PRE></TD></TR></TABLE><A NAME="class.com.class"></A><H2>Описание</H2>
+<P>Класс COM предоставляет каркас для интегрирования (D)COM-компонентов в ваши php-скрипты.</P>
+<A NAME="class.com.constructor"></A><H2>Методы</H2>string <B>COM::COM</B>
+(string module_name [, string server_name [, int codepage]])<BR></BR>
+<P>Конструктор класса COM. Параметры:<DL><DT>module_name</DT><DD>
+<P>имя или class-id запрашиваемого компонента.</P></DD><DT>server_name</DT><DD>
+<P>имя DCOM-сервера, с которого компонент должен быть получен. Если <TT><B>NULL</B></TT>, принимается
+<TT>localhost</TT>. Чтобы разрешить DCOM, <TT><B>com.allow_dcom</B></TT> должен быть установлен в 
+<TT><B>TRUE</B></TT> в файле <TT>php.ini</TT>.</P></DD><DT>codepage</DT><DD>
+<P>специфицирует кодовую страницу, используемую при конвертации php-строк в unicode-строки и обратно. Возможные значения:
+<TT><B>CP_ACP</B></TT>, <TT><B>CP_MACCP</B></TT>, <TT><B>CP_OEMCP</B></TT>, <TT><B>CP_SYMBOL</B></TT>,
+<TT><B>CP_THREAD_ACP</B></TT>, <TT><B>CP_UTF7</B></TT> и <TT><B>CP_UTF8</B></TT>.</P></DD></DL>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="example.com1"></A><h5>Пример 1. COM (1)</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>// начальная word
+$word = new COM("word.application") or die("Unable to instanciate Word");
+print "Loaded Word, version {$word-&#62;Version}\n";
+
+//переводим её на передний план
+$word-&#62;Visible = 1;
+
+//открываем пустой документ
+$word-&#62;Documents-&#62;Add();
+
+//делаем нечто сверхъестественное
+$word-&#62;Selection-&#62;TypeText("This is a test...");
+$word-&#62;Documents[1]-&#62;SaveAs("Useless test.doc");
+
+//закрываем word
+$word-&#62;Quit();
+
+//освобождаем объект
+$word-&#62;Release();
+$word = null;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="example.com2"></A><h5>Пример 2. COM (2)</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$conn = new COM("ADODB.Connection") or die("Cannot start ADO");
+$conn-&#62;Open("Provider=SQLOLEDB; Data Source=localhost;
+Initial Catalog=database; User ID=user; Password=password");
+
+$rs = $conn-&#62;Execute("SELECT * FROM sometable");    // набор записей
+
+$num_columns = $rs-&#62;Fields-&#62;Count();
+echo $num_columns . "\n";
+
+for ($i=0; $i &#60; $num_columns; $i++)
+{
+    $fld[$i] = $rs-&#62;Fields($i);
+}
+
+$rowcount = 0;
+while (!$rs-&#62;EOF)
+{
+    for ($i=0; $i &#60; $num_columns; $i++)
+    {
+        echo $fld[$i]-&#62;value . "\t";
+    }
+    echo "\n";
+    $rowcount++;            // инкремент rowcount
+    $rs-&#62;MoveNext();
+}
+
+$rs-&#62;Close();
+$conn-&#62;Close();
+
+$rs-&#62;Release();
+$conn-&#62;Release();
+
+$rs = null;
+$conn = null;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="f/ref.com.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="class.variant.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">Функции поддержки COM для Windows</TD><th WIDTH="34%"  VALIGN="top">
+<a href="f/ref.com.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">VARIANT</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

@@ -1,0 +1,51 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>crypt</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="crc32.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="echo.html">Вперёд</A>
+</TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="crypt">crypt</A></H1><A NAME="AEN77153"></A><P>(PHP 3, PHP 4)</P>
+<p>crypt - одностороннее шифрование строк (хэширование).<A NAME="AEN77156"></A></p><H2>Описание</H2>
+<p>string <B>crypt</B> (string str [, string salt])</p><P><B>crypt()</B> возвратит шифрованную строку с использованием стандартного алгоритма 
+шифрования Unix на базе DES или альтернативных алгоритмов, которые могут быть доступны в данной системе. Аргументами является шифруемая строка и 
+необязательная строка salt как база шифрования. См. Unix man-страницу для вашей crypt-функции.</P>
+<P>Если аргумент salt не предоставлен, он будет произвольно сгенерирован PHP.</P>
+<P>Некоторые ОС поддерживают более одного типа шифрования.  На практике 
+иногда стандартное DES-шифрование заменяется алгоритмом на базе MD5. Тип шифрования переключается аргументом
+salt. Во время установки PHP определяет возможности crypt-функции и будет принимать salts для других типов шифрования.
+Если salt не предоставлен, PHP будет автоматически генерировать стандартный 
+двухсимвольный salt по умолчанию, если только тип шифрования по умолчанию в 
+системе не MD5 - тогда генерируется произвольный MD5-совместимый salt.  PHP устанавливает 
+константу CRYPT_SALT_LENGTH, которая сообщает вам, применяется ли для вашей 
+системы обычный двухсимвольный salt или более длинный 12-символьный salt.</P>
+<P>Если вы используете предоставляемый salt, вы должны убедиться, что этот salt 
+генерируется один раз. Если вы вызываете эту функцию рекурсивно, это может повлиять и на вид, и на безопасность.</P>
+<P>Стандартная шифровка <B>crypt()</B> на базе DES возвращает salt как первые два символа вывода. Она также использует лишь первые восемь 
+символов из <TT><I>str</I></TT>, поэтому строки большей длины, начинающиеся теми же самыми восемью символами, 
+сгенерируют тот же результат (когда используется тот же salt).</P>
+<P>В системах, где функция crypt() поддерживает несколько типов шифрования, 
+следующие константы устанавливаются в значения 0 или 1, в зависимости от того, доступен ли данный тип:</P>
+<UL><LI><P>CRYPT_STD_DES - стандартное шифрование на базе DES с двухсимвольным salt</P></LI>
+<LI><P>CRYPT_EXT_DES - расширенное шифрование на базе DES с девятисимвольным salt</P></LI>
+<LI><P>CRYPT_MD5 - шифрование MD5 с 12-символьным salt, начиная с $1$</P></LI>
+<LI><P>CRYPT_BLOWFISH - Blowfish-шифрование с 16-символьным salt, начиная с $2$</P></LI></UL>
+<BLOCKQUOTE><P><B>Примечание: </B>отсутствует функция дешифрования, поскольку <B>crypt()</B> использует однопутный алгоритм.</P></BLOCKQUOTE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN77189"></A><h5>Пример 1. crypt()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$password = crypt("My1sTpassword"); # сгенерируем salt
+
+# Вы должны передавать все результаты работы crypt() как salt для сравнения
+# пароля, чтобы исключить проблемы при использовании разных алгоритмов шифрования. (Как
+# сказано выше, стандартное хэширование пароля на базе DES использует 2-символьный salt,
+# но хэширование на базе MD5 использует 12-символьный.)
+if (crypt($user_input,$password) == $password) {
+   echo "Password verified!";
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="md5.html"><B>md5()</B></A>
+и <A HREF="ref.mcrypt.html">расширение Mcrypt</A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3">
+<TR><TD WIDTH="33%" VALIGN="top"><A HREF="crc32.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="echo.html">Вперёд</A></TD></TR>
+<TR><TD WIDTH="33%" VALIGN="top">crc32</TD><th WIDTH="34%" VALIGN="top"><A HREF="ref.strings.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">echo</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

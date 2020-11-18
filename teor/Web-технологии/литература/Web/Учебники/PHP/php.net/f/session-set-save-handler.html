@@ -1,0 +1,88 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>session_set_save_handler</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="session-set-cookie-params.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="session-start.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.session-set-save-handler">session_set_save_handler</A></H1><A NAME="AEN73818"></A><P>(PHP 4)</P>
+<p>session_set_save_handler - устанавливает пользовательские функции хранения сессии.<A NAME="AEN73821"></A></p>
+<H2>Описание</H2><p>bool <B>session_set_save_handler</B> (string open, string close, string read, string write, string destroy, string gc)</p>
+<P><B>session_set_save_handler()</B> устанавливает пользовательские функции хранения сессии, которые используются 
+для хранения и запрашивания данных, ассоциированных с сессией. Это чаще всего используется, когда метод хранения отличается от методов PHP-сессий. Например, 
+при хранении данных сессии в локальной БД. Возвращает <TT><B>TRUE</B></TT> при успехе, <TT><B>FALSE</B></TT> при неудаче.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>вы обязаны установить в опции конфигурации <TT><I>session.save_handler</I></TT> значение
+<TT><I>user</I></TT> в вашем файле <TT>php.ini</TT>, для того чтобы <B>session_set_save_handler()</B> работала.</P></BLOCKQUOTE>
+<BLOCKQUOTE><P><B>Примечание: </B>обработчик "write" не выполняется после закрытия потока вывода.  Таким 
+образом, вывод отладочных операторов в обработчике "write" никогда не будет виден в браузере. Если необходим вывод отладки,
+можно записать его в файл.</P></BLOCKQUOTE><P>В следующем примере показано хранение данных сессии в файле, аналогично 
+обработчику по умолчанию PHP-сессий <TT><I>files</I></TT>. Этот пример можно легко расширить для покрытия хранения БД с использованием 
+вашей любимой машины работы с БД, поддерживаемой в PHP.</P><P>Функция read должна всегда возвращать значение, чтобы обработчик 
+сохранения всегда работал, как ожидается. Возвращает пустую строку, если нет 
+данных для чтения. Return-значения из других обработчиков конвертируются в 
+булево выражение. TRUE при успехе, FALSE при неудаче.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN73860"></A><h5>Пример 1. session_set_save_handler()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+function open ($save_path, $session_name) {
+  global $sess_save_path, $sess_session_name;
+       
+  $sess_save_path = $save_path;
+  $sess_session_name = $session_name;
+  return(true);
+}
+
+function close() {
+  return(true);
+}
+
+function read ($id) {
+  global $sess_save_path, $sess_session_name;
+
+  $sess_file = "$sess_save_path/sess_$id";
+  if ($fp = @fopen($sess_file, "r")) {
+    $sess_data = fread($fp, filesize($sess_file));
+    return($sess_data);
+  } else {
+    return(""); // Здесь обязана возвращать "".
+  }
+
+}
+
+function write ($id, $sess_data) {
+  global $sess_save_path, $sess_session_name;
+
+  $sess_file = "$sess_save_path/sess_$id";
+  if ($fp = @fopen($sess_file, "w")) {
+    return(fwrite($fp, $sess_data));
+  } else {
+    return(false);
+  }
+
+}
+
+function destroy ($id) {
+  global $sess_save_path, $sess_session_name;
+       
+  $sess_file = "$sess_save_path/sess_$id";
+  return(@unlink($sess_file));
+}
+
+/*******************************************************************
+ * ПРЕДУПРЕЖДЕНИЕ - Вам понадобится реализовать здесь какой-нибудь *
+ * вариант утилиты уборки мусора. *
+ *******************************************************************/
+function gc ($maxlifetime) {
+  return true;
+}
+
+session_set_save_handler ("open", "close", "read", "write", "destroy", "gc");
+
+session_start();
+
+// продолжить нормальное использование сессий
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="session-set-cookie-params.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="session-start.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">session_set_cookie_params</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.session.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">session_start</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

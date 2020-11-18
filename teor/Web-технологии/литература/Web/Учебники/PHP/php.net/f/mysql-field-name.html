@@ -1,0 +1,34 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>mysql_field_name</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="mysql-field-len.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="mysql-field-seek.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>    
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.mysql-field-name">mysql_field_name</A></H1><A NAME="AEN51453"></A><P>(PHP 3, PHP 4)</P>
+<p>mysql_field_name - получает имя специфицированного поля результата.<A NAME="AEN51456"></A></p><H2>Описание</H2>
+<p>string <B>mysql_field_name</B> (resource result, int field_index)</p>
+<P><B>mysql_field_name()</B> возвращает им специфицированного field_index. <TT><I>result</I></TT> обязан быть правильным идентификатором результата, а
+<TT><I>field_index</I></TT> это числовое смещение поля.</P><BLOCKQUOTE><P><B>Примечание: </B>
+<TT><I>field_index</I></TT> начинаются с 0, например, индекс третьего поля будет 2, индекс четвёртого поля 
+- 3, и так далее.</P></BLOCKQUOTE><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN51476"></A>
+<h5>Пример 1. mysql_field_name()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>/* Пользовательская таблица состоит из трёх полей:
+ *   user_id
+ *   username
+ *   password.
+ */
+$link = mysql_connect('localhost', "mysql_user", "mysql_password");
+mysql_select_db($dbname, $link)
+    or die("Could not set $dbname");
+$res = mysql_query("select * from users", $link);
+
+echo mysql_field_name($res, 0) . "\n";
+echo mysql_field_name($res, 2);</PRE></TD></TR></TABLE><P>Пример даст на выходе:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>user_idpassword</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Для обеспечения обратной совместимости можно также использовать <B>mysql_fieldname()</B>, но это не рекомендуется.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="mysql-field-len.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="mysql-field-seek.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">mysql_field_len</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.mysql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">mysql_field_seek</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

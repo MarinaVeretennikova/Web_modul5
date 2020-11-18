@@ -1,0 +1,53 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>OCIFetchStatement</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ocifetchinto.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ocifreecollection.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="ocifetchstatement">OCIFetchStatement</A></H1><A NAME="AEN58320"></A><P>(PHP 3&#62;= 3.0.8, PHP 4)</P>
+<p>OCIFetchStatement - извлекает все ряды результирующих данных в массив.<A NAME="AEN58323"></A></p>
+<H2>Описание</H2><p>int <B>OCIFetchStatement</B> (int stmt, array &#38; variable)</p>
+<P><B>OCIFetchStatement()</B> извлекает все ряды из результата в пользовательский массив.
+<B>OCIFetchStatement()</B> возвращает количество извлечённых рядов.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN58337"></A><h5>Пример 1. OCIFetchStatement</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>&#60;?php
+/* Пример OCIFetchStatement - mbritton@verinet.com (990624) */
+
+$conn = OCILogon("scott","tiger");
+
+$stmt = OCIParse($conn,"select * from emp");
+
+OCIExecute($stmt);
+
+$nrows = OCIFetchStatement($stmt,$results);
+if ( $nrows &#62; 0 ) {
+   print "&#60;TABLE BORDER=\"1\"&#62;\n";
+   print "&#60;TR&#62;\n";
+   while ( list( $key, $val ) = each( $results ) ) {
+      print "&#60;TH&#62;$key&#60;/TH&#62;\n";
+   }
+   print "&#60;/TR&#62;\n";
+   
+   for ( $i = 0; $i &#60; $nrows; $i++ ) {
+      reset($results);
+      print "&#60;TR&#62;\n";
+      while ( $column = each($results) ) {   
+         $data = $column['value'];
+         print "&#60;TD&#62;$data[$i]&#60;/TD&#62;\n";
+      }
+      print "&#60;/TR&#62;\n";
+   }
+   print "&#60;/TABLE&#62;\n";
+} else {
+   echo "No data found&#60;BR&#62;\n";
+}      
+print "$nrows Records Selected&#60;BR&#62;\n";
+ 
+OCIFreeStatement($stmt);
+OCILogoff($conn);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ocifetchinto.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ocifreecollection.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">OCIFetchInto</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.oci8.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">OCIFreeCollection</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

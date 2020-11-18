@@ -1,0 +1,48 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>syslog</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="socket-set-timeout.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ref.ncurses.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.syslog">syslog</A></H1><A NAME="AEN53271"></A><P>(PHP 3, PHP 4)</P>
+<p>syslog - генерирует системное log-сообщение.<A NAME="AEN53274"></A></p> <H2>Описание</H2><p>int <B>syslog</B> (int priority, string message)</p>
+<P><B>syslog()</B> генерирует log-сообщение, которое будет распространено системным логером.<br>
+<TT><I>priority</I></TT> это комбинация facility и уровня, значения которых заданы в следующем разделе.
+Другой аргумент это сообщение для отправки, но два символа <TT>%m</TT> будут замещены строкой сообщения об ошибке (strerror), соответствующей 
+имеющемуся значению errno.<A NAME="AEN53291"></A></P><h6>Таблица 1. <B>Приоритеты syslog()</B> (в нисходящем порядке)</h6>
+<TABLE BORDER="1"><TR><TH>Константа</TH><TH>Описание</TH></TR><TBODY><TR><TD>LOG_EMERG</TD><TD>система не используема</TD></TR>
+<TR><TD>LOG_ALERT</TD><TD>акция должна предприниматься немедленно</TD></TR><TR><TD>LOG_CRIT</TD><TD>критические условия</TD>
+</TR><TR><TD>LOG_ERR</TD><TD>ошибочные условия</TD></TR><TR><TD>LOG_WARNING</TD><TD>предупреждающие условия</TD></TR>
+<TR><TD>LOG_NOTICE</TD><TD>нормальное, но значащее условие</TD></TR><TR><TD>LOG_INFO</TD><TD>информационное сообщение</TD>
+</TR><TR><TD>LOG_DEBUG</TD><TD>сообщение отладки</TD></TR></TBODY></TABLE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN53325"></A><h5>Пример 1. Using syslog()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+define_syslog_variables();
+</PRE><PRE>// открыть syslog, включая process ID, и отправить также
+// log в стандартную ошибку, использовать пользовательский механизм логинга
+</PRE><PRE>openlog("myScripLog", LOG_PID | LOG_PERROR, LOG_LOCAL0);
+
+// некоторый код
+
+if (authorized_client()) {
+    // сделать что-нибудь
+} else {
+    // неавторизованный клиент!
+    // log попытку
+    $access = date("Y/m/d H:i:s");
+    syslog(LOG_WARNING,"Unauthorized client: $access $REMOTE_ADDR ($HTTP_USER_AGENT)");
+}
+
+closelog();
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><p>О настройке пользовательского log-обработчика см. страницу
+syslog.conf(5) Unix manual. Дополнительную информацию о syslog облегчениях/facilities и 
+опциях можно найти на man-страницах syslog(3) на Unix-машинах.</p>
+<P>В Windows NT syslog-сервис эмулируется с использованием Event Log.</P><P>См. также
+<A HREF="define-syslog-variables.html"><B>define_syslog_variables()</B></A>,
+<A HREF="openlog.html"><B>openlog()</B></A> и
+<A HREF="closelog.html"><B>closelog()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="socket-set-timeout.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ref.ncurses.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">socket_set_timeout</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.network.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Функции управления экраном терминала Ncurses</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

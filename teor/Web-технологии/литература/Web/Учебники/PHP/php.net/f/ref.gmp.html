@@ -1,0 +1,92 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции GMP</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0"  WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%"  BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="textdomain.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="gmp-abs.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+    <IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.gmp"></A>XXXVI. Функции GMP</h1><A NAME="AEN26930"></A><H1><A NAME="gmp.intro">Введение</A></H1>
+<P>Эти функции позволяют работать целыми числами произвольной точности с 
+использованием библиотеки GNU MP.</P><P>Эти функции были введены в PHP 4.0.4.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>в основном функции GMP принимают GMP-количество аргументов, 
+определённое далее как <TT>resource</TT>. Однако большая часть этих функций принимает также числовые и строковые 
+аргументы, которые можно  конвертировать в числа. Также, 
+если если имеется более быстрая функция, работающая с целочисленными аргументами,
+она может использоваться вместо более медленной функции, если 
+предоставляемые аргументы являются целыми числами. Это делается прозрачно, 
+так что вы можете использовать целые числа в каждой функции, ожидающей GMP-числа. См. также 
+функцию <A HREF="gmp-init.html"><B>gmp_init()</B></A>.</P></BLOCKQUOTE>
+<TABLE CLASS="warning"  BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD><P>Если вы хотите явно специфицировать большое целое число,
+специфицируйте его как строку. Если вы это не сделаете, PHP будет 
+интерпретировать сначала целочисленный литерал, возможно, с потерей 
+точности, даже перед использованием <TT>GMP</TT>.</P></TD></TR></TABLE><H1><A NAME="gmp.requirenments">Требования</A>
+</H1><P>Вы можете загрузить библиотеку GMP с <A HREF="http://www.swox.com/gmp/" TARGET="_top">http://www.swox.com/gmp/</A>. Этот сайт содержит также учебник по
+GMP.</P><P>Вам понадобится версия GMP 2 или новее для использования этих функций. 
+Некоторые функции могут потребовать использования самой последней версии библиотеки GMP.</P>
+<H1><A NAME="gmp.installation">Установка</A></H1><P>Чтобы эти функции работали, вы обязаны скомпилировать PHP с поддержкой
+GMP, используя опцию<TT><br>--with-gmp</TT>.</P>
+<H1><a name="gmp.configuration">Конфигурация</a></H1><P>Это расширение не определяет никаких директив конфигурации.</P>
+<H1><A NAME="gmp.resources">Типы ресурсов</A></H1><P>Это расширение не определяет никакие типы ресурсов.</P>
+<H1><A NAME="gmp.constants">Предопределённые константы</A></H1><P>Эти константы определены данным расширением и будут доступны только в том случае, если либо вкомпилированы в РНР, либо динамически загружены на этапе прогона.</P>
+<DL><DT><TT><B>GMP_ROUND_ZERO</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>GMP_ROUND_PLUSINF</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT>
+<DT><TT><B>GMP_ROUND_MINUSINF</B></TT> (<A HREF="../types.integer.html">integer</A>)</DT></DL>
+<H1><A NAME="gmp.examples">Примеры</A></H1><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN26986"></A>
+<h5>Пример 1. Функция вычисления факториала с использованием GMP</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+function fact ($x) {
+    if ($x &#60;= 1) 
+  return 1;
+    else
+  return gmp_mul ($x, fact ($x-1));
+}
+
+print gmp_strval (fact (1000)) . "\n";
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Факториал 1000 будет вычислен (довольно большое число) весьма быстро.</P>
+<H1><A NAME="gmp.seealso">См. также</A></H1><P>Математические функции можно найти найти также в разделах
+<A HREF="ref.bc.html">Математические функции BCMath произвольной точности</A> и <a href="ref.math.html">Математические функции</a>.</P>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="gmp-abs.html">gmp_abs</A> - абсолютное значение</DT>
+<DT><A HREF="gmp-add.html">gmp_add</A> - складывает числа</DT>
+<DT><A HREF="gmp-and.html">gmp_and</A> - логическое AND</DT>
+<DT><A HREF="gmp-clrbit.html">gmp_clrbit</A> - очищает бит</DT>
+<DT><A HREF="gmp-cmp.html">gmp_cmp</A> - сравнивает числа</DT>
+<DT><A HREF="gmp-com.html">gmp_com</A> - высчитывает дополнение/complement a</DT>
+<DT><A HREF="gmp-div-q.html">gmp_div_q</A> - делит числа</DT>
+<DT><A HREF="gmp-div-qr.html">gmp_div_qr</A> - делит числа и получает частное и остаток</DT>
+<DT><A HREF="gmp-div-r.html">gmp_div_r</A> - остаток от деления чисел</DT>
+<DT><A HREF="gmp-div.html">gmp_div</A> - делит числа</DT>
+<DT><A HREF="gmp-divexact.html">gmp_divexact</A> - точное деление чисел</DT>
+<DT><A HREF="gmp-fact.html">gmp_fact</A> - факториал</DT>
+<DT><A HREF="gmp-gcd.html">gmp_gcd</A> - вычисляет GCD</DT>
+<DT><A HREF="gmp-gcdext.html">gmp_gcdext</A> - вычисляет GCD и множители</DT>
+<DT><A HREF="gmp-hamdist.html">gmp_hamdist</A> - Hamming distance <i>(математики, переводите...)</i></DT>
+<DT><A HREF="gmp-init.html">gmp_init</A> - создаёт GMP-число</DT>
+<DT><A HREF="gmp-intval.html">gmp_intval</A> - конвертирует GMP-число в целое/integer</DT>
+<DT><A HREF="gmp-invert.html">gmp_invert</A> - инвертирует по modulo</DT>
+<DT><A HREF="gmp-jacobi.html">gmp_jacobi</A> - символ Jacobi</DT>
+<DT><A HREF="gmp-legendre.html">gmp_legendre</A> - символ Legendre</DT>
+<DT><A HREF="gmp-mod.html">gmp_mod</A> - операция Modulo</DT>
+<DT><A HREF="gmp-mul.html">gmp_mul</A> - умножает числа</DT>
+<DT><A HREF="gmp-neg.html">gmp_neg</A> - отрицает число</DT>
+<DT><A HREF="gmp-or.html">gmp_or</A> - логическое OR</DT>
+<DT><A HREF="gmp-perfect-square.html">gmp_perfect_square</A> - проверка точности квадрата</DT>
+<DT><A HREF="gmp-popcount.html">gmp_popcount</A> - счёт заполнения</DT>
+<DT><A HREF="gmp-pow.html">gmp_pow</A> - возводит число в степень</DT>
+<DT><A HREF="gmp-powm.html">gmp_powm</A> - возводит число в степень с modulo</DT>
+<DT><A HREF="gmp-prob-prime.html">gmp_prob_prime</A> - проверяет, является ли число "probably prime"</DT>
+<DT><A HREF="gmp-random.html">gmp_random</A> - случайное число</DT>
+<DT><A HREF="gmp-scan0.html">gmp_scan0</A> - сканирует 0</DT>
+<DT><A HREF="gmp-scan1.html">gmp_scan1</A> - сканирует 1</DT>
+<DT><A HREF="gmp-setbit.html">gmp_setbit</A> - устанавливает бит</DT>
+<DT><A HREF="gmp-sign.html">gmp_sign</A> - знак числа</DT>
+<DT><A HREF="gmp-sqrt.html">gmp_sqrt</A> - квадратный корень</DT>
+<DT><A HREF="gmp-sqrtrm.html">gmp_sqrtrm</A> - квадратный корень с остатком</DT>
+<DT><A HREF="gmp-strval.html">gmp_strval</A> - конвертирует GMP-число в строку</DT>
+<DT><A HREF="gmp-sub.html">gmp_sub</A> - вычитает числа</DT>
+<DT><A HREF="gmp-xor.html">gmp_xor</A> - логическое XOR</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0"  WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+    <IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="textdomain.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="gmp-abs.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">textdomain</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">gmp_abs</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

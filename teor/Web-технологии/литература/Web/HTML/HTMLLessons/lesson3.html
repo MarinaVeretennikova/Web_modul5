@@ -1,0 +1,525 @@
+<HTML>
+<HEAD>
+<LINK href="styles.css" rel="stylesheet" type="text/css">
+<STYLE type="text/css">
+<!--
+-->
+</STYLE></HEAD>
+
+
+<BODY BGCOLOR="white" TEXT="#000000">
+
+<br><br>
+
+<DIV class="h1">Создание собственной страницы в Internet</DIV>
+<DIV class="h3">Константин Иванченков</DIV>
+<BR><BR>
+
+<DIV class="h2">Занятие 3. Погружение</DIV>
+<P class="maintext"><B><I>Основные принципы работы с таблицами. Вложенные таблицы. Что такое фреймы. Горизонтальные и вертикальные фреймы. Специфика создания страниц для Netscape Navigator и MS Internet Explorer. Все гениальное просто.</I></B></p>
+<P class="maintext">Ох, нелегко быть хакером... Погони, перестрелки... Забудьте. Все это голливудская ерунда. Настоящие хакеры работают мозгами – иначе в этом деле невозможно, ведь основные сложности, с которыми приходится сталкиваться при взломе компьютерных сетей,– это необходимость сделать что-либо с помощью средств, которыми это сделать, казалось бы, невозможно, а других способов выполнить задачу просто нет. Вот и приходится думать. А помогают в этом знания. Почему я все это говорю? Дело в том, что, как это ни грустно, но проблемы, с которыми сталкивается Web-дизайнер, зачастую имеют много общего со спецификой работы хакеров. К сожалению, HTML — очень «негибкий» язык, и существует множество вещей, сделать которые с помощью стандартных средств этого языка казалось бы нельзя. Но делать приходится. Поэтому при создании неординарных Web-страниц стоит руководствоваться замечательным принципом — «Think as a hacker», т. е. «Думайте как хакер» – и, обладая глубокими знаниями, вы наверняка найдете решение проблемы. </p>
+<P class="maintext">Один из основных недостатков классического HTML — отсутствие возможности абсолютного позиционирования элементов Web-страницы, т. е. вы не можете расположить что-либо в точно указанном вами месте страницы. Вместо этого HTML предлагает относительное позиционирование, при котором расположение элемента описывается только относительно другого элемента, предшествующего ему.</p>
+<P class="maintext">Например, вы не можете расположить рисунок не по центру страницы и поместить под него подпись, точно позиционированную относительно центра рисунка.</p>
+<P class="maintext">Сделать это можно, только выровняв и рисунок и подпись относительно центра страницы, используя тег <B>&lt;CENTER&gt;</B> .</p>
+<P class="maintext">В то же время решение этой проблемы существует, и причем целых два варианта. Один из них – разместить элементы страницы с использованием <B>CSS (Cascading Style Sheets)</B> – нового стандартного языка расширения HTML, который в ближайшем будущем в корне изменит приемы создания Web-страниц, сделает их более привлекательными и упростит разработку.</p>
+<P class="maintext">CSS обладает громадным потенциалом возможностей по позиционированию и оформлению элементов Web-страниц, недавно стандарт на него был утвержден WWW-консорциумом, и следующее наше занятие мы посвятим изучению этого языка. Но у CSS есть один недостаток: его поддерживают только последние версии броузеров, и использовать его в настоящее время стоит только для оформления страниц, но не для позиционирования элементов.</p>
+<P class="maintext">Второй, классический вариант решения этой проблемы заключается в применении таблиц для позиционирования элементов страницы. Это не слишком просто, но это единственный универсальный путь. Именно так в настоящее время и устроено большинство сложных Web-страниц.</p>
+<P class="maintext">Суть метода заключается в следующем: на страничке создается таблица с невидимыми границами ячеек, и элементы, требующие точного позиционирования, располагаются в ячейках таблицы. Для каждой из ячеек вы можете указать собственные параметры форматирования, соответственно команды форматирования действуют только в пределах ячейки.</p>
+<P class="maintext">Создав на странице однострочную таблицу, состоящую из трех ячеек, и расположив в левой ячейке, внутри тега <B>&lt;CENTER&gt; &lt;/CENTER&gt;</B>, наш рисунок и подпись к нему, мы получим искомый вариант.
+Рассмотрим подробнее теги, применяющиеся для создания таблиц. В HTML любая таблица состоит из строк, разделенных на ячейки. Минимальное их количество – одна строка, содержащая одну ячейку. Максимальное количество не ограничено.</p>
+<P class="maintext">Каждая строка и ячейка описываются отдельными тегами. Все теги, применяющиеся для описания таблиц, требуют ограничения действия, т. е. закрытия. Структура HTML-таблицы выглядит так:</p>
+<br>
+<center><table border="0">
+<tr>
+<td><pre><tt>
+&lt;ОПИСАНИЕ ТАБЛИЦЫ&gt;
+&lt;ОПИСАНИЕ СТРОКИ&gt;
+&lt;ОПИСАНИЕ ЯЧЕЙКИ&gt; содержание &lt;/ОПИСАНИЕ ЯЧЕЙКИ&gt;
+&lt;ОПИСАНИЕ ЯЧЕЙКИ&gt; содержание &lt;/ОПИСАНИЕ ЯЧЕЙКИ&gt;
+&lt;ОПИСАНИЕ ЯЧЕЙКИ&gt; содержание &lt;/ОПИСАНИЕ ЯЧЕЙКИ&gt;
+&lt;/ОПИСАНИЕ СТРОКИ&gt;
+&lt;/ОПИСАНИЕ ТАБЛИЦЫ&gt;</tt></pre></td></tr></table></center><br>
+
+<P class="maintext">Рассмотрим синтаксис этих тегов:</p>
+<P class="maintext"><B>&lt;TABLE&gt; &lt;/TABLE&gt;</B> — главный тег, применяющийся для описания начала и конца таблицы, а также параметров отображения таблицы, таких, как ее размеры, оформление границ ячеек и т. п.</p>
+<P class="maintext"><B>&lt;TR&gt;&nbsp;&lt;/TR&gt;</B> - тег, описывающий начало и конец строки таблицы.</p>
+<P class="maintext"><B>&lt;TD&gt;&nbsp;&lt;/TD&gt;</B> - тег, описывающий начало и конец ячейки.</p>
+<P class="maintext">Каждый из этих тегов имеет набор параметров, служащих для управления отображением таблицы, установки размеров, выравнивания и т. д.</p>
+<P class="maintext">Каждая таблица и ячейки, составляющие ее, имеют такие свойства, как ширина и высота, выравнивание по ширине и высоте, толщина границы, цвет фона. Эти свойства присваиваются элементам таблицы с помощью параметров <B>WIDTH, HEIGHT, ALIGN, VALIGN, BORDER, BGCOLOR, BACKGROUND, CELLSPACING, CELLPADDING, COLSPAN и ROWSPAN.</B></p>
+<P class="maintext">Давайте поэкспериментируем с ними.</p>
+<P class="maintext">Параметр <B>WIDTH</B> управляет шириной таблицы и ячейки. В случае, если этот параметр не указан, ширина таблицы/ячейки будет зависеть от ширины ее содержимого. Ширина может указываться в процентах относительно ширины окна (для ячейки – относительно ширины таблицы) или в пикселях.</p>
+<P class="maintext"><B>HEIGHT</B> – то же самое, но для управления высотой таблицы.</p>
+<P class="maintext">Вот исходный код первой таблицы (Пример 1):</p>
+<br>
+<center><table border="0"><tr><td><pre><tt>
+&lt;TABLE&gt;
+&lt;TR&gt;
+&lt;TD&gt;Таблица из одной строки&lt;/TD&gt;
+&lt;TD&gt;из трех столбцов&lt;/TD&gt;
+&lt;TD&gt;без указания ширины таблицы и ячеек.&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;/TABLE&gt;</tt></pre></td></tr></table></center>
+<br>
+<center><TABLE border="1">
+<TR>
+<TD>Таблица из одной строки</TD>
+<TD>из трех столбцов</TD>
+<TD>без указания ширины таблицы и ячеек.</TD>
+</TR>
+</TABLE></center><br>
+
+<P class="maintext">А вот второй (Пример. 2):</p>
+<br>
+<center><table border="0"><tr align="left"><td>
+<tt><pre>&lt;TABLE BORDER WIDTH=100%&gt;
+&lt;TR&gt;
+&lt;TD&gt;Таблица из одной строки&lt;/TD&gt;
+&lt;TD&gt;и трех столбцов&lt;/TD&gt;
+&lt;TD&gt;c указанием ширины таблицы,
+равной 100% ширины окна броузера.&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;/TABLE&gt;</pre></tt></td></tr></table></center><br>
+
+<center><TABLE BORDER WIDTH=100% border="1">
+<TR>
+<TD>Таблица из одной строки</TD>
+<TD>и трех столбцов</TD>
+<TD>c указанием ширины таблицы, равной 100% ширины окна броузера.</TD>
+</TR>
+</TABLE></center><br>
+
+<P class="maintext">И третьей (Пример. 3):</p>
+<br>
+<center><table border="0"><tr><td>
+<pre><tt>&lt;TABLE BORDER&gt;
+&lt;TR&gt;
+&lt;TD WIDTH=75&gt;
+       Ячейка с указанием ширины в 75 пикселей&lt;/TD&gt;
+&lt;TD WIDTH=100&gt;
+       Ячейка с указанием ширины в 100 пикселей&lt;/TD&gt;
+&lt;TD WIDTH=150&gt;
+       Ячейка с указанием ширины в 150 пикселей&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;/TABLE&gt;</tt></pre></td></tr></table></center>
+<br>
+
+<center><TABLE BORDER>
+<TR>
+<TD WIDTH=75>Ячейка с указанием ширины в 75 пикселей</TD>
+<TD WIDTH=100>Ячейка с указанием ширины в 100 пикселей</TD>
+<TD WIDTH=150>Ячейка с указанием ширины в 150 пикселей</TD>
+</TR>
+</TABLE></center>
+
+<P class="maintext">Для управления размещением таблицы на Web-странице и для форматирования данных внутри таблицы служат параметры <B>ALIGN</B> и <B>VALIGN</B>.</p>
+<P class="maintext">Параметр <B>ALIGN</B> может иметь значения <B>LEFT, RIGHT и CENTER</B>.</p>
+<P class="maintext">VALIGN может принимать значения <B>TOP, MIDDLE и BOTTOM</B>.</p>
+<P class="maintext">При отсутствии этих параметров таблица всегда будет выравниваться относительно левого края страницы, а содержимое ячеек – по горизонтали относительно левого края ячейки и по вертикали относительно ее центра.
+При употреблении в теге <B>&lt;TABLE&gt;</B> параметр <B>ALIGN</B> управляет выравниванием таблицы относительно окна броузера, а при употреблении в тегах <B>&lt;TD&gt;</B> и <B>&lt;TR&gt;</B> — выравниванием содержимого относительно границ ячейки.</p>
+<P class="maintext">Параметр <B>VALIGN</B> применяется только внутри тегов <B>&lt;TR&gt;</B> и <B>&lt;TD&gt;</B>.
+При употреблении параметров <B>ALIGN</B> и <B>VALIGN</B> внутри тега <B>&lt;TR&gt;</B> выравнивание задается сразу для всех ячеек, содержащихся в этой строке.</p>
+
+<P class="maintext">Вот исходный код этих таблиц (Пример 4. Пример 5):</p>
+<P class="maintext">4.</p>
+<br>
+<center><table border="0"><tr><td>
+<pre><tt>
+&lt;TABLE BORDER WIDTH=400 HEIGHT=150&gt;
+&lt;TR&gt;
+&lt;TD VALIGN=TOP&gt;VALIGN=TOP&lt;/TD&gt;
+&lt;TD VALIGN=MIDDLE ALIGN=CENTER&gt;ALIGN=CENTER
+                            VALIGN=MIDDLE&lt;/TD&gt;
+&lt;TD VALIGN=BOTTOM ALIGN=RIGHT&gt;ALIGN=RIGHT
+                            VALIGN=BOTTOM&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;/TABLE&gt;</tt></pre></td></tr></table></center><br>
+
+<center><TABLE BORDER WIDTH=400 HEIGHT=150>
+<TR>
+<TD VALIGN=TOP>VALIGN=TOP</TD>
+<TD VALIGN=MIDDLE ALIGN=CENTER>ALIGN=CENTER VALIGN=MIDDLE</TD>
+<TD VALIGN=BOTTOM ALIGN=RIGHT>ALIGN=RIGHT VALIGN=BOTTOM</TD>
+</TR>
+</TABLE></center>
+
+<P class="maintext">5.</p>
+<br>
+<center><table border="0"><tr><td>
+<pre><tt>&lt;TABLE BORDER WIDTH=400 HEIGHT=150 ALIGN=CENTER&gt;
+&lt;TR VALIGN=BOTTOM ALIGN=CENTER&gt;
+&lt;TD&gt;Для этой строки задан параметр VALIGN=BOTTOM
+и ALIGN=CENTER&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;TR VALIGN=TOP ALIGN=CENTER&gt;
+&lt;TD&gt;А для этой — VALIGN=TOP и ALIGN=CENTER&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;/TABLE&gt;</tt></pre></td></tr></table></center><br>
+
+<center><TABLE BORDER WIDTH=400 HEIGHT=150 ALIGN=CENTER>
+<TR VALIGN=BOTTOM ALIGN=CENTER>
+<TD>Для этой строки задан параметр VALIGN=BOTTOM и ALIGN=CENTER</TD>
+</TR>
+<TR VALIGN=TOP ALIGN=CENTER>
+<TD>А для этой — VALIGN=TOP и ALIGN=CENTER</TD>
+</TR>
+</TABLE></center><br>
+
+<P class="maintext">Параметр <B>BORDER</B> служит для управления толщиной границ таблицы. Употребляется он только в теге <B>&lt;TABLE&gt;</B>.</p>
+<P class="maintext">Параметры <B>CELLSPACING</B> служат для управления количеством свободного пространства между ячейками таблицы, а <B>CELLPADDING</B> – между границами ячейки и ее содержанием. Употребляются они также только в теге <B>&lt;TABLE&gt;</B>.</p>
+<P class="maintext">Для создания «невидимой» таблицы необходимо установить параметры <B>BORDER=0 CELLSPACING=0 CELLPADDING=0</B> Исходный код таблицы 1 (Пример 6):</p>
+<br>
+<center><table border="0"><tr><td>
+<pre><tt>&lt;TABLE BORDER=15 WIDTH=400 HEIGHT=150 ALIGN=CENTER&gt;
+&lt;TR&gt;
+&lt;TD&gt;Для этой таблицы задан параметр BORDER=15&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;/TABLE&gt;</tt></pre></td></tr></table></center><br>
+
+
+<center><TABLE BORDER=15 WIDTH=400 HEIGHT=150 ALIGN=CENTER>
+<TR>
+<TD>Для этой таблицы задан параметр BORDER=15</TD>
+</TR>
+</TABLE><br><font face="Arial Cyr, Arial" size="1">Таблица 1.</font></center>
+
+<P class="maintext">И таблицы 2:</p>
+<br>
+<center><table border="0"><tr><td><pre>&lt;TABLE BORDER=5 CELLSPACING=5 CELLPADDING=25<br>WIDTH=600 HEIGHT=150 ALIGN=CENTER&gt;
+&lt;TR&gt;
+&lt;TD&gt;Для этой таблицы заданы параметры BORDER=5<br>CELLSPACING=5 CELLPADDING=25&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;/TABLE&gt;</pre></td></tr></table></center><br>
+
+<center><TABLE BORDER=5 CELLSPACING=5 CELLPADDING=25 WIDTH=400 HEIGHT=150 ALIGN=CENTER>
+<TR>
+<TD>Для этой таблицы заданы параметры BORDER=5 CELLSPACING=5 CELLPADDING=25</TD>
+</TR>
+</TABLE><br><font face="Arial Cyr, Arial" size="1">Таблица 2.</font></center></center>
+
+<P class="maintext">Параметр <B>BGCOLOR</B> предназначен для окрашивания фона ячеек таблицы, а параметр <B>BACKGROUND</B> – для размещения графического файла в качестве фона таблицы. Применять эти параметры можно как для таблицы в целом, так и для отдельных ячеек. Значения этих параметров необходимо указывать так же, как и в теге &lt;BODY&gt;, т. е. цвет указывается в восьмеричном исчислении или с помощью стандартного имени, а путь к файлу, используемому в качестве «обоев» для фона таблицы, необходимо указывать в соответствии со всеми правилами указания URL (см. Занятие 2).</p>
+<P class="maintext">Вот исходный код этих таблиц (Пример. 7):</p>
+<P class="maintext">1.</p>
+<br>
+<center><table><tr><td><pre><tt>
+&lt;TABLE BORDER=3 CELLSPACING=0 WIDTH=400
+HEIGHT=100 ALIGN=CENTER BGCOLOR=BLACK&gt;
+&lt;TR&gt;
+&lt;TD ALIGN=CENTER BGCOLOR=RED&gt;Для этой
+ячейки задан параметр BGCOLOR=RED&lt;/TD&gt;
+&lt;TD ALIGN=CENTER&gt;
+&lt;FONT COLOR=WHITE&gt;А в этой цвет шрифта
+ изменен на белый&lt;/FONT&gt;&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;/TABLE&gt;</tt></pre></td></tr></table></center><br>
+
+<center><TABLE BORDER=3 CELLSPACING=0 WIDTH=400 HEIGHT=100 ALIGN=CENTER BGCOLOR=BLACK>
+<TR>
+<TD ALIGN=CENTER BGCOLOR=RED>Для этой ячейки задан параметр BGCOLOR=RED</TD>
+<TD ALIGN=CENTER><FONT COLOR=WHITE>А в этой цвет шрифта изменен на белый</FONT></TD>
+</TR>
+</TABLE></center><br>
+
+<P class="maintext">2.</p>
+<br>
+
+<center><table><tr><td><pre><tt>
+&lt;TABLE BORDER=1 WIDTH=400 HEIGHT=100
+BACKGROUND=”backgr.gif” ALIGN=CENTER&gt;
+&lt;TR&gt;
+&lt;TD ALIGN=CENTER&gt;Для этой таблицы задан
+параметр BACKGROUND=”file”&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;/TABLE&gt;</tt></pre></td></tr></table></center><br>
+
+<center><TABLE BORDER=1 WIDTH=600 HEIGHT=100 BACKGROUND="backgr.gif" ALIGN=CENTER>
+<TR>
+<TD ALIGN=CENTER>Для этой таблицы задан параметр BACKGROUND=”file”</TD>
+</TR>
+</TABLE></center><br>
+
+<P class="maintext">3.</p>
+<br>
+
+<center><table><tr><td>
+<pre><tt>&lt;TABLE BORDER=0 ALIGN=CENTER&gt;
+&lt;TR&gt;
+&lt;TD&gt;А эта таблица – самая скромная.<br>
+У нее нет ни фона, ни границ.&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;/TABLE&gt;</tt></pre></td></tr></table></center><br>
+
+<center><TABLE BORDER=0 ALIGN=CENTER>
+<TR>
+<TD>А эта таблица – самая скромная.<br>
+У нее нет ни фона, ни границ.</TD>
+</TR>
+</TABLE></center><br><br>
+
+<P class="maintext">При создании таблицы первая строка является определяющей, т. е. все последующие строки будут иметь такую же ширину колонок, как и первая строка. Для изменения этого положения служит параметр <B>COLSPAN</B>.
+Изменение значения <B>СOLSPAN</B> приводит к увеличению ширины ячейки на указанное вами количество ранее определенных столбцов, т. е. при указании параметра <B>COLSPAN=2</B> ячейка займет пространство, отведенное для следующей (справа) ячейки.</p>
+<P class="maintext">Параметр <B>ROWSPAN</B> действует абсолютно так же, но по вертикали. Например, при указании значения <B>ROWSPAN=2</B> ячейка займет пространство, отведенное для ячейки, находящейся под ней, в следующей строке таблицы.</p>
+<P class="maintext">Взгляните на исходный код этих таблиц (Пример. 8):</p>
+<P class="maintext">1.</p>
+<br>
+
+<center><table><tr><td><pre><tt>
+&lt;TABLE BORDER=5 CELLSPACING=0 WIDTH=400
+HEIGHT=100 ALIGN=CENTER BGCOLOR=ORANGE&gt;
+&lt;TR ALIGN=CENTER&gt;
+&lt;TD WIDTH=10%&gt;Ширина ячейки 10% 
+ширины таблицы&lt;/TD&gt;
+&lt;TD WIDTH=60%&gt;Ширина ячейки 60%
+ширины таблицы&lt;/TD&gt;
+&lt;TD WIDTH=30%&gt;Ширина ячейки 30%
+ширины таблицы&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD ALIGN=CENTER COLSPAN=3&gt;Для этой
+ячейки указан параметр COLSPAN=3&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;/TABLE&gt;</tt></pre></td></tr></table></center><br>
+
+<center><TABLE BORDER=5 CELLSPACING=0 WIDTH=400 HEIGHT=100 ALIGN=CENTER BGCOLOR=ORANGE>
+<TR ALIGN=CENTER>
+<TD WIDTH=10%>Ширина ячейки 10% ширины таблицы</TD>
+<TD WIDTH=60%>Ширина ячейки 60% ширины таблицы</TD>
+<TD WIDTH=30%>Ширина ячейки 30% ширины таблицы</TD>
+</TR>
+<TR>
+<TD ALIGN=CENTER COLSPAN=3>Для этой ячейки указан параметр COLSPAN=3</TD>
+</TR>
+</TABLE></center><br>
+
+
+<P class="maintext">2.</p>
+
+<center><table><tr><td><pre><tt>
+&lt;TABLE BORDER=5 CELLSPACING=0 WIDTH=400 
+HEIGHT=100 ALIGN=CENTER BGCOLOR=CYAN&gt;
+&lt;TR ALIGN=CENTER&gt;
+&lt;TD WIDTH=30% ROWSPAN=2&gt;Для этой 
+ячейки указан параметр ROWSPAN=2 и
+WIDTH=30%&lt;/TD&gt;
+&lt;TD&gt;Ширина этой ячейки не указана,
+поэтому она занимает всю оставшуюся 
+ширину таблицы, т. е. 70%.&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;TR ALIGN=CENTER&gt;
+&lt;TD&gt;А эта ячейка сгенерирована в
+соответствии с шириной ячейки, находящейся 
+в первой строке, над ней.&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;/TABLE&gt;</tt></pre></td></tr></table></center><br>
+
+<center><TABLE BORDER=5 CELLSPACING=0 WIDTH=400 HEIGHT=100 ALIGN=CENTER BGCOLOR=CYAN>
+<TR ALIGN=CENTER>
+<TD WIDTH=30% ROWSPAN=2>Для этой ячейки указан параметр ROWSPAN=2 и WIDTH=30%</TD>
+<TD>Ширина этой ячейки не указана, поэтому она занимает всю оставшуюся ширину таблицы, т. е. 70%.</TD>
+</TR>
+<TR ALIGN=CENTER>
+<TD>А эта ячейка сгенерирована в соответствии с шириной ячейки, находящейся в первой строке, над ней.</TD>
+</TR>
+</TABLE></center><br>
+
+<P class="maintext">Структура таблицы может быть очень сложной, ячейки таблицы могут содержать в себе вложенные таблицы и любые элементы, использующиеся для построения Web-страниц.</p>
+<P class="maintext">Вот исходный код этой таблицы (Пример 10):</p>
+
+<center><table><tr><td><pre><tt>
+&lt;TABLE BORDER=3 WIDTH=400 HEIGHT=400
+             ALIGN=CENTER CELLSPACING=0&gt;
+&lt;TR&gt;
+&lt;TD BGCOLOR=ORANGE&gt;
+&lt;TABLE BORDER=3 WIDTH=300 HEIGHT=300
+             ALIGN=CENTER CELLSPACING=0&gt;
+&lt;TR&gt;
+&lt;TD BGCOLOR=GREEN&gt;
+&lt;TABLE BORDER=3 WIDTH=150 HEIGHT=150
+             ALIGN=CENTER CELLSPACING=0&gt;
+&lt;TR&gt;
+&lt;TD BGCOLOR=BLUE ALIGN=CENTER 
+VALIGN=CENTER&gt;
+&lt;IMG SRC=”logo_small_trans.gif” WIDTH=130 
+HEIGHT=98&gt;
+&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;/TABLE&gt;
+&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;/TABLE&gt;
+&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;/TABLE&gt;</tt></pre></td></tr></table></center><br>
+
+<center><TABLE BORDER=3 WIDTH=400 HEIGHT=400 ALIGN=CENTER CELLSPACING=0>
+<TR>
+<TD BGCOLOR=ORANGE>
+<TABLE BORDER=3 WIDTH=300 HEIGHT=300 ALIGN=CENTER CELLSPACING=0>
+<TR>
+<TD BGCOLOR=GREEN>
+<TABLE BORDER=3 WIDTH=150 HEIGHT=150 ALIGN=CENTER CELLSPACING=0>
+<TR>
+<TD BGCOLOR=BLUE ALIGN=CENTER 
+VALIGN=CENTER>
+<img src="logo_small_trans.gif" border=0 alt="Подводная лодка">
+</TD>
+</TR>
+</TABLE>
+</TD>
+</TR>
+</TABLE>
+</TD>
+</TR>
+</TABLE></center><br>
+
+<P class="maintext">Теперь вы знаете практически все о таблицах в HTML, и при наличии фантазии и чувства стиля вы можете создавать Web-страницы, выглядящие вполне профессионально. Рассмотрим еще один способ оформления страниц, очень широко применяемый в Web-дизайне. Это – <B>использование фреймов</B> (от англ. Frame – рамка).</p>
+<P class="maintext">Что же такое <B>фреймы</B>? Представьте себе Web-страницу, условно разделенную на несколько частей таким образом, что источником каждой из этих частей является независимая страница. Представили? А теперь представьте, как удобно будет использовать такую структуру для страниц, содержащих большие объемы информации: в одной части страницы можно поместить меню, в другой – элементы графического оформления, неизменные для всей данной части сайта, а в третью загружать страницы с информацией. Это позволит минимизировать задержки, возникающие при загрузке страниц, и уменьшить объем HTML-кода сайта.</p>
+<P class="maintext">С позиции HTML фреймы устроены очень просто и описываются небольшим количеством тегов. Рассмотрим их.
+Для создания странички с фреймами мы должны создать количество страниц, равное количеству частей (фреймов), на которое разделена страничка, плюс еще одну «материнскую» страничку, которая будет содержать описание фреймовой структуры.</p>
+<P class="maintext">Структура фреймов описывается в отдельном файле с помощью тега <B>&lt;FRAMESET&gt;</B> .
+Для создания на страничке 2 фреймов равной ширины, расположенных в левой и правой частях страницы, мы должны будем создать HTML-файл со следующим кодом:</p>
+
+
+<center><table><tr><td><pre></tt>
+&lt;FRAMESET COLS=”50%,50%”&gt;
+&lt;FRAME SRC=”путь_к_файлу-
+источнику_для _левого_фрейма.html”&gt;
+&lt;FRAME SRC=”путь_к_файлу-
+источнику_для _правого_фрейма.html”&gt;
+&lt;/FRAMESET&gt;</tt></pre></td></tr></table></center><br>
+
+<P class="maintext">Это весь код, который должна содержать «материнская» страничка.</p>
+<P class="maintext">Для создания большего количества фреймов вы должны изменить значение параметра <B>COLS</B> в теге <B>&lt;FRAMESET&gt;</B> и дополнить список <B>&lt;FRAME SRC&gt;</B> файлом, который будет служить источником для нового фрейма.</p>
+<P class="maintext">В нашем примере значение параметра <B>COLS=”50%, 50%”</B> cообщает броузеру о том, что он должен сгенерировать на страничке два вертикальных фрейма, а ширина каждого из них будет равна 50% ширины окна броузера.
+Значения <B>&lt;FRAME SRC=”URL”&gt;</B> указывают броузеру на файлы, которые будут являться источниками наполнения фреймов. Файлы перечисляются по порядку, слева направо и сверху вниз.</p>
+<P class="maintext">Для создания горизонтальной фреймовой структуры необходимо использовать тег <B>&lt;FRAMESET&gt;</B> с параметром <B>ROWS</B>. Таким образом, для создания такой же структуры, как и в приведенном выше примере, но с горизонтальным разделением страницы на две половины, необходимо будет использовать следующий код:</p>
+
+<center><table><tr><td><pre><tt>
+&lt;FRAMESET ROWS=”50%,50%”&gt;
+&lt;FRAME SRC=”путь_к_файлу-источнику_
+для _верхнего_фрейма.html”&gt;
+&lt;FRAME SRC=”путь_к_файлу-источнику_
+для _нижнего_фрейма.html”&gt;
+&lt;/FRAMESET&gt;</tt></pre></td></tr></table></center>
+
+<P class="maintext">Вы можете сочетать вертикальные и горизонтальные фреймы в любом порядке. Для этого необходимо лишь применять уже известные вам правила использования вложенных тегов (см. выше) и правильно описывать структуру в теге <B>&lt;FRAMESET&gt;</B>, соблюдая желаемую последовательность расположения.</p>
+<P class="maintext">Взгляните на исходный код «материнской» странички (<a href="7.html" target="_blank">пример странички</a>):</p>
+
+<center><table><tr><td><pre><tt>
+&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;TITLE&gt;Примеры фреймовой структуры
+&lt;/TITLE&gt;
+&lt;/HEAD&gt;
+&lt;FRAMESET COLS=”20%,*”&gt;
+&lt;FRAME SRC=”fr1.html”&gt;
+
+&lt;FRAMESET ROWS=”50%,*”&gt;
+&lt;FRAME SRC=”fr2.html”&gt;
+&lt;FRAME SRC=”fr3.html”&gt;
+&lt;/FRAMESET&gt;
+
+&lt;/FRAMESET&gt;
+&lt;/HTML&gt;</tt></pre></td></tr></table></center><br>
+
+<P class="maintext">Как вы видите, здесь используется набор из двух горизонтальных фреймов, вложенный в другой набор из двух вертикальных фреймов. Взгляните на значения ширины фреймов в тегах <B>&lt;FRAMESET&gt;</B> – в этом примере вместо значения ширины второго фрейма используется знак «<B>*</B>». Он сообщает броузеру, что для этого фрейма необходимо отвести все свободное пространство, оставшееся после первого фрейма. Вы можете указывать ширину фреймов как в процентах относительно свободного окна броузера, так и в пикселях.</p>
+<P class="maintext">Как и большинство тегов HTML, теги <B>&lt;FRAMESET&gt;</B> и <B>&lt;FRAME&gt;</B> имеют дополнительные параметры, управляющие отображением фреймовой структуры.</p>
+<P class="maintext">Давайте рассмотрим параметры, с которыми может использоваться тег <B>&lt;FRAMESET&gt;</B>:</p>
+<P class="maintext"><B>BORDER</B> – может принимать значение 0 (границы фреймов не отображаются) или 1 (границы фреймов отображаются по умолчанию)</p>
+<P class="maintext"><B>FRAMEBORDER</B> – любое значение (в пикселях)</p>
+<P class="maintext"><B>FRAMESPACING</B> – управление шириной границ фреймов. Для Netscape Navigator может принимать значение 0 (границы фреймов не отображаются) или 1 (границы фреймов отображаются по умолчанию), а для Microsoft Internet Explorer – любое значение (в пикселях).</p>
+<P class="maintext">Броузеры Netscape Navigator и Microsoft Internet Explorer работают с фреймами немного по-разному (впрочем, они и все остальное делают с большими отличиями).</p>
+<P class="maintext">Для того чтобы отключить отображение границ фреймов в броузере Netscape Navigator, необходимо указать параметры <B>BORDER=0, FRAMESPACING=0</B>, а для выполнения той же задачи в Microsoft Internet Explorer необходимо указать параметры <B>FRAMEBORDER=0 и FRAMESPACING=0</B>. Поэтому, если вы хотите отключить отображение границ фреймов, для адекватного отображения Web-страниц в обоих броузерах в теге <B>&lt;FRAMESET&gt;</B> необходимо указывать все три параметра равными нулю.</p>
+<P class="maintext">А теперь давайте разберемся с параметрами, которые можно использовать с тегом <B>&lt;FRAME&gt;</B>.</p>
+<P class="maintext"><B>SRC=«URL»</B> – как вы уже знаете, этим параметром определяется страница-источник для данного фрейма.</p>
+<P class="maintext"><B>NAME=«название фрейма»</B> – используется для присвоения фрейму имени. Это требуется для целевых операций с фреймами, т. е. для загрузки определенного документа в соответствующий фрейм.</p>
+<P class="maintext"><B>MARGINWIDTH=«n(пикселей)»</B> – значения отступов от края страницы (по горизонтали) для страниц, которые будут отображаться в заданном фрейме.</p>
+<P class="maintext"><B>MARGINHEIGHT=«n(пикселей)»</B> – то же, но по вертикали.</p>
+<P class="maintext"><B>SCROLLING=«yes/no/auto»</B> – принудительное включение/отключение/установка автоматического режима отображения линеек прокрутки для данного фрейма.</p>
+<P class="maintext"><B>NORESIZE</B> – запрет изменения размеров фреймов при просмотре.</p>
+<P class="maintext">А теперь посмотрим, как мы можем, используя полученные знания, сделать нашу тестовую страничку об истории подводных лодок более удобной и привлекательной. </p>
+<P class="maintext">Создадим два фрейма, в одном из них, содержащем графику, мы расположим меню, а второй фрейм будет содержать тексты статей. Таким образом, при переходе от статьи к статье будет перезагружаться только текстовый фрейм – это позволит значительно увеличить скорость загрузки.</p>
+<P class="maintext">Вот исходный код набора фреймов, применяющегося для <A HREF="framess.html" TARGET="_blank">этой страницы</A> (Пример 11.):</p>
+
+<center><table><tr><td><pre><tt>
+&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;TITLE&gt;История подводных лодок&lt;/TITLE&gt;
+&lt;/HEAD&gt;
+&lt;FRAMESET ROWS=”60,*” BORDER=0 
+FRAMEBORDER=0 FRAMESPACING=0&gt;
+&lt;FRAME SRC=”fr_top.html” MARGIN-
+WIDTH=”0” MARGINHEIGHT=”0” SCROL-
+LING=”auto” NORESIZE&gt;
+&lt;FRAME NAME=”main”SRC=”fr_main1.html”
+ MARGINWIDTH=”0” MARGINHEIGHT=”0” 
+SCROLLING=”auto” NORESIZE&gt;
+&lt;/FRAMESET&gt;
+&lt;/HTML&gt;</tt></pre></td></tr></table></center><br>
+
+<P class="maintext">Картинки, используемые в верхнем фрейме, для удобства форматирования расположены внутри таблицы.
+Взгляните на исходный код верхнего фрейма:</p>
+<br>
+
+<center><table><tr><td><pre></tt>
+&lt;HTML&gt;
+&lt;HEAD&gt;&lt;/HEAD&gt;
+&lt;BODY BGCOLOR=”#OOOOOO”&gt;
+&lt;TABLE BORDER=0 WIDTH=100% ALIGN=CENTER&gt;
+&lt;TR&gt;
+&lt;TD ALIGN=RIGHT VALIGN=MIDDLE&gt;
+&lt;A HREF=”index.html” TARGET=”_top”&gt;
+&lt;IMG SRC=”menu1.gif” WIDTH=200 HEIGHT=20 ALT=”Назад”&gt;&lt;/A&gt;
+&lt;/TD&gt;
+&lt;TD ALIGN=CENTER VALIGN=TOP&gt;
+&lt;IMG SRC=”header1.gif” WIDTH=300 HEIGHT=32&gt;
+&lt;/TD&gt;
+&lt;TD ALIGN=LEFT VALIGN=MIDDLE&gt;
+&lt;A HREF=”fr_main2.html” TARGET=”main”&gt;
+&lt;IMG SRC=”menu2.gif” WIDTH=200 HEIGHT=20 ALT=”Следующая статья”&gt;&lt;/A&gt;
+&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;/TABLE&gt;
+&lt;/BODY&gt;
+&lt;/HTML&gt;</tt></pre></td></tr></table></center><br>
+
+<P class="maintext">Обратите внимание на параметры <B>TARGET</B> в теге <B>&lt;A&gt;</B>. При указании параметра <B>TARGET="_top"</B> после щелчка по ссылке первая страничка сайта будет загружена в окно, не содержащее фреймов. Для указания броузеру этого действия мы использовали зарезервированное имя <B>"_top"</B>.</p>
+<P class="maintext">Всего в HTML существует четыре таких зарезервированных имени, из них для нас пока важны только два. Одно из них вы уже знаете, а второе, <B>«_blank»</B>, используется для открытия гиперссылки в новом окне броузера. 
+Обратите внимание: зарезервированные имена следует писать строчными буквами! Также вы не можете использовать зарезервированные имена для обозначения ваших фреймов.</p>
+<P class="maintext">Во втором теге <B>&lt;A&gt;</B> мы использовали параметр <B>TARGET</B> со значением <B>"main"</B>. Посмотрите на исходный код «материнской» странички – этим именем там был назван нижний фрейм. Таким образом, при щелчке по гиперссылке «Следующая история» файл со статьей будет загружен не в верхний фрейм (в котором находится гиперссылка), а в нижний.</p>
+<P class="maintext">Нижний фрейм можно оформить с помощью таблицы, создав три колонки и окрасив правую и левую в цвет фона, а в среднюю поместив текст статьи.</p>
+<P class="maintext">Вот как это можно воплотить в HTML:</p>
+<br>
+
+<center><table><tr><td><pre><tt>
+&lt;HTML&gt;
+&lt;HEAD&gt;&lt;/HEAD&gt;
+&lt;BODY BGCOLOR=”#000000”&gt;
+&lt;TABLE WIDTH=100% BORDER=0 ALIGN=CENTER CELLSPACING=0 CELLPADDING=20&gt;
+&lt;TR&gt;
+&lt;TD WIDTH=5% BGCOLOR=BLACK&gt; &lt;/TD&gt;
+&lt;TD WIDTH=90% BGCOLOR=WHITE&gt;
+&lt;B&gt;&lt;FONT SIZE=5&gt;
+&lt;CENTER&gt;Изобретение инженера Бауэра.&lt;/CENTER&gt;&lt;/B&gt;&lt;/FONT&gt;
+&lt;FONT SIZE=2&gt;
+&lt;I&gt;&lt;U&gt;&lt;P ALIGN=”RIGHT”&gt;Игорь Дыгало&lt;/P&gt;&lt;/U&gt;&lt;/I&gt;&lt;/FONT&gt;
+&lt;BR&gt;
+&lt;P ALIGN=”JUSTIFY”&gt;
+Текст статьи...
+&lt;/P&gt;
+&lt;/TD&gt;
+&lt;TD WIDTH=5% BGCOLOR=BLACK&gt; &lt;/TD&gt;
+&lt;/TABLE&gt;
+&lt;/BODY&gt;
+&lt;/HTML&gt;</tt></pre></td></tr></table></center><br>
+
+<P class="maintext">Напоследок дам еще один совет: при создании страниц постарайтесь думать о тех людях, у которых всего лишь 14-дюймовый монитор и разрешение дисплея, равное 640 х 480 точек. Учитывайте, что максимальный размер странички, который они увидят, будет примерно 600 х 300 точек и постарайтесь исходить из этого при расчете ваших таблиц и фреймов. Не перегружайте страницы лишними фреймами – это раздражает просматривающих. Помните: ВСЕ ГЕНИАЛЬНОЕ ПРОСТО.</p>
+<P class="maintext">Официальную спецификацию языка HTML 4.0, которую вы можете использовать как справочник, вы найдете на сайте WWW-консорциума (W3C) по адресу: <a href="http://www.w3.org/TR/REC-html40/" target="_blank">http://www.w3.org/TR/REC-html40/</a>.</p><br><br>
+
+<center><table border="0" cellpadding="0" cellspacing="0" width="70%"><tr><td><font face="Arial Cyr, Arial" size="2"><i>На следующем занятии мы рассмотрим принципы работы с CSS (Cascading Style Sheets) – новым стандартным языком — расширением HTML, который в ближайшем будущем в корне изменит приемы создания Web-страниц, сделает их более привлекательными и упростит их разработку.</i></font></td></tr></table></center>
+
+<BR>
+<BR>
+
+
+</BODY>
+</HTML>

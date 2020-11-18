@@ -1,0 +1,63 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>file_register_wrapper</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="file_get_wrapper_data.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="file.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.file-register-wrapper">file_register_wrapper</A></H1><A NAME="AEN23577"></A>
+<P>(только PHP 4  CVS)</P><p>file_register_wrapper - регистрирует оболочку URL, реализованную как PHP-класс.<A NAME="AEN23580"></A></p><H2>Описание</H2><p>boolean <B>file_register_wrapper</B> (string protocol, string classname)</p>
+<P>Эта функция задокументирована в настоящее время только следующим примером:<TABLE WIDTH="100%" BORDER="0"><TR>
+<TD><A NAME="AEN23592"></A><h5>Пример 1. Реализация протокола шифрования base64</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>class Base64EncodingStream {
+    var $fp = null;
+
+    function stream_open($path, $mode, $options, &#38;$opened_path)
+    {
+        $this-&#62;fp = fopen($path, $mode);
+        return is_resource($this-&#62;fp);
+    }
+    function stream_close()
+    {
+        fclose($this-&#62;fp);
+    }
+    function stream_read($count)
+    {
+        return false; // We only allow writing
+    }
+    function stream_write($data)
+    {
+        return fwrite($this-&#62;fp, base64_encode($data));
+    }
+    function stream_flush()
+    {
+        fflush($this-&#62;fp);
+        return true;
+    }
+    function stream_seek($offset, $whence)
+    {
+        return false;
+    }
+    function stream_gets()
+    {
+        return false;
+    }
+    function stream_tell()
+    {
+        return false;
+    }
+    function stream_eof()
+    {
+        return false;
+    }
+}
+file_register_wrapper("base64", "Base64EncodingStream")
+    or die("Failed to register protocol");
+
+copy("/tmp/inputfile.txt", "base64:///tmp/outputfile.txt");
+readfile("/tmp/outputfile");</PRE></TD></TR></TABLE></TD></TR></TABLE><P><B>file_register_wrapper()</B> возвратит false, если
+<TT><I>protocol</I></TT> уже имеет дескриптор или если "fopen-оболочки" отключены.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>эта функция была введена в PHP 4.3.0.</P></BLOCKQUOTE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="file_get_wrapper_data.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="file.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">file_get_wrapper_data</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.filesystem.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">file</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

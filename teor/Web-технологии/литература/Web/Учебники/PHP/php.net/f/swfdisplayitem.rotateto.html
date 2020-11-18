@@ -1,0 +1,96 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>SWFDisplayItem-&#62;rotateTo</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="swfdisplayitem.rotate.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="swfdisplayitem.scale.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="swfdisplayitem.rotateto">SWFDisplayItem-&#62;rotateTo</A></H1><A NAME="AEN46789"></A><P>(unknown)</P>
+<p>SWFDisplayItem-&#62;rotateTo - поворачивает объект в глобальных координатах.<A NAME="AEN46792"></A></p>
+<H2>Описание</H2><p>void <B>swfdisplayitem-&#62;rotateto</B> (float degrees)</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD><P>Эта функция - ЭКСПЕРИМЕНТАЛЬНАЯ. Поведение, имя и всё остальное, что задокументировано для данной функции может быть изменено в будущих релизах РНР без предупреждения. Вы можете использовать эту функцию только на свой страх и риск.
+</P></TD></TR></TABLE><P><B>swfdisplayitem-&#62;rotateto()</B> устанавливает поворот текущего объекта на
+<TT><I>degrees</I></TT> градусов в глобальных координатах.</P><P>Объектом может быть <A HREF="swfshape.html"><B>swfshape()</B></A>,
+<B><A HREF="swfbutton.html">swfbutton()</A>-</B>, <B><A HREF="swftext.html">swftext()</A>- </B>или 
+<A HREF="swfsprite.html"><B>swfsprite()</B></A>-объект. Он обязан быть добавлен с использованием <B>swfmovie-&#62;add()</B>.</P>
+<P>В примере три поворачивающиеся строки переводятся с фона на передний план. Весьма изячно.
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN46813"></A><h5>Пример 1. swfdisplayitem-&#62;rotateto()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+  $thetext =  "ming!";
+
+  $f = new SWFFont("Bauhaus 93.fdb");
+
+  $m = new SWFMovie();
+  $m-&#62;setRate(24.0);
+  $m-&#62;setDimension(2400, 1600);
+  $m-&#62;setBackground(0xff, 0xff, 0xff);
+
+  // функции с большим количеством произвольных аргументов
+  // - это всегда хорошая идея! Точно!
+
+  function text($r, $g, $b, $a, $rot, $x, $y, $scale, $string)
+  {
+    global $f, $m;
+
+    $t = new SWFText();
+    $t-&#62;setFont($f);
+    $t-&#62;setColor($r, $g, $b, $a);
+    $t-&#62;setHeight(960);
+    $t-&#62;moveTo(-($f-&#62;getWidth($string))/2, $f-&#62;getAscent()/2);
+    $t-&#62;addString($string);
+
+    // мы может добавлять свойства, совсем как нормальные php var,
+    // пока имена не используются.
+    // например, мы не может установить $i-&#62;scale, поскольку это функция
+
+    $i = $m-&#62;add($t);
+    $i-&#62;x = $x;
+    $i-&#62;y = $y;
+    $i-&#62;rot = $rot;
+    $i-&#62;s = $scale;
+    $i-&#62;rotateTo($rot);
+    $i-&#62;scale($scale, $scale);
+
+    // но изменения локальны относительно этой функции, поэтому мы должны
+    // return изменённый объект.  kinda weird..
+
+    return $i;
+ }
+
+  function step($i)
+  {
+    $oldrot = $i-&#62;rot;
+    $i-&#62;rot = 19*$i-&#62;rot/20;
+    $i-&#62;x = (19*$i-&#62;x + 1200)/20;
+    $i-&#62;y = (19*$i-&#62;y + 800)/20;
+    $i-&#62;s = (19*$i-&#62;s + 1.0)/20;
+
+    $i-&#62;rotateTo($i-&#62;rot);
+    $i-&#62;scaleTo($i-&#62;s, $i-&#62;s);
+    $i-&#62;moveTo($i-&#62;x, $i-&#62;y);
+
+    return $i;
+  }
+
+  // видите?  это даёт большую чёткость:
+
+  $i1 = text(0xff, 0x33, 0x33, 0xff, 900, 1200, 800, 0.03, $thetext);
+  $i2 = text(0x00, 0x33, 0xff, 0x7f, -560, 1200, 800, 0.04, $thetext);
+  $i3 = text(0xff, 0xff, 0xff, 0x9f, 180, 1200, 800, 0.001, $thetext);
+
+  for($i=1; $i&#60;=100; ++$i)
+  {
+    $i1 = step($i1);
+    $i2 = step($i2);
+    $i3 = step($i3);
+
+    $m-&#62;nextFrame();
+  }
+
+  header('Content-type: application/x-shockwave-flash');
+  $m-&#62;output();
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <B>swfdisplayitem-&#62;rotate()</B>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="swfdisplayitem.rotate.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="swfdisplayitem.scale.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">SWFDisplayItem-&#62;Rotate</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.ming.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">SWFDisplayItem-&#62;scale</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

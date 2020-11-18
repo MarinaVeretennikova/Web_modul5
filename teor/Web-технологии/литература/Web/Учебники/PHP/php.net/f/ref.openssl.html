@@ -1,0 +1,106 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции OpenSSL</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="ociwritelobtofile.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="openssl-csr-export-to-file.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.openssl"></A>LXXI. Функции OpenSSL</h1><A NAME="AEN58819"></A>
+<TABLE CLASS="warning"  BORDER="1"WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>Это расширение является ЭКСПЕРИМЕНТАЛЬНЫМ. Поведение этого расширения, имена его функций и всё, что задокументировано, может измениться в последующих релизах РНР без предупреждения. Вы предупреждены и можете использовать это расширение только под вашу ответственность.</P>
+</TD></TR></TABLE><H1><A NAME="openssl.intro">Введение</A></H1><P>Этот модуль использует функции
+<A HREF="http://www.openssl.org/" TARGET="_top">OpenSSL</A> для генерации и проверки подписи и пломбирования (шифровки) и открытия (дешифровки)
+данных. PHP-4.0.4pl1 требует OpenSSL &#62;= 0.9.6, но PHP-4.0.5 и выше также 
+будет работать и с OpenSSL &#62;= 0.9.5.</P><BLOCKQUOTE><P><B>Примечание: </B>пожалуйста,  помните, что это расширение всё ещё является экспериментальным!</P>
+</BLOCKQUOTE><P>OpenSSL предлагает много возможностей, которые в данный момент не поддерживаются этим модулем.
+Некоторые могут быть добавлены в будущем.</P><H1>Параметры <A NAME="openssl.certparams">Key/Certificate</A></H1>
+<P>Немногие из этих openssl-функций требуют параметра key или certificate.  PHP 4.0.5 
+и ранее должен использовать ресурсы key или certificate, возвращённые одной 
+из функций openssl_get_xxx. Последующие версии могут использовать один из 
+следующих методов:<UL><LI><P>Сертификаты<OL TYPE="1"><LI><P>Ресурс X.509, возвращаемый из openssl_x509_read</P>
+</LI><LI><P>Строка, имеющая формат<TT>file://path/to/cert.pem</TT>; именованный файл обязан содержать PEM-кодированный сертификат</P>
+</LI><LI><P>Строка, с содержимым сертификата, PEM-кодированная</P></LI></OL></LI>
+<LI><P>Public/Private Ключи<OL TYPE="1"><LI><P>Ресурс ключа, возвращаемый из
+<A HREF="openssl-get-publickey.html"><B>openssl_get_publickey()</B></A> или
+<A HREF="openssl-get-privatekey.html"><B>openssl_get_privatekey()</B></A></P></LI>
+<LI><P>Только для public-ключей: X.509-ресурс</P></LI><LI><P>Строка, имеющая формат
+<TT>file://path/to/file.pem</TT
+> - именованный файл обязан содержать PEM-кодированный certificate/private key (может содержать оба)</P></LI>
+<LI><P>Строка, содержащая certificate/key, PEM-кодированная</P></LI>
+<LI><P>Для private keys вы можете также использовать синтаксис<I> array($key, $passphrase)</I>, где $key представляет ключ, специфицированный с использованием file:// , или 
+текстуальную нотацию содержимого, а $passphrase представляет строку, содержащую passphrase для этого private key</P></LI></OL>
+</LI></UL><H1><a name="openssl.cert.verification">Проверка сертификата</a></H1>
+<P>При вызове функции, которая будет проверять подпись/сертификат, параметр
+<I>cainfo</I> является массивом, содержащим имена файла и директории, специфицирующих 
+размещение доверенных CA-файлов.  Если директория специфицирована, то это 
+должна быть правильно сформированная хэшированная директория, которая будет 
+использоваться командой <B>openssl</B>.</P><H1><A NAME="openssl.pkcs7.flags">PKCS7 Флаги/Константы</A></H1>
+<P>Функции S/MIME используют флаги, специфицированные битовым полем, которое 
+может содержать одно или более следующих значений:<A NAME="AEN58869"></A>
+<h6>Таблица 1. PKCS7-константы</h6><TABLE BORDER="1"><TR><TH>Константа</TH><TH>Описание</TH></TR><TBODY><TR>
+<TD>PKCS7_TEXT</TD><TD>добавляет text/plain content type шапки/header'ы в 
+шифрованное/подписанное сообщение. При дешифровке или проверке эти 
+шапки вырезаются из вывода - если дешифрованное или проверенное 
+сообщение не имеет тип type text/plain, возникает ошибка.</TD></TR><TR><TD>PKCS7_BINARY</TD><TD>нормально вводное сообщение конвертируется в "канонический" формат, который 
+использует CR и LF как символ конца строки: как требует спецификация S/MIME.  
+Если эти опции имеются, трансляция не происходит.  Это можно 
+использовать при обработке бинарных данных, которые могут не иметь MIME-формат.</TD></TR><TR>
+<TD>PKCS7_NOINTERN</TD><TD>при проверке сообщения сертификаты (если имеются), включённые в сообщение, 
+проверяются на наличие подписанного сертификата. С этой опцией 
+используются только сертификаты, специфицированные в параметре <TT><I>extracerts</I></TT>
+функции <A HREF="openssl-pkcs7-verify.html"><B>openssl_pkcs7_verify()</B></A>.
+Предоставляемые сертификаты могут по-прежнему использоваться как недоверенные/untrusted CA.</TD></TR><TR>
+<TD>PKCS7_NOVERIFY</TD><TD>не проверять сертификат подписчика подписанного сообщения.</TD></TR>
+<TR><TD>PKCS7_NOCHAIN</TD><TD>не связывать проверку сертификатов подписчиков: то есть не использовать 
+сертификаты в подписанном сообщении как недоверенные/untrusted CA.</TD></TR><TR><TD>PKCS7_NOCERTS</TD>
+<TD>при подписывании сообщения сертификат подписывающего обычно включается - с 
+данной опцией он исключается.  Это уменьшает размер подписанного 
+сообщения, но проверяющий обязан иметь локально копию сертификата 
+подписывающего (передаваемую с использованием <TT><I>extracerts</I></TT> в
+<A HREF="openssl-pkcs7-verify.html"><B>openssl_pkcs7_verify()</B></A>, например.</TD></TR>
+<TR><TD>PKCS7_NOATTR</TD><TD>нормально, когда сообщение подписывается, включается набор атрибутов, которые 
+содержат время подписи и поддерживаемые симметричные алгоритмы. С данной опцией они не включаются.</TD></TR>
+<TR><TD>PKCS7_DETACHED</TD><TD>при подписывании сообщения используйте cleartext-подписывание с MIME-типом multipart/signed.  
+Это значение по умолчанию, если это параметр<TT><I> flags</I></TT> для
+<A HREF="openssl-pkcs7-sign.html"><B>openssl_pkcs7_sign()</B></A>, если вы не специфицируете никаких флагов.  Если вы отключите эту опцию, 
+сообщение будет подписано с использованием непрозрачной/opaque подписи, 
+которая более устойчива к почтовой трансляции, но не может читаться 
+почтовыми агентами, не поддерживающими S/MIME.</TD></TR><TR><TD>PKCS7_NOSIGS</TD><TD>не проверять подписи в сообщении</TD>
+</TR></TBODY></TABLE><BLOCKQUOTE><P><B>Примечание: </B>эти константы были введены в версии 4.0.6.</P></BLOCKQUOTE>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="openssl-csr-export-to-file.html">openssl_csr_export_to_file</A> - экспортирует CSR в файл или переменную</DT>
+<DT><A HREF="openssl-csr-export.html">openssl_csr_export</A> - экспортирует CSR в файл или переменную</DT>
+<DT><A HREF="openssl-csr-new.html">openssl_csr_new</A> - генерирует privkey и CSR</DT>
+<DT><A HREF="openssl-csr-sign.html">openssl_csr_sign</A> - подписывает cert другим CERT</DT>
+<DT><A HREF="openssl-error-string.html">openssl_error_string</A> - возвращает сообщение об ошибке openSSL</DT>
+<DT><A HREF="openssl-free-key.html">openssl_free_key</A> - освобождает key-ресурс</DT>
+<DT><A HREF="openssl-get-privatekey.html">openssl_get_privatekey</A> - подготавливает PEM-форматированный private key для использования</DT>
+<DT><A HREF="openssl-get-publickey.html">openssl_get_publickey</A> - извлекает public key из сертификата и подготавливает его для использования</DT>
+<DT><A HREF="openssl-open.html">openssl_open</A> - открывает пломбированные данные</DT>
+<DT><A HREF="openssl-pkcs7-decrypt.html">openssl_pkcs7_decrypt</A> - дешифрует шифрованное S/MIME-сообшение</DT>
+<DT><A HREF="openssl-pkcs7-encrypt.html">openssl_pkcs7_encrypt</A> - шифрует S/MIME-сообщение</DT>
+<DT><A HREF="openssl-pkcs7-sign.html">openssl_pkcs7_sign</A> - подписывает S/MIME-сообщение</DT>
+<DT><A HREF="openssl-pkcs7-verify.html">openssl_pkcs7_verify</A> - проверяет подпись подписанного S/MIME-сообщения</DT>
+<DT><A HREF="openssl-pkey-export-to-file.html">openssl_pkey_export_to_file</A> - получает экспортабельное представление ключа в файле</DT>
+<DT><A HREF="openssl-pkey-export.html">openssl_pkey_export</A> - получает экспортабельное представление ключа в строке или файле</DT>
+<DT><A HREF="openssl-pkey-new.html">openssl_pkey_new</A> - генерирует новый private key</DT>
+<DT><A HREF="openssl-private-decrypt.html">openssl_private_decrypt</A> - дешифрует данные с private key</DT>
+<DT><A HREF="openssl-private-encrypt.html">openssl_private_encrypt</A> - шифрует данные с private key</DT>
+<DT><A HREF="openssl-public-decrypt.html">openssl_public_decrypt</A> - дешифрует данные с public key</DT>
+<DT><A HREF="openssl-public-encrypt.html">openssl_public_encrypt</A> - шифрует данные с public key</DT>
+<DT><A HREF="openssl-seal.html">openssl_seal</A> - пломбирует (шифрует) данные</DT>
+<DT><A HREF="openssl-sign.html">openssl_sign</A> - генерирует подпись</DT>
+<DT><A HREF="openssl-verify.html">openssl_verify</A> - проверяет подпись</DT>
+<DT><A HREF="openssl-x509-check-private-key.html">openssl_x509_check_private_key</A> - проверяет, соответствует ли private сертификату CERT</DT>
+<DT><A HREF="openssl-x509-checkpurpose.html">openssl_x509_checkpurpose</A> - проверяет, может ли сертификат использоваться для определённых целей</DT>
+<DT><A HREF="openssl-x509-export-to-file.html">openssl_x509_export_to_file</A> - экспортирует CERT в файл или переменную</DT>
+<DT><A HREF="openssl-x509-export.html">openssl_x509_export</A> - экспортирует CERT в файл или переменную</DT>
+<DT><A HREF="openssl-x509-free.html">openssl_x509_free</A> - освобождает ресурс сертификата</DT>
+<DT><A HREF="openssl-x509-parse.html">openssl_x509_parse</A> - разбирает X509-сертификат и возвращает the информацию как массив</DT>
+<DT><A HREF="openssl-x509-read.html">openssl_x509_read</A> - разбирает X509-сертификат и возвращает идентификатор ресурса для него</DT>
+</DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3">
+<TR><TD WIDTH="33%" VALIGN="top"><A HREF="ociwritelobtofile.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="openssl-csr-export-to-file.html">Вперёд</A></TD></TR>
+<TR><TD WIDTH="33%" VALIGN="top">OCIWriteLobToFile</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="funcref.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">openssl_csr_export_to_file</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

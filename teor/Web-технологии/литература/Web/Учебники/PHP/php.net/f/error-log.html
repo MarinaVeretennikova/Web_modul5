@@ -1,0 +1,47 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>error_log</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="ref.errorfunc.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="error-reporting.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="error-log">error_log</A></H1><A NAME="AEN21123"></A><P>(PHP 3, PHP 4)</P>
+<p>error_log - высылает сообщение об ошибке.<A NAME="AEN21126"></A></p><H2>Описание</H2>
+<p>int <B>error_log</B> (string message [, int message_type [, string destination [, string extra_headers]]])</p>
+<P>Высылает сообщение об ошибке в error log web-сервера, TCP -порт или в файл. Первый параметр
+<TT><I>message</I></TT> это сообщение об ошибке, которое должно быть записано в лог-файл. Второй параметр,
+<TT><I>message_type</I></TT>, говорит, куда сообщение должно быть направлено:<A NAME="AEN21147"></A>
+<h6>Таблица 1. <B>Типы error_log()</B></h6><TABLE BORDER="1"><TR><TD>0</TD><TD><TT><I>message</I></TT> высылается в системный логер РНР, используя механизм логинга ОС, или в файл, в 
+зависимости от установки директивы конфигурации <A HREF="../configuration.html#ini.error-log">error_log</A>.</TD>
+</TR><TR><TD>1</TD><TD><TT><I>message</I></TT> высылается по email по адресу в параметре <TT><I>destination</I></TT>.
+Это единственный тип сообщения с 4 параметром, <TT><I>extra_headers</I></TT>. Этот тип сообщений использует ту же внутреннюю функцию, что и
+<A HREF="mail.html"><B>mail()</B></A>.</TD></TR><TR><TD>2</TD><TD><TT><I>message</I></TT> высылается через соединение отладки РНР. Эта опция доступна, только если 
+включена опция <a href="../configure.html#install.configure.enable-debugger">
+удалённой отладки</a>. В этом случае параметр <TT><I>destination</I></TT> специфицирует имя хоста или IP-адрес, или - по выбору - номер порта сокета, 
+получающего отладочную информацию.</TD></TR><TR><TD>3</TD><TD><TT><I>message</I></TT> присоединяется к файлу
+<TT><I>destination</I></TT>.</TD></TR></TABLE>&nbsp;<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR>
+<th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>Удалённая отладка по TCP/IP это возможность PHP 3, которая <i>недоступна</i> в PHP 4.</P></TD></TR></TABLE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN21179"></A><h5>Пример 1. error_log()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>// отправляет уведомление через log сервера, если мы на можем
+// соединиться с БД.
+if (!Ora_Logon ($username, $password)) {
+    error_log ("Oracle database not available!", 0);
+}
+
+// Администратор уведомляется по email, если мы работаем вне FOO
+if (!($foo = allocate_new_foo()) {
+    error_log ("Big trouble, we're all out of FOOs!", 1,
+               "operator@mydomain.com");
+}
+
+// другие способы вызова error_log():
+error_log ("You messed up!", 2, "127.0.0.1:7000");
+error_log ("You messed up!", 2, "loghost");
+error_log ("You messed up!", 3, "/var/tmp/my-errors.log");</PRE></TD></TR></TABLE></TD></TR></TABLE>
+</TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="ref.errorfunc.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="error-reporting.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">Функции обработки ошибок и логинга</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.errorfunc.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">error_reporting</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

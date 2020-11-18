@@ -1,0 +1,39 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>mysql_fetch_assoc</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="mysql-fetch-array.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="mysql-fetch-field.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="mysql-fetch-assoc">mysql_fetch_assoc</A></H1><A NAME="AEN51251"></A><P>(PHP 4 &#62;= 4.0.3)</P>
+<p>mysql_fetch_assoc - извлекает ряд результата как ассоциативный массив.<A NAME="AEN51254"></A></p><H2>Описание</H2>
+<p>array <B>mysql_fetch_assoc</B> (resource result)</p>
+<P>Возвращает ассоциативный массив, соответствующий извлечённому ряду, или <TT><B>FALSE</B></TT>, если рядов больше нет.</P>
+<P><B>mysql_fetch_assoc()</B> эквивалента вызову
+<A HREF="mysql-fetch-array.html"><B>mysql_fetch_array()</B></A> с MYSQL_ASSOC в качестве необязательного второго параметра.  Она&nbsp; 
+возвращает только ассоциативный массив. Это оригинальный способ работы <A HREF="mysql-fetch-array.html"><B>mysql_fetch_array()</B></A>.  Если вам нужны также и числовые индексы,
+используйте <A HREF="mysql-fetch-array.html"><B>mysql_fetch_array()</B></A>.</P>
+<P>Если два или более столбца результата имеют одинаковые имена полей, последний столбец имеет преимущество. Для доступа к другим столбцам с тем 
+же именем вам нужно получать доступ к результату через числовые индексы с помощью
+<A HREF="mysql-fetch-row.html"><B>mysql_fetch_row()</B></A>, либо добавить псевдонимы имён.
+См. пример в описании <A HREF="mysql-fetch-array.html"><B>mysql_fetch_array()</B></A>.</P>
+<P>Важно отметить, что <B>mysql_fetch_assoc()</B> работает <I>ненамного</I> медленнее, чем
+<A HREF="mysql-fetch-row.html"><B>mysql_fetch_row()</B></A>, но предоставляет важное дополнительное значение.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD ><ANAME="AEN51276"></A><h5>Пример 1. mysql_fetch_assoc()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+    mysql_connect("localhost", "mysql_user", "mysql_password");
+    mysql_select_db("mydb");
+    $query = "select * from table";
+    $result = mysql_query($query);
+    while ($row = mysql_fetch_assoc($result)) {
+        echo $row["user_id"];
+        echo $row["fullname"];
+    }
+    mysql_free_result($result);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Детали см. в
+<A HREF="mysql-fetch-row.html"><B>mysql_fetch_row()</B></A>, <A HREF="mysql-fetch-array.html"><B>mysql_fetch_array()</B></A> и
+<A HREF="mysql-query.html"><B>mysql_query()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="mysql-fetch-array.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="mysql-fetch-field.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">mysql_fetch_array</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.mysql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">mysql_fetch_field</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

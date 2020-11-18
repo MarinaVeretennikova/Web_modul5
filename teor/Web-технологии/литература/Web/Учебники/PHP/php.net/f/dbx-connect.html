@@ -1,0 +1,45 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>dbx_connect</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="dbx-compare.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="dbx-error.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.dbx-connect">dbx_connect</A></H1><A NAME="AEN16801"></A><P>(PHP 4 &#62;= 4.0.6)</P>
+<p>dbx_connect - открывает соединение/базу данных.<A NAME="AEN16804"></A></p><H2>Описание</H2>
+<p>object <B>dbx_connect</B> (mixed module, string host, string database, string username, string password [, int persistent])</p>
+<P><B>dbx_connect()</B> возвращает объект при успехе, <TT><B>FALSE</B></TT> при ошибке. Если соединение установлено, но БД не может быть выбрана, 
+соединение закрывается и возвращается <TT><B>FALSE</B></TT>. Параметр <TT><I>persistent</I></TT> может быть установлен для 
+<TT><B>DBX_PERSISTENT</B></TT>, и в этом случае создаётся постоянное/persistent соединение.</P>
+<P>Параметр <TT><I>module</I></TT> может быть строкой или константой, хотя вторая предпочтительней. Возможные 
+значения даны ниже, но помните, что они работают только в том случае, если модуль реально загружен.</P>
+<UL><LI><P><TT><B>DBX_MYSQL</B></TT> или "mysql"</P></LI><LI><P><TT><B>DBX_ODBC</B></TT> или "odbc"</P></LI>
+<LI><P><TT><B>DBX_PGSQL</B></TT> или "pgsql"</P></LI><LI><P><TT><B>DBX_MSSQL</B></TT> или "mssql"</P></LI>
+<LI><P><TT><B>DBX_FBSQL</B></TT> или "fbsql" (начиная с PHP 4.1.0)</P></LI>
+<LI><P><TT><B>DBX_SYBASECT</B></TT> или "sybase_ct" (начиная с PHP 4.2.0)</P></LI></UL>
+<P>Параметры <TT><I>host</I></TT>, <TT><I>database</I></TT>, <TT><I>username</I></TT> и <TT><I>password</I></TT>
+ожидаются, но не всегда используются, так как это зависит от функций соединения для абстрактного модуля.</P>
+<P>Возвращаемый <TT>object</TT> имеет три свойства:<DL><DT>database</DT><DD><P>Это имя выбранной в данный момент БД.</P>
+</DD><DT>handle</DT><DD><P>Это верный дескриптор для соединённой БД, и как таковой он может 
+использоваться в функциях, специфичных для модуля (если это необходимо).<A NAME="AEN16873"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$link = dbx_connect (DBX_MYSQL, "localhost", "db", "username", "password");
+mysql_close ($link-&#62;handle); // dbx_close($link) было бы лучше</PRE></TD></TR></TABLE></DD>
+<DT></DT><DD><P>Оно используется внутренне только в dbx и в настоящее время является 
+номером модуля, упомянутом ранее.</P></DD></DL><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN16881"></A><h5>Пример 1. dbx_connect()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;?php
+$link = dbx_connect (DBX_ODBC, "", "db", "username", "password", DBX_PERSISTENT)
+    or die ("Could not connect");
+
+print ("Connected successfully");
+dbx_close ($link);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+  не забывайте также всегда обращаться к документации модуля.</P></BLOCKQUOTE>
+<P>См. также: <A HREF="dbx-close.html"><B>dbx_close()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="dbx-compare.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="dbx-error.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">dbx_compare</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.dbx.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">dbx_error</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

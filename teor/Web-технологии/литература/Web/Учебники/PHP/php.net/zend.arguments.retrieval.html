@@ -1,0 +1,130 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Запрос Аргументов</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="zend.arguments.html">Назад</A></TD><th WIDTH="80%">Глава 33. Приём аргументов</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="zend.arguments.deprecated-retrieval.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="zend.arguments.retrieval">Запрос аргументов</a></H1>
+<BLOCKQUOTE><P><b>Новый API разбора параметров: </b>В этой главе задокументирован новый Zend 
+  API разбора параметров, автор Andrei Zmievski. Он был введён в период между PHP 4.0.6 и 4.1.0.</P></BLOCKQUOTE>
+<P>Разбор параметров это самая распространённая и утомительная операция. 
+Было бы удобно также иметь стандартизованную проверку ошибок и механизм 
+сообщений. Начиная с PHP 4.1.0, имеется способ делать всё это с помощью 
+нового API разбора параметров. Он значительно упрощает процесс получения 
+параметров, но недостаток его в том, что он не может использоваться в 
+функциях, ожидающих переменное количество параметров. но поскольку 
+большинство функций не входят в эту категорию, этот API разбора рекомендуется как новый стандартный способ.</P>
+<P>Прототип функции разбора параметров таков:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>int zend_parse_parameters(int num_args TSRMLS_DC, char *type_spec, ...);</PRE></TD></TR></TABLE>
+<p>Первый аргумент этой функции это количество реально переданных функции параметров, так что
+<TT>ZEND_NUM_ARGS()</TT> может использоваться здесь. Второй параметр всегда должен быть макросом <TT>TSRMLS_CC</TT>.
+Третий аргумент это строка, специфицирующая количество и типы аргументов, 
+ожидаемых вашей функцией, аналогично тому, как строка форматирования
+printf специфицирует количество и формат выводимых значений, с 
+которыми она должна работать. И, наконец, остальные аргументы это 
+указатели на переменные, которые должны принимать значения от параметров.</p>
+<P><B>zend_parse_parameters()</B> выполняет также, где возможно, конвертацию типов, так что вы всегда получаете 
+данные в том формате, который запросили. Любой скалярный тип может быть 
+конвертирован в другой, но конвертация между сложными типами (массивами, объектами и ресурсами) и скалярными типами не допускается.</P>
+<P>Если параметр может быть успешно получен и в процессе конвертации не было ошибок, функция возвратит
+<TT>SUCCESS</TT>, иначе - <TT>FAILURE</TT>. Функция выводит информативные сообщения об ошибках, если количество
+полученных параметров не совпадает с запрашиваемым количеством или если 
+конвертация типов не может&nbsp; быть выполнена.</P>
+<P>Вот некоторые примеры сообщений об ошибках:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>Warning! - ini_get_all() requires at most 1 parameter, 2 given
+
+Warning! - wddx_deserialize() expects parameter 1 to be string, array given</PRE></TD></TR></TABLE>
+<p>Естественно, каждое сообщение об ошибке сопровождается именем файла и строкой, в которой ошибка возникла.</p>
+<P>Вот полный список спецификаторов типов:<UL><LI><P><TT>l - </TT>long</P></LI><LI><P><TT>d - </TT>double</P></LI>
+<LI><P><TT>s - </TT>string/строка (с возможным нулевым количеством байтов) и её длина</P></LI>
+<LI><P><TT>b - </TT>boolean</P></LI><LI><P><TT>r - </TT>ресурс, хранимый в <TT>zval*</TT></P></LI>
+<LI><P><TT>a - </TT>array/массив, хранимый в <TT>zval*</TT></P></LI><LI><P><TT>o - </TT>object/объект (любого класса), хранимый в
+<TT>zval*</TT></P></LI><LI><P><TT>O - </TT>object/объект (класса, специфицированного вхождением класса), хранимый в
+<TT>zval*</TT></P></LI><LI><P><TT>z - </TT>текущий <TT>zval*</TT></P></LI></UL>
+Следующие символы также имеют значение в строке спецификатора:<UL><LI><P><TT>| - </TT>указывает, что оставшиеся параметры являются необязательными. Переменные для 
+хранения, соответствующие этим параметрам, должны быть инициализированы 
+значениями по умолчанию расширением, поскольку они не будут затронуты 
+разбирающей функцией, если параметры не переданы.</P></LI><LI><P><TT>/ - </TT>разбирающая функция вызывает
+<B>SEPARATE_ZVAL_IF_NOT_REF()</B> для следующего за ней параметра, чтобы предоставить копию этого параметра, 
+если только это не ссылка.</P></LI><LI><P><TT>! - </TT>следующий за ним параметр может быть специфицированного типа или
+<TT>NULL</TT> (применяется только к a, o, O, r или z). Если значение <TT>NULL</TT> передаётся пользователем,
+хранимый указатель будет установлен в <TT>NULL</TT>.</P></LI></UL>
+<P>Лучше всего показать работу этой функции на примерах:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>/* Получить long, string и её длину и zval. */
+long l;
+char *s;
+int s_len;
+zval *param;
+if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+                          "lsz", &#38;l, &#38;s, &#38;s_len, &#38;param) == FAILURE) {
+    return;
+}
+
+* Получить объект класса, специфицированного my_ce, и необязательное double. */
+zval *obj;
+double d = 0.5;
+if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+                          "O|d", &#38;obj, my_ce, &#38;d) == FAILURE) {
+    return;
+}
+
+/* Получить объект или null и массив.
+   Если null передаётся для объекта, obj будет установлен в NULL. */
+zval *obj;
+zval *arr;
+if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "O!a", &#38;obj, &#38;arr) == FAILURE) {
+    return;
+}
+
+/* Получить массив. */
+zval *arr;
+if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "a/", &#38;arr) == FAILURE) {
+    return;
+}
+
+/* Получить только первые три параметра (используется для varargs-функций). */
+zval *z;
+zend_bool b;
+zval *r;
+if (zend_parse_parameters(3, "zbr!", &#38;z, &#38;b, &#38;r) == FAILURE) {
+    return;
+}</PRE></TD></TR></TABLE>
+<P>Обратите внимание, что в третьем примере мы передаём 3 для числа принимаемых получаемых параметров вместо
+<B>ZEND_NUM_ARGS()</B>. Это позволяет получать наименьшее количество параметров, если наша функция 
+ожидает их переменное количество. Разумеется, если вы хотите работать с 
+остальными параметрами, вы должны использовать <B>zend_get_parameters_array_ex()</B> для их получения.</P>
+<P>Функция-разборщик имеет расширенную версию, которая имеет 
+дополнительный аргумент flags, управляющий её работой.<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>int zend_parse_parameters_ex(int flags, int num_args TSRMLS_DC, char *type_spec, ...);</PRE></TD></TR></TABLE>
+<P>Единственный флаг, который в настоящее время можно передавать, это <TT>ZEND_PARSE_PARAMS_QUIET</TT>,
+который указывает функции не выводить никаких сообщений об ошибках в 
+ходе операции. Это можно использовать в функциях, которые ожидают 
+несколько наборов совершенно разных аргументов, но вам придётся самостоятельно выводить сообщение об ошибке.</P>
+<P>Например, вот как можно получить набор из трёх long или строку:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>long l1, l2, l3;
+char *s;
+if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET,
+                             ZEND_NUM_ARGS() TSRMLS_CC,
+                             "lll", &#38;l1, &#38;l2, &#38;l3) == SUCCESS) {
+    /* работа с long */
+} else if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET,
+                                    ZEND_NUM_ARGS(), "s", &#38;s, &#38;s_len) == SUCCESS) {
+    /* работа с string */
+} else {
+    php_error(E_WARNING, "%s() takes either three long values or a string as argument",
+              get_active_function_name(TSRMLS_C));
+    return;
+}</PRE></TD></TR></TABLE>
+<P>С помощью рассмотренных способов получения параметров функцией вы 
+должны были получить хорошее представление об этом процессе.  
+Дополнительные примеры см. в исходном коде расширений, которые 
+поставляются с PHP - они иллюстрируют каждый представленный случай.</P></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3">
+<TR><TD WIDTH="33%" VALIGN="top"><A HREF="zend.arguments.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="zend.arguments.deprecated-retrieval.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Приём аргументов</TD>
+<th WIDTH="34%" VALIGN="top"><a href="zend.arguments.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Старый способ запроса аргументов (не рекомендуется)</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

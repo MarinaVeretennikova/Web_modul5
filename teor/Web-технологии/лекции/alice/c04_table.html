@@ -1,0 +1,497 @@
+<html>
+<title>Таблицы</title>
+<meta name=keywords content="table align tr td border cellpadding cellspacing form input name type value text password textarea submit button map area ismap css styles">
+<meta name=description content="Таблицы Создание HTML-форм Навигационные области Таблицы каскадных стилей">
+
+<head>
+<style>
+pre {background:#E5E5E5}
+</style>
+</head>
+<body>
+<table align=center width=90%>
+<tr><td>
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c04.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c04.html">Еще раз об HTML и немного о CSS</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c04_form.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c04_form.html">Создание HTML-форм</a>
+</table>
+
+
+
+<h3>Таблицы</h3>
+      <p align=justify> Таблицы выполняют две функции. Первая - представление 
+        и оформление данных в виде таблиц. В этом случае таблицы, как правило, 
+ имеют видимые 
+        границы, иногда - рисунок в качестве заднего фона. Таблицы также являются 
+        главным элементом языка HTML, при помощи которого делается форматирование 
+        документа. В HTML нет команд, которые бы позволили сдвинуться на 5 миллиметров 
+        вправо или вниз. Такие команды есть в TeX'e. Например, для того чтобы 
+        на одном уровне разместить несколько элементов, используется таблица. В 
+        этом случае сама таблица, как правило, уже невидима для пользователя.
+Необходимо отметить, что таблицы не предназначались для форматирования 
+HTML-документов. Верстальщики начали использовать таблицы, как инстумент
+форматирования, из-за отсутствия в HTML специально предназначенны для этого команд.
+ Поэтому часто при верстке дизайна сайта возникают большие проблемы.
+ Начало таблицы 
+        объявляется командой &lt;table&gt;, эта команда требует закрывающей части 
+        &lt;/table&gt;. Новый ряд в таблице объявляется командой &lt;tr&gt;. Ячейка 
+        в ряду объявляется командой &lt;td&gt;. Для &lt;tr&gt; и &lt;td&gt; закрывающие 
+        команды необязательны. <br>
+        Пример:
+<table width=100% bgcolor=E5E5E5>
+<tr><td>
+<pre>
+    &lt;table border=1&gt;
+      &lt;tr&gt; &lt;td&gt; Cell #1  &lt;td&gt;  Hello, World!
+      &lt;tr&gt; &lt;td&gt; Это ячейка номер 3  &lt;td&gt;  4 
+    &lt;/table&gt;
+</pre><tr>
+<td>
+    <table border=1>
+      <tr> <td> Cell #1  <td>  Hello, World!
+      <tr> <td> Это ячейка номер 3  <td>  4 
+    </table>
+</table>
+
+У команды &lt;table&gt; есть следующие атрибуты:
+
+<dl>
+   <dt><b>align</b> <dd> left, center, rigth
+   <dt><b>width </b> 
+        <dd> ширина в пикселях или процентах
+        <dt><b>height </b> <dd> высота
+   <dt><b>border </b> <dd> ширина границы(рамки) в пикселях
+   <dt><b>bordercolor </b> <dd> цвет границы(рамки)
+   <dt><b>cellspacing </b> <dd> расстояние между ячейками
+   <dt><b>cellpadding </b> <dd> расстояние от внутренней рамки ячейки до ее содержимого
+   <dt><b>background </b> <dd> фоновая картинка
+   <dt><b>title </b> <dd> устанавливает всплывающую подсказку
+   <dt><b>frame </b> 
+        <dd> определяет, какие стороны рамки будут видны, возможные значения: 
+          <ul>
+                 
+            <li> void - никаких сторон. В спецификации HTML4.0 написано, что это 
+              значение по умолчанию, однако броузер Internet Explorer почему-то 
+              об этом не знает. Когда я установил это значение, то рамка исчезла. 
+            <li> above - только сверху
+                 <li> below - только снизу
+                 <li> hsides - только горизонтальные рамки
+                 <li> vsides -  только вертикальные
+                 <li> lhs - только левые рамки
+                 <li> rhs - только правые
+                 <li> box - со всех сторон
+                 <li> border - тоже самое
+             </ul>
+   <dt><b>rules </b> <dd> правило, которое будет применяться к ячейкам внутри таблицы, 
+             возможные значение:
+             <ul>
+                 <li> none - нет правил, значение по умолчанию
+                 <li> groups - применяются к группам, здесь я не буду рассматривать эти команды за ненадобностью
+                 <li> rows - применяются к рядам
+                 <li> cols - к ячейкам
+                 <li> all - ко всему
+             </ul>
+</dl>
+
+Я перечислил параметры frame и rules затем, чтобы дотошные читатели не завалили 
+      меня письмами с упреками, что я что-то забыл. У меня ни разу не возникала в них необходимость. 
+      Если у вас найдется красивый пример использования этих параметров, то, пожалуйста, 
+      пришлите его мне. 
+      <p align=justify>
+Сначала мы рассмотрим использование таблиц по их прямому назначению, а потом 
+перейдем к эффективному форматированию HTML-документа при помощи таблиц.
+Пример таблицы с выравниванием по центру, размерами 300х200 пикселей,
+шириной рамки пять пикселей и синим цветом рамки. Расстояние между соседними
+ячейками устанавливается равным десяти пикселям. Расстояние от внутренней рамки
+ячейки до содержимого тридцать пикселей. 
+
+<table width=100% bgcolor=E5E5E5>
+<tr><td>
+<br>
+<pre>
+        &lt;table  align=center  width=300  height=200 border=5 
+        bordercolor=0000FF cellspacing=10 cellpadding=30
+        background=images/07.jpg
+        title="Всплывающая подсказка для данной таблицы"&gt;
+        &lt;tr>&lt;td&gt; 1 &lt;td&gt; 2
+        &lt;tr>&lt;td&gt; 3 &lt;td&gt; 4
+        &lt;/table&gt;
+
+</pre><tr><td>
+        <table  align=center  width=300  height=200 border=5 
+        bordercolor=0000FF cellspacing=10 cellpadding=30
+        background="07.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/07.jpg" 
+        title="Всплывающая подсказка для данной таблицы">
+        <tr><td> 1 <td> 2
+        <tr><td> 3 <td> 4
+        </table>
+<br>
+</table>
+
+      <p align=justify> Для вывода данных в таблицах лучше использовать ряды с чередующимися 
+        оттенками одного цвета и узкой рамкой. Ниже приведены два примера. Обратите 
+        внимание на то, как построена рамка в первой, а как во второй таблице. 
+        В первом случае устанавливается атрибут border=1. Во втором случае я 
+        хотел получить рамку размером один пиксель черного цвета. Но установив 
+        border=1 и bordercolor=000000, я получил черную рамку шириной в два 
+        пиксела. Пришлось извернуться, установить пространство между ячейками в 
+        один пиксель и задать цвет фона таблицы черным. Отлаживался я на броузере 
+        Internet Explorer 4.0. В Netscape 4.06 для того чтобы получить красивые 
+        рамки, придется делать вложенные таблицы. Кстати, здесь я опираюсь на 
+        стандарт HTML4.0, поэтому Netscape4х может многие примеры отображать некорректно. 
+        <br>
+
+<table width=100% bgcolor=E5E5E5>
+<tr><td>
+<br>
+<pre>
+        &lt;table align=center  width=300  border=1  
+                cellspacing=0 cellpadding=0&gt;
+        &lt;tr bgcolor=CCCCFF> &lt;td&gt; Имя&lt;td&gt; Фамилия
+        &lt;tr bgcolor=EEEEEE> &lt;td&gt; Иван&lt;td&gt; Иванов
+        &lt;tr bgcolor=CCCCCC> &lt;td&gt; Петр&lt;td&gt; Петров
+        &lt;/table&gt;
+
+        &lt;br&gt;
+
+        &lt;table align=center  width=300  border=0
+                cellspacing=1 cellpadding=0
+                bgcolor=000000&gt;
+        &lt;tr bgcolor=CCCCFF align=center&gt; &lt;td&gt; Имя&lt;td&gt; Фамилия
+        &lt;tr bgcolor=EEEEEE&gt; &lt;td&gt; Иван&lt;td&gt; Иванов
+        &lt;tr bgcolor=CCCCCC&gt; &lt;td&gt; Петр&lt;td&gt; Петров
+        &lt;/table&gt;
+
+</pre><tr><td>
+
+<table align=center  width=300  border=1  
+       cellspacing=0 cellpadding=0>
+<tr bgcolor=CCCCFF> <td> Имя<td> Фамилия
+<tr bgcolor=EEEEEE> <td> Иван<td> Иванов
+<tr bgcolor=CCCCCC> <td> Петр<td> Петров
+</table>
+
+<br>
+
+<table align=center  width=300  border=0
+       cellspacing=1 cellpadding=0
+       bgcolor=000000>
+<tr bgcolor=CCCCFF align=center> <td> Имя<td> Фамилия
+<tr bgcolor=EEEEEE> <td> Иван<td> Иванов
+<tr bgcolor=CCCCCC> <td> Петр<td> Петров
+</table>
+
+</table>
+<br>
+Теперь давайте рассмотрим атрибуты команд &lt;tr&gt; и &lt;td&gt;
+
+<dl>
+ <dt><b>width</b> <dd>задает ширину ряда
+ <dt><b>height</b><dd> задает высоту ряда
+ <dt><b>bgcolor</b> <dd>цвет фона
+ <dt><b>align</b> 
+        <dd>выравнивание содержимого всех ячеек по горизонтали, потом в каждой 
+          конкретной ячейке значение этого атрибута можно будет переопределить 
+        <dt><b>valign</b>
+        <dd> то же самое, но по вертикали 
+        <dt><b>title</b><dd> всплывающая подсказка
+ <dt><b>background</b><dd> фоновая картинка 
+</dl>
+
+У команды &lt;td&gt; есть еще два атрибута colspan и rowspan. Они определяют, для 
+    какого количества колонок и рядов, ячейка является общей, или другими словами в 
+каком количестве
+      колонок и рядов состоит данная ячейка. По умолчанию эти атрибуты имеют 
+      значение единица, т.е. ячейка находится в одном ряду и ровно в одном столбце. 
+      <table width=100% bgcolor=E5E5E5>
+<tr><td>
+<pre>
+  &lt;table align=center  width=300  border=0
+         cellspacing=1 cellpadding=0
+         bgcolor=000000&gt;
+    &lt;tr bgcolor=CCCCFF align=center&gt;
+        &lt;td&gt; 1 
+        &lt;td colspan=2&gt; Эта ячейка находится в двух колонках 
+        &lt;td rowspan=3&gt; А эта ячейка - в трех рядах
+    &lt;tr bgcolor=EEEEEE&gt;
+        &lt;td&gt; Иванов 
+        &lt;td&gt; Иван 
+        &lt;td&gt; Иванович 
+    &lt;tr bgcolor=CCCCCC&gt; 
+        &lt;td&gt; Петров
+        &lt;td&gt; Петр 
+        &lt;td&gt; Петрович
+  &lt;/table&gt;
+</pre><tr><td>
+
+  
+ <table align=center  width=300  border=0
+        cellspacing=1 cellpadding=0
+       bgcolor=000000>
+ <tr bgcolor=CCCCFF align=center> <td> 1 <td colspan=2> Эта ячейка находится в двух колонках <td rowspan=3> А эта ячейка - в трех рядах
+ <tr bgcolor=EEEEEE> <td> Иванов <td> Иван <td> Иванович 
+ <tr bgcolor=CCCCCC> <td> Петров<td> Петр <td> Петрович
+ </table>
+
+</table>
+
+
+
+<h3>Упражнение</h3>
+Напишите HTML-код для следующей таблицы. В качестве подсказок я указал номера 
+      рядов и ячеек. Попробуйте реализовать это несколькими вариантами различного 
+      кода. Подсчитайте, сколько всего существует различных вариантов. 
+      <table align=center  width=300  border=0
+        cellspacing=1 cellpadding=0
+       bgcolor=000000>
+ <tr height=40> 
+     <td width=40 rowspan=2 colspan=2 bgcolor=CCCCFF>  1_1
+     <td width=20 bgcolor=CCCCCC>  1_2
+     <td width=20 bgcolor=DDDDDD>  1_3
+     <td width=40 rowspan=2 colspan=2 bgcolor=CCCCFF>  1_4
+ <tr height=40>     
+     <td width=20 bgcolor=EEEEEE>  2_1
+     <td width=20 bgcolor=808080>  2_2
+     
+ <tr height=40>         
+     <td width=20 bgcolor=CCCCCC>  3_1 
+     <td width=20 bgcolor=DDDDDD>  3_2
+     <td width=40 rowspan=2 colspan=2 bgcolor=CCCCFF>  3_3
+     <td width=20 bgcolor=EEEEEE>  3_4
+     <td width=20 bgcolor=808080>  3_5
+ <tr height=40>         
+     <td width=20 bgcolor=EEEEEE>  4_1
+     <td width=20 bgcolor=808080>  4_2      
+     <td width=20 bgcolor=CCCCCC>  4_3
+     <td width=20 bgcolor=DDDDDD>  4_4
+ <tr height=40> 
+     <td width=40 rowspan=2 colspan=2 bgcolor=CCCCFF>  5_1
+     <td width=20 bgcolor=CCCCCC>  5_2
+     <td width=20 bgcolor=DDDDDD>  5_3
+     <td width=40 rowspan=2 colspan=2 bgcolor=CCCCFF>  5_4
+ <tr height=40>     
+     <td width=20 bgcolor=EEEEEE>  6_1
+     <td width=20 bgcolor=808080>  6_2
+
+ </table>
+
+
+И последнее, что стоит сказать непосредственно о свойствах таблиц, то, что 
+они могут быть вложенными. В любой ячейке можно разместить таблицу, рисунок
+и любой другой объект. Но настоятельно рекомендую избегать вложенных
+таблиц. Используйте атрибуты colspan и rowspan. Вложенные таблицы часто
+некорректно отображаются некоторыми броузерами. Размер вашего HTML-кода
+увеличивается и сам HTML-код усложняется.
+Например, все что вы видите на экране, находится в таблице, но
+это уже относится к форматированию, и об этом в следующем параграфе.
+
+
+<a name=table>
+<h3>Форматирование HTML-документов.</h3>
+ Здесь мы рассмотрим приемы эффективного форматирования
+ HTML-документов при помощи таблиц.
+ 
+ <h4>Документ фиксированной ширины</h4>
+ Вы можете обратить внимание на страницы в Сети, где форматирование текста
+не зависит от размеров окна броузера. Это так называемые фиксированные сайты 
+или HTML-документ. У них четко задана ширина.
+ В самом начале такого документа после команды &lt;body&gt; идет таблица:
+ <pre>
+ &lt;table align=center width=700&gt;
+ &lt;tr&gt;&lt;td&gt;
+</pre>
+      Теперь форматирование текста не зависит от размеров окна броузера. В любом 
+      окне текст будет выглядеть одинаково, шириной в 700 пикселей. Не забудьте 
+      перед закрывающей командой &lt;/body&gt; закрыть эту таблицу - &lt;/table&gt;. 
+
+<h4>Несколько элементов на одной линии</h4>
+ При вставке формул в документ стоит задача разместить на одном уровне
+ картинку формулы и ее номер или название.
+
+<table width=100% bgcolor=E5E5E5>
+<tr><td>
+<pre>
+&lt;table width=100%&gt;
+&lt;tr&gt;
+&lt;td width=50% align=center&gt;&lt;img src=images/it03.gif&gt;&lt;/td&gt;
+&lt;td width=50% align=center&gt;(1)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;</pre>
+
+<tr><td>
+ 
+<table width=100%>
+<tr>
+<td width=50% align=center><img src="it03.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/it03.gif"></td><td width=50% align=center>(1)</td>
+</tr>
+</table>
+</table>
+
+
+
+<h4>Создание "окошек"</h4>
+Новости на главных страницах сайтов, сообщения в гостевых книгах часто оформляют 
+      в окошке. Такие окошки делаются при помощи таблиц. Вы устанавливаете cellspacing=0 
+      и cellpadding=0, а далее делаем красивое окошко. Рамки являются ячейками 
+      и рядами. Вот пример: 
+      <table width=100% bgcolor=E5E5E5>
+<tr><td>
+<pre>
+ &lt;table align=center  width=300  border=0
+        cellspacing=0 cellpadding=0
+       bgcolor=000000&gt;
+ &lt;tr bgcolor=CCCCFF&gt;
+  &lt;td colspan=3&gt; &nbsp;Тема новости
+  
+ &lt;tr bgcolor=EEEEEE&gt;
+   &lt;td width=2 bgcolor=CCCCFF&gt; 
+   &lt;td&gt; Вчера завершил работу над третьей главой книги.
+   &lt;td width=2 bgcolor=CCCCFF&gt;
+ &lt;tr bgcolor=EEEEEE&gt;
+   &lt;td width=2 bgcolor=CCCCFF&gt; 
+   &lt;td align=right&gt; 10 декабря 2000 
+   &lt;td width=2 bgcolor=CCCCFF&gt;
+ &lt;tr bgcolor=CCCCFF&gt;
+  &lt;td colspan=3 height=2&gt;
+  &lt;/table&gt;
+</pre><tr><td>
+ <table align=center  width=300  border=0
+        cellspacing=0 cellpadding=0
+       bgcolor=000000>
+ <tr bgcolor=CCCCFF>
+  <td colspan=3> &nbsp;Тема новости
+  
+ <tr bgcolor=EEEEEE>
+   <td width=2 bgcolor=CCCCFF> <td> Вчера завершил работу над третьей главой книги. <td width=2 bgcolor=CCCCFF>
+ <tr bgcolor=EEEEEE>
+   <td width=2 bgcolor=CCCCFF> <td align=right> 10 декабря 2000 <td width=2 bgcolor=CCCCFF>
+ <tr bgcolor=CCCCFF>
+  <td colspan=3 height=2>
+ </table>
+</table>
+
+<h4>Отступы</h4>
+При помощи таблиц можно делать горизонтальные и вертикальные отступы в 
+пикселях. Учтите, что в Netscape пустая ячейка не отображается, поэтому в
+нее надо вставлять прозрачный gif-файл. Кстати, это еще один прием форматирования.
+Вы создаете прозрачный gif, размером один на один пиксель, а в команде img
+указываете нужные вам ширину и высоту.
+
+<h4>Главная страница сайта</h4>
+ Ну и наконец большинство главных страниц сайтов создано при помощи таблиц, в
+ячейках которых располагаются меню, графика и текст. В качестве примеров можете
+посмотреть HTML-код главных страниц сайтов наших работ. Некоторая дополнительная
+информация по верстке будет дана в заключительной части книги.
+
+
+</td></tr>
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #1 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=0-5738" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=0?5738" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=0'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69019-bn=0-5738" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=0?5738"
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+<!-- Russian LinkExchange code START - BANNER #2 (100x100)-->
+  <iframe src="erle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/erle.cgi?69019-bn=1?Rnd_Num" 
+  frameborder=0 vspace=0 hspace=0 width=100 height=100 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://10e2.linkexchange.ru/users/069019/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://10e2.linkexchange.ru/users/069019/goto.map?bn=1'" tppabs="http://10e2.linkexchange.ru/users/069019/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69019-bn=1-Rnd_Num" tppabs="http://10e2.linkexchange.ru/cgi-bin/rle.cgi?69019-bn=1?Rnd_Num" 
+  alt="RLE Banner Network" border=0 height=100 width=100></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="erle.cgi-51599-5738" tppabs="http://www.linkexchange.ru/cgi-bin/erle.cgi?51599?5738" frameborder=0 
+    vspace=0 hspace=0 width=468 height=60 marginwidth=0 marginheight=0 scrolling=no>
+    <a href="javascript:if(confirm('http://www.linkexchange.ru/users/goto.map  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://www.linkexchange.ru/users/goto.map'" tppabs="http://www.linkexchange.ru/users/goto.map" target=_top>
+    <img src="rle.cgi-51599-5738" tppabs="http://www.linkexchange.ru/cgi-bin/rle.cgi?51599?5738" alt="RLE Banner Network" border=0 height=60 width=468></a>
+    </iframe>
+
+<!-- Russian LinkExchange code START - BANNER #1 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=0-5738" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=0?5738"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=0  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=0'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=0" target=_top> 
+  <img src="rle.cgi-69021-bn=0-5738" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=0?5738"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+<!-- Russian LinkExchange code START - BANNER #2 (120x60)-->
+  <iframe src="erle.cgi-69021-bn=1-5738" tppabs="http://btn2.linkexchange.ru/cgi-bin/erle.cgi?69021-bn=1?5738"
+  frameborder=0 vspace=0 hspace=0 width=120 height=60 
+  marginwidth=0 marginheight=0 scrolling=no>
+  <a href="javascript:if(confirm('http://btn2.linkexchange.ru/users/069021/goto.map?bn=1  \n\nThis file was not retrieved by Teleport Pro, because it did not meet the project\'s file type specifications.  \n\nDo you want to open it from the server?'))window.location='http://btn2.linkexchange.ru/users/069021/goto.map?bn=1'" tppabs="http://btn2.linkexchange.ru/users/069021/goto.map?bn=1" target=_top> 
+  <img src="rle.cgi-69021-bn=1-5738" tppabs="http://btn2.linkexchange.ru/cgi-bin/rle.cgi?69021-bn=1?5738"
+  alt="RLE Banner Network" border=0 height=60 width=120></a> 
+  </iframe> 
+<!-- Russian LinkExchange code END --> 
+</td></tr>
+</table>
+
+</body>
+</html>

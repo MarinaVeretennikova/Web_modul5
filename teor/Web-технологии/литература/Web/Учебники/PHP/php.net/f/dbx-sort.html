@@ -1,0 +1,38 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>dbx_sort</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="dbx-query.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="ref.dbplus.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.dbx-sort">dbx_sort</A></H1><A NAME="AEN17032"></A><P>(PHP 4 &#62;= 4.0.6)</P>
+<p>dbx_sort - сортирует результат dbx_query с помощью специальной функции сортировки.<A NAME="AEN17035"></A></p>
+<H2>Описание</H2><p>bool <B>dbx_sort</B> (object result, string user_compare_function)</p>
+<P>Возвращает <TT><B>TRUE</B></TT> при успехе, <TT><B>FALSE</B></TT> при неудаче.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>лучше всегда использовать <TT>SQL-</TT>оператор <TT>ORDER BY</TT> вместо
+<B>dbx_sort()</B>, если это возможно.</P></BLOCKQUOTE><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN17054"></A><h5>Пример 1. dbx_sort()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+function user_re_order ($a, $b) {
+    $rv = dbx_compare ($a, $b, "parentid", DBX_CMP_DESC);
+    if ( !$rv ) {
+        $rv = dbx_compare ($a, $b, "id", DBX_CMP_NUMBER);
+    }
+    return $rv;
+}
+
+$link   = dbx_connect (DBX_ODBC, "", "db", "username", "password")
+    or die ("Could not connect");
+
+$result = dbx_query ($link, "SELECT id, parentid, description FROM tbl ORDER BY id");
+    // data в $result теперь упорядочены по id
+
+dbx_sort ($result, "user_re_order");
+    // data в $result теперь упорядочены по parentid (по убыванию), затем  - по id
+
+dbx_close ($link);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="dbx-compare.html"><B>dbx_compare()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="dbx-query.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="ref.dbplus.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">dbx_query</TD><th WIDTH="34%" VALIGN="top"><A HREF="ref.dbx.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Функции DB++</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

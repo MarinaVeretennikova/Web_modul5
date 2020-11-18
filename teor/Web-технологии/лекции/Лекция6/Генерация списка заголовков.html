@@ -1,0 +1,41 @@
+<HTML> 
+<HEAD>
+<TITLE>Генерация элементов списка</TITLE>
+<SCRIPT> 
+    function listConstr() {
+       //Циклическая обработка якорей
+       for (var i=0; i<document.anchors.length;i++){
+       //
+       var elem=document.createElement("OPTION");
+       elem.text=document.anchors[i].innerText;
+       elem.value=document.anchors[i].name;
+       document.all.content.options.add(elem);
+       } 
+    } 
+    function scrDoc(bmark) {
+       var ind=bmark.value;
+       document.all[ind].scrollIntoView();
+       bmark.value=null; 
+    }
+</SCRIPT> 
+</HEAD>
+<BODY onload="listConstr();">
+<H2><I>M. Булгаков.</i> Жизнь господина де Мольера</Н2> 
+<LABEL for="content">Содержание: 
+<SELECT id="content" style="width:100pt" 
+onchange="scrDoc(this);"> 
+</SELECT>
+<H3><A name="Пролог">Пролог </A></H3> 
+<H3>Я разговариваю с акушеркой</H3> 
+--Текст пролога--
+<H3><A name="Глава 1">Глава 1</A></H3>
+<HЗ>В обезьяньем доме</HЗ>
+ --Текст главы 1--
+<H3><A name="Глава 2">Глава 2</A></HЗ> 
+<HЗ>История двух театралов</HЗ> 
+--Текст главы 2--
+<H3><A name="Глава 3 ">Глава 3</A></HЗ>
+ <HЗ>Не дать ли деду орвьетану?</HЗ>
+ --Текст главы 3--
+</BODY>
+</HTML>

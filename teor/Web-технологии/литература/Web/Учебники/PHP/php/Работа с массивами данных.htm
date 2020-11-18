@@ -1,0 +1,963 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.intuit.ru/department/pl/plphp/7/plphp_7.html -->
+<HTML><HEAD><TITLE>INTUIT.ru::Интернет-Университет Информационных Технологий</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251"><LINK 
+href="Работа с массивами данных.files/printable.css" type=text/css 
+rel=stylesheet>
+<META content="MSHTML 6.00.2900.2180" name=GENERATOR></HEAD>
+<BODY leftMargin=0 topMargin=6 marginwidth="0" marginheight="6">
+<DIV align=left><SPAN style="FONT-WEIGHT: bold; COLOR: #000000">&nbsp;&nbsp; 
+<SPAN style="FONT-SIZE: 12pt">Интернет-Университет Информационных 
+Технологий</SPAN> </SPAN></DIV>&nbsp;&nbsp; <SPAN 
+style="COLOR: #330066; TEXT-DECORATION: underline" 
+align="rright">http://www.INTUIT.ru</SPAN> 
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD colSpan=3 height=8><IMG height=8 
+      src="Работа с массивами данных.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD class=orang colSpan=3 height=1><IMG height=1 
+      src="Работа с массивами данных.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD colSpan=3 height=8><IMG height=8 
+      src="Работа с массивами данных.files/empty.gif" width=1></TD></TR>
+  <TR vAlign=top>
+    <TD><IMG height=1 src="Работа с массивами данных.files/empty.gif" 
+    width=8></TD>
+    <TD><!-- content -->
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=head>Язык программирования PHP</TD></TR>
+        <TR>
+          <TD height=4><IMG height=4 
+            src="Работа с массивами данных.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD class=orang height=1><IMG height=1 
+            src="Работа с массивами данных.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Работа с массивами данных.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD><SPAN class=headsub>7. Лекция: Работа с массивами данных: версия 
+            для печати и PDA</SPAN> <BR><SPAN class=rtxt>Лекция посвящена более 
+            подробному изучению массивов и функций, встроенных в PHP для работы 
+            с ними. Рассматриваются функции для поиска элементов в массиве, для 
+            сортировки элементов массива, а также применение созданных 
+            пользователем функций ко всем элементам массива, разбивка массива на 
+            подмассивы и другое</SPAN> </TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Работа с массивами данных.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD class=orang height=1><IMG height=1 
+            src="Работа с массивами данных.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Работа с массивами данных.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD>
+            <H3></H3>
+            <P>Язык PHP предоставляет множество функций для работы с <SPAN 
+            class=keyword>массивами</SPAN> данных. Как правило, эти функции 
+            решают наиболее часто встречающиеся задачи, связанные с обработкой 
+            <SPAN class=keyword>массивов</SPAN>. В этой лекции мы рассмотрим 
+            некоторые из таких функций и с их помощью решим несколько прикладных 
+            задач. В частности, будут рассмотрены функции для <SPAN 
+            class=keyword>поиска элементов в массиве</SPAN>, для <SPAN 
+            class=keyword>сортировки элементов массива</SPAN>, <SPAN 
+            class=keyword>применение созданных пользователем функций ко всем 
+            элементам массива</SPAN> и <SPAN class=keyword>разбивка массива на 
+            подмассивы</SPAN>.</P>
+            <H3>Массивы</H3>
+            <P>В одной из первых лекций мы рассказывали о том, как можно <SPAN 
+            class=keyword>создать массив</SPAN> данных. Напомним, что <SPAN 
+            class=keyword>массив</SPAN> можно <SPAN class=keyword>создать</SPAN> 
+            двумя способами:</P>
+            <OL>
+              <LI>
+              <P>С помощью конструкции <SPAN class=texample>array</SPAN></P>
+              <DIV class=example><PRE>$array_name = array("key1"=&gt;"value1",
+                    "key2"=&gt;"value2");
+</PRE></DIV>
+              <LI>
+              <P>Непосредственно задавая <SPAN class=keyword>значения</SPAN> 
+              элементам <SPAN class=keyword>массива</SPAN></P>
+              <DIV class=example><PRE>$array_name["key1"] = value1;
+</PRE></DIV></LI></OL>
+            <P>Например, нам нужно хранить список документов, которые будут 
+            удалены из базы данных. Естественно хранить его в виде <SPAN 
+            class=keyword>массива</SPAN>, <SPAN class=keyword>ключом</SPAN> в 
+            котором будет идентификатор документа (его уникальный номер), а 
+            <SPAN class=keyword>значением</SPAN> – название документа. Этот 
+            <SPAN class=keyword>массив</SPAN> можно <SPAN 
+            class=keyword>создать</SPAN> таким образом:</P>
+            <DIV class=example><PRE>&lt;?
+$del_items = array("10"=&gt;"Наука и жизнь",
+   "12"=&gt;"Информатика");
+$del_items["13"] = "Программирование на Php"; 
+    // добавляем элемент в массив
+?&gt;
+    </PRE></DIV>
+            <H4>Операции с массивами</H4>
+            <P><SPAN class=keyword>Массив</SPAN> – это тип данных, с данными 
+            этого типа должны быть определены <SPAN 
+            class=keyword>операции</SPAN>. Какие же <SPAN 
+            class=keyword>операции</SPAN> можно производить с <SPAN 
+            class=keyword>массивами</SPAN>? <SPAN class=keyword>Массивы</SPAN> 
+            можно <SPAN class=keyword>складывать</SPAN> и <SPAN 
+            class=keyword>сравнивать</SPAN>.</P>
+            <P><SPAN class=keyword>Складывают массивы</SPAN> с помощью 
+            стандартного оператора «<SPAN class=texample>+</SPAN>». Вообще 
+            говоря, эту <SPAN class=keyword>операцию</SPAN> по отношению к <SPAN 
+            class=keyword>массивам</SPAN> точнее назвать объединением. Если у 
+            нас есть два <SPAN class=keyword>массива</SPAN>, <SPAN 
+            class=texample>$a</SPAN> и <SPAN class=texample>$b</SPAN>, то 
+            результатом их <SPAN class=keyword>сложения</SPAN> (объединения) 
+            будет <SPAN class=keyword>массив</SPAN> <SPAN 
+            class=texample>$c</SPAN>, состоящий из элементов <SPAN 
+            class=texample>$a</SPAN>, к которым справа дописаны элементы <SPAN 
+            class=keyword>массива</SPAN> <SPAN class=texample>$b</SPAN>. Причем, 
+            если встречаются совпадающие <SPAN class=keyword>ключи</SPAN>, то в 
+            результирующий <SPAN class=keyword>массив</SPAN> включается элемент 
+            из первого <SPAN class=keyword>массива</SPAN>, т.е. из <SPAN 
+            class=texample>$a</SPAN>. Таким образом, если <SPAN 
+            class=keyword>складываются массивы</SPAN> в языке PHP, от перемены 
+            мест слагаемых сумма меняется.</P><A name=example.7.1></A>
+            <DIV class=example><PRE>&lt;?
+$a = array("и"=&gt;"Информатика", 
+           "м"=&gt;"Математика");
+$b = array("и"=&gt;"История","м"=&gt;"Биология",
+           "ф"=&gt;"Физика");
+$c = $a + $b;
+$d = $b +$a;
+print_r($c); 
+/* получим: Array([и]=&gt;Информатика
+   [м]=&gt;Математика [ф]=&gt;Физика) */
+print_r($d); 
+/* получим: Array([и]=&gt;История
+   [м]=&gt;Биология [ф]=&gt;Физика) */
+?&gt;
+        </PRE><SPAN class=objectName>Пример 7.1. Сложение 
+            массивов</SPAN></DIV>
+            <P><SPAN class=keyword>Сравнивать массивы</SPAN> можно, проверяя их 
+            равенство или неравенство либо эквивалентность или 
+            неэквивалентность. Равенство <SPAN class=keyword>массивов</SPAN> – 
+            это когда совпадают все пары <SPAN class=keyword>ключ</SPAN>/<SPAN 
+            class=keyword>значение</SPAN> элементов <SPAN 
+            class=keyword>массивов</SPAN>. Эквивалентность – когда кроме 
+            равенства <SPAN class=keyword>значений</SPAN> и <SPAN 
+            class=keyword>ключей</SPAN> элементов требуется еще, чтобы элементы 
+            в обоих <SPAN class=keyword>массивах</SPAN> были записаны в одном и 
+            том же порядке. Равенство <SPAN class=keyword>значений</SPAN> в PHP 
+            обозначается символом «<SPAN class=texample>==</SPAN>», а 
+            эквивалентность – символом «<SPAN class=texample>===</SPAN>».</P><A 
+            name=example.7.2></A>
+            <DIV class=example><PRE>&lt;?
+$a = array("и"=&gt;"Информатика", 
+           "м"=&gt;"Математика");
+$b = array("м"=&gt;"Математика", 
+           "и"=&gt;"Информатика");
+if ($a == $b) echo "Массивы равны и";
+  else echo "Массивы НЕ равны и ";
+if ($a === $b) echo " эквивалентны";
+  else echo " НЕ эквивалентны";
+// получим echo "Массивы равны и 
+                     НЕ эквивалентны"
+?&gt;
+        </PRE><SPAN class=objectName>Пример 7.2. Сравнение 
+            массивов</SPAN></DIV>
+            <P>Далее рассмотрим еще одну важную <SPAN class=keyword>операцию с 
+            массивом</SPAN> – подсчет <SPAN class=keyword>количества его 
+            элементов</SPAN>. Для ее реализации в PHP есть специальная 
+            функция.</P>
+            <H5>Функция count</H5>
+            <P>Не раз уже мы использовали функцию <SPAN class=texample><SPAN 
+            class=keyword>count()</SPAN></SPAN>, чтобы вычислить <SPAN 
+            class=keyword>количество элементов массива</SPAN>. На самом деле эта 
+            функция вычисляет число элементов в переменной вообще. Если 
+            применить ее к любой другой переменной, она возвратит <SPAN 
+            class=texample>1</SPAN>. Исключение составляет переменная типа <SPAN 
+            class=texample>NULL</SPAN> – <SPAN class=texample><SPAN 
+            class=keyword>count(NULL)</SPAN></SPAN> есть <SPAN 
+            class=texample>0</SPAN>. Кроме того, применяя эту функцию к 
+            многомерному <SPAN class=keyword>массиву</SPAN>, чтобы получить 
+            <SPAN class=keyword>число его элементов</SPAN>, нужно использовать 
+            дополнительный параметр <SPAN 
+            class=texample>COUNT_RECURSIVE</SPAN>.</P><A name=example.7.3></A>
+            <DIV class=example><PRE>&lt;?
+$del_items = array("langs" =&gt; array(
+    "10"=&gt;"Python", "12"=&gt;"Lisp"), 
+    "other"=&gt;"Информатика");
+echo count($del_items) . "&lt;br&gt;"; 
+    // выведет 2
+echo count($del_items,COUNT_RECURSIVE); 
+    // выведет 4
+?&gt;
+            </PRE><SPAN class=objectName>Пример 7.3. Применение 
+            функции count()</SPAN></DIV>
+            <P>Мы не будем повторять все, что было сказано о <SPAN 
+            class=keyword>массивах</SPAN> в предыдущих лекциях. В этой лекции мы 
+            рассмотрим некоторые встроенные функции для работы с <SPAN 
+            class=keyword>массивами</SPAN>. И начнем мы с функций для <SPAN 
+            class=keyword>поиска значений в массиве</SPAN>.</P>
+            <H5>Функция in_array</H5>
+            <DIV class=example><PRE>in_array("искомое значение","массив", 
+        ["ограничение на тип"]);
+</PRE></DIV>
+            <P>позволяет установить, содержится ли в заданном <SPAN 
+            class=keyword>массиве</SPAN> искомое <SPAN 
+            class=keyword>значение</SPAN>. Если третий аргумент задан как <SPAN 
+            class=texample>true</SPAN>, то в <SPAN class=keyword>массиве</SPAN> 
+            нужно найти элемент, совпадающий с искомым не только по <SPAN 
+            class=keyword>значению</SPAN>, но и по типу. Если искомое <SPAN 
+            class=keyword>значение</SPAN> – строка, то сравнение чувствительно к 
+            регистру.</P>
+            <P>Например, имеется <SPAN class=keyword>массив</SPAN> не изученных 
+            нами языков программирования. Мы хотим узнать, содержится ли в этом 
+            <SPAN class=keyword>массиве</SPAN> язык PHP. Напишем следующую 
+            программу:</P>
+            <DIV class=example><PRE>&lt;?php
+$langs = array("Lisp","Python","Java",
+               "PHP","Perl");
+if (in_array("PHP",$langs)) 
+    echo "Надо бы изучить PHP&lt;br&gt;";
+// выведет сообщение "Надо бы изучить PHP"
+if (in_array("php",$langs)) 
+    echo "Надо бы изучить php&lt;br&gt;";
+// ничего не выведет, поскольку в массиве
+// есть строка "PHP", а не "php"
+?&gt;
+            </PRE></DIV>
+            <P>В качестве искомого <SPAN class=keyword>значения</SPAN> этой 
+            функции может выступать и <SPAN class=keyword>массив</SPAN>. Правда, 
+            это свойство было добавлено только начиная с PHP 4.2.0.</P>
+            <P>Например:</P>
+            <DIV class=example><PRE>&lt;?php
+$langs = array("Lisp","Python",array("PHP","Java"),"Perl");
+if (in_array(array("PHP","Java"),$langs))
+  echo "Надо бы изучить PHP и Java&lt;br&gt;";
+?&gt;
+            </PRE></DIV>
+            <H5>Функция array_search</H5>
+            <P>Это еще одна функция для <SPAN class=keyword>поиска значения в 
+            массиве</SPAN>. В отличие от <SPAN class=texample><SPAN 
+            class=keyword>in_array</SPAN></SPAN> <A name=keyword-context.1></A>в 
+            результате работы <SPAN class=texample><SPAN 
+            class=keyword_def>array_search</SPAN></SPAN> возвращает <SPAN 
+            class=keyword>значение</SPAN> <SPAN class=keyword>ключа</SPAN>, если 
+            элемент найден, и ложь – в противном случае. А вот синтаксис у этих 
+            функций одинаковый:</P>
+            <DIV class=example><PRE>array_search("искомое значение","массив", 
+            ["ограничение на тип"]);
+</PRE></DIV>
+            <P>Сравнение строк чувствительно к регистру, а если указан 
+            опциональный аргумент, то сравниваются еще и типы <SPAN 
+            class=keyword>значений</SPAN>. До PHP 4.2.0, если искомое <SPAN 
+            class=keyword>значение</SPAN> не было найдено, эта функция 
+            возвращала ошибку или пустое <SPAN class=keyword>значение</SPAN> 
+            <SPAN class=texample>NULL</SPAN>.</P>
+            <P><B>Пример 7.4. </B>Теперь, наоборот, пусть у нас есть <SPAN 
+            class=keyword>массив</SPAN> языков программирования, которые мы 
+            знаем. Причем <SPAN class=keyword>ключом</SPAN> каждого элемента 
+            является номер, указывающий, каким по счету был изучен этот 
+            язык.</P><A name=example.7.4></A>
+            <DIV class=example><PRE>&lt;?php
+$langs = array("Lisp","Python","Java",
+               "PHP","Perl");
+if (!array_search("PHP",$langs)) 
+    echo "Надо бы изучить PHP&lt;br&gt;";
+else {
+  $k = array_search("PHP",$langs);
+  echo "PHP я изучила $k – м";
+}
+?&gt;
+            </PRE><SPAN class=objectName>Пример 7.4. Применение 
+            функции array_search()</SPAN></DIV>
+            <P>В результате мы получим строчку:</P>
+            <DIV class=example><PRE>PHP я изучила 3 – м
+</PRE></DIV>
+            <P>Очевидно, что эта функция более функциональна, чем <SPAN 
+            class=texample><SPAN class=keyword>in_array</SPAN></SPAN>, поскольку 
+            мы не только получаем информацию о том, что искомый элемент в <SPAN 
+            class=keyword>массиве</SPAN> есть, но и узнаем, где именно в <SPAN 
+            class=keyword>массиве</SPAN> он находится. А что будет, если искомых 
+            элементов в <SPAN class=keyword>массиве</SPAN> несколько? В таком 
+            случае функция <SPAN class=texample><SPAN 
+            class=keyword>array_search()</SPAN></SPAN> вернет <SPAN 
+            class=keyword>ключ</SPAN> первого из найденных элементов. <A 
+            name=keyword-context.2></A>Чтобы получить <SPAN 
+            class=keyword>ключи</SPAN> всех элементов, нужно воспользоваться 
+            функцией <SPAN class=texample><SPAN 
+            class=keyword_def>array_keys()</SPAN></SPAN>. </P>
+            <H5>Функция array_keys</H5>
+            <P>Функция <SPAN class=texample><SPAN 
+            class=keyword>array_keys()</SPAN></SPAN> выбирает все <SPAN 
+            class=keyword>ключи</SPAN> <SPAN class=keyword>массива</SPAN>. Но у 
+            нее имеется дополнительный аргумент, с помощью которого можно 
+            получить список <SPAN class=keyword>ключей</SPAN> элементов с 
+            конкретным <SPAN class=keyword>значением</SPAN>. Синтаксис этой 
+            функции таков:</P>
+            <DIV class=example><PRE>array_keys ("массив" 
+    [,"значение для поиска"])
+</PRE></DIV>
+            <P>Функция <SPAN class=texample><SPAN 
+            class=keyword>array_keys()</SPAN></SPAN> возвращает как строковые, 
+            так и числовые <SPAN class=keyword>ключи</SPAN> <SPAN 
+            class=keyword>массива</SPAN>, организуя все <SPAN 
+            class=keyword>значения</SPAN> в виде нового <SPAN 
+            class=keyword>массива</SPAN> с числовыми индексами.</P>
+            <P><B>Пример 7.5. </B>Мы записали <SPAN class=keyword>массив</SPAN> 
+            языков, которые изучили. Список был длинным, и некоторые языки были 
+            записаны несколько раз. У нас возникло подозрение, что один из таких 
+            языков – Lisp. Давайте это проверим:</P><A name=example.7.5></A>
+            <DIV class=example><PRE>&lt;?php
+$langs =
+array("Lisp","Python","Java","PHP",
+      "Perl","Lisp");
+$lisp_keys = array_keys($langs,"Lisp");
+echo "Lisp входит в массив ". 
+          count($lisp_keys) ." раза:&lt;br&gt;";
+foreach ($lisp_keys as $val){
+    echo "под номером $val &lt;br&gt;";
+}
+?&gt;
+            </PRE><SPAN class=objectName>Пример 7.5. Применение 
+            функции array_keys()</SPAN></DIV>
+            <P>В результате получим:</P>
+            <DIV class=example><PRE>Lisp входит в массив 2 раза:
+под номером 0
+под номером 5
+            </PRE></DIV>
+            <P>Функция <SPAN class=texample><SPAN 
+            class=keyword>array_keys()</SPAN></SPAN>, как и две предыдущие, 
+            зависит от регистра, т.е. элементов LISP в <SPAN 
+            class=keyword>массиве</SPAN> она не обнаружит. <SPAN 
+            class=texample><SPAN class=keyword>array_keys()</SPAN></SPAN> 
+            появилась только в PHP4. В PHP3 для реализации ее функциональности 
+            нужно придумывать свою функцию.</P>
+            <P>Если есть функция для получения всех <SPAN 
+            class=keyword>ключей</SPAN> <SPAN class=keyword>массива</SPAN>, то 
+            можно предположить, что существует и функция для получения всех 
+            <SPAN class=keyword>значений</SPAN> <SPAN 
+            class=keyword>массива</SPAN>. Действительно, она существует. Это 
+            функция <SPAN class=texample>array_values(массив)</SPAN>. Все <SPAN 
+            class=keyword>значения</SPAN> переданного ей <SPAN 
+            class=keyword>массива</SPAN> записываются в новый <SPAN 
+            class=keyword>массив</SPAN>, проиндексированный целыми числами, т.е. 
+            все <SPAN class=keyword>ключи</SPAN> <SPAN 
+            class=keyword>массива</SPAN> теряются, остаются только <SPAN 
+            class=keyword>значения</SPAN>. Но вернемся к нашему примеру.</P>
+            <P>Итак, мы выяснили, что язык Lisp случайно упомянут в нашем <SPAN 
+            class=keyword>массиве</SPAN> дважды. Поскольку изучить один язык 
+            дважды нельзя («учил, но забыл» не считается), то нужно как-то 
+            избавиться от повторяющихся языков. Сделать это довольно просто с 
+            помощью функции <SPAN class=texample><SPAN 
+            class=keyword>array_unique()</SPAN></SPAN>.</P>
+            <H5>Функция array_unique</H5>
+            <P>Функция <SPAN class=texample><SPAN 
+            class=keyword>array_unique(массив)</SPAN></SPAN> удаляет 
+            повторяющиеся <SPAN class=keyword>значения</SPAN> из <SPAN 
+            class=keyword>массива</SPAN> и возвращает новый <SPAN 
+            class=keyword>массив</SPAN>. Таким образом, вместо нескольких 
+            одинаковых <SPAN class=keyword>значений</SPAN> и их <SPAN 
+            class=keyword>ключей</SPAN> мы имеем одно <SPAN 
+            class=keyword>значение</SPAN>. Какой у него будет <SPAN 
+            class=keyword>ключ</SPAN>? Как из нескольких <SPAN 
+            class=keyword>ключей</SPAN> одинаковых элементов выбирается тот, 
+            который будет сохранен в новом <SPAN class=keyword>массиве</SPAN>? 
+            Происходит следующее. Все элементы <SPAN 
+            class=keyword>массива</SPAN> преобразуются в строки и <SPAN 
+            class=keyword>сортируются</SPAN>. Затем обработчик запоминает первый 
+            <SPAN class=keyword>ключ</SPAN> для каждого <SPAN 
+            class=keyword>значения</SPAN>, а остальные <SPAN 
+            class=keyword>ключи</SPAN> игнорирует.</P>
+            <P>Попробуем избавиться от повторяющихся языков в списке 
+            изученных.</P>
+            <DIV class=example><PRE>&lt;?php
+$langs =
+array("Lisp","Java","Python","Java",
+      "PHP","Perl","Lisp");
+print_r(array_unique($langs));
+?&gt;
+            </PRE></DIV>
+            <P>Получим следующее:</P>
+            <DIV class=example><PRE>Array ( [0] =&gt; Lisp [1] =&gt; Java [2] 
+    =&gt; Python [4] =&gt; PHP [5] =&gt; Perl )
+            </PRE></DIV>
+            <P>Далее рассмотрим задачу <SPAN class=keyword>сортировки 
+            массива</SPAN>.</P>
+            <H3>Сортировка массивов</H3>
+            <P>Необходимость <SPAN class=keyword>сортировки</SPAN> данных, в том 
+            числе и данных, хранящихся в виде <SPAN 
+            class=keyword>массивов</SPAN>, очень часто возникает при решении 
+            самых разнообразных задач. Если в языке Си для того, чтобы решить 
+            эту задачу, нужно написать десятки строк кода, то в PHP это делается 
+            одной простой командой.</P>
+            <H4></H4>
+            <H5>Функция sort</H5>
+            <P>Функция <SPAN class=texample><SPAN 
+            class=keyword>sort</SPAN></SPAN> имеет следующий синтаксис</P>
+            <DIV class=example><PRE>sort (массив [, флаги])
+</PRE></DIV>
+            <P>и <SPAN class=keyword>сортирует массив</SPAN>, т.е. упорядочивает 
+            его <SPAN class=keyword>значения</SPAN> по возрастанию. Эта функция 
+            удаляет все существовавшие в <SPAN class=keyword>массиве</SPAN> 
+            <SPAN class=keyword>ключи</SPAN>, заменяя их числовыми индексами, 
+            соответствующими новом порядку элементов. В случае успешного 
+            завершения работы она возвращает <SPAN class=texample>true</SPAN>, 
+            иначе – <SPAN class=texample>false</SPAN>.</P>
+            <P><B>Пример 7.6. </B>Пусть у нас есть два <SPAN 
+            class=keyword>массива</SPAN>: цены товаров – их названия и, 
+            наоборот, названия товаров – их цены. Упорядочим эти <SPAN 
+            class=keyword>массивы</SPAN> по возрастанию:</P><A 
+            name=example.7.6></A>
+            <DIV class=example><PRE>$items = array(10 =&gt; "хлеб", 20 =&gt; "молоко",
+  30 =&gt; "бутерброд");
+sort($items); 
+    // строки сортируются в алфавитном 
+    // порядке, ключи теряются
+print_r($items);
+
+$rev_items = array("хлеб" =&gt; 10, 
+    "бутерброд" =&gt; 30, "молоко" =&gt; 20);
+sort($rev_items); 
+    // числа сортируются по возрастанию,
+    // ключи теряются
+print_r($rev_items);
+?&gt;
+            </PRE><SPAN class=objectName>Пример 7.6. Применение 
+            функции sort()</SPAN></DIV>
+            <P>Получим:</P>
+            <DIV class=example><PRE>Array ( [0] =&gt; бутерброд [1] =&gt; 
+    молоко [2] =&gt; хлеб )
+Array ( [0] =&gt; 10 [1] =&gt; 20 [2] =&gt; 30 )
+            </PRE></DIV>
+            <P>В качестве дополнительного аргумента флаги может использоваться 
+            одна из следующих констант:</P>
+            <UL>
+              <LI><SPAN class=texample><SPAN 
+              class=keyword>SORT_REGULAR</SPAN></SPAN> – сравнивать элементы 
+              <SPAN class=keyword>массива</SPAN> обычным образом;
+              <LI><SPAN class=texample><SPAN 
+              class=keyword>SORT_NUMERIC</SPAN></SPAN> – сравнивать элементы 
+              <SPAN class=keyword>массива</SPAN> как числа;
+              <LI><SPAN class=texample><SPAN 
+              class=keyword>SORT_STRING</SPAN></SPAN> – сравнивать элементы 
+              <SPAN class=keyword>массива</SPAN> как строки.</LI></UL>
+            <H5>Функции asort, rsort, arsort</H5>
+            <P>Если требуется сохранять индексы элементов <SPAN 
+            class=keyword>массива</SPAN> после <SPAN 
+            class=keyword>сортировки</SPAN>, то нужно использовать функцию <SPAN 
+            class=texample><SPAN class=keyword>asort (массив [, 
+            флаги])</SPAN></SPAN>. Если необходимо <SPAN 
+            class=keyword>отсортировать массив</SPAN> в обратном порядке, т.е. 
+            от наибольшего <SPAN class=keyword>значения</SPAN> к наименьшему, то 
+            можно задействовать функцию <SPAN class=texample><SPAN 
+            class=keyword>rsort (массив [, флаги])</SPAN></SPAN>. А если при 
+            этом нужно еще и сохранить <SPAN class=keyword>значения</SPAN> <SPAN 
+            class=keyword>ключей</SPAN>, то следует использовать функцию <SPAN 
+            class=texample><SPAN class=keyword>arsort(массив [, 
+            флаги])</SPAN></SPAN>. Как вы, наверное, заметили синтаксис у этих 
+            функций абсолютно такой же, как у функции <SPAN class=texample><SPAN 
+            class=keyword>sort</SPAN></SPAN>. Соответственно и <SPAN 
+            class=keyword>значения</SPAN> флагов могут быть такими же, как у 
+            <SPAN class=texample><SPAN class=keyword>sort</SPAN></SPAN>: <SPAN 
+            class=texample><SPAN class=keyword>SORT_REGULAR</SPAN></SPAN>, <SPAN 
+            class=texample><SPAN class=keyword>SORT_NUMERIC</SPAN></SPAN>, <SPAN 
+            class=texample><SPAN class=keyword>SORT_STRING</SPAN></SPAN>. Кстати 
+            говоря, флаг <SPAN class=texample><SPAN 
+            class=keyword>SORT_NUMERIC</SPAN></SPAN> появился только в 
+            PHP4.</P><A name=example.7.7></A>
+            <DIV class=example><PRE>&lt;?php
+$books = array("Пушкин"=&gt;"Руслан и Людмила",
+    "Толстой"=&gt;"Война и мир",
+    "Лермонтов"=&gt;"Герой нашего времени");
+asort($books); 
+    // сортируем массив, 
+    // сохраняя значения ключей
+print_r($books);
+echo "&lt;br&gt;";
+rsort($books); 
+    // сортируем массив в обратном порядке,
+    // ключи будут заменены
+print_r($books);
+?&gt;
+            </PRE><SPAN class=objectName>Пример 7.7. Применение 
+            функций asort, rsort, arsort</SPAN></DIV>
+            <P>В результате работы этого скрипта получим:</P>
+            <DIV class=example><PRE>Array ( [Толстой] =&gt; Война и мир
+        [Лермонтов] =&gt; Герой нашего времени
+        [Пушкин] =&gt; Руслан и Людмила )
+Array ( [0] =&gt; Руслан и Людмила
+        [1] =&gt; Герой нашего времени 
+        [2] =&gt; Война и мир )
+            </PRE></DIV>
+            <P><B>Пример 7.8.</B> Допустим, мы создаем каталог описаний 
+            документов. У каждого документа есть автор, название, дата 
+            публикации и краткое содержание. Мы уже не раз отображали описания, 
+            составленные из этих характеристик. Каждый раз порядок отображения 
+            этих элементов зависел от созданной нами программы. Теперь же мы 
+            хотим иметь возможность изменять порядок отображения элементов по 
+            желанию пользователя. Составим для этого следующую форму:</P><A 
+            name=example.7.8a></A>
+            <DIV class=example><PRE>&lt;form action=task.php&gt;
+&lt;table border=1&gt;
+&lt;tr&gt;&lt;td&gt;Название &lt;/td&gt;&lt;td&gt;&lt;input type=text
+    name=title size=5&gt; &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Краткое содержание &lt;/td&gt;&lt;td&gt;&lt;input
+    type=text name=description size=5&gt; 
+   &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Автор &lt;/td&gt;&lt;td&gt;&lt;input type=text
+    name=author size=5&gt; &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Дата публикации &lt;/td&gt;&lt;td&gt;&lt;input
+    type=text name=published size=5&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;input type=submit value="Отправить"&gt;
+&lt;/form&gt;
+            </PRE><SPAN class=objectName>Пример 7.8a. Форма для 
+            примера 7.8</SPAN></DIV>
+            <P>Будем упорядочивать данные, переданные этой формой, по убыванию 
+            их <SPAN class=keyword>значений</SPAN>, сохраняя при этом <SPAN 
+            class=keyword>значения</SPAN> <SPAN class=keyword>ключей</SPAN>. Для 
+            этого удобно воспользоваться функцией <SPAN class=texample><SPAN 
+            class=keyword>arsort()</SPAN></SPAN>. Поскольку нам важен только 
+            новый порядок элементов, сохраним в новом <SPAN 
+            class=keyword>массиве</SPAN> <SPAN class=keyword>ключи</SPAN> 
+            исходного <SPAN class=keyword>массива</SPAN> в нужном порядке. Мы 
+            сохраняем <SPAN class=keyword>ключи</SPAN> исходного <SPAN 
+            class=keyword>массива</SPAN>, поскольку они являются именами 
+            элементов, из которых конструируется описание документа, а помнить 
+            их важно. Итак, получаем такой скрипт:</P><A name=example.7.8b></A>
+            <DIV class=example><PRE>&lt;?php
+print_r($_GET); echo "&lt;br&gt;";
+arsort ($_GET); 
+    // сортируем массив в обратном порядке,
+    // сохраняя ключи
+print_r($_GET); echo "&lt;br&gt;";
+$ordered_names = array_keys($_GET); 
+    // составляем новый массив
+foreach($ordered_names as $key =&gt; $val)
+echo "$key :$val &lt;br&gt;"; 
+    // выводим элементы нового массива
+?&gt;
+            </PRE><SPAN class=objectName>Пример 7.8b. Программа 
+            обработки формы из примера 7.8</SPAN></DIV>
+            <H4>Сортировка массива по ключам</H4>
+            <P>Очевидно, что может возникнуть необходимость в <SPAN 
+            class=keyword>сортировке массива по значениям ключей</SPAN>. 
+            Например, если у нас есть <SPAN class=keyword>массив</SPAN> данных о 
+            книгах, как в приведенном выше примере, то вполне вероятно, что мы 
+            захотим <SPAN class=keyword>отсортировать</SPAN> книги по именам 
+            авторов. Для этого в PHP также не нужно писать много строк кода – 
+            можно просто воспользоваться функцией <SPAN class=texample><SPAN 
+            class=keyword>ksort()</SPAN></SPAN> для <SPAN 
+            class=keyword>сортировки</SPAN> по возрастанию (прямой порядок <SPAN 
+            class=keyword>сортировки</SPAN>) или <SPAN class=texample><SPAN 
+            class=keyword>krsort()</SPAN></SPAN> – для <SPAN 
+            class=keyword>сортировки</SPAN> по убыванию (обратный порядок <SPAN 
+            class=keyword>сортировки</SPAN>). Синтаксис этих функций опять же 
+            аналогичен синтаксису функции <SPAN class=texample><SPAN 
+            class=keyword>sort()</SPAN></SPAN>.</P><A name=example.7.9></A>
+            <DIV class=example><PRE>&lt;?php
+$books = array("Пушкин"=&gt;"Руслан и Людмила",
+     "Толстой"=&gt;"Война и мир",
+     "Лермонтов"=&gt;"Герой нашего времени");
+ksort($books); 
+    // сортируем массив, 
+    // сохраняя значения ключей
+print_r($books);
+?&gt;
+        </PRE><SPAN class=objectName>Пример 7.9. Сортировка массива 
+            по ключам</SPAN></DIV>
+            <P>Получим:</P>
+            <DIV class=example><PRE>Array ( [Лермонтов] =&gt; Герой нашего времени
+        [Пушкин] =&gt; Руслан и Людмила 
+        [Толстой] =&gt; Война и мир )
+        </PRE></DIV>
+            <H4>Сортировка с помощью функции, заданной пользователем</H4>
+            <P>Кроме двух простых способов <SPAN class=keyword>сортировки 
+            значений массива</SPAN> (по убыванию или по возрастанию) PHP 
+            предлагает пользователю возможность самому задавать критерии для 
+            <SPAN class=keyword>сортировки</SPAN> данных. Критерий задается с 
+            помощью функции, имя которой указывается в качестве аргумента для 
+            специальных функций <SPAN class=keyword>сортировки</SPAN> <SPAN 
+            class=texample><SPAN class=keyword>usort()</SPAN></SPAN> или <SPAN 
+            class=texample><SPAN class=keyword>uksort()</SPAN></SPAN>. По 
+            названиям этих функций можно догадаться, что <SPAN 
+            class=texample><SPAN class=keyword>usort() </SPAN></SPAN><SPAN 
+            class=keyword>сортирует</SPAN> <SPAN class=keyword>значения</SPAN> 
+            элементов <SPAN class=keyword>массива</SPAN>, а <SPAN 
+            class=texample><SPAN class=keyword>uksort()</SPAN></SPAN> – <SPAN 
+            class=keyword>значения</SPAN> <SPAN class=keyword>ключей 
+            </SPAN><SPAN class=keyword>массива</SPAN> с помощью определенной 
+            пользователем функции. Обе функции возвращают <SPAN 
+            class=texample>true</SPAN>, если <SPAN 
+            class=keyword>сортировка</SPAN> прошла успешно, и <SPAN 
+            class=texample>false</SPAN> – в противном случае. Их синтаксис 
+            выглядит следующим образом:</P>
+            <DIV class=example><PRE>usort (массив , сортирующая функция)
+uksort (массив , сортирующая функция)
+</PRE></DIV>
+            <P>Конечно же, нельзя <SPAN class=keyword>сортировать массив</SPAN> 
+            с помощью любой пользовательской функции. Эта функция должна 
+            удовлетворять определенным критериям, позволяющим сравнивать 
+            элементы <SPAN class=keyword>массива</SPAN>. Как должна быть 
+            устроена сортирующая функция? Во-первых, она должна иметь два 
+            аргумента. В них интерпретатор будет передавать пары <SPAN 
+            class=keyword>значений</SPAN> элементов для функции <SPAN 
+            class=texample><SPAN class=keyword>usort()</SPAN></SPAN> или <SPAN 
+            class=keyword>ключей </SPAN><SPAN class=keyword>массива</SPAN> для 
+            функции <SPAN class=texample><SPAN 
+            class=keyword>uksort()</SPAN></SPAN>. Во-вторых, сортирующая функция 
+            должна возвращать:</P>
+            <UL>
+              <LI>целое число, меньшее нуля, если первый аргумент меньше 
+второго;
+              <LI>число, равное нулю, если два аргумента равны;
+              <LI>число большее нуля, если первый аргумент больше 
+            второго.</LI></UL>
+            <P>Как и для других функций <SPAN class=keyword>сортировки</SPAN>, 
+            для функции <SPAN class=texample><SPAN 
+            class=keyword>usort()</SPAN></SPAN> существует аналог, не изменяющий 
+            <SPAN class=keyword>значения</SPAN> <SPAN 
+            class=keyword>ключей</SPAN>, – функция <SPAN class=texample><SPAN 
+            class=keyword>uasort()</SPAN></SPAN>.</P>
+            <P><B>Пример 7.10.</B> Допустим, у нас есть <SPAN 
+            class=keyword>массив</SPAN>, содержащий такие сведения о 
+            литературных произведениях, как название, автор и год создания. Мы 
+            хотим упорядочить книги по дате создания.</P><A 
+            name=example.7.10></A>
+            <DIV class=example><PRE>&lt;?php
+// массив выглядит таким образом:
+$books = array("Герой нашего времени" =&gt; 
+             array ("Лермонтов", 1840),
+  "Руслан и Людмила" =&gt; array("Пушкин",1820),
+  "Война и мир" =&gt; array ("Толстой",1863),
+  "Идиот" =&gt; array("Достоевский",1868));
+/* можно, конечно переписать этот массив 
+по-другому, сделав год издания, например, 
+индексом, но гораздо удобнее написать свою 
+функцию для сортировки */
+
+uasort($books,"cmp"); 
+// сортируем массив с помощью функции cmp
+
+foreach ($books as $key =&gt; $book) {
+   echo "$book[0]: \"$key\"&lt;br&gt;";
+}
+function cmp($a,$b){ 
+// функция, определяющая способ сортировки
+   if ($a[1] &lt; $b[1]) return -1;
+   elseif ($a[1]==$b[1]) return 0;
+   else return 1;
+}
+?&gt;
+        </PRE><SPAN class=objectName>Пример 7.10. Сортировка с 
+            помощью пользовательских функций</SPAN></DIV>
+            <P>В результате получим:</P>
+            <DIV class=example><PRE>Пушкин: "Руслан и Людмила"
+Лермонтов: "Герой нашего времени"
+Толстой: "Война и мир"
+Достоевский: "Идиот"
+        </PRE></DIV>
+            <P>Мы применили нашу собственную функцию <SPAN 
+            class=keyword>сортировки</SPAN> ко всем элементам <SPAN 
+            class=keyword>массива</SPAN>. Далее рассмотрим, как <SPAN 
+            class=keyword>применить к элементам массива любую другую 
+            пользовательскую функцию</SPAN>.</P>
+            <H3>Применение функции ко всем элементам массива</H3>
+            <P><A name=keyword-context.3></A>Функция <SPAN class=texample><SPAN 
+            class=keyword_def>array_walk(массив, функция [, 
+            данные])</SPAN></SPAN> применяет созданную пользователем функцию 
+            <SPAN class=texample>функция</SPAN> ко всем элементам <SPAN 
+            class=keyword>массива</SPAN> <SPAN class=texample>массив</SPAN> и 
+            возвращает <SPAN class=texample>true</SPAN> в случае успешного 
+            выполнения операции и <SPAN class=texample>false</SPAN> – в 
+            противном случае.</P>
+            <P>Пользовательская функция, как правило, имеет два аргумента, в 
+            которые поочередно передаются <SPAN class=keyword>значение</SPAN> и 
+            <SPAN class=keyword>ключ</SPAN> каждого элемента <SPAN 
+            class=keyword>массива</SPAN>. Но если при вызове функции <SPAN 
+            class=texample><SPAN class=keyword>array_walk()</SPAN></SPAN> указан 
+            третий аргумент, то он будет рассмотрен как <SPAN 
+            class=keyword>значение</SPAN> третьего аргумента пользовательской 
+            функции, смысл которого определяет сам пользователь. Если функция 
+            пользователя требует больше аргументов, чем в нее передано, то при 
+            каждом вызове <SPAN class=texample><SPAN 
+            class=keyword>array_walk()</SPAN></SPAN> будет выдаваться 
+            предупреждение.</P>
+            <P>Если необходимо работать с реальными <SPAN 
+            class=keyword>значениями</SPAN> <SPAN class=keyword>массива</SPAN>, 
+            а не с их копиями, следует передавать аргумент в функцию по ссылке. 
+            Однако нужно иметь в виду, что нельзя добавлять или удалять элементы 
+            <SPAN class=keyword>массива</SPAN> и производить действия, 
+            изменяющие сам <SPAN class=keyword>массив</SPAN>, поскольку в этом 
+            случае результат работы <SPAN class=texample><SPAN 
+            class=keyword>array_walk()</SPAN></SPAN> считается 
+            неопределенным.</P><A name=example.7.11></A>
+            <DIV class=example><PRE>&lt;?php
+$books1 = array(
+  "А.С. Пушкин"=&gt;"Руслан и Людмила",
+  "Л.Н. Толстой"=&gt;"Война и мир",
+  "М.Ю. Лермонтов"=&gt;"Герой нашего времени");
+// создаем функцию, которую хотим 
+// применить к элементам массива
+
+function try_walk($val,$key,$data){
+   echo "$data \"$val\" написал $key&lt;br&gt;";
+}
+// применяем ко всем элементам массива 
+// $book1 функцию try_walk
+array_walk($books1,"try_walk","Роман");
+?&gt;
+    </PRE><SPAN class=objectName>Пример 7.11. Применение функции ко 
+            всем элементам массива</SPAN></DIV>
+            <P>В результате работы скрипта получим:</P>
+            <DIV class=example><PRE>Роман "Руслан и Людмила" написал А.С. Пушкин
+Роман "Война и мир" написал Л.Н. Толстой
+Роман "Герой нашего времени" 
+      написал М.Ю. Лермонтов
+    </PRE></DIV>
+            <P>Заметим, что мы не изменили <SPAN class=keyword>значений</SPAN> у 
+            элементов <SPAN class=keyword>массива</SPAN>. Чтобы их изменить, 
+            надо было передавать <SPAN class=keyword>значения</SPAN> в 
+            переменную <SPAN class=texample>$var</SPAN> функции <SPAN 
+            class=texample>try_walk</SPAN> по ссылке.</P><A 
+            name=example.7.12></A>
+            <DIV class=example><PRE>&lt;?php
+$books1 = array(
+  "А.С. Пушкин"=&gt;"Руслан и Людмила",
+  "Л.Н. Толстой"=&gt;"Война и мир",
+  "М.Ю. Лермонтов"=&gt;"Герой нашего времени");
+// создаем функцию, которую хотим 
+// применить к элементам массива
+
+function try_walk(&amp;$val,$key){
+   $key = "&lt;p&gt;Автор: " .$key ."&lt;br&gt;";
+   $val = "Название: \"" . $val ."\"&lt;/p&gt;";
+   echo $key.$val;
+}
+// применяем ко всем элементам массива 
+// $book1 функцию try_walk
+
+array_walk($books1,"try_walk");
+print_r($books1);
+?&gt;
+    </PRE><SPAN class=objectName>Пример 7.12. Применение функции ко 
+            всем элементам массива. Вариант 2</SPAN></DIV>
+            <P>В результате работы скрипта получим:</P>
+            <DIV class=example><PRE>Автор: А.С. Пушкин
+Название: "Руслан и Людмила"
+Автор: Л.Н. Толстой
+Название: "Война и мир"
+Автор: М.Ю. Лермонтов
+Название: "Герой нашего времени"
+Array ( [А.С. Пушкин] =&gt; 
+            Название: "Руслан и Людмила"
+        [Л.Н. Толстой] =&gt; 
+            Название: "Война и мир"
+        [М.Ю. Лермонтов] =&gt; 
+            Название: "Герой нашего времени")
+    </PRE></DIV>
+            <H3>Выделение подмассива</H3>
+            <H4>Функция array_slice</H4>
+            <P>Поскольку <SPAN class=keyword>массив</SPAN> – это набор 
+            элементов, вполне вероятно, потребуется выделить из него 
+            какой-нибудь поднабор. В PHP для этих целей есть функция <SPAN 
+            class=texample><SPAN class=keyword>array_slice</SPAN></SPAN>. Ее 
+            синтаксис таков:</P>
+            <DIV class=example><PRE>array_slice (массив, 
+             номер_элемента [, длина])
+</PRE></DIV>
+            <P>Эта функция <SPAN class=keyword>выделяет подмассив</SPAN> длины 
+            <SPAN class=texample>длина</SPAN> в <SPAN 
+            class=keyword>массиве</SPAN> <SPAN class=texample>массив</SPAN>, 
+            начиная с элемента, номер которого задан параметром <SPAN 
+            class=texample>номер_элемента</SPAN>. Положительный <SPAN 
+            class=texample>номер_элемента</SPAN> указывает на порядковый номер 
+            элемента относительно начала <SPAN class=keyword>массива</SPAN>, 
+            отрицательный – на номер элемента с конца <SPAN 
+            class=keyword>массива</SPAN>.</P><A name=example.7.13></A>
+            <DIV class=example><PRE>&lt;?php
+$arr = array(1,2,3,4,5);
+$sub_arr = array_slice($arr,2);
+print_r($sub_arr); 
+/* 
+выведет Array ( [0] =&gt; 3 [1] =&gt;4 [2] =&gt; 5 ),
+т.е. подмассив, состоящий из элементов 
+3, 4, 5 */
+$sub_arr = array_slice($arr,-2);
+print_r($sub_arr); 
+   // выведет Array ( [0] =&gt; 4 [1] =&gt; 5 ),
+   // т.е. подмассив, из элементов 4, 5
+?&gt;
+        </PRE><SPAN class=objectName>Пример 7.13. Использование 
+            функции array_slice()</SPAN></DIV>
+            <P>Если задать параметр <SPAN class=texample>длина</SPAN> при 
+            использовании <SPAN class=texample><SPAN 
+            class=keyword>array_slice</SPAN></SPAN>, то будет <SPAN 
+            class=keyword>выделен подмассив</SPAN>, имеющий ровно столько 
+            элементов, сколько задано этим параметром. Длину можно указывать и 
+            отрицательную. В этом случае интерпретатор удалит с конца <SPAN 
+            class=keyword>массива</SPAN> число элементов, равное модулю 
+            параметра <SPAN class=texample>длина</SPAN>.</P><A 
+            name=example.7.14></A>
+            <DIV class=example><PRE>&lt;?php
+$arr = array(1,2,3,4,5);
+$sub_arr = array_slice($arr, 2, 2); 
+    // содержит массив из элементов 3, 4
+$sub = array_slice($arr,-3, 2);     
+    // тоже содержит массив из элементов 3, 4
+$sub1 = array_slice($arr,0, -1);    
+    // содержит массив из 
+    // элементов 1, 2, 3, 4
+$sub2 = array_slice($arr,-4, -2);   
+    // содержит массив из элементов 2, 3
+?&gt;
+        </PRE><SPAN class=objectName>Пример 7.14. Использование 
+            функции array_slice(). Вариант 2</SPAN></DIV>
+            <H4>Функция array_chunk</H4>
+            <P>Есть еще одна функция, похожая на <SPAN class=texample><SPAN 
+            class=keyword>array_slice()</SPAN></SPAN> – это <SPAN 
+            class=texample><SPAN class=keyword>array_chunk()</SPAN></SPAN>. <A 
+            name=keyword-context.4></A>Она разбивает <SPAN 
+            class=keyword>массив</SPAN> на несколько подмассивов заданной 
+            длины.<SPAN class=keyword></SPAN> Синтаксис ее такой:</P>
+            <DIV class=example><PRE>array_chunk ( массив, размер 
+    [, сохранять_ключи])
+</PRE></DIV>
+            <P>В результате работы <SPAN class=texample><SPAN 
+            class=keyword>array_chunk()</SPAN></SPAN> возвращает многомерный 
+            <SPAN class=keyword>массив</SPAN>, элементы которого представляют 
+            собой полученные подмассивы. Если задать параметр сохранять <SPAN 
+            class=keyword>ключи</SPAN> как <SPAN class=texample>true</SPAN>, то 
+            при разбиении будут сохранены <SPAN class=keyword>ключи</SPAN> 
+            исходного <SPAN class=keyword>массива</SPAN>. В противном случае 
+            <SPAN class=keyword>ключи</SPAN> элементов заменяются числовыми 
+            индексами, которые начинаются с нуля.</P>
+            <P><B>Пример 7.15. </B>У нас есть список приглашенных, оформленный в 
+            виде <SPAN class=keyword>массива</SPAN> их фамилий. У нас имеются 
+            столики на три персоны. Поэтому нужно распределить всех приглашенных 
+            по трое.</P><A name=example.7.15></A>
+            <DIV class=example><PRE>&lt;?php
+$persons = array("Иванов", "Петров",
+    "Сидорова","Зайцева", "Волкова");
+$triples = array_chunk($persons,3); 
+    // делим массив на подмассивы 
+    // по три элемента
+foreach ($triples as $k =&gt; $table){ 
+    // выводим полученные тройки
+  echo "За столиком номер $k сидят: &lt;ul&gt;";
+  foreach ($table as $pers) 
+     echo "&lt;li&gt;$pers";
+  echo "&lt;/ul&gt;";
+}
+?&gt;
+        </PRE><SPAN class=objectName>Пример 7.15. Использование 
+            функции array_chunk()</SPAN></DIV>
+            <P>В результате получим:</P>
+            <DIV class=example><PRE>за столиком номер 0 сидят:
+• Иванов
+• Петров
+• Сидорова
+за столиком номер 1 сидят:
+• Зайцева
+• Волкова
+        </PRE></DIV>
+            <H3>Сумма элементов массива</H3>
+            <P>В этом разделе мы познакомимся с функцией, вычисляющей <SPAN 
+            class=keyword>сумму всех элементов массива</SPAN>. Сама задача 
+            вычисления <SPAN class=keyword>суммы значений массива</SPAN> 
+            предельно проста. Но зачем писать лишний раз один и тот же код, если 
+            можно воспользоваться специально созданной и всегда доступной 
+            функцией. Функция эта называется, как можно догадаться, <SPAN 
+            class=texample><SPAN class=keyword>array_sum()</SPAN></SPAN>. И в 
+            качестве параметра ей передается только имя <SPAN 
+            class=keyword>массива</SPAN>, <SPAN class=keyword>сумму значений 
+            элементов</SPAN> которого нужно вычислить.</P>
+            <P>В качестве примера использования этой функции приведем решение 
+            более сложной задачи, чем просто вычисление <SPAN 
+            class=keyword>суммы элементов</SPAN>. Этот пример также иллюстрирует 
+            применение функции <SPAN class=texample><SPAN 
+            class=keyword>array_slice()</SPAN></SPAN>, которую мы обсуждали чуть 
+            раньше.</P>
+            <P><B>Пример 7.16. </B>Пусть дан <SPAN class=keyword>массив</SPAN> 
+            натуральных чисел. Нужно найти в нем такое число, что <SPAN 
+            class=keyword>сумма элементов</SPAN> справа от него равна <SPAN 
+            class=keyword>сумме элементов</SPAN> слева от него.</P><A 
+            name=example.7.16></A>
+            <DIV class=example><PRE>&lt;?php
+//массив задается функцией array
+$arr = array(2,1,3,4,5,6,4);
+// перебираем каждый элемент массива $arr.
+// Внутри цикла текущий ключ массива 
+// содержится в переменной $k,
+// текущее значение – в переменной $v
+foreach ($arr as $k =&gt; $val){
+   $p = $k + 1;
+// синтаксис array array_slice (
+       array array,int offset [,int length])
+// array_slice выделяет подмассив 
+// длины length в массиве array, 
+// начиная с элемента offset.
+   $out_next = array_slice($arr,$p); 
+   // получаем массив элементов, 
+   // идущих после текущего
+   $out_prev = array_slice($arr,0,$k); 
+   // получаем массив элементов, 
+   // идущих перед текущим
+// функция mixed array_sum (array array) 
+// подсчитывает сумму элементов массива array
+   $next_sum = array_sum($out_next);
+   $prev_sum = array_sum($out_prev);
+// если сумма элементов до текущего равна 
+// сумме элементов после, то выводим 
+// значение текущего элемента
+   if ($next_sum==$prev_sum) 
+       echo "value:$val";
+// можно посмотреть, что представляют собой 
+// рассмотренные массивы на каждом шаге
+// print_r($out_next); echo "&lt;br&gt;";
+// print_r($out_prev);
+// echo "$next_sum, $prev_sum&lt;br&gt;"; 
+   echo "&lt;hr&gt;";
+}
+?&gt;
+    </PRE><SPAN class=objectName>Пример 7.16. Программа поиска 
+            числа, такого что сумма элементов справа от него равна сумме 
+            элементов слева от него</SPAN></DIV>
+            <H3>Заключение</H3>
+            <P>Итак, подведем итоги. В этой лекции мы изучили ряд функций, 
+            упрощающих работу с <SPAN class=keyword>массивами</SPAN> данных. Мы 
+            рассмотрели функции для <SPAN class=keyword>поиска значения среди 
+            элементов массива</SPAN>; функции для <SPAN class=keyword>сортировки 
+            элементов массива</SPAN>, как по их <SPAN 
+            class=keyword>значениям</SPAN>, так и по <SPAN 
+            class=keyword>ключам</SPAN>; функции, позволяющие <SPAN 
+            class=keyword>применять ко всем элементам массива функцию, созданную 
+            пользователем</SPAN>. Кроме того, мы изучили функцию, <SPAN 
+            class=keyword>выделяющую подмассивы</SPAN> из элементов <SPAN 
+            class=keyword>массива</SPAN>, и функцию, вычисляющую <SPAN 
+            class=keyword>сумму всех элементов массива</SPAN>. Использование 
+            всех этих функций было продемонстрировано на примерах. Все функции 
+            для работы с <SPAN class=keyword>массивами</SPAN> доступны без 
+            каких-либо конфигурационных настроек PHP, и пользоваться ими можно 
+            абсолютно свободно. Так что, прежде чем изобретать велосипед, 
+            загляните в руководство по языку PHP: – вполне возможно, что кто-то 
+            сделал это до вас.</P></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Работа с массивами данных.files/empty.gif" 
+        width=1></TD></TR></TBODY></TABLE><!-- /content --></TD>
+    <TD><IMG height=1 src="Работа с массивами данных.files/empty.gif" 
+    width=8></TD></TR></TBODY></TABLE><!-- /bottom -->
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD class=orang height=1><IMG height=1 
+      src="Работа с массивами данных.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD class=ltxt align=middle>© 2003-2005 INTUIT.ru. Все права 
+  защищены.</TD></TR></TBODY></TABLE><!-- /bottom --></BODY></HTML>

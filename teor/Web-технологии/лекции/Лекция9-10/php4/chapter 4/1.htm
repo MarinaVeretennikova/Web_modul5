@@ -1,0 +1,859 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE></TITLE>
+<META content="TEXT/HTML; CHARSET=WINDOWS-1251" http-equiv=CONTENT-TYPE>
+<META content="Microsoft FrontPage 4.0" name=GENERATOR>
+<STYLE></STYLE>
+</HEAD>
+<body background=../fon.jpg>
+<ul>
+
+  <li><a href="#a"><font face="Times New Roman" size=3>Глава 4.
+    Функции</font> </a> </li>
+  <ul>
+    <li><a href="#b"><font face="Times New Roman" size="3">Что такое
+      функция?</font>
+      </a>
+    </li>
+    <li><a href="#c"><font face="Times New Roman" size="3">Определение
+      и вызов функций</font>
+      </a>
+    </li>
+    <li><a href="#d"><font face="Times New Roman" size="3">Вложенные
+      функции</font>
+      </a>
+    </li>
+    <li><a href="#e"><font face="Times New Roman" size="3">Возврат значений
+      из функции</font>
+      </a>
+    </li>
+    <li><a href="#f"><font face="Times New Roman" size="3">Рекурсивные
+      функции</font>
+      </a>
+    </li>
+    <li><a href="#g"><font face="Times New Roman" size="3">Функции-переменные</font>
+      </a>
+    </li>
+    <li><a href="#h"><font face="Times New Roman" size="3">Построение
+      библиотек функций</font>
+      </a>
+    </li>
+    <li><a href="#i"><font face="Times New Roman" size="3">Итоги</font>
+      </a>
+    </li>
+  </ul>
+</ul>
+<A NAME="a"></A>
+<p>&nbsp;</p>
+<p><font face="Times New Roman" color="#000000" size="5">ГЛАВА 4</font></p>
+<p><font face="Times New Roman" color="#000000" size="5">Функции</font></p>
+<p>
+<font face="Times New Roman" size="3" COLOR="#000000">
+В этой главе представлены общие концепции
+функционального программирования — одного
+из самых влиятельных принципов в области
+разработки приложений. При помощи функций
+можно создавать компоненты многократного
+использования, которые легко изменяются
+при необходимости и оказываются особенно
+удобными при разработке web-приложений, не
+содержащих серьезных различий на
+концептуальном и практическом уровне.
+Функциональное программирование помогает
+создавать более короткие и удобочитаемые
+программы.
+</font></p>
+<p>
+<font face="Times New Roman" size="3" COLOR="#000000">
+Данная глава посвящена функциям РНР, их
+определению и применению на практике. Хотя
+основное внимание в ней уделяется
+определению и вызову пользовательских
+функций, необходимо помнить и о том, что в
+РНР существуют сотни стандартных функций.
+Стандартные функции работают точно так же,
+как пользовательские, и обеспечивают
+заметную экономию времени при создании
+новых приложений. Обновленный список
+стандартных функций РНР можно найти по
+адресу <a href="http://www.php.net">http://www.php.net</a>.
+</font></p>
+<b>
+<p><A NAME="b"></A><font color="#000000" face="Times New Roman" size="4">Что такое функция?</font></p>
+</b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">
+Функцией </font></font></i><font face="Times New Roman" size="3" COLOR="#000000">называется
+фрагмент программного кода, обладающий
+уникальным именем и предназначенный для
+решения конкретной задачи. Функция
+вызывается по имени в разных точках
+программы, что позволяет многократно
+выполнять фрагмент с указанным именем.
+Преимущество такого решения заключается в
+том, что блок кода пишется всего один раз, а
+затем легко модифицируется по мере
+необходимости.
+</font></p>
+<b>
+<p><A NAME="c"></A><font color="#000000" face="Times New Roman" size="4">Определение и
+вызов функций</font></p>
+</b>
+<p><font face="Times New Roman" size="3" COLOR="#000000">
+Определить новую функцию в РНР несложно.
+Функции могут создаваться в любой точке
+программ РНР, однако по соображениям
+структурной организации кода удобнее
+разместить все функции, используемые
+сценарием, в самом начале сценарного </font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">
+файла. Существует и другой способ, заметно
+повышающий эффективность программирования
+и способствующий многократному
+использованию кода, — выделение функций в
+отдельный файл (называемый </font><i><font COLOR="#000000">библиотекой).
+</font></i><font COLOR="#000000">Библиотеки
+удобны тем, что их функции можно
+использовать в разных приложениях, не
+создавая лишних копий и не рискуя допустить
+ошибки в процессе копирования. Эта тема
+подробно рассматривается в разделе «Построение
+библиотек функций» ближе к концу главы.
+</font></font></p>
+<p><font face="Times New Roman" size="3" COLOR="#000000">Определение функции обычно состоит из
+трех частей:
+</font></p>
+<ul>
+  <li><font face="Times New Roman" size="3" COLOR="#000000">имени функции;
+</font></li>
+  <li><font face="Times New Roman" size="3" COLOR="#000000">круглых скобок, в которых перечисляются
+    необязательные входные параметры,
+    разделенные запятыми;
+</font></li>
+  <li><font face="Times New Roman" size="3" COLOR="#000000">тела функции, заключенного в фигурные
+    скобки.
+</font></li>
+</ul>
+<p><font face="Times New Roman" size="3" COLOR="#000000">Обобщенный синтаксис функций РНР
+выглядит так:
+</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">function имя_функции ([$параметр1. $параметр2, ....
+$параметрn]) {</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">тело функции</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">}</font></p>
+<p><font face="Times New Roman" size="3" COLOR="#000000">
+Имя функции должно подчиняться условиям,
+приведенным для идентификаторов в главе 2.
+После имени функции следуют обязательные
+круглые скобки, в которые заключается
+необязательный список входных параметров ($параметр1,
+$параметр2, .... $параметрn). Вследствие
+относительно либеральных принципов
+определения переменных в РНР указывать тип
+входных параметров не нужно. Хотя такой
+подход имеет свои преимущества, следует
+помнить, что механизм РНР не проверяет
+аргументы на соответствие тем типам,
+которые должны обрабатываться функцией.
+Случайные ошибки в использовании входных
+параметров могут привести к неожиданным
+последствиям (чтобы убедиться в том, что
+параметр относится к нужному типу, можно
+проверить его стандартной функцией gettype( )).
+После закрывающей круглой скобки следуют
+фигурные скобки, в которые заключается
+программный код, ассоциируемый с именем
+функции.
+</font></p>
+<p><font face="Times New Roman" size="3" COLOR="#000000">
+Рассмотрим простой пример использования
+функции. Предположим, вы хотите создать
+функцию для вывода лицензионной информации
+на web-странице:
+</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">function display_copyright() {</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">print &quot;Copyright &amp;copy; 2001 PHP-Powered Recipes. All Rights
+Reserved.&quot;;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">}</font></p>
+<p><font face="Times New Roman" size="3" COLOR="#000000">
+Если ваш web-сайт состоит из нескольких
+страниц, достаточно вызвать эту функцию в
+конце каждой страницы — и вам не придется
+заново переписывать один и тот же текст. А
+когда наступит 2002 год, одно простое
+изменение текста, выводимого этой функцией,
+приведет к автоматическому обновлению всех
+страниц. Если бы не преимущества
+функционального программирования, вам
+пришлось бы вручную редактировать все
+страницы, на которых выводится
+лицензионная информация.
+</font></p>
+<p><font face="Times New Roman" size="3" COLOR="#000000">
+Рассмотрим разновидность функции
+display_copyright(), которой при вызове передается
+параметр. Предположим, вы отвечаете за
+администрирование нескольких web-сайтов,
+каждому из которых присвоено отдельное имя.
+На каждом сайте имеется собственный
+административный сценарий с несколькими
+переменными, относящимися к этому сайту; к
+их числу принадлежит переменная $site_name с
+именем
+</font></p>
+<p><font face="Times New Roman" size="3" COLOR="#000000">
+сайта. В этом случае функцию display_copyright()
+можно записать следующим образом:
+</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">function display_copyright($site_name) {</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">print &quot;Copyright &amp;copy; 2001 $site_name. All Rights Reserved.&quot;;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">}</font></p>
+<p><font face="Times New Roman" size="3" COLOR="#000000">
+Переменная $site_name, значение которой
+присваивается за пределами display_copy-right(),
+передается функции в качестве параметра.
+Переданное значение можно использовать и
+модифицировать в любом месте функции,
+однако любые изменения будут действовать
+лишь внутри этой функции. Впрочем,
+специальные ключевые слова позволяют
+сделать так, чтобы изменения параметров
+распространялись и за пределы display_copyright().
+Эти ключевые слова были представлены в
+главе 2, в общем обзоре области видимости
+переменных и ее отношения к функциям.
+</font></p>
+<b>
+<p><A NAME="d"></A><font color="#000000" face="Times New Roman" size="4">Вложенные функции</font></p>
+</b>
+<p><font face="Times New Roman" size="3" COLOR="#000000">
+Функции можно вызывать внутри других
+функций — по аналогии с тем, как одна
+управляющая конструкция (if, while, for и т. д.)
+может находиться внутри другой. Такая
+возможность удобна в любых программах, и в
+больших, и в малых, поскольку она
+увеличивает степень модульности
+приложения и упрощает сопровождение
+программы.
+</font>
+</p>
+<p><font face="Times New Roman" size="3" COLOR="#000000">
+В примере, описанном выше, можно полностью
+избавиться от необходимости модификации
+даты. Для этого достаточно включить в
+d1splay_copyright() вызов стандартной функции РНР date(
+):
+</font>
+</p>
+<p><font color="#000000" size="3" face="Courier New">function display_copyright($site_name)
+{</font></p>
+<p><font color="#000000" size="3" face="Courier New">print &quot;Copyright
+&amp;copy&quot;. date(&quot;Y&quot;). &quot;$site_name. All Rights Reserved.&quot;;</font></p>
+<p><font color="#000000" size="3" face="Courier New">}</font></p>
+<p>
+<font face="Times New Roman" size="3" COLOR="#000000">
+Параметр Y функции date( ) указывает, что
+возвращаемое значение представляет собой
+текущий год, отформатированный в виде
+четырех цифр. Если системная дата
+установлена правильно, РНР при каждом
+выполнении сценария будет выводить год.
+Функция РНР date( ) отличается исключительной
+гибкостью и поддерживает 25 разных флагов
+форматирования даты и времени.
+</font></p>
+<p>
+<font face="Times New Roman" size="3" COLOR="#000000">
+Также допускается объявление функций
+внутри других функций. Тем не менее,
+вложенное объявление еще не делает функцию
+«защищенной», то есть не ограничивает
+возможность ее вызова той функцией, в
+которой она была объявлена. Более того,
+вложенная функция не наследует параметров
+родительской функции; параметры должны
+передаваться ей точно так же, как и любой
+другой функции. Впрочем, вложенные
+объявления функций все равно могут
+использоваться из соображений удобства
+сопровождения и наглядности. Пример
+вложенного объявления приведен в листинге
+4.1.
+</font></p>
+<b>
+<p><i><font size="3" face="Times New Roman"><font color="#000000">Листинг 4.1. </font></font></i></b><i><font color="#000000" size="3">Эффективное
+использование вложенных функций</font></i></p>
+<p><font size="3" face="Courier New" COLOR="#000000">function display_footer($site_name) {</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">function display_copyright($site_name) {</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">print &quot;Copyright &amp;сору&quot;. date(&quot;Y&quot;).</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">$site_name. All Rights Reserved.&quot;;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">print &quot;&lt;center&gt;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">&lt;a href = \&quot;\&quot;&gt;home&lt;/a&gt; | &lt;a href = \&quot;\&quot;&gt;recipes&lt;/a&gt;
+| &lt;a href = \&quot;\&quot;&gt;events&lt;/a&gt;&lt;br&gt;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">&lt;a href = \&quot;\&quot;&gt;tutorials&lt;/a&gt; | &lt;a href = \&quot;\&quot;&gt;about&lt;/a&gt;
+I &lt;a href = \&quot;\&quot;&gt;contact us&lt;/a&gt;&lt;br&gt;&quot;;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">display_copyright($site_name);</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">print &quot;&lt;/center&gt;&quot;;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">}</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">$site_name = &quot;PHP Recipes&quot;:</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">display_footer($site_name);</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">display_copyhght($site_name);</font></p>
+<p><font face="Courier New" size="3" COLOR="#000000">
+Сценарий выводит следующий результат:
+</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">home | recipes | events</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">tutorials | about | contact us</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">Copyright © 2001 PHP Recipes. All Rights Reserved</font></p>
+<p><font face="Times New Roman" color="#000000" size="3"><i><img border="0" src="prim.gif" align=left width="36" height="35">Обратите
+внимание: функцию display_copyright( ) можно вызвать
+и за пределами display_footer( ) по аналогии стем,
+как функция display_footer( ) использовалась в
+предыдущем примере. Концепция защищенных
+функций в РНР не поддерживается.</i></font></p>
+<p><font size="3" face="Times New Roman">
+<font COLOR="#000000">
+Хотя вложенные функции не защищены от
+вызова из других точек сценария, они не
+могут вызываться </font><i><font FACE="Times New Roman" SIZE="3" COLOR="#000000">до
+</font></i><font COLOR="#000000">вызова
+своей родительской функции. При попытке
+вызвать вложенную функцию раньше вызова
+родительской функции выводится сообщение
+об ошибке.
+</font></font></p>
+<b>
+<p><A NAME="e"></A><font face="Times New Roman" color="#000000" size="4">Возврат значений
+из функции</font></p>
+</b>
+<p><font face="Times New Roman" size="3" COLOR="#000000">
+По завершении работы функции часто бывает
+полезно вернуть некоторое значение, для
+чего результат вызова функции обычно
+присваивается некоторой переменной.
+Функции могут возвращать значения любых
+типов, в том числе массивы и списки. Пример
+приведен в листинге 4.2, где функция calculate_cost(
+)
+вычисляет налог с заданной суммы и
+возвращает общую сумму вместе с налогом.
+Прежде чем переходить к рассмотрению
+листинга, просмотрите краткое описание
+алгоритма на псевдокоде:
+</font></p>
+<ul>
+  <li><font face="Times New Roman" size="3" COLOR="#000000">
+Перед вызовом функции задать значения
+    переменных: $price (цена товара) и $tax (налоговая
+    ставка).
+</font></li>
+  <li><font face="Times New Roman" size="3" COLOR="#000000">
+Объявить функцию calculate_cost( ). При вызове
+    функция получает два параметра:
+    налоговую ставку и цену товара.
+</font></li>
+  <li><font face="Times New Roman" size="3" COLOR="#000000">
+Вычислить цену с учетом налога и вернуть
+    ее командой return.
+</font></li>
+  <li><font face="Times New Roman" size="3" COLOR="#000000">
+Вызвать calculate_cost() и присвоить значение,
+    возвращенное функцией, переменной $total_cost.
+</font></li>
+  <li><font face="Times New Roman" size="3" COLOR="#000000">
+Вывести соответствующее сообщение.
+</font></li>
+</ul>
+<b>
+<p><font face="Times New Roman"><font size="3" COLOR="#000000"><i>Листинг 4.2.
+</i>
+</font></font></b><i><font size="3">Создание
+функции для вычисления налога</font>
+</i>
+</p>
+<p><font color="#000000" size="3" face="Courier New">$price = 24.99; $tax = .06;</font></p>
+<p>
+<font face="Courier New" size="3" COLOR="#000000">
+function calculate_cost($tax, $price) {
+</font>
+</p>
+<p>
+<font face="Courier New" size="3" COLOR="#000000">
+$sales_tax = $tax;
+</font>
+</p>
+<p>
+<font face="Courier New" size="3" COLOR="#000000">
+return $price + ($price * $sales_tax);
+</font>
+</p>
+<p>
+<font size="3" color="#000000" face="Courier New">}</font>
+</p>
+<p>
+<font face="Courier New" size="3" COLOR="#000000">
+// Обратите внимание на возврат значения
+функцией calculate_cost(). $total_cost = calculate_cost ($tax. $price);
+</font>
+</p>
+<p>
+<font face="Courier New" size="3" COLOR="#000000">
+// Округлить цену до двух десятичных цифр.
+</font>
+</p>
+<p>
+<font face="Courier New" size="3" COLOR="#000000">
+$total_cost = round($total_cost. 2);
+</font>
+</p>
+<p><font face="Courier New" color="#000000" size="3">print &quot;Total cost: $&quot;.$total_cost;</font></p>
+<p><font face="Courier New" color="#000000" size="3">// $total cost = 26.49</font></p>
+<p><font face="Times New Roman" size="3" color="#000000"><i><img border="0" src="prim.gif" align=left width="36" height="35">Функции,
+не возвращающие значений, также называются
+процедурами.</i></font></p>
+<p>
+<font face="Times New Roman" size="3" COLOR="#000000">
+Существует и другой способ использования
+возвращаемых значений, при котором вызов
+функции включается прямо в условную/циклическую
+команду. В следующей программе (листинг 4.3)
+сумма счета пользователя сравнивается с
+предельным размером кредита. Алгоритм на
+псевдокоде выглядит так:
+</font></p>
+<ul>
+  <li>
+<font face="Times New Roman" size="3" COLOR="#000000">
+Объявить функцию check_limit( ), которая при
+    вызове получает два параметра. Первый
+    параметр, $total_cost, определяет общую сумму
+    счета, накопленную пользователем до
+    настоящего момента. Второй параметр, $credit_limit,
+    определяет максимальную сумму, которую
+    может потратить пользователь.
+</font></li>
+  <li>
+<font face="Times New Roman" size="3" COLOR="#000000">
+Если накопленная сумма счета превышает
+    предельный размер кредита, функция
+    возвращает ложное значение (0).
+</font></li>
+  <li>
+<font face="Times New Roman" size="3" COLOR="#000000">
+Если условие команды i f оказывается
+    ложным, работа функции еще не завершена. В
+    этом случае общая сумма не превышает
+    предельного размера кредита, поэтому
+    функция должна вернуть логическую истину.
+</font></li>
+  <li>
+<font face="Times New Roman" size="3" COLOR="#000000">
+Вызвать функцию check_limit( ) в условии
+    команды if. Проверить, какое значение было
+    возвращено при вызове — истинное или
+    ложное. В зависимости от результата
+    проверки выполняется то или иное
+    действие.
+</font></li>
+</ul>
+<p>
+<font face="Times New Roman" size="3" COLOR="#000000">
+Если при вызове check_limit( ) было получено
+значение TRUE, мы предлагаем пользователю
+продолжить закупку. В противном случае
+пользователь информируется о превышении
+кредита.
+</font></p>
+<b>
+<p><font face="Times New Roman"><font size="3" COLOR="#000000"><i>Листинг 4.3.
+</i>
+</font></font></b><i><font size="3">Сравнение
+текущей суммы счета пользователя с
+предельным размером кредита</font>
+</i></p>
+<p><font size="3" face="Courier New" COLOR="#000000">$cost = 1456.22;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">$limit = 1000.00;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">function check_limit($total_cost.
+$credit_limit)</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">if ($total_cost &gt;
+$credit_limit) :</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">return 0;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">endif;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">return 1;</font></p>
+<p><font size="3" color="#000000" face="Courier New">}</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">if (check_limit($cost.
+$limit)) :</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">// Продолжить закупки</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">print &quot;Keep shopping!&quot;;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">else :</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">print &quot;Please lower your total bill to less than $&quot;.$limit.&quot;!&quot;;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">endif;</font></p>
+<p><font face="Times New Roman" size="3" COLOR="#000000">
+При выполнении листинга 4.3 будет выведено
+сообщение об ошибке, поскольку значение $cost
+превышает $limit.
+</font></p>
+<p><font face="Times New Roman" size="3" COLOR="#000000">
+Функция также может возвращать сразу
+несколько значений при помощи списка.
+Продолжая кулинарную тему, давайте напишем
+функцию, которая бы возвращала три лучших
+года для указанного сорта вина. Функция
+приведена в листинге 4.4, но сначала
+прочитайте алгоритм на псевдокоде:
+</font></p>
+<ul>
+  <li><font face="Times New Roman" size="3" COLOR="#000000">
+Объявить функцию best_years( ), вызываемую с
+    одним параметром. Параметр $label
+    определяет сорт вина, для которого
+    пользователь хотел бы узнать три
+    рекомендуемых года.
+</font></li>
+  <li><font face="Times New Roman" size="3" COLOR="#000000">
+Объявить два массива, $merlot и $zinfandel. В
+    каждом массиве хранится три
+    рекомендуемых года для соответствующего
+    сорта вина.
+</font></li>
+  <li><font face="Times New Roman" size="3" COLOR="#000000">
+Написать команду return, которая бы
+    использовала особые возможности
+    переменных. Выражение $$label сначала
+    интерпретирует переменную $label, а затем
+    интерпретирует полученное значение как
+    имя другой переменной. В настоящем
+    примере массив merlot возвращается в виде
+    списка, и каждый возвращаемый год
+    занимает свою позицию в списке, для
+    которого вызывалась функция.
+</font></li>
+  <li><font face="Times New Roman" size="3" COLOR="#000000">
+Вывести сообщение с информацией о
+    рекомендуемых годах.
+</font></li>
+</ul>
+<p><font size="3" face="Times New Roman" COLOR="#000000"><i><b>Листинг 4.4.</b> Возвращение функцией
+нескольких величин</i></font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">// Сорт вина, для которого выводятся лучшие
+годы</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">$label = &quot;merlot&quot;;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">// Функция использует массивы и &quot;переменную
+в переменной&quot;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">// для возвращения нескольких значений.</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">function best_years($label) {</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">$merlot = array(&quot;1987&quot;, &quot;1983&quot;, &quot;1977&quot;);</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">$zinfandel = array(&quot;1992&quot;, &quot;1990&quot;, &quot;1989&quot;);</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">return $$label;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">}</font></p>
+<p><font face="Courier New" size="3" COLOR="#000000">
+// Функция list( ) используется получения
+возвращаемых значений.
+</font></p>
+<p><font face="Courier New" size="3" COLOR="#000000">
+list ($yr_one, $yr_two. $yr_three) = best_years($label);
+</font></p>
+<p><font face="Courier New" size="3" COLOR="#000000">
+print &quot;$label had three particularly remarkable years: $yr_one. $yr_two,
+and $yr_three.&quot;;
+</font></p>
+<p><font face="Times New Roman" size="3" COLOR="#000000">
+Программа выводит следующий результат:
+</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">merlot has three particularly remarkable years: 1987, 1983 and 1977.</font></p>
+<b>
+<p><A NAME="f"></A><font face="Times New Roman" color="#000000" size="4">Рекурсивные
+функции</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">
+Ситуация, при которой функция многократно
+вызывает сама себя, пока не будет выполнено
+некоторое условие, открывает замечательные
+возможности. При правильном использовании </font><i><font FACE="Times New Roman" SIZE="3" COLOR="#000000">рекурсивные
+</font></i><font COLOR="#000000">функции
+уменьшают объем программы и делают ее более
+выразительной. Рекурсивные функции
+особенно часто используются при выполнении
+повторяющихся действий — например, при
+поиске в файлах/массивах и построении
+графических изображений (например,
+фракталов). Классическим примером
+рекурсивных функций, встречающимся во
+многих курсах программирования, является
+суммирование чисел от 1 до N. Программа,
+приведенная в листинге 4.5, суммирует все
+целые числа от 1 до 10.
+</font></font></p>
+<b>
+<p><font face="Times New Roman"><font size="3" COLOR="#000000"><i>Листинг 4.5.
+</i>
+</font></font></b><i><font size="3">Использование
+рекурсивной функции для суммирования
+последовательных целых чисел</font>
+</i></p>
+<p><font size="3" face="Courier New" COLOR="#000000">function summation ($count) {</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">if ($count != 0) :</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">return $count + summation($count-1);</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">endif;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">}</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">$sum = summation(10);</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">print &quot;Summation = $sum&quot;;</font></p>
+<p><font face="Times New Roman" size="3" COLOR="#000000">
+В результате выполнения листинга 4.5 будет
+выведен следующий результат:
+</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">Summation = 55</font></p>
+<p><font face="Times New Roman" size="3" COLOR="#000000">
+Если функция вызывается достаточно часто,
+рекурсия делает программу более
+эффективной. Тем не менее, при
+использовании рекурсии необходима
+осторожность, поскольку ошибки могут
+привести к зацикливанию программы.
+</font></p>
+<b>
+<p><A NAME="g"></A><font face="Times New Roman" color="#000000" size="4">Функции-переменные</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">
+Одной из интересных возможностей РНР
+являются </font><i><font COLOR="#000000">функции-переменные
+</font></i><font COLOR="#000000">(variable
+functions), то есть динамические вызовы функций,
+имена которых определяются во время
+выполнения программы. Хотя в большинстве web-приложений
+можно обойтись и без функций-переменных,
+они значительно сокращают объем и
+сложность программного кода, а также часто
+снимают необходимость в условных командах
+if.
+</font></font></p>
+<p><font face="Times New Roman" size="3" COLOR="#000000">Вызов функции-переменной представляет
+собой имя переменной, за которым следует
+пара круглых скобок. В круглых скобках
+могут перечисляться параметры (однако
+присутствие параметров не обязательно).
+Обобщенный синтаксис функции-переменной:
+</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">$имя_функции( );</font></p>
+<p><font face="Times New Roman" size="3" COLOR="#000000">
+Следующая программа (листинг 4.6)
+демонстрирует эту непривычную, но полезную
+возможность. Допустим, программа выводит
+разную информацию в зависимости от языка,
+выбранного пользователем. В нашем примере
+для простоты используются приветственные
+сообщения для англо- и италоязычных
+пользователей. Алгоритм на псевдокоде:
+</font></p>
+<ul>
+  <li><font face="Times New Roman" size="3" COLOR="#000000">
+Создать сообщение для итальянского
+    языка в функции с именем italian.
+</font></li>
+  <li><font face="Times New Roman" size="3" COLOR="#000000">
+Создать сообщение для английского языка
+    в функции с именем english.
+</font></li>
+  <li><font face="Times New Roman" size="3" COLOR="#000000">
+Передать информацию о выбранном языке в
+    сценарий, присвоив значение переменной
+    $language.
+</font></li>
+</ul>
+<p><font face="Times New Roman" size="3" COLOR="#000000">
+Переменная $language используется для
+выполнения функции-переменной (в
+приведенном примере — italian()).
+</font></p>
+<p><font size="3" face="Times New Roman" COLOR="#000000"><i><b>Листинг 4.6.</b> Выбор функции в зависимости от
+пользовательского ввода</i></font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">// Приветствие на итальянском языке, function
+italian( ) {</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">&quot; print &quot;Benvenuti al PHP Recipes.&quot;;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">}</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">// Приветствие на английском языке</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">function english( ) {</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">print &quot;Welcome to PHP Recipes.&quot;;</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">}</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">// Выбрать итальянский язык</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">$language = &quot;italian&quot;:</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">// Выполнить функцию-переменную</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">$language( );</font></p>
+<p><font face="Times New Roman" size="3" COLOR="#000000">
+Листинг 4.6 демонстрирует интересную
+концепцию функций-переменных и наглядно
+показывает, что функции-переменные
+способствуют уменьшению объема
+программного кода. Если бы не эта
+возможность, функцию пришлось бы выбирать
+командой if или switch; это привело бы к
+заметному увеличению объема программного
+кода и риску появления дополнительных
+ошибок при кодировании.
+</font></p>
+<b>
+<p><A NAME="h"></A><font face="Times New Roman" color="#000000" size="4">Построение
+библиотек функций</font></p>
+</b>
+<p><font face="Times New Roman" size="3" COLOR="#000000">
+Библиотеки функций — одно из самых
+эффективных средств экономии времени при
+построении приложений. Предположим, вы
+написали серию функций для сортировки
+массива. Вероятно, эти функции будут
+неоднократно использоваться в разных
+приложениях. Вместо того чтобы постоянно
+переписывать эти функции в новый сценарий
+или копировать их через текстовый буфер,
+гораздо удобнее разместить все функции
+сортировки в отдельном файле и присвоить
+ему легко узнаваемое имя (например,
+array_sorting.inc). Пример такого файла приведен в
+листинге 4.7.
+</font></p>
+<b>
+<p><font face="Times New Roman"><font size="3" COLOR="#000000"><i>Листинг 4.7.
+</i>
+</font></font></b><i><font size="3">Пример
+библиотеки функций (array_sorting.inc)</font>
+</i></p>
+<p><font size="3" face="Courier New" COLOR="#000000">&lt;?</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">// Файл: array_sorting.inc</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">// Назначение: библиотека функций для
+сортировки массивов.</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">// Дата: 17 июля 2000 г.</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">function merge_sort($array.
+$tmparray, $right, $left) {</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">...</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">function bubble_sort($array.
+$n) {</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">...</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">}</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">function quicksort ($array.
+$right. $left) {</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">...</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">}</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">?&gt;</font></p>
+<p><font face="Times New Roman" size="3" COLOR="#000000">Библиотека
+array_sorting.inc служит накопителем для всех
+функций сортировки. Это удобно, поскольку
+функции фактически группируются по своему
+назначению и при необходимости можно легко
+найти нужную функцию. Как видно из листинга
+4.7, в начало библиотеки обычно включается
+заголовок из нескольких строк комментария,
+чтобы при открытии файла библиотеки можно
+было сразу получить краткую сводку его
+содержимого. После собственной библиотеки
+функций можно включить ее в сценарий при
+помощи команд РНР include( ) и require( ), в
+результате чего все функции библиотеки
+становятся доступными. В общем виде
+синтаксис этих команд выглядит так:
+</font></p>
+<i>
+<p><font size="3" face="Courier New" COLOR="#000000">include(путь/имя_файла);</font></p>
+<p></i><font size="3" face="Courier New"><font COLOR="#000000">require(</font><i><font COLOR="#000000">путь/имя_файла</font></i><font COLOR="#000000">);
+</font></font></p>
+<p><font face="Times New Roman" size="3" COLOR="#000000">
+Также существует альтернативный вариант:
+</font></p>
+<p><font face="Courier New" size="3"><font COLOR="#000000">include &quot;</font><i><font COLOR="#000000">путь/имя_файла&quot;;</font></i></font></p>
+<p><font size="3"><font face="Courier New" COLOR="#000000">require &quot;</font></font><i><font face="Courier New" COLOR="#000000" size="3">путь/имя_файла&quot;;
+</font></p>
+</i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">
+где </font><i><font FACE="Times New Roman" SIZE="3" COLOR="#000000">путь
+</font></i><font COLOR="#000000">определяет
+относительный или абсолютный путь к файлу.
+Конструкции include( ) и requirе( ) подробно описаны
+в главе 9. А пока достаточно запомнить, что
+эти конструкции используются для включения
+файла непосредственно в сценарий.
+</font></font></p>
+<p><font face="Times New Roman" size="3" COLOR="#000000">Предположим, вы хотите воспользоваться
+функциями библиотеки array_sorting.inc в сценарии.
+Пример включения библиотеки показан в
+листинге 4.8.
+</font></p>
+<b>
+<p><font face="Times New Roman"><font size="3" COLOR="#000000"><i>Листинг 4.8.
+</i>
+</font></font></b><i><font size="3">Включение
+библиотечного файла (array_sorting.inc) в сценарий</font>
+</i></p>
+<p><font size="3" face="Courier New" COLOR="#000000">// Предполагается, что библиотека
+array_sorting.inc</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">// находится в одном каталоге со сценарием.</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">include(&quot;array_sorting.inc&quot;);</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">// Теперь вы можете использовать любые
+функции из array_sorting.inc</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">$some_array = array (50, 42. 35, 46);</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">// Использовать функцию
+bubble_sort()</font></p>
+<p><font size="3" face="Courier New" COLOR="#000000">$sorted_array = bubble_sort($some_array, 1);</font></p>
+<b>
+<p><A NAME="i"></A><font face="Times New Roman" color="#000000" size="4">Итоги</font></p>
+</b>
+<p><font face="Times New Roman" size="3" COLOR="#000000">
+Эта глава посвящена функциям и их
+применению в РНР. В частности, мы
+рассмотрели следующие темы:
+</font>
+
+</p>
+<ul>
+  <li><font face="Times New Roman" size="3" COLOR="#000000">
+определение и вызов функций;
+</font>
+
+  </li>
+  <li><font face="Times New Roman" size="3" COLOR="#000000">
+вложенные функции;
+</font>
+
+  </li>
+  <li><font face="Times New Roman" size="3" COLOR="#000000">
+возврат значений из функции;
+</font>
+
+  </li>
+  <li><font face="Times New Roman" size="3" COLOR="#000000">
+рекурсивные функции;
+</font>
+
+  </li>
+  <li><font face="Times New Roman" size="3" COLOR="#000000">
+функции-переменные;
+</font>
+
+  </li>
+  <li><font face="Times New Roman" size="3" COLOR="#000000">
+построение библиотек функций.
+</font>
+
+  </li>
+</ul>
+<p><font face="Times New Roman" size="3" COLOR="#000000">
+Хорошее знание этого материала абсолютно
+необходимо для понимания концепций,
+рассматриваемых в следующих главах,
+поскольку функции используются везде, где
+это возможно. Как и в других главах, я
+рекомендую поэкспериментировать с
+примерами, чтобы лучше усвоить изложенный
+материал.
+</font>
+
+</p>
+<p><font face="Times New Roman" size="3" COLOR="#000000">
+Глава 5 посвящена массивам — несомненно,
+эта тема заметно обогатит ваши познания в
+РНР. В главе 5 мы познакомимся с основными
+принципами хранения данных, постепенно
+продвигаясь к более содержательным и, в
+конечном счете, более интересным
+приложениям.
+</font>
+
+</p>
+
+</BODY></HTML>

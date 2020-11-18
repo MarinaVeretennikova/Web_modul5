@@ -1,0 +1,164 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Серверы Apache</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A>Назад</A></TD><th WIDTH="80%">Глава 2. Инсталяция</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="caudium.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="install.apache">Серверы Apache</A></H1>
+<P>В этом разделе содержатся замечания и подсказки по установке РНР на Apache, как для
+<A HREF="#install.apache.unix">Unix</A>, так и для <A HREF="#install.apache.windows">Windows</A>-версий.</P>
+<H2><A NAME="install.apache.unix">Установка PHP на Apache под Unix</A></H2><P>Вы можете выбрать аргументы для добавления в
+<B>configure</B> на строке 8 ниже из <a href="configure.html">Полного списка опций 
+конфигурации</a>. Номер версии здесь опущен, чтобы гарантировать, что 
+инструкции некорректны. Вам необходимо будет заменить 'xxx' на корректные значения из ваших файлов.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+  <h5><A NAME="install.apache.unix.longer"></A>
+  Пример 2-5. Инструкции установки (версия совместно используемого Apache-модуля) PHP 4</h5>
+  <TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>1.  gunzip apache_xxx.tar.gz
+2.  tar -xvf apache_xxx.tar
+3.  gunzip php-xxx.tar.gz
+4.  tar -xvf php-xxx.tar
+5.  cd apache_xxx
+6.  ./configure --prefix=/www --enable-module=so
+7.  make
+8.  make install
+9.  cd ../php-xxx
+10. ./configure --with-mysql --with-apxs=/www/bin/apxs
+11. make
+12. make install
+
+  Если вы решите изменить опции конфигурации после инсталяции,
+  вам нужно будет только повторить последние три шага. Необходимо рестартовать
+  Аpache, чтобы новый модуль заработал. Перекомпиляция Apache не нужна.
+
+11. cp php.ini-dist /usr/local/lib/php.ini
+
+  Вы можете редактировать ваш .ini-файл для установки опций PHP. Если вы
+  предпочитаете иметь этот файл в другом месте, используйте
+  --with-config-file-path=/path из шага 8.
+
+12. Отредактируйте httpd.conf или srm.conf и проверьте, что эти строки имеются
+    и не закомментированы:
+
+   AddType application/x-httpd-php .php
+
+   LoadModule php4_module        libexec/libphp4.so
+ 
+  Вы можете выбрать здесь любое расширение имён файлов.  .php это одно из
+  рекомендуемых нами. Можете включить даже .html, а .php3 можно добавить
+  для обеспечения обратной совместимости.
+
+  Путь/path с правой стороны оператора LoadModule обязан указывать на
+  path PHP-модуля на вашей системе. Вышеуказанный оператор корректен
+  для предыдущих шагов.
+
+
+13. Используйте вашу обычную процедуру старта сервера Apache. (Вы обязаны
+    остановить и рестартовать сервер, а не просто перезагрузить его путём
+    использования сигнала HUP или USR1.)</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>В зависимости от варианта установки Apache и вида Unix есть много 
+вариантов остановки и рестарта сервера. Ниже даны типичные строки, 
+используемые для рестарта сервера, для различных установок apache/unix. Вы должны заменить <TT>/path/to/</TT>
+на путь/path к этим приложениям на вашей системе.</p><A NAME="AEN851"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>1. Разные варианты Linux и SysV:
+/etc/rc.d/init.d/httpd restart
+
+2. Использование скриптов apachectl:
+/path/to/apachectl stop
+/path/to/apachectl start
+
+3. httpdctl и httpsdctl (С использованием OpenSSL), аналогично apachectl:
+/path/to/httpsdctl stop
+/path/to/httpsdctl start
+
+4. Используя mod_ssl или иной SSL-сервер, вы можете вручную
+остановить и рестартовать:
+/path/to/apachectl stop
+/path/to/apachectl startssl</PRE></TD></TR></TABLE>
+<p>Расположение двоичных apachectl и http(s)dctl часто варьируется. Если ваша система имеет команды
+<TT>locate</TT>, <TT>whereis</TT> или <TT>which</TT>, они могут вам помочь найти программы управления вашим сервером.</p>
+<P>Далее идут примеры компиляции PHP для Аpache:</p><A NAME="AEN857"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>./configure --with-apxs --with-pgsql</PRE></TD></TR></TABLE>
+<P>Это создаст библиотеку <TT>libphp4.so</TT>, которая загружается в Apache с использованием строки LoadModule в файле 
+конфигурации Apache'а <TT>httpd.conf</TT>. Поддержка PostgreSQL встроена в эту библиотеку <TT>libphp4.so</TT>.
+</P><A NAME="AEN864"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>./configure --with-apxs --with-pgsql=shared</PRE></TD></TR></TABLE><P>Это создаст библиотеку
+<TT>libphp4.so </TT>для Apache, а также библиотеку <TT>pgsql.so</TT>, которая загружается в
+PHP путём использования директивы расширения/extension в файле <TT>php.ini</TT>, либо загрузкой её в скрипт явным образом с использованием функции
+<A HREF="f/dl.html"><B>dl()</B></A>.</P><A NAME="AEN872"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>./configure --with-apache=/path/to/apache_source --with-pgsql</PRE></TD></TR></TABLE>
+<P>Это создаст библиотеку <TT>libphp4.so</TT>, <TT>mod_php4.c</TT> и некоторые сопутствующие файлы и скопирует их в директорию
+<TT>src/modules/php4</TT> в дереве ресурсов Apache. Затем вы компилируете Apache с использованием
+<TT>--activate-module=src/modules/php4/libphp4.a</TT>, и система построения Apache создаст
+<TT>libphp4.a</TT> и свяжет её статически с двоичным <TT>httpd</TT>. Поддержка PostgreSQL включена непосредственно в этот двоичный
+<TT>httpd</TT>, так что окончательным результатом здесь является единственный двоичный <TT>httpd</TT>,
+который содержит всё из Apache и всё из PHP.</P><A NAME="AEN884"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>./configure --with-apache=/path/to/apache_source --with-pgsql=shared</PRE></TD></TR></TABLE>
+<P>То же, что и до этого, только вместо включения поддержки PostgreSQL 
+непосредственно в окончательный <TT>httpd</TT>, вы получите библиотеку <TT>pgsql.so</TT>, которую можете загрузить в PHP из
+<TT>php.ini</TT>, либо напрямую через использование <A HREF="f/dl.html"><B>dl()</B></A>.</P>
+<P>При выборе варианта построения PHP вы должны рассмотреть преимущества и 
+недостатки каждого метода. Построение как разделяемого объекта будет 
+означать, что вы сможете компилировать Аpache независимо и не должны ничего 
+рекомпилировать если добавите или измените PHP. Встраивание PHP в Аpache (статический 
+метод) означает, что PHP будет загружаться и работать быстрее. Дополнительно см.
+<A HREF="http://httpd.apache.org/docs/dso.html" TARGET="_top">web-страницу об Apache на сайте поддержки DSO</A>.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>файл http.conf по умолчанию Apache'а в настоящее время поставляется с 
+разделом, который выглядит примерно так: User nobody Group "#-1"<br>
+Если вы не измените это на "Group nogroup" или что-нибудь аналогичное ("Group daemon" 
+также используется часто), PHP не сможет открывать файлы.</P></BLOCKQUOTE>
+<H2><A NAME="install.apache.windows">Установка PHP под Windows с Apache 1.3.x</A></H2>
+<P>Есть два способа установки PHP для работы с Apache 1.3.x в системах Windows. 
+Один - для использования двоичного CGI (php.exe), другой - для использования Apache-модуля DLL.<br>
+В обоих случаях вам необходимо остановить сервер Apache и отредактировать файл
+<TT>srm.conf</TT> или <TT>httpd.conf</TT>, чтобы сконфигурировать Apache для работы с PHP.</P>
+<P>В настоящее время нет ничего более стабильно работающего под Windows, чем SAPI-модуль, 
+и мы рекомендуем использовать его, а не исполняемый CGI, поскольку он прозрачнее и безопаснее.</P>
+<P>Хотя могут быть варианты конфигурирования PHP
+под Apache, они достаточно просты, чтобы ими могли воспользоваться новички. 
+Посмотрите в документации к Apache о директивах конфигурации.</P>
+<P>Если вы разархивировали пакет PHP в директорию c:\php\, как описано в 
+разделе <a href="windows.html#install.windows.manual">Установка 
+вручную</a>, вам необходимо вставить следующие строки в файл конфигурации Apache, чтобы настроить исполняемый CGI:
+<UL><LI><P><TT>ScriptAlias /php/ "c:/php/"</TT></P></LI><LI><P><TT>AddType application/x-httpd-php .php .phtml</TT>
+</P></LI><LI><P><TT>Action application/x-httpd-php "/php/php.exe"</TT></P></LI></UL>
+<p>Обратите внимание, что вторая строка может уже быть в действующей версии <TT>httpd.conf</TT>, 
+но закомментированная. Не забудьте также заменить <TT>c:/php/</TT> на фактический путь к PHP.</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th>Предупреждение!</th></TR><TR><TD>
+<P>При использовании CGI setup, ваш сервер открыт для всевозможных атак. Пожалуйста, прочтите наш раздел
+<A HREF="cgi-bin.html">о безопасности CGI</A>, чтобы научиться защищать себя от подобных атак.</P>
+</TD></TR></TABLE><P>Если вы хотите использовать PHP как модуль в Apache, переместите <TT>php4ts.dll</TT>
+в системную директорию windows/system (для Windows 9x/Me) или winnt/system32
+(для Windows NT/2000/XP), переписав старый файл. Затем вы должны добавить две следующие строки в conf-файл Apache:
+<UL><LI><P><TT>LoadModule php4_module c:/php/sapi/php4apache.dll</TT></P></LI><LI><P>
+<TT>AddType application/x-httpd-php .php .phtml</TT></P></LI></UL>
+<P>После изменения файла конфигурации не забудьте рестартовать сервер, например,
+<TT>NET STOP APACHE</TT>, а затем <TT>NET START APACHE</TT>, если вы запускаете Apache
+как службу Windows, или используйте обычные ярлыки.</P><BLOCKQUOTE><P><B>Примечание: </B>
+вы можете обнаружить, после использования windows-инсталятора для Apache, что вам нужно определить директиву
+<TT>AddModule</TT> для <TT>mod_php4.c</TT> в файле конфигурации (<TT>httpd.conf</TT>).
+Это делается путём добавления <TT>AddModule mod_php4.c</TT> в список <TT>AddModule</TT> близко к началу файла конфигурации. Это особенно важно, если определена 
+директива <TT>ClearModuleList</TT>. Если этого не сделать, PHP не будет зарегистрирован как Apache-модуль.</P>
+</BLOCKQUOTE><P>Есть два способа использования возможности объяснения исходного кода, 
+однако работа этой возможности зависит от инсталяции.
+Если вы сконфигурировали Apache для использования PHP как ISAPI-модуля, то, 
+добавив следующую строку в ваш файл конфигурации, вы сможете воспользоваться этой возможностью: <TT>AddType application/x-httpd-php-source .phps</TT>
+</P><P>Если вы сконфигурировали Apache для использования PHP как CGI-экзешника, 
+вам нужно воспользоваться функцией <A HREF="f/show-source.html"><B>show_source()</B></A>.
+При этом просто создаётся файл PHP-скрипта и добавляется такой код: 
+<TT>&#60;?php show_source ("original_php_script.php"); ?&#62;</TT>.<br>
+Замените <TT>original_php_script.php</TT> на имя файла, исходный код которого вы хотите показать.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>
+  на Win-Apache все обратные слэши (\) в операторе пути, таком как "c:\directory\file.ext", 
+обязаны быть конвертированы в обычные слэши (/), как здесь: "c:/directory/file.ext".</P></BLOCKQUOTE>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="inst.commandline.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="caudium.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Серверы CGI/Командная строка</TD>
+<th WIDTH="34%" VALIGN="top"><a href="inst.installation.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+Серверы Caudium</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

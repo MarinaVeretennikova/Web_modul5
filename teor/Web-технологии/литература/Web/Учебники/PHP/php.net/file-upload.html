@@ -1,0 +1,111 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Обработка Загрузки Файлов</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR>
+<TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%"><A HREF="cookies.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="file-upload.common-pitfalls.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="features.file-upload">Глава 19. Обработка загрузки файлов</A></H1>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="#features.file-upload.post-method">Загрузка методом POST</A></DT>
+<DT><a href="file-upload.common-pitfalls.html">Обычные ловушки</a></DT>
+<DT><a href="file-upload.multiple.html">Загрузка нескольких файлов</a></DT>
+<DT><A HREF="file-upload.put-method.html">Поддержка метода PUT</A></DT></DL>
+<H1>Загрузка методом <A NAME="features.file-upload.post-method">POST</A></H1>
+<P>PHP способен принимать загрузку файлов из любого RFC-1867-соответствующего
+браузера (в том числе - Netscape Navigator 3 и новее,
+Microsoft Internet Explorer 3 с патчем от Microsoft или новее без патча).  
+Это даёт возможность загружать текстовые и бинарные файлы.  С помощью 
+функций РНР для аутентификации и манипуляций с файлами вы получаете полный 
+контроль над тем, кому разрешено загружать файлы, и над тем, что делать с файлом после его загрузки.</P>
+<P>Заметьте, что PHP поддерживает также загрузку методом PUT, который используется в
+Netscape Composer и в Amaya-клиентах W3C.  См. также &quot;<a href="file-upload.put-method.html">Поддержка
+метода PUT</a>&quot;.</P><P>Экран загрузки файлов может быть создан с помощью специальной формы примерно так:<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+  <h5><A NAME="AEN5847"></A>
+  Пример 19-1. Форма для загрузки файлов</h5>
+  <TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>&#60;form enctype="multipart/form-data" action="_URL_" method="post"&#62;
+&#60;input type="hidden" name="MAX_FILE_SIZE" value="1000"&#62;
+Send this file: &#60;input name="userfile" type="file"&#62;
+&#60;input type="submit" value="Send File"&#62;
+&#60;/form&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>_URL_ должен указывать на PHP-файл.  Скрытое поле MAX_FILE_SIZE обязано 
+предшествовать полю ввода файла/file input field, и его значение это 
+максимальный размер принимаемого файла.  Значение в байтах.</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th>Предупреждение!</th></TR><TR><TD>
+<P>MAX_FILE_SIZE является для браузера лишь уведомляющим. Легко обойти этот 
+максимум. Поэтому не рассчитывайте, что браузер будет повиноваться 
+вашим желаниям! Однако PHP-установки maximum-size обмануть нельзя.</P></TD></TR></TABLE>
+<P>Переменные, определяемые для загруженных файлов, зависят от версии PHP
+и конфигурации. Следующие переменные будут определены  в
+скрипте назначения после успешного завершения загрузки. Если <A HREF="configuration.html#ini.track-vars">track_vars</A>
+включена, инициализируется массив $HTTP_POST_FILES/$_FILES. Наконец, соответствующие 
+переменные могут быть инициализированы как глобалы, если
+<A HREF="configuration.html#ini.register-globals">register_globals</A> включена. Однако использовать глобалы больше не рекомендуется.</P>
+<BLOCKQUOTE><P><B>Примечание: </B><A HREF="configuration.html#ini.track-vars">track_vars</A>
+всегда включена, начиная с версии PHP 4.0.3. Начиная с версии PHP 4.1.0, можно использовать $_FILES вместо
+<TT>$HTTP_POST_FILES</TT>.<br><TT>$_FILES</TT> всегда является глобальной, поэтому <TT>global</TT>
+не должно использоваться для $_FILES в области видимости функции.</P></BLOCKQUOTE>
+<P><TT>$HTTP_POST_FILES</TT>/<TT>$_FILES</TT> предоставлены для вмещения информации загруженных файлов.</P>
+<P>Далее идёт содержимое <TT>$_FILES</TT>. Обратите внимание, что здесь предполагается использование имени
+'userfile' для загружаемого файла, как в примере скрипта ранее:
+<DL><DT><TT>$_FILES['userfile']['name']</TT></DT><DD>
+<P>Оригинальное имя файла на клиентской машине.</P></DD>
+<DT><TT>$_FILES['userfile']['type']</TT></DT><DD>
+<P>mime-тип файла, если браузер предоставил эту информацию. Пример: <TT>"image/gif"</TT>.</P></DD>
+<DT><TT>$_FILES['userfile']['size']</TT></DT><DD>
+<P>Размер загруженного файла в байтах.</P></DD>
+<DT><TT>$_FILES['userfile']['tmp_name']</TT></DT>
+<DD><P>Временное имя файла, под которым загруженный файл был сохранён на сервере.</P></DD></DL>
+<BLOCKQUOTE><P><B>Примечание: </B>в PHP версии до 4.1.0 она называлась <TT>$HTTP_POST_VARS</TT> и не была
+автоглобальной переменной. PHP 3 не поддерживает <TT>$HTTP_POST_FILES</TT>.</P></BLOCKQUOTE>
+<P>Если <A HREF="configuration.html#ini.register-globals">register_globals</A> включена в <TT>php.ini</TT>,
+то будут доступны нижеследующие переменные. Обратите внимание, что имена этих 
+переменных предполагают использование имя файла для загрузки 'userfile', как в примере предыдущего скрипта:
+<UL><LI><P><TT>$userfile</TT> - Временное имя файла, под которым загруженный файл был сохранён на сервере.</P></LI>
+<LI><P><TT>$userfile_name</TT> - Оригинальное имя или путь к файлу на системе отправителя.</P></LI>
+<LI><P><TT>$userfile_size</TT> - Размер загруженного файла в байтах.</P></LI>
+<LI><P><TT>$userfile_type</TT> - mime-тип файла, если браузер предоставил эту информацию. Пример:
+<TT>"image/gif"</TT>.</P></LI></UL><p>Заметьте, что часть "<TT>$userfile</TT>" этих переменных это имя, которое записано в поле &#60;input&#62; 
+type="file" в форме загрузки.  В предыдущем примере формы мы назвали её "userfile".
+<BLOCKQUOTE><P><B>Примечание: </B><TT>register_globals = On</TT> не рекомендуется по соображениям производительности и обеспечения безопасности.</P></BLOCKQUOTE>
+<P>Файлы будут по умолчанию сохраняться во временной директории по умолчанию 
+на сервере, если только не задано другое место директивой
+<A HREF="configuration.html#ini.upload-tmp-dir">upload_tmp_dir</A> в <TT>php.ini</TT>. Директория по
+умолчанию сервера может быть изменена через установку переменной окружения
+<TT>TMPDIR</TT> в среде, в которой работает PHP. Установка её с использованием
+<A HREF="f/putenv.html"><B>putenv()</B></A> из РНР-скрипта не будет работать. Эта переменная окружения может также 
+использоваться для того, чтобы гарантировать, что другие операции также работают с загруженными файлами.
+<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+  <h5><A NAME="AEN5917"></A>
+  Пример 19-2. Проверка загрузки файлов</h5>
+  <P>Следующие примеры предназначены для версий PHP 4 выше 4.0.2. См. о функциях
+<A HREF="f/is-uploaded-file.html"><B>is_uploaded_file()</B></A> и
+<A HREF="f/move-uploaded-file.html"><B>move_uploaded_file()</B></A>.</P>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php 
+// В PHP ранее 4.1.0 должна использоваться $HTTP_POST_FILES вместо $_FILES.
+if (is_uploaded_file($_FILES['userfile']['tmp_name'])) {
+    copy($_FILES['userfile']['tmp_name'], "/place/to/put/uploaded/file");
+} else {
+    echo "Possible file upload attack. Filename: " . $_FILES['userfile']['name'];
+}
+/* ...или... */
+move_uploaded_file($_FILES['userfile']['tmp_name'], "/place/to/put/uploaded/file");
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>PHP-скрипт, который получает загружаемый файл, должен реализовывать логику, 
+необходимую для определения того, что нужно сделать с загруженным файлом.  
+Вы можете, например, использовать переменную <TT>$_FILES['userfile']['size']</TT> для исключения файлов, которые слишком малы или велики.  Вы можете 
+использовать переменную <TT>$_FILES['userfile']['type']</TT> для исключения файлов, которые не отвечают критериям определённого типа.
+При любой логике вы должны либо удалять, либо перемещать такие файлы из временной директории.</P>
+<P>Файл будет удалён из временной директории по окончании запроса, если он
+(файл) не перемещён или не переименован.</P></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD>
+</TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="cookies.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="file-upload.common-pitfalls.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Куки</TD>
+<th WIDTH="34%" VALIGN="top"><a href="features.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Обычные ловушки</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

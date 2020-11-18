@@ -1,0 +1,46 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>msg_receive</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="msg-get-queue.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="msg-remove-queue.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="msg-receive">msg_receive</A></H1><A NAME="AEN71816"></A><P>(только PHP 4  CVS)</P>
+<p>msg_receive - получает сообщение из очереди сообщений.<A NAME="AEN71819"></A></p><H2>Описание</H2>
+<p>bool <B>msg_receive</B> (int queue, int desiredmsgtype, int msgtype, int maxsize, mixed message [, bool unserialize [, int flags [, int errorcode]]])</p>
+<P><B>msg_receive()</B> получает первое сообщение из специфицированной очереди <TT><I>queue</I></TT> типа
+<TT><I>desiredmsgtype</I></TT>. Тип полученного сообщения будет храниться в <TT><I>msgtype</I></TT>.
+Максимальный размер принимаемого сообщения специфицируется параметром <TT><I>maxsize</I></TT>; если сообщение в очереди больше, чем этот размер, функция потерпит неудачу (если 
+вы не установили <TT><I>flags</I></TT>, как описано ниже). Получаемое сообщение будет сохранено в <TT><I>message</I></TT>,
+если не было ошибок при получении сообщения - тогда в необязательный <TT><I>errorcode</I></TT> будет установлено значение системной переменной errno, что поможет вам 
+идентифицировать причину.</P><P>Если <TT><I>desiredmsgtype</I></TT> равен 0, возвращается сообщение из начала очереди. Если
+<TT><I>desiredmsgtype</I></TT> больше 0, возвращается первое сообщение данного типа.
+Если <TT><I>desiredmsgtype</I></TT> меньше 0, будет прочитано первое сообщение в очереди с наименьшим типом, 
+меньше и равным абсолютному значению <TT><I>desiredmsgtype</I></TT>.
+Если нет сообщений, соответствующих этому критерию, ваш скрипт будет 
+ожидать, пока подходящее сообщение не дождётся своей очереди.  Вы можете 
+предотвратить блокировку скрипта, специфицировав MSG_IPC_NOWAIT в параметре <TT><I>flags</I></TT>.</P>
+<P><TT><I>unserialize</I></TT> имеет по умолчанию <TT><B>TRUE</B></TT>; если установлен
+<TT><B>TRUE</B></TT>, сообщение рассматривается как если бы оно было сериализовано с использованием 
+того же механизма, что и в модуле сессии.  Сообщение будет десериализовано и 
+возвращено вашему скрипту. Это даёт возможность легко получать массивы или 
+сложные структуры объектов их других PHP-скриптов или, если вы используете WDDX-сериализатор, из любого WDDX-совместимого источника.
+Если <TT><I>unserialize</I></TT> равен <TT><B>FALSE</B></TT>, сообщение будет возвращено как binary-safe строка.</P>
+<P>Необязательный параметр <TT><I>flags</I></TT> даёт вам возможность передавать флаги низкоуровневому системному вызову msgrcv.  
+По умолчанию равен 0, но вы можете специфицировать одно или более из следующих 
+значений (складывая или OR'ируя их вместе).<A NAME="AEN71871"></A><h6>Таблица 1. Значения флагов для msg_receive</h6>
+<TABLE BORDER="1"><TBODY><TR><TD>MSG_IPC_NOWAIT</TD><TD>Если нет сообщений типа <TT><I>desiredmsgtype</I></TT>, возвращает немедленно и не ожидает. Функция терпит неудачу и возвращает integer-значение,
+соответствующее ENOMSG.</TD></TR><TR><TD>MSG_EXCEPT</TD><TD>Использование этого флага в сочетании с
+<TT><I>desiredmsgtype</I></TT> больше 0 заставляет функцию получать первое сообщение, которое не равно
+<TT><I>desiredmsgtype</I></TT>.</TD></TR><TR><TD>MSG_NOERROR</TD><TD>Если сообщение длиннее <TT><I>maxsize</I></TT>,
+установка этого флага усекает сообщение до <TT><I>maxsize</I></TT> и не сигнализирует об ошибке.</TD></TR></TBODY></TABLE>
+<P>При успешном выполнении структура данных очереди обновляется так:<br><TT><I>msg_lrpid</I></TT> получает process-ID вызывающего процесса,<br>
+<TT><I>msg_qnum</I></TT> декрементирует на 1,<br>а в <TT><I>msg_rtime</I></TT> устанавливается текущее время.</P>
+<P><B>msg_receive()</B> возвращает <TT><B>TRUE</B></TT> при успехе, <TT><B>FALSE</B></TT> при неудаче. Если функция терпит неудачу, необязательный
+<TT><I>errorcode</I></TT> получит значение системной переменной errno.</P><P>См. также <A HREF="msg-remove-queue.html">
+<B>msg_remove_queue()</B></A>, <A HREF="msg-send.html"><B>msg_send()</B></A>, <A HREF="msg-stat-queue.html">
+<B>msg_stat_queue()</B></A> и <A HREF="msg-set-queue.html"><B>msg_set_queue()</B></A>.</P>
+<P>Эта функция была введена в PHP 4.3.0.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="msg-get-queue.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="msg-remove-queue.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">msg_get_queue</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.sem.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">msg_remove_queue</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

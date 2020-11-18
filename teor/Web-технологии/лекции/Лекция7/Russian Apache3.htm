@@ -1,0 +1,833 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+ <head>
+  <title>Russian Apache: some notes</title>
+ </head>
+
+ <body bgcolor="#ffffff" vlink="#254d96" link="0000ff" text="#00114d">
+   <!--begin of Top100-->
+   <a href="http://counter.rambler.ru/top100/"><img src="http://counter.rambler.
+ru/top100.cnt?29788" alt="" width=1 height=1 border=0></a>
+   <!--end of Top100 code-->
+<center>
+   <table border="0" cellspacing="0" cellpadding="0" width=574> 
+    <tr><td>
+      <table border="0" cellspacing="0" cellpadding="0">
+       <tr valign="top">
+	<td width="436" rowspan="2" >
+		<img src="/buttons/m1.gif" width=436 height=81 border=0 alt="Russian Apache"></a></td>
+	<td colspan="2" width="138"><a href="/english/"><img src="/buttons/english.gif" width=138 height=28 border=0 alt="Switch to English"></a></td>
+       </tr>
+       <tr valign="top">
+	<td><a href="/"><img src="/buttons/russian.gif" width=85 height=53 border=0 
+	   alt="Switch to Russian" hspace=0 vspace=0></a></td
+	 >
+	<td><a href="http://apache.lexa.ru:8100/notes.html"><img src="/buttons/koi8-r.gif" width=53 height=15 border=0 alt="koi8-r"></a><br>
+	 <a href="http://apache.lexa.ru:8101/notes.html"><img src="/buttons/windows.gif" width=53 height=13 border=0 alt="windows=1251"></a><br>
+	 <a href="http://apache.lexa.ru:8102/notes.html"><img src="/buttons/cp-866.gif" width=53 height=12 border=0 alt="cp-866"></a><br>
+	 <a href="http://apache.lexa.ru:8103/notes.html"><img src="/buttons/iso.gif" width=53 height=13 border=0 alt="iso8859-5"></a></td>
+       </tr>
+      </table>
+    </tr>
+    <tr><td>
+   <table border="0" cellspacing="0" cellpadding="0" width=574>
+    <TR><TD>
+      <table border="0" cellspacing="0" cellpadding="0" width=574>
+       <tr valign="top">
+	<td width="76" height=40><a href="/index.html"><img src="/buttons/but-ra.gif" width=76 height=40 border=0 alt="Russian Apache"></a></td>
+	<td width="84"><a href="/internals.html"><img src="/buttons/but-how.gif" width=84 height=40 border=0 alt="Как это работает"></a></td>
+	<td width="78"><a href="/notes.html"><img src="/buttons/but-recomm_.gif" width=78 height=40 border=0 alt="Рекоммендации"></a></td>
+	<td width="78"><a href="/getit.html"><img src="/buttons/but-where.gif" width=78 height=40 border=0 alt="Где взять"></a></td>
+	<td width="84"><a href="/install.html"><img src="/buttons/but-setup.gif" width=84 height=40 border=0 alt="Как установить"></a></td>
+	<td width="78"><a href="/configure.html"><img src="/buttons/but-config.gif" width=78 height=40 border=0 alt="Как настроить"></a></td>
+	<td width="95"><a href="/support.html"><img src="/buttons/but-support.gif" width=95 height=40 border=0 alt="Статус и поддержка"></a></td>
+       </tr>
+       <tr valign=top>
+	<td><a href="/intro.html"><img src="/buttons/but-short.gif" width=76 height=38 border=0 alt="Краткий обзор"></a></td>
+	<td><a href="/faq.html"><img src="/buttons/but-faq.gif" width=84 height=38 border=0 alt="FAQ"></td>
+	<td><a href="/mail-archive/"><img src="/buttons/but-archive.gif" width=78 height=38 border=0 alt="Список рассылки"></a></td>
+	<td><a href="/thanks.html"><img src="/buttons/but-thanks.gif" width=78 height=38 border=0 alt="Благодарности"></a></td>
+	<td><a href="/srch.mhtml"><img src="/buttons/but-search.gif" width=84 height=38 border=0 alt="Поиск по серверу"></a></td>
+	<td colspan=2><a href="/powered.html"><img src="/buttons/but-power.gif" width=173 height=38 border=0 alt="Powered by Russian Apache"></a></td>
+       </tr>
+   </table>
+      </TD>
+    <TD>
+    </tr>
+   </table>
+      </TD>
+</TR></TABLE>
+  </center>
+
+  <CENTER>
+   <A NAME="part5"><font size="+2">Некоторые рекомендации</font></A><br>
+   <img src="line.gif"><br>
+   для версий начиная с PL18.
+
+  </CENTER>
+
+  <font size="+4">В</font> этом документе приведены примеры наиболее 
+  распространенных конфигураций, применяемых на практике. По-хорошему, он не 
+  очень нужен т.к. все тонкости упомянуты в 
+  <a href="configure.html">описании директив конфигурации</a> и
+  <a href="internals.html">описании принципов работы</a> сервера. Однако 
+  наличие готовых примеров сильно уменьшает поток писем с просьбой о помощи.
+  <p>
+   В конце документа приведено описание <a href="#variables">переменных окружения</a>,
+   которые могут быть использованы в CGI-скриптах и <a href="#api">Russian Apache API</a> -
+   функций и макросов, которые могут быть использованы при написании собственных
+   модулей. Для модулей на Perl предусмотрен <a href="#perlapi">Russian Apache Perl API</a>.
+  <p>
+
+   Этот документ переработан с учетом новых директив конфигурации и нового 
+   поведения       сервера, появившихся в версиях PL18-PL28,
+   пользователи старых (PL12-PL16) версий могут использовать 
+   <a href="notes-old.html">старую версию этого документа</a>, хотя она и 
+   несколько  невнятная.
+  <p>
+   <font size="+3">О</font>бщая идея всех приводимых ниже примеров конфигурации
+   совершенно одинакова:
+  <OL>
+   <LI>Имеется &quot;основной&quot; сервер (www.company.ru), который 
+    автоматически распознает кодировку клиента по Accept-Charset и User-Agent. 
+    В большинстве случаев он будет правильно распознавать кодировку клиента, 
+    но получаемые таким образом
+    документы не могут быть кэшированы (т.к. одному URL соответствует различный
+    content в различных ситуациях), что осложняет работу по медленным каналам.
+   <LI>Для каждого документа основного сервера имеется некоторое количество (по
+    числу поддерживаемых кодировок) <b> &quot;виртуальных URL&quot;</b>. 
+    Содержимое
+    этих URL одинаковое, а кодировка не зависит от User-Agent (но зависит от 
+    Accept-Charset).<br>
+    Возможны несколько вариантов создания таких &quot;виртуальных URL&quot; - 
+    <a href="#virtdir">виртуальные директории</a>,
+    <a href="#virthost">виртуальные сервера с разными hostname</a> (см. также
+    пример <a href="#urihostname">упрощенной конфигурации для Apache-1.3</a>) и 
+    <a href="#virtport">виртуальные сервера, разнесенные по номерам портов</a>.
+    Каждый способ имеет свои недостатки и преимущества, выбор нужного метода
+    остается целиком на совести администратора. Во всех трех случаях, документ
+    полученный с URL с &quot;явным выбором кодировки&quot; может быть кэширован
+    как HTTP/1.0, так и HTTP/1.1-совместимыми кэшами (т.е. заголовок Expires: 
+    не ставится, а в заголовке Vary: остается только accept-charset).
+    <p>
+    Начиная с Apache-1.3.1 RUS PL26, можно использовать внешние модули определяющие
+     кодировку клиента по каким-либо параметрам и передающие название требуемой
+     кодировки в mod_charset через переменную окружения. См. 
+     <a href="#envvariable">пример использования этой возможности совместно с RewriteModule</a>.
+     
+  </OL>
+  <br>
+  Пример конфигурации основного сервера имеется в комплекте 
+  &quot;Russian Apache&quot;, далее в этом документе мы рассмотрим только
+  изменения и дополнения, которые нужно сделать в конфигурации в том или ином 
+  случае.
+
+  <p>
+  <center>
+   <A name="virtdir">
+    <font size="+2">Выбор кодировки по виртуальной директории</font></A>
+  </center>
+  При этом способе выбора кодировки, каждому документу соответствует несколько 
+  URL:
+  <OL>
+   <LI>http://www.domain/file.html - автоматический выбор кодировки
+   <LI>http://www.domain/charset-name/file.html 
+    (например - http://www.domain/koi8-r/file.html)
+    - кодировка задается префиксом директории.
+  </OL>
+  Для того, чтобы сервер работал в таком режиме, нужно либо создать 
+  псевдо-директории  как symlink:
+  <pre>
+ln -s /www/root/htdocs /www/root/htdocs/koi8-r
+etc
+  </pre>
+  либо воспользоваться директивой Alias:
+  <pre>
+Alias /koi8-r /your/www/root/htdocs
+# etc
+  </pre>
+  <p>
+   Основное достоинство этого метода заключается в его простоте, а основной 
+   недостаток состоит в том, что все ссылки между документами должны быть с 
+   относительным путем.
+   Т.е. вместо &lt;A HREF=&quot;/some&quot;&gt;, нужно писать что-то вроде 
+   &lt;A HREF=&quot;../../../some&quot;&gt; по той причине, что при переходе из
+   документа /koi8-r/file.html на ссылку /some произойдет переключение на
+   автоматическую перекодировку (для сохранения явного выбора кодировки 
+   переходить       нужно на /koi8-r/some т.е. на ../some).
+   Необходимая строгость совпадения имени кодировки и имени директории
+   задается директивой 
+   <a href="configure.html#charsetstricturimatch">CharsetStrictURIMatch</a>.
+    
+  <p>
+  <center>
+   <A name="virthost">
+    <font size="+2">Выбор кодировки по имени виртуального сервера</font></A>
+  </center>
+  При этом способе явного задания кодировки, соответствующие URL будут такими:
+  <UL>
+   <LI>http://www.domain/file.html - автоматический выбор кодировки
+   <LI>http://another-host.domain/file.html 
+    (например - http://win-www.domain/file.html) -  кодировка задается 
+    префиксом hostname и/или явной настройкой &lt;VirtualHost&gt;.
+  </UL>
+  Существуют как минимум два способа настройки сервера для работы в таком 
+  режиме:
+  <OL>
+   <LI>Если первые символы (либо host part - см директиву
+    <a href="configure.html#charsetstricturimatch">CharsetStrictURIMatch</a>
+    hostname совпадают с названием (или alias) 
+    какого-либо     charset, то (при настройке 
+    <a href="configure.html#charsetselectionorder">CharsetSelectionOrder</a>
+    по умолчанию) сервером будет выбран именно этот charset. Пример 
+    конфигурации:
+    <pre>
+&lt;VirtualHost win-www.domain.ru&gt;
+# вообще-говоря, никаких дополнительных директив не нужно
+&lt;/VirtualHost&gt;
+    </pre>
+   <LI>В-принципе, имя виртуального хоста может быть совершенно произвольным.
+    В этом случае можно использовать такую конфигурацию:
+    <pre>
+&lt;VirtualHost any.domain.ru&gt;
+CharsetSelectionOrder
+CharsetDefault windows-1251 # например
+&lt;/VirtualHost&gt;
+    </pre>
+    В этом примере использована пустая директива 
+    <b>CharsetSelectionOrder</b>т.е.
+    все способы автоматического определения кодировки (Portnumber, Hostname, 
+    Dirprefix, Useragent) выключены и документ отдается в default-кодировке. 
+    Но в случае, если
+    клиентская программа включила в запрос заголовок Accept-Charset и требуемый
+    charset известен серверу, то будет удовлетворено требование клиента. Всякое
+    другое поведение противоречит стандартам HTTP.<p>
+  </OL>
+
+  <h4 align="center">Виртуальные сервера и DNS</h4>
+  Если вы ожидаете, что на ваш сервер будут ходить HTTP/1.0-совместимые 
+  клиенты, то каждый виртуальный сервер должен иметь свой IP-адрес. Протокол 
+  HTTP/1.1 может обходиться без отдельных IP-адресов т.к. в каждом запросе 
+  должен присутствовать обязательный заголовок Host:, сообщающий серверу к 
+  какому именно   серверу обращается клиент. Заголовок Host ставят и 
+  некоторые HTTP/1.0 клиенты, но это не является обязательным их свойством.
+  <p>
+   Как следствие, для использования механизма виртуальных серверов, DNS-зона 
+   для    домена должна содержать записи типа A, а обратная 
+   (address-&gt;hostname)  зона - корректные записи типа PTR. Корректная 
+   обратная зона  <b>необходима</b> Apache-1.2.x
+   для правильной обработки HTTP/1.0 (без Host:) запросов. Версии 1.1.x были 
+   менее  требовательны к этому.
+   При этом, Apache-1.2.x (как с правками, так и без) делает все обращения к 
+   DNS в момент startup (или переконфигурации), поэтому записи в DNS должны 
+   быть    корректными на <b>момент старта сервера</b> (я бы не писал про 
+   это так много, но это - достаточно распространенные проблемы).
+  <p>
+   Более подробно об особенностях работы Apache с виртуальными серверами можно
+   прочитать прямо на 
+   <a href="http://www.apache.org">WWW-сервере проекта Apache</a>.
+  <p>
+  <center>
+   <A name="urihostname">
+    <font size="+2">Выбор кодировки по имени виртуального сервера  - упрощенный
+    вариант для Apache-1.3</font></A>
+   </center>
+  В Apache 1.3 появилась очень хорошая возможность указать виртуальному серверу принимать 
+  все запросы, hostname которых подпадает под определенную маску. Делается это командой
+  <code>ServerAlias *.www.youcompany.com</code>. Начиная с Russian Apache Pl26.0,
+  в директиве <a href="configure.html#charsetselectionorder">CharsetSelectionOrder</a> можно 
+  задать параметр <b>URIHostname</b>, который включает возможность сравнения имени
+  hostname к которому был реальный запрос с именем какого-либо charset (правило
+  <b>Hostname</b> сравнивает с именем сервера, написанным в директиве &lt;VirtualHost&gt;)
+  Пример:
+<pre>
+&lt;VirtualHost 1.2.3.4&gt;
+ServerAlias	*.www.foo.net
+&lt;/VirtualHost&gt;
+</pre>
+  При обращениях к windows-1251.www.foo.net и к koi8-r.www.foo.net клиенту будет
+  отдана соответствующая кодировка. Естественно, оба хоста должны иметь
+  соответствующие записи в DNS (достаточно CNAME).
+  <p>
+
+  <h4 align="center">Достоинства и недостатки схемы с &lt;VirtualHost&gt;
+  </h4>
+  Достоинства очевидны - все ссылки (&lt;A HREF=) в документе могут быть 
+  абсолютными. Недостатки тоже очевидны - пока существуют HTTP/1.0-совместимые
+  клиенты, не ставящие заголовок Host:, для каждого виртуального сервера 
+  необходим   свой IP-адрес и корректная настройка зон в DNS (т.е. нужен или 
+  доступ к DNS или доступ к понимающему проблему администратору). Это не 
+  является большой проблемой   для &quot;официального webmaster'а&quot;, но 
+  может являться проблемой для  администраторов персональных серверов.
+
+  <p>
+  <center>
+   <A name="virtport">
+    <font size="+2">Выбор кодировки по номеру порта</font></A>
+  </center>
+
+  При этом способе явного задания кодировки, соответствующие URL будут такими:
+  <OL>
+   <LI>http://www.domain/file.html - автоматический выбор кодировки
+   <LI>http://www.domain:port/file.html 
+    (например - http://www.domain:8001/file.html) -  кодировка задается номером
+    порта в URL (это делается директивой <b>CharsetByPort</b> 
+    и/или явной настройкой &lt;VirtualHost&gt;.
+  </OL>
+  Для того, чтобы сервер &quot;слушал&quot; (listen(2)) более чем на одном
+  TCP-порту, необходимо использовать директиву <b>Listen Portnumber</b>, 
+  например    так:
+  <pre>
+Listen 80
+Listen 8100
+Listen 8101
+# и так далее
+  </pre>
+  Директива <b>Listen 80</b> необходима т.к. наличие директивы Listen 
+  выключает директиву <b>Port</b> (точнее, при наличии Listen, Port отвечает 
+  только за  содержимое CGI-переменной SERVER_PORT). 
+  <p>
+   Для того, чтобы связать какую-то определенную кодировку с номером порта,
+   существует по меньшей мере 2 способа:
+  <OL>
+   <LI> Использование директивы 
+    <a href="configure.html#charsetbyport">CharsetByPort</a>:
+    <pre>
+Listen 80
+Listen 8100
+Listen 8101
+CharsetByPort koi8-r 8100
+CharsetByPort windows-1251 8101
+CharsetSelectionOrder Portnumber Hostname Dirprefix Useragent #default value
+    </pre>
+    При такой конфигурации кодировка будет выбираться по номеру порта для
+    всех виртуальных серверов.
+   <LI>Кодировку можно задать прямо в описании виртуального сервера:
+    <pre>
+Listen 80
+Listen 8100
+Listen 8101
+&lt;VirtualHost some.domain:8100&gt;
+CharsetDefault koi8-r
+CharsetSelectionOrder # опять пустая директива, см. выше
+&lt;/VirtualHost&gt;
+    </pre>
+    В обоих случаях для каждой пары hostname:port можно переопределить 
+    поведение; более того, все директивы могут встречаться и в файлах 
+    .htaccess т.е. возможности
+    для создания запутанной структуры сервера просто безграничны.
+  </OL>
+  <p>
+   <a name="port_notes"></a>
+   <b>Некоторые особенности работы с перекодировкой по портам</b>
+  <OL>
+   <LI>При обращении &quot;к директории&quot; с пропущенным trailing slash в 
+    URL (например <b>http://www.server.ru/directory</b>), mod_dir из 
+    apache_1.2.x
+    делает Redirect на <b>http://www.server.ru/directory/</b>. Все было бы
+    хорошо, но в случае недостаточно полно сконфигурированного сервера, код из
+    mod_dir не ставит правильный номер порта. Так при обращении к 
+    <b>http://www.server.ru:8000/directory</b> клиенту будет выдан редирект
+    на <b>http://www.server.ru/directory/</b>, что неприемлемо. 
+    &quot;Лечение&quot;
+    этой особенности возможно несколькими способами:
+    <ul>
+     <li>Apache_1.2.4 RUS PL21.1 и выше содержит правки к mod_dir, в 
+      результате номер порта всегда подставляется правильный.
+     <li>Если <b>виртуальные хосты</b> не используются, то нужно убрать из 
+      конфигурационных файлов Apache все директивы <b>Port</b> и сервер будет
+      работать корректно.
+     <li>При использовании виртуальных хостов и перекодировки по портам
+      необходимо описать директивой <b>&lt;VirtualHost&gt;</b> каждую 
+      используемую  пару Host:port. Как-то так:
+      <pre>
+&lt;VirtualHost host1:80&gt;
+# тут можно ничего не писать, хотя для настоящих VirtualHost придется 
+# продублировать по меньшей мере директивы DocumentRoot
+&lt;/VirtualHost&gt;
+&lt;VirtualHost host1:8100&gt;
+...
+&lt;/VirtualHost&gt;
+&lt;VirtualHost host2:80&gt;
+...
+&lt;/VirtualHost&gt;
+&lt;VirtualHost host2:8100&gt;
+...
+&lt;/VirtualHost&gt;
+      </pre>
+    </ul>
+    Наверное, первый из перечисленных способов - самый простой.<br>
+   <li>Директивы класса 
+    <a href="http://www.apache.org/docs/mod/mod_alias.html#redirect">Redirect</a> 
+    (Redirect, RedirectTemp, RedirectPermanent) требуют задания последним
+    параметром <b>полного URL</b> на который нужно делать редирект. Понятно, 
+    что при использовании перекодировки по номеру порта использование 
+    <b>Redirect*</b> неудобно или невозможно. Вместо этих директив 
+    предлагается использовать директиву 
+    <a href="configure.html#charsetsoftredirect">CharsetSoftRedirect</a>
+    последний аргумент которой - URL относительно <b>ServerRoot</b> т.е. 
+    hostname сервера и порт будут подставлены на runtime и будут правильными
+  </ol>
+
+  <p>
+   <b>Достоинства схемы:</b>
+  <OL>
+   <LI>Все ссылки в пределах сервера могут быть абсолютными.
+   <LI>Не расходуются дефицитные IP-адреса.
+  </OL>
+  <b>Недостатки:</b>
+  <OL>
+   <LI>При работе через фильтрующий firewall (packet filter) необходимо 
+    открывать большее число портов чем обычно. Это может стать проблемой в 
+    случае, когда 	администратор WWW и администратор firewall - разные 
+    люди.
+   <LI>Так как &quot;по сложившейся традиции&quot; для WWW-серверов с явной 
+    перекодировкой по номеру порта используются порты с номером больше 1024 
+    (чаще всего - 8000-800x, 8080-8080x и так далее), а такие порты на UNIX 
+    может 	открывать и непривилегированный пользователь, то возможны 
+    некоторые проблемы с security. Т.е. потенциальный &quot;взломщик&quot; 
+    может дождаться момента, когда основной сервер не запущен и запустить 
+    свой fake сервер на тех же портах.	Это не является сколько-нибудь 
+    серьезной проблемой, но забывать об этом не следует
+    (workaround - выбирать порты с номером меньшим 1024).
+  </OL>
+  <center>
+   <font size="+2">Использование выбора кодировки по портам вместе с директивой
+    &lt;VirtualHost&gt;</font>
+   <A NAME="port_and_vhost"></a>
+  </center>
+  <p>
+   Как выясняется, у администраторов WWW-серверов, желающих использовать такую
+   схему работы, когда
+  <UL>
+   <LI>кодировка клиента задается по номеру порта;
+   <LI>директива &lt;VirtualHost&gt; используется для своей первоначальной цели -
+    размещения нескольких виртуальных серверов на одной машине,
+  </UL>
+  часто возникает одна и та же проблема - при обращении к default-порту все
+  абсолютно нормально, а при обращении к любому другому - показывается содержимое
+  основного сервера (правда в желаемой кодировке).<p>
+   Это поведение не является свойством &quot;Russian Apache&quot;, а является
+   &quot;feature&quot; Apache-1.2.x и описано в документации к оригинальному 
+   Apache. Для того, чтобы добиться желаемого поведения, директиву 
+   &lt;VirtualHost&gt; нужно  использовать в виде
+  <pre>
+&lt;VirtualHost www.some.domain:*&gt;
+  </pre>
+  т.к. по умолчанию директива &lt;VirtualHost&gt; &quot;имеет отношение&quot; 
+  только    к порту, заданному директивой <b>Port</b>. Смотри также замечания 
+  <a href="#port_notes">выше</a>.
+  <p>
+   <i>
+    Внимание. Apache-1.2.0...1.2.5 содержит ошибку при работе с 
+    &quot;Host: -based&quot; virtual hosts (т.е. работающими на одном 
+    IP-адресе), которая приводит к тому, что конструкции &lt;VirtualHost 
+    host.domain&gt; и &lt;VirtualHost host.domain:*&gt;
+    эквивалентны т.е. &lt;VirtualHost&gt; не работает на портах иных, чем 
+    заданный директивой <b>Port</b>. Это явная ошибка, ее описание и патч уже 
+    отосланы Apache-Team, но пока это не починено в оригинальной версии можно 
+    пользоватьсяRussian Apache PL20.5 (или новее), где эта ошибка исправлена.
+    Эта ошибка исправлена и в Apache-1.2.6.
+   </i>
+  <p>
+
+  <center>
+   <A name="envvariable">
+    <font size="+2">Задание кодировки другими модулями</font></A>
+  </center>
+  Начиная с версии PL26.0, Russian Apache может взаимодействовать с другими модулями
+  определения кодировки клиента. При этом mod_charset будет заниматься только перекодировкой.
+  Для этого &quot;другие модули&quot; должны установить переменную окружения FORCE_CHARSET
+  в значение, равное имени одного из charset, известных Russian Apache (для Apache-hackers -
+  переменная выбирается из таблицы r-&gt;subprocess_env). Это может делать любой модуль,
+  он должен сработать раньше, чем mod_charset. 
+  <p>
+   В поставке оригинального Apache-1.3 есть три модуля, которые могут устанавливать
+   переменные окружения - mod_env, mod_setenvif и mod_rewrite. Первый из них неинтересен -
+   он ставит заданные переменные всегда. Два других позволяют добиться функциональности,
+   которой нет в mod_charset. Примеры:
+  <ul>
+   <li> Например, мы хотим отдавать документы пользователю, пришедшему по ссылке с www.foo.com
+    в кодировке koi8-r. Это делается директивой SetEnvIf модуля
+    <a href="http://www.apache.org/docs/mod/mod_setenvif.html#setenvif">mod_setenvif</a>:
+<pre>
+SetEnvIf Referer www\.foo\.com FORCE_CHARSET=koi8-r
+</pre>
+    <li>
+    Допустим, все URL вида /windoze/some/file.html должны быть отданы в кодировке
+    windows-1251 и с &quot;откушенным&quot; префиксом /windoze. Конечно, это может быть
+    сделано через набор директив &lt;Location&gt; и Alias, но гораздо красивее
+    выглядит решение при помощи
+    <a href="http://www.apache.org/manual/mod/mod_rewrite.html">mod_rewrite</a>:
+<pre>
+RewriteEngine On
+RewriteRule /windoze/(.*) /$1 [E=FORCE_CHARSET:windows-1251]
+</pre>
+    
+    <p><b>Внимание.</b> Момент &quot;срабатывания&quot; этого механизма зависит от
+       директивы <a href="configure.html#charsetselectionorder">CharsetSelectionOrder</a>.
+       По-умолчанию, имя сервера и номер порта имеют больший приоритет, чем переменная
+       окружения.
+  <p>
+
+  <center>
+   <font size="+2">Какой способ выбрать ?</font>
+  </center>
+  <font size="+3">Н</font>а мой взгляд, перекодировка &quot;по префиксу 
+  директории&quot; наиболее удобна      для небольших (по содержанию) 
+  серверов - таких, где за содержимым следят один-два
+  человека (в этом случае легко соблюсти требование относительности ссылок).
+  <br>
+  Перекодировка &quot;по имени виртуального сервера&quot; удобна в случае, 
+  когда  ведется на самом деле один (по содержанию) сервер.<br> 
+  Перекодировка &quot;по номеру
+  порта&quot; будет удобной, когда на одном компьютере сосуществуют несколько
+  разных по содержанию серверов. В этом случае выбор содержания будет 
+  производиться
+  по имени виртуального сервера, а требуемая перекодировка - по номеру порта. 
+
+  <p>
+  <center>
+   <font size="+2">Прочие замечания</font>
+  </center>
+    <dl>
+     <dt><font size="+1">Language negotiation</font><br></dt>
+     <dd>
+      В <a href="notes-old.html">старой версии этого документа</a> 
+      рекомендовалось
+      использовать имеющийся в Apache механизм Language-negotiation. Эта 
+      рекомендация остается верной и сейчас - при настройках по-умолчанию 
+      сервер выдает строчку charset=... в заголовке Content-Type только если 
+      язык документа (описываемый директивой <b>AddLanguage</b>) совпадает с 
+      языком, описанным для данного charset директивой 
+      <a href="configure.html#charsetdecl">CharsetDecl</a> 
+      (если быть точным, то дистрибутивный конфигурационный файл предлагает
+      по-умолчанию ровно обратное поведение - выдачу charset= для всех 
+      документов).
+      Для изменения этого поведения можно использовать директиву
+      <a href="configure.html#charsetmatchlanguage">CharsetMatchLanguage</a>.
+      В то же время, существуют некоторые проблемы, возникающие при использовании
+      механизма language negotiation, о которых необходимо упомянуть:
+      <OL>
+       <LI>Netscape Communicator 4.0x по-умолчанию посылает заголовок
+	<pre>
+Accept-Language: en
+	</pre>
+	Если при обращении к документу /some/file.html у вас такого документа 
+	нет,  а есть документ /some/file.html.ru, то сервер скажет (на чистом 
+	английском), что документа на запрошенном  языке нет, но есть документ 
+	с language=ru. Это совершенно верное с точки зрения стандартов 
+	поведение, но не следует ожидать, что все пользователи Netscape 
+	Communicator кинутся его перенастраивать на 
+	<b>Accept-Language: ru</b>, хотя такая возможность в этой программе 
+	имеется.
+       <LI>Директива <b>ScriptAlias</b> в Apache-1.2 несовместима с механизмом
+	Language negotiation и <b>Option MultiViews</b> с ней не работает. 
+	Для этой директивы есть простая замена. Вместо 
+	<pre>
+ScriptAlias /cgi-bin/ /where/your/cgi-bin
+&lt;Directory /where/your/cgi-bin&gt;
+AllowOverride None
+Options None MultiViews
+&lt;/Directory&gt;
+	</pre>
+	(как в оригинальной конфигурации Apache-1.2), нужно конфигурировать 
+	сервер	    так:
+	<pre>
+Alias /cgi-bin/ /where/your/cgi-bin
+&lt;Directory /where/your/cgi-bin&gt;
+AllowOverride None
+Options ExecCGI MultiViews
+SetHandler cgi-script
+&lt;/Directory&gt;
+	</pre>
+       <LI>Документы, имеющие только Language-specific extension (например, 
+	README.ru) не являются предметом Language Negotiation (т.е. запрос 
+	вида GET /README  с языком ru не будет удовлетворен). Аналогичная 
+	проблема имеется с документами, для которых не описан Content-Type 
+	(т.е. расширения которых не упоминаются в файле mime.types и в 
+	директивах AddType).
+      </OL>
+      <p>
+     </dd>
+     <dt>
+      <font size="+1">Content-type и CGI-скрипты</font><br></dt>
+     <dd>
+      Сервер <b>сам</b> ставит строку <i>charset=CHARSET_NAME</i> в 
+      окончательную выдачу документа клиенту. Поэтому об этом не нужно 
+      беспокоиться.
+      <p>
+     </dd>
+     <dt><font size="+1">Русские имена файлов</font><br></dt>
+     <dd>
+      Вообще, использование русских имен файлов - потенциальный источник всяких
+      странностей. Есть ряд причин, по которым эти имена трудно обрабатывать в 
+      <b> Russian Apache</b>, останавливаться на которых я сейчас не буду. 
+      После некоторого обсуждения,
+      <a href="mailto:apache-rus@apache.lexa.ru">общество</a>
+      решило, что простейшим решением будет вовсе не перекодировать имена файлов 
+      при обработке запроса. Т.к. в старых версиях поведение по-умолчанию было 
+      иным (имена файлов перекодировались, но слишком поздно), то пришлось 
+      сделать для этого специальную директиву <b>CharsetRecodeFilenames</b>. 
+      Таким образом, чтобы создавать файлы с русскими именами вам необходимо:<ul>
+       <li>Выключить перекодировку имен файлов директивой 
+	<b>CharsetRecodeFilenames Off</b>
+       <li>Все буквы не из US-ASCII кодировать в именах этих файлов как %aa
+	(т.е. вместо файл.html писать %c6%c1%ca%cc.html)
+       <li>Если вы используете CGI с русскими именами, то правильное имя скрипта
+	будет лежать в переменной $SCRIPT_NAME, а $REQUEST_URI будет 
+	перекодирован целиком. Т.е. чтобы сделать 
+	&quot;ссылку на самого себя&quot; нужно писать
+	${SCRIPT_NAME}?${QUERY_STRING}, а не ${REQUEST_URI}
+      </ul>
+      А вообще, русские имена файлов создают больше проблем, чем решают.
+     </dd>
+     <dt><p></dt><dd><p></dd>
+    </dl>
+
+    <center>
+     <font size="+2">Переменные окружения</font>
+     <a name="variables"></a>
+    </center>
+
+    <b>Russian Apache</b> добавляет переменные окружения, которые доступны
+    из CGI-скриптов и модулей. Полный список таков:
+    <ul>
+     <li>CHARSET - официальное название кодировки клиента, заданное директивой
+      <a href="configure.html#charsetdecl">CharsetDecl</a>
+     <li>SOURCE_CHARSET - кодировка документа (скрипта) - та кодировка, в которой
+      сервер ожидает получить документ перед отправкой его клиенту.
+     <li>CHARSET_SERVER_NAME - имя сервера в формате www.domain:port -
+      переменная добавлена т.к. стандартная переменная HTTP_HOST не всегда
+      корректно работает (она повторяет то, что клиент передал в заголовке Host:).
+     <li>CHARSET_SERVER_PORT - реальный (используемый в данный момент) номер
+      порта (значение стандартного HTTP_PORT совпадает со значением директивы
+      Port в конфигурации сервера).
+     <li>CHARSET_SERVER_METHOD - http:// или https://
+    </ul>
+    Использование последних трех переменных позволяет, например, делать 
+    корректные редиректы из скрипта.
+
+    <center>
+     <font size="+2">Russian Apache API</font>
+     <a name="api"></a>
+    </center>
+    При разработке собственных модулей бывает необходимо использовать функциональность,
+    уже существующую в Russian Apache - например перекодировать какую-то строку из
+    кодировки сервера в кодировку клиента. Естественно, можно использовать все не-static
+    функции из mod_charset, но для некоторых из них гарантировано, что их интерфейс не
+    будет меняться (по мере сил, естественно :)<p>
+
+     <b>Russian Apache API</b> включен в Russian Apache PL27.0 и выше.
+
+     <b>Russian Apache API</b> включает в себя такие макросы, вызовы и т.п.:
+    <ul>
+     <li>Заголовочный файл - mod_charset.h. Расположен в src/modules/extra/mod_charset.h.
+     <li>Defines:
+      <ul>
+       <li>RUSSIAN_APACHE - определена, если сервер собирается вместе с mod_charset.
+       <li>MOD_CHARSET_MAGIC - определяет версию API. Текущая (она же - первая) версия
+	имеет номер 19981025. Подразумевается, что более новые версии Russian Apache API 
+	включают в себя старые версии без изменений.
+      </ul>
+     <li>Вызовы функций:
+	Все вызовы функций получают в качестве первого параметра текущий запрос
+	(<code>request_rec* r</code>). Все они могут вызываться только после стадии
+	обработки fixup т.е. в момент выдачи ответа клиенту в противном случае они
+	возвращают 0 или NULL (в зависимости от типа возвращаемого значения) и никаких
+	других действий не производят.<br>
+	Список функций:
+	<ol>
+
+	 <li><code>int ra_charset_ok(request_rec *r);</code> - возвращает 1, если
+	  mod_charset уже успешно обработал этот запрос т.е определил кодировку
+	  сервера и клиента. В противном случае возвращается 0.<p>
+	 <b>Эту функцию нужно вызывать для каждого нового запроса по меньшей мере один раз.
+	  В случае, если ra_charset_ok()==0, все прочие функции API могут вернуть 0 или
+	  NULL и не надо этому удивляться.</b>
+	<p>
+	 <li><code>int ra_no_of_charsets(request_rec *r);</code> - возвращает
+	  число различных charsets, известных серверу.
+
+	 <li><code>char * ra_charset_name(request_rec *r, int n);</code> - возвращает
+	  имя charset номер n (считая от нуля) в виде указателя на zero-terminated string.
+
+	 <li><code>int ra_charset_index(request_rec *r, const char* charset);</code> 
+	номер charset, если он известен серверу и -1 в противном случае.
+	
+	 <li><code>char * ra_server_charset(request_rec *r);</code> - возвращает имя
+	  charset сервера (т.е. кодировку в которой mod_charset рассчитывает получить данные
+	  от модуля/скрипта/из файла). Возвращаемое значение совпадает с значением
+	  CGI-переменной SOURCE_CHARSET.
+
+	  <li><code>char * ra_client_charset(request_rec *r);</code> - возвращает имя
+	  кодировки клиента.
+	</ol>
+      <p>
+      <font size="+1">Функции, осуществляющие перекодировку</font><p>
+       Все эти функции помещают перекодированную строку во внутренний storage в структуре
+       request_rec, поэтому каждый последующий вызов портит предыдущие перекодированные 
+       данные. Соответствено, если перекодированные данные будут нужны после следующего
+       вызова ra_str_*/ra_data_*, необходимо самому скопировать результаты предшествующей
+       перекодировки в сухое и темное место. Данные, перекодирумые функциями client2server
+       и server2client хранятся в независимых storage.
+       
+       <ol start=7>
+	  <li><code>char *ra_str_client2server(request_rec *r, const char* str);</code> -
+	  перекодирует zero-terminated строку <code>str</code>из кодировки клиента в кодировку 
+	  сервера  и возвращает указатель на перекодированную 
+	  строку. 
+	  Перекодировка производится &quot;по байтам&quot;, конструкции вида %AA не перекодируются.
+
+	  <li><code>char *ra_str_server2client(request_rec *r, const char* str);</code> -
+	  перекодирует zero-terminated строку <code>str</code>из кодировки сервера в кодировку 
+	  клиента и возвращает указатель на перекодированную 
+	  строку. 
+	  Перекодировка производится &quot;по байтам&quot;, конструкции вида %AA не перекодируются.
+	
+	
+	  <li><code>char *ra_str_client2server_esc(request_rec *r, const char* str);</code> -
+	  перекодирует zero-terminated строку <code>str</code>из кодировки клиента в кодировку 
+	  сервера  и возвращает указатель на перекодированную 
+	  строку. 
+	  Эта функция корректно перекодирует escaped-конструкции вида %AA, причем в результирующей
+	  строке на их место тоже будут вставлены escaped-символы.
+
+	  <li><code>char *ra_str_server2clien_esc(request_rec *r, const char* str);</code> -
+	  перекодирует zero-terminated строку <code>str</code>из кодировки сервера в кодировку 
+	  клиента  и возвращает указатель на перекодированную 
+	  строку. 
+	  Эта функция корректно перекодирует escaped-конструкции вида %AA, причем в результирующей
+	  строке на их место тоже будут вставлены escaped-символы.
+	  
+	  <li><code>void ra_data_client2server(request_rec *r, const unsigned char* data, unsigned int nbytes, unsigned char **result, unsigned int *rnbytes);</code> -
+	  перекодирует nbytes данных, переданных указателем data. Возвращает указатель
+	  на перекодированные данные  в *result, в *rnbytes
+	  помещается длина перекодированных данных (она может быть другой в общем случае).
+	  Перекодировка производится из кодировки клиента в кодировку сервера.
+
+	  <li><code>void ra_data_server2client(request_rec *r, const unsigned char* data, unsigned int nbytes, unsigned char **result, unsigned int *rnbytes);</code> -
+	  перекодирует nbytes данных, переданных указателем data. Возвращает указатель
+	  на перекодированные данные в *result, в *rnbytes
+	  помещается длина перекодированных данных (она может быть другой в общем случае).
+	  Перекодировка производится из кодировки сервера в кодировку клиента.
+	
+       <li><code>void ra_data_server2client_esc(request_rec *r, const unsigned char* data, unsigned int nbytes, unsigned char **result, unsigned int *rnbytes);</code><br>
+	  <code>void ra_data_server2client_esc(request_rec *r, const unsigned char* data, unsigned int nbytes, unsigned char **result, unsigned int *rnbytes);</code>
+	  - аналогично двум предшествующим функциям, но с корректной обработкой %AA-escapes.
+	
+	<li><code>char *ra_recode_str(request_rec *r, pool *p, const char *charset_from, const char *charset_to, const char *str)</code><br>
+	Перекодирует строку str из charset_from в charset_to, возвращает перекодированную
+	строку. Если для данного сочетания charsets сервер не знает таблиц перекодировки,
+	то возвращает NULL.
+	Результаты перекодировки хранятся в pool *p.
+	Не поддерживает "широкие" таблицы перекодировки (т.е. translit).
+	<li><code>char *ra_recode_str_esc(const char *charset_from, const char *charset_to, const char *str)</code><br>
+	Перекодирует строку str из charset_from в charset_to, возвращает перекодированную
+	строку. Если для данного сочетания charsets сервер не знает таблиц перекодировки,
+	то возвращает NULL. Корректно преобразует %AA-escapes.
+	Результаты перекодировки хранятся в pool *p.
+	Не поддерживает "широкие" таблицы перекодировки (т.е. translit).
+	<li><code>void ra_recode_data(const char *charset_from, const char *charset_to, const unsigned char *data, const unsigned datalen,unsigned char ** result, unsigned int *rlen)</code><br>
+	Перекодирует данные data из charset_from в charset_to, возвращает перекодированные
+	данные в *result, их длину - в *rlen.
+	Если для данного сочетания charsets сервер не знает таблиц перекодировки,
+	то возвращает NULL.
+	Результаты перекодировки хранятся в pool *p.
+	Не поддерживает "широкие" таблицы перекодировки (т.е. translit).
+	<li><code>void ra_recode_data_esc(const char *charset_from, const char *charset_to, const unsigned char *data, const unsigned datalen,unsigned char ** result, unsigned int *rlen)</code><br>
+	Перекодирует данные data из charset_from в charset_to, возвращает перекодированные
+	данные в *result, их длину - в *rlen.
+	Если для данного сочетания charsets сервер не знает таблиц перекодировки,
+	то возвращает NULL. Корректно преобразует %AA-escapes.
+	Результаты перекодировки хранятся в pool *p.
+	Не поддерживает "широкие" таблицы перекодировки (т.е. translit).
+	</ol>
+    </ul>
+    <p>
+    <center>
+     <font size="+2">Russian Apache Perl API</font>
+     <a name="perlapi"></a>
+     </center>
+     Perl API находится в стадии разработки, но в общих чертах повторяет C API.
+     Модуль для <a href="http://perl.apache.org">mod_perl</a>, реализующий 
+     Perl API будет доступен после выхода Russian Apache PL27.0
+
+    <p><p>
+     <hr>
+     Если у вас есть замечания, изменения или дополнения к этому документу,
+     присылайте их прямо <a href="mailto:lexa@lexa.ru">автору</a>.
+    <p>
+    <hr>
+   <center>
+<table width=90% cellspacing=0 celpadding=0 bgcolor="#aaaaaa">
+<tr><td>
+<table width=100% cellspacing=4 celpadding=4 bgcolor="#eeeeee">
+<tr><td ><div class=adv>
+  <A HREF="http://www.zagdoma.ru/">проекты загородных домов</A>
+  <a href="http://www.depo.ru/">компьютеры DEPO Ego</a>
+  <a href="http://www.strahovka-news.ru/">Страхование КАСКО</a>
+  <a href="http://www.tehnoklimat.ru/">кондиционеры, сплит-системы</a>
+</div>
+</td></tr></table>
+</td></tr></table>
+</center>
+ 
+    
+<br>
+<br>
+
+<center>
+<table width=100%>
+<tr><td align=center>
+<font size="-1">
+   <a href="/index.html">[ <b>Russian Apache</b> ]</a>
+   <a href="/internals.html">[ Как это работает ]</a>
+   <a href="/notes.html">[ Рекомендации ]</a> 
+   <a href="/getit.html">[ Где взять ]</a> 
+   <a href="/install.html">[ Как установить ]</a>
+   <a href="/configure.html">[ Как настроить ]</a><br>
+   <a href="/support.html">[ Статус и поддержка ]</a>
+   <a href="/intro.html">[ Краткий обзор ]</a>
+   <a href="/faq.html">[ FAQ ]</a> 
+   <a href="/mail-archive/">[ Список рассылки ]</a>
+   <a href="/thanks.html">[ Благодарности ]</a>
+   <a href="/search.html">[ Поиск по серверу ]</a><br>
+   <a href="/powered.html">[ Powered by Russian Apache ]</a><br>
+</td></tr></table>
+<br>
+
+  <table width="800" border="0" cellspacing="0" cellpadding="0">
+   <tr>
+    <td align="CENTER">
+  <font size="-1"><b>"Russian Apache"</b> includes software developed 
+   by the Apache Group for use in the Apache HTTP server project 
+   (http://www.apache.org/) See 
+   <a href="/thanks.html#LICENSE">Apache LICENSE</a>.<br>
+   Copyright (C) 1995-2001 The Apache Group. All rights reserved.<br>
+   Copyright (C) 1996 Dm. Kryukov; Copyright (C)
+   1997-2002 <a href="http://www.lexa.ru/">Alex Tutubalin</a>. Design (C) 1998 Max Smolev.
+	    </font>
+	  </td>
+       <td width=10></td>   
+         <td valign=top>
+<a href="http://counter.rambler.ru/top100/"><FONT size=1>[AD]</FONT><AD- =0></a>
+          </td>    
+	</tr>
+      </table>
+</center>
+
+ </body>
+</html>
+ 
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: html3
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:1
+sgml-indent-data:t
+End:
+-->

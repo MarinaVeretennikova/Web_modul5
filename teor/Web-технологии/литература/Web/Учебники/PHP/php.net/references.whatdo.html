@@ -1,0 +1,50 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>Что Делают Ссылки</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR>
+<TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="references.html">Назад</A></TD><th WIDTH="80%">Глава 14. Ссылки. Разъяснения.</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="references.arent.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR>
+</TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD>
+<TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%"><H1><a name="language.references.whatdo">Что делают ссылки</a></H1>
+<P>Ссылки в PHP дают возможность двум переменным ссылаться на одно содержимое.<br>Если вы:</p><A NAME="AEN5555"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$a =&#38; $b</PRE></TD></TR></TABLE><p>это означает, что <TT>$a</TT> и <TT>$b</TT> указывают
+на одну и ту же переменную.</p><BLOCKQUOTE><P><B>Примечание: </B><TT>$a</TT> и <TT>$b</TT> здесь
+абсолютно эквивалентны, но это не означает, что <TT>$a</TT> указывает на <TT>$b</TT> или наоборот.
+Это означает, что <TT>$a</TT> и <TT>$b</TT> указывают на одно место.</P></BLOCKQUOTE>
+<P>Такой же синтаксис можно использовать в функциях, возвращая ссылки, и в 
+операции <TT>new</TT> 
+(в PHP 4.0.4 и позднее):</p><A NAME="AEN5569"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>$bar =&#38; new fooclass();
+$foo =&#38; find_var ($bar);</PRE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+  если не использовать операцию <TT>&#38;</TT>, это приведёт к копированию объекта. Если вы используете
+<TT>$this</TT> в классе, операция проводится над текущим экземпляром этого класса. Присвоение 
+без <TT>&#38;</TT> копирует экземпляр (например, данный объект), а <TT>$this</TT>
+работает с этой копией, что не всегда желательно. Обычно вам нужно иметь один 
+экземпляр для работы, из соображений производительности и использования памяти.</P>
+<P>Хотя вы можете использовать операцию <TT>@</TT> для <i>скрытия</i> любых ошибок в конструкторе
+при использовании её как <TT>@new</TT>, это не сработает в операторе <TT>&#38;new</TT>.
+Это ограничение Zend-Машины, нарушение которого приводит к ошибке разборщика.</P></BLOCKQUOTE>
+<P>Второе, что делают ссылки - передают переменные по ссылке. При этом 
+локальная переменная в функции и переменная в области видимости вызывателя ссылаются на одно и то же содержимое. Пример:</p><A NAME="AEN5583"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>function foo (&#38;$var)
+{
+    $var++;
+}
+
+$a=5;
+foo ($a);</PRE></TD></TR></TABLE><p>присвоит <TT>$a</TT> значение 6. Это происходит, потому
+что в функции <TT>foo</TT> переменная <TT>$var</TT> ссылается на то же содержимое, что и переменная
+<TT>$a</TT>. См. также детальное объяснение <a href="references.pass.html">передачи по ссылке</a>.</p>
+<P>Третье, что могут ссылки - <a href="references.return.html"> возвращают значение по ссылке</a>.</P>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="references.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="references.arent.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Ссылки. Разъяснения.</TD>
+<th WIDTH="34%" VALIGN="top"><a href="references.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Чем ссылки не являются</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

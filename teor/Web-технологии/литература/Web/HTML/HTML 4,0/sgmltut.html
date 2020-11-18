@@ -1,0 +1,522 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="ru">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Windows-1251">
+<title>Об SGML и HTML</title>
+<LINK rel="previous" href="intro.html" tppabs="http://www.citforum.ru/internet/html40/intro/intro.html">
+<LINK rel="next" href="conform.html" tppabs="http://www.citforum.ru/internet/html40/conform.html">
+<LINK rel="contents" href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">
+<LINK rel="STYLESHEET" href="tppmsgs/msgs0.htm#18" tppabs="http://www.citforum.ru/internet/html40/style/default.css" type="text/css">
+</head>
+<body>
+<div class="navbar">
+<center>&nbsp;<a href="intro.html" tppabs="http://www.citforum.ru/internet/html40/intro/intro.html">назад</a> &nbsp; <a href="conform.html" tppabs="http://www.citforum.ru/internet/html40/conform.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center><hr>
+</div>
+
+<h1 align="center"><a name="h-3">3</a> Об SGML и HTML</h1>
+<div class="subtoc"><p><strong>Содержание</strong>
+<ol>
+<li><a href="#h-3.1">Введение в SGML</a>
+<li><a href="#h-3.2">Конструкции SGML, используемые в HTML</a>
+<ol>
+<li><a href="#h-3.2.1">Элементы</a>
+<li><a href="#h-3.2.2">Атрибуты</a>
+<li><a href="#h-3.2.3">Ссылки на символы</a>
+<li><a href="#h-3.2.4">Комментарии</a>
+</ol>
+<li><a href="#h-3.3">Как читать HTML DTD</a>
+<ol>
+<li><a href="#h-3.3.1">Комментарии DTD</a>
+<li><a href="#h-3.3.2">Определения комбинаций параметров</a>
+<li><a href="#h-3.3.3">Объявления элементов</a>
+<ul>
+<li><a href="#h-3.3.3.1">Определения модели содержимого</a>
+</ul>
+<li><a href="#h-3.3.4">Объявления атрибутов</a>
+<ul>
+<li><a href="#h-3.3.4.1">Комбинации DTD в определениях атрибутов</a>
+<li><a href="#h-3.3.4.2"><span class="index-def" title="boolean
+attribute|attribute::boolean"><dfn>Логические атрибуты</dfn></span></a>
+</ul>
+</ol>
+</ol>
+</div>
+
+<P>В этом разделе документа Вы познакомитесь с <span class="index-inst"
+title="SGML::introduction to"><a name="idx-SGML-4">SGML</a></span> и узнаете о его отношении к HTML. Полное описание SGML не входит в этот стандарт (см. <a rel="biblioentry" href="references.html#ref-ISO8879" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-ISO8879" class="normref">[ISO8879]</a>).
+
+<h2><a name="h-3.1">3.1</a> <a>Введение в SGML</a></h2>
+
+<P>SGML - это система определения <span class="index-def"
+title="markup language"><a name="didx-markup_language">языков разметки</a></span>.  Авторы <span class="index-def" title="markup"><a name="didx-markup"><dfn>размечают</dfn></a></span> свои документы, представляя информацию о структуре, представлении и семантике в одном документе. HTML является одним из примеров языка разметки. Вот пример документа на языке HTML:
+
+<div class="example"><P>
+<PRE>
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+     "http://www.w3.org/TR/REC-html40/strict.dtd"&gt;
+&lt;HTML&gt;
+   &lt;HEAD&gt;
+      &lt;TITLE&gt;Мой первый документ на языке HTML&lt;/TITLE&gt;
+   &lt;/HEAD&gt;
+   &lt;BODY&gt;
+      &lt;P&gt;Всем привет!
+   &lt;/BODY&gt;
+&lt;/HTML&gt;
+</PRE>
+
+<P>Документ HTML состоит из раздела заголовка (здесь - между тэгами
+&lt;HEAD&gt; и &lt;/HEAD&gt;) и тела (здесь - между заголовками &lt;BODY&gt; и &lt;/BODY&gt;). Заголовок документа отображается в заголовке (вместе с другой информацией о документе), а содержимое документа находится в теле. В этом примере тело документа состоит только из одного абзаца, помеченного &lt;P&gt;.
+</div>
+
+<P>Каждый язык разметки, определенный в SGML, называется <span
+class="index-def" title="SGML::application"><a name="didx-SGML"><dfn>приложением SGML</dfn>.</a></span> Приложение SGML характеризуется:
+
+<ol>
+<li><a href="sgmldecl.html" tppabs="http://www.citforum.ru/internet/html40/sgml/sgmldecl.html">Объявлением SGML</a>.  <span class="index-def" title="SGML::declaration"><a name="didx-SGML-1"><dfn>SGML
+Объявление</dfn></a></span> указывает, какие символы и разделители могут отображаться в приложении.
+
+<li><a href="dtd.html" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html"><dfn>Определение типа документа (DTD)</dfn>
+(DTD)</a>. <span class="index-def" title="document type
+definition|SGML::document type definition (DTD)"><a name="didx-document_type_definition">DTD</a></span> определяет синтаксис конструкций разметки. DTD может включать дополнительные определения, например, <a href="#character-entities">ссылки на комбинации символов</a>.
+
+<li>Спецификация, описывающая семантику, используемую в разметке. Эта спецификация также налагает синтаксические ограничения, которые невозможно выразить при помощи DTD.
+
+<li>Экземпляры документа содержат данные (содержимое) и разметку.
+Каждый экземпляр содержит ссылку на DTD, которое должно использоваться для интерпретации.
+</ol>
+
+<p>Спецификация HTML 4.0 включает <a href="sgmldecl.html" tppabs="http://www.citforum.ru/internet/html40/sgml/sgmldecl.html">объявление SGML </a>, три определения типа документов (описание их см. в разделе <a href="global.html" tppabs="http://www.citforum.ru/internet/html40/struct/global.html">информация о версии HTML </a>) и список <a href="#character-entities">ссылок на символы</a>.
+
+<h2><a name="h-3.2">3.2</a> <a>Конструкции SGML, используемые в HTML</a></h2>
+
+<P>В следующих разделах Вы познакомитесь с конструкциями SGML, используемыми в HTML.
+
+<P>В приложении перечислены некоторые <a href="notes.html#sgmlfeatures" tppabs="http://www.citforum.ru/internet/html40/appendix/notes.html#sgmlfeatures">функции SGML</a>, которые не поддерживаются средствами HTML и агентами пользователей, и использования которых следует избегать.
+
+<h3><a name="h-3.2.1">3.2.1</a> Элементы</h3>
+
+<p><a href="dtd.html" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html">Определение типа документа</a>
+SGML объявляет <span class="index-def" title="element::types"><a name="didx-element"><dfn>типы элементов</dfn></a></span>, представляющие структуры или желательное поведение. HTML включает типы элементов, представляющие абзацы, гипертекстовые ссылки, списки, таблицы, изображения и т.д.
+
+<P>Каждое <span class="index-def" title="SGML::element type
+declaration|element::type declaration"><a name="didx-SGML-3"><dfn>объявление типа элемента</dfn></a></span> обычно включает три части: начальный тэг,
+содержимое и конечный тэг.
+
+<p>Имя элемента отображается в <span class="index-def"
+title="element::start tag|start tag"><a name="didx-element-2"><dfn>начальном тэге</dfn></a></span> (пишется <samp>&lt;имя-элемента&gt;</samp>) и в <span class="index-def" title="element::end tag|end tag"><a name="didx-element-3"><dfn>конечном тэге</dfn></a></span> (пишется <samp>&lt;/имя-элемента&gt;</samp>); не забывайте про слеш перед именем элемента в конечном тэге. Например, начальные и конечные тэги элемента <a href="lists.html#edef-UL" tppabs="http://www.citforum.ru/internet/html40/struct/lists.html#edef-UL" class="noxref"><samp class="einst">UL</samp></a> определяют список:
+
+<div class="example"><P>
+<PRE>
+&lt;UL&gt;
+&lt;LI&gt;&lt;P&gt;<em>...элемент списка 1...</em>
+&lt;LI&gt;&lt;P&gt;<em>...элемент списка 2...</em>
+&lt;/UL&gt;
+</PRE>
+</div>
+
+<p>Некоторые типы элементов HTML позволяют авторам <span class="index-inst" title="element::omitted end tag|end tag::omitted"><a name="idx-element-8">опускать</a></span> конечные тэги (например, типы элементов <a href="text.html#edef-P" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-P" class="noxref"><samp class="einst">P</samp></a> and <a href="lists.html#edef-LI" tppabs="http://www.citforum.ru/internet/html40/struct/lists.html#edef-LI" class="noxref"><samp
+class="einst">LI</samp></a>).  Несколько типов элементов также позволяют опускать <span class="index-inst" title="element::omitted start tag|start tag::omitted"><a name="idx-element-9">начальные тэги</a></span>; например,
+<a href="global.html#edef-HEAD" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HEAD" class="noxref"><samp class="einst">HEAD</samp></a> и <a href="global.html#edef-BODY" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-BODY" class="noxref"><samp class="einst">BODY</samp></a>. HTML DTD указывает для каждого типа элемента, являются ли начальный и конечный тэги обязательными.
+
+<p>Некоторые типы элементов HTML не имеют содержимого. Например, элемент перехода на следующую строку <a href="text.html#edef-BR" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-BR" class="noxref"><samp class="einst">BR</samp></a> не имеет содержимого; его роль - прерывание строки текста. Такие <span class="index-def"
+title="element::empty"><a name="didx-element-4"><dfn>пустые</dfn></a></span> элементы никогда не имеют конечных тэгов. <a ref="../sgml/dtd.html">Определение типа документа</a> и текст спецификации указывают, является ли тип элемента пустым (не имеет содержимого) или, если он может иметь содержимое, что является допустимым содержимым.
+
+<P>Имена элементов всегда <span class="index-inst" title="case::of
+element names|element::case-insensitive"><a name="idx-case">учитывают регистр.</a></span>
+
+<P>Информацию о правилах, управляющих элементами, (например, что они могут быть вложенными соответствующим образом, конечный тэг закрывает все опущенные начальные тэги вплоть до соответствующего ему начального тэга (раздел 7.5.1) и т.д.) см. в стандарте SGML.
+
+<DIV class="example"><P>
+Например, следующий абзац:
+
+<PRE>
+&lt;P&gt;Это первый абзац.&lt;/P&gt;
+<EM>...элемент блока...</EM>
+</PRE>
+
+<P>можно перезаписать без конечного тэга:</P>
+
+<PRE>
+&lt;P&gt;Это первый абзац.
+<EM>...элемент блока...</EM>
+</PRE>
+
+<P>поскольку начальный тэг &lt;P&gt; закрывается следующим элементом блока. Точно так же, если абзац включен в элемент блока, например:</P>
+
+<PRE>
+&lt;DIV&gt;
+&lt;P&gt;Это абзац.
+&lt;/DIV&gt;
+</PRE>
+
+<P>конечный тэг включающего элемента блока (здесь - &lt;/DIV&gt;)
+служит также конечным тэгом открытого начального тэга &lt;P&gt;.
+</DIV>
+
+<div class="note"><P> 
+<em><strong>Элементы - это не тэги.</strong> Некоторые люди называют элементы тэгами (например, "тэг P "). Помните, что элемент - это одно, а тэг (начала или конца, неважно) - другое. Например, элемент HEAD всегда присутствует, даже если начальный и конечный тэги HEAD отсутствуют.</em>
+</div>
+
+<P>Все типы элементов, объявленные в этой спецификации, перечислены в <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">указателе элементов</a>.
+
+<h3><a name="h-3.2.2">3.2.2</a> <a name="attributes">Атрибуты</a></h3>
+
+<p>С элементами могут быть связаны свойства, называемые <span
+class="index-def" title="attribute"><a name="didx-attribute"><dfn>атрибутами</dfn></a></span>, которые могут иметь значения (стандартные или устанавливаемые авторами или сценариями). Пары атрибут/значение помещаются перед закрывающей скобкой "&gt;" начального тэга элемента. В начальном тэге элемента может быть любое число (допустимых) пар атрибут/значение, разделенных пробелами. Они могут указываться в любом порядке.</P>
+
+<div class="example"><P>
+В данном примере для элемента <a href="global.html#edef-H1" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-H1" class="noxref"><samp class="einst">H1</samp></a> установлен атрибут <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst-H1">id</samp></a>:
+<pre>
+&lt;H1 id="section1"&gt;
+Это определенный заголовок, спасибо атрибуту id
+&lt;/H1&gt; 
+</pre>
+</div>
+
+<p>По умолчанию в SGML необходимо, чтобы все значения атрибутов были <span class="index-inst" title="attribute::quotation marks around value"><a name="idx-attribute-6">разделены</a></span> с помощью двойных (десятичный код ASCII 34) или одинарных кавычек (десятичный код ASCII 39). Одинарные кавычки могут включаться в значение атрибута, если значение отделяется двойными кавычками, и наоборот. Авторы могут также использовать <a
+href="#character-entities">цифровые ссылки на символы</a> для представления двойных (&amp;#34;) и одинарных кавычек (&amp;#39;). Для двойных кавычек авторы могут также использовать <a href="#character-entities">комбинацию ссылок на символы</a> &amp;quot;.
+
+<P>В определенных случаях авторы могут указывать значение атрибута без кавычек. Значение атрибута может включать только буквы (a-z и A-Z), цифры (0-9), знаки переноса (десятичный код ASCII 45) и точки (десятичный код ASCII 46). Рекомендуется всегда использовать кавычки.
+
+<P>Имена атрибутов всегда <span class="index-inst"
+title="attribute::case-insensitive|case::of attribute names"><a name="idx-attribute-7">
+учитывают регистр</a></span>
+
+<P>Значения атрибутов обычно <span class="index-inst"
+title="case::of attribute values"><a name="idx-case-2">учитывают регистр.</a></span> Определение каждого атрибута в списке атрибутов указывается, учитывает ли значение регистр.</p>
+
+<P>Список всех атрибутов, определенных в этой спецификации, приводится в <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">указателе атрибутов</a>.
+
+<h3><a name="h-3.2.3">3.2.3</a> <a name="character-entities">Ссылки на символы</a></h3> 
+
+<p><span class="index-inst" title="character reference"><a name="idx-character_reference"><dfn>Ссылки на символы</dfn></a></span> - это числовые или символьные имена символов, которые могут быть включены в документ HTML. Они удобны для обращения к редко используемым символам или к символам, которые трудно или невозможно вводить в средствах разработки документов.  Вы увидите ссылки на символы в этом документе; они начинаются со знака "&amp;" и заканчиваются точкой с запятой (;). Вот некоторые примеры:
+
+<ul>
+<li>"&amp;lt;" представляет знак &lt;.
+<li>"&amp;gt;" представляет знак &gt;.
+<li>"&amp;quot;" представляет знак ".
+<li>"&amp;#229;" (десятичное число) представляет букву "a" с кружком сверху.
+<li>"&amp;#1048;" (десятичное число) представляет кириллическую букву "I".
+<li>"&amp;#x6C34;" (шестнадцатеричное число) представляет китайский знак воды.
+</ul>
+
+<P><a href="charset.html#entities" tppabs="http://www.citforum.ru/internet/html40/charset.html#entities">Ссылки на символы в HTML</a> подробно обсуждаются дальше в этом разделе под заголовком <a
+href="charset.html" tppabs="http://www.citforum.ru/internet/html40/charset.html">набор символов документа HTML</a>. В спецификации также содержится <a href="entities.html" tppabs="http://www.citforum.ru/internet/html40/sgml/entities.html">список ссылок на символы</a>, которые могут использоваться в документах в формате HTML 4.0.
+
+<h3><a name="h-3.2.4">3.2.4</a> Комментарии</h3>
+
+<p><span class="index-inst" title="HTML::comments in|comments::in HTML"><a name="idx-HTML"> Комментарии в HTML </a></span> имеют следующий синтаксис:
+
+<div class="example">
+<pre>
+&lt;!-- это комментарий --&gt;
+&lt;!-- это тоже комментарий,
+    он занимает несколько строк --&gt;
+</pre>
+</div>
+
+<p>Проблемы между открывающим разделителем разметки ("&lt;!") и открывающим разделителем комментария ("--") недопустимы, но их можно использовать между закрывающим разделителем комментария ("--") и закрывающим разделителем разметки ("&gt;"). Распространенной ошибкой является включение строки символов переноса ("---") в комментарий. Следует избегать использования в комментариях двух или более символов переноса.
+
+<P>Информация в комментариях не имеет специального значения (например, <a href="#character-entities">ссылки на символы</a> не интерпретируются).
+
+<h2><a name="h-3.3">3.3</a> <a name="howtodtd">Как читать HTML DTD</a></h2>
+
+<p>Каждое объявление элемента и атрибута в этой спецификации сопровождается фрагментом его <a href="dtd.html" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html">определения типа документа</a>. Мы решили включить фрагменты DTD в спецификацию вместо того, чтобы искать более доступные, но более длинные и менее точные средства описания свойств элементов. При помощи следующего <span class="index-inst" title="document type definition::how to read"><a name="idx-document_type_definition-1">учебника</a></span> читатели, не знакомые с SGML, смогут научиться читать DTD и понимать технические подробности спецификации HTML.
+
+<h3><a name="h-3.3.1">3.3.1</a> Комментарии DTD</h3>
+
+<p>В DTD <span class="index-inst" title="comments::in DTD|document
+type definition::comments in"><a name="idx-comments-1">комментарии</a></span> могут занимать несколько строк. В DTD комментарии отделяются парой меток "--", например,
+
+<div class="dtd-example">
+<pre>
+&lt;!ELEMENT PARAM - O EMPTY       -- значение именованного свойства --&gt;
+</pre>
+</div>
+
+Здесь комментарий "значение именованного свойства" объясняет использование типа элемента <a href="objects.html#edef-PARAM" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-PARAM" class="noxref"><samp
+class="einst">PARAM</samp></a>. Комментарии в DTD носят информативный характер.
+
+<h3><a name="h-3.3.2">3.3.2</a> Определения комбинаций параметров</h3>
+
+<p><a href="dtd.html" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html">HTML DTD</a> начинается с ряда определений комбинаций параметров. <span class="index-def" title="parameter entity definition"><a name="didx-parameter_entity_definition"><dfn>Определение комбинации параметров</dfn></a></span> определяет макрос, на который можно ссылаться в любом месте DTD. Эти макросы не отображаются в документах HTML, они отображаются только в DTD. Другие типы макросов, называемые <a
+href="#character-entities">ссылками на символы</a>, могут использоваться в тексте документа в формате HTML или в значениях атрибутов.
+
+<P>Когда на комбинацию параметров ссылаются в DTD по имени, она разворачивается в строку.
+
+<P>Определение комбинации параметров начинается с ключевого слова <tt>&lt;!ENTITY %</tt>, за которым следует имя entity, строка в кавычках, в которую разворачивается entity и наконец закрывающий <tt>&gt;</tt>. Экземпляры комбинаций параметров в DTD начинаются со знака "%", затем идет имя комбинации и заканчивается необязательным символом ";".
+
+<div class="dtd-example"><P>
+В следующем примере определяется, в какую строку будет разворачиваться "%fontstyle;".
+<pre>
+&lt;!ENTITY % fontstyle "TT | I | B | BIG | SMALL"&gt;
+</pre>
+</div>
+
+<P>Строка, в которую разворачивается комбинация параметров, может содержать другие имена комбинаций параметров. Эти имена разворачиваются рекурсивно. В следующем примере "%inline;" комбинация параметров включает комбинации "%fontstyle;", "%phrase;", "%special;" и "%formctrl;".
+
+
+<div class="dtd-example">
+<pre>
+&lt;!ENTITY % inline "#PCDATA | %fontstyle; | %phrase; | %special; | %formctrl;"&gt;
+</pre>
+</div>
+
+<P>Вы часто будете встречать в <a href="dtd.html" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html">HTML DTD</a> два DTD entities: <span class="index-inst" title="parameter entity::%block;|%block;"><a name="idx-parameter_entity-1">"%block;"</a></span> <span class="index-inst" title="parameter entity::%inline;|%inline;"><a name="idx-parameter_entity-2">"%inline;".</a></span> Они используются, если модель содержимого включает <a href="global.html#block-inline" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#block-inline">элементы уровня блока и встроенные элементы</a> соответственно (определенные в разделе <a href="global.html" tppabs="http://www.citforum.ru/internet/html40/struct/global.html">глобальная структура документа HTML</a>).
+
+<h3><a name="h-3.3.3">3.3.3</a> <a name="element-defs">Объявления элементов</a></h3>
+
+<p>HTML DTD состоит из объявлений <span class="index-def" title="element::type declaration"><a name="didx-element-5"><dfn>типов элементов</dfn></a></span> и их атрибутов. Объявление начинается с ключевого слова &lt;!ELEMENT и заканчивается символом &gt;.  Между ними указываются:
+
+<ol>
+<li>Имя элемента.  
+
+<li><span class="index-inst" title="end tag::declared as optional"><a name="idx-end_tag-2">Обязателен</a></span> ли конечный тэг элемента. Два символа переноса после имени элемента означают, что начальный и конечный тэги являются обязательными. Один символ переноса, за которым следует буква "O", указывает, что конечный тэг можно опустить. Две буквы "O" указывают на то, что можно опустить как начальный, так и конечный тэги.
+   
+<li>Содержимое элемента, если таковое имеется. Допустимым содержимым элемента называется его <span class="index-def" title="content model|element::content model of"><a name="didx-content_model"><dfn>модель содержимого.</dfn></a></span> Типы элементов, не имеющие содержимого, называются <span class="index-def" title="empty element|element::empty"><a name="didx-empty_element"><dfn>пустыми элементами</dfn></a></span>.  Модель содержимого для таких типов элементов объявляется при помощи ключевого слова "EMPTY".
+</ol>
+
+<div class="dtd-example"><P>
+В этом примере:
+<pre>
+    &lt;!ELEMENT UL - - (LI)+&gt;
+</pre>
+<ul>
+<li>Объявляется тип элемента <strong>UL</strong>.
+<li>Два знака переноса указывают, что начальный тэг &lt;UL&gt; и конечный тэг &lt;/UL&gt; для этого элемента обязательны.
+<li>Модель содержимого для этого типа элемента - "по крайней мере один элемент LI". Ниже объясняется, как задать модель содержимого.
+</ul>
+</div>
+
+<div class="dtd-example"><P>
+В этом примере показано объявление пустого типа элемента:
+<pre>
+    &lt;!ELEMENT IMG - O EMPTY&gt;
+</pre>
+<ul>
+<li>Объявляется тип элемента <strong>IMG</strong>.
+
+<li>Знак переноса, за которым следует буква "O", указывает, что конечный тэг можно опустить, но если модель содержимого - "EMPTY", это правило усиливается, и конечный тэг <b>должен</b> быть опущен.
+
+
+<li>Ключевое слово "EMPTY" означает, что экземпляры этого типа не должны иметь содержимого.
+</ul>
+</div>
+
+<h4>Определения модели содержимого<a name="h-3.3.3.1">&nbsp;</a></h4>
+
+<P>Модель содержимого описывает, что может содержаться в экземпляре типа элемента. Определения <span class="index-inst" title="content model::syntax of in DTD"><a name="idx-content_model-1">модели содержимого</a></span> могут включать:
+
+<ul>
+<li>Имена допустимых или запрещенных типов элементов (например, элемент <a href="lists.html#edef-UL" tppabs="http://www.citforum.ru/internet/html40/struct/lists.html#edef-UL" class="noxref"><samp class="einst">UL</samp></a> содержит экземпляры типа элемента <a href="lists.html#edef-LI" tppabs="http://www.citforum.ru/internet/html40/struct/lists.html#edef-LI" class="noxref"><samp class="einst">LI</samp></a>, а тип элемента <a href="text.html#edef-P" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-P" class="noxref"><samp class="einst">P</samp></a> не может включать другие элементы <a href="text.html#edef-P" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-P" class="noxref"><samp class="einst">P</samp></a>).
+
+<li>Комбинации DTD (например, элемент <a href="forms.html#edef-LABEL" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-LABEL" class="noxref"><samp class="einst">LABEL</samp></a> включают экземпляры комбинации параметров "%inline;").
+
+<li>Текст документа (указываемый SGML-конструкцией "#PCDATA").  Текст может включать <a href="charset.html#entities" tppabs="http://www.citforum.ru/internet/html40/charset.html#entities">ссылки на символы</a>. Помните, что они начинаются с &amp; и заканчиваются точкой с запятой (например, "Herg&amp;eacute;'s adventures of Tintin" содержит ссылку на комбинацию символов для отображения символа "e со знаком ударения").
+</ul>
+
+<p>Модель содержимого элемента указывается с использованием следующего синтаксиса:
+
+<dl>
+<dt><strong>( ... )</strong>
+<dd>Разделяет группы.
+<dt><strong>A | B</strong>
+<dd>Происходит A или B, но не оба.
+<dt><strong>A , B</strong>
+<dd>Происходят A и B в указанном порядке.
+<dt><strong>A & B</strong>
+<dd>Происходят A и B в любом порядке.
+<dt><strong>A?</strong>
+<dd>A происходит ноль или один раз.
+<dt><strong>A*</strong>
+<dd>A происходит ноль или более раз.
+<dt><strong>A+</strong>
+<dd>A происходит один или несколько раз.
+</dl>
+
+
+<div class="dtd-example"><P>
+Вот некоторые примеры HTML DTD:
+<pre>
+   &lt;!ELEMENT UL - - (LI)+&gt;
+</pre>
+<P>Элемент <a href="lists.html#edef-UL" tppabs="http://www.citforum.ru/internet/html40/struct/lists.html#edef-UL" class="noxref"><samp class="einst">UL</samp></a> должен содержать один или несколько элементов  <a href="lists.html#edef-LI" tppabs="http://www.citforum.ru/internet/html40/struct/lists.html#edef-LI" class="noxref"><samp class="einst">LI</samp></a>.</P>
+<pre>
+   &lt;!ELEMENT DL    - - (DT|DD)+&gt;
+</pre>
+<P>Элемент <a href="lists.html#edef-DL" tppabs="http://www.citforum.ru/internet/html40/struct/lists.html#edef-DL" class="noxref"><samp class="einst">DL</samp></a> должен содержать один или несколько элементов <a href="lists.html#edef-DT" tppabs="http://www.citforum.ru/internet/html40/struct/lists.html#edef-DT" class="noxref"><samp class="einst">DT</samp></a> или <a href="lists.html#edef-DD" tppabs="http://www.citforum.ru/internet/html40/struct/lists.html#edef-DD" class="noxref"><samp class="einst">DD</samp></a> в любом порядке.</P>
+<pre>
+   &lt;!ELEMENT OPTION - O (#PCDATA)&gt;
+</pre>
+<P>Элемент <a href="forms.html#edef-OPTION" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTION" class="noxref"><samp class="einst">OPTION</samp></a> может содержать только текст и такие entities как &amp;amp; -- это определяется типом данных SGML #PCDATA.</P>
+</div>
+
+<p>Некоторые типы элементов HTML используют дополнительную функцию SGML для исключения элементов из модели содержимого.  <span class="index-inst" title="content model::excluded elements in"><a name="idx-content_model-2">Исключенным элементам</a></span> предшествует символ переноса. Явные исключения имеют приоритет по отношению к допустимым элементам.
+
+<div class="dtd-example"><P>
+В этом примере <tt>-(A)</tt> означает, что элемент <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a> не может находиться в другом элементе <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a> (то есть ссылки не могут быть вложенными). 
+
+<pre>
+   &lt;!ELEMENT A - - (%inline;)* -(A)&gt;
+</pre>
+
+<p>Помните, что тип элемента <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a> является частью DTD комбинации параметров "%inline;", но явно исключается выражением <tt>-(A)</tt>.
+
+<P>Точно так же следующее объявление типа элемента <a href="forms.html#edef-FORM" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-FORM" class="noxref"><samp
+class="einst">FORM</samp></a> запрещает вложенные формы:
+
+<pre>
+   &lt;!ELEMENT FORM - - (%block;|SCRIPT)+ -(FORM)&gt;
+</pre>
+</div>
+
+
+<h3><a name="h-3.3.4">3.3.4</a> <a name="attrib-defs">Объявления атрибутов</a></h3>
+
+<p><span class="index-inst" title="attribute::declaration of in DTD"><a name="idx-attribute-8"> Объявление атрибутов</a></span>, которые может иметь элемент, начинается с ключевого слова &lt;!ATTLIST. За ним следует имя элемента с вопросительным знаком, список определений атрибутов и закрывающий символ &gt;. Каждое определение атрибута - это тройка, определяющая:
+
+<ul>
+<li>Имя атрибута.
+
+<li>Тип значения атрибута или явный набор допустимых значений. Значения, определенные явным образом при помощи DTD, <span class="index-inst" title="attribute::case of values|case::of attribute values"><a name="idx-attribute-9">учитывают регистр.</a></span> Подробнее о типах значений атрибутов см. в разделе <a href="types.html" tppabs="http://www.citforum.ru/internet/html40/types.html">основные типы данных HTML</a>.  
+
+
+
+<li>Является ли значение атрибута по умолчанию <span class="index-def" title="#IMPLIED attribute value|attribute::#IMPLIED value of"><a name="didx-IMPLIED_attribute_value">неявным</a></span> (ключевое слово "#IMPLIED"), то есть значение по умолчанию устанавливается агентом пользователя (в некоторых случаях с использованием наследования от родительских элементов); всегда<span class="index-def" title="#REQUIRED attribute value|attribute::#REQUIRED value of"><a name="didx-REQUIRED_attribute_value">обязательным</a></span> (ключевое слово "#REQUIRED"); или <span class="index-def" title="#FIXED attribute value|attribute::#FIXED value of"><a name="didx-FIXED_attribute_value">фиксированным</a></span> данным значением (ключевое слово "#FIXED"). Некоторые определения атрибутов явным образом указывают значение атрибута по умолчанию.
+</ul>
+
+<div class="dtd-example"><P>
+В этом примере атрибут <a href="objects.html#adef-name-MAP" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-name-MAP" class="noxref"><samp class="ainst-MAP">имя</samp></a> определен для элемента <a href="objects.html#edef-MAP" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-MAP" class="noxref"><samp class="einst">MAP</samp></a>. Атрибут на является обязательным для этого элемента.
+
+<pre>
+&lt;!ATTLIST MAP
+  name        CDATA     #IMPLIED
+  &gt;
+</pre>
+
+<P>Тип значений, допустимых для этого атрибута, дается как CDATA,
+тип данных SGML. <span class="index-inst" title="CDATA"><a name="idx-CDATA">CDATA</a></span> - это текст, который может содержать <a href="charset.html#entities" tppabs="http://www.citforum.ru/internet/html40/charset.html#entities">ссылки на символы</a>.
+</div>
+
+<P>Подробнее о типах данных "CDATA", "NAME", "ID" и др. см. в разделе <a href="types.html" tppabs="http://www.citforum.ru/internet/html40/types.html">типы данных HTML</a>.
+
+
+<div class="dtd-example"><P>
+В следующих примерах показано несколько определений атрибутов:
+<pre>
+rowspan     NUMBER     1         -- число строк, охватываемых ячейкой --
+http-equiv  NAME       #IMPLIED  -- Имя заголовка ответа HTTP --
+id          ID         #IMPLIED  -- уникальный ИД в пределах документа -- 
+valign      (top|middle|bottom|baseline) #IMPLIED
+</pre>
+
+<P>Для атрибута <tt>rowspan</tt> необходимы значения типа NUMBER. Значение по умолчанию дается явно - "1". Для необязательного атрибута <tt>http-equiv</tt> необходимы значения типа NAME. Для необязательного атрибута <tt>id</tt> необходимы значения типа ID. Необязательный атрибут <tt>valign</tt> ограничен значениями из набора {top, middle, bottom, baseline}. 
+</div>
+
+<h4>Комбинации DTD в определениях атрибутов<a name="h-3.3.4.1">&nbsp;</a></h4>
+<P>Определения атрибутов могут также содержать ссылки на комбинации параметров.
+
+<div class="dtd-example"><P>
+В этом примере мы видим, что список определений атрибутов для элемента <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a> начинается с комбинации параметров "%attrs;". 
+
+<div class="dtd-fragment">
+<pre class="dtd-fragment">
+&lt;!ELEMENT <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a> - O EMPTY               -- ссылка, независимая от устройства --&gt;
+&lt;!ATTLIST LINK
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  <a href="links.html#adef-charset" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-charset" class="noxref"><samp class="ainst-LINK">charset</samp></a>     <a href="dtd.html#Charset" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Charset">%Charset;</a>      #IMPLIED  -- кодировка связанного документа --
+  <a href="links.html#adef-href" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-href" class="noxref"><samp class="ainst-LINK">href</samp></a>        <a href="dtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#URI">%URI;</a>          #IMPLIED  -- URI для связанного документа --
+  <a href="links.html#adef-hreflang" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-hreflang" class="noxref"><samp class="ainst-LINK">hreflang</samp></a>    <a href="dtd.html#LanguageCode" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#LanguageCode">%LanguageCode;</a> #IMPLIED  -- код языка --
+  <a href="links.html#adef-type-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-type-A" class="noxref"><samp class="ainst-A">type</samp></a><a href="dtd.html#ContentType" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#ContentType">%ContentType;</a>  #IMPLIED  -- рекомендуемый тип содержимого --
+  <a href="links.html#adef-rel" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-rel" class="noxref"><samp class="ainst-LINK">rel</samp></a><a href="dtd.html#LinkTypes" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#LinkTypes">%LinkTypes;</a>    #IMPLIED  -- типы ссылок для перехода вперед --
+  <a href="links.html#adef-rev" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-rev" class="noxref"><samp class="ainst-LINK">rev</samp></a><a href="dtd.html#LinkTypes" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#LinkTypes">%LinkTypes;</a>    #IMPLIED  -- типы ссылок для перехода назад --
+  <a href="styles.html#adef-media" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-media" class="noxref"><samp class="ainst-LINK">media</samp></a><a href="dtd.html#MediaDesc" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#MediaDesc">%MediaDesc;</a>    #IMPLIED  -- для генерации на этом устройстве --
+  &gt;
+</pre>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>запрещен</strong></em></p>
+
+<p>Комбинация параметров "%attrs;" определена следующим образом:
+
+<div class="dtd-fragment">
+<pre class="dtd-fragment">
+&lt;!ENTITY % attrs "<a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs;</a> <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n;</a> <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events;</a>"&gt;
+</pre>
+</div>
+
+<P>Комбинация "%coreattrs;" в определении "%attrs;" разворачивается следующим образом:
+
+
+<div class="dtd-fragment">
+<pre class="dtd-fragment">
+&lt;!ENTITY % coreattrs
+ "<a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a><a href="types.html#type-id" tppabs="http://www.citforum.ru/internet/html40/types.html#type-id">ID</a>             #IMPLIED  -- уникальный ИД в пределах документа --
+  <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><samp class="ainst">class</samp></a><a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata">CDATA</a>          #IMPLIED  -- список классов, разделенных пробелами --
+  <a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><samp class="ainst">style</samp></a><a href="dtd.html#StyleSheet" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#StyleSheet">%StyleSheet;</a>   #IMPLIED  -- информация о стиле --
+  <a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a><a href="dtd.html#Text" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Text">%Text;</a>         #IMPLIED  -- рекомендуемый заголовок/распространение --"
+  &gt;
+</pre>
+</div>
+</div>
+
+<P>Комбинация параметров <span class="index-def" title="parameter
+entity::%attrs;|%attrs;"><a name="didx-parameter_entity">"%attrs;"</a></span> определена для удобства, поскольку эти атрибуты определены для большинства типов элементов HTML.
+
+<div class="dtd-example">
+<P>Таким же образом DTD определяет комбинацию параметров "%URI;" как расширение строки "CDATA".
+
+<div class="dtd-fragment">
+<pre class="dtd-fragment">
+&lt;!ENTITY % URI "<a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata">CDATA</a>"
+    -- Универсальный идентификатор ресурсов, см. <a rel="biblioentry" href="references.html#ref-URI" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-URI">[URI]</a>
+    --&gt;
+</pre>
+</div>
+</div>
+
+<P>Как показано в этом примере, комбинация параметров "%URI;" предоставляет читателям DTD больше информации, чем для типа данных, ожидаемого для этого атрибута. Похожие entities определены для "%Color;", "%Charset;", "%Length;", "%Pixels;" и т.д.
+
+<h4><span class="index-def" title="boolean
+attribute|attribute::boolean"><a name="didx-boolean_attribute"><dfn>Логические атрибуты</dfn></a></span><a name="h-3.3.4.2">&nbsp;</a></h4>
+
+<p>Некоторые атрибуты играют роль логических переменных (например, атрибут <a href="forms.html#adef-selected" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-selected" class="noxref"><samp class="ainst-OPTION">selected</samp></a> для элемента <a href="forms.html#edef-OPTION" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTION" class="noxref"><samp class="einst">OPTION</samp></a>). Их наличие в начальном тэге элемента подразумевает, что значением атрибута является "истина". Их отсутствие означает "ложь".
+
+<P>Логические атрибуты могут принимать только одно значение: собственно имя атрибута (например, <tt>selected="selected"</tt>).
+
+<div class="dtd-example"><P>
+В этом примере атрибут <a href="forms.html#adef-selected" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-selected" class="noxref"><samp class="ainst-OPTION">selected</samp></a> определяется как булев.
+
+<pre>
+selected     (selected)  #IMPLIED  -- уменьшенный интервал между элементами --
+</pre>
+
+<P>Для атрибута устанавливается значение "истина", поскольку он находится в начальном тэге элемента:
+
+<pre>
+&lt;OPTION selected="selected"&gt;
+<em>...contents...</em>
+&lt;OPTION&gt;
+</pre>
+</div>
+
+<P>В HTML логические атрибуты могут быть в <span class="index-def" title="boolean attribute::minimized|attribute::minimized boolean"><a name="didx-boolean_attribute-1"><dfn>минимизированной форме</dfn></a></span> -- в начальном тэге элемента находится только <strong>значение</strong> атрибута. Таким образом, <a href="forms.html#adef-selected" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-selected" class="noxref"><samp class="ainst-OPTION">selected</samp></a> можно установить, написав:
+
+<pre>
+&lt;OPTION selected&gt;
+</pre>
+
+<p>вместо:
+
+<pre>
+&lt;OPTION selected="selected"&gt;
+</pre>
+
+<P>Авторам следует знать, что многие агенты пользователей распознают <strong>только</strong> минимизированную форму логических атрибутов и не распознают полную.
+<div class="navbar">
+<hr><center><a href="intro.html" tppabs="http://www.citforum.ru/internet/html40/intro/intro.html">назад</a> &nbsp; <a href="conform.html" tppabs="http://www.citforum.ru/internet/html40/conform.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center></div>
+</body>
+</html>
+

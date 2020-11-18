@@ -1,0 +1,59 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Shared Memory</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="session-write-close.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="shmop-close.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.shmop"></A>XCIII. Функции Shared Memory</h1><ANAME="AEN73960"></A>
+<P>Shmop это набор легко используемых функций, позволяющих РНР читать ,
+записывать, создавать и удалять сегменты совместно используемой памяти UNIX 
+shared memory). Функции не будут работать в <span lang="en-us">W</span>indows, 
+так как эти ОС не поддерживают shared-память. Для использования shmop вам 
+нужно скомпилировать РНР с параметром --enable-shmop в строке конфигурации.</P>
+<BLOCKQUOTE><P><B>Примечание: </B><span lang="en-us">d</span> PHP 4.0.3 эти функции имели префикс <TT>shm</TT> вместо <TT>shmop</TT>.</P></BLOCKQUOTE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN73967"></A><h5>Пример 1. Обзор операций Shared Memory
+</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+   
+// Создать 100-байтный блок shared memory с системным id if 0xff3
+$shm_id = shmop_open(0xff3, "c", 0644, 100);
+if(!$shm_id) {
+	echo "Couldn't create shared memory segment\n";
+}
+
+// Получить размер блока shared memory
+$shm_size = shmop_size($shm_id);
+echo "SHM Block Size: ".$shm_size. " has been created.\n";
+
+// Запишем тестовой строки в shared memory
+$shm_bytes_written = shmop_write($shm_id, "my блок shared memory", 0);
+if($shm_bytes_written != strlen("my блок shared memory")) {
+	echo "Couldn't write the entire length of data\n";
+}
+
+// Теперь прочитаем строку
+$my_string = shmop_read($shm_id, 0, $shm_size);
+if(!$my_string) {
+	echo "Couldn't read from блок shared memory\n";
+}
+echo "The data inside shared memory was: ".$my_string."\n";
+
+// А теперь удалим блок и закроем сегмент shared memory
+if(!shmop_delete($shm_id)) {
+	echo "Couldn't mark блок shared memory for deletion.";
+}
+shmop_close($shm_id);
+   
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="shmop-close.html">shmop_close</A> - закрывает блок shared memory</DT>
+<DT><A HREF="shmop-delete.html">shmop_delete</A> - удаляет блок shared memory</DT>
+<DT><A HREF="shmop-open.html">shmop_open</A> - создаёт или открывает блок shared memory</DT>
+<DT><A HREF="shmop-read.html">shmop_read</A> - читает данные из блока shared memory</DT>
+<DT><A HREF="shmop-size.html">shmop_size</A> - получает размер блока shared memory</DT>
+<DT><A HREF="shmop-write.html">shmop_write</A> - записывает данные в блок shared memory</DT>
+</DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="session-write-close.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="shmop-close.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">session_write_close</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">shmop_close</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

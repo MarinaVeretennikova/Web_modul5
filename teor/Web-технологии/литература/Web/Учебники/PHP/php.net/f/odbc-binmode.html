@@ -1,0 +1,33 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>odbc_binmode</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="odbc-autocommit.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="odbc-close-all.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="odbc-binmode">odbc_binmode</A></H1><A NAME="AEN56446"></A><P>(PHP 3&#62;= 3.0.6, PHP 4)</P>
+<p>odbc_binmode - обработка данных бинарного столбца.<A NAME="AEN56449"></A></p><H2>Описание</H2>
+<p>int <B>odbc_binmode</B> (resource result_id, int mode)</p>
+<P>(вовлекаемые в обработку ODBC SQL-типы: BINARY, VARBINARY, LONGVARBINARY)</P>
+<UL><LI><P>ODBC_BINMODE_PASSTHRU: передаёт BINARY-данные</P></LI>
+<LI><P>ODBC_BINMODE_RETURN: возвращает как есть</P></LI>
+<LI><P>ODBC_BINMODE_CONVERT: конвертирует в char и возвращает</P></LI></UL>
+<P>Если бинарные SQL-данные конвертируются в character-данные C, каждый байт
+(8 бит) исходных данных представляется как два ASCII-символа.
+Эти символы являются символьным ASCII-представлением 16-ричного числа. 
+Например, двоичное 00000001 конвертируется в <TT>"01"</TT>, а двоичное 11111111 конвертируется в <TT>"FF"</TT>.
+<A NAME="AEN56471"></A><h6>Таблица 1. Работа с LONGVARBINARY</h6><TABLE BORDER="1"><TR><TH>binmode</TH>
+<TH>longreadlen</TH><TH>result</TH></TR><TBODY><TR><TD>ODBC_BINMODE_PASSTHRU</TD>
+<TD>0</TD><TD>передаёт</TD></TR><TR><TD>ODBC_BINMODE_RETURN</TD><TD>0</TD><TD>передаёт</TD></TR>
+<TR><TD>ODBC_BINMODE_CONVERT</TD><TD>0</TD><TD>передаёт</TD></TR><TR><TD>ODBC_BINMODE_PASSTHRU</TD>
+<TD>0</TD><TD>передаёт</TD></TR><TR><TD>ODBC_BINMODE_PASSTHRU</TD><TD>&#62;0</TD><TD>передаёт</TD></TR>
+<TR><TD>ODBC_BINMODE_RETURN</TD><TD>&#62;0</TD><TD>возвращает как есть</TD></TR><TR><TD>ODBC_BINMODE_CONVERT</TD>
+<TD>&#62;0</TD><TD>возвращает как char</TD></TR></TBODY></TABLE>
+<P>Если <A HREF="odbc-fetch-into.html"><B>odbc_fetch_into()</B></A> используется, передача/passthru означает, что для этих столбцов возвращаются 
+пустые строки.</P><P>Если <TT><I>result_id</I></TT> равен <TT>0</TT>, эти установки применяются по умолчанию для новых результатов.
+<BLOCKQUOTE><P><B>Примечание: </B>по умолчанию longreadlen равно <TT>4096</TT>, а binmode - <TT>ODBC_BINMODE_RETURN</TT>. На обработку двоичных long-столбцов влияет также
+<A HREF="odbc-longreadlen.html"><B>odbc_longreadlen()</B></A>.</P></BLOCKQUOTE>
+</TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="odbc-autocommit.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="odbc-close-all.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">odbc_autocommit</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.odbc.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">odbc_close_all</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

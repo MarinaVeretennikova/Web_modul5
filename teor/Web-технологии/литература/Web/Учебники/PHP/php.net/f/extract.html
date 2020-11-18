@@ -1,0 +1,63 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>extract</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="end.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="in-array.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.extract">extract</A></H1><A NAME="AEN8270"></A><P>(PHP 3&#62;= 3.0.7, PHP 4)</P>
+<p>extract - импортирует переменные в текущую таблицу символов из массива.<A NAME="AEN8273"></A></p>
+<H2>Описание</H2><p>int <B>extract</B> (array var_array [, int extract_type [, string prefix]])</p>
+<P>Эта функция используется для импорта переменных из массива в текущую таблицу символов. Она принимает ассоциативный массив
+<TT><I>var_array</I></TT> и рассматривает ключи как имена переменных, а значения - как значения. Для 
+каждой пары key/value она создаёт переменную в текущей таблице символов - субъект параметров
+<TT><I>extract_type</I></TT> и <TT><I>prefix</I></TT>.</P><BLOCKQUOTE><P><B>Примечание: </B>
+начиная с версии 4.0.5, эта функция возвращает количество извлечённых переменных.</P></BLOCKQUOTE>
+<BLOCKQUOTE><P><B>Примечание: </B>EXTR_IF_EXISTS и EXTR_PREFIX_IF_EXISTS были введены в версии 4.2.0.</P></BLOCKQUOTE>
+<P><B>extract()</B> проверяет каждый ключ/key - образует ли он верное имя переменной, а также 
+смотрит, нет ли конфликтов с существующими именами в таблице символов. Способ, 
+которым обрабатываются неверные/числовые ключи и конфликты, определяется в
+<TT><I>extract_type</I></TT>. Это может быть одно из следующих значений:<DL>
+<DT>EXTR_OVERWRITE</DT><DD><P>Если есть конфликт, существующая переменная перезаписывается.</P></DD>
+<DT>EXTR_SKIP</DT><DD><P>Если есть конфликт, существующая переменная не перезаписывается.</P></DD>
+<DT>EXTR_PREFIX_SAME</DT><DD><P>Если есть конфликт, вставить префикс <TT><I>prefix </I></TT>перед именем переменной.</P>
+</DD><DT>EXTR_PREFIX_ALL</DT><DD><P>Вставить префикс <TT><I>prefix</I></TT> перед всеми именами переменных. Начиная с версии PHP 4.0.5, это могут быть 
+также и числа.</P></DD><DT>EXTR_PREFIX_INVALID</DT><DD><P>Вводить префикс <TT><I>prefix </I></TT>только перед неправильными/числовыми именами переменных. Этот флаг был добавлен 
+в PHP 4.0.5.</P></DD><DT>EXTR_IF_EXISTS</DT><DD><P>Перезаписывать переменную, только если она уже существует в текущей 
+таблице символов, иначе - не делать ничего. Это используется для 
+определения списка правильных переменных и последующего извлечения только 
+тех переменных, которые вы определили вне $_REQUEST, например. Этот флаг был добавлен в PHP 4.2.0.</P></DD>
+<DT>EXTR_PREFIX_IF_EXISTS</DT><DD><P>Создавать префиксированные имена переменных только с том случае, если 
+версия без префикса той же самой переменной существует в текущей таблице 
+символов. Этот флаг был добавлен в PHP 4.2.0.</P></DD></DL><P>Если <TT><I>extract_type</I></TT> не специфицирован, принимается, что он будет EXTR_OVERWRITE.</P>
+<P>Заметьте, что <TT><I>prefix</I></TT> необходим только тогда, когда <TT><I>extract_type</I></TT> равен EXTR_PREFIX_SAME,
+EXTR_PREFIX_ALL, EXTR_PREFIX_INVALID или EXTR_PREFIX_IF_EXISTS. Если 
+результат с префиксом не является правильным именем переменной, он не импортируется в таблицу символов.</P>
+<P><B>extract()</B> возвращает количество переменных, успешно импортированных в таблицу символов.</P>
+<P>Можно использовать extract для импорта в таблицу символов переменных, содержащихся в ассоциативном массиве, возвращаемом функцией
+<A HREF="wddx-deserialize.html"><B>wddx_deserialize()</B></A>.</P><TABLE WIDTH="100%" BORDER="0"><TR>
+<TD><A NAME="AEN8340"></A><h5>Пример 1. extract()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+/* Предположим, что $var_array это массив, возвращаемый из wddx_deserialize */
+
+$size = "large";
+$var_array = array ("color" =&#62; "blue",
+"size"=&#62; "medium",
+"shape" =&#62; "sphere");
+extract ($var_array, EXTR_PREFIX_SAME, "wddx");
+
+print "$color, $size, $shape, $wddx_size\n";
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>На выходе будет:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>blue, large, sphere, medium</PRE></TD></TR></TABLE><P>Переменная <TT>$size</TT> не была перезаписана, поскольку мы специфицировали EXTR_PREFIX_SAME, что даёт 
+в результате создание <TT>$wddx_size</TT>. Если EXTR_SKIP был специфицирован, то $wddx_size не могла бы быть создана.
+EXTR_OVERWRITE мог бы дать для <TT>$size</TT
+> значение "medium", а EXTR_PREFIX_ALL привело бы к созданию новых переменных <TT>$wddx_color</TT>,
+<TT>$wddx_size</TT> и <TT>$wddx_shape</TT>.</P><P>Вы обязаны использовать ассоциативный массив, так как массив, 
+индексированный числами, не даст нужных результатов, если только вы не используете EXTR_PREFIX_ALL или 
+EXTR_PREFIX_INVALID.</P><P>См. также <A HREF="compact.html"><B>compact()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="end.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="in-array.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">end</TD><th WIDTH="34%" VALIGN="top"><A HREF="ref.array.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">in_array</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

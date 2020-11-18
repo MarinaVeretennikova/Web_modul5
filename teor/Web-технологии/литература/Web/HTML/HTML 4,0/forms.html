@@ -1,0 +1,1942 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="ru">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Windows-1251">
+<title>Формы в документах HTML</title>
+<LINK rel="previous" href="frames.html" tppabs="http://www.citforum.ru/internet/html40/present/frames.html">
+<LINK rel="next" href="scripts.html" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html">
+<LINK rel="contents" href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">
+<LINK rel="STYLESHEET" href="tppmsgs/msgs0.htm#18" tppabs="http://www.citforum.ru/internet/html40/style/default.css" type="text/css">
+</head>
+
+<body>
+<div class="navbar">
+<center>&nbsp;<a href="frames.html" tppabs="http://www.citforum.ru/internet/html40/present/frames.html">назад</a> &nbsp; <a href="scripts.html" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center><hr>
+</div>
+
+
+<H1 align="center"><a name="h-17">17</a> <a name="forms">Формы</a></H1>
+<div class="subtoc"><p><strong>Содержание</strong>
+<ol>
+<li><a href="#h-17.1">Введение в формы</a>
+<li><a href="#h-17.2">Управляющие элементы</a>
+<ol>
+<li><a href="#h-17.2.1">
+<span class="index-inst" title="control::types of|form::control types">
+Типы управляющих элементов</span></a>
+</ol>
+<li><a href="#h-17.3">Элемент <samp class="einst2">FORM</samp></a>
+<li><a href="#h-17.4">Элемент <samp class="einst2">INPUT</samp></a>
+<ol>
+<li><a href="#h-17.4.1">Типы управляющих элементов, создаваемые с помощью элемента INPUT</a>
+<li><a href="#h-17.4.2">Примеры форм с управляющими элементами типа INPUT</a>
+</ol>
+<li><a href="#h-17.5">Элемент <samp class="einst2">BUTTON</samp></a>
+<li><a href="#h-17.6">Элементы <samp class="einst2">SELECT</samp>, <samp class="einst2">OPTGROUP</samp> и <samp class="einst2">OPTION</samp></a>
+<ol>
+<li><a href="#h-17.6.1">
+<span class="index-inst" title="menu::preselected options">
+Заранее выбранные варианты</span></a>
+</ol>
+<li><a href="#h-17.7">Элемент <samp class="einst2">TEXTAREA</samp></a>
+<li><a href="#h-17.8">Элемент <samp class="einst2">ISINDEX</samp></a>
+<li><a href="#h-17.9">
+<span class="index-inst" title="form::adding labels to">
+Метки</span></a>
+<ol>
+<li><a href="#h-17.9.1">Элемент <samp class="einst2">LABEL</samp></a>
+</ol>
+<li><a href="#h-17.10">Добавление в формы структуры: элементы <samp class="einst2">FIELDSET</samp> и <samp class="einst2">LEGEND</samp></a>
+<li><a href="#h-17.11">
+<span class="index-def" title="focus|control::giving focus to">
+Переход фокуса на элемент</span></a>
+<ol>
+<li><a href="#h-17.11.1">
+<span class="index-def" title="control::tabbing navigation|tabbing
+navigation|form::navigating through controls">Переход с помощью клавиши Tab</span></a>
+<li><a href="#h-17.11.2">
+<span class="index-def" title="access key|control::access key
+for|accessibility::access keys">Клавиши доступа</span></a>
+</ol>
+<li><a href="#h-17.12">Отключенные управляющие элементы и элементы только для чтения</a>
+<ol>
+<li><a href="#h-17.12.1">
+<span class="index-inst" title="control::disabled|disabled controls">
+Отключенные управляющие элементы</span></a>
+<li><a href="#h-17.12.2">
+<span class="index-inst" title="control::read only|read only controls">
+Управляющие элементы только для чтения</span></a>
+</ol>
+<li><a href="#h-17.13">
+<span class="index-inst" title="form::submission of">
+Отправка формы</span></a>
+<ol>
+<li><a href="#h-17.13.1">
+<span class="index-inst" title="form::submission method
+of|GET::and form submission|POST::and form submission|HTTP::GET and
+POST with forms">Метод отправки формы</span></a>
+<li><a href="#h-17.13.2">
+<span class="index-inst" title="control::successful|successful
+control|form::values submitted">Успешные управляющие элементы</span></a>
+<li><a href="#h-17.13.3">
+<span class="index-inst" title="form::processing controls of">
+Обработка данных формы</span></a>
+<ul>
+<li><a href="#h-17.13.3.1">Первый шаг: определение успешных управляющих элементов</a>
+<li><a href="#h-17.13.3.2">Второй шаг: построение набора данных формы</a>
+<li><a href="#h-17.13.3.3">
+<span class="index-inst" title="form::encoding data of|form data
+set::encoding">Третий шаг: кодирование набора данных формы</span></a>
+<li><a href="#h-17.13.3.4">
+<span class="index-inst" title="form::methods and actions">
+Четвертый шаг: передача закодированного набора данных формы</span></a>
+</ul>
+<li><a href="#h-17.13.4">
+<span class="index-inst" title="form::content types for
+encoding|content types::for encoding form data">Типы содержимого формы</span></a>
+<ul>
+<li><a href="#h-17.13.4.1"><span class="index-def"
+title="application/x-www-form-urlencoded|content type::application/x-www-form-urlencoded">application/x-www-form-urlencoded</span>
+</a>
+<li><a href="#h-17.13.4.2">
+<span class="index-def" title="multipart/form-data|content
+type::multipart/form-data">multipart/form-data</span>
+</a>
+</ul>
+</ol>
+</ol>
+</div>
+<H2><a name="h-17.1">17.1</a> Введение в формы</h2>
+
+<p>Форма HTML - это раздел документа, в котором содержатся обычная информация, разметка и специальные элементы, называемые <a href="#form-controls"><em>управляющими элементам</em></a> (флажки, кнопки с зависимой фиксацией, меню и т.д.), а также метки этих управляющих элементов.  Обычно пользователи "заполняют" форму, модифицируя управляющие элементы (вводя текст, выбирая пункты меню и т.д.) перед тем, как предоставить форму агентц пользователя для обработки (например, на Web-серввер, на почтовый сервер и т.д.)
+
+<div class="example"><P>
+<P>Вот простая форма, включающая метки, кнопки с зависимой фиксацией и кнопки (очистка формы или отправка):
+<pre>
+ &lt;FORM action="http://somesite.com/prog/adduser" method="post"&gt;
+    &lt;P&gt;
+    &lt;LABEL for="firstname"&gt;Имя: &lt;/LABEL&gt;
+              &lt;INPUT type="text" id="firstname"&gt;&lt;BR&gt;
+    &lt;LABEL for="lastname"&gt;Фамилия: &lt;/LABEL&gt;
+              &lt;INPUT type="text" id="lastname"&gt;&lt;BR&gt;
+    &lt;LABEL for="email"&gt;Адрес электронной почты: &lt;/LABEL&gt;
+              &lt;INPUT type="text" id="email"&gt;&lt;BR&gt;
+    &lt;INPUT type="radio" name="sex" value="Male"&gt; Мужской&lt;BR&gt;
+    &lt;INPUT type="radio" name="sex" value="Female"&gt; Женский&lt;BR&gt;
+    &lt;INPUT type="submit" value="Отправить"&gt; &lt;INPUT type="reset"&gt;
+    &lt;/P&gt;
+ &lt;/FORM&gt;
+</pre>
+</div>
+
+
+<div class="note"><P>
+<em><strong>Примечание.</strong> В данной спецификации имеется более подробная информация о формах в подразделах о <a href="notes.html#notes-forms" tppabs="http://www.citforum.ru/internet/html40/appendix/notes.html#notes-forms">проблемах отображения форм</a>.</em>
+</div>
+
+<h2><a name="h-17.2">17.2</a> <a name="form-controls">Управляющие элементы</a></h2>
+
+<P><span class="index-def" title="control|form::controls in"><a name="didx-control"> Пользователи взаимодействуют с формами с помощью именованных <dfn>управляющих элементов</dfn>.</a></span> 
+
+<P><span class="index-def" title="control::control name"><a name="control-name"><dfn>"Имя элемента"</dfn></a></span> задается атрибутом <samp>name</samp>. Областью действия атрибута <samp>name</samp> для управляющего элемента в элементе <a href="forms.html#edef-FORM" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-FORM" class="noxref"><samp lass="einst">FORM</samp></a> является элемент <a href="forms.html#edef-FORM" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-FORM" class="noxref"><samp class="einst">FORM</samp></a>.
+
+<P>Каждый управляющий элемент имеет начальное и текущее значение, оба они являются символьными строками.  Информацию о начальных значениях и возможных ограничениях на значения см. в определении управляющего элемента. В общем случае <span class="index-def" title="control::initial value"><a name="initial-value"><dfn>"исходное значение"</dfn></a></span> управляющего элемента может задаваться с помощью атрибута <samp>value</samp>. Однако исходное значение элемента <a href="forms.html#edef-TEXTAREA" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-TEXTAREA" class="noxref"><samp class="einst">TEXTAREA</samp></a> задается его содержимым, а исходное значение элемента <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> в форме определяется реализацией объекта (т.е лежит вне области, рассматриваемой в данной спецификации).
+
+<P><span class="index-def" title="control::control value"> <a name="current-value"><dfn>"Текущее значение"</dfn></a></span> управляющего элемента сначала устанавливается равным начальному значению.  Затем текущее значение может изменяться пользователем или <a href="scripts.html" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html">скриптами.</a>
+
+<P><span class="index-def" title="form::reset of|resetting a form"><a name="didx-form-1">Начальное значение управляющего элемента не изменяется.</a></span> Таким образом при сбросе формы каждое текущее значение устанавливается равным начальному значению.  Если управляющий элемент не имеет начального значения, результат сброса формы непредсказуем.
+
+<P>Когда форма предоставляется для обработки, с формой <a href="#submit-format">передаются</a> пары управляющий элемент-текущее значение. Передаваемые пары имя/значение называются <a href="#successful-controls">успешными управляющими элементами</a>.
+
+<h3><a name="h-17.2.1">17.2.1</a><span class="index-inst" title="control::types of|form::control types"><a name="idx-control-7"> Типы управляющих элементов</a></span></h3>
+
+<p>В HTML определены следующие типы управляющих элементов:
+
+<dl>
+<dt>
+<a name="buttons"><strong>кнопки</strong></a>
+<dd>Авторы могут создавать три типа кнопок:
+<ul>
+<li>
+<span class="index-def" title="submit button">
+<a name="submit-button">кнопки отправки</a></span>: При активизации такой кнопки производится <a href="#submit-format">отправка формы.</a> В форме может быть несколько кнопок отправки.
+
+<li><span class="index-def" title="reset button"> <a
+name="reset-button">кнопки сброса</a></span>: При активизации такой кнопки для всех управляющих элементов устанавливаются <a href="#initial-value">исходные значения.</a>
+
+<li>
+<span class="index-def" title="push button"> <a
+name="push-button">прочие кнопки</a></span>:
+Для таких кнопок действие по умолчанию не определено. С атрибутами <a href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">событий</a> каждой такой кнопки могут быть связаны <a href="scripts.html" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html">клиентские скрипты</a>. Если происхходит событие (например, пользователль нажимает кнопку, отпускает ее и т.д.), включается связанный с событием скрипт.
+
+<P>Авторы должны определять язык скрипта для кнопок в <a href="scripts.html#default-script" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#default-script">объявлении скрипта по умолчанию</a> (в элементе <a href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><samp class="einst">META</samp></a>).
+
+</ul>
+
+<P>Авторы создают кнопки с помощью элемента <a href="forms.html#edef-BUTTON" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-BUTTON" class="noxref"><samp class="einst">BUTTON</samp></a> или <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a>. Подробнее об определении различных типов кнопок см. в определении этих элементов.</P>
+
+<div class="note"><P>
+<em><strong>Примечание.</strong> Авторам следует обратить внимание на то, что элемент <a href="forms.html#edef-BUTTON" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-BUTTON" class="noxref"><samp class="einst">BUTTON</samp></a> предоставляет более широкие возможности представления кнопки, чем элемент <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a>.
+</em>
+</div>
+
+<dt>
+<span class="index-def" title="checkbox">
+<a name="checkbox"><strong>флажки</strong></a></span>
+<dd>Флажки (и кнопки с зависимой фиксацией) - это переключатели вкл./выкл., которые могут переключаться пользователем. Переключатель "включен", если для управляющего элемента установлен атрибут <a href="forms.html#adef-selected" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-selected" class="noxref"><samp class="ainst">selected</samp></a>.
+
+<P> При отправке формы <a href="#successful-controls">успешными</a> могут стать только включенные переключатели.  Несколько флажков в форме могут иметь одно и то же <a href="#control-name">имя управляющего элемента.</a> Таким образом, например, флажки позволяют пользователям выбрать несколько значений для одного и того же свойства.  Для создания флажков используется элемент <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a>.
+
+<dt>
+<span class="index-def" title="radio button">
+<a name="radio"><strong>кнопки с зависимой фиксацией</strong></a></span>
+<dd>Кнопки с зависимой фиксацией похожи на флажки за исключением того, что, если несколько кнопок используют одно и то же <a href="#control-name">имя управляющего элемента</a>, они являются взаимоисключающими: если одна кнопка включена, другие обязательно выключены. Для создания кнопок с зависимой фиксацией используется элемент <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a>.
+
+<dt>
+<span class="index-def" title="menu">
+<a name="menu"><strong>меню</strong></a></span>
+<dd>Предоставляют пользователям варианты на выбор.  Меню создается с помощью элемента <a href="forms.html#edef-SELECT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-SELECT" class="noxref"><samp class="einst">SELECT</samp></a>, а также элементов <a href="forms.html#edef-OPTGROUP" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTGROUP" class="noxref"><samp class="einst">OPTGROUP</samp></a> и <a href="forms.html#edef-OPTION" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTION" class="noxref"><samp class="einst">OPTION</samp></a>.
+
+<dt>
+<span class="index-def" title="text input control">
+<a name="text-input"><strong>текстовый ввод</strong></a></span>
+<dd>Для ввода текста пользователем авторы могут создавать управляющие элементы двух типов. Элемент <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a> создает управляющий элемент для ввода текста из одной строки, а элемент <a href="forms.html#edef-TEXTAREA" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-TEXTAREA" class="noxref"><samp class="einst">TEXTAREA</samp></a> - элемент для ввода текста из нескольких строк. В обоих случаях вводимый текст становится <a href="#current-value">текущим значением</a> управляющего элемента.
+
+<dt>
+<span class="index-def" title="file select control">
+<a name="file-select"><strong>выбор файлов</strong></a></span>
+<dd>Управляющие элементы этого типа позволяют пользователям выбирать файлы, содержимое которых может передаваться вместе с формой. Для создания этого управляющего элемента используется элемент <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a>.
+
+<dt>
+<span class="index-def" title="hidden control">
+<a name="hidden-control"><strong>скрытые управляющие элементы</strong></a></span>
+<dd>Авторы могут создавать управляющие элементы, не представляемые пользователям, но имеющие значения, которые передаются с формой. Обычно они используются для хранения информации между обменом клиент/сервер, которая в противном случае могла бы пропасть вследствие stateless природы протокола HTTP (см. <a rel="biblioentry" href="references.html#ref-RFC2068" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC2068" class="informref">[RFC2068]</a>). Для создания скрытого управляющего элемента используется элемент <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a>.  
+
+<dt>
+<span class="index-def" title="object control|object::in form">
+<a name="object-control"><strong>объекты</strong></a></span>
+<dd>Авторы могут помещать в формы общие объекты, так что связанные с ними значения будут передаваться с другими управляющими элементами. Для создания таких управляющих элементов используется элемент <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>.
+</dl>
+
+<P>Элементы, используемые для создания управляющих элементов, обычно располагаются в элементе <a href="forms.html#edef-FORM" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-FORM" class="noxref"><samp class="einst">FORM</samp></a>, но могут находиться и за пределами объявления <a href="forms.html#edef-FORM" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-FORM" class="noxref"><samp class="einst">FORM</samp></a>, если они используются для построения интерфейса пользователя. Это обсуждается в разделе о <a href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренних событиях.</a> Обратите внимание, что управляющие элементы за пределами формы не могут быть <a href="#successful-controls">успешными</a>.
+
+<h2><a name="h-17.3">17.3</a> Элемент <a name="edef-FORM"><samp class="edef">FORM</samp></a></h2>
+
+<div class="dtd-fragment">
+<pre class="dtd-fragment">
+&lt;!ELEMENT <a href="forms.html#edef-FORM" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-FORM" class="noxref"><samp class="einst">FORM</samp></a> - - (<a href="dtd.html#block" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#block">%block;</a>|SCRIPT)+ -(FORM) -- интерактивная форма --&gt;
+&lt;!ATTLIST FORM
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  <a href="forms.html#adef-action" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-action" class="noxref"><samp class="ainst-FORM">action</samp></a>      <a href="dtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#URI">%URI;</a>          #REQUIRED -- обработчик формы на сервере --
+  <a href="forms.html#adef-method" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-method" class="noxref"><samp class="ainst-FORM">method</samp></a>      (GET|POST)     GET       -- метод HTTP, используемый для отправки формы--
+  <a href="forms.html#adef-enctype" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-enctype" class="noxref"><samp class="ainst-FORM">enctype</samp></a>     <a href="dtd.html#ContentType" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#ContentType">%ContentType;</a>  "application/x-www-form-urlencoded"
+  <a href="scripts.html#adef-onsubmit" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onsubmit" class="noxref"><samp class="ainst-FORM">onsubmit</samp></a>    <a href="dtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Script">%Script;</a>       #IMPLIED  -- форма отправлена --
+  <a href="scripts.html#adef-onreset" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onreset" class="noxref"><samp class="ainst-FORM">onreset</samp></a>     <a href="dtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Script">%Script;</a>       #IMPLIED  -- форма сброшена --
+  <a href="forms.html#adef-accept-charset" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-accept-charset" class="noxref"><samp class="ainst-FORM">accept-charset</samp></a> <a href="dtd.html#Charsets" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Charsets">%Charsets;</a>  #IMPLIED  -- список поддерживаемых наборов символов --
+  &gt;
+</pre>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>обязателен</strong></em></p>
+
+<div class="adef-list">
+<P><em>Определения атрибутов</em>
+
+<dl>
+<dt><a name="adef-action"><samp class="adef">action</samp></a> =
+  <a href="types.html#type-uri" tppabs="http://www.citforum.ru/internet/html40/types.html#type-uri"><em>uri</em></a>
+ <a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+<dd>Задает агента для обработки формы. Например, значением может быть URI HTTP
+(для передачи формы в программу) или mailto URI (для отправки формы по электронной почте).
+
+<dt><a name="adef-method"><samp class="adef">method</samp></a> =
+  <samp>get|post</samp> 
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd>Определяет метод HTTP, используемый для передачи <a href="#form-data-set">набора данных формы</a>.  Возможные значения (с учетом регистра) - "get" (по умолчанию) и "post". Подробнее см. в разделе об <a href="#submit-format">отправке формы</a>.
+
+<dt><a name="adef-enctype"><samp class="adef">enctype</samp></a>  =
+  <a href="types.html#type-content-type" tppabs="http://www.citforum.ru/internet/html40/types.html#type-content-type"><em>content-type</em></a> 
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+
+<dd>Этот атрибут задает <a href="#form-content-type">тип содержимого</a>, используемый для отправки формы на сервер (если для <a href="forms.html#adef-method" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-method" class="noxref"><samp class="ainst">метода</samp></a> используется значение "post"). По умолчанию для этого атрибута используется значение <span class="index-inst" title="application/x-www-form-urlencoded"><a name="idx-applicationx-www-form-urlencoded-1">"application/x-www-form-urlencoded"</a></span>. С элементом <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a>, <samp class="ainst">type</samp>="file" должно использоваться значение <span class="index-inst" title="multipart/form-data"><a name="idx-multipartform-data-1">
+"multipart/form-data"</a></span>.
+
+<dt><a name="adef-accept-charset"><samp
+class="adef">accept-charset</samp></a> =
+<a href="types.html#type-charset" tppabs="http://www.citforum.ru/internet/html40/types.html#type-charset"><em>список наборов символов</em></a>
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+
+<dd>Этот атрибут задает список <span class="index-inst" title="character encoding::for form submission"><a name="idx-character_encoding" href="charset.html#doc-char-set" tppabs="http://www.citforum.ru/internet/html40/charset.html#doc-char-set">кодировок символов</a></span> для ввода данных, которые должны приниматься обрабатывающим эту форму сервером. Значением является разделенный пробелами и/или запятыми список значений <a href="types.html#type-charset" tppabs="http://www.citforum.ru/internet/html40/types.html#type-charset">charset</a>.  Сервер должен интерпретировать этот список как список исключающих или, то есть он должен принимать любую кодировку для загруженного объекта.
+
+<P>По умолчанию значением этого атрибута является зарезервированная строка "UNKNOWN". Агенты пользователей могут интерпретировать это значение как кодировку символов, используемую для передачи документа, содержащего этот элемент <a href="forms.html#edef-FORM" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-FORM" class="noxref"><samp class="einst">FORM</samp></a>.
+
+<dt><a name="adef-accept"><samp class="adef">accept</samp></a> =
+  <a href="types.html#type-content-type" tppabs="http://www.citforum.ru/internet/html40/types.html#type-content-type"><em>content-type-list</em></a> 
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd>Этот атрибут определяет разделенным запятыми список типов содержимого, которые должен корректно обрабатывать сервер, обрабатывающий форму. Агенты пользователей могут использовать эту информацию для отфильтровывания отвечающих спецификации файлов при предложении пользователю выбора файлов для отправки на сервере (если в элементе <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a> указано <a href="forms.html#adef-type-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-type-INPUT" class="noxref"><samp class="ainst-INPUT">type</samp></a>="file").
+</dl>
+</div>
+
+<div class="aref-list">
+<P><em>Атрибуты, определяемые в другом месте</em> 
+<ul>
+<li><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><samp class="ainst">class</samp></a>
+    (<a href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</a>) 
+<li><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a>
+  (<a href="dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">информация о языке</a>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> 
+  (<a href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</a>)
+<li><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><samp class="ainst">style</samp></a> (<a 
+    href="styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</a>) 
+<li><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a> (<a
+	     href="global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</a>) 
+<li><a href="frames.html#adef-target" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-target" class="noxref"><samp class="ainst">target</samp></a>
+  (<a href="frames.html#target-info" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#target-info">target frame
+  information</a>)
+<li><a href="scripts.html#adef-onsubmit" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onsubmit" class="noxref"><samp class="ainst">onsubmit</samp></a>,
+  <a href="scripts.html#adef-onreset" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onreset" class="noxref"><samp class="ainst">onreset</samp></a>, 
+  <a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><samp class="ainst">onclick</samp></a>,
+  <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><samp class="ainst">ondblclick</samp></a>,
+  <a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><samp class="ainst">onmousedown</samp></a>,
+  <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><samp class="ainst">onmouseup</samp></a>,
+  <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><samp class="ainst">onmouseover</samp></a>,
+  <a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><samp class="ainst">onmousemove</samp></a>,
+  <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><samp class="ainst">onmouseout</samp></a>,
+  <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><samp class="ainst">onkeypress</samp></a>,
+  <a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><samp class="ainst">onkeydown</samp></a>,
+  <a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><samp class="ainst">onkeyup</samp></a>
+ (<a href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</a>)
+</ul>
+</div>
+
+<P>Элемент <a href="forms.html#edef-FORM" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-FORM" class="noxref"><samp class="einst">FORM</samp></a> служит контейнеров для <a href="#form-controls">управляющих элементов</a>. Он определяет:
+
+<ul>
+<li>Макет формы (дается содержимым элемента).
+
+<li>Программу, которая будет обрабатывать заполенную и переданную форму (атрибут <a href="forms.html#adef-action" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-action" class="noxref"><samp class="ainst">action</samp></a>). Получающая форму программа должна иметь возможность определения пар имя/значение, чтобы их использовать. 
+
+<li>Метод отправки данных на сервер (атрибут <a href="forms.html#adef-method" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-method" class="noxref"><samp class="ainst">method</samp></a>).
+
+<li>Кодировку символов, которая должна приниматься сервером для обработки этой формы (атрибут <a href="forms.html#adef-accept-charset" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-accept-charset" class="noxref"><samp class="ainst">accept-charset</samp></a>).  Агенты пользователей могут рекомендовать пользователю значение атрибута <a href="forms.html#adef-accept-charset" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-accept-charset" class="noxref"><samp class="ainst">accept-charset</samp></a> и/или не позволять пользователям вводить нераспознаваемые символы.
+</ul>
+
+<P>Форма помимо <a href="#form-controls">управляющих элементов</a> может содержать текст и разметку (абзацы, списки и т.д.).
+
+<div class="example">
+<P>В следующем примере показана форма, которая должна обрабатываться программой "adduser". Эта форма будет отправляться с использованием метода HTTP "post".</p>
+
+<pre>
+ &lt;FORM action="http://somesite.com/prog/adduser" method="post"&gt;
+ <em>...содержимое формы...</em>
+ &lt;/FORM&gt;
+</pre>
+
+<P>В следующем примере показана отправка формы на адрес электронной почты:
+
+<pre>
+ &lt;FORM action="mailto:Kligor.T@gee.whiz.com" method="post"&gt;
+ <em>...содержимое формы...</em>
+ &lt;/FORM&gt;
+</pre>
+</div>
+
+<P>Информацию о том, как агенты пользователя должны подготавливать данные формы для серверов и как они должны обрабатывать ответы от сервера Вы можете найти в разделе об <a href="#submit-format">отправке формы</a>.
+
+<div class="note"><P>
+<em><strong>Примечание.</strong> 
+Дальнейшее обсуждение поведения серверов, принимающих данные формы, лежит вне области, рассматриваемой в данной спецификации. 
+</em>
+</div>
+
+
+<h2><a name="h-17.4">17.4</a> Элемент <a name="edef-INPUT"><samp class="edef">INPUT</samp></a></h2>
+
+<div class="dtd-fragment">
+<pre class="dtd-fragment">
+&lt;!ENTITY % InputType
+  "(TEXT | PASSWORD | CHECKBOX |
+    RADIO | SUBMIT | RESET |
+    FILE | HIDDEN | IMAGE | BUTTON)"
+   &gt;
+
+&lt;!-- атрибут является обязательным для всех типов, кроме submit и reset --&gt;
+&lt;!ELEMENT <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a> - O EMPTY              -- управляющий элемент формы --&gt;
+&lt;!ATTLIST INPUT
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  <a href="forms.html#adef-type-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-type-INPUT" class="noxref"><samp class="ainst-INPUT">type</samp></a>        <a href="dtd.html#InputType" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#InputType">%InputType;</a>    TEXT      -- тип вводимой информации --
+  <a href="forms.html#adef-name-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-name-INPUT" class="noxref"><samp class="ainst-INPUT">name</samp></a>        <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata">CDATA</a>          #IMPLIED  -- передать как часть формы --
+  <a href="forms.html#adef-value-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-value-INPUT" class="noxref"><samp class="ainst-INPUT">value</samp></a>       <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata">CDATA</a>          #IMPLIED  -- обязателен для кнопок с зависимой фиксацией и флажков --
+  <a href="forms.html#adef-checked" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-checked" class="noxref"><samp class="ainst-INPUT">checked</samp></a>     (установлен)   #IMPLIED  -- для кнопок с зависимой фиксацией и флажков --
+  <a href="forms.html#adef-disabled" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-disabled" class="noxref"><samp class="ainst-INPUT">disabled</samp></a>    (отключен)     #IMPLIED  -- в данном контексте недоступен --
+  <a href="forms.html#adef-readonly" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-readonly" class="noxref"><samp class="ainst-INPUT">readonly</samp></a>    (только чтение)#IMPLIED  -- для текста и паролей --
+  <a href="forms.html#adef-size-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-size-INPUT" class="noxref"><samp class="ainst-INPUT">size</samp></a>        <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata">CDATA</a>          #IMPLIED  -- зависит от типа поля --
+  <a href="forms.html#adef-maxlength" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-maxlength" class="noxref"><samp class="ainst-INPUT">maxlength</samp></a>   <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number">NUMBER</a>         #IMPLIED  -- максимальное число символов в текстовом поле --
+  <a href="forms.html#adef-src" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-src" class="noxref"><samp class="ainst-INPUT">src</samp></a>         <a href="dtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#URI">%URI;</a>          #IMPLIED  -- для полей с изображениями --
+  <a href="objects.html#adef-alt" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-alt" class="noxref"><samp class="ainst-INPUT">alt</samp></a>         <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata">CDATA</a>          #IMPLIED  -- краткое описание --
+  <a href="objects.html#adef-usemap" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-usemap" class="noxref"><samp class="ainst-INPUT">usemap</samp></a>      <a href="dtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#URI">%URI;</a>          #IMPLIED  -- использовать клиентскую навигационную карту --
+  <a href="forms.html#adef-tabindex" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-tabindex" class="noxref"><samp class="ainst-INPUT">tabindex</samp></a>    <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number">NUMBER</a>         #IMPLIED  -- позиция в последовательности перехода --
+  <a href="forms.html#adef-accesskey" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-accesskey" class="noxref"><samp class="ainst-INPUT">accesskey</samp></a>   <a href="dtd.html#Character" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Character">%Character;</a>    #IMPLIED  -- клавиша доступа --
+  <a href="scripts.html#adef-onfocus" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onfocus" class="noxref"><samp class="ainst-INPUT">onfocus</samp></a>     <a href="dtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Script">%Script;</a>       #IMPLIED  -- фокус на этом элементе --
+  <a href="scripts.html#adef-onblur" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onblur" class="noxref"><samp class="ainst-INPUT">onblur</samp></a>      <a href="dtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Script">%Script;</a>       #IMPLIED  -- фокус перемещен на другой элемент --
+  <a href="scripts.html#adef-onselect" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onselect" class="noxref"><samp class="ainst-INPUT">onselect</samp></a>    <a href="dtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Script">%Script;</a>       #IMPLIED  -- выделен некоторые текст --
+  <a href="scripts.html#adef-onchange" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onchange" class="noxref"><samp class="ainst-INPUT">onchange</samp></a>    <a href="dtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Script">%Script;</a>       #IMPLIED  -- значение элемента изменено --
+  <a href="forms.html#adef-accept" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-accept" class="noxref"><samp class="ainst-INPUT">accept</samp></a>      <a href="dtd.html#ContentTypes" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#ContentTypes">%ContentTypes;</a> #IMPLIED  -- список типов MIME для загрузки файлов --
+  &gt;
+</pre>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>запрещен</strong></em></p>
+
+<div class="adef-list"><P>
+<em>Определения атрибутов</em><dl>
+
+<dt><a name="adef-type-INPUT"><samp class="adef">type</samp></a> =
+<samp>text|password|checkbox|radio|submit|reset|file|hidden|image|button</samp>
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd>Определяет <a href="#input-control-types">тип управляющего элемента</a>. По умолчанию используется значение "text".
+
+<dt><a name="adef-name-INPUT"><samp class="adef">name</samp></a> =
+ <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata"><em>cdata</em></a> 
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd>Определяет <a href="#control-name">имя управляющего элемента</a>.
+
+<dt><a name="adef-value-INPUT"><samp class="adef">value</samp></a> =
+ <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata"><em>cdata</em></a> 
+<a href="types.html#case-attribute" tppabs="http://www.citforum.ru/internet/html40/types.html#case-attribute">[CA]</a>
+
+<dd>Определяет <a href="#initial-value">начальное значение</a> управляющего элемента.  Этот атрибут не обязателен, если только для атрибута <a href="forms.html#adef-type-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-type-INPUT" class="noxref"><samp class="ainst-INPUT">type</samp></a> не установлено значение "radio".
+
+<dt><a name="adef-size-INPUT"><samp class="adef">size</samp></a> =
+ <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata"><em>cdata</em></a>
+ <a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+
+<dd>Сообщает агенту пользователя начальную ширину управляющего элемента. Ширина дается в <a href="types.html#type-pixels" tppabs="http://www.citforum.ru/internet/html40/types.html#type-pixels">пикселах</a>, если для атрибута <a href="forms.html#adef-type-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-type-INPUT" class="noxref"><samp class="ainst-INPUT">type</samp></a> не установлено значение "text" или "password". В этом случае ширина задается в числе символов (число должно быть целым).
+
+<dt><a name="adef-maxlength"><samp class="adef">maxlength</samp></a>
+ = <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number"><em>число</em></a>
+<a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+
+<dd>Если для атрибута <a href="forms.html#adef-type-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-type-INPUT" class="noxref"><samp class="ainst-INPUT">type</samp></a> установлено значение "text" или "password", этот атрибут определяет максимальное число символов, вводимых пользователем. Это число может превышать указанный в атрибуте <a href="forms.html#adef-size-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-size-INPUT" class="noxref"><samp class="ainst-INPUT">size</samp></a> размер поля;
+в этом случае агент пользователя должен обеспечивать механизм прокрутки. По умолчанию число символов не ограничено.
+
+<dt><a name="adef-checked"><samp class="adef">checked</samp></a> 
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+
+<dd>Если для атрибута <a href="forms.html#adef-type-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-type-INPUT" class="noxref"><samp class="ainst-INPUT">type</samp></a> установлено значение "radio" или "checkbox", этот логический атрибут указывает, что флажок установлен. Агенты пользователей должны игнорировать этот атрибут для других типов управляющих элементов.
+
+<dt><a name="adef-src"><samp class="adef">src</samp></a> =
+ <a href="types.html#type-uri" tppabs="http://www.citforum.ru/internet/html40/types.html#type-uri"><em>uri</em></a> 
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+
+<dd>Если атрибут <a href="forms.html#adef-type-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-type-INPUT" class="noxref"><samp class="ainst-INPUT">type</samp></a> имеет значение "image",
+этот атрибут определяет местоположение изображения, используемое для представления графической кнопки.
+</dl>
+</div>
+
+<div class="aref-list">
+<P><em>Атрибуты, определяемые в другом месте</em></p>
+
+<ul>
+<li><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><samp class="ainst">class</samp></a>
+ (<a href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</a>) 
+<li><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a>
+ (<a href="dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">информация о языке</a>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> 
+ (<a href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</a>)
+<li><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a>
+ (<a href="global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</a>) 
+<li><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><samp class="ainst">style</samp></a>
+ (<a href="styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</a>) 
+<li><a href="objects.html#adef-alt" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-alt" class="noxref"><samp class="ainst">alt</samp></a>
+ (<a href="objects.html#alternate-text" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#alternate-text">альтернативный текст</a>) 
+<li><a href="graphics.html#adef-align" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html#adef-align" class="noxref"><samp class="ainst">align</samp></a>
+ (<a href="graphics.html#alignment" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html#alignment">выравнивание</a>)
+<li><a href="forms.html#adef-accept" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-accept" class="noxref"><samp class="ainst">accept</samp></a> (<a href="#edef-FORM">допустимые типы содержимого для сервера</a>)
+<li><a href="forms.html#adef-readonly" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-readonly" class="noxref"><samp class="ainst">readonly</samp></a>
+ (<a href="#read-only">управляющие элеметы ввода только для чтения</a>)
+<li><a href="forms.html#adef-disabled" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-disabled" class="noxref"><samp class="ainst">disabled</samp></a>
+ (<a href="#disabled">отключенные управляющие элементы ввода</a>)
+<li><a href="forms.html#adef-tabindex" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-tabindex" class="noxref"><samp class="ainst">tabindex</samp></a>
+ (<a href="forms.html#tabbing-navigation" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#tabbing-navigation">переход по нажатию клавиши tab</a>)
+<li><a href="forms.html#adef-accesskey" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-accesskey" class="noxref"><samp class="ainst">accesskey</samp></a>
+  (<a href="forms.html#access-keys" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#access-keys">клавиши доступа</a>)
+<li><a href="objects.html#adef-usemap" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-usemap" class="noxref"><samp class="ainst">usemap</samp></a>
+ (<a href="objects.html#edef-MAP" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-MAP">клиентские изображения-карты</a>)
+<li><a href="scripts.html#adef-onfocus" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onfocus" class="noxref"><samp class="ainst">onfocus</samp></a>, <a href="scripts.html#adef-onblur" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onblur" class="noxref"><samp class="ainst">onblur</samp></a>,
+ <a href="scripts.html#adef-onselect" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onselect" class="noxref"><samp class="ainst">onselect</samp></a>, <a href="scripts.html#adef-onchange" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onchange" class="noxref"><samp class="ainst">onchange</samp></a>,
+ <a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><samp class="ainst">onclick</samp></a>, 
+  <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><samp class="ainst">ondblclick</samp></a>,
+  <a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><samp class="ainst">onmousedown</samp></a>,
+  <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><samp class="ainst">onmouseup</samp></a>,
+  <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><samp class="ainst">onmouseover</samp></a>,
+  <a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><samp class="ainst">onmousemove</samp></a>,
+  <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><samp class="ainst">onmouseout</samp></a>,
+  <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><samp class="ainst">onkeypress</samp></a>,
+  <a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><samp class="ainst">onkeydown</samp></a>,
+  <a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><samp class="ainst">onkeyup</samp></a>
+  (<a href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</a>)
+</ul>
+</div>
+
+<H3><a name="h-17.4.1">17.4.1</a> <a name="input-control-types">Типы управляющих элементов, создаваемые с помощью элемента INPUT</a></H3>
+
+<P><a href="#form-controls">Тип управляющего элемента,</a> определяемый элементом <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp
+class="einst">INPUT</samp></a>, зависит от значения атрибута <a href="forms.html#adef-type-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-type-INPUT" class="noxref"><samp class="ainst-INPUT">type</samp></a>:
+
+<dl>
+<dt><strong>text</strong>
+<dd><span class="index-inst" title="text input control::single-line">
+Создает элемент <a name="idx-text_input_control-1" href="#text-input">для ввода текста</a> из одной строки.</span>
+
+<dt><strong>password</strong> 
+
+<dd>
+<span class="index-inst" title="password input control"><a name="idx-password_input_control">
+Аналогичен значению "text",</a></span> но вводимый текст представляется таким образом, чтобы не отображать символы (например, в виде ряда звездочек). Этот управляющий элемент часто используется для ввода паролей.  Обратите внимание, что <a href="#current-value">текущим значением</a> является текст, <em>введенный</em> пользователем, а не текст, представляемый агентом пользователя.
+
+<div class="note"><P>
+<em>
+<span class="index-inst" title="security::of password control"><a name="idx-security">
+<strong>Примечание.</strong></a></span> Разработчикам приложений следует обратить внимание на то, что этот механизм обеспечивает только слабую защиту. Хотя пароль маскируется агентом пользователя от случайных наблюдателей, он передается на сервер в виде открытого текста, и его может прочесть любой пользователь, имеющий доступ к сети на низком уровне.
+</em>
+</div>
+
+<dt><strong>checkbox</strong>
+<dd>Создает <a href="#checkbox">флажок.</a>
+
+<dt><strong>radio</strong>
+<dd>Создает <a href="#radio">кнопку с зависимой фиксацией.</a>
+
+<dt><strong>submit</strong> 
+<dd>Создает <a href="#submit-button">кнопку отправки.</a>
+
+<dt><strong>image</strong>
+
+<dd>Создает графическую <a href="#submit-button">кнопку отправки.</a>
+Значение атрибута <a href="forms.html#adef-src" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-src" class="noxref"><samp class="ainst">src</samp></a> задает URI изображения, используемого для представления кнопки. Из соображений доступности авторам следует предусматривать <a href="objects.html#alternate-text" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#alternate-text">альтернативный текст</a> для изображения с помощью атрибута <a href="objects.html#adef-alt" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-alt" class="noxref"><samp class="ainst">alt</samp></a>.
+
+<p>
+<span class="index-inst" title="coordinates::of form submit click"><a name="idx-coordinates">
+Если для щелчка на изображении используется указующее устройство,</a></span> на сервер передаются форма и координаты щелчка. Значение x измеряется в <a href="types.html#type-pixels" tppabs="http://www.citforum.ru/internet/html40/types.html#type-pixels">пикселах</a> от левой границы изображения, а значение y - в <a href="types.html#type-pixels" tppabs="http://www.citforum.ru/internet/html40/types.html#type-pixels">пикселах</a> от верхней границы изображения. В передаваемые данные включаются последовательности <em>имя</em>.x=<em>значение-x</em> и <em>name</em>.y=<em>значение-y</em>, где <em>"имя"</em> - значение атрибута <samp class="ainst">name</samp>, а <em>значение-x</em> и <em>значение-y</em> - значения координат x и y соответственно.
+
+<p>Если сервер предпринимает различные действия в зависимости от места щелчка, пользователи неграфических браузеров не смогут воспользоваться этим свойством. По этой причине авторам следует предусматривать альтернативные подходы:</p>
+
+<ul>
+<li>Использовать несколько кнопок отправки (каждая с отдельным изображением) вместо одной графической кнопки. Можно использовать для управления местоположением этих кнопок таблицы стилей.  
+
+<li>Использовать <a href="objects.html#include-maps" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#include-maps">клиентские изображения-карты</a> и скрипты.
+</ul>
+
+<dt><strong>reset</strong> 
+
+<dd>Создает <a href="#reset-button">кнопку сброса.</a>
+
+<dt><strong>button</strong> 
+
+<dd>Создает <a href="#push-button">другую кнопку.</a> Агенты пользователей должны использовать в качестве метки на кнопке значение атрибута <samp class="ainst">value</samp>.
+
+<dt><strong>hidden</strong>
+<dd>Создает <a href="#hidden-control">невидимый управляющий элемент.</a>
+
+<dt><strong>file</strong>
+
+<dd>Создает управляющий элемент <a href="#file-select">выбор файла</a>. Агенты пользователей могут использовать значение атрибута <a href="forms.html#adef-value-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-value-INPUT" class="noxref"><samp class="ainst-INPUT">value</samp></a> в качестве исходного имени файла.
+</dl>
+
+<H3><a name="h-17.4.2">17.4.2</a> Примеры форм с управляющими элементами типа INPUT</H3>
+
+<div class="example">
+<P>В следующем фрагменте кода HTML определяется простая форма, позволяющая пользователям вводить имя, фамилию, адрес электронной почты и пол. В случае активизации кнопки отправки форма передается программе, указанной в атрибуте <a href="forms.html#adef-action" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-action" class="noxref"><samp class="ainst">action</samp></a>.</p>
+
+<pre>
+ &lt;FORM action="http://somesite.com/prog/adduser" method="post"&gt;
+    &lt;P&gt;
+    Имя: &lt;INPUT type="text" name="firstname"&gt;&lt;BR&gt;
+    Фамилия: &lt;INPUT type="text" name="lastname"&gt;&lt;BR&gt;
+    email: &lt;INPUT type="text" name="email"&gt;&lt;BR&gt;
+    &lt;INPUT type="radio" name="sex" value="Male"&gt; Мужской&lt;BR&gt;
+    &lt;INPUT type="radio" name="sex" value="Female"&gt; Женский&lt;BR&gt;
+    &lt;INPUT type="submit" value="Отправить"&gt; &lt;INPUT type="reset"&gt;
+    &lt;/P&gt;
+ &lt;/FORM&gt;
+</pre>
+
+<P>Эта форма может представляться следующим образом:
+
+<P><IMG src="form_exmpl.gif" tppabs="http://www.citforum.ru/internet/html40/images/form_exmpl.gif" alt="Пример представления формы.">
+
+<P>В разделе об элементе <a href="forms.html#edef-LABEL" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-LABEL" class="noxref"><samp class="einst">LABEL</samp></a> мы обсудим разметку меток типа "First name".
+</div>
+
+<div class="example"><P>
+<P>В следующем примере в случае события "onclick" включается функция JavaScript
+с именем <tt>verify</tt>:</P>
+
+<pre>
+&lt;HEAD&gt;
+&lt;META http-equiv="Content-Script-Type" content="text/javascript"&gt;
+&lt;/HEAD&gt;
+&lt;BODY&gt;
+ &lt;FORM action="..." method="post"&gt;
+    &lt;P&gt;
+    &lt;INPUT type="button" value="Нажми тут" onclick="verify()"&gt;
+ &lt;/FORM&gt;
+&lt;/BODY&gt;
+</pre>
+
+<P>Подробнее о скриптах и событиях Вы можете узнать в разделе о <a
+href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренних событиях</a>.</P>
+</div>
+
+
+<div class="example">
+<P>В следующем примере показано, как содержимое указанного пользователем файла -может передаваться вместе с формой. У пользователя запрашивается имя и список имен файлов, содержимое которых должно передаваться с формой. С помощью указания значение <a href="forms.html#adef-enctype" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-enctype" class="noxref"><samp class="ainst">enctype</samp></a> для "multipart/form-data" содержимое всех файлов будет упаковываться для передачи в отдельные разделы существующего документа.</p>
+
+<pre>
+&lt;FORM action="http://server.dom/cgi/handle"
+    enctype="multipart/form-data"
+    method="post"&gt;
+ &lt;P&gt;
+ Как Вас зовут? &lt;INPUT type="text" name="name_of_sender"&gt;
+ Какие файлы Вы отправляете? &lt;INPUT type="file" name="name_of_files"&gt;
+ &lt;/P&gt;
+&lt;/FORM>
+</pre>
+</div>
+
+<h2><a name="h-17.5">17.5</a> Элемент <a name="edef-BUTTON"><samp class="edef">BUTTON</samp></a></h2>
+
+<div class="dtd-fragment">
+<pre class="dtd-fragment">
+&lt;!ELEMENT <a href="forms.html#edef-BUTTON" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-BUTTON" class="noxref"><samp class="einst">BUTTON</samp></a> - -
+     (<a href="dtd.html#flow" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#flow">%flow;</a>)* -(A|<a href="dtd.html#formctrl" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#formctrl">%formctrl;</a>|FORM|FIELDSET)
+     -- кнопка --&gt;
+&lt;!ATTLIST BUTTON
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  <a href="forms.html#adef-name-BUTTON" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-name-BUTTON" class="noxref"><samp class="ainst-BUTTON">name</samp></a>        <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata">CDATA</a>          #IMPLIED
+  <a href="forms.html#adef-value-BUTTON" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-value-BUTTON" class="noxref"><samp class="ainst-BUTTON">value</samp></a>       <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata">CDATA</a>          #IMPLIED  -- передается на сервер при отправке --
+  <a href="forms.html#adef-type-BUTTON" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-type-BUTTON" class="noxref"><samp class="ainst-BUTTON">type</samp></a>        (button|submit|reset) submit - для использования в качестве кнопки в форме --
+  <a href="forms.html#adef-disabled" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-disabled" class="noxref"><samp class="ainst-BUTTON">disabled</samp></a>    (disabled)     #IMPLIED  -- в данном контексте недоступно --
+  <a href="forms.html#adef-tabindex" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-tabindex" class="noxref"><samp class="ainst-BUTTON">tabindex</samp></a>    <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number">NUMBER</a>         #IMPLIED  -- положение в последовательности перехода--
+  <a href="forms.html#adef-accesskey" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-accesskey" class="noxref"><samp class="ainst-BUTTON">accesskey</samp></a>   <a href="dtd.html#Character" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Character">%Character;</a>    #IMPLIED  -- клавиша доступа --
+  <a href="scripts.html#adef-onfocus" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onfocus" class="noxref"><samp class="ainst-BUTTON">onfocus</samp></a>     <a href="dtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Script">%Script;</a>       #IMPLIED  -- фокус на элементе --
+  <a href="scripts.html#adef-onblur" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onblur" class="noxref"><samp class="ainst-BUTTON">onblur</samp></a>      <a href="dtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Script">%Script;</a>       #IMPLIED  -- фокус перемещен на другой элемент --
+  &gt;
+</pre>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>обязателен</strong></em></p>
+
+<div class="adef-list">
+<P><em>Определения атрибутов</em>
+
+<dl>
+<dt><a name="adef-name-BUTTON"><samp class="adef">name</samp></a> =
+ <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata"><em>cdata</em></a> 
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd>Определяет <a href="#control-name">имя управляющего элемента.</a>
+
+<dt><a name="adef-value-BUTTON"><samp class="adef">value</samp></a> =
+ <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata"><em>cdata</em></a>
+ <a href="types.html#case-sensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-sensitive">[CS]</a>
+<dd>Определяет <a href="#initial-value">начальное значение</a> кнопки.
+
+<dt><a name="adef-type-BUTTON"><samp class="adef">type</samp></a> =
+ <samp>submit|button|reset</samp>
+ <a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd>Объявляет тип кнопки. Возможные значения:
+
+<ul>
+<li><samp>submit:</samp> Создает <a href="#submit-button">кнопку отправки.</a> Это значение используется по умолчанию.
+
+<li><samp>reset:</samp> Создает <a href="#reset-button">кнопку сброса.</a> 
+
+<li><samp>button:</samp> Создает <a href="#push-button">другую кнопку.</a> 
+</ul>
+</dl>
+</div>
+
+<div class="aref-list">
+<P><em>Атрибуты, определяемые в другом месте</em></p>
+
+<ul>
+<li><a href="forms.html#adef-disabled" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-disabled" class="noxref"><samp class="ainst">disabled</samp></a>
+ (<a href="#disabled">отключенные управляющие элементы ввода</a>)
+<li><a href="forms.html#adef-accesskey" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-accesskey" class="noxref"><samp class="ainst">accesskey</samp></a>
+  (<a href="forms.html#access-keys" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#access-keys">клавиши доступа</a>)
+<li><a href="objects.html#adef-usemap" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-usemap" class="noxref"><samp class="ainst">usemap</samp></a>
+ (<a href="objects.html#edef-MAP" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-MAP">клиентские изображения-карты</a>)
+<li><a href="scripts.html#adef-onfocus" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onfocus" class="noxref"><samp class="ainst">onfocus</samp></a>,
+ <a href="scripts.html#adef-onblur" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onblur" class="noxref"><samp class="ainst">onblur</samp></a>, <a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><samp class="ainst">onclick</samp></a>, <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><samp
+class="ainst">ondblclick</samp></a>, <a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><samp class="ainst">onmousedown</samp></a>, <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><samp
+class="ainst">onmouseup</samp></a>, <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><samp class="ainst">onmouseover</samp></a>, <a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><samp
+class="ainst">onmousemove</samp></a>, <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><samp class="ainst">onmouseout</samp></a>, <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><samp
+class="ainst">onkeypress</samp></a>, <a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><samp class="ainst">onkeydown</samp></a>, <a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><samp
+class="ainst">onkeyup</samp></a> (<a
+href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</a>)
+</ul>
+</div>
+
+<P>Кнопки, создаваемые с помощью элемента <a href="forms.html#edef-BUTTON" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-BUTTON" class="noxref"><samp class="einst">BUTTON</samp></a>, действуют так же, как и кнопки, создаваемые с помощью элемента <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a>, но они обеспечивают более богатые возможности представления: элемент <a href="forms.html#edef-BUTTON" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-BUTTON" class="noxref"><samp class="einst">BUTTON</samp></a> может иметь содержимое. Например, элемент <a href="forms.html#edef-BUTTON" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-BUTTON" class="noxref"><samp class="einst">BUTTON</samp></a>, содержащий изображение, действует и может resemble подобно элементу <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp
+class="einst">INPUT</samp></a>, для атрибута <a href="forms.html#adef-type-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-type-INPUT" class="noxref"><samp class="ainst-INPUT">type</samp></a> которого установлено значение "image", но тип элемента <a href="forms.html#edef-BUTTON" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-BUTTON" class="noxref"><samp class="einst">BUTTON</samp></a> может иметь содержимое content.
+
+<P>Визуальные агенты пользователей могут представлять кнопки <a href="forms.html#edef-BUTTON" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-BUTTON" class="noxref"><samp class="einst">BUTTON</samp></a> рельефно или с эффектом нажатия при щелчке мыши, в то время как кнопки <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a> могут представляться только как "плоские" изображения.
+
+<div class="example">
+<P>В следующем примере предыдущий пример расширяется, и кнопки <a
+href="#submit-button">отправки</a> и <a href="#reset-button">сброса</a>
+создаются с помощью элемента <a href="forms.html#edef-BUTTON" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-BUTTON" class="noxref"><samp class="einst">BUTTON</samp></a> вместо элемента <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a>.  Используемое для кнопок изображение определяется элементом <a href="objects.html#edef-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-IMG" class="noxref"><samp class="einst">IMG</samp></a>.</p>
+
+<pre>
+ &lt;FORM action="http://somesite.com/prog/adduser" method="post"&gt;
+    &lt;P&gt;
+    Имя: &lt;INPUT type="text" name="firstname"&gt;&lt;BR&gt;
+    Фамилия: &lt;INPUT type="text" name="lastname"&gt;&lt;BR&gt;
+    email: &lt;INPUT type="text" name="email"&gt;&lt;BR&gt;
+    &lt;INPUT type="radio" name="sex" value="Male"&gt; Мужской&lt;BR&gt;
+    &lt;INPUT type="radio" name="sex" value="Female"&gt; Женский&lt;BR&gt;
+    &lt;BUTTON name="submit" value="Отправить" type="submit"&gt;
+    Send&lt;IMG src="/icons/wow.gif" alt="Ого"&gt;&lt;/BUTTON&gt;
+    &lt;BUTTON name="reset" type="reset"&gt;
+    Reset&lt;IMG src="/icons/oops.gif" alt="ой"&gt;&lt;/BUTTON&gt;
+    &lt;/P&gt;
+ &lt;/FORM&gt;
+</pre>
+</div>
+
+<P>Помните, что авторам следует предусматривать <a href="objects.html#alternate-text" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#alternate-text">альтернативный текст</a> для элемента <a href="objects.html#edef-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-IMG" class="noxref"><samp class="einst">IMG</samp></a>.
+
+<P>
+<span class="index-inst" title="error::image map with IMG
+in BUTTON|image map::illegal for IMG in BUTTON"><a name="idx-error"> Не допускается</a></span> связывать изображение-карту с элементом <a href="objects.html#edef-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-IMG" class="noxref"><samp class="einst">IMG</samp></a>, содержащимя в элементе <a href="forms.html#edef-BUTTON" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-BUTTON" class="noxref"><samp class="einst">BUTTON</samp></a>
+element.</P>
+
+<div class="illegal-example">
+<P><span class="example-title">ПРИМЕР НЕДОПУСТИМОГО ИСПОЛЬЗОВАНИЯ:</span><br>
+В следующем примере представлен недопустимый код HTML.</p>
+
+<pre>
+&lt;BUTTON&gt;
+&lt;IMG src="foo.gif" usemap="..."&gt;
+&lt;/BUTTON&gt;
+</pre>
+</div>
+
+<h2><a name="h-17.6">17.6</a> Элементы <a name="edef-SELECT"><samp class="edef">SELECT</samp></a>, <a name="edef-OPTGROUP"><samp class="edef">OPTGROUP</samp></a> и <a name="edef-OPTION"><samp class="edef">OPTION</samp></a></h2>
+
+<div class="dtd-fragment">
+<pre class="dtd-fragment">
+&lt;!ELEMENT <a href="forms.html#edef-SELECT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-SELECT" class="noxref"><samp class="einst">SELECT</samp></a> - - (OPTGROUP|OPTION)+ -- option selector --&gt;
+&lt;!ATTLIST SELECT
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  <a href="forms.html#adef-name-SELECT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-name-SELECT" class="noxref"><samp class="ainst-SELECT">name</samp></a>        <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata">CDATA</a>          #IMPLIED  -- имя поля --
+  <a href="forms.html#adef-size-SELECT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-size-SELECT" class="noxref"><samp class="ainst-SELECT">size</samp></a>        <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number">NUMBER</a>         #IMPLIED  -- число видимых строк --
+  <a href="forms.html#adef-multiple" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-multiple" class="noxref"><samp class="ainst-SELECT">multiple</samp></a>    (multiple)     #IMPLIED  -- по умолчанию используется одно выделение --
+  <a href="forms.html#adef-disabled" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-disabled" class="noxref"><samp class="ainst-SELECT">disabled</samp></a>    (disabled)     #IMPLIED  -- недоступно в данном контексте --
+  <a href="forms.html#adef-tabindex" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-tabindex" class="noxref"><samp class="ainst-SELECT">tabindex</samp></a>    <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number">NUMBER</a>         #IMPLIED  -- позиция в последовательности перехода --
+  <a href="scripts.html#adef-onfocus" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onfocus" class="noxref"><samp class="ainst-SELECT">onfocus</samp></a>     <a href="dtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Script">%Script;</a>       #IMPLIED  -- фокус перешел на элемент --
+  <a href="scripts.html#adef-onblur" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onblur" class="noxref"><samp class="ainst-SELECT">onblur</samp></a>      <a href="dtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Script">%Script;</a>       #IMPLIED  -- фокус ушел с элемента --
+  <a href="scripts.html#adef-onchange" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onchange" class="noxref"><samp class="ainst-SELECT">onchange</samp></a>    <a href="dtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Script">%Script;</a>       #IMPLIED  -- значение элемента изменилось --
+  &gt;
+</pre>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>обязателен</strong></em></p>
+
+<div class="adef-list">
+<P><em>Определения атрибутов элемента SELECT</em>
+
+<dl>
+<dt><a name="adef-name-SELECT"><samp class="adef">name</samp></a> =
+ <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata"><em>cdata</em></a>
+ <a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+
+<dd>Определяет <a href="#control-name">имя управляющего элемента.</a>
+
+<dt><a name="adef-size-SELECT"><samp class="adef">size</samp></a>
+ = <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number"><em>number</em></a>
+<a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+
+<dd>Если элемент <a href="forms.html#edef-SELECT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-SELECT" class="noxref"><samp class="einst">SELECT</samp></a> представлен в виде списка с возможностью прокрутки, этот атрибут определяет число строк в списке, видимых в один момент времени. Визуальные агенты пользователей не обязательно должны представлять элемент <a href="forms.html#edef-SELECT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-SELECT" class="noxref"><samp class="einst">SELECT</samp></a> в виде списка; они могут использовать другие механизмы - например, выпадающие меню.
+
+<dt><a name="adef-multiple"><samp class="adef">multiple</samp></a>
+ <a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+
+<dd>Если этот логический атрибут установлен, он позволяет выбирать несколько пунктов. Если он не установлен, в элементе <a href="forms.html#edef-SELECT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-SELECT" class="noxref"><samp class="einst">SELECT</samp></a> можно выбрать только один вариант. 
+</dl>
+</div>
+
+<P>Элемент <a href="forms.html#edef-SELECT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-SELECT" class="noxref"><samp class="einst">SELECT</samp></a> создает <a href="#menu">меню</a>. Каждый вариант пункт меню представляется элементом <a href="forms.html#edef-OPTION" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTION" class="noxref"><samp class="einst">OPTION</samp></a>. Элемент <a href="forms.html#edef-SELECT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-SELECT" class="noxref"><samp class="einst">SELECT</samp></a> должен содержать хотя бы один элемент <a href="forms.html#edef-OPTION" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTION" class="noxref"><samp class="einst">OPTION</samp></a>.
+
+<P>
+<span class="index-inst" title="menu::grouping of choices">
+Элемент <a name="idx-menu-1" href="forms.html#edef-OPTGROUP" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTGROUP" class="noxref"><samp class="einst">OPTGROUP</samp></a> element</span> позволяет авторам логически группировать варианты. Обычно это полезно, если пользователь должен делать выбор в длинном списке вариантов; группы связанных вариантов проще просматривать и запоминать, чем один длинный список вариантов. В HTML 4.0 все элементы <a href="forms.html#edef-OPTGROUP" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTGROUP" class="noxref"><samp class="einst">OPTGROUP</samp></a> должны задаваться непосредственно в элементе <a href="forms.html#edef-SELECT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-SELECT" class="noxref"><samp class="einst">SELECT</samp></a> (т.е. группы не могут быть вложенными).
+
+<h3><a name="h-17.6.1">17.6.1</a> 
+<span class="index-inst" title="menu::preselected options"><a name="idx-menu-2">
+Заранее выбранные варианты</a></span></h3>
+
+<P>Варианты могут быть выбраны заранее. Агенты пользователей должны определять, какие варианты выбраны, следующим образом:
+
+<ul>
+<li>Если ни для одного элемента <a href="forms.html#edef-OPTION" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTION" class="noxref"><samp class="einst">OPTION</samp></a> не установлен атрибут <a href="forms.html#adef-selected" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-selected" class="noxref"><samp class="ainst">selected</samp></a>, ни один вариант заранее не выбран.
+
+<li>Если для одного элемента <a href="forms.html#edef-OPTION" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTION" class="noxref"><samp class="einst">OPTION</samp></a> установлен атрибут <a href="forms.html#adef-selected" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-selected" class="noxref"><samp class="ainst">selected</samp></a>, этот вариант должен быть выбран зарнее.
+
+<li> Если для элемента <a href="forms.html#edef-SELECT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-SELECT" class="noxref"><samp class="einst">SELECT</samp></a> установлен атрибут <a href="forms.html#adef-multiple" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-multiple" class="noxref"><samp class="ainst">multiple</samp></a>, и для нескольких элементов <a href="forms.html#edef-OPTION" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTION" class="noxref"><samp class="einst">OPTION</samp></a> установлен атрибут <a href="forms.html#adef-selected" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-selected" class="noxref"><samp class="ainst">selected</samp></a>, они должны быть выбраны заранее.
+
+<li> Считается ошибкой, если для нескольких элементов <a href="forms.html#edef-OPTION" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTION" class="noxref"><samp class="einst">OPTION</samp></a> установлен атрибуто <a href="forms.html#adef-selected" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-selected" class="noxref"><samp class="ainst">selected</samp></a>, а для элемента <a href="forms.html#edef-SELECT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-SELECT" class="noxref"><samp class="einst">SELECT</samp></a> не установлен атрибут <a href="forms.html#adef-multiple" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-multiple" class="noxref"><samp class="ainst">multiple</samp></a>. Агенты пользователей могут по-разному обрабатывать эту ошибку, но не должны заранее выбирать более одного варианта.
+</ul>
+
+<div class="dtd-fragment">
+<pre class="dtd-fragment">
+&lt;!ELEMENT <a href="forms.html#edef-OPTGROUP" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTGROUP" class="noxref"><samp class="einst">OPTGROUP</samp></a> - - (OPTION)+ -- группа вариантов --&gt;
+&lt;!ATTLIST OPTGROUP
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  <a href="forms.html#adef-disabled" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-disabled" class="noxref"><samp class="ainst-OPTION">disabled</samp></a>    (disabled)     #IMPLIED  -- недоступно в данном контексте --
+  <a href="forms.html#adef-label-OPTGROUP" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-label-OPTGROUP" class="noxref"><samp class="ainst-OPTGROUP">label</samp></a>       <a href="dtd.html#Text" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Text">%Text;</a>         #REQUIRED - использование в иерархических меню --
+  &gt;
+</pre>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>обязателен</strong></em></p>
+
+<div class="adef-list">
+<P><em>Определения атрибутов элемента OPTGROUP</em>
+
+<dl>
+<dt><a name="adef-label-OPTGROUP"><samp class="adef">label</samp></a> =
+ <a href="types.html#type-text" tppabs="http://www.citforum.ru/internet/html40/types.html#type-text"><em>text</em></a>
+<a href="types.html#case-sensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-sensitive">[CS]</a>
+
+<dd>Метка группы вариантов.
+</dl>
+</div>
+
+<div class="aref-list">
+<P><em>Атрибуты, определяемые в другом месте</em> </p>
+
+<ul>
+<li><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><samp class="ainst">class</samp></a>
+ (<a href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</a>) 
+<li><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a>
+ (<a href="dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">информация о языке</a>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> 
+ (<a href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</a>)
+<li><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a>
+ (<a href="global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</a>) 
+<li><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><samp class="ainst">style</samp></a>
+ (<a href="styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</a>) 
+<li><a href="forms.html#adef-disabled" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-disabled" class="noxref"><samp class="ainst">disabled</samp></a>
+ (<a href="#disabled">отключенные управляющие элементы ввода</a>)
+<li><a href="scripts.html#adef-onfocus" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onfocus" class="noxref"><samp class="ainst">onfocus</samp></a>,
+ <a href="scripts.html#adef-onblur" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onblur" class="noxref"><samp class="ainst">onblur</samp></a>, <a href="scripts.html#adef-onchange" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onchange" class="noxref"><samp class="ainst">onchange</samp></a>,
+ <a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><samp class="ainst">onclick</samp></a>,
+  <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><samp class="ainst">ondblclick</samp></a>,
+  <a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><samp class="ainst">onmousedown</samp></a>,
+  <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><samp class="ainst">onmouseup</samp></a>,
+  <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><samp class="ainst">onmouseover</samp></a>,
+  <a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><samp class="ainst">onmousemove</samp></a>,
+  <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><samp class="ainst">onmouseout</samp></a>,
+  <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><samp class="ainst">onkeypress</samp></a>,
+  <a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><samp class="ainst">onkeydown</samp></a>,
+  <a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><samp class="ainst">onkeyup</samp></a>
+  (<a href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</a>)</ul>
+</div>
+
+
+<div class="note"><P>
+<em><strong>Примечание.</strong> Разработчикам рекомендуется иметь в виду, что в будущих версиях HTML механизм группировки может быть расширен для подержки вложенных групп (т.е. элементы <a href="forms.html#edef-OPTGROUP" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTGROUP" class="noxref"><samp class="einst">OPTGROUP</samp></a> смогут быть вложенными). Это позволит авторам представлять более сложную иерархию вариантов.</em></P>
+</div>
+
+<div class="dtd-fragment">
+<pre class="dtd-fragment">
+&lt;!ELEMENT <a href="forms.html#edef-OPTION" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTION" class="noxref"><samp class="einst">OPTION</samp></a> - O (#PCDATA)         -- вариант выбора --&gt;
+&lt;!ATTLIST OPTION
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  <a href="forms.html#adef-selected" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-selected" class="noxref"><samp class="ainst-OPTION">selected</samp></a>    (selected)     #IMPLIED
+  <a href="forms.html#adef-disabled" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-disabled" class="noxref"><samp class="ainst-OPTION">disabled</samp></a>    (disabled)     #IMPLIED  -- недоступно в данном контексте --
+  <a href="forms.html#adef-label-OPTION" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-label-OPTION" class="noxref"><samp class="ainst-OPTION">label</samp></a>       <a href="dtd.html#Text" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Text">%Text;</a>         #IMPLIED  -- используется в иерархических меню --
+  <a href="forms.html#adef-value-OPTION" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-value-OPTION" class="noxref"><samp class="ainst-OPTION">value</samp></a>       <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata">CDATA</a>          #IMPLIED  -- по умолчанию - содержимое элемента --
+  &gt;
+</pre>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>optional</strong></em></p>
+
+<div class="adef-list">
+<P><em>Определения атрибутов элемента OPTION</em>
+
+<dl>
+<dt><a name="adef-selected"><samp class="adef">selected</samp></a>
+  <a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd>Если этот логический атрибут установлен, этот вариант выбран заранее.
+
+<dt><a name="adef-value-OPTION"><samp class="adef">value</samp></a> =
+ <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata"><em>cdata</em></a>
+<a href="types.html#case-sensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-sensitive">[CS]</a>
+
+<dd>Определяет <a href="#initial-value">исходное значение</a> управляющего элемента. Если этот атрибут не установлен, <a href="#initial-value">исходное значение</a> устанавливается равным содержимому элемента <a href="forms.html#edef-OPTION" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTION" class="noxref"><samp class="einst">OPTION</samp></a>.
+
+<dt><a name="adef-label-OPTION"><samp class="adef">label</samp></a> =
+ <a href="types.html#type-text" tppabs="http://www.citforum.ru/internet/html40/types.html#type-text"><em>text</em></a>
+ <a href="types.html#case-sensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-sensitive">[CS]</a>
+
+<dd>Позволяет авторам определить более короткую метку для варианта, чем содержимое элемента <a href="forms.html#edef-OPTION" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTION" class="noxref"><samp class="einst">OPTION</samp></a>. Если этот атрибут определен, агенты пользователей должны использовать его значение вместо содержимого элемента <a href="forms.html#edef-OPTION" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTION" class="noxref"><samp class="einst">OPTION</samp></a> в качестве метки варианта.
+</dl>
+</div>
+
+<div class="aref-list">
+<P><em>Атрибуты, определяемые в другом месте</em> </p>
+
+<ul>
+<li><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><samp class="ainst">class</samp></a>
+ (<a href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</a>) 
+<li><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a>
+ (<a href="dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">информация о языке</a>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> 
+ (<a href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</a>)
+<li><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a>
+ (<a href="global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</a>) 
+<li><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><samp class="ainst">style</samp></a>
+ (<a href="styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</a>) 
+<li><a href="forms.html#adef-disabled" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-disabled" class="noxref"><samp class="ainst">disabled</samp></a>
+ (<a href="#disabled">отключенные управляющие элементы ввода</a>)
+<li><a href="scripts.html#adef-onfocus" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onfocus" class="noxref"><samp class="ainst">onfocus</samp></a>,
+ <a href="scripts.html#adef-onblur" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onblur" class="noxref"><samp class="ainst">onblur</samp></a>, <a href="scripts.html#adef-onchange" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onchange" class="noxref"><samp class="ainst">onchange</samp></a>,
+ <a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><samp class="ainst">onclick</samp></a>,
+  <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><samp class="ainst">ondblclick</samp></a>,
+  <a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><samp class="ainst">onmousedown</samp></a>,
+  <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><samp class="ainst">onmouseup</samp></a>,
+  <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><samp class="ainst">onmouseover</samp></a>,
+  <a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><samp class="ainst">onmousemove</samp></a>,
+  <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><samp class="ainst">onmouseout</samp></a>,
+  <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><samp class="ainst">onkeypress</samp></a>,
+  <a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><samp class="ainst">onkeydown</samp></a>,
+  <a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><samp class="ainst">onkeyup</samp></a>
+  (<a href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</a>)
+</ul>
+</div>
+
+<P>
+<span class="index-inst" title="menu::rendering of choices"><a name="idx-menu-3">
+При представлении пункта меню</a></span> агенты пользователей должны использовать значение атрибута <a href="forms.html#adef-label-OPTION" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-label-OPTION" class="noxref"><samp class="ainst-OPTION">label</samp></a> элемента <a href="forms.html#edef-OPTION" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTION" class="noxref"><samp
+class="einst">OPTION</samp></a> в качестве выбора. Если этот атрибут не определен, агенты пользователей должны использовать содержимое элемента <a href="forms.html#edef-OPTION" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTION" class="noxref"><samp class="einst">OPTION</samp></a>.
+
+<P>Атрибут <a href="forms.html#adef-label-OPTGROUP" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-label-OPTGROUP" class="noxref"><samp class="ainst-OPTGROUP">label</samp></a> элемента <a href="forms.html#edef-OPTGROUP" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTGROUP" class="noxref"><samp class="einst">OPTGROUP</samp></a> определяет метку группы вариантов.
+
+<div class="example">
+<P>В этом примере мы создадим меню, позволяющее пользователю выбрать, какую из семи программ установить. Первая и вторая программы выбраны заранее, но пользователь может отменить их выбор. Остальные программы заранее не выбраны. Атрибут <a href="forms.html#adef-size-SELECT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-size-SELECT" class="noxref"><samp
+class="ainst-SELECT">size</samp></a> определяет, что меню должно занимать 4 строки, хотя пользователь и имеет 7 вариантов. Доступ к другим вариантам должен обеспечиваться с помощью механизма прокрутки.
+
+<P>За элементом <a href="forms.html#edef-SELECT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-SELECT" class="noxref"><samp class="einst">SELECT</samp></a> следуют кнопки отправки и сброса.
+
+<PRE>
+&lt;FORM action="http://somesite.com/prog/component-select" method="post"&gt;
+   &lt;P&gt;
+   &lt;SELECT multiple size="4" name="component-select"&gt;
+      &lt;OPTION selected value="Component_1_a"&gt;Программа_1&lt;/OPTION&gt;
+      &lt;OPTION selected value="Component_1_b"&gt;Программа _2&lt;/OPTION&gt;
+      &lt;OPTION&gt;Программа _3&lt;/OPTION&gt;
+      &lt;OPTION&gt;Программа _4&lt;/OPTION&gt;
+      &lt;OPTION&gt;Программа _5&lt;/OPTION&gt;
+      &lt;OPTION&gt;Программа _6&lt;/OPTION&gt;
+      &lt;OPTION&gt;Программа _7&lt;/OPTION&gt;
+   &lt;/SELECT&gt;
+   &lt;INPUT type="submit" value="Отправить"&gt;&lt;INPUT type="reset"&gt;
+   &lt;/P&gt;
+&lt;/FORM&gt;
+</PRE>
+
+<P><a href="#successful-controls">Успешными</a> будут только выбранные варианты (с использованием <a href="#control-name">имени управляющего элемента</a> "component-select"). Обратите внимание, что, если установлено значение атрибута <a href="forms.html#adef-value-OPTION" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-value-OPTION" class="noxref"><samp class="ainst-OPTION">value</samp></a>, оно определяет <a href="#initial-value">исходное значение</a> управляющего элемента, в противном случае это будет содержимое элемента.
+</div>
+
+<div class="example">
+<P>В этом примере мы используем элемент <a href="forms.html#edef-OPTGROUP" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTGROUP" class="noxref"><samp class="einst">OPTGROUP</samp></a> для группировки вариантов. Следующая разметка:
+
+<PRE>
+&lt;FORM action="http://somesite.com/prog/someprog" method="post"&gt;
+ &lt;P&gt;
+ &lt;SELECT name="ComOS"&gt;
+     &lt;OPTGROUP label="PortMaster 3"&gt;
+       &lt;OPTION label="3.7.1" value="pm3_3.7.1"&gt;PortMaster 3 и ComOS 3.7.1
+       &lt;OPTION label="3.7" value="pm3_3.7"&gt;PortMaster 3 и ComOS 3.7
+       &lt;OPTION label="3.5" value="pm3_3.5"&gt;PortMaster 3 и ComOS 3.5
+     &lt;/OPTGROUP&gt;
+     &lt;OPTGROUP label="PortMaster 2"&gt;
+       &lt;OPTION label="3.7" value="pm2_3.7"&gt;PortMaster 2 и ComOS 3.7
+       &lt;OPTION label="3.5" value="pm2_3.5"&gt;PortMaster 2 и ComOS 3.5
+     &lt;/OPTGROUP&gt;
+     &lt;OPTGROUP label="IRX"&gt;
+       &lt;OPTION label="3.7R" value="IRX_3.7R"&gt;IRX и ComOS 3.7R
+       &lt;OPTION label="3.5R" value="IRX_3.5R"&gt;IRX и ComOS 3.5R
+     &lt;/OPTGROUP&gt;
+ &lt;/SELECT&gt;
+&lt;/FORM&gt;
+</PRE>
+
+<P>представляет следующую группировку:</P>
+
+<PRE>
+  PortMaster 3
+      3.7.1
+      3.7
+      3.5
+  PortMaster 2
+      3.7
+      3.5
+  IRX
+      3.7R
+      3.5R
+</PRE>
+
+<P>
+<span class="index-inst" title="menu::visual rendering of grouped options"><a name="idx-menu-4">
+Визуальные агенты пользователей</a></span> могут обеспечивать выбор в группах вариантов с помощью иерархических меню или с использованием любого другого механизма, отражающего структуру вариантов. 
+
+<P>Графические агенты пользователей могут представлять это следующим образом:</P> 
+<P><IMG src="optgroup_exmpl.gif" tppabs="http://www.citforum.ru/internet/html40/images/optgroup_exmpl.gif" alt="Возможное представление элемента OPTGROUP">
+
+<P>Здесь показан элемент <a href="forms.html#edef-SELECT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-SELECT" class="noxref"><samp class="einst">SELECT</samp></a>, представленный в виде каскадных меню. В вершине меню представлено выбранное в настоящий момент значение (PortMaster 3, 3.7.1).  У пользователя имеется unfurled два каскадных меню, но он еще не выбрал новое значение (PortMaster 2, 3.7).  Обратите внимание, что в каждом каскадном меню отображается метка элемента <a href="forms.html#edef-OPTGROUP" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTGROUP" class="noxref"><samp class="einst">OPTGROUP</samp></a> или <a href="forms.html#edef-OPTION" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTION" class="noxref"><samp class="einst">OPTION</samp></a>.
+</div>
+
+<h2><a name="h-17.7">17.7</a> Элемент <a name="edef-TEXTAREA"><samp class="edef">TEXTAREA</samp></a></h2> 
+
+<div class="dtd-fragment">
+<pre class="dtd-fragment">
+&lt;!ELEMENT <a href="forms.html#edef-TEXTAREA" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-TEXTAREA" class="noxref"><samp class="einst">TEXTAREA</samp></a> - - (#PCDATA)       -- текстовое поле из нескольких строк --&gt;
+&lt;!ATTLIST TEXTAREA
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  <a href="forms.html#adef-name-TEXTAREA" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-name-TEXTAREA" class="noxref"><samp class="ainst-TEXTAREA">name</samp></a>        <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata">CDATA</a>          #IMPLIED
+  <a href="forms.html#adef-rows-TEXTAREA" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-rows-TEXTAREA" class="noxref"><samp class="ainst-TEXTAREA">rows</samp></a>        <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number">NUMBER</a>         #REQUIRED
+  <a href="forms.html#adef-cols-TEXTAREA" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-cols-TEXTAREA" class="noxref"><samp class="ainst-TEXTAREA">cols</samp></a>        <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number">NUMBER</a>         #REQUIRED
+  <a href="forms.html#adef-disabled" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-disabled" class="noxref"><samp class="ainst-TEXTAREA">disabled</samp></a>    (disabled)     #IMPLIED  -- недоступно в данном контексте --
+  <a href="forms.html#adef-readonly" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-readonly" class="noxref"><samp class="ainst-TEXTAREA">readonly</samp></a>    (readonly)     #IMPLIED
+  <a href="forms.html#adef-tabindex" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-tabindex" class="noxref"><samp class="ainst-TEXTAREA">tabindex</samp></a>    <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number">NUMBER</a>         #IMPLIED  -- позиция в последовательности перехода --
+  <a href="forms.html#adef-accesskey" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-accesskey" class="noxref"><samp class="ainst-TEXTAREA">accesskey</samp></a>   <a href="dtd.html#Character" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Character">%Character;</a>    #IMPLIED  -- клавиша доступа --
+  <a href="scripts.html#adef-onfocus" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onfocus" class="noxref"><samp class="ainst-TEXTAREA">onfocus</samp></a>     <a href="dtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Script">%Script;</a>       #IMPLIED  -- фокус перешел к элементу --
+  <a href="scripts.html#adef-onblur" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onblur" class="noxref"><samp class="ainst-TEXTAREA">onblur</samp></a>      <a href="dtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Script">%Script;</a>       #IMPLIED  -- фокус переведен на другой элемент --
+  <a href="scripts.html#adef-onselect" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onselect" class="noxref"><samp class="ainst-TEXTAREA">onselect</samp></a>    <a href="dtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Script">%Script;</a>       #IMPLIED  -- выделен некоторый текст --
+  <a href="scripts.html#adef-onchange" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onchange" class="noxref"><samp class="ainst-TEXTAREA">onchange</samp></a>    <a href="dtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Script">%Script;</a>       #IMPLIED  -- значение элемента изменилось --
+  &gt;
+</pre>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>обязателен</strong></em></p>
+
+<div class="adef-list">
+<P><em>Определения атрибутов</em>
+
+<dl>
+<dt><a name="adef-name-TEXTAREA"><samp class="adef">name</samp></a> =
+ <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata"><em>cdata</em></a> 
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd>Имя <a href="#control-name">управляющего элемента.</a>
+
+<dt><a name="adef-rows-TEXTAREA"><samp class="adef">rows</samp></a>
+ = <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number"><em>number</em></a>
+<a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+<dd>Число видимых текстовых строк. Пользователи должны иметь возможность вводить большее количество строк, поэтому агенты пользователей должны обеспечивать средства прокрутки этого управляющего элемента, если содержимое уходит за пределы видимой области.
+
+<dt><a name="adef-cols-TEXTAREA"><samp class="adef">cols</samp></a>
+ = <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number"><em>number</em></a>
+<a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+
+<dd>Видимая ширина, выраженная шириной среднего символа. Пользователи должны иметь возможность вводить более длинные строки, поэтому агенты пользователей должны обеспечивать средства прокрутки этого управляющего элемента, если содержимое уходит за пределы видимой области. Агенты пользователей могут разбивать видимые тестовые строки, чтобы длинные строки были видны без прокрутки.
+
+</dl>
+</div>
+
+<div class="aref-list">
+<P><em>Атрибуты, определяемые в другом месте</em> </p>
+
+<ul>
+<li><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><samp class="ainst">class</samp></a>
+  (<a href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</a>) 
+
+<li><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a>
+  (<a href="dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">информация о языке</a>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> 
+  (<a href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</a>)
+
+<li><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a>
+  (<a href="global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</a>) 
+
+<li><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><samp class="ainst">style</samp></a>
+  (<a href="styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</a>) 
+
+<li><a href="forms.html#adef-readonly" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-readonly" class="noxref"><samp class="ainst">readonly</samp></a>
+  (<a href="#read-only">элементы ввода только для чтения</a>)
+
+<li><a href="forms.html#adef-disabled" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-disabled" class="noxref"><samp class="ainst">disabled</samp></a>
+  (<a href="#disabled">отключенные управляющие элементы ввода</a>)
+
+<li><a href="forms.html#adef-tabindex" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-tabindex" class="noxref"><samp class="ainst">tabindex</samp></a>
+  (<a href="forms.html#tabbing-navigation" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#tabbing-navigation">переход с помощью клавиши tab</a>)
+
+<li><a href="scripts.html#adef-onfocus" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onfocus" class="noxref"><samp class="ainst">onfocus</samp></a>,
+  <a href="scripts.html#adef-onblur" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onblur" class="noxref"><samp class="ainst">onblur</samp></a>, 
+  <a href="scripts.html#adef-onselect" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onselect" class="noxref"><samp class="ainst">onselect</samp></a>, 
+  <a href="scripts.html#adef-onchange" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onchange" class="noxref"><samp class="ainst">onchange</samp></a>,
+  <a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><samp class="ainst">onclick</samp></a>,
+   <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><samp class="ainst">ondblclick</samp></a>,
+   <a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><samp class="ainst">onmousedown</samp></a>,
+   <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><samp class="ainst">onmouseup</samp></a>,
+   <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><samp class="ainst">onmouseover</samp></a>,
+   <a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><samp class="ainst">onmousemove</samp></a>,
+   <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><samp class="ainst">onmouseout</samp></a>,
+   <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><samp class="ainst">onkeypress</samp></a>,
+   <a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><samp class="ainst">onkeydown</samp></a>,
+   <a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><samp class="ainst">onkeyup</samp></a>
+   (<a href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</a>)
+</ul>
+</div>
+
+<P>Элемент <a href="forms.html#edef-TEXTAREA" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-TEXTAREA" class="noxref"><samp class="einst">TEXTAREA</samp></a> создает управляющий элемент для <span class="index-inst" title="text input control::multi-line"><a name="idx-text_input_control-2">многострочного</a></span> <a href="#text-input">ввода текста</a>.  Агенты пользователей должны использовать содержимое этго элемента как <a href="#initial-value">исходное значение</a> управляющего элемента и представлять этот текст сначала.
+
+<div class="example">
+<P>В этом примере создается управляющий элемент <a href="forms.html#edef-TEXTAREA" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-TEXTAREA" class="noxref"><samp class="einst">TEXTAREA</samp></a> в 20 строк и 80 столбцов, в котором изначально имеется две строки текста. За элементом <a href="forms.html#edef-TEXTAREA" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-TEXTAREA" class="noxref"><samp class="einst">TEXTAREA</samp></a> следуют кнопки отправки и сброса.<p>
+
+<pre>
+&lt;FORM action="http://somesite.com/prog/text-read" method="post"&gt;
+   &lt;P&gt;
+   &lt;TEXTAREA name="thetext" rows="20" cols="80"&gt;
+   Первая строка исходного текста.
+   Вторая строка исходного текста.
+   &lt;/TEXTAREA&gt;
+   &lt;INPUT type="submit" value="Отправить"&gt;&lt;INPUT type="reset"&gt;
+   &lt;/P&gt;
+&lt;/FORM&gt;
+</pre>
+
+<P>Устанвока атрибута <a href="forms.html#adef-readonly" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-readonly" class="noxref"><samp class="ainst">readonly</samp></a> позволяет авторам отображать неизменяемый текст в элементе <a href="forms.html#edef-TEXTAREA" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-TEXTAREA" class="noxref"><samp
+class="einst">TEXTAREA</samp></a>. В отличие от стандартной разметки текста в документе, при такой разметке значение элемента <a href="forms.html#edef-TEXTAREA" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-TEXTAREA" class="noxref"><samp class="einst">TEXTAREA</samp></a> передается с формой.
+</div>
+
+<h2><a name="h-17.8">17.8</a> Элемент <a name="edef-ISINDEX"><samp class="edef">ISINDEX</samp></a></h2>
+
+<p><strong>ISINDEX является <a href="conform.html#deprecated" tppabs="http://www.citforum.ru/internet/html40/conform.html#deprecated">нежелательным</a>.</strong> Этот элемент создает управляющий элемент для <a href="#text-input">ввода текста</a> из одной строки.  Авторам следует использовать для создания управляющих элементов для <a href="#text-input">ввода текста</a> элемент <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a>.
+
+<p>Формальное определение см. в <a href="loosedtd.html#isindex" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#isindex">Transitional DTD</a>.
+
+<div class="adef-list">
+<P><em>Определения атрибутов</em>
+
+<dl>
+<dt><a name="adef-prompt"><samp class="adef">prompt</samp></a> =
+ <a href="types.html#type-text" tppabs="http://www.citforum.ru/internet/html40/types.html#type-text"><em>text</em></a> 
+<a href="types.html#case-sensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-sensitive">[CS]</a>
+<dd><a
+href="conform.html#deprecated" tppabs="http://www.citforum.ru/internet/html40/conform.html#deprecated"><strong>Нежелателен.</strong></a> Задает строку запроса для поля ввода.
+</dl>
+</div>
+
+<div class="aref-list">
+<P><em>Атрибуты, определяемые в другом месте</em></p>
+
+<ul>
+<li><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><samp class="ainst">class</samp></a>
+  (<a href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</a>) 
+<li><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a>
+  (<a href="dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">информация о языке</a>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> 
+  (<a href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</a>)
+<li><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a>
+  (<a href="global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</a>) 
+<li><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><samp class="ainst">style</samp></a>
+  (<a href="styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</a>) 
+</ul>
+</div>
+
+<p>Элемент <a href="forms.html#edef-ISINDEX" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-ISINDEX" class="noxref"><samp class="einst">ISINDEX</samp></a> создает управляющий элемент для <a href="#text-input">ввода текста</a> из одной строки, в который можно ввести любое число симвлов.  Агенты пользователей могут использовать значение атрибута <a href="forms.html#adef-prompt" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-prompt" class="noxref"><samp class="ainst">prompt</samp></a> в качестве запроса.</P>
+
+<div class="deprecated-example">
+<P><span class="example-title">ПРИМЕР НЕЖЕЛАТЕЛЬНОГО ИСПОЛЬЗОВАНИЯ:</span><br>
+Следующее объявление <a href="forms.html#edef-ISINDEX" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-ISINDEX" class="noxref"><samp class="einst">ISINDEX</samp></a>:</p>
+
+<PRE>
+&lt;ISINDEX prompt="Введите фразу для поиска: "&gt;
+</PRE>
+
+<P>можно переписать с использованием элемента <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a> следующим образом:
+
+<PRE>
+&lt;FORM action="..." method="post"&gt;
+&lt;P&gt;Введите фразу для поиска: &lt;INPUT type="text"&gt;&lt;/P&gt;
+&lt;/FORM&gt;
+</PRE>
+</div>
+
+<div class="note">
+<P><em><strong>Семантика элемента <samp class="einst">ISINDEX.</samp></strong>
+В настоящее время семантика элемента <a href="forms.html#edef-ISINDEX" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-ISINDEX" class="noxref"><samp class="einst">ISINDEX</samp></a> точно определена, только если базовый URI для влключающего элемента является URI HTTP.  На практике в эту строку можно вводить только символы в кодировке Latin-1, поскольку для URI нет механизма задания другого набора символов.</em>
+</div>
+
+<h2><a name="h-17.9">17.9</a> 
+<span class="index-inst" title="form::adding labels to">
+<a name="form-labels">Метки</a></span></h2>
+
+<P>С некоторыми управляющими элементами формы могут автоматически связываться метки (например, с кнопками), с другими элементами метки не связываются (текстовые поля, флажки и кнопки с зависимой фиксацией и меню).
+
+<P>Для управляющих элементов с неявными метками агенты пользователей должны использовать в качестве метки значение атрибута <samp class="ainst">value</samp>. 
+
+<P>Элемент <a href="forms.html#edef-LABEL" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-LABEL" class="noxref"><samp class="einst">LABEL</samp></a> используется для задания меток для управляющих элементов, не имеющих неявных меток.
+
+<h3><a name="h-17.9.1">17.9.1</a> Элемент <a name="edef-LABEL"><samp class="edef">LABEL</samp></a></h3>
+
+<div class="dtd-fragment">
+<pre class="dtd-fragment">
+&lt;!ELEMENT <a href="forms.html#edef-LABEL" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-LABEL" class="noxref"><samp class="einst">LABEL</samp></a> - - (<a href="dtd.html#inline" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#inline">%inline;</a>)* -(LABEL) - текст метки поля формы --&gt;
+&lt;!ATTLIST LABEL
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  <a href="forms.html#adef-for" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-for" class="noxref"><samp class="ainst-LABEL">for</samp></a>         <a href="types.html#type-idref" tppabs="http://www.citforum.ru/internet/html40/types.html#type-idref">IDREF</a>          #IMPLIED  -- совпадает со значением ID поля --
+  <a href="forms.html#adef-accesskey" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-accesskey" class="noxref"><samp class="ainst-LABEL">accesskey</samp></a>   <a href="dtd.html#Character" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Character">%Character;</a>    #IMPLIED  -- клавиша доступа --
+  <a href="scripts.html#adef-onfocus" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onfocus" class="noxref"><samp class="ainst-LABEL">onfocus</samp></a>     <a href="dtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Script">%Script;</a>       #IMPLIED  -- фокус перешел к элементу --
+  <a href="scripts.html#adef-onblur" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onblur" class="noxref"><samp class="ainst-LABEL">onblur</samp></a>      <a href="dtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Script">%Script;</a>       #IMPLIED  -- фокус переведен на другой элемент --
+  &gt;
+</pre>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>обязателен</strong></em></p>
+
+<div class="adef-list">
+<P><em>Определения атрибутов</em>
+
+<dl>
+<dt><a name="adef-for"><samp class="adef">for</samp></a>
+ = <a href="types.html#type-idref" tppabs="http://www.citforum.ru/internet/html40/types.html#type-idref"><em>idref</em></a>
+<a href="types.html#case-sensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-sensitive">[CS]</a>
+<dd>Явно связывает определяемую метку с другим управляющим элементом. Если указано значение этого атрибута, оно должно совпадать со значением атрибута <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a> другого управляющего элемента в этом же документе. Если этот атрибут не указан, определяемая метка связывается с содержимым элемента.
+</dl>
+</div>
+
+<div class="aref-list">
+<P><em>Атрибуты, определяемые в другом месте</em></p>
+
+<ul>
+<li><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><samp class="ainst">class</samp></a>
+  (<a href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</a>)
+
+<li><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a>
+  (<a href="dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">информация о языке</a>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> 
+  (<a href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</a>)
+
+<li><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a>
+  (<a href="global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</a>) 
+
+<li><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><samp class="ainst">style</samp></a>
+  (<a href="styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</a>) 
+
+<li><a href="forms.html#adef-accesskey" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-accesskey" class="noxref"><samp class="ainst">accesskey</samp></a>
+  (<a href="forms.html#access-keys" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#access-keys">клавиши доступа</a>)
+
+
+
+<li><a href="forms.html#adef-tabindex" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-tabindex" class="noxref"><samp class="ainst">tabindex</samp></a>
+  (<a href="forms.html#tabbing-navigation" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#tabbing-navigation">переход по клавише tab </a>)
+
+<li><a href="scripts.html#adef-onfocus" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onfocus" class="noxref"><samp class="ainst">onfocus</samp></a>,
+ <a href="scripts.html#adef-onblur" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onblur" class="noxref"><samp class="ainst">onblur</samp></a>,
+ <a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><samp class="ainst">onclick</samp></a>,
+ <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><samp class="ainst">ondblclick</samp></a>,
+ <a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><samp class="ainst">onmousedown</samp></a>,
+ <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><samp class="ainst">onmouseup</samp></a>,
+ <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><samp class="ainst">onmouseover</samp></a>,
+ <a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><samp class="ainst">onmousemove</samp></a>,
+ <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><samp class="ainst">onmouseout</samp></a>,
+ <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><samp class="ainst">onkeypress</samp></a>,
+ <a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><samp class="ainst">onkeydown</samp></a>,
+ <a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><samp class="ainst">onkeyup</samp></a>
+ (<a href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</a>)
+</ul>
+</div>
+
+<P>Элемент <a href="forms.html#edef-LABEL" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-LABEL" class="noxref"><samp class="einst">LABEL</samp></a> может использоваться для прикрепления к управляющим элементам информации. Каждый элемент <a href="forms.html#edef-LABEL" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-LABEL" class="noxref"><samp class="einst">LABEL</samp></a> связан ровно с одним управляющим элементом формы.
+
+<P>
+<span class="index-inst" title="label::explicit association with
+control">Атрибут <a name="idx-label" href="forms.html#adef-for" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-for" class="noxref"><samp class="ainst">for</samp></a> явно связывает </span> метку с другим управляющим элементом: значение атрибута <a href="forms.html#adef-for" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-for" class="noxref"><samp class="ainst">for</samp></a> должно совпадать со значением атрибута <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a> связанного управляющего элемента.  С одним и тем же управляющим элементом может быть связано несколько элементов <a href="forms.html#edef-LABEL" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-LABEL" class="noxref"><samp class="einst">LABEL</samp></a>, если создать несколько ссылок с помощью атрибута <a href="forms.html#adef-for" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-for" class="noxref"><samp class="ainst">for</samp></a>.
+
+<div class="example">
+<P>В этом примере мы создадим таблицу, которая используется для выравнивания двух элементов для <a href="#text-input">ввода текста</a> и связанные с ними метки.  Каждая метка явно связана с одним из <a href="#text-input">полей вода</a>:
+
+<pre>
+&lt;FORM action="..." method="post"&gt;
+&lt;TABLE&gt;
+  &lt;TR&gt;
+    &lt;TD&gt;&lt;LABEL for="fname"&gt;Имя&lt;/LABEL&gt;
+    &lt;TD&gt;&lt;INPUT type="text" name="firstname" id="fname"&gt;
+  &lt;TR&gt;
+    &lt;TD&gt;&lt;LABEL for="lname"&gt;Фамилия&lt;/LABEL&gt;
+    &lt;TD&gt;&lt;INPUT type="text" name="lastname" id="lname"&gt;
+&lt;/TABLE&gt;
+&lt;/FORM&gt;
+</pre>
+</div>
+
+<div class="example">
+<P>Здесь мы расширим предыдущий пример и включим элементы <a href="forms.html#edef-LABEL" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-LABEL" class="noxref"><samp class="einst">LABEL</samp></a>.</P>
+
+<pre>
+ &lt;FORM action="http://somesite.com/prog/adduser" method="post"&gt;
+    &lt;P&gt;
+    &lt;LABEL for="firstname"&gt;Имя: &lt;/LABEL&gt;
+              &lt;INPUT type="text" id="firstname"&gt;&lt;BR&gt;
+    &lt;LABEL for="lastname"&gt;Фамилия: &lt;/LABEL&gt;
+              &lt;INPUT type="text" id="lastname"&gt;&lt;BR&gt;
+    &lt;LABEL for="email"&gt;email: &lt;/LABEL&gt;
+              &lt;INPUT type="text" id="email"&gt;&lt;BR&gt;
+    &lt;INPUT type="radio" name="sex" value="Мужской"&gt; Male&lt;BR&gt;
+    &lt;INPUT type="radio" name="sex" value="Женский"&gt; Female&lt;BR&gt;
+    &lt;INPUT type="submit" value="Отправить"&gt; &lt;INPUT type="reset"&gt;
+    &lt;/P&gt;
+ &lt;/FORM&gt;
+</pre>
+</div>
+
+<P>
+<span class="index-inst" title="label::implicit association with
+control"><a name="idx-label-1">Чтобы неявно связать метку </a></span> с другим управляющим элементом, этот управляющий элемент должен находиться в элементе <a href="forms.html#edef-LABEL" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-LABEL" class="noxref"><samp class="einst">LABEL</samp></a>. В таком случае элемент <a href="forms.html#edef-LABEL" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-LABEL" class="noxref"><samp class="einst">LABEL</samp></a> может содержать только один управляющий элемент. Сама метка может располагаться до или после связанного с ней управляющего элемента.
+
+<div class="example">
+<P>В этом примере мы неявно связываем две метки с двумя управляющими элементами <a href="#text-input">для ввода текста</a>:</P>
+
+<pre>
+&lt;FORM action="..." method="post"&gt;
+&lt;P&gt;
+&lt;LABEL&gt;
+   Имя
+   &lt;INPUT type="text" name="firstname"&gt;
+&lt;/LABEL&gt;
+&lt;LABEL&gt;
+   &lt;INPUT type="text" name="lastname"&gt;
+   Фамилия
+&lt;/LABEL&gt;
+&lt;/P&gt;
+&lt;/FORM&gt;
+</pre>
+
+<P>Обратите внимание, то такая технология не может использоваться, если таблицы используются для форматирования документов, и метка находится в одной ячейке, а связанный с ней управляющий элемент в другой.
+</div>
+
+<P>
+<span class="index-inst" title="label::and focus|focus::label gives to
+control"> Если на элемент <a name="idx-label-2" href="forms.html#edef-LABEL" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-LABEL" class="noxref"><samp class="einst">LABEL</samp></a></span>
+переходит <a href="#focus">фокус</a>, то он передается в связанный управляющий элемент. Примеры см. ниже в разделе о <a href="#access-keys">клавишах доступа</a>.
+
+<P>Метки могут представляться агентами пользователей несколькими способами (например, визуально, прочитываться синтезаторами речи и т.д.)
+
+<h2><a name="h-17.10">17.10</a> <a name="form-structure">Добавление в формы структуры:</a> элементы <a name="edef-FIELDSET"><samp class="edef">FIELDSET</samp></a> и <a name="edef-LEGEND"><samp class="edef">LEGEND</samp></a></h2>
+
+<div class="dtd-fragment">
+<pre class="dtd-fragment">
+&lt;!--
+  #PCDATA используется для решения проблемы смешанного содержимого,
+  per specification only whitespace is allowed there!
+ --&gt;
+&lt;!ELEMENT <a href="forms.html#edef-FIELDSET" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-FIELDSET" class="noxref"><samp class="einst">FIELDSET</samp></a> - - (#PCDATA,LEGEND,(<a href="dtd.html#flow" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#flow">%flow;</a>)*) - группа управляющих элементов формы --&gt;
+&lt;!ATTLIST FIELDSET
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  &gt;
+
+&lt;!ELEMENT <a href="forms.html#edef-LEGEND" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-LEGEND" class="noxref"><samp class="einst">LEGEND</samp></a> - - (<a href="dtd.html#inline" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#inline">%inline;</a>)*       -- legend набора полей --&gt;
+&lt;!ENTITY % LAlign "(top|bottom|left|right)"&gt;
+
+&lt;!ATTLIST LEGEND
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  <a href="forms.html#adef-accesskey" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-accesskey" class="noxref"><samp class="ainst-LEGEND">accesskey</samp></a>   <a href="dtd.html#Character" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Character">%Character;</a>    #IMPLIED  -- клавиша доступа  --
+  &gt;
+</pre>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>обязателен</strong></em></p>
+
+<div class="adef-list">
+<P><em>LEGEND Определения атрибутов</em></P>
+
+<dl>
+<dt><a name="adef-align-LEGEND"><samp class="adef">align</samp></a> =
+  <samp>top|bottom|left|right</samp> <a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd><a href="conform.html#deprecated" tppabs="http://www.citforum.ru/internet/html40/conform.html#deprecated"><strong>Нежелателен.</strong></a> Определяет положение legend относительно набора полей. Возможные значения:
+
+<ul>
+<li><samp>top:</samp> legend располагается сверху набора полей.
+ Это значение используется по умолчанию.
+<li><samp>bottom:</samp> legend располагается внизу набора полей.
+<li><samp>left:</samp> legend располагается в левой части набора полей.
+<li><samp>right:</samp> legend располагается в правой части набора полей.
+</ul>
+</dl>
+</div>
+
+<div class="aref-list">
+<P><em>Атрибуты, определяемые в другом месте</em></p>
+
+<ul>
+<li><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><samp class="ainst">class</samp></a>
+  (<a href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</a>)
+
+<li><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a>
+  (<a href="dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">информация о языке</a>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> 
+  (<a href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</a>)
+
+<li><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a>
+  (<a href="global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</a>) 
+
+<li><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><samp class="ainst">style</samp></a>
+  (<a href="styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</a>)
+
+<li><a href="forms.html#adef-accesskey" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-accesskey" class="noxref"><samp class="ainst">accesskey</samp></a> 
+  (<a href="forms.html#access-keys" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#access-keys">клавиши доступа</a>)
+
+<li><a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><samp class="ainst">onclick</samp></a>,
+ <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><samp class="ainst">ondblclick</samp></a>,
+ <a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><samp class="ainst">onmousedown</samp></a>,
+ <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><samp class="ainst">onmouseup</samp></a>,
+ <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><samp class="ainst">onmouseover</samp></a>,
+ <a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><samp class="ainst">onmousemove</samp></a>,
+ <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><samp class="ainst">onmouseout</samp></a>,
+ <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><samp class="ainst">onkeypress</samp></a>,
+ <a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><samp class="ainst">onkeydown</samp></a>,
+ <a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><samp class="ainst">onkeyup</samp></a>
+ (<a href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</a>)
+</ul>
+</div>
+
+<P>
+<span class="index-inst" title="form::structuring controls in">Элемент 
+<a name="idx-form-6" href="forms.html#edef-FIELDSET" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-FIELDSET" class="noxref"><samp class="einst">FIELDSET</samp></a></span> позволяет авторам группировать связанные метки и управляющие элементы по темам.  Группировка управляющих элементов упрощает пользователям понимание назначения элементов, одновременно упрощая переход по клавише tab для визуальных агентов пользователей и речевую навигацию для звуковых агентов пользователей. Корректное использование этого элемента повышает доступность документов.
+
+<P>Элемент <a href="forms.html#edef-LEGEND" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-LEGEND" class="noxref"><samp class="einst">LEGEND</samp></a> позволяет авторам назначать заголовки для элемента <a href="forms.html#edef-FIELDSET" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-FIELDSET" class="noxref"><samp class="einst">FIELDSET</samp></a>. Legend повышает доступность, если элемент  <a href="forms.html#edef-FIELDSET" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-FIELDSET" class="noxref"><samp class="einst">FIELDSET</samp></a> представляется невизуально. 
+
+<div class="example">
+<P>В этом примере мы создадим форму, которую можно заполнять на приеме у врача. Она имеет три раздела: личная информация, история болезни и текущее лечение. В каждом разделе имеются управляющие элементы для ввода соответствующей информации.</P>
+
+<pre>
+&lt;FORM action="..." method="post"&gt;
+ &lt;P&gt;
+ &lt;FIELDSET&gt;
+  &lt;LEGEND&gt;Личная информация&lt;/LEGEND&gt;
+  Фамилия: &lt;INPUT name="personal_lastname" type="text" tabindex="1"&gt;
+  Имя: &lt;INPUT name="personal_firstname" type="text" tabindex="2"&gt;
+  Адрес: &lt;INPUT name="personal_address" type="text" tabindex="3"&gt;
+  <em>...другая персональная информация...</em>
+ &lt;/FIELDSET&gt;
+ &lt;FIELDSET&gt;
+  &lt;LEGEND&gt;История болезни&lt;/LEGEND&gt;
+  &lt;INPUT name="history_illness" 
+         type="checkbox" 
+         value="Smallpox" tabindex="20"&gt; Smallpox
+  &lt;INPUT name="history_illness" 
+         type="checkbox" 
+         value="Mumps" tabindex="21"&gt; Mumps
+  &lt;INPUT name="history_illness" 
+         type="checkbox" 
+         value="Dizziness" tabindex="22"&gt; Dizziness
+  &lt;INPUT name="history_illness" 
+         type="checkbox" 
+         value="Sneezing" tabindex="23"&gt; Sneezing
+  <em>...продолжение истории болезни...</em>
+ &lt;/FIELDSET&gt;
+ &lt;FIELDSET&gt;
+  &lt;LEGEND&gt;Текущее лечение&lt;/LEGEND&gt;
+  Принимаете ли Вы сейчас медицинские препараты? 
+  &lt;INPUT name="medication_now" 
+         type="radio" 
+         value="Yes" tabindex="35"&gt;Да
+  &lt;INPUT name="medication_now" 
+         type="radio" 
+         value="No" tabindex="35"&gt;Нет
+
+  Если да, перечислите их ниже:
+  &lt;TEXTAREA name="current_medication" 
+            rows="20" cols="50"
+            tabindex="40"&gt;
+  &lt;/TEXTAREA&gt;
+ &lt;/FIELDSET&gt;
+&lt;/FORM&gt;
+</pre>
+
+<P>Обратите внимание, что в этом примере мы можем улучшить визуальное представление формы, добавив элементы в каждый элемент <a href="forms.html#edef-FIELDSET" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-FIELDSET" class="noxref"><samp class="einst">FIELDSET</samp></a> (с помощью таблиц стилей), добавив информацию о цвете и шрифте (с помощью таблиц стилей), добавив скрипты (например, чтобы область "текущее лечение" открывалась, только если пользователь указывает, что он проходит лечение) и т.д.
+/samp</div>
+
+<h2><a name="h-17.11">17.11</a> 
+<span class="index-def" title="focus|control::giving focus to">
+<a name="focus">Переход фокуса на элемент</a></span></h2>
+
+<P>В документе HTML, чтобы стать активным и выполнить свои задачи, элемент должен получить <dfn>фокус</dfn> от пользователя. Например, пользователи должны активизировать ссылку, задаваемую элементом <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a>, чтобы перейти к связанному документу. Точно так же пользователи должны перевести фокус на элемент <a href="forms.html#edef-TEXTAREA" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-TEXTAREA" class="noxref"><samp class="einst">TEXTAREA</samp></a>, чтобы в него можно было вводить текст.
+
+<P>Имеется несколько способов передачи фокуса элементу:</P>
+
+<ul>
+<li>Указать элемент с помощью указательного устройства.
+
+<li>Перейти с одного элемента на другой с помощью клавиатуры.  Автор документа может определить <em>последовательность перехода</em>, определяющую порядок получения элементами фокуса при переходе пользователя по документу с помощью клавиатуры (см. <a href="#tabbing-navigation">переход по клавише tab</a>).  Выбранный элемент можно активизировать с помощью другой последовательности клавиш.
+
+<li>Выбрать элемент с помощью <a href="#access-keys"><em>клавиши доступа</em></a> (иногда называется "клавиатурным сокращением").
+</ul>
+
+
+<h3><a name="h-17.11.1">17.11.1</a> 
+<span class="index-def" title="control::tabbing navigation|tabbing
+navigation|form::navigating through controls"> <a
+name="tabbing-navigation">Переход с помощью клавиши Tab</a></span></h3>
+
+<div class="adef-list">
+<P><em>Определения атрибутов</em></P>
+
+<dl>
+<dt><a name="adef-tabindex"><samp class="adef">tabindex</samp></a> 
+ = <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number"><em>number</em></a>
+<a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+<dd>Определяет положение текущего элемента в последовательности перехода для текущего документа. Значение должно лежать в диапазоне от 0 до 32767. Агенты пользователей должны игнорировать начальные нули.
+</dl>
+</div>
+
+<P>
+<span class="index-def" title="tabbing order|form::tabbing order of
+controls"><a name="didx-tabbing_order"><dfn>Последовательность перехода</dfn></a></span> определяет порядок получения фокуса элементами при переходе с помощью клавиатуры. Последовательность перехода может включать элементы, вложенные в другие элементы.
+
+<P>Переход к элементам, которые могут получать фокус, должен осуществляться агентами пользователей в соответствии со следующими правилами:</P>
+
+<ol>
+<li>Переход к элементам, поддерживающим атрибут <a href="forms.html#adef-tabindex" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-tabindex" class="noxref"><samp class="ainst">tabindex</samp></a>, которому назначено положительное значение, должен осуществляться в первую очередь. Переход производится от элементов с наименьшим значением атрибута <a href="forms.html#adef-tabindex" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-tabindex" class="noxref"><samp class="ainst">tabindex</samp></a> до элементов с наивысшим значением. Значения не обязательно должны быть последовательными и не обязательно должны начинаться с какого-то конкретного значения. Переход к элементам с одинаковыми значениями атрибута <a href="forms.html#adef-tabindex" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-tabindex" class="noxref"><samp class="ainst">tabindex</samp></a> должен осуществляться в порядке их нахождения в потоке символов.
+
+<li>Переход к элементам, не поддерживающим атрибут <a href="forms.html#adef-tabindex" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-tabindex" class="noxref"><samp class="ainst">tabindex</samp></a> или элементам, у которых значением этого атрибута является "0", выполняется в следующую очередь. Переход к этим элементам производится в порядке их нахождения в потоке символов.
+
+<li><a href="#disabled">Отключенные</a> элементы не участвуют в последовательности перехода.
+</ol>
+
+<P>Следующие элементы поддерживают атрибут <a href="forms.html#adef-tabindex" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-tabindex" class="noxref"><samp class="ainst">tabindex</samp></a>: <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a>, <a href="objects.html#edef-AREA" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-AREA" class="noxref"><samp class="einst">AREA</samp></a>, <a href="forms.html#edef-BUTTON" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-BUTTON" class="noxref"><samp class="einst">BUTTON</samp></a>, <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a>, <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>, <a href="forms.html#edef-SELECT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-SELECT" class="noxref"><samp class="einst">SELECT</samp></a> и <a href="forms.html#edef-TEXTAREA" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-TEXTAREA" class="noxref"><samp class="einst">TEXTAREA</samp></a>.
+
+<div class="example">
+<P>В этом примере последовательность перехода будет включать элементы <a href="forms.html#edef-BUTTON" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-BUTTON" class="noxref"><samp class="einst">BUTTON</samp></a>, <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a> в порядке (обратите внимание, что "field1" и кнопка используют одно и то же значение атрибута tabindex, но "field1" находится потоке в потоке символов), и наконец, ссылка, создаваемая элементом <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a>.
+
+<pre>
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+   "http://www.w3.org/TR/REC-html40/strict.dtd"&gt;
+&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;TITLE&gt;Документ с тегом FORM&lt;/TITLE&gt;
+&lt;/HEAD&gt;
+&lt;BODY&gt;
+<em>...некоторый текст...</em>
+&lt;P&gt;Посетите
+&lt;A tabindex="10" href="http://www.w3.org/"&gt;сайт W3C.&lt;/A&gt;
+<em>...еще текст...</em>
+&lt;BUTTON type="button" name="get-database"
+           tabindex="1" onclick="get-database"&gt;
+Текущая база данных.
+&lt;/BUTTON&gt;
+<em>...еще текст...</em>
+&lt;FORM action="..." method="post"&gt;
+&lt;P&gt;
+&lt;INPUT tabindex="1" type="text" name="field1"&gt;
+&lt;INPUT tabindex="2" type="text" name="field2"&gt;
+&lt;INPUT tabindex="3" type="submit" name="submit"&gt;
+&lt;/P&gt;
+&lt;/FORM&gt;
+&lt;/BODY&gt;
+&lt;/HTML&gt;
+</pre>
+</div>
+
+<div class="note">
+<P><em><strong>Клавиши перехода.</strong>
+Фактическая последовательность клавиш, обеспечивающая переход или активизацию элемента, зависит от конфигурации агента пользователя (например, клавиша 
+"tab" используется для перехода, а клавиша "enter" - для активизации выбранного элемента).</em>
+
+<P><em>Агенты пользователей могут также определять последовательности клавиш для перехода в обратном порядке. По достижении конца (или начала) последовательности агенты пользователей могут переходить в начало (или в конец).</em>
+</div>
+
+<h3><a name="h-17.11.2">17.11.2</a> 
+<span class="index-def" title="access key|control::access key
+for|accessibility::access keys"><a name="access-keys">Клавиши доступа</a></span></h3>
+
+<div class="adef-list">
+<P><em>Определения атрибутов</em></P>
+
+<dl>
+<dt><a name="adef-accesskey"><samp class="adef">accesskey</samp></a> =
+ <a href="types.html#type-character" tppabs="http://www.citforum.ru/internet/html40/types.html#type-character"><em>character</em></a> 
+<a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+
+<dd>Назначает для элемента клавишу доступа.  <span class="index-inst" title="characters::access key"><a name="idx-characters">Клавиша доступа</a></span> - это один символ из набора символов документа. <strong>Примечание.</strong> При определении клавиши доступа авторы должны учитывать способ ввода, который, скорее будет использоваться читателем.
+</dl>
+</div>
+
+<P>
+<span class="index-inst" title="focus::and access key"><a name="idx-focus-2">
+Нажатие назначенной элементу клавиши доступа передает элементу фокус.</a></span> Действие, происходящее по получении элементом фокуса, зависит от элемента. Например, если пользвоатель активизирует ссылку, определяемую элементом <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a>, агент пользователя обычно производит переход по ссылке. Если пользователь активизирует кнопку с зависимой фиксацией, агент пользователя изменяет значение кнопки.  Если пользователь активизирует текстовое поле, в него разрешается ввод и т.д.
+
+<P>Следующие элементы поддерживают атрибут <a href="forms.html#adef-accesskey" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-accesskey" class="noxref"><samp class="ainst">accesskey</samp></a>: <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a>, <a href="objects.html#edef-AREA" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-AREA" class="noxref"><samp class="einst">AREA</samp></a>, <a href="forms.html#edef-BUTTON" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-BUTTON" class="noxref"><samp class="einst">BUTTON</samp></a>, <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a>, <a href="forms.html#edef-LABEL" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-LABEL" class="noxref"><samp class="einst">LABEL</samp></a>, <a href="forms.html#edef-LEGEND" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-LEGEND" class="noxref"><samp class="einst">LEGEND</samp></a> и <a href="forms.html#edef-TEXTAREA" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-TEXTAREA" class="noxref"><samp class="einst">TEXTAREA</samp></a>.
+
+<div class="example">
+<P>В этом примере клавиша доступа "U" назначается метке, связанной с управляющим элементом <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a>. Нажатие клавиши доступа переводит фокус на метку, которая, в свою очередь, передает его связанному с ней управляющему элементу. После этого пользователь может ввести текст в область <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a>.</P>
+
+<pre>
+&lt;FORM action="..." method="post"&gt;
+&lt;P&gt;
+&lt;LABEL for="fuser" accesskey="U"&gt;
+User Name
+&lt;/LABEL&gt;
+&lt;INPUT type="text" name="user" id="fuser"&gt;
+&lt;/P&gt;
+&lt;/FORM&gt;
+</pre>
+</div>
+
+<div class="example">
+<P>В этом примере мы назначаем клавишу доступа ссылке, определяемой элементом <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a>. Нажатие этой клавиши приведет к переходу пользователя в другой документ, в данном случае - в оглавление.</P>
+
+<PRE>
+&lt;P&gt;&lt;A accesskey="C" 
+      rel="contents"
+      href="http://someplace.com/specification/contents.html"&gt;
+    Оглавление&lt;/A&gt;
+</PRE>
+</div>
+
+<P>Использование клавиши доступа зависит от системы. Например, на машинах под управлением MS Windows обычно вместе с клавишей доступа нужно нажимать клавишу "alt". В системах Apple обычно требуется нажатие клавиши "cmd".
+
+<P>Представление клавиши доступа зависит от агента пользователя. Авторам рекомендуется включать клавиши доступа в текст метки или туда, где применяется клавиша доступа. Агенты пользователей должны представлять значение клавиши доступа таким образом, чтобы подчеркнуть ее роль и дать отличить ее от других символов (например, с помощью подчеркивания).
+
+<h2><a name="h-17.12">17.12</a> <a name="disabled-read-only">Отключенные управляющие элементы и элементы только для чтения</a></h2>
+
+<p>В контекстах, где ввод пользователя нежелателен или не требуется, важна возможность отключения управляющего элемента или представление его только для чтения. Например, можно отключить кнопку отправки формы до ввода некоторых обязательных данных. Аналогично, автор может включить текст только для чтения, который должен передаваться с формой как значение. В следующих разделах описываются отключенные управляющие элементы и элементы только для чтения.
+
+<h3><a name="h-17.12.1">17.12.1</a> 
+<span class="index-inst" title="control::disabled|disabled controls">
+<a name="disabled">Отключенные управляющие элементы</a></span></h3>
+
+<div class="adef-list">
+<P><em>Определения атрибутов</em></p>
+
+<dl>
+<dt><a name="adef-disabled"><samp class="adef">disabled</samp></a> <a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd>Если этот атрибут установлен для управляющего элемента формы, ввод пользователем в этот элемент невозможен.
+</dl>
+</div>
+
+<P>Если атрибут <a href="forms.html#adef-disabled" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-disabled" class="noxref"><samp class="ainst">disabled</samp></a> установлен, он влияет на элемент следующим образом:</p>
+
+<ul>
+<li>К отключенным элементам не переходит <a href="#focus">фокус</a>.
+<li>Отключенные элементы не участвуют в <a href="#tabbing-navigation">переходе по клавише tab</a>.  
+<li>Отключенные управляющие элементы не могут быть <a href="#successful-controls">успешными</a>.
+</ul>
+
+<P>Атрибут <a href="forms.html#adef-disabled" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-disabled" class="noxref"><samp
+class="ainst">disabled</samp></a> поддерживают следующие элементы: <a href="forms.html#edef-BUTTON" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-BUTTON" class="noxref"><samp class="einst">BUTTON</samp></a> <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a>, <a href="forms.html#edef-OPTGROUP" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTGROUP" class="noxref"><samp class="einst">OPTGROUP</samp></a>, <a href="forms.html#edef-OPTION" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTION" class="noxref"><samp class="einst">OPTION</samp></a>, <a href="forms.html#edef-SELECT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-SELECT" class="noxref"><samp class="einst">SELECT</samp></a> и <a href="forms.html#edef-TEXTAREA" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-TEXTAREA" class="noxref"><samp class="einst">TEXTAREA</samp></a>.
+
+<P>Этот атрибут наследуется, но локальные объявления имеют приоритет над наследуемым значением.
+
+<P>Представление отключенных элементов зависит от агента пользователя. Например, некоторые агенты пользователей "выделяют серым" отключенные пункты меню, метки кнопок и т.д.
+
+<div class="example">
+<P>В этом примере элемент <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a> отключен. Таким образом, пользователь не может ввести туда текст, и его значение не будет передаваться с формой.</p>
+
+<pre>
+&lt;INPUT disabled name="fred" value="stone"&gt;
+</pre>
+</div>
+
+<div class="note"><P>
+<em><strong>Примечание.</strong>
+Единственным способом динамического изменения значения атрибута <a href="forms.html#adef-disabled" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-disabled" class="noxref"><samp class="ainst">disabled</samp></a> является использование <a href="scripts.html" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html">скрипта.</a>
+</em>
+</div>
+
+<h3><a name="h-17.12.2">17.12.2</a> 
+<span class="index-inst" title="control::read only|read only controls">
+<a name="read-only">Управляющие элементы только для чтения</a></span></h3>
+
+<div class="adef-list">
+<P><em>Определения атрибутов</em></p>
+
+<dl>
+<dt><a name="adef-readonly"><samp class="adef">readonly</samp></a> <a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd> Если этот атрибут установлен для управляющего элемента формы, изменение значения этого элемента невозможно.
+</dl>
+</div>
+
+<p>Атрибут <a href="forms.html#adef-readonly" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-readonly" class="noxref"><samp class="ainst">readonly</samp></a> определяет, может ли пользователь изменять содержимое управляющего элемента. 
+
+<P>Если атрибут <a href="forms.html#adef-readonly" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-readonly" class="noxref"><samp class="ainst">readonly</samp></a> установлен, он влияет на элемент следующим образом:</p>
+
+<ul>
+<li>К элементам только для чтения переходит <a href="#focus">фокус</a>, но пользователь не может изменять их.
+<li>Элементы только для чтения входят в <a href="#tabbing-navigation">последовательность перехода</a>.
+<li>Элементы только для чтения могут быть <a href="#successful-controls">успешными</a>.
+</ul>
+
+<P>Атрибут <a href="forms.html#adef-readonly" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-readonly" class="noxref"><samp class="ainst">readonly</samp></a> поддерживают следующие элементы:
+  <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a>, <samp class="einst">TEXT</samp>,
+  <samp class="einst">PASSWORD</samp> и <a href="forms.html#edef-TEXTAREA" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-TEXTAREA" class="noxref"><samp class="einst">TEXTAREA</samp></a>.
+
+<P>Представление элементов только для чтения зависит от агента пользователя.</P>
+
+<div class="note"><P>
+<em><strong>Примечание.</strong> Единственным способом динамического изменения значения атрибута <a href="forms.html#adef-readonly" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-readonly" class="noxref"><samp class="ainst">только для чтения</samp></a> является использование <a href="scripts.html" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html">скриптов.</a>
+</em>
+</div>
+
+<h2><a name="h-17.13">17.13</a> 
+<span class="index-inst" title="form::submission of">
+<a name="submit-format">Отправка формы</a></span></h2>
+
+<P>В следующих разделах объясняется передача данных формы агентами пользователей 
+агентам обработки форм.
+
+<h3><a name="h-17.13.1">17.13.1</a> 
+<span class="index-inst" title="form::submission method
+of|GET::and form submission|POST::and form submission|HTTP::GET and
+POST with forms"><a name="idx-form-8">Метод отправки формы</a></span></h3>
+
+<P>Атрибут <a href="forms.html#adef-method" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-method" class="noxref"><samp class="ainst">method</samp></a> элемента <a href="forms.html#edef-FORM" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-FORM" class="noxref"><samp class="einst">FORM</samp></a> определяет метод HTTP, используемый для отправки формы в агент обработки. Этот атрибут может принимать два значения:
+
+<ul>
+
+<li><samp>get:</samp> С использованием метода HTTP "get" <a href="#form-data-set">набор данных формы</a> добавляется к URI, указанному в атрибуте <a href="forms.html#adef-action" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-action" class="noxref"><samp class="ainst">action</samp></a>, и этот новый URI отправляется в агент обработки. 
+
+<li><samp>post:</samp> С использованием метода HTTP "post" <a href="#form-data-set">набор данных формы</a> включается в тело формы и отправляется в агент обработки.
+
+</ul>
+
+<P>Метод "get" следует использовать, если форма is idempotent (то есть не вызывает побочных эффектов). Большое число операций поиска в базе данных не имеет видимых побочных эффектов и представляет собой идеальное приложение для метода "get".
+
+<P>Если обслуживание, связанное с обработкой формы, вызывает побочные эффекты (например, если форма изменяет базу данных или производит подписку н услуги), следует использовать метод "post".
+
+<div class="note"><P>
+<em>
+<span class="index-inst" title="POST::for non-ASCII form data"><a name="idx-POST-1">
+<strong>Примечание.</strong></a></span> При использовании метода "get" <a
+href="#form-data-set">набор данных формы</a> должен включать только символы набора ASCII. Только с методом "post" (с атрибутом <a href="forms.html#adef-enctype" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-enctype" class="noxref"><samp class="ainst">enctype</samp></a>="multipart/form-data") можно использовать весь набор символов <a rel="biblioentry" href="references.html#ref-ISO10646" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-ISO10646" class="normref">[ISO10646]</a>.
+</em>
+</div>
+
+<h3><a name="h-17.13.2">17.13.2</a> 
+<span class="index-inst" title="control::successful|successful
+control|form::values submitted"> <a
+name="successful-controls">Успешные управляющие элементы</a></span></h3>
+
+<P><dfn>Успешный управляющий элемент</dfn> "подходит" для отправки. Каждый успешный управляющий элемент имеет <a href="#control-name">имя</a> и <a href="#current-value">текущее значение</a>; эта пара является частью передаваемого <a href="#form-data-set">набора данных формы</a>.  Успешный управляющий элемент должен определяться в элементе <a href="forms.html#edef-FORM" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-FORM" class="noxref"><samp class="einst">FORM</samp></a> и должен иметь <a
+href="#control-name">имя.</a>
+
+<P>Однако:
+
+<ul>
+
+<li>
+<span class="index-inst" title="disabled controls::not successful"><a name="idx-disabled_controls-1">
+<a href="#disabled">Отключенные</a> управляющие элементы не могут быть успешными</a></span>.
+
+<li>Если в форме содержится несколько <a href="#buttons">кнопок отправки</a>, успешной является только активизированная кнопка.
+
+<li>Успешными могут быть все "включенные" <a href="#checkbox">флажки</a>.
+
+<li>Для <a href="#radio">кнопок с зависимой фиксацией</a> с одним и тем же значением атрибута <a href="forms.html#adef-name-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-name-INPUT" class="noxref"><samp class="ainst-INPUT">name</samp></a>, успешной может быть только "включенная" кнопка.
+
+<li>Для <a href="#menu">меню</a> <a href="#control-name">имя управляющего элемента</a> задается элементом <a href="forms.html#edef-SELECT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-SELECT" class="noxref"><samp class="einst">SELECT</samp></a>, а значения - элементами <a href="forms.html#edef-OPTION" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-OPTION" class="noxref"><samp class="einst">OPTION</samp></a>. Успешными могут быть только выбранные пункты.
+
+
+<li>
+<span class="index-inst" title="file select control::submission
+of"><a name="idx-file_select_control-1" href="#current-value">Текущее значение</a></span> элемента <a href="#file-select">выбора файлов</a> является список из одного или нескольких имен файлов.  После отправки формы <em>содержимое</em> каждого файла передается с остальными данными формы. Содержимое файла упаковывается в соответствии с <a href="#form-content-type">типом содержимого</a> формы.
+
+<li>Текущее значение управляющего элемента объекта определяется реализацией объекта.
+
+</ul>
+
+<P>Если управляющий элемент не имеет <a href="#current-value">текущего значения</a> во время отправки формы, агенты пользователей не обязательно должны обрабатывать его как успешный.
+
+<P>Более того, агенты пользователей не должны считать успешными следующие управляющие элементы:
+
+<ul>
+<li><a href="#reset-button">Кнопку сброса.</a>
+<li>
+<span class="index-inst" title="object control">Элементы
+<a name="idx-object_control-1" href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a></span>, у которых установлен атрибут <a href="objects.html#adef-declare" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-declare" class="noxref"><samp class="ainst">declare</samp></a>.
+</ul>
+
+<P>
+<span class="index-inst" title="hidden control">
+<a name="idx-hidden_control-1" href="#hidden-control">Скрытые управляющие элементы</a></span> и управляющие элементы, не представляемые благодаря <a href="styles.html" tppabs="http://www.citforum.ru/internet/html40/present/styles.html">таблицам стилей</a> могут быть успешными. Например:</p>
+
+<div class="example"><P>
+<PRE>
+&lt;FORM action="..." method="post"&gt;
+&lt;P&gt;
+&lt;INPUT type="password" style="display:none"  
+          name="invisible-password"
+          value="mypassword"&gt;
+&lt;/FORM&gt;
+</PRE>
+
+<P>В этом случае значению будет сопоставлено имя "invisible-password", и оно будет передаваться с формой.
+</div>
+
+<h3><a name="h-17.13.3">17.13.3</a> 
+<span class="index-inst" title="form::processing controls of">
+<a name="form-data-processing">Обработка данных формы</a></span></h3>
+
+<p>Когда пользователь отправляет форму (например, активизировав <a
+href="#submit-button">кнопку отправки</a>), агент пользователя обрабатывает ее следующим образом.
+
+<H4>Первый шаг: Определение <a href="#successful-controls">успешных управляющих элементов</a><a name="h-17.13.3.1">&nbsp;</a></H4> 
+
+<H4>Второй шаг: Построение <a name="form-data-set">набора данных формы</a><a name="h-17.13.3.2">&nbsp;</a></H4> 
+
+<P>
+<span class="index-def" title="form data set"><a name="didx-form_data_set">
+<dfn>Набор данных формы</dfn></a></span> - это последовательность пар <a
+href="#control-name">имя</a>/<a href="#current-value">значение</a>, составляемых из <a href="#successful-controls">успешных управляющих элементов</a>
+
+<H4>
+<span class="index-inst" title="form::encoding data of|form data
+set::encoding"><a name="idx-form-11">Третий шаг: Кодирование набора данных формы</a></span><a name="h-17.13.3.3">&nbsp;</a></H4>
+
+<P>Затем набор данных формы кодируется в соответствии с <a
+href="#form-content-type">типом содержимого</a>, определяемого атрибутом <a href="forms.html#adef-enctype" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-enctype" class="noxref"><samp class="ainst">enctype</samp></a> элемента <a href="forms.html#edef-FORM" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-FORM" class="noxref"><samp class="einst">FORM</samp></a>.
+
+<H4>
+<span class="index-inst" title="form::methods and actions"><a name="idx-form-12">
+Четвертый шаг: Передача закодированного набора данных формы</a></span><a name="h-17.13.3.4">&nbsp;</a></H4>
+
+<P>Наконец, закодированные данные отправляются обрабатывающему агенту, назначаемому атрибутом <a href="forms.html#adef-action" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-action" class="noxref"><samp class="ainst">action</samp></a>, по протоколу, указанному в атрибуте <a href="forms.html#adef-method" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-method" class="noxref"><samp class="ainst">method</samp></a>.
+
+<P>В данной спецификации не определяются все допустимые способы отправки или 
+<a href="#form-content-type">типы содержимого</a>, которые могут использоваться с формами.  Однако агенты пользователей HTML 4.0 должны поддерживать установленные соглашения в следующих случаях:
+
+<ul>
+<li>Если для атрибута <a href="forms.html#adef-method" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-method" class="noxref"><samp class="ainst">method</samp></a> установлено значение "get", а для атрибута <a href="forms.html#adef-action" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-action" class="noxref"><samp class="ainst">action</samp></a> указан HTTP URI, агент пользователя принимает значение атрибута <a href="forms.html#adef-action" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-action" class="noxref"><samp class="ainst">action</samp></a>, добавляет к нему <SAMP>`?'</SAMP>, затем добавляет <a href="#form-data-set">набор данных формы</a>, закодированный с использованием <a href="#form-content-type">типа содержимого</a> "application/x-www-form-urlencoded". Затем агент пользователя переходит по ссылке на этот 
+URI. В этом сценарии данные формы ограничиваются кодами ASCII.
+<li>Если для атрибута <a href="forms.html#adef-method" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-method" class="noxref"><samp class="ainst">method</samp></a> установлено значение "post", а для атрибута <a href="forms.html#adef-action" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-action" class="noxref"><samp class="ainst">action</samp></a> - HTTP URI, агент пользователя выполняет транзакцию HTTP "post" с использованием значения атрибута <a href="forms.html#adef-action" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-action" class="noxref"><samp class="ainst">action</samp></a> и сообщения, созданного в соответствии с <a href="#form-content-type">типом содержимого</a>, указанным в атрибуте <a href="forms.html#adef-enctype" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-enctype" class="noxref"><samp class="ainst">enctype</samp></a>
+attribute.
+</ul>
+
+<P>Для других значений атрибута <a href="forms.html#adef-action" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-action" class="noxref"><samp class="ainst">action</samp></a> или <a href="forms.html#adef-method" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-method" class="noxref"><samp class="ainst">method</samp></a> поведение не определено.
+
+<P>Агенты пользователей должны представлять ответ на транзакции HTTP "get"
+и "post".
+
+<h3><a name="h-17.13.4">17.13.4</a> 
+<span class="index-inst" title="form::content types for
+encoding|content types::for encoding form data"><a
+name="form-content-type">Типы содержимого формы</a></span></h3>
+
+<P>Атрибут <a href="forms.html#adef-enctype" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-enctype" class="noxref"><samp class="ainst">enctype</samp></a> элемента <a href="forms.html#edef-FORM" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-FORM" class="noxref"><samp class="einst">FORM</samp></a> определяет <a href="types.html#type-content-type" tppabs="http://www.citforum.ru/internet/html40/types.html#type-content-type">тип содержимого</a>, используемый для кодирования <a href="#form-data-set">набора данных формы</a> для передачи на сервер. Агенты пользователей должны поддерживать перечисленные ниже типы содержимого. Поведение для других типов содержимого не определено.
+
+<P>См. также раздел об <a
+href="notes.html#ampersands-in-uris" tppabs="http://www.citforum.ru/internet/html40/appendix/notes.html#ampersands-in-uris">использовании амперсандов в значениях атрибутов URI</a>.
+
+<h4><span class="index-def"
+title="application/x-www-form-urlencoded|content type::application/x-www-form-urlencoded"><a name="didx-applicationx-www-form-urlencoded">application/x-www-form-urlencoded</a></span>
+<a name="h-17.13.4.1">&nbsp;</a></h4>
+<P>Этот тип содержимого используется по умолчанию. Формы, передаваемые с этим типом содержимого, должны быть закодированы следующим образом:</P>
+
+<ol>
+
+<li>Имена и значения управляющих элементов are escaped. Неотображаемые символы заменяются <SAMP>`+'</SAMP>, после чего зарезервированные символы are escaped, как описано в <a rel="biblioentry" href="references.html#ref-RFC1738" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC1738" class="normref">[RFC1738]</a>, раздел 2.2: Неарифметические символы заменяются <SAMP>`%HH'</SAMP>, знаком процентов с последующими шестнадцатеричными цифрами, представляющими ASCII-код символа.  Разрывы строк представляются парами "CR LF" (т.е. <SAMP>`%0D%0A'</SAMP>).
+
+<li>Имена/значения управляющих элементов перечисляются в том порядке, в котором они отображаются в документе.  Имя отделяется от значения с помощью символа <SAMP>`='</SAMP>, а пары имя/значение отделяются друг от друга символом <SAMP>`&#38;'</SAMP>.
+</OL>
+
+<h4>
+<span class="index-def" title="multipart/form-data|content
+type::multipart/form-data"><a name="didx-multipartform-data">multipart/form-data</a></span>
+<a name="h-17.13.4.2">&nbsp;</a></h4>
+
+<div class="note"><P>
+<em><strong>Примечание.</strong> 
+Дополнительную информацию о вопросах совместимости с предыдущими версиями, об отношении типа содержимого "multipart/form-data" и других типов содержимого, о проблемах работы и т.д. см. в <a rel="biblioentry" href="references.html#ref-RFC1867" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC1867" class="informref">[RFC1867]</a>.</em>
+
+<P><em>Информацию о <a href="notes.html#forms-security" tppabs="http://www.citforum.ru/internet/html40/appendix/notes.html#forms-security">защите форм</a> см. в приложении.</em>
+</div>
+
+<P>Тип "application/x-www-form-urlencoded" неэффективен для отправки большого количества двоичных данных или текста, содержащего символы, не входящие в набор ASCII.  Тип "multipart/form-data" следует использовать для отправки форм, содержащих файлы, данные, не входящие в набор ASCII и двоичные данные.
+
+<P>В содержимом "multipart/form-data" используются правила всех составных потоков данных MIME, как описано в <a rel="biblioentry" href="references.html#ref-RFC2045" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC2045" class="normref">[RFC2045]</a>.
+Определение типа "multipart/form-data" можно найти в реестре <a
+rel="biblioentry" href="references.html#ref-IANA" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-IANA">[IANA]</a>.
+
+<P>Сообщение типа "multipart/form-data" состоит из нескольких частей, каждая их которых представляет <a href="#successful-controls">успешный управляющий элемент</a>. Части отправляются обрабатывающему агенту в том порядке, в котором соответствующие управляющие элементы представлены в потоке документа.  Границы частей не должны находиться в данных; обеспечение этого требования лежит вне области, рассматриваемой в данной спецификации.
+
+<P>Как и во всех составных типах MIME, каждая часть имеет необязательный заголовок "Content-Type", для которого по умолчанию устанавливается значение "text/plain". Агенты пользователей должны предоставлять заголовок "Content-Type" с параметром "charset". 
+
+<P>Каждая часть должна содержать:
+
+<ol>
+<li> заголовок "Content-Disposition", имеющий значение "form-data".
+
+<li> атрибут именования, определяющий <a href="#control-name">имя</a> соответствующего управляющего элемента. Имена управляющих элементов, изначально закодированные с использованием <a href="charset.html" tppabs="http://www.citforum.ru/internet/html40/charset.html">наборов символов</a>, отличных от ASCII, могут кодироваться с помощью метода, описанного в <a rel="biblioentry" href="references.html#ref-RFC2045" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC2045" class="normref">[RFC2045]</a>.
+</ol>
+
+<P>Например, для управляющего элемента с именем "mycontrol" соответствующая часть может выглядеть так:
+
+<PRE>
+Content-Disposition: form-data; name="mycontrol"
+</PRE>
+
+<P>Как и во всех процессах передачи данных MIME, для разделения строк данных используется комбинация "CR LF" (т.е. <SAMP>`%0D%0A'</SAMP>).
+
+<P>Может кодироваться каждая часть с указанием заголовка "Content-Transfer-Encoding", если значение этой части не соответствует кодировке по умолчанию (7BIT) (см. <a rel="biblioentry" href="references.html#ref-RFC2045" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC2045" class="normref">[RFC2045]</a>, раздел 6)
+
+<P>Если содержимое файла передается с формой, файловый ввод должен определяться соответствующим <a href="types.html#type-content-type" tppabs="http://www.citforum.ru/internet/html40/types.html#type-content-type">типом содержимого</a> (например, "application/octet-stream").  Если в результате одного элемента формы должны быть возвращены несколько файлов, они должны возвращаться как тип "multipart/mixed", внедренный в "multipart/form-data".
+
+<P>Агент пользователя должен попытаться указать имя для каждого передаваемого файла. Имя файла может указываться в параметре "filename" заголовка 'Content-Disposition: form-data' или, в случае нескольких полей, в заголовке 'Content-Disposition: file' составной части.  Если имя файла клиентской операционной системы содержит символы, не входящие в набор US-ASCII, имя файла может изменяться или кодироваться с использованием метода <a rel="biblioentry"
+href="references.html#ref-RFC2045" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC2045" class="normref">[RFC2045]</a>.  Это удобно в случаях, когда, например, выгруженные файлы могут содержать ссылки друг на друга (например, файл TeX и его вспомогательное описание стилей ".sty").
+
+<P>В следующем примере показана кодировка "multipart/form-data". Предположим, у нас имеется следующая форма:
+
+<div class="example"><P>
+<PRE>
+ &lt;FORM action="http://server.dom/cgi/handle"
+       enctype="multipart/form-data"
+       method="post"&gt;
+   &lt;P&gt;
+   Как Вас зовут? &lt;INPUT type="text" name="submit-name"&gt;&lt;BR&gt;
+   Какие файлы Вы отправляете? &lt;INPUT type="file" name="files"&gt;&lt;BR&gt;
+   &lt;INPUT type="submit" value="Отправить"&gt; &lt;INPUT type="reset"&gt;
+ &lt;/FORM&gt;
+</PRE>
+</div>
+
+<P>Если пользователь введет в текстовое поле слово "Larry" и выберет текстовый файл "file1.txt", агент пользователя может отправить следующие данные:
+
+<PRE>
+   Content-Type: multipart/form-data; boundary=AaB03x
+
+   --AaB03x
+   Content-Disposition: form-data; name="submit-name"
+
+   Larry
+   --AaB03x
+   Content-Disposition: form-data; name="files"; filename="file1.txt"
+   Content-Type: text/plain
+
+   ... содержимое файла file1.txt ...
+   --AaB03x--
+</PRE>
+
+<P>Если пользователь выбрал второй файл (изображение) "file2.gif", агент пользователя может сконструировать части следующим образом:
+
+<PRE>
+   Content-Type: multipart/form-data; boundary=AaB03x
+
+   --AaB03x
+   Content-Disposition: form-data; name="submit-name"
+
+   Larry
+   --AaB03x
+   Content-Disposition: form-data; name="files"
+   Content-Type: multipart/mixed; boundary=BbC04y
+
+   --BbC04y
+   Content-Disposition: attachment; filename="file1.txt"
+   Content-Type: text/plain
+
+   ... содержимое файла file1.txt ...
+   --BbC04y
+   Content-Disposition: attachment; filename="file2.gif"
+   Content-Type: image/gif
+   Content-Transfer-Encoding: binary
+
+   ...содержимое файла file2.gif...
+   --BbC04y--
+   --AaB03x--
+</PRE>
+<div class="navbar">
+<hr><center><a href="frames.html" tppabs="http://www.citforum.ru/internet/html40/present/frames.html">назад</a> &nbsp; <a href="scripts.html" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center></div>
+</body>
+</html>
+

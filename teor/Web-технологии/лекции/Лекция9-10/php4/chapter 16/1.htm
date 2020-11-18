@@ -1,0 +1,1493 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE></TITLE>
+<META content="TEXT/HTML; CHARSET=WINDOWS-1251" http-equiv=CONTENT-TYPE>
+<META content="Microsoft FrontPage 4.0" name=GENERATOR>
+<STYLE></STYLE>
+</HEAD>
+<body background=../fon.jpg>
+<ul>
+
+  <li><a href="#a"><font face="Times New Roman" size=3>Глава 16.
+    Безопасность</font></a> </li>
+  <ul>
+    <li><a href="#b"><font size="3" face="Times New Roman">Проблемы
+      конфигурации</font></a>
+      <ul>
+        <li><a href="#c"><font size="3" face="Times New Roman">safe_mode</font></a></li>
+        <li><a href="#d"><font size="3" face="Times New Roman">safe_mode_exec_dir</font></a></li>
+        <li><a href="#e"><font size="3" face="Times New Roman">disable_functions</font></a></li>
+        <li><a href="#f"><font size="3" face="Times New Roman">doc_root</font></a></li>
+        <li><a href="#g"><font size="3" face="Times New Roman">max_execution_time</font></a></li>
+        <li><a href="#h"><font size="3" face="Times New Roman">memory_limit</font></a></li>
+        <li><a href="#i"><font size="3" face="Times New Roman">sql.safe_mode</font></a></li>
+        <li><a href="#j"><font size="3" face="Times New Roman">user_dir</font></a></li>
+        <li><a href="#k"><font size="3" face="Times New Roman">Безопасный
+          режим и работа PHP в режиме модуля Apache</font></a></li>
+        <li><a href="#l"><font size="3" face="Times New Roman">Маскировка
+          файлов данных и конфигурационных
+          файлов</font></a></li>
+      </ul>
+    </li>
+    <li><a href="#m"><font size="3" face="Times New Roman">Безопасность
+      данных</font></a>
+      <ul>
+        <li><a href="#n"><font size="3" face="Times New Roman">Обработка
+          пользовательского ввода</font></a></li>
+      </ul>
+    </li>
+    <li><a href="#o"><font size="3" face="Times New Roman">Шифрование
+      данных</font></a>
+      <ul>
+        <li><a href="#p"><font size="3" face="Times New Roman">Общие
+          функции шифрования</font></a></li>
+        <li><a href="#q"><font size="3" face="Times New Roman">Дополнительная
+          информация</font></a></li>
+      </ul>
+    </li>
+    <li><a href="#r"><font size="3" face="Times New Roman">Электронная
+      коммерция</font></a>
+      <ul>
+        <li><a href="#s"><font size="3" face="Times New Roman">Verisign</font></a></li>
+        <li><a href="#t"><font size="3" face="Times New Roman">Cybercash</font></a></li>
+        <li><a href="#u"><font size="3" face="Times New Roman">CCVS</font></a></li>
+      </ul>
+    </li>
+    <li><a href="#v"><font size="3" face="Times New Roman">Аутентификация
+      пользователя</font></a></li>
+    <li><a href="#w"><font size="3" face="Times New Roman">Аутентификация
+      с несколькими пользователями</font></a></li>
+    <li><a href="#x"><font size="3" face="Times New Roman">Итоги</font></a></li>
+  </ul>
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><A NAME="a"></A><font COLOR="#000000" face="Times New Roman" size="5">ГЛАВА 16</font></p>
+<p><font COLOR="#000000" face="Times New Roman" size="5">Безопасность</font></p>
+<i>
+<p align="right"><font COLOR="#000000" size="3" face="Times New Roman">Non sum
+qualis eram</font></p>
+<p align="right"><font COLOR="#000000" size="3" face="Times New Roman">(Я не
+такой, каким был раньше).</font></p>
+</i>
+<p align="right"><font COLOR="#000000" size="3" face="Times New Roman">Гораций</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Когда-то,
+наткнувшись на эту цитату из Горация, я
+подумал, что она очень точно отражает суть
+сетевой безопасности, и сохранил ее где-то в
+недрах своего жесткого диска на будущее.</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Конечно,
+читатель недоумевает — какое отношение
+древнеримский поэт Гораций имеет к сетевой
+безопасности? Безопасность — одна из тем,
+порождающих нескончаемый поток информации
+и вечно меняющихся в соответствии с новыми
+технологическими веяниями. Короче говоря,
+она в любой момент «не такая, какой была
+раньше». Вы никогда не можете полагаться на
+свои познания в этой области, поскольку в
+момент выхода на широкий рынок любая
+технология либо устаревает, либо обречена
+на устаревание в ближайшем будущем. Чтобы
+добиться </font><i><font COLOR="#000000">относительной </font></i><font COLOR="#000000">безопасности
+при построении серверных приложений, вам
+придется постоянно следить за последними
+достижениями в этой области или нанять кого-нибудь,
+кто это будет делать за вас.</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Применительно
+к РНР тема безопасности выглядит
+многогранной, причем некоторые ее аспекты
+связаны с безопасностью самого сервера.
+Ведь безопасность сервера во многих
+отношениях определяет безопасность данных,
+обрабатываемых сценариям РНР. Я
+настоятельно рекомендую собрать как можно
+больше информации о вашем web-сервере и
+постоянно следить за всеми обновлениями и
+исправлениями. Вероятно, большинство
+читателей работает с сервером Apache, поэтому
+я советую почаще посещать сайт Apache (http://www.apache.org)
+и замечательный сайт Apache Week (<a href="http://www.apacheweek.org">http://www.apacheweek.org</a>).
+Впрочем, безопасностью сервера дело не
+ограничивается — РНР также в определенной
+степени влияет на безопасность системы за
+счет правильного выбора параметров
+конфигурации и защищенного
+программирования.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Последняя
+глава этой книги состоит из пяти разделов:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Проблемы
+    конфигурации.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Проблемы
+    программирования.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Шифрование
+    данных.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Электронная
+    коммерция.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Аутентификация
+    пользователей.</font></li>
+</ul>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Хотя ни
+один из этих разделов не содержит ответов
+на </font><i><font COLOR="#000000">все </font></i><font COLOR="#000000">вопросы,
+относящиеся к построению защищенных
+приложений на базе РНР, по крайней мере, они
+закладывают основу для дальнейших
+самостоятельных исследований.</font></font></p>
+<b>
+<p><A NAME="b"></A><font color="#000000" face="Times New Roman" size="4">Проблемы
+конфигурации</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Сразу же
+после установки РНР следует уделить
+внимание некоторым аспектам конфигурации,
+влияющим на безопасность вашей системы.
+Конечно, выбор зависит от конкретной
+ситуации. Например, если программированием
+на РНР будете заниматься только вы и ваши
+коллеги, то конфигурация системы
+безопасности будет выглядеть совсем не так,
+как если бы программирование сценариев РНР,
+работающих на сервере, разрешалось всем
+клиентам. Независимо от ситуации, следует
+внимательно проанализировать все
+параметры конфигурации и разрешить только
+то, что действительно необходимо. Параметры
+конфигурации РНР определяются в файле php.ini.</font></p>
+<p><A NAME="c"></A><font color="#000000" face="Times New Roman" size="4">safe_mode</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">При
+включении безопасного режима (safe_mode)
+ограничивается использование некоторых
+потенциально опасных возможностей РНР. Для
+включения или выключения безопасного
+режима параметру safe_mode присваивается
+значение on или off. Механизм ограничения
+основан на сравнении идентификатора
+пользователя (UID) выполняющегося сценария с
+идентификатором пользователя того файла, к
+которому этот сценарий пытается обратиться.
+Если идентификаторы совпадают, функция
+выполняется; в противном случае попытка
+завершается неудачей.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Безопасный
+режим не может использоваться в том случае,
+если РНР откомпилирован в виде модуля Apache.
+Дело в том, что при работе РНР в режиме
+модуля Apache все сценарии РНР работают под
+тем же идентификатором, что и Apache, что не
+позволяет различать владельцев разных
+сценариев. За дополнительной информацией
+обращайтесь к разделу «Безопасный режим и
+работа РНР в режиме модуля Apache».</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В частности,
+при включении безопасного режима действуют
+следующие ограничения:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Функции
+    ввода/вывода (в частности, fopen ( ), filе( ) и
+    include ( )) работают только с файлами,
+    принадлежащими владельцу сценария.
+    Предположим, в безопасном режиме
+    сценарий, принадлежащий пользователю
+    Мэри, вызывает функцию fopen( ). Если функция
+    попытается открыть файл, принадлежащий
+    Джону, ее вызов завершится неудачей. Но
+    если Мэри принадлежит как сценарий,
+    вызывающий fopen( ), так и открываемый файл,
+    все будет нормально.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Запуск
+    внешних сценариев функциями popen( ), system( )
+    или ехес( ) разрешается лишь в том случае,
+    если запускаемый сценарий находится в
+    каталоге, определяемом параметром
+    safe_mode_exec_dir (см. далее).</font></li>
+  <li><font size="3" face="Times New Roman">&nbsp;</font><font COLOR="#000000" size="3" face="Times New Roman">Новые
+    файлы создаются только в каталогах,
+    принадлежащих владельцу сценария.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Аутентификация
+    HTTP становится более жесткой, поскольку в
+    ней также учитывается UID
+    аутентифицирующего сценария. Механизм
+    аутентификации пользователей
+    рассматривается в одном из разделов этой
+    главы.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Имя
+    пользователя, использованное при
+    подключении к серверу MySQL, должно
+    совпадать с именем владельца файла,
+    вызывающего mysql_connect( ).</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В табл. 16.1
+приведен полный список функций, на которые
+распространяется безопасный режим.</font></p>
+<b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Таблица
+16.1.<i>
+ </i> </font></font></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Функции,
+выполнение которых ограничивается в
+безопасном режиме</font></font>
+</i>
+</p>
+<table border="0" width="300" height="146" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="93" height="19"><font COLOR="#000000" size="3" face="Times New Roman">chgrp</font></td>
+    <td width="91" height="19"><font COLOR="#000000" size="3" face="Times New Roman">include</font></td>
+    <td width="94" height="19"><font COLOR="#000000" size="3" face="Times New Roman">require</font></td>
+  </tr>
+  <tr>
+    <td width="93" height="19"><font COLOR="#000000" size="3" face="Times New Roman">chmod</font></td>
+    <td width="91" height="19"><font COLOR="#000000" size="3" face="Times New Roman">link</font></td>
+    <td width="94" height="19"><font COLOR="#000000" size="3" face="Times New Roman">&nbsp;rmdir</font></td>
+  </tr>
+  <tr>
+    <td width="93" height="19"><font COLOR="#000000" size="3" face="Times New Roman">chown&nbsp;</font></td>
+    <td width="91" height="19"><font COLOR="#000000" size="3" face="Times New Roman">passthru&nbsp;</font></td>
+    <td width="94" height="19"><font COLOR="#000000" size="3" face="Times New Roman">symlink</font></td>
+  </tr>
+  <tr>
+    <td width="93" height="19"><font COLOR="#000000" size="3" face="Times New Roman">exec</font></td>
+    <td width="91" height="19"><font COLOR="#000000" size="3" face="Times New Roman"> popen</font></td>
+    <td width="94" height="19"><font COLOR="#000000" size="3" face="Times New Roman">system</font></td>
+  </tr>
+  <tr>
+    <td width="93" height="19"><font COLOR="#000000" size="3" face="Times New Roman">fopen</font></td>
+    <td width="91" height="19"><font COLOR="#000000" size="3" face="Times New Roman"> readfile</font></td>
+    <td width="94" height="19"><font COLOR="#000000" size="3" face="Times New Roman">unlink</font></td>
+  </tr>
+  <tr>
+    <td width="93" height="15"><font COLOR="#000000" size="3" face="Times New Roman">file</font></td>
+    <td width="91" height="15"><font COLOR="#000000" size="3" face="Times New Roman">rename</font></td>
+    <td width="94" height="15"></td>
+  </tr>
+</table>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="sovet.gif" align=left width="36" height="35">К
+сожалению, документация РНР по безопасному
+режиму не обновлялась с версии 2.0, хотя
+функциональность безопасного режима
+практически не изменилась. Документация
+находится по адресу <a href="http://www.php.net/manual/phpfi2.html">http://www.php.net/manual/phpfi2.html</a>.</font>
+</i>
+</p>
+<p><A NAME="d"></A><font color="#000000" face="Times New Roman" size="4">safe_mode_exec_dir</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Параметр
+определяет каталог для размещения
+системных программ, запускаемых такими
+функциями, как system( ), exec( ) или passthru( ).
+Параметр используется лишь при включенном
+безопасном режиме.</font></p>
+<p><A NAME="e"></A><font color="#000000" face="Times New Roman" size="4">disable_functions</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В этом
+параметре через запятую перечисляются
+имена функций, выполнение которых
+требуется запретить. Обратите внимание —
+этот параметр никак не связан с safe_mode.
+Например, чтобы запретить вызовы функций
+fopen( ), popen( ) и file( ), достаточно включить в
+конфигурационный файл следующую строку:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">disable_functions =
+fopen, popen.file</font></p>
+<p><A NAME="f"></A><font color="#000000" face="Times New Roman" size="4">doc_root</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Параметру
+присваивается путь к корневому каталогу
+для файлов РНР. Если значение doc_root
+представляет собой пустую строку, оно
+игнорируется и сценарии РНР выполняются в
+полном соответствии с URL. Если безопасный
+режим включен, а параметр doc_root содержит
+непустое значение, то сценарии РНР за
+пределами этого каталога выполняться не
+будут.</font></p>
+<p><A NAME="g"></A><font color="#000000" face="Times New Roman" size="4">max_execution_time</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Параметр
+указывает максимальную продолжительность
+выполнения сценария (в секундах). По
+истечении указанного срока сценарий
+автоматически завершается, что помогает
+бороться с чрезмерными затратами
+процессорного времени на выполнение
+пользовательских сценариев. По умолчанию
+параметр равен 30 секундам. Если присвоить
+ему 0, время выполнения сценариев не
+ограничивается.</font></p>
+<p><A NAME="h"></A><font color="#000000" face="Times New Roman" size="4">memory_limit</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Параметр
+определяет максимальный объем памяти (в
+байтах), используемой сценарием. По
+умолчанию параметр равен 8 Мбайт (8 388 608 байт).</font></p>
+<p><A NAME="i"></A><font color="#000000" face="Times New Roman" size="4">sql.safe_mode</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">При
+включении параметра sql .safejnode игнорируется
+вся информация, передаваемая функциям
+mysql_connect( ) и mysql_pconnect( ), а подключения
+разрешаются только для UID, под которым
+работает web-сервер.</font></p>
+<p><A NAME="j"></A><font color="#000000" face="Times New Roman" size="4">user_dir</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Параметр
+определяет имя подкаталога в домашнем
+каталоге пользователя, в котором должны
+находиться исполняемые сценарии РНР.
+Например, если параметру user_dir присвоено
+значение scripts и пользователь с именем Alessia
+хочет выполнить сценарий somescript.php, он должен
+создать в своем домашнем каталоге
+подкаталог с именем scripts и поместить
+сценарий в этот каталог. К сценарию можно
+обратиться по URL <a href="http://www.yoursite.com/~alessia/somescript.php">http://www.yoursite.com/~alessia/somescript.php</a>.
+Обратите внимание — каталог scripts в URL не
+включается. Как правило, этот параметр
+используется в сочетании с параметром
+конфигурации Apache UserDi г.</font></p>
+<p><A NAME="k"></A><font color="#000000" face="Times New Roman" size="4">Безопасный
+режим и работа РНР в режиме модуля Apache</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Следует
+помнить, что при работе РНР в режиме модуля
+Apache безопасный режим недоступен. Это
+объясняется тем, что модуль РНР работает в
+составе сервера Apache, поэтому все сценарии
+РНР работают под тем же UID, что и сам сервер
+Apache. Поскольку ограничения вызова функций в
+безопасном режиме основаны на сравнении UID,
+этот режим полноценно работает только при
+использовании CGI-версии РНР в сочетании с
+suExec (http://www.apache.org/docs/ suexec.html). Дело в том, что
+CGI-версия РНР работает как отдельный
+процесс, что позволяет динамически
+изменять UID средствами suExec. Если вас
+интересует использование РНР в безопасном
+режиме, вероятно, вам следует остановить
+свой выбор на комбинации CGI/suExec, хотя за это
+приходится расплачиваться быстродействием.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Другой
+важный аспект конфигурации — запрет на
+просмотр некоторых файлов в браузере.
+Конечно, секретные пароли или другие
+конфигурационные данные должны оставаться
+недоступными для внешних пользователей.
+Эта тема рассматривается в следующем
+разделе.</font></p>
+<p><A NAME="l"></A><font color="#000000" face="Times New Roman" size="4">Маскировка
+файлов данных и конфигурационных файлов</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Этот раздел
+посвящен процедуре, которая играет очень
+важную роль независимо от используемого
+языка программирования. На примере сервера
+Apache я покажу, как легко нарушить вашу
+систему безопасности, если вы не
+предпримете необходимых шагов для «маскировки»
+файлов, не предназначенных для внешних
+пользователей.</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">В
+конфигурационном файле Apache httpd.conf
+присутствует параметр DocumentRoot. С его помощью
+устанавливается путь к каталогу, который
+рассматривается сервером как
+общедоступный каталог HTML. Считается, что
+любой файл в этом каталоге может быть
+передан в пользовательский браузер, даже
+если расширение этого файла не опознано.
+Пользователи не могут просматривать файлы,
+находящиеся за пределами этого каталога.
+Следовательно, конфигурационные файлы <i>никогда</i></font><i><font COLOR="#000000">
+</font></i><font COLOR="#000000">не следует хранить в
+каталоге DocumentRoot!</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Для примера
+создайте файл и введите в нем какой-нибудь «секретный»
+текст. Сохраните этот файл в общедоступном
+каталоге HTML с именем secrets и каким-нибудь
+экзотическим расширением типа .zkgjg.
+Разумеется, сервер не распознает это
+расширение, но все равно попытается
+передать запрошенные данные. Теперь
+запустите браузер и введите URL со ссылкой на
+этот файл. Интересно, правда? К счастью, у
+этой проблемы существует два простых
+решения.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Хранение
+файлов за пределами корневого каталога
+документов</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В первом
+варианте вы просто сохраняете все файлы,
+которые не должны просматриваться
+пользователями, вне корневого каталога
+документов и в дальнейшем включаете их в
+сценарии РНР директивой include( ). Допустим,
+параметр DocumentRoot настроен следующим образом:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">DocumentRoot C:\Program
+Files\Apache Group\Apache\htdocs # Windows</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">DocumentRoot /www/apache/home #
+Другие системы</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Предположим,
+у вас имеется файл с атрибутами доступа (хост,
+имя пользователя, пароль) к базе данных MySQL.
+Конечно, этот файл не должен попадаться на
+глаза посторонним, поэтому вы сохраняете
+его вне корневого каталога документов.
+Например, в системе Windows можно
+воспользоваться каталогом C:/Program FHes/mysecretdata,
+а в UNIX — каталогом /usr/local/mysecretdata.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Чтобы
+воспользоваться атрибутами доступа в
+сценарии, достаточно включить эти файлы с
+указанием полного пути. Пример для Windows:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">INCLUDE(&quot;С:/Program
+Files/mysecretdata/mysqlaccess.inc&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Пример для
+UNIX:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">INCLUDE(&quot;/usr/local/mysecretdata/mysqlaccess.inc&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Конечно, при
+отключении безопасного режима (см.
+предыдущий раздел) это не помешает другим
+пользователям, которые могут выполнять
+сценарии РНР, включить этот файл в свои
+сценарии. Следовательно, в
+многопользовательской среде эту меру
+безопасности желательно сочетать с
+включением безопасного режима.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Настройка
+файла httpd.conf</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Во втором
+варианте доступ к файлам с
+конфиденциальной информацией
+ограничивается по расширению файла, при
+этом используется параметр FILES файла httpd.conf.
+Допустим, вы хотите запретить
+пользователям доступ к файлам с
+расширением .inc. Для этого достаточно
+включить в файл httpd.conf следующий фрагмент:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;Files *.inc&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Order allow, deny</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Deny from all</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/Files&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">После
+редактирования файла перезапустите сервер
+Apache, после этого все попытки запросить
+любой файл с расширением .inc в браузере
+отклоняются сервером. Впрочем, эти файлы
+все равно могут включаться в сценарии РНР.
+Кстати говоря, при просмотре файла httpd.conf вы
+увидите, что этот способ применяется для
+ограничения доступа к файлам .htaccess. Эти
+файлы используются для парольной защиты
+каталогов и рассматриваются в конце главы.</font></p>
+<b>
+<p><A NAME="m"></A><font color="#000000" face="Times New Roman" size="4">Безопасность
+данных</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Даже после
+того, как вы обеспечили надежную
+конфигурацию сервера, необходимо постоянно
+помнить о потенциальной угрозе для системы
+безопасности, исходящей из программного
+кода РНР. Не подумайте, что язык РНР
+недостаточно надежен — теоретическую
+брешь в системе безопасности можно создать
+на любом языке программирования. Тем не
+менее, учитывая широкое распространение
+РНР для программирования в распределенных
+средах с большим количеством пользователей
+(то есть в Web), вероятность попыток «взлома»
+ваших программ со стороны пользователей
+существенно возрастает. Вы должны сами
+позаботиться о том, чтобы этого не
+произошло.</font></p>
+<p><A NAME="n"></A><font color="#000000" face="Times New Roman" size="4">Обработка
+пользовательского ввода</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Хотя
+обработка данных, введенных пользователем,
+является важной частью практически любого
+нормального приложения, необходимо
+постоянно помнить о возможности передачи
+неправильных данных (злонамеренной или
+случайной). В web-приложениях эта опасность
+выражена еще сильнее, поскольку
+пользователи могут выполнять системные
+команды при помощи таких функций, как system( )
+или ехес( ).</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Простейший
+способ борьбы с потенциально опасным
+пользовательским вводом — обработка
+полученных данных стандартной функцией
+escapeshellcmd( ).</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">escapeshellcmd( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+escapeshellcmd( ) экранирует все сомнительные
+символы в строке, которые могут привести к
+выполнению потенциально опасной системной
+команды:</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string </font></font><font COLOR="#000000" size="3" face="Times New Roman">escapeshellcmd(string
+</font><font size="3" face="Courier New"><font COLOR="#000000">команда)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Чтобы вы
+лучше представили, к каким последствиям
+может привести бездумное использование
+полученных данных, представьте, что вы
+предоставили пользователям возможность
+выполнения системных команд — например, `ls -l`.
+Но если пользователь введет команду `rm -rf *` и
+вы используете ее для эхо-вывода или
+вставите в вызов ехес( ) или system( ), это
+приведет к рекурсивному удалению файлов и
+каталогов на сервере! Проблемы можно решить
+предварительной «очисткой» команды при
+помощи функции escapeshel lcmd( ). В примере `rm -rf <i>*` </i>после
+предварительной обработки функцией
+escapeshellcmd( ) строка превращается в \ `rm -rf *\`.</font></p>
+<p><img border="0" src="prim.gif" align=left width="36" height="35"><i><font COLOR="#000000" size="3" face="Times New Roman">Обратные
+апострофы (backticks) представляют собой
+оператор РНР, который пытается выполнить
+строку, заключенную между апострофами.
+Результаты выполнения направляются прямо
+на экран или присваиваются переменной.</font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">При
+обработке пользовательского ввода
+возникает и другая проблема — возможное
+внедрение тегов HTML. Особенно серьезные
+проблемы возникают при отображении
+введенной информации в браузере (как,
+например, на форуме). Присутствие тегов HTML в
+отображаемом сообщении может нарушить
+структуру страницы, исказить ее внешний вид
+или вообще помешать загрузке. Проблема
+решается обработкой пользовательского
+ввода функцией strip_tags( ).</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">strip_tags( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+strip_tags( ) удаляет из строки все теги HTML.
+Синтаксис:</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string </font></font><font size="3" face="Times New Roman"><font COLOR="#000000">strip_tags
+(string строка [, string разрешенные_теги])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Первый
+параметр определяет строку, из которой
+удаляются теги, а второй необязательный
+параметр определяет теги, остающиеся в
+строке. Например, теги курсивного
+начертания (&lt;1 &gt;...&lt;/ 1&gt;) не причинят
+особого вреда, но лишние табличные теги (например,
+&lt;td&gt;...&lt;/td&gt;) вызовут настоящий хаос.
+Пример использования функции strip_tags( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$input = &quot;I &lt;i&gt;really&lt;/i&gt;
+love РНР!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$input = strip_tags($input);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Результат:
+$input = &quot;I really love PHP!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">На этом
+завершается краткое знакомство с двумя
+функциями, часто используемыми при
+обработке пользовательского ввода.
+Следующий раздел посвящен шифрованию
+данных, причем особое внимание, как обычно,
+уделяется стандартным функциям РНР.</font></p>
+<b>
+<p><A NAME="o"></A><font color="#000000" face="Times New Roman" size="4">Шифрование
+данных</font></p>
+</b><i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Шифрованием </font></i><font COLOR="#000000" size="3" face="Times New Roman">называется
+процесс преобразования данных в формат, в
+котором они могут быть прочитаны (во всяком
+случае, теоретически) только
+предполагаемым</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">получателем
+сообщения. Получатель расшифровывает
+данные при помощи ключа или секретного
+пароля. РНР поддерживает несколько
+алгоритмов шифрования. Наиболее важные из
+этих алгоритмов описаны ниже.</font></p>
+<p><A NAME="p"></A><font color="#000000" face="Times New Roman" size="4">Общие
+функции шифрования</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Шифрование
+данных в Web имеет смысл только в том случае,
+если сценарии, в которых используются
+средства шифрования, работают на
+защищенном сервере. Почему? Поскольку РНР
+является сценарным языком, работающим на
+стороне сервера, </font><i><font COLOR="#000000">перед </font></i><font COLOR="#000000">шифрованием
+данные должны быть отправлены на сервер в
+простом текстовом формате. Если данные
+передаются через незащищенное соединение,
+существует немало способов перехвата этой
+информации в процессе ее пересылки от
+пользователя на сервер. За дополнительными
+сведениями о защите сервера Apache
+обращайтесь на сайт http://www.apache-ssl.org.
+Читателям, работающим с другими web-серверами,
+следует обращаться к документации. Скорее
+всего, для этих серверов существует хотя бы
+одно (а может, и больше) решение области
+безопасности.</font></font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">md5( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Хэширующий
+алгоритм MD5 используется (в частности) для
+создания цифровых подписей, позволяющих
+однозначно идентифицировать отправителя. В
+РНР для этого алгоритма существует
+специальная функция</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">string md5(string
+строка)</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">MD5 является
+алгоритмом «одностороннего» хэширования;
+это означает, что данные, хэшируемые
+функцией md5(), восстановить уже невозможно.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Алгоритм MD5
+также применяется при проверке паролей.
+Поскольку теоретически невозможно
+восстановить исходную строку, обработанную
+алгоритмом MD5, можно хэшировать пароль
+функцией md5( ) и затем сравнивать
+зашифрованный пароль с результатом
+обработки пароля, введенного пользователем
+при попытке получения доступа к
+конфиденциальной информации.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Допустим, у
+нас имеется некоторый секретный пароль
+toystore с хэш-кодом 745e2abd7c52eeldd7cl4aeOd71b9d76.
+Хэшированное значение сохраняется на
+сервере и сравнивается с хэш-эквивалентом
+пароля, введенного пользователем. Даже если
+злоумышленник получит доступ к
+зашифрованному паролю, это ни на что не
+повлияет, поскольку он (теоретически) не
+сможет восстановить по нему оригинал.
+Пример хэширования строки:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$val = &quot;secret&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$hash_val = md5 ($val);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $hash_val =
+&quot;Clab6fb9182fl6eed935bal9aa830788&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующем
+раздеяе я представлю другой способ
+шифрования данных, в котором используется
+одна из стандартных функций РНР.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">crypt( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция crypt( )
+является удобным средством для
+одностороннего шифрования данных. Под «односторонним
+шифрованием» я подразумеваю, что данные
+могут</font> <font COLOR="#000000" size="3" face="Times New Roman">только
+шифроваться — алгоритмы для расшифровки
+данных, обработанных функцией crypt( ), пока
+неизвестны. Синтаксис:</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string cкypt(string
+строке </font></font><font COLOR="#000000" size="3" face="Courier New">[, детерминант])
+</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Первый
+параметр определяет строку, шифруемую
+функцией crypt( ). Необязательный второй
+параметр определяет алгоритм, используемый
+при шифровании. Точнее, тип алгоритма
+определяется длиной детерминанта.
+Различные типы алгоритмов и длины их
+детерминантов перечислены в табл. 16.2.</font></p>
+<b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Таблица
+16.2.<i>
+ </i> </font></font></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Алгоритмы
+шифрования и длины их детерминантов</font></font>
+</i></p>
+<table border="1" width="300" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="50%" align="center"><b><font COLOR="#000000" size="3" face="Times New Roman">Алгоритм</font>
+</b>
+    </td>
+    <td width="50%" align="center"><b><font COLOR="#000000" size="3" face="Times New Roman">Длина</font>
+</b>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%"><font COLOR="#000000" size="3" face="Times New Roman">CRYPT_STD_DES</font></td>
+    <td width="50%" align="center"><font size="3" face="Times New Roman">2</font></td>
+  </tr>
+  <tr>
+    <td width="50%"><font COLOR="#000000" size="3" face="Times New Roman">CRYPT_EXT_OES</font></td>
+    <td width="50%" align="center"><font size="3" face="Times New Roman">9</font></td>
+  </tr>
+  <tr>
+    <td width="50%"><font COLOR="#000000" size="3" face="Times New Roman"> CRYPT_MD5</font></td>
+    <td width="50%" align="center"><font size="3" face="Times New Roman">12</font></td>
+  </tr>
+  <tr>
+    <td width="50%"><font COLOR="#000000" size="3" face="Times New Roman">CRYPT BLOWFISH</font></td>
+    <td width="50%" align="center"><font size="3" face="Times New Roman">16</font></td>
+  </tr>
+</table>
+<b>
+</b>
+<b>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В листинге
+16.1 продемонстрировано использование
+функции crypt( ) для создания и сравнения
+зашифрованных паролей.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+16.1. </font></font></i></b><font size="3" face="Times New Roman"><i><font COLOR="#000000">Применение
+функции crypt (STD_DES) для хранения и сравнения
+паролей </font></i><font COLOR="#000000">&lt;?</font></font></p>
+<p><font size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$user_pass =
+&quot;123456&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Выделить
+первые два символа $user_pass</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// и использовать
+их в качестве детерминанта.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$salt = substr($user_pass. 0,
+2);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Зашифровать и сохранить пароль.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$crypt1 = crypt($user_pass,
+;salt);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $crypt1 = &quot;12tir.zIbWQ3c&quot;</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">//... </font><font COLOR="#000000" size="3">пользователь
+вводит пароль</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$entered_pass = &quot;123456&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Получить
+первые два символа хранящегося пароля</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$salt1 =
+substr($crypt, 0, 2);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Зашифровать $entered_pass, используя $saltl в
+качестве детерминанта.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$crypt2 = crypt($entered_pass,
+$salt1);</font></p>
+<p><font color="#000000" size="3" face="Courier New">// $crypt2 = &quot;12tir.zIbWQ3c&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Следовательно. $cryptl = $crypt2</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="sovet.gif" align=left width="36" height="35">Если
+вы выбираете между crypt( ) и md5() для шифрования
+данных на сайте, рекомендую остановиться
+на md5( ) — эта функция обеспечивает лучшую
+защиту.</font></p>
+</i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Как видно
+из листинга 16.1, $crypt совпадает с $crypt2, но </font><i><font COLOR="#000000">только
+</font></i><font COLOR="#000000">потому, что мы правильно
+использовали первые два символа $crypt1 в
+качестве детерминанта для шифрования
+$entered_pass. Поэкспериментируйте с этим
+примером, попробуйте использовать
+различные значения, и вы убедитесь, что $crypt1
+совпадает с $crypt2 лишь при использовании
+этой процедуры.</font></font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">mhash( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция mhash( )
+поддерживает несколько алгоритмов
+хэширования, которые позволяют
+разработчикам использовать контрольные
+суммы и разнообразные цифровые подписи в
+приложениях РНР. Хэши также используются
+для хранения паролей. Подключение модуля
+mhash в РНР выполняется очень просто:</font></p>
+<ol>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Зайдите на
+сайт <a href="http://mhash.sourceforge.net">http://mhash.sourceforge.net</a>
+    и загрузите пакет.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Распакуйте
+содержимое архива и выполните инструкции,
+приведенные в документе INSTALL.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Откомпилируйте РНР с ключом -with-mhash.</font></li>
+</ol>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как видите,
+ничего сложного. Впрочем, имеется одно
+обстоятельство, которое часто вызывает
+проблемы при компиляции mhash для комбинации
+РНР/Apache, — многим пользователям приходится
+конфигурировать mhash следующим образом: &quot;
+./configure -disable -pthreads&quot; (вы поймете, о чем идет
+речь, если прочитаете документ INSTALL).
+Помните об этом в процессе компиляции.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">После
+завершения установки в вашем распоряжении
+оказываются все функциональные
+возможности mhash. Алгоритмы хэширования,
+поддерживаемые в настоящее время mhash,
+перечислены в табл. 16.3.</font></p>
+<b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Таблица
+16.3.<i>
+ </i> </font></font></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Алгоритмы
+хэширования, поддерживаемые mhash( )</font></font>
+</i>
+</p>
+<table border="0" width="300" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="33%"><font COLOR="#000000" size="3" face="Times New Roman">SHA1</font></td>
+    <td width="33%"><font COLOR="#000000" size="3" face="Times New Roman">RIPEMD160</font></td>
+    <td width="34%"><font COLOR="#000000" size="3" face="Times New Roman">MD5</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font COLOR="#000000" size="3" face="Times New Roman">GOST</font></td>
+    <td width="33%"><font COLOR="#000000" size="3" face="Times New Roman"> TIGER</font></td>
+    <td width="34%"><font COLOR="#000000" size="3" face="Times New Roman">SNEFRU</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font COLOR="#000000" size="3" face="Times New Roman">HAVAL</font></td>
+    <td width="33%"></td>
+    <td width="34%"><font COLOR="#000000" size="3" face="Times New Roman">CRC32</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font COLOR="#000000" size="3" face="Times New Roman">RIPEMD128</font></td>
+    <td width="33%"></td>
+    <td width="34%"></td>
+  </tr>
+  <tr>
+    <td width="33%"><font COLOR="#000000" size="3" face="Times New Roman">CRC32B</font></td>
+    <td width="33%"></td>
+    <td width="34%"></td>
+  </tr>
+</table>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">mcrypt( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Mcrypt —
+популярный пакет шифрования данных в РНР,
+обеспечивающий возможность двустороннего
+шифрования (то есть собственно шифрование и
+расшифровку данных). Четыре режима
+шифрования, поддерживаемых модулем mcrypt,
+перечислены ниже.</font></p>
+<b>
+<p><font color="#000000" size="3" face="Times New Roman">CBC</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Режим СВС (Cipher
+Block Chaining) является самым распространенным
+из всех четырех режимов mcrypt. В отличие от
+режима ЕСВ (см. ниже), СВС обеспечивает
+разное шифрование идентичных блоков текста,
+что затрудняет поиск закономерностей при
+попытке несанкционированной расшифровки.
+Если вы не знаете, какой из четырех режимов
+следует использовать, выбирайте СВС.
+Впрочем, перед принятием окончательного
+решения стоит ознакомиться со всеми
+четырьмя режимами.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">СFВ</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Режим СFВ (Cipher
+Feedback) обладает некоторыми характеристиками
+потоковых шифров, что избавляет от
+необходимости накопления блоков данных
+перед шифрованием. Данный режим
+используется очень редко.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">ЕСВ</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Режим ЕСВ (Electronic
+Code Book) шифрует каждый текстовый блок
+независимым блочным шифром, что несколько
+снижает его защищенность при шифровании
+относительно малых блоков обычного текста.
+Поскольку ЕСВ шифрует два блока простого
+текста одинаковым шифром, у злоумышленника
+появляется основа для расшифровки.
+Следовательно, если у вас нет веских
+доводов в пользу ЕСВ, вероятно, лучше
+воспользоваться режимом СВС.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">OFB</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">По многим
+характеристикам режим OFB (Output Feedback) похож на
+режим СFВ. Как и СFВ, он используется
+относительно редко.</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="sovet.gif" align=left width="36" height="35">Чтобы
+воспользоваться средствами mcrypt необходимо
+предварительно принять па-кет по адресу <a href="ftp://argeas.cs-net.gr/pub/unix/mcrypt">ftp://argeas.cs-net.gr/pub/unix/mcrypt</a>.</font>
+</i>
+</p>
+<p><A NAME="q"></A><font color="#000000" face="Times New Roman" size="4">Дополнительная
+информация</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В этом
+разделе описаны лишь те средства, которые в
+той или иной степени интегрируются в РНР.
+Впрочем, этим ваши возможности не
+ограничиваются. Помните о том, что при
+помощи функций рореn( ) или ехес( ) можно
+работать с любыми технологиями шифрования,
+разработанными независимыми фирмами, —
+например, PGP (<a href="http://www.pgpi.org">http://www.pgpi.org</a>) или GPG
+(<a href="http://www.gnupg.org">http://www.gnupg.org</a>).</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Ниже
+перечислены некоторые ресурсы Интернета,
+посвященные криптографии и информационной
+безопасности:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://jya.com/crypto-free.htm">http://jya.com/crypto-free.htm</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.io.com/~ritter/LEARNING.HTM">http://www.io.com/~ritter/LEARNING.HTM</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.rsasecurity.com/rsalabs/faq">http://www.rsasecurity.com/rsalabs/faq</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.cs.auckland.ac.nz/~pgut001/links.html">http://www.cs.auckland.ac.nz/~pgut001/links.html</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.thawte.com/support/crypto/contents.html">http://www.thawte.com/support/crypto/contents.html</a>.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В завершение
+этого раздела я хочу лишний раз напомнить
+об осторожности. Прежде чем включать
+поддержку шифрования данных в критические
+приложения, потратьте немного времени на
+изучение механики шифрования. В мире
+безопасности данных неведение всегда
+приводит к печальным результатам. Если вы
+слабо разбираетесь в этой теме, обязательно
+ознакомьтесь с приведенными ссылками — они
+дают превосходное представление о многих
+аспектах шифрования и безопасности данных.</font></p>
+<b>
+<p><A NAME="r"></A><font color="#000000" face="Times New Roman" size="4">Электронная
+коммерция</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Появление
+электронной коммерции вызвало настоящий
+ажиотаж во всем мире. Бесспорно, она
+обладает многочисленными достоинствами и
+открывает массу новых возможностей. К
+счастью, читатели, занимающиеся
+разработкой собственных коммерческих
+сайтов, могут воспользоваться надежными
+коммерческими технологиями, легко
+интегрируемыми в сценарии РНР. В этом
+разделе кратко описаны самые популярные из
+этих технологий.</font></p>
+<p><A NAME="s"></A><font color="#000000" face="Times New Roman" size="4">Verisign</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Компания
+Verisign, Inc. (http://www.verisign.com) предоставляет
+широкий ассортимент коммерческих
+продуктов и услуг. В РНР предусмотрена
+поддержка взаимодействия со службой Verisign
+Payflow Pro.</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="prim.gif" align=left width="36" height="35">Для
+использования средств Verisign РНР необходимо
+откомпилировать с ключом -with-pfproC-DIR]. Кроме
+того, в файле php.ini имеется несколько
+конфигурационных параметров, относящихся к
+Payflow Pro.</font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Поддержка
+Payflow Pro в РНР очень проста в использовании, а
+непосредственное проведение сделок
+требует минимальных времени и знаний.
+Однако простое включение поддержки Verisign
+при компиляции РНР вовсе не означает, что вы
+можете пользоваться услугами Verisign! Для
+этого необходимо предварительно
+зарегистрироваться на сайте Verisign и принять
+пакет Verisign SDK. На момент написания книги за
+подключение к Payflow Pro взимался разовый взнос
+$249, а также ежемесячная оплата $59.95 (если
+ежемесячное количество сделок не превышает
+5000) или $995 (при неограниченном количестве
+сделок).</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">И еще одно
+замечание: прежде чем оплачивать услуги
+Verisign, вы можете протестировать свой
+сценарий при помощи тестового входа (эту
+услугу Verisign предлагает бесплатно).
+Бесплатное тестирование сценариев избавит
+вас от лишних расходов в процессе отладки
+программ. Дополнительную информацию можно
+получить на сайте Verisign.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Ресурсы
+Интернета, посвященные Verisign:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.verisign.com">http://www.verisign.com</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.php.net/manual/ref.pfpro.php">http://www.php.net/manual/ref.pfpro.php</a>.</font></li>
+</ul>
+<p><A NAME="t"></A><font color="#000000" face="Times New Roman" size="4">Cybercash</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Компания
+Cybercash, Inc. (<a href="http://www.cybercash.com">http://www.cybercash.com</a>) предлагает
+разнообразные услуги по проверке кредитных
+карт и проведению сделок, а также
+программное обеспечение для тех, кто желает
+использовать эти услуги в своих web-приложениях.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Сценарии,
+написанные на Perl, могут взаимодействовать
+со службой проведения сделок Cybercash.
+Учитывая это обстоятельство, пользователи
+РНР обычно интегрируют Cybercash со своими
+сайтами одним из следующих способов:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Используя
+библиотеку cyberlib.php, включенную в поставку
+РНР. Этот вариант предоставляет в ваше
+распоряжение все необходимое для
+проведения транзакций (рекомендуется).</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Взаимодействуя
+со службой Cybercash при помощи готовых
+сценариев Perl и С и вызывая их из сценариев
+РНР (рекомендуется).</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Переписывая
+готовые сценарии Perl и С на РНР (не
+рекомендуется).</font></li>
+</ul>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="prim.gif" align=left width="36" height="35">Для
+использования средств Cybercash РНР необходимо
+откомпилировать с ключом -with-cybercash[=DIR].</font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как и в
+случае с Verisign, помните, что включение
+поддержки Cybercash при компиляции РНР еще не
+означает, что вы можете пользоваться этой
+службой! Услуги Cybercash не бесплатны и могут
+обойтись довольно дорого (подключение к
+службе Cybercash Commerce Cash Register в настоящее время
+стоит $495, ежемесячная оплата составляет $20,
+а каждая сделка стоит $0,20). Тем не менее,
+невзирая на все расходы, многие
+разработчики РНР считают, что Cybercash
+является одним из лучших решений.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Прежде чем
+оплачивать услуги Cybercash, вы можете
+протестировать свой сценарий при помощи
+тестового входа (эту услугу Cybercash
+предлагает бесплатно). Бесплатное
+тестирование сценариев избавит вас от
+лишних расходов в процессе отладки
+программ. Дополнительную информацию можно
+получить на сайте Cybercash.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Ресурсы
+Интернета, посвященные Cybercash:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.cybercash.com">http://www.cybercash.com</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.php.net/manual/ref.cybercash.php">http://www.php.net/manual/ref.cybercash.php</a>.</font></li>
+</ul>
+<p><A NAME="u"></A><font color="#000000" face="Times New Roman" size="4">CCVS</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Технология
+CCVS (Credit Card Verification System) была разработана RedHat (http://www.redhat.com)
+для независимой обработки сделок по
+кредитным картам. Она позволяет напрямую
+обращаться к агентствам кредитных карт
+вместо того, чтобы пользоваться услугами
+третьих сторон (например, Cybercash). Технология
+CCVS совместима со многими платформами Linux/UNIX
+и легко адаптируется, поскольку RedHat
+предоставляет исходные тексты.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman"><i><img border="0" src="prim.gif" align=left width="36" height="35">Для
+использования средств CCVS РНР необходимо
+откомпилировать с ключом
+</i>
+</font> <i><font COLOR="#000000" size="3" face="Times New Roman">-with-ccvs[-DIR].</font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">За
+дополнительной информацией о CCVS
+обращайтесь по адресам:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.php.net/manual/ref.ccvs.php">http://www.php.net/manual/ref.ccvs.php</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.redhat.com/products/ccvs/support/CCVS3.3docs/ProgPHP.html">http://www.redhat.com/products/ccvs/support/CCVS3.3docs/ProgPHP.html</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.redhat.com/products/ccvs">http://www.redhat.com/products/ccvs</a>.</font></li>
+</ul>
+<p><A NAME="v"></A><b><font color="#000000" face="Times New Roman" size="4">Аутентификация
+пользователя</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Правильно
+введенные имя и пароль открывают
+пользователю доступ к каталогам сервера,
+недоступным для анонимного доступа. Этот
+принцип аутентификации обычно называется
+схемой «запрос/ответ» (challenge/response). Запросом
+является приглашение к вводу имени и пароля,
+а ответом — введенные данные. Если
+введенная комбинация верна, пользователю
+предоставляется доступ к защищенным
+каталогам; в противном случае попытка
+получения доступа отклоняется с выводом
+соответствующего сообщения.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как правило,
+для ввода имени и пароля применяются
+диалоговые окна, активизируемые вызовом
+функции header( ) (листинг 16.2).</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+16.2. </font></font></i></b><font size="3" face="Times New Roman"><i><font COLOR="#000000">Запрос
+данных для аутентификации пользователя </font></i><font COLOR="#000000">&lt;?</font></font></p>
+<p><font face="Courier New" size="3">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">header( 'WWW-Authenticate:
+Basic realm=&quot;Secret Family Recipes&quot;');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">header ('HTTP/1.0 401
+Unauthorized');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">exit;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Выполнение
+фрагмента из листинга 16.2 всего лишь
+активизирует окно для ввода данных.
+Примерный вид этого окна изображен на рис.
+16.1.</font></p>
+<p>&nbsp;<img border="0" src="16.1.jpg" width="404" height="244"></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Рис. 16.1. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Окно
+аутентификации пользователя</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Следующим
+шагом после подготовки интерфейса для
+ввода является обработка имени
+пользователя и пароля. В РНР имя и пароль
+хранятся в двух глобальных переменных,
+$PHP_AUTH_USER (имя) и $PHP_AUTH_PW (пароль). В листинге 16.3
+показано, как проверяются значения этих
+переменных. Если данные не были введены,
+окно аутентификации отображается заново.</font></p>
+<p><img border="0" src="sovet.gif" align=left width="36" height="35"><i><font COLOR="#000000" size="3" face="Times New Roman">Экспериментируя
+со сценариями этого раздела, вы увидите, что
+окно аутентификации не всегда появляется
+после обновления страницы. Проблема
+кроется не в программе, а в том, как окна
+аутентификации реализованы в браузере.
+Чтобы вызвать окно, вам придется закрыть и
+перезапустить браузер.</font></p>
+<b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+16.3. </font></font></b><font size="3" face="Times New Roman"><font COLOR="#000000">Проверка
+глобальных переменных аутентификации в РНР</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">If ( (! isset ($PHP_AUTH_USER))
+|| (! isset ($PHP_AUTH_PW)) ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">headert 'WWW-Authenticate:
+Basic realm=&quot;Secret Family Recipes'&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">header(''HTTP/1.0 401
+Unauthorized');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;You are
+attempting to enter a restricted area. Authorization is required.&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">exit;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В простейшей,
+но недостаточно гибкой схеме ограничения
+доступа к странице имя пользователя и
+пароль жестко кодируются в сценарии. В
+листинге 16.4 приведен вариант предыдущего
+примера, построенный с использованием этой
+схемы.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+16.4. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Жесткое
+кодирование имени и пароля в сценарии</font></font></p>
+</i>
+<p><font COLOR="#000000" face="Courier New" size="3">&lt;?</font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">if ( (! isset ($PHP_AUTH_USER))
+| (! isset ($PHP_AUTH_PW)) || ($РНР AUTH USER != 'secret') | ($PHP_AUTH_PW !-
+'recipes') ) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">header('WWW-Authenticate:
+Basic realm=&quot;Secret Family Recipes'&quot;); header('HTTP/1.0 401
+Unauthorized');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;You are
+attempting to enter a restricted area. Authorization is required,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">exit;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<b>
+<p><A NAME="w"></A><font color="#000000" face="Times New Roman" size="4">Аутентификация
+с несколькими пользователями</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Хотя вариант,
+приведенный в листинге 16.4, неплохо подходит
+для небольших статических групп
+пользователей, для ограничения доступа к
+некоторым областям web-сайта обычно
+выбираются более гибкие и надежные решения.
+Вероятно, вы предпочтете создать отдельные
+имя и пароль для каждого пользователя,
+которому предоставляется расширенный
+доступ. Существует несколько реализаций
+этой схемы, из которых чаще всего
+встречается чтение аутентификационных
+данных из текстового файла или базы данных.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Хранение
+информации в текстовом файле</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Существует
+очень простое, но эффективное решение —
+хранить аутентификацион-ные данные в
+текстовом файле. В каждой строке файла
+содержится отдельная пара «имя:пароль»; в,процессе
+проверки программа последовательно читает
+и проверяет все строки файла. Примерный вид
+текстового файла приведен в листинге 16.5.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+16.5. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Типичный
+текстовый файл с параметрами
+аутентификации (authenticate.txt)</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">brian:snaidni00</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">alessia:aiggaips</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">gary:9avaj9</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">chris:poghsawcd</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">matt:tsoptaes</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как видно из
+листинга, каждая строка приведенного файла
+состоит из имени пользователя и пароля,
+разделенных двоеточием (:). Таким образом,
+при использовании этого файла существует
+пять комбинаций «имя/пароль»,
+обеспечивающих доступ к ограниченным
+ресурсам. Каждый раз, когда пользователь
+вводит имя и пароль в окне, сценарий
+открывает текстовый файл и последовательно
+ищет в нем совпадающую пару. Если
+совпадение находится, запрашиваемый доступ
+пользователю предоставляется, а если нет —
+запрос отклоняется. Процедура
+аутентификации продемонстрирована в
+листинге 16.6.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+16.6. </font></font></i></b><font size="3" face="Times New Roman"><i><font COLOR="#000000">Аутентификация
+на основе текстового файла </font></i><font COLOR="#000000">&lt;?</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$file =
+&quot;Listing16-5.txt&quot;:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$fp = fopen($file,
+&quot;r&quot;):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$auth_file = fread ($fp,
+filesize($fp)):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">fclose($fp);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$authorized = 0;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Сохранить
+строки файла в виде элементов массива</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$elements
+= explode (&quot;\n&quot;, $auth_file);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">foreach ($elements as
+$element) {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">list ($user, $pw) =
+split (&quot;:&quot;, $element);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (($user ==
+$PHP_AUTH_U$ER) &amp;&amp; ($pw = $PHP_AUTH_PW)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$authorized = 1;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">break ;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font face="Courier New" size="3">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (! $authorized) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">header('WWW-Authenticate:
+Basic realm=&quot;Secret Family Recipes'&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">header('HTTP/1.0 401
+Unauthorized');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;You are
+attempting to enter a restricted area. Authorization is required.&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">exit;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Welcome to
+the family's secret recipe collection&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Хранение
+информации в базе данных</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Хранение
+аутентификационной информации в базах
+данных обладает рядом преимуществ, многие
+из которых рассматривались в главе 11.
+Простота обновления, масштабируемость и
+гибкость — лишь некоторые из доводов в
+пользу хранения больших объемов информации
+в базе данных. В табл. 16.4 приведено
+содержимое демонстрационной таблицы
+user_authenticate. После успешно пройденной
+аутентификации по идентификатору
+пользователя можно устанавливать связи с
+другими таблицами, содержащими
+разнообразные данные и настройки. Процесс
+разделения взаимосвязанных данных по
+таблицам меньшего размера (вместо
+группировки всей информации в одной
+большой таблице) называется </font><i><font COLOR="#000000">нормализацией
+базы данных, </font></i><font COLOR="#000000">о нем кратко
+говорилось в главе 11.</font></font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="prim.gif" align=left width="36" height="35">В
+примерах этого раздела используется
+синтаксис MySQL. Программный код достаточно
+прост и легко адаптируется для других СУБД.</font></p>
+<b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Таблица
+16.4. </font></font></b><font size="3" face="Times New Roman"><font COLOR="#000000">Пример
+таблицы с аутентификационными данными (user_authenticate)</font></font></p>
+</i>
+<table BORDER="1" CELLSPACING="0" CELLPADDING="2" WIDTH="490" height="149">
+  <tr>
+    <td WIDTH="12%" VALIGN="TOP" HEIGHT="19" align="center"><b>
+      <p><font COLOR="#000000" size="3" face="Times New Roman">userid</font></p>
+      </b></td>
+    <td WIDTH="17%" VALIGN="TOP" HEIGHT="19" align="center"><b>
+      <p><font COLOR="#000000" size="3" face="Times New Roman">username</font></p>
+      </b></td>
+    <td WIDTH="72%" VALIGN="TOP" HEIGHT="19" align="center"><b>
+      <p><font COLOR="#000000" size="3" face="Times New Roman">password</font></p>
+      </b></td>
+  </tr>
+  <tr>
+    <td WIDTH="12%" VALIGN="TOP" HEIGHT="18">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">url234</font></p>
+    </td>
+    <td WIDTH="17%" VALIGN="TOP" HEIGHT="18">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">brian</font></p>
+    </td>
+    <td WIDTH="72%" VALIGN="TOP" HEIGHT="18">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">2b877b4b825b48a9a0950dd5bdlf264d</font></p>
+    </td>
+  </tr>
+  <tr>
+    <td WIDTH="12%" VALIGN="TOP" HEIGHT="19">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">urlHS</font></p>
+    </td>
+    <td WIDTH="17%" VALIGN="TOP" HEIGHT="19">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">alessia</font></p>
+    </td>
+    <td WIDTH="72%" VALIGN="TOP" HEIGHT="19">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">6fled002ab5595859014ebf0951522d9</font></p>
+    </td>
+  </tr>
+  <tr>
+    <td WIDTH="12%" VALIGN="TOP" HEIGHT="19">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">url15932</font></p>
+    </td>
+    <td WIDTH="17%" VALIGN="TOP" HEIGHT="19">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">gary</font></p>
+    </td>
+    <td WIDTH="72%" VALIGN="TOP" HEIGHT="19">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">122a2aladf096fe4f93287f9dal8f664</font></p>
+    </td>
+  </tr>
+  <tr>
+    <td WIDTH="12%" VALIGN="TOP" HEIGHT="19">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">url19042</font></p>
+    </td>
+    <td WIDTH="17%" VALIGN="TOP" HEIGHT="19">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">chris</font></p>
+    </td>
+    <td WIDTH="72%" VALIGN="TOP" HEIGHT="19">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">6332e88a4c7dba6f7743d3a7a0c6ea2c</font></p>
+    </td>
+  </tr>
+  <tr>
+    <td WIDTH="12%" VALIGN="TOP" HEIGHT="19">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">url8930</font></p>
+    </td>
+    <td WIDTH="17%" VALIGN="TOP" HEIGHT="19">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">matt</font></p>
+    </td>
+    <td WIDTH="72%" VALIGN="TOP" HEIGHT="19">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">922fe5dl40el9d308f2037404a0536a</font></p>
+    </td>
+  </tr>
+</table>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Программа,
+приведенная в листинге 16.7, сначала
+проверяет, было ли присвоено значение
+переменной $PHP_AUTH_USER. Если значение не
+присвоено, выводится окно для ввода
+необходимой информации. В противном случае
+программа создает соединение с сервером MySQL
+и ищет в таблице user_authenticate имя и пароль,
+введенные пользователем. При отсутствии
+совпадения окно аутентификации выводится
+заново, а если проверка дает положительный
+результат, переменной $user_id присваивается
+идентификатор пользователя.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+16.7. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Аутентификация
+пользователя посредством поиска в базе
+данных</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (!isset($PHP_AUTH_USER))
+:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">header( 'WWW-Authenticate:
+Basic realm=&quot;Secret Family Recipes'&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">header('HTTP/1.0 401
+Unauthorized');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">exit;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Создать
+содинение с базой данных MySQL</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">mysql_connect (&quot;host&quot;,
+&quot;user&quot;, &quot;password&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die (&quot;Can't
+connect to database!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">mysql_select_db (&quot;useMnfo&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die (&quot;Can't
+select database!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Обратиться
+к таблице user_authenticate</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// для поиска
+совпадающей строки</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;select userid from
+user_authenticate where</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">username = '$PHP_AUTH_USER'
+and</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">password = '$PHP_AUTH_PW'&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$result = mysql_query (Squery):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Если
+совпадение не найдено, вывести окно
+аутентификации</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (mysql_numrows($result) != 1) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">header('WWW-Authenticate:
+Basic realm=&quot;Secret Family Recipes'&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">header ('HTTP/ 1.0 401
+Unauthorized');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">exit;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Если
+проверка пройдена, получить идентификатор
+пользователя</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else ;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Suserid = mysql_result
+(user_authenticate, 0, $result);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<b>
+<p><A NAME="x"></A><font color="#000000" face="Times New Roman" size="4">Итоги</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Эта глава
+была посвящена разнообразным вопросам,
+связанным с системой безопасности. Как
+говорилось ранее, безопасность приложений
+РНР обеспечивается правильной настройкой
+web-сервера и РНР в сочетании с приемами
+защищенного программирования,
+предотвращающими нарушение работы системы
+из-за пользовательского ввода. Важная роль
+в системе безопасности также отводится
+шифрованию данных, проверке кредитных карт
+и аутентификации пользователей. В
+частности, были рассмотрены следующие темы:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">проблемы
+    конфигурации РНР;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">безопасный
+    режим;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">проблемы
+    программирования;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">шифрование
+    данных;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">технологии
+    электронной коммерции;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">аутентификация
+    пользователей.</font></li>
+</ul>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">В
+завершение я хочу подчеркнуть, что
+правильное планирование уровня
+безопасности ваших приложений РНР окажется
+успешным лишь при столь же (если не более)
+тщательном планировании других аспектов.
+Общая структура средств безопасности
+всегда должна определяться </font><i><font COLOR="#000000">до
+</font></i><font COLOR="#000000">начала непосредственного
+программирования. В конечном счете это
+сэкономит ваше время и поможет
+ликвидировать потенциальные недочеты в
+системе безопасности вашего приложения.</font></font></p>
+</BODY></HTML>

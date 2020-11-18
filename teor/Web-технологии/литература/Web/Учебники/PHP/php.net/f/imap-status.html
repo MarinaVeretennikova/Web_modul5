@@ -1,0 +1,39 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>imap_status</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%"><A HREF="imap-sort.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="imap-subscribe.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.imap-status">imap_status</A></H1><A NAME="AEN35757"></A><P>(PHP 3&#62;= 3.0.4, PHP 4)</P>
+<p>imap_status - эта функция возвращает информацию статуса mailbox'а, отличного от текущего.<A NAME="AEN35760"></A>
+</p><H2>Описание</H2><p>object <B>imap_status</B> (int imap_stream, string mailbox, int options)</p>
+<P>Эта функция возвращает объект, содержащий информацию статуса. Правильными флагами являются:
+<UL><LI><P>SA_MESSAGES - set status-&#62;messages сообщениям в mailbox'е</P></LI>
+<LI><P>SA_RECENT - set status-&#62;recent последним сообщениям в mailbox'е</P></LI>
+<LI><P>SA_UNSEEN - set status-&#62;unseen непросмотренным (новым) сообщениям в mailbox'е</P></LI>
+<LI><P>SA_UIDNEXT - set status-&#62;uidnext следующему uid, используемому в mailbox'е</P></LI>
+<LI><P>SA_UIDVALIDITY - set status-&#62;uidvalidity константе, которая 
+изменяется, когда uid'ы mailbox'а могут больше не быть правильными</P></LI>
+<LI><P>SA_ALL - устанавливает всё вышеуказанное</P></LI></UL>
+<P>status-&#62;flags также устанавливается и содержит битовую маску, которая 
+может сверяться с любой из вышеуказанных констант.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN35790"></A>
+<h5>Пример 1. imap_status()</h5 ><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$mbox = imap_open("{your.imap.host}","username","password",OP_HALFOPEN)
+      or die("can't connect: ".imap_last_error());
+ 
+$status = imap_status($mbox,"{your.imap.host}INBOX",SA_ALL);
+if($status) {
+  print("Messages:   ". $status-&#62;messages   )."&#60;br&#62;\n";
+  print("Recent:     ". $status-&#62;recent     )."&#60;br&#62;\n";
+  print("Unseen:     ". $status-&#62;unseen     )."&#60;br&#62;\n";
+  print("UIDnext:    ". $status-&#62;uidnext    )."&#60;br&#62;\n";
+  print("UIDvalidity:". $status-&#62;uidvalidity)."&#60;br&#62;\n"; 
+} else
+  print "imap_status failed: ".imap_last_error()."\n";
+ 
+imap_close($mbox);</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="imap-sort.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="imap-subscribe.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">imap_sort</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.imap.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">imap_subscribe</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

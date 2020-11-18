@@ -1,0 +1,118 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Informix</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="imap-utf8.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="ifx-affected-rows.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.ifx"></A>XLIV. Функции Informix</h1><A NAME="AEN35943"></A><H1><ANAME="ifx.intro">Введение</A></H1><P>Драйвер Informix для Informix (IDS) 7.x, SE 7.x, Universal
+Server (IUS) 9.x и IDS 2000 реализован в "ifx.ec" и
+"php3_ifx.h" в директории расширения informix.  Поддержка IDS 7.x весьма 
+основательна, с полной поддержкой столбцов BYTE и TEXT. Поддержка IUS 9.x 
+частично завершена: введены новые типы данных, но поддержка SLOB и CLOB всё ещё в стадии разработки.</P>
+<H1><A NAME="ifx.requirenments">Требования</A></H1><BLOCKQUOTE><P><B>Замечания по конфигурации: </B>
+вам необходима версия ESQL/C для компиляции драйвера Informix для РНР.
+ESQL/C версии с 7.2x должны работать нормально. ESQL/C является теперь частью Informix Client SDK.</P>
+<P>Убедитесь, что переменная "INFORMIXDIR" установлена и что
+$INFORMIXDIR/bin имеется в вашей переменной окружения PATH, прежде чем запускать скрипт "configure".</P></BLOCKQUOTE>
+<H1><A NAME="ifx.installation">Установка</A></H1><BLOCKQUOTE><P><B>Примечание: </B>
+скрипт configure будет автоматически определять директории библиотек и include, если вы запустите configure
+<TT>--with_informix=yes</TT>. Вы можете переопределить это автоопределение, специфицировав "IFX_LIBDIR", "IFX_LIBS"
+и "IFX_INCDIR" в окружении.  Скрипт configure также попытается определить 
+версию вашего сервера Informix.  Он установит переменную условной компиляции
+"HAVE_IFX_IUS", если ваша версия Informix &#62;= 9.00.</P></BLOCKQUOTE>
+<H1><a name="ifx.configuration">Конфигурация</a></H1><BLOCKQUOTE><P><B>Примечание: </B>
+убедитесь, что переменные окружения Informix INFORMIXDIR и INFORMIXSERVER доступны для PHP ifx-драйвера и что директория
+INFORMIX bin находится в PATH. Проверьте это, запустив скрипт, содержащий 
+вызов <A HREF="phpinfo.html"><B>phpinfo()</B></A>, прежде чем начать тестирование. На выводе
+<A HREF="phpinfo.html"><B>phpinfo()</B></A> эти переменные должны быть перечислены. Это <TT><B>TRUE</B></TT> как для CGI php, так и для Apache mod_php. Вам может понадобиться установить 
+эти переменные окружения в стартовом скрипте вашего Apache.</P>
+<P>Совместно используемые библиотеки Informix также должны быть доступны 
+загрузчику (проверьте LD_LINBRARY_PATH или ld.so.conf/ldconfig).</P></BLOCKQUOTE>
+<BLOCKQUOTE><P><B>Некоторые замечания об использовании BLOB'ов (столбцы TEXT и BYTE): </B>
+BLOB'ы нормально адресуются BLOB-идентификаторами.  
+Запросы выборки возвращают "blob id" для каждого столбца BYTE и TEXT.  Вы 
+можете получить содержимое с помощью &quot;string_var = ifx_get_blob($blob_id);", 
+если вы выбрали получение BLOB'ов в памяти (с 
+помощью: "ifx_blobinfile(0);").  Если вы предпочитаете получать содержимое
+BLOB-столбцов в файле, используйте "ifx_blobinfile(1);", а
+"ifx_get_blob($blob_id);" даст вам filename.  Используйте нормальный I/O файлов для получения содержимого blob.</P>
+<P>Для запросов insert/update вы обязаны создать эти "blob id'ы" самостоятельно с помощью &quot;
+<A HREF="ifx-create-blob.html"><B>ifx_create_blob()</B></A>;". Затем подключите blob id'ы в массив и заместите blob-столбцы знаком вопроса (?) 
+в строке запроса. Для update/insert вы ответственны за установку blob-содержимого 
+с помощью <A HREF="ifx-update-blob.html"><B>ifx_update_blob()</B></A>.</P>
+<P>Поведение BLOB-столбцов может быть изменено переменными конфигурации, что 
+также можно сделать на этапе прогона программы:</P>
+<P>переменная конфигурации : ifx.textasvarchar</P><P>переменная конфигурации : ifx.byteasvarchar</P>
+<P>runtime-функции :</P><P>ifx_textasvarchar(0) : использовать blob id'ы для select-запросов со 
+столбцами TEXT</P><P>ifx_byteasvarchar(0) : использовать blob id'ы для select-запросов со столбцами BYTE</P>
+<P>ifx_textasvarchar(1) : возвращать столбцы TEXT, как если бы они были столбцами
+VARCHAR, чтобы вам не нужно было использовать blob id'ы дляselect-запросов</P>
+<P>ifx_byteasvarchar(1) : возвращать столбцы BYTE, как если бы они были столбцами
+VARCHAR, чтобы вам не нужно было использовать blob id'ы для select-запросов</P>
+<P>переменная конфигурации : ifx.blobinfile</P><P>runtime-функция :</P>
+<P>ifx_blobinfile_mode(0) : возвращать столбцы BYTE в памяти, blob id позволяет получать содержимое</P>
+<P>ifx_blobinfile_mode(1) : возвращать столбцы BYTE в файле, blob id позволяет получать имя файла</P>
+<P>Если вы устанавливаете для ifx_text/byteasvarchar значение 1, вы можете использовать столбцы TEXT и BYTE
+в select-запросах, как нормальные (но всё же long)
+поля VARCHAR.  Поскольку все строки "подсчитаны" в PHP, он остаётся "binary safe".  
+Вы обязаны обработать это корректно. Возвращаемые данные могут содержать всё 
+что угодно, вы отвечаете за содержимое.</P>
+<P>Если вы устанавливаете для ifx_blobinfile значение 1, используйте имя файла, возвращаемое
+ifx_get_blob(..), для получения blob-содержимого.  Заметьте, что в этом 
+случае ВЫ ОТВЕЧАЕТЕ ЗА УДАЛЕНИЕ ВРЕМЕННЫХ ФАЙЛОВ, СОЗДАННЫХ INFORMIX, когда 
+извлекаете ряды.  Каждый новый извлечённый ряд создаст новый временный файл для каждого столбца BYTE.</P>
+<P>Размещение временных файлов может быть настроено переменной окружения "blobdir", 
+по умолчанию "." (текущая директория).  Что-то вроде&nbsp; putenv(blobdir=tmpblob"); 
+облегчит зачистку временных файлов, случайно пропущенных (имена их всех начинаются с &quot;blb").</P></BLOCKQUOTE>
+<BLOCKQUOTE><P><b>Автоматическая доводка "char"-данных (SQLCHAR и SQLNCHAR): </b>это можно 
+установить переменной окружения</P><P> ifx.charasvarchar : если установлено 1, ведомые пробелы автоматически 
+удаляются, давая вам некоторое подобие "отсечения/chopping".</P></BLOCKQUOTE><BLOCKQUOTE><P><B><TT>NULL</TT>-значения: </B>
+переменная конфигурации ifx.nullformat (и функция времени выполнения <A HREF="ifx-nullformat.html">
+<B>ifx_nullformat()</B></A>), если установлена в <TT><B>TRUE</B></TT>, возвратит <TT><B>NULL</B></TT>
+-столбцы как строку &quot;<TT><B>NULL</B></TT>", если установлена <TT><B>FALSE</B></TT>, они возвратят пустую строку. Это позволяет вам выбирать между
+<TT><B>NULL</B></TT> -столбцами и пустыми столбцами.</P></BLOCKQUOTE>
+<H1><A NAME="ifx.resources">Типы ресурсов</A></H1><H1><A NAME="ifx.constants">Предопределённые константы</A></H1><P>Это расширение не определяет никаких констант.</P>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="ifx-affected-rows.html">ifx_affected_rows</A> - получает количество рядов, задействованных в запросе</DT>
+<DT><A HREF="ifx-blobinfile-mode.html">ifx_blobinfile_mode</A> - устанавливает blob-режим по умолчанию для всех select-запросов</DT>
+<DT><A HREF="ifx-byteasvarchar.html">ifx_byteasvarchar</A> - устанавливает byte-режим по умолчанию</DT>
+<DT><A HREF="ifx-close.html">ifx_close</A> - закрывает соединение Informix</DT>
+<DT><A HREF="ifx-connect.html">ifx_connect</A> - открывает серверное соединение Informix</DT>
+<DT><A HREF="ifx-copy-blob.html">ifx_copy_blob</A> - дублирует данный blob-объект</DT>
+<DT><A HREF="ifx-create-blob.html">ifx_create_blob</A> - создаёт blob-объект</DT>
+<DT><A HREF="ifx-create-char.html">ifx_create_char</A> - создаёт char-объект</DT>
+<DT><A HREF="ifx-do.html">ifx_do</A> - выполняет ранее подготовленный SQL-оператор</DT>
+<DT><A HREF="ifx-error.html">ifx_error</A> - возвращает код ошибки последнего вызова Informix</DT>
+<DT><A HREF="ifx-errormsg.html">ifx_errormsg</A> - возвращает сообщение об ошибке последнего вызова Informix</DT>
+<DT><A HREF="ifx-fetch-row.html">ifx_fetch_row</A> - получает ряд как перечислимый массив</DT>
+<DT><A HREF="ifx-fieldproperties.html">ifx_fieldproperties</A> - выдаёт список свойств SQL-полей</DT>
+<DT><A HREF="ifx-fieldtypes.html">ifx_fieldtypes</A> - выдаёт список Informix SQL-полей</DT>
+<DT><A HREF="ifx-free-blob.html">ifx_free_blob</A> - удаляет blob-объект</DT>
+<DT><A HREF="ifx-free-char.html">ifx_free_char</A> - удаляет char-объект</DT>
+<DT><A HREF="ifx-free-result.html">ifx_free_result</A> - освобождает ресурсы для запроса</DT>
+<DT><A HREF="ifx-get-blob.html">ifx_get_blob</A> - возвращает содержимое blob-объекта</DT>
+<DT><A HREF="ifx-get-char.html">ifx_get_char</A> - возвращает содержимое char-объекта</DT>
+<DT><A HREF="ifx-getsqlca.html">ifx_getsqlca</A> - получает содержимое sqlca.sqlerrd[0..5] после запроса</DT>
+<DT><A HREF="ifx-htmltbl-result.html">ifx_htmltbl_result</A> - форматирует все ряды запроса в виде HTML-таблицы</DT>
+<DT><A HREF="ifx-nullformat.html">ifx_nullformat</A> - устанавливает return-значение по умолчанию при извлечении ряда</DT>
+<DT><A HREF="ifx-num-fields.html">ifx_num_fields</A> - возвращает количество столбцов в запросе</DT>
+<DT><A HREF="ifx-num-rows.html">ifx_num_rows</A> - подсчитывает ряды, уже извлечённые из запроса</DT>
+<DT><A HREF="ifx-pconnect.html">ifx_pconnect</A> - открывает постоянное соединение Informix</DT>
+<DT><A HREF="ifx-prepare.html">ifx_prepare</A> - готовит SQL-оператор для выполнения</DT>
+<DT><A HREF="ifx-query.html">ifx_query</A> - отправляет Informix query</DT>
+<DT><A HREF="ifx-textasvarchar.html">ifx_textasvarchar</A> - устанавливает текстовый режим по умолчанию</DT>
+<DT><A HREF="ifx-update-blob.html">ifx_update_blob</A> - обновляет содержимое blob-объекта</DT>
+<DT><A HREF="ifx-update-char.html">ifx_update_char</A> - обновляет содержимое char-объекта</DT>
+<DT><A HREF="ifxus-close-slob.html">ifxus_close_slob</A> - удаляет slob-объект</DT>
+<DT><A HREF="ifxus-create-slob.html">ifxus_create_slob</A> - создаёт slob-объект и открывает его</DT>
+<DT><A HREF="ifxus-free-slob.html">ifxus_free_slob</A> - удаляет slob-объект</DT>
+<DT><A HREF="ifxus-open-slob.html">ifxus_open_slob</A> - открывает slob-объект</DT>
+<DT><A HREF="ifxus-read-slob.html">ifxus_read_slob</A> - читает n байт slob-объекта</DT>
+<DT><A HREF="ifxus-seek-slob.html">ifxus_seek_slob</A> - устанавливает текущую позицию файла или поиска</DT>
+<DT><A HREF="ifxus-tell-slob.html">ifxus_tell_slob</A> - возвращает текущую позицию файла или поиска</DT>
+<DT><A HREF="ifxus-write-slob.html">ifxus_write_slob</A> - записывает строку в slob-объект</DT>
+</DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="imap-utf8.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="ifx-affected-rows.html">Вперёд</A></TD></TR>
+<TR><TD WIDTH="33%" VALIGN="top">imap_utf8</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">ifx_affected_rows</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

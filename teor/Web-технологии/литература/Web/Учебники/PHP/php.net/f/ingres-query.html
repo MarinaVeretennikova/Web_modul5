@@ -1,0 +1,46 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>ingres_query</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ingres-pconnect.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="ingres-rollback.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="ingres-query">ingres_query</A></H1><A NAME="AEN37901"></A><P>(PHP 4 &#62;= 4.0.2)</P>
+<p>ingres_query - отправляет SQL-запрос/query в Ingres II.<A NAME="AEN37904"></A></p><H2>Описание</H2>
+<p>bool <B>ingres_query</B> (string query [, resource link])</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>Эта функция - ЭКСПЕРИМЕНТАЛЬНАЯ. Поведение, имя и всё остальное, что задокументировано для данной функции может быть изменено в будущих релизах РНР без предупреждения. Вы можете использовать эту функцию только на свой страх и риск.
+</P></TD></TR></TABLE><P>Возвращает <TT><B>TRUE</B></TT> при успехе, <TT><B>FALSE</B></TT> при неудаче.</P>
+<P><B>ingres_query()</B> отправляет данный <TT><I>query</I></TT> Ingres-серверу. Этот запрос обязан быть правильным SQL-запросом (см. 
+справочник Ingres SQL).</P><P>Этот запрос становится частью текущей открытой транзакции. Если
+открытой транзакции нет, <B>ingres_query()</B> открывает новую транзакцию. Для закрытия транзакции вы можете вызвать либо
+<A HREF="ingres-commit.html"><B>ingres_commit()</B></A> для подтверждения сделанных в БД изменений, либо
+<A HREF="ingres-rollback.html"><B>ingres_rollback()</B></A> - для отмены (отката) этих изменений. По окончании работы скрипта, любая 
+открытая транзакция откатывается (вызовом <A HREF="ingres-rollback.html"><B>ingres_rollback()</B></A>). Вы можете также использовать
+<A HREF="ingres-autocommit.html"><B>ingres_autocommit()</B></A> перед открытием новой транзакции, чтобы немедленно подтверждать каждый SQL-запрос.</P>
+<P>Некоторые типы SQL-запросов не могут быть отправлены этой функцией:
+<UL><LI><P>close (см. <A HREF="ingres-close.html"><B>ingres_close()</B></A>)</P></LI>
+<LI><P>commit (см. <A HREF="ingres-commit.html"><B>ingres_commit()</B></A>)</P></LI>
+<LI><P>connect (см. <A HREF="ingres-connect.html"><B>ingres_connect()</B></A>)</P></LI>
+<LI><P>disconnect (см. <A HREF="ingres-close.html"><B>ingres_close()</B></A>)</P></LI>
+<LI><P>get dbevent</P></LI><LI><P>prepare to commit</P></LI>
+<LI><P>rollback (см. <A HREF="ingres-rollback.html"><B>ingres_rollback()</B></A>)</P></LI>
+<LI><P>savepoint</P></LI><LI><P>set autocommit (см. <A HREF="ingres-autocommit.html"><B>ingres_autocommit()</B></A>)</P></LI>
+<LI><P>все запросы, относящиеся к курсорам, не поддерживаются</P></LI></UL>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN37959"></A><h5>Пример 1. ingres_query()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+ingres_connect ($database, $user, $password);
+
+ingres_query ("select * from table");
+while ($row = ingres_fetch_row()) {
+    echo $row[1];
+    echo $row[2];
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="ingres-fetch-array.html"><B>ingres_fetch_array()</B></A>,
+<A HREF="ingres-fetch-object.html"><B>ingres_fetch_object()</B></A>,
+<A HREF="ingres-fetch-row.html"><B>ingres_fetch_row()</B></A>,
+<A HREF="ingres-commit.html"><B>ingres_commit()</B></A>, <A HREF="ingres-rollback.html"><B>ingres_rollback()</B></A> и
+<A HREF="ingres-autocommit.html"><B>ingres_autocommit()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ingres-pconnect.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ingres-rollback.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ingres_pconnect</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.ingres.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ingres_rollback</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,37 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>ingres_connect</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ingres-commit.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ingres-fetch-array.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.ingres-connect">ingres_connect</A></H1><A NAME="AEN37482"></A><P>(PHP 4 &#62;= 4.0.2)</P>
+<p>ingres_connect - открывает соединение с БД Ingres II.<A NAME="AEN37485"></A></p><H2>Описание</H2><p>resource <B>ingres_connect</B> ([string database [, string username [, string password]]])</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD><P>Эта функция - ЭКСПЕРИМЕНТАЛЬНАЯ. Поведение, имя и всё остальное, что задокументировано для данной функции может быть изменено в будущих релизах РНР без предупреждения. Вы можете использовать эту функцию только на свой страх и риск.
+</P></TD></TR></TABLE><P>Возвращает ресурс ссылки Ingres II при успехе, <TT><B>FALSE</B></TT> при неудаче.</P>
+<P><B>ingres_connect()</B> открывает соединение с БД Ingres, обозначенной параметром <TT><I>database</I></TT>,
+который следует синтаксису <TT><I>[node_id::]dbname[/svr_class]</I></TT>.</P><P>Если некоторые параметры опущены,
+<B>ingres_connect()</B> использует значения из <TT>php.ini</TT> для <TT><I>ingres.default_database</I></TT>,
+<TT><I>ingres.default_user</I></TT> и <TT><I>ingres.default_password</I></TT>.</P>
+<P>Соединение закрывается, когда скрипт заканчивает работу или когда вызывается
+<A HREF="ingres-close.html"><B>ingres_close()</B></A> для данной ссылки.</P><P>Все другие ingres-функции используют по умолчанию последнюю открытую 
+ссылку, поэтому вам необходимо сохранять возвращаемое значение только в том случае, если вы используете одновременно более одной ссылки.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN37517"></A><h5>Пример 1. ingres_connect()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+    $link = ingres_connect ("mydb", "user", "pass")
+        or die ("Could not connect");
+    print ("Connected successfully");
+    ingres_close ($link);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN37521"></A>
+<h5>Пример 2. ingres_connect() с использование м ссылки по умолчанию</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>&#60;?php
+    ingres_connect ("mydb", "user", "pass")
+        or die ("Could not connect");
+    print ("Connected successfully");
+    ingres_close ();
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="ingres-pconnect.html"><B>ingres_pconnect()</B></A> и
+<A HREF="ingres-close.html"><B>ingres_close()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ingres-commit.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ingres-fetch-array.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ingres_commit</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.ingres.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ingres_fetch_array</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

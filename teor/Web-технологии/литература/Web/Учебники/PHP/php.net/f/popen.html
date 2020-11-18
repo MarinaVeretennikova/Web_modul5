@@ -1,0 +1,33 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>popen</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="pclose.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="readfile.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="popen">popen</A></H1><A NAME="AEN24718"></A><P>(PHP 3, PHP 4)</P>
+<p>popen - открывает файловый указатель процесса.<A NAME="AEN24721"></A></p><H2>Описание</H2><p>int <B>popen</B> (string command, string mode)</p>
+<P>Открывает канал к процессу, выполняемому путём разветвления команды, заданной параметром command.</P>
+<P>Возвращает файловый указатель, идентичный указателю, возвращаемому функцией
+<A HREF="fopen.html"><B>fopen()</B></A>, за исключением того, что он однонаправленный (может использоваться только для 
+чтения или только для записи) и обязан быть закрыт функцией <A HREF="pclose.html"><B>pclose()</B></A>. Этот указатель может использоваться с
+<A HREF="fgets.html"><B>fgets()</B></A>, <A HREF="fgetss.html"><B>fgetss()</B></A> и
+<A HREF="fputs.html"><B>fputs()</B></A>.</P><P>Если возникает ошибка, возвращает <TT><B>FALSE</B></TT>.
+<A NAME="AEN24742"></A></P><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$fp = popen ("/bin/ls", "r");</PRE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+если выполняемая команда не может быть найдена, возвращается правильный ресурс. Это может показаться лишним, однако имеет смысл, так как позволяет 
+получить доступ к любому сообщению об ошибке, возвращаемому оболочкой:<A NAME="AEN24746"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+error_reporting(E_ALL);
+
+/* Добавляет перенаправление, так что мы может получить stderr. */
+$fp = popen('/path/to/spooge 2&#62;&#38;1', 'r');
+echo "'$fp'; " . gettype($fp) . "\n";
+$read = fread($fp, 2096);
+echo $read;
+pclose($fp);
+?&#62;</PRE></TD></TR></TABLE></BLOCKQUOTE><P>См. также <A HREF="pclose.html"><B>pclose()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="pclose.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="readfile.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">pclose</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.filesystem.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">readfile</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

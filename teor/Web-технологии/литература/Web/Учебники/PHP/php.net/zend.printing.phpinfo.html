@@ -1,0 +1,37 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Включение Вывода в phpinfo</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="printing.zend-error.html">Назад</A></TD><th WIDTH="80%">Глава 37. Печать информации</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="zend.printing.execution.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="zend.printing.phpinfo">Включение вывода в </a><A HREF="f/phpinfo.html"><B>phpinfo()</B></A></A></H1>
+<P>После создания модуля вы захотели показать информацию о модуле в <A HREF="f/phpinfo.html">
+<B>phpinfo()</B></A> (в дополнение к имени модуля, которое по умолчанию появляется в списке модулей). PHP 
+даёт возможность создавать ваш собственный раздел в выводе <A HREF="f/phpinfo.html"><B>phpinfo()</B></A>
+с помощью функции <TT>ZEND_MINFO()</TT>. Эта функция должна размещаться в блоке дескриптора модуля (рассмотренном 
+ранее) и всегда вызываться при любом вызове скриптом функции <A HREF="f/phpinfo.html"><B>phpinfo()</B></A>.</P>
+<P>PHP автоматически печатает для вас раздел в <A HREF="f/phpinfo.html"><B>phpinfo()</B></A>, если вы специфицировали функцию
+<TT>ZEND_MINFO</TT>, включая имя модуля в заголовке. Всё остальное должно форматироваться и печататься вами.</P>
+<P>Обычно вы можете напечатать шапку/header HTML-таблицы с использованием <B>php_info_print_table_start()</B>, а затем использовать стандартные функции
+<B>php_info_print_table_header()</B> и <B>php_info_print_table_row()</B>. В качестве аргументов обе они принимают количество столбцов (как целые числа) 
+и содержимое столбцов (как строки). В Листинге 9.14 дан пример исходного кода; 
+на Рисунке 9.9 показан вывод. Для печати футера таблицы используйте use <B>php_info_print_table_end()</B>.</P>
+<A NAME="AEN87067"></A><h5>Рисунок 37-3. Листинг 9.14. Исходный код и фрагмент экрана с выводом
+<A HREF="f/phpinfo.html"><B>phpinfo()</B></A>.</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>php_info_print_table_start();
+php_info_print_table_header(2, "First column", "Second column");
+php_info_print_table_row(2, "Entry in first row", "Another entry");
+php_info_print_table_row(2, "Just to fill", "another row here");
+php_info_print_table_end();</PRE></TD></TR></TABLE>
+<P><IMG SRC="imag/Zend_8_phpinfo_output.png" width="691" height="585"></P><BR></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="printing.zend-error.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="zend.printing.execution.html">Вперёд</A></TD></TR>
+<TR><TD WIDTH="33%" VALIGN="top"><B>zend_error()</B></TD><th WIDTH="34%" VALIGN="top">
+<a href="zend.printing.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Информация выполнения</TD>
+</TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

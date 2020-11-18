@@ -1,0 +1,86 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>header</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ref.http.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="headers-sent.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.header">header</A></H1><A NAME="AEN27754"></A><P>(PHP 3, PHP 4)</P>
+<p>header - отправляет &quot;сырую&quot; HTTP-шапку/header.<A NAME="AEN27757"></A></p><H2>Описание</H2>
+<p>int <B>header</B> (string string [, bool replace])</p>
+<P><B>header()</B> используется для отправки необработанных HTTP-шапок. См. в спецификации
+<A HREF="http://www.w3.org/Protocols/rfc2616/rfc2616" TARGET="_top">HTTP/1.1</A> информацию о
+HTTP headers.</P><P>Необязательный параметр <TT><I>replace</I></TT> указывает, должна ли шапка замещать предыдущую аналогичную шапку, или нужно 
+добавить вторую header того же самого типа. По умолчанию выполняется замещение, но, если вы передаёте
+<TT><B>FALSE</B></TT> в качестве второго аргумента, вы можете форсировать создание нескольких headers 
+одного типа. Например:<A NAME="AEN27776"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>header('WWW-Authenticate: Negotiate');
+header('WWW-Authenticate: NTLM',false);</PRE></TD></TR></TABLE>
+<P>Здесь два особых вызова шапок.  В первом это header, начинающийся строкой "<TT>HTTP/</TT>" (регистр не имеет значения), используемый для создания HTTP статус-кода для 
+отправки. Например, если вы сконфигурировали Apache для использования PHP-скрипта 
+для обработки запросов отсутствующих файлов (используя директиву <TT>ErrorDocument</TT>), вам потребуется удостовериться, что ваш скрипт генерирует соответствующий 
+статус-код.<A NAME="AEN27781"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+header("HTTP/1.0 404 Not Found");
+?&#62;</PRE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+строка шапки HTTP-статуса всегда будет отправляться первой клиенту, независимо от того, идёт вызов
+<B>header()</B> первым или нет. Этот статус может быть переопределён вызовом <B>header()</B
+> с новой строкой статуса в любое время, если только HTTP headers уже не 
+отправлены.</P></BLOCKQUOTE><BLOCKQUOTE><P><B>Примечание: </B>
+в PHP 3 это работает только в том случае, если PHP скомпилирован как Apache-модуль. Вы может добиться того же эффекта, используя шапку
+<TT>Status</TT>.<A NAME="AEN27790"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>header("Status: 404 Not Found");</PRE></TD></TR></TABLE></BLOCKQUOTE>
+<P>Второй особый случай это "Location:" header.  Здесь header не только отсылается обратно браузеру, но также возвращается статус-код 
+<TT>REDIRECT</TT> (302), если только какой-нибудь <TT>3xx</TT> статус-код не был уже установлен.<A NAME="AEN27795"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>header("Location: http://www.example.com/"); /* Redirect browser */
+exit;                 /* Убедитесь, что последующий код не
+                         выполняется, когда мы перенаправляем. */</PRE></TD></TR></TABLE><BLOCKQUOTE>
+<P><B>Примечание: </B>HTTP/1.1 требует абсолютного URI в качестве аргумента для
+<A HREF="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.30" TARGET="_top">Location:</A> включая схему, имя хоста и абсолютный путь, но некоторые клиенты принимают 
+относительные URI. Как правило вы можете сами использовать <TT>$_SERVER['HTTP_HOST']</TT>, <TT>$_SERVER['PHP_SELF']</TT>
+и <A HREF="dirname.html"><B>dirname()</B></A> для создания абсолютного URI из относительного:<A NAME="AEN27804"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>header("Location: http://".$_SERVER['HTTP_HOST']
+                      .dirname($_SERVER['PHP_SELF'])
+                      ."/".$relative_url);</PRE></TD></TR></TABLE></BLOCKQUOTE>
+<P>PHP-скрипты часто генерируют динамическое содержимое, которое обязано не кэшироваться клиентским браузером или proxy-кэшами между клиентским 
+браузером и сервером. Во многих прокси и клиентах можно отключать кэширование.<A NAME="AEN27807"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");    // дата в прошлом
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); 
+                                                     // всегда модифицируется
+header("Cache-Control: no-store, no-cache, must-revalidate");  // HTTP/1.1
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");                          // HTTP/1.0</PRE></TD></TR></TABLE><BLOCKQUOTE>
+<P><B>Примечание: </B>вы можете обнаружить, что ваши страницы не кэшируются, даже если вы не 
+выводите все выше указанные шапки. Есть опции, которые могут быть установлены пользователями в своих браузерах, изменяющие поведение по 
+умолчанию кэширования. Отправляя вышеуказанные шапки, вы должны 
+переопределить любые установки, которые иначе могут кэшировать ваши скрипты.</P>
+<P>Кроме того, <A HREF="session-cache-limiter.html"><B>session_cache_limiter()</B></A> и установка конфигурации
+<TT>session.cache_limiter</TT> могут использоваться для автоматической генерации корректны шапок кэширования, 
+когда используются сессии.</P></BLOCKQUOTE><P>Помните, что <B>header()</B> обязана вызываться до отправки любого вывода: нормальными ли тэгами HTML, 
+пустыми строками в файле, или из PHP. Очень частой ошибкой является чтение кода функциями <A HREF="../include.html">
+<B>include()</B></A> или <A HREF="require.html"><B>require()</B></A>, или другой функцией доступа к файлу, и наличие пробелов или пустых строк, 
+которые выводятся до вызова <B>header()</B>. Та же проблема возникает при использовании единого PHP/HTML-файла.<A NAME="AEN27819"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;?php header ("Content-type: audio/x-pn-realaudio"); ?&#62;
+// нарушение: обратите внимание на пустую строчку вверху</PRE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+в PHP 4 вы можете использовать буферизацию вывода для решения этой проблемы,
+передавая браузеру весь ваш вывод, буферизуемый на сервере до отправки. Вы можете сделать это вызовом
+<A HREF="ob-start.html"><B>ob_start()</B></A> и <A HREF="ob-end-flush.html"><B>ob_end_flush()</B></A> в вашем скрипте, или установив директиву конфигурации
+<TT>output_buffering</TT> в файле <TT>php.ini</TT> или файлах конфигурации сервера.</P></BLOCKQUOTE>
+<P>Если вы хотите, чтобы пользователю задавался вопрос о сохранении данных, 
+высылаемых вами, таких как сгенерированный PDF-файл, вы можете использовать шапку
+<A HREF="http://www.ietf.org/rfc/rfc2183.txt" TARGET="_top">Content-Disposition</A> для предоставления рекомендуемого файла и форсировать отображение браузером 
+диалога save.<A NAME="AEN27829"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+header("Content-type: application/pdf");
+header("Content-Disposition: attachment; filename=downloaded.pdf");
+
+/* ... вывод pdf-файла ... */</PRE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+в Microsoft Internet Explorer 4.01 имеется баг, не дающий реализовать 
+это. Средства от этого нет. Также имеется баг в Microsoft Internet Explorer 5.5, 
+но его можно исправить, обновив до Service Pack 2 или новее.</P></BLOCKQUOTE>
+<BLOCKQUOTE><P><B>Примечание: </B>если <A HREF="../configuration.html#ini.safe-mode">safe mode</A> включён,
+uid скрипта добавляется к части <TT>realm</TT> шапки <TT>WWW-Authenticate</TT>, если вы устанавливаете эту шапку (используется для HTTP Authentication).</P>
+</BLOCKQUOTE><P>См. также <A HREF="headers-sent.html"><B>headers_sent()</B></A>,
+<A HREF="setcookie.html"><B>setcookie()</B></A> и раздел <A HREF="../http-auth.html">HTTP-аутентификация</A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ref.http.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="headers-sent.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Функции HTTP</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.http.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">headers_sent</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,25 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>sesam_disconnect</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="sesam-diagnostic.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="sesam-errormsg.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.sesam-disconnect">sesam_disconnect</A></H1><A NAME="AEN72633"></A><P>(только PHP 3 CVS)</P>
+<p>sesam_disconnect - отсоединяет от SESAM.<A NAME="AEN72636"></A></p><H2>Описание</H2>
+<p>bool <B>sesam_disconnect</B> (void)</p><P>Возвращает всегда <TT><B>TRUE</B></TT>.</P>
+<P><B>sesam_disconnect()</B> закрывает логическую ссылку на БД SESAM (без реального отсоединения и выгрузки 
+драйвера).</P><P>Заметьте, что в этом обычно нет необходимости, так как открытое соединение 
+автоматически закрывается в конце выполнения скрипта. Неподтверждённые данные отбрасываются, поскольку неявно выполняется
+<A HREF="sesam-rollback.html"><B>sesam_rollback()</B></A>.</P><P><B>sesam_disconnect()</B> не закрывает постоянные ссылки, она только делает неработающей текущую 
+определённую триаду <TT><I>"catalog"</I></TT>, <TT><I>"schema"</I></TT> и <TT><I>"user"</I></TT>, так что любая sesam-функция, вызванная после
+<B>sesam_disconnect()</B>, потерпит неудачу.</P><P>См. также <A HREF="sesam-connect.html"><B>sesam_connect()</B></A>.
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN72656"></A><h5>Пример 1. Закрытие соединения с SESAM</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>if (sesam_connect ("mycatalog", "myschema", "otto")) {
+    ... some queries and stuff ...
+    sesam_disconnect(); 
+}</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="sesam-diagnostic.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="sesam-errormsg.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">sesam_diagnostic</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.sesam.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">sesam_errormsg</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

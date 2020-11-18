@@ -1,0 +1,69 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>declare</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="switch.html">Назад</A></TD>
+<th WIDTH="80%">Глава 11. Структуры Управления</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="f/return.html">Вперёд</A></TD></TR>
+</TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="control-structures.declare"><TT>declare</TT></A></H1><P>Конструкция <TT>declare</TT> 
+используется для установки директив выполнения для блока кода. Синтаксис <TT>declare</TT> похож на
+синтаксис других конструкций управления потоком:</p><A NAME="AEN5049"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>declare (directive) statement</PRE></TD></TR>
+</TABLE><P> Раздел <TT>directive</TT> позволяет устанавливать поведение блока <TT>declare</TT>.
+В настоящее время распознаётся только одна директива: <TT>ticks</TT>. (См. далее о директиве
+<A HREF="#control-structures.declare.ticks">ticks</A>.)</P><P>Часть <TT>statement</TT> блока
+<TT>declare</TT> будет выполнена - то, как она выполняется и какие побочные эффекты возникают в 
+процессе выполнения, зависит от директивы, установленной в блоке <TT>directive</TT>.</P>
+<H2><A NAME="control-structures.declare.ticks">Ticks</A>/Тики</H2><P>Тик/tick это событие,
+которое возникает для каждого оператора <TT><I>N</I></TT> нижнего уровня, выполняемого
+разборщиком внутри блока <TT>declare</TT>. Значение <TT><I>N</I></TT> специфицируется <TT>ticks=<TT><I>N</I></TT>
+</TT> внутри раздела <TT>directive</TT> блока <TT>declare</TT>.</P>
+<P>Событие (-ия), возникающее при каждом тике, специфицируется функцией
+<A HREF="f/register-tick-function.html"><B>register_tick_function()</B></A>. См. детали
+далее в примере. Заметьте, что для каждого тика может возникать более чем одно событие.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN5073"></A><h5>
+Пример 11-1. Профилирование раздела PHP-кода</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+// Функция, которая записывает время, когда её вызывают
+function profile ($dump = FALSE)
+{
+    static $profile;
+
+    // Возвращается время, хранимое в профиле, затем удаляется
+    if ($dump) {
+        $temp = $profile;
+        unset ($profile);
+        return ($temp);
+    }
+
+    $profile[] = microtime ();
+}
+
+// Установка обработчика тика/tick handler
+register_tick_function("profile");
+
+// Инициализация функции перед блоком declare
+profile ();
+
+// Выполняется блок кода, тик вызывается на каждом втором операторе
+declare (ticks=2) {
+    for ($x = 1; $x &#60; 50; ++$x) {
+        echo similar_text (md5($x), md5($x*$x)), "&#60;br /&#62;;";
+    }
+}
+
+// Выводятся данные, хранимые в profiler'е
+print_r (profile (TRUE));
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Этот пример профилирует PHP-код внутри блока 'declare', записывая время при выполнении каждого второго низкоуровневого оператора выполненного блока. 
+Эта информация может затем использоваться для поиска медленно работающих участков определённого сегмента кода. Это процесс может выполняться с 
+использованием других методов: использование тиков удобнее и легче реализуется.</p>
+<P>Тики хорошо подходят для отладки, реализуя простую многозадачность, фоновый I/O и многие другие задачи.</P><P>См. также <A HREF="f/register-tick-function.html">
+<B>register_tick_function()</B></A> и <A HREF="f/unregister-tick-function.html"><B>unregister_tick_function()</B></A>.</P></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%">
+<TR BGCOLOR="#333366"><TD><IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="switch.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="f/return.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top"><TT>switch</TT></TD><th WIDTH="34%" VALIGN="top"><a href="control-structures.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">return</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

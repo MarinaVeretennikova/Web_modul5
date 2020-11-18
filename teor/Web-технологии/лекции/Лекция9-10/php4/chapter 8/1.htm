@@ -1,0 +1,2226 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE></TITLE>
+<META content="TEXT/HTML; CHARSET=WINDOWS-1251" http-equiv=CONTENT-TYPE>
+<META content="Microsoft FrontPage 4.0" name=GENERATOR>
+<STYLE></STYLE>
+</HEAD>
+<body background=../fon.jpg>
+<ul>
+
+  <li><a href="#a"><font face="Times New Roman" size=3>Глава 8.
+    Строки и регулярные выражения</font></a> </li>
+  <ul>
+    <li><a href="#b"><font face="Times New Roman" size="3">Регулярные
+      выражения</font></a>
+      <ul>
+        <li><a href="#c"><font face="Times New Roman" size="3">синтаксис
+          регулярных выражений(POSIX)</font></a></li>
+      </ul>
+    </li>
+    <li><a href="#d"><font face="Times New Roman" size="3">Функции PHP
+      для работы с регулярными выражениями(POSIX-совместимые)</font></a></li>
+    <li><a href="#e"><font face="Times New Roman" size="3">Синтаксис
+      регулярных выражений в стиле Perl</font></a>
+      <ul>
+        <li><a href="#f"><font face="Times New Roman" size="3">Метасимволы</font></a></li>
+        <li><a href="#g"><font face="Times New Roman" size="3">Модификаторы</font></a></li>
+      </ul>
+    </li>
+    <li><a href="#h"><font face="Times New Roman" size="3">Функции PHP
+      для работы с регулярными выражениями(Perl-совместимые)</font></a></li>
+    <li><a href="#i"><font face="Times New Roman" size="3">Другие
+      строковые функции</font></a>
+      <ul>
+        <li><a href="#j"><font face="Times New Roman" size="3">Дополнение
+          и сжатие строк</font></a></li>
+        <li><a href="#k"><font face="Times New Roman" size="3">Определение
+          длины строки</font></a></li>
+        <li><a href="#l"><font face="Times New Roman" size="3">Сравнение
+          двух строк</font></a></li>
+        <li><a href="#m"><font face="Times New Roman" size="3">Обработка
+          строковых данных без применения
+          регулярных выражений</font></a></li>
+        <li><a href="#n"><font face="Times New Roman" size="3">Преобразование
+          строк и файлов к формату HTML и наоборот</font></a></li>
+        <li><a href="#o"><font face="Times New Roman" size="3">Преобразование
+          HTML в простой текст</font></a></li>
+        <li><a href="#p"><font face="Times New Roman" size="3">Преобразование
+          строки к верхнему и нижнему регистру</font></a></li>
+      </ul>
+    </li>
+    <li><a href="#q"><font face="Times New Roman" size="3">Проект: идентификация
+      браузера</font></a></li>
+    <li><a href="#r"><font face="Times New Roman" size="3">Итоги</font></a>
+    </li>
+  </ul>
+</ul>
+<A NAME="a"></A>
+
+<p>&nbsp;</p>
+
+<p><font color="#000000" face="Times New Roman" size="5">ГЛАВА 8</font></p>
+<p><font color="#000000" face="Times New Roman" size="5">Строки и
+регулярные выражения</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Возможности
+эффективной организации, поиска и
+распространения информации давно
+представляли интерес для специалистов в
+области компьютерных технологий. Поскольку
+информация в основном представляет собой
+текст, состоящий из алфавитно-цифровых
+символов, разработка средств поиска и
+обработки информации по шаблонам,
+описывающим текст, стала предметом
+серьезных теоретических исследований.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Поиск по
+шаблону позволяет не только находить
+определенные фрагменты текста, но и
+заменять их другими фрагментами. Одним из
+стандартных примеров поиска по шаблону
+являются команды поиска/замены в текстовых
+редакторах — например, в MS Word, Emacs и в моем
+любимом редакторе vi. Всем пользователям UNIX
+хорошо известны такие программы, как sed, awk и
+grep; богатство возможностей этих программ в
+значительной степени обусловлено
+средствами поиска по шаблону. Механизмы
+поиска по шаблону решают четыре основные
+задачи:</font></p>
+<ul>
+  <li><font size="3" face="Times New Roman"><font COLOR="#000000">поиск
+    строк, в точности совпадающих с заданным
+    шаблоном;</font></font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">поиск
+    фрагментов строк, совпадающих с заданным
+    шаблоном;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">замену
+    строк и подстрок по шаблону;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">поиск
+    строк, с которыми заданный шаблон </font><i><font COLOR="#000000" size="3" face="Times New Roman">не
+    совпадает.</font></li>
+  </ul>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Появление Web
+породило необходимость в более быстрых и
+эффективных средствах поиска данных,
+которые бы позволяли пользователям со
+всего мира находить нужную информацию
+среди миллиардов web-страниц. Поисковые
+системы, онлайновые финансовые службы и
+сайты электронной коммерции — все это
+стало бы абсолютно бесполезным без средств
+анализа гигантских объемов данных в этих
+секторах. Действительно, средства
+обработки строковой информации являются
+жизненно важной составляющей практически
+любого сектора, так или иначе связанного с
+современными информационными технологиями.
+В этой главе основное внимание посвящено
+средствам обработки строк в РНР. Мы
+рассмотрим некоторые стандартные
+строковые функции (в языке их больше 60!), а из
+приведенных определений и примеров вы
+получите сведения, необходимые для
+создания web-приложений. Но прежде чем
+переходить к специфике</font> <font COLOR="#000000" size="3" face="Times New Roman">РНР,
+я хочу познакомить вас с базовым механизмом,
+благодаря которому становится возможным
+поиск по шаблону. Речь идет о регулярных
+выражениях.</font></p>
+<b>
+<p><A NAME="b"></A>
+<font color="#000000" face="Times New Roman" size="4">Регулярные
+выражения</font></p>
+</b><i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Регулярные
+выражения </font></i><font COLOR="#000000" size="3" face="Times New Roman">лежат
+в основе всех современных технологий
+поиска по шаблону. Регулярное выражение
+представляет собой последовательность
+простых и служебных символов, описывающих
+искомый текст. Иногда регулярные выражения
+бывают простыми и понятными (например,
+слово dog), но часто в них присутствуют
+служебные символы, обладающие особым
+смыслом в синтаксисе регулярных выражений,
+— например, &lt;(?)&gt;.*&lt;\/.?&gt;.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В РНР
+существуют два семейства функций, каждое из
+которых относится к определенному типу
+регулярных выражений: в стиле POSIX или в
+стиле Perl. Каждый тип регулярных выражений
+обладает собственным синтаксисом и
+рассматривается в соответствующей части
+главы. На эту тему были написаны
+многочисленные учебники, которые можно
+найти как в Web, так и в книжных магазинах.
+Поэтому я приведу лишь основные сведения о
+каждом типе, а дальнейшую информацию при
+желании вы сможете найти самостоятельно.
+Если вы еще не знакомы с принципами работы
+регулярных выражений, обязательно
+прочитайте краткий вводный курс,
+занимающий всю оставшуюся часть этого
+раздела. А если вы хорошо разбираетесь в
+этой области, смело переходите к следующему
+разделу.</font></p>
+<p><A NAME="c"></A>
+<font color="#000000" face="Times New Roman" size="4">Синтаксис
+регулярных выражений (POSIX)</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Структура
+регулярных выражений POSIX чем-то напоминает
+структуру типичных математических
+выражений — различные элементы (операторы)
+объединяются друг с другом и образуют более
+сложные выражения. Однако именно смысл
+объединения элементов делает регулярные
+выражения таким мощным и выразительным
+средством. Возможности не ограничиваются
+поиском литерального текста (например,
+конкретного слова или числа); вы можете
+провести поиск строк с разной семантикой,
+но похожим синтаксисом — например, всех
+тегов HTML в файле.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Простейшее
+регулярное выражение совпадает с одним
+литеральным символом — например, выражение
+g совпадает в таких строках, как g<i>, </i>haggle и
+bag. Выражение, полученное при объединении
+нескольких литеральных символов, совпадает
+по тем же правилам — например,
+последовательность gan совпадает в любой
+строке, содержащей эти символы (например, gang,
+organize или Reagan).</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Оператор | (вертикальная
+черта) проверяет совпадение одной из
+нескольких альтернатив. Например,
+регулярное выражение php | zend проверяет
+строку на наличие php или zend.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Квадратные
+скобки</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Квадратные
+скобки ([ ]) имеют особый смысл в контексте
+регулярных выражений — они означают «любой
+символ из перечисленных в скобках». В
+отличие от регулярного выражения php,
+которое совпадает во всех строках,
+содержащих литеральный текст php, выражение [php]
+совпадает в любой строке, содержащей
+символы р или h. Квадратные скобки играют
+важную роль при работе с регулярными
+выражениями, поскольку в процессе поиска
+часто возникает задача поиска символов из
+заданного интервала. Ниже перечислены
+некоторые часто используемые интервалы:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">[0-9] —
+    совпадает с любой десятичной цифрой от 0
+    до 9;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">[a-z] —
+    совпадает с любым символом нижнего
+    регистра от а до z;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">[A-Z] —
+    совпадает с любым символом верхнего
+    регистра от А до Z;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">[a -Z] —
+    совпадает с любым символом нижнего или
+    верхнего регистра от а до Z.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Конечно,
+перечисленные выше интервалы всего лишь
+демонстрируют общий принцип. Например, вы
+можете воспользоваться интервалом [0-3] для
+обозначения любой десятичной цифры от 0 до 3
+или интервалом [b-v] для обозначения любого
+символа нижнего регистра от b до v. Короче
+говоря, интервалы определяются совершенно
+произвольно.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Квантификаторы</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Существует
+особый класс служебных символов,
+обозначающих количество повторений
+отдельного символа или конструкции,
+заключенной в квадратные скобки. Эти
+служебные символы (+, * и {...}) называются </font><i><font COLOR="#000000">квантификаторами.
+</font></i><font COLOR="#000000">Принцип их действия проще
+всего пояснить на примерах:</font></font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">р+ означает
+    один или несколько символов р, стоящих
+    подряд;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">р* означает
+    ноль и более символов р, стоящих подряд;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">р? означает
+    ноль или один символ р;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">р{2}
+    означает два символа р, стоящих подряд;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">р{2,3}
+    означает от двух до трех символов р,
+    стоящих подряд;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">р{2,}
+    означает два и более символов р, стоящих
+    подряд.</font></li>
+</ul>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Прочие
+служебные символы</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Служебные
+символы $ и ^ совпадают не с символами, а с
+определенными позициями в строке. Например,
+выражение р$ означает строку, которая
+завершается символом р, а выражение ^р —
+строку, начинающуюся с символа р.</font></p>
+<ul>
+  <li><font size="3" face="Times New Roman"><font COLOR="#000000">Конструкция
+    [^a-zA-Z] совпадает с любым символом, </font><i><font COLOR="#000000">не
+    входящим </font></i><font COLOR="#000000">в указаные
+    интервалы (a-z и A-Z).</font></font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Служебный
+    символ . (точка) означает «любой символ».
+    Например, выражение р.р совпадает с
+    символом р, за которым следует
+    произвольный символ, после чего опять
+    следует символ р.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Объединение
+служебных символов приводит к появлению
+более сложных выражений. Рассмотрим
+несколько примеров:</font></p>
+<ul>
+  <li><font size="3" face="Times New Roman"><font COLOR="#000000">^.{2}$ —
+    любая строка, содержащая </font><i><font COLOR="#000000">ровно
+    </font></i><font COLOR="#000000">два символа;</font></font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">&lt;b&gt;(.*)&lt;/b&gt;
+    — произвольная последовательность
+    символов, заключенная между &lt;Ь&gt; и &lt;/Ь&gt;
+    (вероятно, тегами HTML для вывода жирного
+    текста);</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">p(hp)* —
+    символ р, за которым следует ноль и более
+    экземпляров последовательности hp (например,
+    phphphp).</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Иногда
+требуется найти служебные символы в
+строках вместо того, чтобы использовать их
+в описанном специальном контексте. Для
+этого служебные символы экранируются
+обратной косой чертой (\). Например, для
+поиска денежной суммы в долларах можно
+воспользоваться выражением \$[0-9]+, то есть «знак
+доллара, за которым следует одна или
+несколько десятичных цифр». Обратите
+внимание на обратную косую черту перед $.
+Возможными совпадениями для этого
+регулярного выражения являются $42, $560 и $3.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Стандартные
+интервальные выражения (символьные классы)</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Для
+удобства программирования в стандарте POSIX
+были определены некоторые стандартные
+интервальные выражения, также называемые </font><i><font COLOR="#000000">символьными
+классами </font></i><font COLOR="#000000">(character classes).
+Символьный класс определяет один символ из
+заданного интервала — например, букву
+алфавита или цифру:</font></font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">[[:alpha:]] —
+    алфавитный символ (aA-zZ);</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">[[:digit:]]-цифра
+    (0-9);</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">[[:alnum:]] —
+    алфавитный символ (aA-zZ) или цифра (0-9);</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">[[:space:]] —
+    пропуски (символы новой строки, табуляции
+    и т. д.).</font></li>
+</ul>
+<b>
+<p><A NAME="d"></A>
+<font color="#000000" face="Times New Roman" size="4">Функции РНР
+для работы с регулярными выражениями (POSIX-совместимые)</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В настоящее
+время РНР поддерживает семь функций поиска
+с использованием регулярных выражений в
+стиле POSIX:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">еrеg( );</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">еrеg_rерlасе(
+    );</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">eregi( );</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">eregi_replace( );</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">split( );</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">spliti( );</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">sql_regcase( ).</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Описания
+этих функций приведены в следующих
+разделах.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">ereg( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция еrеg(
+) ищет в заданной строке совпадение для
+шаблона. Если совпадение найдено,
+возвращается TRUE, в противном случае
+возвращается FALSE.</font> <font COLOR="#000000" size="3" face="Times New Roman">Синтаксис
+функции ereg( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font><font size="3" face="Times New Roman"><font COLOR="#000000">ereg
+(string шаблон, string строка [, array совпадения])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Поиск
+производится с учетом регистра алфавитных
+символов. Пример использования ereg( ) для
+поиска в строках доменов .соm:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$is_com - ereg(&quot;(\.)(com$)&quot;,
+$email):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Функция
+возвращает TRUE, если $email завершается
+символами &quot;.com&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// В
+частности, поиск будет успешным для строк</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// &quot;www.wjgilmore.com&quot;
+и &quot;someemail@apress.com&quot;</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Обратите
+внимание: из-за присутствия служебного
+символа $ регулярное выражение совпадает
+только в том случае, если строка
+завершается символами .com. Например, оно
+совпадет в строке &quot;www.apress.com&quot;, но </font><i><font COLOR="#000000">не
+совпадет </font></i><font COLOR="#000000">в строке</font></font> <font COLOR="#000000" size="3" face="Times New Roman">&quot;www.apress.com/catalog&quot;.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Необязательный
+параметр совпадения содержит массив
+совпадений для всех подвыражений,
+заключенных в регулярном выражении в
+круглые скобки. В листинге 8.1 показано, как
+при помощи этого массива разделить URL на
+несколько сегментов.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+8.1.</font></font></i></b><font COLOR="#000000" size="3" face="Times New Roman"><i>
+</i></font><i><font size="3" face="Times New Roman"><font COLOR="#000000">Вывод
+элементов массива $regs</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">$url = &quot;http://www.apress.com&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Разделить
+$url на три компонента: &quot;http://www&quot;. &quot;apress&quot;
+и &quot;com&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$www_url = ereg(&quot;^(http://www)\.([[:alnum:]+\.([[:alnum:]]+)&quot;.
+$url, $regs);</font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">if ($www_url) :
+// Если переменная $www_url содержит URL</font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">echo $regs[0]; //
+Вся строка &quot;http://www.apress.com&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">echo $regs[l]; //
+&quot;http://www&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">echo $regs[2]; //
+&quot;apress&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">echo $regs[3]; //
+&quot;com&quot; endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">При
+выполнении сценария в листинге 8.1 будет
+получен следующий результат:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">http://www.apress.com
+http://www apress com</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">ereg_replace( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+ereg_replace( ) ищет в заданной строке совпадение
+для шаблона и заменяет его новым фрагментом.
+Синтаксис функции ereg_replace( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string ereg_replace (string
+</font></font><font size="3" face="Courier New"><font COLOR="#000000">шаблон,
+string замена, string строке)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+ereg_replace( ) работает по тому же принципу, что и
+ereg( ), но ее возможности расширены от
+простого поиска до поиска с заменой. После
+выполнения замены функция возвращает
+модифицированную строку. Если совпадения</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">отсутствуют,
+строка остается в прежнем состоянии.
+Функция ereg_replace( ), как и еrеg( ), учитывает
+регистр символов. Ниже приведен простой
+пример, демонстрирующий применение этой
+функции:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$copy_date = &quot;Copyright
+1999&quot;:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$copy_date =
+ereg_replace(&quot;([0-9]+)&quot;. &quot;2000&quot;, $copy_date);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print $copy_date: //
+Выводится строка &quot;Copyright 2000&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">У средств
+поиска с заменой в языке РНР имеется одна
+интересная возможность — возможность
+использования обратных ссылок на части
+основного выражения, заключенные в круглые
+скобки. Обратные ссылки похожи на элементы
+необязательного параметра-массива
+совпадения функции еrеg( ) за одним
+исключением: обратные ссылки записываются
+в виде \0, \1, \2 и т. д., где \0 соответствует всей
+строке, \1 — успешному совпадению первого
+подвыражения и т. д. Выражение может
+содержать до 9 обратных ссылок. В следующем
+примере все ссылки на URL в тексте заменяются
+работающими гиперссылками:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$url = &quot;Apress (http://www.apress.com&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$url = ereg_replace(&quot;http://(([A-Za-z0-9.\-])*)&quot;,
+&quot;&lt;a href=\&quot;\\0\&quot;&gt;\\0&lt;/a&gt;&quot;, $url);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print $url;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Выводится
+строка:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Apress (&lt;a href=&quot;http://www.apress.com&quot;&gt;http://www.apress.com&lt;/a&gt;)</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">eregi( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция eregi( )
+ищет в заданной строке совпадение для
+шаблона. Синтаксис</font> <font COLOR="#000000" size="3" face="Times New Roman">функции
+eregi(
+):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font><font size="3" face="Times New Roman"><font COLOR="#000000">eregi
+(string шаблон, string строка [, array совпадения])</font></font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Поиск
+производится </font><i><font COLOR="#000000">без учета </font></i><font COLOR="#000000">регистра
+алфавитных символов. Функция eregi( ) особенно
+удобна при проверке правильности введенных
+строк (например, паролей). Использование
+функции eregi( ) продемонстрировано в
+следующем примере:</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$password = &quot;abc&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (! eregi(&quot;[[:alnum:]]{8.10},
+$password) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Invalid
+password! Passwords must be from 8 through 10 characters in length.&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// В
+результате выполнения этого фрагмента
+выводится сообщение об ошибке.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// поскольку
+длина строки &quot;abc&quot; не входит в
+разрешенный интервал</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// от 8 до 10
+символов.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">eregi_replace( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+eregi_replасе( ) работает точно так же, как ereg_replace(
+), за одним исключением: поиск производится
+без учета регистра символов. Синтаксис
+функции ereg_replace( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string </font></font><font COLOR="#000000" size="3" face="Times New Roman">eregi_replace
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">шаблон,
+string замена, string строка)</font></font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">split( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция split( )
+разбивает строку на элементы, границы
+которых определяются по заданному шаблону.
+Синтаксис функции split( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">array </font></font><font size="3" face="Times New Roman"><font COLOR="#000000">split
+(string шаблон, string строка [, int порог])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Необязательный
+параметр порог определяет максимальное
+количество элементов, на которые делится
+строка слева направо. Если шаблон содержит
+алфавитные символы, функция spl it( ) работает
+с учетом регистра символов. Следующий
+пример демонстрирует использование
+функции split( ) для разбиения канонического IP-адреса
+на триплеты:</font></p>
+<p><font size="3"><font COLOR="#000000" face="Courier New" size="3">$ip =
+&quot;123.345.789.000&quot;; // Канонический IP-адрес</font></font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">$iparr =
+split (&quot;\.&quot;, $ip) // Поскольку точка является
+служебным символом.</font></p>
+<font FACE="Courier New" SIZE="1" COLOR="#000000">
+<p></font><font COLOR="#000000" size="3" face="Courier New">// ее
+необходимо экранировать.</font></p>
+<p><font size="3"><font COLOR="#000000" face="Courier New" size="3">print &quot;$iparr[0]
+&lt;br&gt;&quot;; // Выводит &quot;123&quot;</font></font></p>
+<p><font size="3"><font COLOR="#000000" face="Courier New" size="3">print &quot;$iparr[1]
+&lt;br&gt;&quot;; // Выводит &quot;456&quot;</font></font></p>
+<p><font size="3"><font COLOR="#000000" face="Courier New" size="3">print &quot;$iparr[2]
+&lt;br&gt;&quot;; // Выводит &quot;789&quot;</font></font></p>
+<p><font size="3"><font COLOR="#000000" face="Courier New" size="3">print &quot;$iparr[3]
+&lt;br&gt;&quot;; // Выводит &quot;000&quot;</font></font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">spliti( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+spliti( ) работает точно так же, как ее прототип
+split( ), за одним исключением: она </font><i><font COLOR="#000000">не
+учитывает </font></i><font COLOR="#000000">регистра
+символов. Синтаксис функции spliti( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">array </font></font><font size="3" face="Courier New"><font COLOR="#000000">spliti
+(string шаблон, string строка [, int порог])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Разумеется,
+регистр символов важен лишь в том случае,
+если шаблон содержит алфавитные символы.
+Для других символов выполнение spliti( )
+полностью аналогично split( ).</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">sql_regcase( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Вспомогательная
+функция sql_regcase( ) заключает каждый символ
+входной строки в квадратные скобки и
+добавляет к нему парный символ. Синтаксис
+функции</font> <font COLOR="#000000" size="3" face="Times New Roman">sql_regcase( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string </font></font><font COLOR="#000000" size="3" face="Times New Roman">sql_regcase
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">строка)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если
+алфавитный символ существует в двух
+вариантах (верхний и нижний регистры),
+выражение в квадратных скобках будет
+содержать оба варианта; в противном случае
+исходный символ повторяется дважды.
+Функция sql_regcase( ) особенно удобна при
+использовании РНР с программными пакетами,
+поддерживающими регулярные выражения в
+одном регистре. Пример преобразования
+строки функцией sql_regcase( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$version = &quot;php 4.0&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print sql_regcase($version);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Выводится
+строка [Pp][Hh][Pp][ ][44][..][00]</font></p>
+<b>
+<p><A NAME="e"></A>
+<font color="#000000" face="Times New Roman" size="4">Синтаксис
+регулярных выражений в стиле Perl</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Perl (<a href="http://www.perl.com">http://www.perl.com</a>)
+давно считается одним из самых лучших
+языков обработки текстов. Синтаксис Perl
+позволяет осуществлять поиск и замену даже
+для самых сложных шаблонов. Разработчики РHР
+сочли, что не стоит заново изобретать уже
+изобретенное, а лучше сделать знаменитый
+синтаксис регулярных выражений Perl
+доступным для пользователей РНР. Так
+появились функции для работы с регулярными
+выражениями в стиле Perl.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Диалект
+регулярных выражений Perl не так уж сильно
+отличается от диалекта POSIX. В сущности,
+синтаксис регулярных выражений Perl является
+отдаленным потомком реализации POSIX,
+вследствие чего синтаксис POSIX почти
+совместим с функциями регулярных выражений
+стиля Perl.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Оставшаяся
+часть этого раздела будет посвящена
+краткому знакомству с диалектом регулярных
+выражений Perl. Рассмотрим простой пример:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">/food/</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Обратите
+внимание: строка food заключена между двумя
+косыми чертами. Как и в стандарте POSIX, вы
+можете создавать более сложные шаблоны при
+помощи квантификаторов:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">/fo+/</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Этот
+шаблон совпадает с последовательностью fo,
+за которой могут следовать дополнительные
+символы о. Например, совпадения будут
+обнаружены в строках food, fool и fo4. Рассмотрим
+другой пример использования
+квантификатора:</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">/fo{2,4}/</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Шаблон
+совпадает с символом f, за которым следуют
+от 2 до 4 экземпляров символа о. К числу
+потенциальных совпадений относятся строки
+fool , fooool и foosball .</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В регулярных
+выражениях Perl могут использоваться все
+квантификаторы, упомянутые в предыдущем
+разделе для регулярных выражений POSIX.</font></p>
+<p><A NAME="f"></A>
+<font color="#000000" face="Times New Roman" size="4">Метасимволы</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Одной из
+интересных особенностей Perl является
+использование </font><i><font COLOR="#000000">метасимволов
+</font></i><font COLOR="#000000">при поиске. </font><i><font COLOR="#000000">Метасимвол</font></i><font COLOR="#000000">
+[Следует отметить, что авторское толкование
+термина «метасимвол» противоречит не
+только всем традициям, по и официальной
+документации РНР. — </font><i><font COLOR="#000000">Примеч.
+перев.</font></i><font COLOR="#000000">]</font><i><font COLOR="#000000"> </font></i><font COLOR="#000000">представляет
+собой алфавитный символ с префиксом \ —
+признаком особой интерпретации следующего
+символа. Например, метасимвол \d может
+использоваться при поиске денежных сумм:</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">/([d]+)000/</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Комбинация \d
+обозначает любую цифру. Конечно, в процессе
+поиска часто возникает задача
+идентификации алфавитно-цифровых символов,
+поэтому в Perl для них был определен
+метасимвол \w:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">/&lt;([\w]+)&gt;/</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Этот шаблон
+совпадает с конструкциями, заключенными в
+угловые скобки, — например, тёгами HTML.
+Кстати, метасимвол \W имеет прямо
+противоположный смысл и используется для
+идентификации символов, не являющихся
+алфавитно-цифровыми.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Еще один
+полезный метасимвол, \b, совпадает с
+границами слов:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">/sa\b/</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Поскольку
+метасимвол границы слова расположен справа
+от текста, этот шаблон совпадет в строках
+salsa и lisa, но не в строке sand. Противоположный
+метасимвол, \В, совпадает с чем угодно, кроме
+границы слова:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">/sa\B/</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Шаблон
+совпадает в таких строках, как sand и Sally, но не
+совпадает в строке salsa.</font></p>
+<p><A NAME="g"></A>
+<font color="#000000" face="Times New Roman" size="4">Модификаторы</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Модификаторы
+заметно упрощают работу с регулярными
+выражениями. Впрочем, модификаторов много,
+и в табл. 8.1 приведены лишь наиболее
+интересные из них. Модификаторы
+перечисляются сразу же после регулярного
+выражения — например, /string/i.</font></p>
+<b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Таблица
+8.1.<i>
+ </i> </font></font></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Примеры
+модификаторов</font></font></i></p>
+<table border="1" width="500" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="100" align="center">
+      <p align="left"><b><font COLOR="#000000" size="3" face="Times New Roman">Модификатор</font></b></p>
+    </td>
+    <td width="351" align="center">
+      <p align="left"><b><font COLOR="#000000" size="3" face="Times New Roman">Описание</font></b></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="150" align="center"><font size="3" face="Times New Roman"><font COLOR="#000000">m</font></font></td>
+    <td width="351"><font size="3" face="Times New Roman"><font COLOR="#000000">Фрагмент
+      текста интерпретируется как состоящий
+      из нескольких «логических строк». По
+      умолчанию специальные символы ^ и $
+      совпадают только в начале и в конце
+      всего фрагмента. При включении «многострочного
+      режима» при помощи модификатора m^ и $
+      будут совпадать в начале и в конце </font><i><font COLOR="#000000">каждой
+      </font></i><font COLOR="#000000">логической строки
+      внутри фрагмента</font></font></td>
+  </tr>
+  <tr>
+    <td width="143" align="center">s</td>
+    <td width="351"><font COLOR="#000000" size="3" face="Times New Roman">По
+      смыслу противоположен модификатору m —
+      при поиске фрагмент интерпретируется
+      как одна строка, а все внутренние
+      символы новой строки игнорируются</font></td>
+  </tr>
+  <tr>
+    <td width="143" align="center">i</td>
+    <td width="351"><font COLOR="#000000" size="3" face="Times New Roman">Поиск
+      выполняется без учета регистра символов</font></td>
+  </tr>
+</table>
+<b></b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Вводный курс
+получился очень кратким, поскольку
+полноценное описание по регулярным
+выражениям выходит за рамки этой книги и
+требует нескольких глав вместо нескольких
+страниц. За дополнительной информацией о
+синтаксисе регулярных выражений
+обращайтесь к следующим ресурсам Интернета:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.php.net/manual/pcre.pattern.modifiers.php">http://www.php.net/manual/pcre.pattern.modifiers.php</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.php.net/manual/pcre.pattern.syntax.php">http://www.php.net/manual/pcre.pattern.syntax.php</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.perlcom/pub/doc/manual/html/pod/perlre.html">http://www.perlcom/pub/doc/manual/html/pod/perlre.html</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.codebits.com/p5be">http://www.codebits.com/p5be</a>;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman"><a href="http://www.metronet.com/1/perlinfo/doc/FMTEYEWTK/regexps.html">http://www.metronet.com/1/perlinfo/doc/FMTEYEWTK/regexps.html</a>.</font></li>
+</ul>
+<b>
+<p><A NAME="h"></A>
+<font color="#000000" face="Times New Roman" size="4">Функции РНР
+для работы с регулярными выражениями (Perl-совместимые)</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В РНР
+существует пять функций поиска по шаблону с
+использованием Perl-совместимых регулярных
+выражений:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">preg_match( );</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">preg_match_all( );</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">preg_replace( );</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">preg_split( );</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">preg_grep( ).</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Эти функции
+подробно описаны в следующих разделах.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">preg_match( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+pregjnatch( ) ищет в заданной строке совпадение
+для шаблона. Если совпадение найдено,
+возвращается TRUE, в противном случае
+возвращается FALSE. Синтаксис функции pregjnatch( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font><font size="3" face="Times New Roman"><font COLOR="#000000">pregjnatch
+(string шаблон, string строка [, array совпадения})</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">При передаче
+необязательного параметра совпадения
+массив заполняется совпадениями различных
+подвыражений, входящих в основное
+регулярное выражение. В следующем примере
+функция preg_match( ) используется для
+проведения поиска без учета регистра:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$linе = &quot;Vi is
+the greatest word processor ever created!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Выполнить
+поиск слова &quot;Vi&quot; без учета регистра
+символов:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (preg_match(&quot;/\bVi\b\i&quot;, $line, $matcn)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Match found!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Команда if в этом примере возвращает TRUE</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">preg_match_all( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+preg_match_all( ) находит все совпадения шаблона в
+заданной строке.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Синтаксис
+функции preg_match_all( ):</font></p>
+<p><font COLOR="#000000" size="3">Int </font><font size="3" face="Courier New"><font COLOR="#000000">preg_match_all
+(string шаблон, string строка,
+array совпадения [, int </font></font><font COLOR="#000000" size="3" face="Courier New">порядок])</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Порядок
+сохранения в массиве совпадения текста,
+совпавшего с подвыражениями, определяется
+необязательным параметром порядок. Этот
+параметр может принимать два значения:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">PREG_PATTERN_ORDER
+    — используется по умолчанию, если
+    параметр порядок не указан. Порядок,
+    определяемый значением PREG_PATTERN_ORDER, на
+    первый взгляд выглядит не совсем логично:
+    первый элемент (с индексом 0) содержит
+    массив совпадений для всего регулярного
+    выражения, второй элемент (с индексом 1)
+    содержит массив всех совпадений для
+    первого подвыражения в круглых скобках и
+    т. д.;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">PREG_SET_ORDER —
+    порядок сортировки массива несколько
+    отличается от принятого по умолчанию.
+    Первый элемент (с индексом 0) содержит
+    массив с текстом, совпавшим со всеми
+    подвыражениями в круглых скобках для
+    первого найденного совпадения. Второй
+    элемент (с индексом 1) содержит
+    аналогичный массив для второго
+    найденного совпадения и т. д.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Следующий
+пример показывает, как при помощи функции
+preg_match_al( ) найти весь текст, заключенный
+между тегами HTML &lt;b&gt;...&lt;/b&gt;:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$user_info = &quot;Name:
+&lt;b&gt;Rasmus Lerdorf&lt;/b&gt; &lt;br&gt; Title: &lt;b&gt;PHP Guru&lt;/b&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">preg_match_all (&quot;/&lt;b&gt;(.*)&lt;\/b&gt;/U&quot;,
+Suserinfo. $pat_array);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print $pat_array[0][0].&quot; &lt;br&gt; &quot;.pat_array[0][l].&quot;\n&quot;:</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Результат:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Rasmus Lerdorf</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">PHP</font> <font COLOR="#000000" size="3" face="Courier New">Guru</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">preg_replace( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+preg_repl ace( ) работает точно так же, как и ereg_replасе(
+), за одним исключением — регулярные
+выражения могут использоваться в обоих
+параметрах, шаблон и замена. Синтаксис
+функции preg_replace( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">mixed </font></font><font size="3" face="Times New Roman"><font COLOR="#000000">preg_replace
+(mixed шаблон, mixed замена,
+mixed строка [, int порог])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Необязательный
+параметр порог определяет максимальное
+количество замен в строке. Интересный факт:
+параметры шаблон и замена могут
+представлять собой масивы. Функция preg_replace(
+) перебирает элементы обоих массивов и
+выполняет замену по мере их нахождения.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">preg_split( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция preg_spl
+it( ) аналогична split( ) за одним исключением —
+параметр шаблон может содержать регулярное
+выражение. Синтаксис функции preg_split( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">array preg_split (string
+шаблон, string строка [, int порог [, int флаги]]) </font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Необязательный
+параметр порог определяет максимальное
+количество элементов, на которые делится
+строка. В следующем примере функция preg_split( )
+используется для выборки информации из
+переменной.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$user_info=&quot;+wj+++Gilmore+++++wjgi]more@hotmail.com</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">+++++++Columbus+++OH&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$fields = preg_split(&quot;/\+{1.}/&quot;, $user_info);&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> while ($x &lt;
+sizeof($fields)):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print $fields[$x].
+&quot;&lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$x++;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Результат:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">WJ</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Gilmore</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">wjgilmore@hotmail.com</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Columbus</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">OH</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">preg_grep( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+preg_grep( ) перебирает все элементы заданного
+массива и возвращает все элементы, в
+которых совпадает заданное регулярное
+выражение. Синтаксис функции preg_grep():</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">array preg_grep (string
+</font></font><font size="3" face="Courier New"><font COLOR="#000000">шаблон,
+array массив)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Пример
+использования функции preg_grep( ) для поиска в
+массиве слов, начинающихся на р:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$foods = array (&quot;pasta&quot;,
+&quot;steak&quot;, &quot;fish&quot;, &quot;potatoes&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Поиск
+элементов, начинающихся с символа &quot;р&quot;.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// за которым следует один или несколько
+символов</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$p_foods = preg_grep(&quot;/p(\w+)/&quot;, $foods):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$х = 0;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while ($x &lt; sizeof($p_foods))
+:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print $p_foods[$x].
+&quot;&lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$Х++;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Результат:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">pasta</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">potatoes</font></p>
+<b>
+<p><A NAME="i"></A>
+<font color="#000000" face="Times New Roman" size="4">Другие
+строковые функции</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Кроме
+функций для работы с регулярными
+выражениями, описанными в первой части этой
+главы, в РНР существует более 70 функций для
+выполнения практически всех мыслимых
+операций со строками. Подробное
+перечисление и описание всех функций
+выходит за рамки этой книги и приведет к
+обычному повторению информации,
+приведенной в документации РНР. По этой
+причине я превратил оставшуюся часть главы
+в своего рода список FAQ из вопросов, часто
+встречающихся во многих электронных
+конференциях РНР и на многих сайтах этой
+тематики. На мой взгляд, этот способ
+позволяет гораздо эффективнее описать
+общие принципы громадной библиотеки
+строковых функций РНР.</font></p>
+<p><A NAME="j"></A>
+<font color="#000000" face="Times New Roman" size="4">Дополнение и
+сжатие строк</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В процессе
+форматирования часто возникает
+необходимость в изменении длины строки
+посредством дополнения или удаления
+символов. В РНР существует несколько
+функций, предназначенных для решения этой
+задачи.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">chop ( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+chop( ) возвращает строку после удаления из
+нее завершающих пропусков и символов новой
+строки. Синтаксис функции chop( ):
+</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string chop(string
+</font></font><font size="3" face="Courier New"><font COLOR="#000000">строка)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующем
+примере функция chop( ) удаляет лишние символы
+новой строки:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$header = &quot;Table
+of Contents\n\n&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$header = chop($header);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $header = &quot;Table
+of Contents&quot;</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">str_pad( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция str_pad(
+) выравнивает строку до определенной длины
+заданными символами и возвращает
+отформатированную строку. Синтаксис
+функции str_pad( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string </font></font><font size="3" face="Courier New"><font COLOR="#000000">str_pad
+(string строка, int длина_дополнения [, string дополнение
+[, int тип_дополнения]])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если
+необязательный параметр дополнение не
+указан, строка дополняется пробелами. В
+противном случае строка дополняется
+заданными символами. По умолчанию строка
+дополняется справа; тем не менее, вы можете
+передать в параметре тип_дополнения
+константу STR_PAD_RIGHT, STR_PAD_LEFT или STR_PAD_BOTH, что
+приведет к дополнению строки в заданном
+направлении. Пример демонстрирует
+дополнение строки функцией str_pad( ) с
+параметрами по умолчанию:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$food = &quot;salad&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print str_pad ($food,
+5): // Выводит строку &quot;salad</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующем
+примере используются необязательные
+параметры функции str_pad( ):</font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">$header = &quot;Table
+of Contents&quot;;</font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">print str_pad ($header, 5, &quot;=+=+=&quot;, STR_PAD_BOTH);</font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">// В браузере выводится строка =+=+= Таbе of Contents=+=+=&quot;</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">trim ( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция trim( )
+удаляет псе пропуски с обоих краев строки и
+возвращает полученную строку. Синтаксис
+функции trim( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">string trim (string страна] </font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">К числу
+удаляемых пропусков относятся и
+специальные символы \n, \r, \t, \v и \0.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">ltrim( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция lrim( )
+удаляет все пропуски и специальные символы
+с левого края строки и возвращает
+полученную строку. Синтаксис функции ltrim( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string l</font></font><font COLOR="#000000" size="3" face="Courier New">trim
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">строка)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+удаляет те же специальные символы, что и
+функция trim( ).</font></p>
+<p><A NAME="k"></A>
+<font color="#000000" face="Times New Roman" size="4">Определение
+длины строки</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Длину строки
+в символах можно определить при помощи
+функции strlen( ). Синтаксис .функции strlen( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font><font COLOR="#000000" size="3" face="Times New Roman">strlen
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">строка)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Следующий
+пример демонстрирует определение длины
+строки функцией strlen( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$string = &quot;hello&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$length = strlen($string);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $length = 5</font></p>
+<p><A NAME="l"></A>
+<font color="#000000" face="Times New Roman" size="4">Сравнение
+двух строк</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Сравнение
+двух строк принадлежит к числу важнейших
+строковых операций любого языка. Хотя эту
+задачу можно решить несколькими разными
+способами, в РНР существуют четыре функции
+сравнения строк:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">strcmp( );</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">strcasecmp( );</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">strspn( );</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">strcspn( ).</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Все эти
+функции подробно описаны в следующих
+разделах.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">strcmp( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция strcmp(
+) сравнивает две строки с учетом регистра
+символов. Синтаксис</font> <font COLOR="#000000" size="3" face="Times New Roman">функции strcmp(
+):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">int strcmp (string строка1,
+string строка2) </font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">После
+завершения сравнения strcmp( ) возвращает одно
+из трех возможных значений:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">0, если
+    строка1 и строка2 совпадают;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">&lt; 0, если
+    строка1 меньше, чем строка2;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">&gt; 0, если
+    строка2 меньше, чем строка1.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующем
+фрагменте сравниваются две одинаковые
+строки:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$sthng1 = &quot;butter&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$string2 = &quot;butter&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ((strcmp($string1.
+$string2)) == 0) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Strings are
+equivalent!&quot;; endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Команда if возвращает TRUE</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">strcasecmp( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+strcasecmp( ) работает точно так же, как strcmp( ), за
+одним исключением — регистр символов при
+сравнении </font><i><font COLOR="#000000">не учитывается. </font></i><font COLOR="#000000">Синтаксис
+функции strcasecmp( ):</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">int strcasecmp (string cтpoкa1,
+string строка2)</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующем
+фрагменте сравниваются две одинаковые
+строки:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$string1 = &quot;butter&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$string2 = &quot;Butter&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ((strcmp($string1,
+$string2)) == 0) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Strings are
+equivalent!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Команда if возвращает TRUE</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">strspn( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция strspn(
+) возвращает длину первого сегмента строки1,
+содержащего символы, присутствующие в
+строке2. Синтаксис функции strspn( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font><font COLOR="#000000" size="3" face="Times New Roman">strspn
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">строка1,
+string строка2)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Следующий
+фрагмент показывает, как функция strspn( )
+используется для проверки пароля:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$password =
+&quot;12345&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (strspn($password,
+&quot;1234567890&quot;) != strlen($password)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Password
+cannot consist solely of numbers!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif:</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">strcspn( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+strcspn( ) возвращает длину первого сегмента
+строки1, содержащего символы, </font><i><font COLOR="#000000">отсутствующие
+</font></i><font COLOR="#000000">в строке2. Синтаксис
+функции strcspn( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int strcspn (string </font></font><font size="3" face="Courier New"><font COLOR="#000000">строка1,
+string строка2)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующем
+фрагменте функция strcspn( ) используется для
+проверки пароля:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$password =
+&quot;12345&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (strcspn($password,
+&quot;1234567890&quot;) == 0) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Password
+cannot consist solely of numbers!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><A NAME="m"></A>
+<font color="#000000" face="Times New Roman" size="4">Обработка
+строковых данных без применения регулярных
+выражений</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">При
+обработке больших объемов информации
+функции регулярных выражений сильно
+замедляют выполнение программы. Эти
+функции следует применять лишь при
+обработке относительно сложных строк, в
+которых регулярные выражения
+действительно необходимы. Если же анализ
+текста выполняется по относительно простым
+правилам, можно воспользоваться
+стандартными функциями РНР, которые
+заметно ускоряют обработку. Все эти функции
+описаны ниже.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">strtok( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция strtok(
+) разбивает строку на лексемы по
+разделителям, заданным вторым параметром.
+Синтаксис функции strtok( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">string strtok (string строка,
+string разделители) </font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">У функции
+strtok( ) есть одна странность: чтобы полностью
+разделить строку, функцию необходимо
+последовательно вызвать несколько раз. При
+очередном вызове функция выделяет из
+строки следующую лексему. При этом параметр
+строка задается всего один раз — функция
+отслеживает текущую позицию в строке до тех
+пор, пока строка не будет полностью
+разобрана на лексемы или не будет задан
+новый параметр строка. Следующий пример
+демонстрирует разбиение строки по
+нескольким разделителям:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$info = &quot;WJ
+Gi1more:wjgilmore@hotmail.com | Columbus, Ohio&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Ограничители - двоеточие (:), вертикальная
+черта (|) и запятая (.) $tokens = &quot;:|,&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$tokenized = strtok($info,
+$tokens);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вывести элементы массива $tokenized</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while ($tokenized)
+:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">echo &quot;Element =
+$tokenized&lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Обратите
+внимание: при последующих вызовах strtok</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// первый
+аргумент не передается</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$tokenized = strtok($tokens);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Результат:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Element = WJGilmore</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Element =
+wjgilmore@hotmail.com</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Element = Columbus</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Element = Ohio</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">parse_str( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+parse_str( ) выделяет в строке пары «переменная-значение»
+и присваивает значения переменных в
+текущей области видимости. Синтаксис
+функции parse_str( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">void </font></font><font COLOR="#000000" size="3" face="Times New Roman">parse_str
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">строка)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+parse_str( ) особенно удобна при обработке URL,
+содержащих данные форм HTML или другую
+расширенную информацию. В следующем
+примере анализируется информация,
+переданная через URL. Строка представляет
+собой стандартный
+способ передачи данных между страницами
+либо откомпилированных в гиперссылке, либо
+введенных в форму HTML:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$url = &quot;fname=wj&amp;lname=gilmore&amp;zip=43210&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">parse_str($url);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// После
+выполнения parse_str( ) доступны следующие
+переменные:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $fname = &quot;wj&quot;:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $lname = &quot;gilmore&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $zip =
+&quot;43210&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Поскольку
+эта функция создавалась для работы с URL, она
+игнорирует символ амперсанд (&amp;).</font></p>
+<p><img border="0" src="prim.gif" align=left width="36" height="35"><i><font COLOR="#000000" size="3" face="Times New Roman">Работа
+с формами HTML в РНР описана в главе 10.</font>
+</i></p>
+<p>&nbsp;</p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">explode ( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция explode(
+) делит строку на элементы и возвращает эти
+элементы в виде массива.
+Синтаксис функции explode( ):</font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">array explode (string разделитель, string строка
+[, int порог])</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Разбиение
+происходит по каждому экземпляру
+разделителя, причем количество полученных
+фрагментов может ограничиваться
+необязательным параметром порог.
+Разделение строки функцией explode( )
+продемонстрировано в следующем примере:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$info = &quot;wilson |
+baseball | indians&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$user = explode(&quot;|&quot;,
+$info);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $user[0] =
+&quot;wilson&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $user[1] = &quot;baseball&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $user[2] = &quot;Indians&quot;;</font></p>
+<p><img border="0" src="prim.gif" align=left width="36" height="35"><i><font COLOR="#000000" size="3" face="Times New Roman">Функция
+explode( ) практически идентична функции
+регулярных выражений POSIX split( ), описанной
+выше. Главное различие заключается в том,
+что передача регулярных выражений в
+параметрах допускается только при вызове
+split( ).</font></p>
+</i><b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">implode ( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если функция
+explode( ) разделяет строку на элементы массива,
+то ее двойник — функция implode( ) - объединяет
+массив в строку. Синтаксис функции implode( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string </font></font><font COLOR="#000000" size="3" face="Times New Roman">implode
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">разделитель,
+array фрагменты)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Формирование
+строки из массива продемонстрировано в
+следующем примере:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$ohio_cities = array
+(&quot;Columbus&quot;, &quot;Youngstown&quot;, &quot;Cleveland&quot;, &quot;Cincinnati&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$city_string = implode(&quot;l&quot;,
+$ohio_cities);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $city_string =
+&quot;Columbus | Youngstown | Cleveland | Cincinnati&quot;;</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="prim.gif" align=left width="36" height="35">У
+implode( ) имеется псевдоним — функция join( ).</font>
+</i></p>
+<p>&nbsp;<b><font COLOR="#000000" size="3" face="Times New Roman">strpos ( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция strpos(
+) находит в строке первый экземпляр
+заданной подстроки. Синтаксис функции strpos(
+):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font><font size="3" face="Times New Roman"><font COLOR="#000000">strpos
+(string строка, string
+подстрока [, int смещение])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Необязательный
+параметр offset задает позицию, с которой
+должен начинаться поиск. Если подстрока не
+найдена, strpos( ) возвращает FALSE (0).</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующем
+примере определяется позиция первого
+вхождения даты в файл журнала:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$log = &quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">206.169.23.11:/www/:2000-08-10</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">206.169.23.11:/www/logs/:2000-02-04</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">206.169.23.11:/www/img/:1999-01-31&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// В какой
+позиции в журнале впервые встречается 1999
+год?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$pos = strpos($log,
+&quot;1999&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $pos = 95.
+поскольку первый экземпляр &quot;1999&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// находится
+в позиции 95 строки, содержащейся в
+переменной $log</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">strrpos( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция strrpos(
+) находит в строке последний экземпляр
+заданного символа. Синтаксис функции strrpos( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font><font COLOR="#000000" size="3" face="Times New Roman">strpos
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">строка,
+char символ)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">По
+возможностям эта функция уступает своему
+двойнику — функции strpos( ), поскольку она
+позволяет искать только отдельный символ, а
+не всю строку. Если во втором параметре strrpos(
+) передается строка, при поиске будет
+использован только ее первый символ.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">str_replace( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+str_replace( ) ищет в строке все вхождения
+заданной подстроки и заменяет их новой
+подстрокой. Синтаксис функции str_replace( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string </font></font><font COLOR="#000000" size="3" face="Times New Roman">str_replace
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">подстрока,
+string замена, string строка)</font></font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="sovet.gif" align=left width="36" height="35">Функция
+substr_replace( ), описанная ниже в этом разделе,
+позволяет провести заме ну лишь в
+определенной части строки. Ниже показано,
+как функция str_replace( ) используется для
+проведения глобальной замены в строке.</font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если
+подстрока ни разу не встречается в строке,
+исходная строка не изменяется:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$favorite_food = &quot;My
+favorite foods are ice cream and chicken wings&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$favorite_food =
+str_replace(&quot;chicken_wings&quot;, &quot;pizza&quot;, $favohte_food);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+$favorite_food = &quot;My favorite foods are ice cream and pizza&quot;</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">strstr( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция strstr(
+) возвращает часть строки, начинающуюся с
+первого вхождения заданной подстроки.
+Синтаксис функции strstr( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string </font></font><font COLOR="#000000" size="3" face="Times New Roman">strstr
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">строка,
+string подстрока)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующем
+примере функция strstr( ) используется для
+выделения имени домена из URL:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$url = &quot;http://www.apress.com&quot;;
+$domain - strstr($url, &quot;.&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $domain = &quot;.apress.com&quot;</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">substr( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+substr( ) возвращает часть строки, начинающуюся
+с заданной начальной позиции и имеющую
+заданную длину. Синтаксис функции substr( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string </font><font size="3"><font COLOR="#000000">substr
+(string строка, int
+начало [, int </font></font></font><font size="3" face="Courier New"><font COLOR="#000000">длина])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если
+необязательный параметр длина не указан,
+считается, что подстрока начинается с
+заданной начальной позиции и продолжается
+до конца строки. При использовании этой
+функции необходимо учитывать четыре
+обстоятельства:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">если
+параметр начало положителен, возвращаемая
+подстрока начинается с позиции строки с
+заданным номером;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">если
+параметр начало отрицателен, возвращаемая
+подстрока начинается с позиции (длина
+строки - начало);</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">если
+параметр длина положителен, в возвращаемую
+подстроку включаются все символы от
+позиции начало до позиции начало+длина.
+Если последняя величина превышает длину
+строки, возвращаются символы до конца
+строки;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">если
+параметр длина отрицателен, возвращаемая
+подстрока заканчивается на заданном
+расстоянии от конца строки.</font></li>
+</ul>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="sovet.gif" align=left width="36" height="35">Помните
+о том, что параметр начало определяет
+смещение от первого символа строки; таким
+образом, возвращаемая строка в
+действительности начинается с символа с
+номером (начало + 1).</font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Следующий
+пример демонстрирует выделение части
+строки функцией substr( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$car = &quot;1944 Ford&quot;;
+Smodel = substr($car, 6);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Smodel = &quot;Ford&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Пример с
+положительным параметром длина:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$car = &quot;1944 Ford&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$model = substr($car,
+0, 4);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $model =
+&quot;1944&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Пример с
+отрицательным параметром длина:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$car = &quot;1944 Ford&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$model = substr($car,
+2, -5);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $model =
+&quot;44&quot;</font></p>
+<b><font FACE="Times New Roman" SIZE="3" COLOR="#000000">
+<p>&nbsp;substr_count( )</p>
+</font></b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+substr_count( ) возвращает количество вхождений
+подстроки в заданную строку. Синтаксис
+функции substr_count( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font><font COLOR="#000000" size="3" face="Times New Roman">substr_count
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">строка,
+string подстрока)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующем
+примере функция substr_count( ) подсчитывает
+количество вхождений подстроки ain:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$tng_twist = &quot;The
+rain falls mainly on the plains of Spain&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$count = substr_count($tng_twist,
+&quot;ain&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $count = 4</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">substr_replace( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+substr_replace( ) заменяет часть строки, которая
+начинается с заданной позиции. Если задан
+необязательный параметр длина, заменяется
+фрагмент заданной длины; в противном случае
+производится замена по всей длине
+заменяющей строки. Синтаксис функции
+substr_replace( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string </font></font><font size="3" face="Courier New"><font COLOR="#000000">substr_replace
+(string строка, string замена,
+int начало [, int длина])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Параметры
+начало и длина задаются по определенным
+правилам:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">если
+параметр начало положителен, замена
+начинается с заданной позиции;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">если
+параметр начало отрицателен, замена
+начинается с позиции (длина строки -начало);</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">если
+параметр длина положителен, заменяется
+фрагмент заданной длины;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">если
+параметр длина отрицателен, замена
+завершается в позиции (длина строки -длина).</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Простая
+замена текста функцией substr_replace( )
+продемонстрирована в следующем примере:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$favs = &quot; 's
+favorite links&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$name = &quot;Alessia&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Параметры
+&quot;0, 0&quot; означают, что заменяемый фрагмент
+начинается</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// и
+завершается в первой позиции строки.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$favs - substr_replace($favs,
+$name, 0, 0);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print $favs:</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Результат:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Alessia's favorite
+links</font></p>
+<p><A NAME="n"></A>
+<font color="#000000" face="Times New Roman" size="4">Преобразование
+строк и файлов к формату HTML и наоборот</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Преобразовать
+строку или целый файл к формату,
+подходящему для просмотра в web-браузере (или
+наоборот), проще, чем может показаться на
+первый взгляд. В РНР для этого существуют
+специальные функции.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Преобразование
+текста в HTML</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Быстрое
+преобразование простого текста к формату
+web-браузера — весьма распространенная
+задача. В ее решении вам помогут функции,
+описанные в этом разделе.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">nl2br( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция nl2br( )
+заменяет все символы новой строки (\n)
+эквивалентными конструкциями HTML &lt;br&gt;.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Синтаксис
+функции nl2br( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string </font></font><font COLOR="#000000" size="3" face="Times New Roman">nl2br
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">строка)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Символы
+новой строки могут быть как видимыми (то
+есть явно включенными в строку), так и
+невидимыми (например, введенными в
+редакторе). В следующем примере текстовая
+строка преобразуется в формат HTML
+посредством замены символов \n разрывами
+строк:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Текстовая
+строка, отображаемая в редакторе.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$text_recipe = &quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Party Sauce recipe:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">1 can stewed tomatoes</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">3 tablespoons fresh
+lemon juice</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Stir together, server
+cold.&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Преобразовать символы новой строки в &lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$htinl_recipe = nl2br($text_recipe)</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">При
+последующем выводе $html_recipe браузеру будет
+передан следующий текст в формате HTML:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Party Sauce recipe:&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">1 can stewed tomatoes&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">3 tablespoons fresh
+lemon juice&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Stir together, server
+cold.&lt;br&gt;</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">htmlentities( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+htmlentities( ) преобразует символы в
+эквивалентные конструкции HTML. Синтаксис
+функции htmlentities:</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string </font></font><font COLOR="#000000" size="3" face="Times New Roman">htmlentities
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">строка)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующем
+примере производится необходимая замена
+символов строки для вывода в браузере:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$user_input = &quot;The
+cookbook, entitled Cafe Francaise' costs &lt; $42.25.&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$converted_input =
+htmlentities($user_input);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $converted_input =
+&quot;The cookbook, entitled 'Caf&amp;egrave;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Frac&amp;ccediliaise'
+costs &amp;lt; 42.25.&quot;;</font></p>
+<p><i><font COLOR="#000000"><img border="0" src="prim.gif" align=left width="36" height="35">Функция htmlentities( ) в
+настоящее время работает только для
+символов кодировки ISO-8559-1 (ISO-Latin-1). Кроме
+того, она не преобразует пробелы в &amp;nbsp;,
+как следовало бы ожидать.</font></p>
+</i><b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">htmlspecialchars( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+htmlspecialchars( ) заменяет некоторые символы,
+имеющие особый смысл в контексте HTML,
+эквивалентными конструкциями HTML. Синтаксис
+функции htmlspecialchars( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string </font></font><font COLOR="#000000" size="3" face="Times New Roman">htmlspecialchars
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">строка)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция html
+special chars( ) в настоящее время преобразует
+следующие символы:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&amp;
+преобразуется в &amp;amp;; &quot; &quot;
+преобразуется в &amp;quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;
+преобразуется в &amp;lt;; &gt; преобразуется в
+&amp;gt;.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В частности,
+эта функция позволяет предотвратить ввод
+пользователями разметки HTML в интерактивных
+web-приложениях (например, в электронных
+форумах). Ошибки, допущенные в разметке HTML,
+могут привести к тому, что вся страница
+будет формироваться неправильно. Впрочем, у
+этой задачи существует и более эффективное
+решение — полностью удалить теги из строки
+функцией strip_tags( ).</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Следующий
+пример демонстрирует удаление
+потенциально опасных символов функцией
+htmlspeclalchars( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$user_input = &quot;I
+just can't get «enough» of PHP &amp; those fabulous cooking recipes!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$conv_input =
+htmlspecialchars($user_input);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $conv_input = &quot;I
+just can't &amp;lt;&amp;lt;enough&amp;gt;&amp;gt; of PHP &amp;amp those fabulous
+cooking</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">recipes!&quot;</font></p>
+<p><i><font COLOR="#000000"><img border="0" src="sovet.gif" align=left width="36" height="35">Если
+функция htmlspecialchars( ) используется в
+сочетании с nl2br( ), то последнюю следует
+вызывать после htmlspecialchars(
+). В противном случае конструкции &lt;br&gt;,
+сгенерированные при вызове nl2br( ),
+преобразуются в видимые символы. </font></i></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">get_html_translation_table
+( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+get_html_translation_table( ) обеспечивает удобные
+средства преобразования текста в
+эквиваленты HTML Синтаксис функции
+get_htrril_translation_table( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string </font></font><font COLOR="#000000" size="3" face="Times New Roman">get_html_translation_table
+(int </font><font size="3" face="Courier New"><font COLOR="#000000">таблица)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+get_html_translation_table( ) возвращает одну из двух
+таблиц преобразования (определяется
+параметром таблица), используемых в работе
+стандартных функций htmlspecialchars( ) и htmlentities( ).
+Возвращаемое значение может
+использоваться в сочетании с другой
+стандартной функцией, strtr( ) (см. далее), для
+преобразования текста в код HTML.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Параметр
+таблица принимает одно из двух значений:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">HTML_ENTITIES;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">HTML_SPECIALCHARS.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующем
+примере функция get_html_translation_table( )
+используется при преобразовании текста в
+код HTML:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$string = &quot;La
+pasta e il piatto piu amato in Italia&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$translate =
+get_html_translation_table(HTML_ENTITIES);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print strtr($string, $translate);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Специальные символы преобразуются в
+конструкции HTML</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// и правильно отображаются в
+браузере.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Кстати,
+функция array_flip( ) позволяет провести
+преобразование текста в HTML в обратном
+направлении и восстановить исходный текст.
+Предположим, что вместо вывода результата
+strtr( ) в предыдущем примере мы присвоили его
+переменной $translated string.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующем
+примере исходный текст восстанавливается
+функцией array_flip( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$translate = array_flip($translate);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$translated_string -
+&quot;La pasta &amp;eacute; il piatto pi&amp;uacute; amato in Italia&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$original_string = strtr($translated_string,
+$translate);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $original_string =
+&quot;La pasta e il piatto piu amato in Italia&quot;;</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">strtr( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция strtr( )
+транслирует строку, то есть заменяет в ней
+все символы, входящие в строку источник,
+соответствующими символами строки
+приемник. Синтаксис функции strtr( ):</font></p>
+<p><font face="Courier New" size="3"><font COLOR="#000000">string </font></font><font COLOR="#000000" size="3" face="Times New Roman">strtr
+(string </font><font face="Courier New" size="3"><font COLOR="#000000">строка,
+string источник, string приемник)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если строки
+источник и приемник имеют разную длину,
+длинная строка усекается до размеров
+короткой строки.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Существует
+альтернативный синтаксис вызова strtr( ) с
+двумя параметрами; в этом случае второй
+параметр содержит ассоциативный массив,
+ключи которого соответствуют заменяемым
+подстрокам, а значения — заменяющим
+подстрокам. В следующем примере теги HTML
+заменяются XML-подобными конструкциями:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$source = array(&quot;&lt;title&gt;&quot;
+=&gt; &quot;&lt;h1&gt;&quot;. &quot;&lt;/title&gt; =&gt;
+&quot;&lt;/h1&gt;&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$string =
+&quot;&lt;h1&gt;Today In PHP-Powered News&quot;&lt;/h1&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print strtr($string,
+$source);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Выводится
+строка &quot;&lt;title&gt;Today in PHP-Powered News&lt;/title&gt;&quot;</font></p>
+<p><A NAME="o"></A>
+<font color="#000000" face="Times New Roman" size="4">Преобразование
+HTML в простой текст</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Иногда
+возникает необходимость преобразовать
+файл в формате HTML в простой текст. Функции,
+описанные ниже, помогут вам в решении этой
+задачи.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">strip_tags( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+strip_tags( ) удаляет из строки все теги HTML и РНР,
+оставляя в ней только текст. Синтаксис
+функции strip_tags( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string </font></font><font size="3" face="Times New Roman"><font COLOR="#000000">strip_tags
+(string строка [, string разрешенные_тerи])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Необязательный
+параметр разрешенные_теги позволяет
+указать теги, которые должны пропускаться в
+процессе удаления.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Ниже
+приведен пример удаления из строки всех
+тегов HTML функцией strip_tags( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$user_input = &quot;I
+just &lt;b&gt;love&lt;/b&gt; РНР and &lt;i&gt;gourment&lt;/i&gt; recipes!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$stripped_input =
+strip_tags($user_input);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $stripped_input =
+&quot;I just love PHP and gourmet recipes!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующем
+примере удаляются не все, а лишь некоторые
+теги:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$input = &quot;I &lt;b&gt;love&lt;/b&gt;
+to &lt;a href = \&quot;http://www.eating.com\&quot;&gt;eat!&lt;/a&gt;!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$strip_input =
+strip_tags ($user_input, &quot;&lt;a&gt;&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $strip_input =
+&quot;I love to &lt;a href = \&quot;http://www.eating.com\&quot;&gt;eat!&lt;/a&gt;!&quot;;</font></p>
+<p><i><font COLOR="#000000"><img border="0" src="prim.gif" align=left width="36" height="35">Удаление тегов из текста
+также производится функцией fgetss( ),
+описанной в главе 7.</font>
+</i></p>
+<p>&nbsp;<b><font COLOR="#000000" size="3" face="Times New Roman">get_meta_tags( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Хотя функция
+get_meta_tags( ) и не имеет прямого отношения к
+преобразованию текста, зто весьма полезная
+функция, о которой следует упомянуть.
+Синтаксис функции get_meta_tags( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">array </font></font><font size="3" face="Times New Roman"><font COLOR="#000000">get_meta_tags
+(string имя_файла/URL [, int включение_пути])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+get_meta_tags( ) предназначена для поиска в файле
+HTML тегов МЕТА.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Теги МЕТА
+содержат информацию о странице,
+используемую главным образом поисковыми
+системами. Эти теги находятся внутри пары
+тегов &lt;head&gt;...&lt;/head&gt;. Применение тегов
+МЕТА продемонстрировано в следующем
+фрагменте (назовем его example.html, поскольку он
+будет использоваться в листинге 8.2):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;PHP
+Recipes&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;meta name=&quot;keywords&quot;
+content=&quot;gourmet. PHP, food. code, recipes, chef, programming, web&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;meta name=&quot;description&quot;
+content=&quot;PHP Recipes provides savvy readers with the latest in PHP</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">programming and gourmet
+cuisine!&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;meta name=&quot;author&quot;
+content=&quot;WJ Gilmore&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+get_meta_tags( ) ищет в заголовке документа теги,
+начинающиеся словом МЕТА, и сохраняет имена
+тегов и их содержимое в ассоциативном
+массиве. В листинге 8.2 продемонстрировано
+применение этой функции к файлу example.html.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+8.2. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Извлечение
+тегов МЕТА из файла HTML функцией get_meta_tags( )</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">$meta_tags =
+get_meta_tags(&quot;example.html&quot;):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Переменная
+$meta_tags содержит массив со следующей
+информацией:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $meta_tags[&quot;keywords&quot;]
+= &quot;gourmet. PHP. food. code, recipes, chef, programming. Web&quot;:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $meta_tags[&quot;description&quot;]
+= &quot;PHP Recipes provides savvy readers with the latest in PHP</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">programming and gourmet
+cuisine&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $meta_tags[&quot;author&quot;]
+= &quot;WJ Gilmore&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Интересная
+подробность: данные тегов МЕТА можно
+извлекать не только из файлов, находящихся
+на сервере, но и из других URL.</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="sovet.gif" align=left width="36" height="35">Теги
+МЕТА и их использование превосходно
+описаны в статье Джо Берна (Joe Burn) «So, You Want a
+Meta Command, Huh?» на сайте HTML Goodies: <a href="http://htmlgoodies.earthweb.com/tutors/meta.html"> http://htmlgoodies.earthweb.com/tutors/meta.html</a>.</font></p>
+</i>
+<p><A NAME="p"></A>
+<font color="#000000" face="Times New Roman" size="4">Преобразование
+строки к верхнему и нижнему регистру</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В РНР
+существует четыре функции, предназначенных
+для изменения регистра строки:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">strtolower( );</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">strtoupper( );</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">ucfirst( );</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">ucwords( ).</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Все эти
+функции подробно описаны ниже.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman"><b>strtolower( )</b></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+strtolower( ) преобразует все алфавитные символы
+строки к нижнему регистру. Синтаксис
+функции strtolower( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string </font></font><font COLOR="#000000" size="3" face="Times New Roman">strtolower(string
+</font><font size="3" face="Courier New"><font COLOR="#000000">строка)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Неалфавитные
+символы функцией не изменяются.
+Преобразование строки к нижнему регистру
+функцией strtolower( ) продемонстрировано в
+следующем примере:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$sentence = &quot;COOKING
+and PROGRAMMING PHP are my TWO favorite pastimes!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$sentence = strtolower($sentence);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// После
+вызова функции $sentence содержит строку</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// &quot;cooking and
+programming php are my two favorite pastimes!&quot;</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">strtoupper( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Строки можно
+преобразовывать не только к нижнему, но и к
+верхнему регистру. Преобразование
+выполняется функцией strtoupper( ), имеющей
+следующий синтаксис:</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string </font></font><font COLOR="#000000" size="3" face="Times New Roman">strtoupper
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">строка)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Неалфавитные
+символы функцией не изменяются.
+Преобразование строки к верхнему регистру
+функцией strtoupper( ) продемонстрировано в
+следующем примере:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$sentence = &quot;cooking
+and programming PHP are my two favorite pastimes!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$sentence = strtoupper($sentence);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// После
+вызова функции $sentence содержит строку</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// &quot;COOKING AND
+PROGRAMMING PHP ARE MY TWO FAVORITE PASTIMES!&quot;</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">ucfirst( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция ucfirst(
+) преобразует к верхнему регистру первый
+символ строки — при условии, что он
+является алфавитным символом. Синтаксис
+функции ucfirst( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string </font></font><font COLOR="#000000" size="3" face="Times New Roman">ucfirst
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">строка)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Неалфавитные
+символы функцией не изменяются.
+Преобразование первого символа строки
+функцией ucfirst( ) продемонстрировано в
+следующем примере:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&amp;sentence = &quot;cooking
+and programming PHP are my two favorite pastimes!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$sentence = ucfirst($sentence);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// После
+вызова функции $sentence содержит строку</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// &quot;Cooking and
+programming PHP are mу two favorite pastimes!&quot;</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">ucwords( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция ucwords(
+) преобразует к верхнему регистру первую
+букву каждого слова в строке. Синтаксис
+функции ucwords( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string </font></font><font COLOR="#000000" size="3" face="Times New Roman">ucwords
+(string </font><font size="3" face="Courier New"><font COLOR="#000000">строка&quot;)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Неалфавитные
+символы функцией не изменяются. «Слово»
+определяется как последовательность
+символов, отделенная от других элементов
+строки пробелами. В следующем примере
+продемонстрировано преобразование первых
+символов слов функцией ucwords( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$sentence = &quot;cooking
+and programming PHP are my two favorite pastimes!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$sentence = ucwords($sentence);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// После
+вызова функции $sentence содержит строку</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// &quot;Cooking And
+Programming PHP Are My Two Favorite Pastimes!&quot;</font></p>
+<b>
+<p><A NAME="q"></A>
+<font color="#000000" face="Times New Roman" size="4">Проект:
+идентификация браузера</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Каждый
+программист, пытающийся создать удобный web-сайт,
+должен учитывать различия в форматировании
+страниц при просмотре сайта в разных
+браузерах и операционных системах. Хотя
+консорциум W3 (http://www.w3.org) продолжает
+публиковать стандарты, которых должны
+придерживаться программисты при создании
+web-приложений, разработчики браузеров любят
+дополнять эти стандарты своими маленькими
+«усовершенствованиями», что в конечном
+счете вызывает хаос и путаницу.
+Разработчики часто решают эту проблему,
+создавая разные страницы для каждого типа
+браузера и операционной системы — при этом
+объем работы значительно увеличивается, но
+зато итоговый сайт идеально подходит для
+любого пользователя. Результат — хорошая
+репутация сайта и уверенность в том, что
+пользователь посетит его снова.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Чтобы
+пользователь мог просматривать страницу в
+формате, соответствующем специфике его
+браузера и операционной системы, из
+входящего запроса на получение страницы
+извлекается информация о браузере и
+платформе. После получения необходимых
+данных пользователь перенаправляется на
+нужную страницу.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Приведенный
+ниже проект (sniffer.php) показывает, как
+использовать функции РНР для работы с
+регулярными выражениям с целью получения
+информации по запросам. Программа
+определяет тип и версию браузера и
+операционной системы, после чего выводит
+полученную информацию в окне браузера. Но
+прежде чем переходить к непосредственному
+анализу программы, я хочу представить один
+из главных ее компонентов — стандартную
+переменную РНР $HTTP_USER_AGENT. В этой переменной
+в строковом формате хранятся различные
+сведения о браузере и операционной системе
+пользователя — именно то, что нас
+интересует. Эту информацию можно легко
+вывести на экран всего одной командой:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">echo $HTTP USER_AGENT;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">При работе в
+Internet Explorer 5.0 на компьютере с Windows 98 результат
+будет выглядеть так:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Mozilla/4.0 (compatible;
+MSIE 5.0; Windows 98; DigExt)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Для Netscape
+Navigator 4.75 выводятся следующие данные:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Mozilla/4.75 (Win98; U)</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Sniffer.php
+извлекает необходимые данные из $HTTP_USER_AGENT
+при помощи функций обработки строк и
+регулярных выражений. Алгоритм программы
+на псевдокоде:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Определить
+две функции для идентификации браузера и
+операционной системы: browser_info( ) и opsys_info( ).
+Начнем с псевдокода функции browser_info( ).</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Определить
+тип браузера, используя функцию егед( ). Хотя
+эта функция работает медленнее упрощенных
+строковых функций типа strstr( ), в данном
+случае она удобнее, поскольку регулярное
+выражение позволяет определить версию
+браузера.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Воспользоваться
+конструкцией if/elseif для идентификации
+следующих браузеров и их версий: Internet Explorer,
+Opera, Netscape и браузер неизвестного типа.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Вернуть
+информацию о типе и версии браузера в виде
+массива.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Функция
+opsys_info( ) определяет тип операционной
+системы. На этот раз используется функция
+strstr( ), поскольку тип ОС определяется и без
+применения регулярных выражений.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Воспользоваться
+конструкцией if/elseif для идентификации
+следующих систем: Windows, Linux, UNIX, Macintosh и
+неизвестная операционная система.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Вернуть
+информацию об операционной системе.</font></li>
+</ul>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+8.3. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Идентификация
+типа браузера и операционной системы
+клиента</font></font></p>
+</i>
+<p></p>
+<p><font color="#000000" face="Courier New" size="3">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">/*</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Файл : sniffer.php</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Назначение:
+Идентификация типа/версии браузера и
+платформы</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Автор: В. Дж.
+Гилмор</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Дата : 24
+августа 2000 г.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">*/</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Функция:
+browser_info</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+Возвращает тип и версию браузера</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function browser_info ($agent)
+{</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Определить тип браузера</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Искать
+сигнатуру Internet Explorer</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (ereg('MSIE ([0-9].[0-9]{1,2})',
+$agent, $version))</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$browse_type = &quot;IE&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$browse version = $version[1];</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Искать
+сигнатуру Opera</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">elseif (ereg( 'Opera
+([0-9].[0-9]{1,2})'. $agent, $version)):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$browse_type = &quot;Opera&quot;:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> $browse_version = </font><font COLOR="#000000" size="3" face="Courier New">$version[1]:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Искать
+сигнатуру Netscape. Проверка браузера Netscape</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// *должна*
+выполняться после проверки Internet Explorer и Opera,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// поскольку
+все эти браузеры любят сообщать имя</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Mozilla вместе
+с настоящим именем.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">elseif (ereg( 'Mozilla/([0-9].[0-9]{1,2})'.
+$agent, $version)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$browse_type = &quot;Netscape&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$browse_version = $version[1];</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Если это не
+Internet Explorer, Opera или Netscape.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// значит, мы
+обнаружили неизвестный браузер,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$browse_type = &quot;Unknown&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$browse_version = &quot;Unknown&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вернуть
+тип и версию браузера в виде массива</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">return array
+($browse_type, $browse_version);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">} // Конец
+функции browser_info</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Функция:
+opsys_info</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+Возвращает информацию об операционной
+системе пользователя</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function opsys_info($agent)
+{</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Идентифицировать операционную систему</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Искать сигнатуру Windows</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ( strstr ($agent. 'win') ) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$opsys =
+&quot;windows&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Искать
+сигнатуру Linux</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">elseif ( strstr($agent, 'Linux') ) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$opsys = &quot;Linux&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Искать
+сигнатуру UNIX</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">elseif ( strstr (Sagent, 'Unix') ) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$opsys = &quot;Unix&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Искать
+сигнатуру Macintosh</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">elseif ( strstr ($agent, 'Mac') ) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$opsys = &quot;Macintosh&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Неизвестная платформа else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$opsys = &quot;Unknown&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вернуть
+информацию об операционной системе</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">return $opsys;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">} // Конец
+функции opsys_info</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Сохранить
+возвращаемый массив в списке</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">list ($browse_type.
+$browse_version) = browser_info ($HTTP_USER_AGENT); Soperating_sys = opsysjnfo ($HTTP_USER_AGENT);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Browser
+Type: $browse_type &lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Browser
+Version: $browse_version &lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Operating
+System: $operating_sys &lt;br&gt;&quot;:</font></p>
+<p><font color="#000000" face="Courier New" size="3">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Вот и все!
+Например, если пользователь работает в
+браузере Netscape 4.75 на компьютере с системой
+Windows, будет выведен следующий результат:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Browser Type: Netscape</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Browser Version: 4.75</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Operating System: Windows</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В следующей
+главе вы научитесь осуществлять переходы
+между страницами и даже создавать списки
+стилей (style sheets) для конкретных операционной
+системы и браузера.</font></p>
+<b>
+<p><A NAME="r"></A>
+<font color="#000000" face="Times New Roman" size="4">Итоги</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В этой главе
+был изложен довольно обширный материал.
+Какой прок от языка программирования, если
+в нем нельзя работать с текстом? Мы
+рассмотрели следующие темы:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">общие
+    сведения о регулярных выражениях в
+    стилях POSIX и Perl;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">стандартные
+    функции РНР для работы с регулярными
+    выражениями;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">изменение
+    длины строки;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">определение
+    длины строки;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">альтернативные
+    функции РНР для обработки строковой
+    информации;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">преобразование
+    простого текста в HTML и наоборот;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">изменение
+    регистра символов в строках.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Следующая
+глава открывает вторую часть книги —
+кстати, мою любимую. В ней мы начнем
+знакомиться со средствами РНР,
+ориентированными на Web, рассмотрим процесс
+динамического создания содержимого,
+включение файлов и построение общих
+шаблонов. В дальнейших главах части 2
+рассматриваются работа с формами HTML, базы
+данных, отслеживание данных сеанса и
+нетривиальные средства работы с шаблонами.
+Держитесь — начинается самое интересное!</font></p>
+
+</BODY></HTML>

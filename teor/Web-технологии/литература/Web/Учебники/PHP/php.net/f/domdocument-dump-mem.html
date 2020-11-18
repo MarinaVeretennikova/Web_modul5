@@ -1,0 +1,38 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>DomDocument-&#62;dump_mem</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="domdocument-dump-file.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="domdocument-get-element-by-id.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="DomDocument-dump-mem">DomDocument-&#62;dump_mem</A></H1><A NAME="AEN19989"></A>
+<P>(unknown)</P><p>DomDocument-&#62;dump_mem - выполняет дамп внутреннего XML-дерева обратно в строку.<A NAME="AEN19992"></A></p><H2>Описание</H2><p>string <B>DomDocument-&#62;dump_mem</B> ([bool format])</p>
+<TABLE CLASS="warning"  BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>Эта функция - ЭКСПЕРИМЕНТАЛЬНАЯ. Поведение, имя и всё остальное, что задокументировано для данной функции может быть изменено в будущих релизах РНР без предупреждения. Вы можете использовать эту функцию только на свой страх и риск.
+</P></TD></TR></TABLE><P>Создаёт XML-документ из dom-представления. Эта функция
+обычно вызывается после построения нового dom-документа с нуля, как далее в примере. 
+<TT><I>format</I></TT> специфицирует, должен ли вывод точно форматироваться.</P><TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN20006"></A><h5>Пример 1. Создание шапки/header простого HTML-документа</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$doc = domxml_new_doc("1.0");
+$root = $doc-&#62;create_element("HTML");
+$root = $doc-&#62;append_child($root);
+$head = $doc-&#62;create_element("HEAD");
+$head = $root-&#62;append_child($head);
+$title = $doc-&#62;create_element("TITLE");
+$title = $head-&#62;append_child($title);
+$text = $doc-&#62;create_text_node("This is the title");
+$text = $title-&#62;append_child($text);
+echo "&#60;PRE&#62;";
+echo htmlentities($doc-&#62;dump_mem(true));
+echo "&#60;/PRE&#62;";
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+  первый параметр был введён в 4.3.0.</P></BLOCKQUOTE><P>См. также
+<A HREF="domdocument-dump-file.html"><B>DomDocument_dump_file()</B></A>,
+<A HREF="domdocument-html-dump-mem.html"><B>DomDocument_html_dump_mem()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="domdocument-dump-file.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="domdocument-get-element-by-id.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">DomDocument-&#62;dump_file</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.domxml.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">DomDocument-&#62;get_element_by_id</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

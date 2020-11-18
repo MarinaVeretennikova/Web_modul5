@@ -1,0 +1,2367 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE></TITLE>
+<META content="TEXT/HTML; CHARSET=WINDOWS-1251" http-equiv=CONTENT-TYPE>
+<META content="Microsoft FrontPage 4.0" name=GENERATOR>
+<STYLE></STYLE>
+</HEAD>
+<body background=../fon.jpg>
+<ul>
+
+  <li><a href="#a"><font face="Times New Roman" size=3>Глава 11. Базы
+    данных</font></a> </li>
+  <ul>
+    <li><a href="#b"><font face="Times New Roman" size="3">Что такое SQL?</font></a>
+    </li>
+    <li><a href="#c"><font face="Times New Roman" size="3">Поддержка
+      баз данных в PHP</font></a>
+    </li>
+    <li><a href="#d"><font face="Times New Roman" size="3">MySQL</font></a>
+      <ul>
+        <li><a href="#e"><font face="Times New Roman" size="3">Установка</font></a></li>
+        <li><a href="#f"><font face="Times New Roman" size="3">Настройка
+          MySQL</font></a></li>
+      </ul>
+    </li>
+    <li><a href="#g"><font face="Times New Roman" size="3">Стандартные
+      функции PHP для работы с MySQL</font></a>
+      <ul>
+        <li><a href="#h"><font face="Times New Roman" size="3">Простейшая
+          поисковая система</font></a></li>
+        <li><a href="#i"><font face="Times New Roman" size="3">Сортировка
+          таблиц</font></a></li>
+      </ul>
+    </li>
+    <li><a href="#j"><font face="Times New Roman" size="3">ODBC</font></a>
+      <ul>
+        <li><a href="#k"><font face="Times New Roman" size="3">Поддержка
+          ODBC в PHP</font></a></li>
+        <li><a href="#l"><font face="Times New Roman" size="3">Microsoft Access
+          и PHP</font></a></li>
+      </ul>
+    </li>
+    <li><a href="#m"><font face="Times New Roman" size="3">Проект:
+      каталок ссылок</font></a>
+    </li>
+    <li><a href="#n"><font face="Times New Roman" size="3">Итоги</font></a></li>
+  </ul>
+</ul>
+<p>&nbsp;</p>
+<p><A NAME="a"></A>
+<font color="#000000" size="5" face="Times New Roman">ГЛАВА 11</font></p>
+<p><font color="#000000" size="5" face="Times New Roman">Базы данных</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Средства
+эффективного хранения и выборки больших
+объемов информации внесли огромный вклад в
+успешное развитие Интернета. Обычно для
+хранения информации используются базы
+данных. Работа таких известных сайтов, как
+Yahoo, Amazon и Ebay, в значительной степени зависит
+от надежности баз данных, хранящих
+громадные объемы информации. Конечно,
+поддержка баз данных ориентирована не
+только на интересы гигантских корпораций —
+в распоряжении web-программистов имеется
+несколько мощных реализаций баз данных,
+распространяемых по относительно низкой
+цене (а то и бесплатно).</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Правильная
+организация базы данных обеспечивает более
+быстрые и гибкие возможности выборки
+данных. Она существенно упрощает
+реализацию средств поиска и сортировки, а
+проблемы прав доступа к информации
+решаются при помощи средств контроля за
+привилегиями, присутствующими во многих
+системах управления базами данных (СУБД).
+Кроме того, упрощаются процессы репликации
+и архивации данных.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Глава
+начинается с подробного описания выборки и
+обновления данных в MySQL — вероятно, самой
+популярной СУБД, используемой в PHP (<a href="http://www.mysql.com">http://www.mysql.com</a>).
+На примере MySQL будет показано, как в РНР
+происходят загрузка и обновление данных в
+базе; мы рассмотрим базовые средства поиска
+и сортировки, используемые во многих web-приложениях.
+Затем мы перейдем к реализованной в РНР
+поддержке ODBC (Open Data Base Connectivity) — обобщенного
+интерфейса, который может использоваться
+для одновременного соединения с разными
+СУБД. Поддержка ODBC в РНР будет
+продемонстрирована на примере соединения и
+выборки данных из базы данных Microsoft Access.
+Глава завершается проектом, в котором РНР и
+СУБД MySQL используются для создания
+иерархического каталога с информацией об
+избранных сайтах. При включении в каталог
+новых сайтов пользователь относит их к
+одной из стандартных категорий,
+определяемых администратором сайта.</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Прежде
+чем переходить к обсуждению MySQL, я хочу
+сказать несколько слов об SQL — самом
+распространенном языке для работы с базами
+данных. Язык SQL заложен в основу практически
+всех существующих СУБД. Чтобы перейти к
+рассмотрению примеров работы с базами
+данных, необходимо хотя бы в общих чертах
+представлять, как работает SQL.</font></font></p>
+<p><A NAME="b"></A>
+<b><font color="#000000" face="Times New Roman" size="4">Что такое
+SQL?</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">SQL обычно
+описывается как стандартный язык,
+используемый для взаимодействия с
+реляционными базами данных (см. ниже).
+Однако SQL не является языком
+программирования, как С, C++ или РНР. Скорее,
+это интерфейсное средство для выполнения
+различных операций с базами данных,
+предоставляющее в распоряжение
+пользователя стандартный набор команд.
+Возможности SQL не ограничиваются выборкой
+данных из базы. В SQL поддерживаются
+разнообразные возможности для
+взаимодействия с базой данных, в том числе:</font></p>
+<b>
+<ul>
+  <li><font size="3" face="Times New Roman"><font COLOR="#000000">определение
+    структуры данных</font></font></b><font COLOR="#000000" size="3" face="Times New Roman">
+  — определение конструкций, используемых
+  при хранении данных;</font></li>
+<b>
+<li><font size="3" face="Times New Roman"><font COLOR="#000000">выборка
+  данных</font></font></b><font COLOR="#000000" size="3" face="Times New Roman">
+— загрузка данных из базы и их
+представление в формате,</font> <font COLOR="#000000" size="3" face="Times New Roman">удобном
+для вывода;</font></li>
+<b>
+<li><font size="3" face="Times New Roman"><font COLOR="#000000">обработка
+  данных</font></font></b><font COLOR="#000000" size="3" face="Times New Roman">
+— вставка, обновление и удаление
+информации;</font></li>
+<b>
+<li><font size="3" face="Times New Roman"><font COLOR="#000000">контроль
+  доступа</font></font></b><font COLOR="#000000" size="3" face="Times New Roman">
+— возможность разрешения/запрета выборки,
+вставки, обновления и удаления данных на
+уровне отдельных пользователей;</font></li>
+<b>
+<li><font size="3" face="Times New Roman"><font COLOR="#000000">контроль
+  целостности данных</font></font></b><font COLOR="#000000" size="3" face="Times New Roman">
+— сохранение структуры данных при
+возникновении таких проблем, как
+параллельные обновления или системные сбои.</font></li>
+</ul>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Обратите
+внимание: в определении SQL было сказано, что
+этот язык предназначен для работы с </font><i><font COLOR="#000000">реляционными
+</font></i><font COLOR="#000000">базами данных. В
+реляционных СУБД данные организуются в
+виде набора взаимосвязанных таблиц. Связи
+между таблицами реализуются в виде ссылок
+на данные других таблиц. </font><i><font COLOR="#000000">Таблицу
+</font></i><font COLOR="#000000">можно представить себе
+как двухмерный массив, в котором
+расположение каждого элемента
+характеризуется определенными значениями
+строки и столбца. Пример реляционной базы
+данных изображен на рис. 11.1.</font></font></p>
+<p><img border="0" src="11.1.jpg" width="437" height="284"></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman"><i><b>Рис. 11.1.</b>
+Пример реляционной базы данных</i></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как видно из
+рис. 11.1, каждая таблица состоит из строк (записей)
+и столбцов (полей). Каждому полю
+присваивается уникальное (в рамках данной
+таблицы) имя. Обратите внимание на связь
+между таблицами customer и orders, обозначенную
+стрелкой. В информацию о заказе включается
+короткий идентификатор клиента, что
+позволяет избежать избыточного хранения
+имени и прочих реквизитов клиента. В
+изображенной базе данных существует еще
+одна связь — между таблицами orders и products. Эта
+связь устанавливается по полю prod_id, в
+котором хранится идентификатор товара,
+заказанного данным клиентом (определяемого
+полем custjd). Наличие этих связей позволяет
+легко ссылаться на полные данные клиента и
+товара по простым идентификаторам.
+Правильно организованная база данных
+превращается в мощное средство организации
+и эффективного хранения данных с
+минимальной избыточностью. Запомните эту
+базу данных, я буду часто ссылаться на нее в
+дальнейших примерах.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Итак, как же
+выполняются операции с реляционными базами
+данных? Для этого в SQL существует
+специальный набор общих команд — таких, как
+SELECT, INSERT, UPDATE и DELETE. Например, если вам
+потребуется получить адрес электронной
+почты клиента с идентификатором 2001cu (см. рис.
+11.1), достаточно выполнить следующую команду
+SQL:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">SELECT cust_email FROM customers WHERE custjd = '2001cu'</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Все вполне
+логично, не правда ли? В обобщенном виде
+команда выглядит так:</font></p>
+<p><font size="3" face="Courier New"><font COLOR="#000000">SELECT имя_поля
+FROM имя_таблицы [ WHERE условие </font><font COLOR="#000000">]</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Квадратные
+скобки означают, что завершающая часть
+команды является необязательной. Например,
+для получения адресов электронной почты
+всех клиентов из таблицы customers достаточно
+выполнить следующий запрос:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">SELECT cust_email FROM
+customers</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Предположим,
+вы хотите включить в таблицу products новую
+запись. Простейшая команда вставки
+выглядит так:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">INSERT into products
+VALUES ('1009pr', 'Red Tomatoes', '1.43');</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если позднее
+эти данные потребуется удалить,
+воспользуйтесь следующей командой:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">DELETE FROM products
+WHERE prod_id = 1009r';</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Существует
+много разновидностей команд SQL, и полное их
+описание выходит за рамки этой книги. На эту
+тему вполне можно написать отдельную книгу!
+Я постарался сделать так, чтобы команды SQL,
+используемые в примерах, были относительно
+простыми, но достаточно реальными. В Web
+существует много учебной информации и
+ресурсов, посвященных SQL. Некоторые ссылки
+приведены в конце этого раздела.</font></p>
+<p><img border="0" src="prim.gif" align=left width="36" height="35"><i><font COLOR="#000000" size="3" face="Times New Roman">Записывать
+команды SQL символами верхнего регистра
+необязательно. Впрочем, я предпочитаю
+именно такую запись, поскольку она помогает
+различать компоненты запроса.</font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Раз вы
+читаете эту книгу, вероятно, вас интересует
+вопрос, как же организуется работа с базами
+данных в среде Web? Как правило, сначала при
+помощи какого-</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">либо
+интерфейсного языка (РНР, Java или Perl)
+создается соединение с базой данных, после
+чего программа обращается к базе с
+запросами, используя стандартный набор
+средств. Интерфейсный язык можно
+рассматривать как своего рода «клей»,
+связывающий базу данных с Web. Я перехожу к
+своему любимому интерфейсному языку — РНР.</font></p>
+<b>
+<p><font size="3" face="Times New Roman" COLOR="#000000">Дополнительные
+ресурсы</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Ниже
+перечислены некоторые ресурсы Интернета,
+посвященные SQL. Они пригодятся как новичкам,
+так и опытным программистам.</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Учебники
+    по SQL: <a href="http://perl.about.com/compute/perl/cs/beginningsql/index.htm">http://perl.about.com/compute/perl/cs/beginningsql/index.htm</a>.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">SQLCourse.com (с
+    примером базы данных): <a href="http://www.sqlcourse.com">http://www.sqlcourse.com</a>.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">SQL для
+    вундеркиндов Web: <a href="http://www.arsdigita.com/books/sql">http://www.arsdigita.com/books/sql</a>.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Введение в
+    SQL (применительно к MySQL): <a href="http://www.devshed.com/Server_side/MySQL/Intro">http://www.devshed.com/Server_side/MySQL/Intro</a>.</font></li>
+</ul>
+<b>
+<p><A NAME="c"></A>
+<font color="#000000" face="Times New Roman" size="4">Поддержка
+баз данных в РНР</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если бы мне
+предложили назвать самый важный аспект РНР,
+вероятно, я бы остановился на поддержке баз
+данных. В РНР реализована обширная
+поддержка практически всех существующих
+серверов баз данных, в том числе:</font></p>
+<table border="0" width="400" cellspacing="0" cellpadding="0" height="145">
+  <tr>
+    <td WIDTH="130" VALIGN="TOP" HEIGHT="20">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">Adabas D</font></p>
+    </td>
+    <td WIDTH="158" VALIGN="TOP" HEIGHT="20">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">Informix</font></p>
+    </td>
+    <td width="104" HEIGHT="20"><font COLOR="#000000" size="3" face="Times New Roman">PostgreSQL</font></td>
+  </tr>
+  <tr>
+    <td WIDTH="130" VALIGN="TOP" HEIGHT="20">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">Dbase</font></p>
+    </td>
+    <td WIDTH="158" VALIGN="TOP" HEIGHT="20">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">Ingres</font></p>
+    </td>
+    <td width="104" HEIGHT="20"><font COLOR="#000000" size="3" face="Times New Roman">Solid</font></td>
+  </tr>
+  <tr>
+    <td WIDTH="130" VALIGN="TOP" HEIGHT="20">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">Direct MS-SQL</font></p>
+    </td>
+    <td WIDTH="158" VALIGN="TOP" HEIGHT="20">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">InterBase</font></p>
+    </td>
+    <td width="104" HEIGHT="20"><font COLOR="#000000" size="3" face="Times New Roman">Sybase</font></td>
+  </tr>
+  <tr>
+    <td WIDTH="145" VALIGN="TOP" HEIGHT="20">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">Empress</font></p>
+    </td>
+    <td WIDTH="155" VALIGN="TOP" HEIGHT="20">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">mSQL</font></p>
+    </td>
+    <td width="100" HEIGHT="20"><font COLOR="#000000" size="3" face="Times New Roman">UNIX dbm</font></td>
+  </tr>
+  <tr>
+    <td WIDTH="130" VALIGN="TOP" HEIGHT="20">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">File-Pro (read-only)</font></p>
+    </td>
+    <td WIDTH="158" VALIGN="TOP" HEIGHT="20">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">MySQL</font></p>
+    </td>
+    <td width="104" HEIGHT="20"><font COLOR="#000000" size="3" face="Times New Roman">Velods</font></td>
+  </tr>
+  <tr>
+    <td WIDTH="130" VALIGN="TOP" HEIGHT="20">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">FrontBase</font></p>
+    </td>
+    <td WIDTH="158" VALIGN="TOP" HEIGHT="20">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">ODBC</font></p>
+    </td>
+    <td width="104" HEIGHT="20"></td>
+  </tr>
+  <tr>
+    <td WIDTH="130" VALIGN="TOP" HEIGHT="20">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">IBM DB2</font></p>
+    </td>
+    <td WIDTH="158" VALIGN="TOP" HEIGHT="20">
+      <p><font COLOR="#000000" size="3" face="Times New Roman">Oracle (OCI7 и
+      OC18)</font></p>
+    </td>
+    <td width="104" HEIGHT="20"></td>
+  </tr>
+</table>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как
+показывает этот список, поддержка баз
+данных в РНР простирается от совместимости
+с базами данных, известных всем (например,
+Oracle), до тех, о которых многие даже не
+слышали. Мораль — если вы собираетесь
+использовать серьезную СУБД для хранения
+информации, распространяемой через Web,
+скорее всего, эта база данных
+поддерживается в РНР. Поддержка базы данных
+в РНР представлена набором стандартных
+функций для соединения с базой, обработки
+запросов и разрыва связи.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Подробное
+описание всех поддерживаемых баз данных
+явно выходит за рамки книги. Впрочем, сервер
+MySQL дает неплохое представление об общих
+возможностях поддержки баз данных в РНР. По
+этой причине в примерах оставшейся части
+этой и всех остальных глав книги будет
+использоваться синтаксис MySQL. Независимо от
+того, с каким сервером баз данных вы будете
+работать, адаптация примеров не вызовет
+особых сложностей.</font></p>
+<b>
+<p><A NAME="d"></A>
+<font color="#000000" face="Times New Roman" size="4">MySQL</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">MySQL (<a href="http://www.mysql.com">http://www.mysql.com</a>)
+— надежная СУБД на базе SQL, разработанная и
+сопровождаемая фирмой Т.с.Х DataKonsultAB (Стокгольм,
+Швеция). Начиная с 1995 года, MySQL стала одной из
+самых распространенных СУБД в мире, что
+отчасти обусловлено ее скоростью,
+надежностью и гибкой лицензионной
+политикой (см. ниже).</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Благодаря
+хорошим характеристикам и обширному набору
+стандартных интерфейсных функций, очень
+простых в использовании, MySQL стала самым
+популярным средством для работы с базами
+данных в РНР.</font></p>
+<p><i><font COLOR="#000000"><img border="0" src="prim.gif" align=left width="36" height="35">MySQL
+распространяется на условиях общей
+лицензии GNU (GPL, GNU Public License). Полное описание
+текущей лицензионной политики MySQL
+приведено на сайте MySQL (<a href="http://www.mysql.com">http://www.mysql.com</a>).</font></p>
+</i>
+<p><A NAME="e"></A>
+<font color="#000000" face="Times New Roman" size="4">Установка</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Одна из
+причин популярности MySQL среди
+пользователей РНР заключается в том, что
+поддержка этого сервера автоматически
+включается в поставку РНР. Таким образом,
+вам остается лишь проследить за правильной
+установкой пакета MySQL СУБД MySQL совместима
+практически с любой серьезной операционной
+системой, включая FreeBSD, Solaris, UNIX, Linux и
+различные верии Windows. Хотя лицензионная
+политика MySQL отличается большей гибкостью в
+сравнении с другими серверами баз данных, я
+настоятельно рекомендую ознакомиться с
+лицензионной информацией, размещенной на
+сайте MySQL (<a href="http://www.mysql.com">http://www.mysql.com</a>).</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Последнюю
+версию MySQL можно принять с любого
+зеркального сайта. Полный список
+зеркальных сайтов приведен по адресу http://www.mysql.com/downloads/
+mirrors.html. На момент написания книги последняя
+стабильная версия MySQL имела номер 3.22.32, а
+версия 3.32 находилась на стадии бета-тестирования.
+Конечно, всегда следует устанавливать
+последнюю стабильную версию, это в ваших
+интересах. Посетите ближайший «зеркальный»
+сайт и загрузите версию, соответствующую
+вашей операционной системе. В верхней части
+страницы расположены ссылки на новые
+версии для различных платформ. Обязательно
+прочитайте всю страницу, поскольку она
+завершается ссылками для некоторых
+специфических ОС.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Группа
+разработчиков MySQL подготовила подробную
+документацию с описанием процесса
+установки. Я советую внимательно изучить
+все общие аспекты установки, не
+ограничиваясь информацией, относящейся
+непосредственно к вашей операционной
+системе.</font></p>
+<p><A NAME="f"></A>
+<font color="#000000" face="Times New Roman" size="4">Настройка
+MySQL</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">После
+успешной установки сервер MySQL необходимо
+настроить. Процесс настройки в основном
+состоит из создания новых баз данных и
+редактирования </font></font><font COLOR="#000000" size="3" face="Times New Roman"><i>таблиц</i></font>
+<font COLOR="#000000" size="3" face="Times New Roman"><i>привилегий </i></font><font size="3" face="Times New Roman"><font COLOR="#000000">MySQL.
+Таблицы привилегий управляют доступом к
+базам данных MySQL. Правильная настройка
+таблиц играет чрезвычайно важную роль в
+безопасности ваших баз данных, поэтому
+перед запуском сайта в рабочем режиме
+необходимо полностью освоить систему
+привилегий.</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">На первый
+взгляд, таблицы привилегий MySQL выглядят
+устрашающе, но если в них как следует
+разобраться, дальнейшее сопровождение
+становится очень простой задачей. Полное
+описание таблиц привилегий выходит за
+рамки этой книги. Впрочем, в Web существует
+немало ресурсов, предназначенных для
+помощи начинающим пользователям MySQL. За
+дополнительной информацией обращайтесь на
+сайт MySQL (<a href="http://www.mysql.com">http://www.mysql.com</a>).</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">После
+успешной установки и настройки пакета MySQL
+можно начинать эксперименты с базами
+данных в среде Web! Именно этой теме и
+посвящен следующий раздел. Начнем с
+изучения поддержки MySQL в РНР.</font></p>
+<b>
+<p><A NAME="g"></A>
+<font color="#000000" face="Times New Roman" size="4">Стандартные
+функции РНР для работы с MySQL</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Итак, вы
+успешно создали и протестировали все
+необходимые разрешения; все готово для
+работы с сервером MySQL. В этом разделе я
+представлю стандартные функции РНР, при
+помощи которых вы сможете легко
+организовать взаимодействие сценариев РНР
+с сервером MySQL. Общая последовательность
+действий при взаимодействии с сервером MySQL
+выглядит так:</font></p>
+<ol>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Установить
+    соединение с сервером MySQL. Если попытка
+    завершается неудачей, вывести
+    соответствующее сообщение и завершить
+    процесс.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Выбрать
+    базу данных сервера MySQL. Если попытка
+    выбора завершается неудачей, вывести
+    соответствующее сообщение и завершить
+    процесс. Допускается одновременное
+    открытие нескольких баз данных для
+    обработки запросов.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Обработать
+    запросы к выбранной базе (или базам).</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">После
+    завершения обработки запросов закрыть
+    соединение с сервером баз данных.</font></li>
+</ol>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В примерах
+этого раздела используются таблицы products,
+customers и orders (см. рис. 11.1). Если вы захотите
+самостоятельно проверить все примеры,
+создайте эти таблицы или скопируйте
+страницу с описанием структуры, чтобы вам
+не приходилось постоянно листать книгу.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Итак, начнем
+с самого начала — то есть с подключения к
+серверу MySQL.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">mysql_connect()</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+mysql_connect( ) устанавливает связь с сервером MySQL
+После успешного подключения к MySQL можно
+переходить к выбору баз данных,
+обслуживаемых этим сервером. Синтаксис
+функции mysql_connect( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font><font size="3" face="Courier New"><font COLOR="#000000">mysql_connect
+([string хост [:порт]
+[:/путь//к/сокету] [, string имя
+пользователя] [, string пароль])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В параметре
+хост передается имя хостового компьютера,
+указанное в таблицах привилегий сервера MySQL.
+Конечно, оно же используется для
+перенаправления запросов на web-сервер, на
+котором работает MySQL, поскольку к серверу
+MySQL можно подключаться в удаленном режиме.
+Наряду с именем хоста могут указываться
+необязательные параметры — номер порта, а
+также путь к сокету (для локального хоста).
+Параметры имя_пользователя и пароль должны
+соответствовать имени пользователя и
+паролю, заданным в таблицах привилегий MySQL.
+Обратите внимание: все параметры являются
+необязательными, поскольку таблицы
+привилегий можно настроить таким образом,
+чтобы они допускали соединение без
+проверки. Если параметр хост не задан,
+mysql_connect( ) пытается установить связь с
+локальным хостом.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Пример
+открытия соединения с MySQL:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_connect(&quot;
+local host&quot;, &quot;web&quot;, &quot;4tf9zzzf&quot;) or die(&quot;Could not
+connect to MySQL server!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В данном
+примере localhost — имя компьютера, web— имя
+пользователя, а 4tf9zzzf — пароль. Знак @ перед
+вызовом функции mysql_connect( ) подавляет все
+сообщения об ошибках, выдаваемые при
+неудачной попытке подключения, — они
+заменяются сообщением, указанным при
+вызове die( ). Обратите внимание: значение,
+возвращаемое при вызове rnysql_connect( ), в данном
+примере не используется. Если в программе
+используется всего одно соединение с
+сервером MySQL, это вполне нормально. Но если
+программа устанавливает соединения с
+несколькими серверами MySQL на разных хостах,
+следует сохранить идентификатор
+соединения, возвращаемый при вызове mysql_connect(
+), чтобы адресовать последующие команды
+нужному серверу MySQL. Пример:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$link1 = @mysql_connect(&quot;www.somehost.com&quot;,
+&quot;web&quot;, &quot;abcde&quot;) or die(&quot;Could not connect to</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">MySQL server!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$linkl = @mysql_connect(&quot;www.someotherhost.com&quot;,
+&quot;usr&quot;, &quot;secret&quot;) or die(&quot;Could not connect</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">to MySQL server!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Идентификаторы
+$link1 и $link2 передаются при последующих
+обращениях к базам данных с запросами.
+Вскоре вы узнаете, как именно адресовать
+запрос нужному серверу при помощи
+идентификатора соединения.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman"><i><img border="0" src="prim.gif" align=left width="36" height="35">Функция
+mysql_pconnect( ) обеспечивает поддержку
+восстанавливаемых (persistent) соединений. В
+многопользовательских средах
+рекомендуется использовать mysql_pconnect( )
+вместо mysql_connect( ) для экономии системных
+ресурсов. По типам параметров и
+возвращаемого значения функция mysql_pconnect( ) в
+точности совпадает
+</i></font> <i><font COLOR="#000000" size="3" face="Times New Roman">c mysql_connect( ).</font></p>
+</i><b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">mysql_select_db( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">После
+успешного соединения с MySQL необходимо
+выбрать базу данных, находящуюся на сервере.
+Для этого используется функция mysql_select_db( ).
+Синтаксис функции mysql_select_db( ):</font></font></p>
+<p><font face="Courier New"><i><font size="3"><font COLOR="#000000">int </font></font> </i><font size="3"><font COLOR="#000000">mysql_select_db
+<i>(string </i></font><i><font COLOR="#000000">имя_базы_данных </font></i><font COLOR="#000000">[,
+<i>int </i></font></font></font><i><font size="3" face="Courier New"><font COLOR="#000000">идентификатор_соединения])</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Параметр имя_базы_данных
+определяет выбираемую базу данных,
+идентификатор</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">которой
+возвращается функцией mysql_select_db( ). Обратите
+внимание: параметр</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">идентификатор_соединения
+необязателен лишь при одном открытом
+соединении с</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">сервером MySQL.
+При наличии нескольких открытых соединений
+этот параметр</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">должен
+указываться. Пример выбора базы данных
+функцией mysql_select_db( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_connect(&quot;localhost&quot;,
+&quot;web&quot;. &quot;4tf9zzzf&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Could not
+connect to MySQL server!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_select_db(&quot;company&quot;)
+or die(&quot;Could not select company database!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если в
+программе выбирается только одна база
+данных, сохранять ее идентификатор не
+обязательно. Однако при выборе нескольких
+баз данных возвращаемые идентификаторы
+сохраняются, чтобы вы могли сослаться на
+нужную базу при обработке запроса. Если
+идентификатор не указан, используется
+последняя выбранная база данных.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">mysql_close( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">После
+завершения работы с сервером MySQL соединение
+необходимо закрыть. Функция mysql_close( )
+закрывает соединение, определяемое
+необязательным параметром. Если параметр
+не задан, функция mysql_close( ) закрывает
+последнее открытое соединение. Синтаксис
+функции mysql_close( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int mysql_close ([int
+</font></font><font size="3" face="Courier New"><font COLOR="#000000">идентификатор_соединения])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Пример
+использования mysql_close( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_connect(&quot;localhost&quot;,
+&quot;web&quot;, &quot;4tf9zzzf&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Could not
+connect to MySQL server!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_select_db(&quot;company&quot;)
+or die(&quot;Could not select company database!&quot;); print &quot;You're
+connected to a MySQL database!&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В этом
+примере указывать идентификатор
+соединения не нужно, поскольку на момент
+вызова mysql_close( ) существует лишь одно
+открытое соединение с сервером.</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="prim.gif" align=left width="36" height="35">Соединения,
+открытые функцией mysql_pconnect( ), закрывать не
+обязательно.</font></p>
+</i><b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">mysql_query( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+mysql_query( ) обеспечивает интерфейс для
+обращения с запросами к базам</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">данных.
+Синтаксис функции mysql_query( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font><font size="3" face="Times New Roman"><font COLOR="#000000">mysql_query
+(string запрос [, int идентификатор_соединения])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Параметр
+запрос содержит текст запроса на языке SQL.
+Запрос передается либо соединению,
+определяемому необязательным параметром
+идентификатор_соедине-ния, либо, при
+отсутствии параметра, последнему открытому
+соединению.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Неопытные
+программисты часто ошибочно думают, что
+функция mysql_query( ) возвращает результаты
+обработки запроса. Это не так — в
+зависимости от типа запроса вызов mysql_query( )
+может приводить к разным последствиям. При</font>
+<font COLOR="#000000" size="3" face="Times New Roman">успешном
+выполнении команды SQL SELECT возвращается
+идентификатор результата, который
+впоследствии передается функции mysql_result( )
+для последующего форматирования и
+отображения результатов запроса. Если
+обработка запроса завершилась неудачей,
+функция возвращает FALSE. Функция mysql_result( )
+описана в одном из следующих разделов.
+Количество записей, участвующих в запросе,
+определяется при помощи функции mysql_num_rows( ).
+Эта функция также описана далее.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Учитывая
+сказанное, я приведу примеры использования
+mysql_query( ) лишь после описания функций mysql_result(
+) и mysql_affected_rows( ).</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="sovet.gif" align=left width="36" height="35">Если
+вас беспокоит то, что при обработке
+запросов расходуется слишком много памя-ти,
+вызовите стандартную функцию РНР mysql_free_result.
+При вызове ей передается идентификатор
+результата, возвращаемый mysql_query( ). Функция
+mysql_free_result( ) освобождает всю память,
+связанную с данным запросом.</font></p>
+</i><b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">mysqLaff ected_rows ( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Во многих
+ситуациях требуется узнать количество
+записей, участвующих в запросе SQL с
+командами INSERT, UPDATE, REPLACE или DELETE. Задача
+решается функцией mysql_affected_rows( ). Синтаксис
+функции:</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font><font COLOR="#000000" size="3" face="Times New Roman">mysql_affected_rows
+([int </font><font size="3" face="Courier New"><font COLOR="#000000">идентификатор_соединения])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Обратите
+внимание: параметр идентификатор_соединения
+не является обязательным. Если он не
+указывается, mysql_affected_rqws( ) пытается
+использовать последнее открытое
+соединение. Пример:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Подключиться к серверу и выбрать базу
+данных</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_connect(&quot;localhost&quot;,
+&quot;web&quot;. &quot;4tf9zzzf&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Could not
+connect to MySQL server!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_select_db(&quot;company&quot;)
+or die(&quot;Could not select company database!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Создать
+запрос</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;UPDATE products SET prod_name = \&quot;cantaloupe\&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">WHERE prod_id = \'10001pr\&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Выполнить запрос $result = mysql_query($query);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Определить количество обновленных записей</font></p>
+<p><font color="#000000" size="3" face="Courier New">print &quot;Total row updated; &quot;.mysql_affected_rows( );</font></p>
+<p><font color="#000000" size="3" face="Courier New">mysql_close( );</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">При
+выполнении этого фрагмента будет выведен
+следующий результат:</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Total row updated: 1</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+mysql_affected_rows( ) не работает с запросами,
+основанными на команде SELECT. Для определения
+количества записей, возвращенных при
+вызове SELECT, используется функция mysql_num_rows( ),
+описанная в следующем разделе.</font></p>
+<i>
+<p><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="attent.gif" align=left width="36" height="35"> В
+одной специфической ситуации функция
+mysql_affected_rows( ) работает с ошибкой. При
+выполнении команды DELETE без секции
+WHEREmysql_affected_rows( ) всегда возвращает 0.</font></p>
+</i><b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">mysql_num_rows( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+mysql_num_rows( ) определяет количество записей,
+возвращаемых командой SELECT. Синтаксис
+функции mysql_num_rows( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font><font COLOR="#000000" size="3" face="Times New Roman">mysql_num_rows(int
+</font><font size="3" face="Courier New"><font COLOR="#000000">результат)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Пример
+использования mysql_num_rows( ):&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> &lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Подключиться к серверу и выбрать базу
+данных @mysql_connect(&quot;localhost&quot;, &quot;web&quot;,
+&quot;4tf9zzzf&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Could not
+connect to MySQL server!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_select_db(&quot;company&quot;)
+or die(&quot;Could not select company database!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Выбрать все
+товары, названия которых начинаются с 'р'</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;SELECT prod_name FROM products WHERE prod_name LIKE \&quot;p*\&quot;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Выполнить запрос $result = mysql_query($query);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Total rows
+selected: &quot;.mysql_num_rows($result);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">mysql_close( );</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Поскольку
+таблица содержит лишь один товар, название
+которого начинается с буквы р (pears),
+возвращается только одна запись. Результат:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Total rows selected: 1</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">mysql_result( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+mysql_result() используется в сочетании с mysql_query( )
+(при выполнении запроса с командой SELECT) для
+получения набора данных. Синтаксис функции
+mysql_resu1t():</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font><font size="3"><font COLOR="#000000">mysql_result
+(int идентификатор_результата,
+int запись [. mixed </font></font></font><font size="3" face="Courier New"><font COLOR="#000000">поле&quot;]')</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В параметре
+идентификатор_результата передается
+значение, возвращенное функцией mysql_query( ).
+Параметр запись ссылается на определенную
+запись набора данных, определяемого
+параметром идентификатор_результата.
+Наконец, в необязательном параметре поле
+могут передаваться:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">смещение
+поля в таблице;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">имя поля;</font></li>
+  <li><font size="3" face="Times New Roman"><font COLOR="#000000">имя поля
+в формате </font></font><i><font COLOR="#000000" size="3" face="Times New Roman">имя_поля_имя_тдблицы.</font></li>
+  </ul>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В листинге
+11.1 используется база данных, изображенная
+на рис. 11.1.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+11.1. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Выборка
+и форматирование данных в базе данных MySQL</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_connect(&quot;localhost&quot;,
+&quot;web&quot;, &quot;ffttss&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Could not
+connect to MySQL server!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_select_db(&quot;company&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Could not
+select products database!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Выбрать
+все записи из таблицы products</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;SELECT *
+FROM products&quot;; $result = mysql_query($query);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$x = 0;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;table&gt;\n&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;tr&gt;\n&lt;th&gt;Product
+ID&lt;/th&gt;&lt;th&gt;Product Name&lt;/th&gt;&lt;th&gt;Product Price&lt;/th&gt;\n&lt;/tr&gt;\n&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while ($x &lt;
+mysql_numrows($result)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$id = mysql_result($result.
+$x. 'prod_id');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$name = mysql_result($result,
+$x, 'prod_name');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$price = mysql_result($result.
+$x, 'prod_price');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;tr&gt;\n&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;td&gt;$id&lt;/td&gt;\n&lt;td&gt;$name&lt;/td&gt;\n&lt;td&gt;$price&lt;/td&gt;\n&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;/tr&gt;\n&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$x++;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;/table&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">mysql_close();</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В результате
+выполнения этого примера с данными,
+изображенными на рис. 11.1, будет получен
+следующий результат:</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+11.2. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Результат
+выполнения листинга 11.1</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;table&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;th&gt;Product ID&lt;/th&gt;&lt;th&gt;Product
+Name&lt;/th&gt;&lt;th&gt;Product Price&lt;/th&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td&gt;1000pr&lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td&gt;apples&lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td&gt;1.23&lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td&gt;1001pr&lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td&gt;oranges&lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td&gt;2.34&lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td&gt;1002pr&lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td&gt;bananas&lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td&gt;3.45&lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td&gt;1003pr&lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td&gt;pears&lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;td&gt;4.45&lt;/td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/table&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+mysql_result( ) удобна для работы с относительно
+небольшими наборами данных, однако
+существуют и другие функции, работающие
+намного эффективнее, — а именно, функции
+mysql_fetch_row( ) и mysql_fetch_array( ). Эти функции описаны
+в следующих разделах.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">mysql_fetch_row()</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Обычно
+гораздо удобнее сразу присвоить значения
+всех полей записи элементам индексируемого
+массива (начиная с индекса 0), нежели
+многократно вызывать mysql_result( ) для
+получения отдельных полей. Задача решается
+функцией mysql_fetch_row( ), имеющей следующий
+синтаксис:</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">array </font></font><font COLOR="#000000" size="3" face="Times New Roman">mysql_fetch_row
+(int </font><font size="3" face="Courier New"><font COLOR="#000000">результат)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Использование
+функции list( ) в сочетании с mysql_fetch_row( )
+позволяет сэкономить несколько команд,
+необходимых при использовании mysql_result( ). В
+листинге 11.3 приведен код листинга 11.1,
+переписанный с использованием list( ) и mysql_fetch_row( ).</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+11.3. </font></font></i></b><font size="3" face="Times New Roman"><i><font COLOR="#000000">Выборка
+данных функцией mysql_fetch_row( ) </font></i><font COLOR="#000000">&lt;?</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_connect( &quot;localhost&quot;,
+&quot;web&quot;, &quot;ffttss&quot;) or die(&quot;Could not connect to MySQL
+server!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_select_db(&quot;company&quot;) or die(&quot;Could not
+select products database!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;SELECT * FROM products&quot;;&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$result = mysql_query($query);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;table&gt;\n&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;tr&gt;\n&lt;th&gt;Product
+ID&lt;/th&gt;&lt;th&gt;Product Name&lt;/th&gt;&lt;th&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Product Price&lt;/th&gt;\n&lt;/tr&gt;\n&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while ($row =
+mysql_fetch_array($result)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;tr&gt;\n&quot;:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;td&gt;&quot;.$row[&quot;prod_id&quot;].&quot;&lt;/td&gt;\n&lt;td&gt;&quot;.$row[&quot;prod_name&quot;].&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/td&gt;\n&lt;td&gt;&quot; .$row[&quot;prod_price&quot;]. &quot;&lt;/td&gt;\n&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;/tr&gt;\n&quot;;&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> print &quot;&lt;/table&gt;&quot;;&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">mysql_close();</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Листинг 11.3
+выдает тот же результат, что и листинг 11.1, но
+использует при этом меньшее количество
+команд.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">my sq l_f etch_array (
+)</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+mysql_fetch_array( ) аналогична mysql_fetch_row( ), однако по
+умолчанию значения полей записи
+сохраняются в </font><i><font COLOR="#000000">ассоциативном
+</font></i><font COLOR="#000000">массиве. Впрочем, вы
+можете выбрать тип индексации (ассоциативная,
+числовая или комбинированная). Синтаксис
+функции mysql_fetch_array( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">array </font><font size="3"><font COLOR="#000000">mysql_fetch_array
+(int идентификатор
+результата [, </font></font></font><font size="3" face="Courier New"><font COLOR="#000000">тип_индексации])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В параметре
+идентификатор_результата передается
+значение, возвращенное функцией mysql_query( ).
+Необязательный параметр тип_индексации
+принимает одно из следующих значений:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">MYSQL_ASSOC —
+    функция mysql_fetch_array( ) возвращает
+    ассоциативный массив. Если параметр не
+    указан, это значение используется по
+    умолчанию;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">MYSQL_NUM —
+    функция mysql_fetch_array( ) возвращает массив с
+    числовой индексацией;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">MYSQL_BOTH — к
+    полям возвращаемой записи можно
+    обращаться как по числовым, так и по
+    ассоциативным индексам.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Листинг 11.4
+содержит очередной вариант кода листингов
+11.1 и 11.3. На этот раз используется функция
+mysql_fetch_array( ), возвращающая ассоциативный
+массив полей.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+11.4. </font></font></i></b><font size="3" face="Times New Roman"><i><font COLOR="#000000">Выборка
+данных функцией mysql_fetch_array( )</font></i></font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">&lt;?</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_connect( &quot;local
+host&quot;, &quot;web&quot;, &quot;ffttss&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Could not
+connect to MySQL server!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_select_db( &quot;company&quot; )</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Could not
+select products database!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;SELECT *
+FROM products&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$result = mysql_query($query);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&quot;&lt;table&gt;\n&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;tr&gt;\n&lt;th&gt;Product
+ID&lt;/th&gt;&lt;th&gt;Product Name&lt;/th&gt; &lt;th&gt;Product Price&lt;/th&gt;\n&lt;/tr&gt;\n&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while ($row =
+mysql_fetch_array($result)) ;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;tr&gt;\n&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;td&gt;&quot;.$row[&quot;prod_id&quot;].&quot;&lt;/td&gt;\n
+&lt;td&gt;&quot;.$row[&quot;prod_name&quot;].&quot;&lt;/td&gt;\n &lt;td&gt;&quot;
+. $row[&quot;prod_price&quot;] . &quot;&lt;/td&gt;\n&quot; ;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;/tr&gt;\n&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;/table&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">mysql_close();</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Листинг 11.4
+выдает тот же результат, что и листинги 11.1 и
+11.3.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Того, что
+сейчас вы знаете о функциональных
+возможностях MySQL в РНР, вполне достаточно,
+чтобы заняться созданием довольно
+интересных приложений. Первое приложение,
+которое мы рассмотрим, представляет собой
+простейшую поисковую систему. Этот пример
+демонстрирует применение форм HTML (см.
+предыдущую главу) для получения данных,
+которые в дальнейшем используются для
+выборки информации из базы.</font></p>
+<p><A NAME="h"></A>
+<font color="#000000" face="Times New Roman" size="4">Простейшая
+поисковая система</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Всем нам
+неоднократно приходилось пользоваться
+поисковыми системами в Web, но как устроены
+такие системы? Простейшая поисковая
+система принимает по крайней мере одно
+ключевое слово. Это слово включается в
+запрос SQL, который затем используется для
+выборки информации из базы данных.
+Результат поиска форматируется поисковой
+системой по тому или иному критерию (скажем,
+по категории или степени соответствия).</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Поисковая
+система, приведенная в листинге 11.5,
+предназначена для поиска информации о
+клиентах. В форме пользователь вводит
+ключевое слово и выбирает категорию (имя,
+идентификатор или адрес электронной почты
+клиента), в которой будет производиться
+поиск. Если введенное пользователем имя,
+идентификатор или адрес существует,
+поисковая система извлекает из базы данных
+остальные атрибуты. Затем по
+идентификатору покупателя из таблицы orders
+выбирается</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">история
+заказов. Все заказы, оформленные этим
+клиентом, отображаются по убыванию объема.
+Если заданное ключевое слово не
+встречается в категории, указанной
+пользователем, поиск прекращается,
+программа выводит соответствующее
+сообщение и снова отображает форму.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+11.5. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Простейшая
+поисковая система (searchengine.php)</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$form =</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&quot;&lt;form action=\&quot;Listing11-5.php\&quot;
+method=\&quot;post\&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;hidden\&quot;
+name=\&quot;seenform\&quot; value=\&quot;y\&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Keyword:&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=\&quot;text\&quot;
+name=\&quot;keyword\&quot; size=\&quot;20\&quot; maxlength=\&quot;20\&quot;
+value=\&quot;\&quot;&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Search Focus:&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;select name=\&quot;category\&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=\&quot;\&quot;&gt;Choose
+a category:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value-\&quot;cust_id\&quot;&gt;Customer
+ID</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=\&quot;cust_name\&quot;&gt;Customer
+Name</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=\&quot;cust_eman\&quot;&gt;Customer
+Email</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/select&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type-\&quot;submit\&quot;
+value=\&quot;search\&quot;&gt; ,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/form&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Если форма
+еще не отображалась - отобразить ее</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (Sseenform
+!= &quot;у&quot;) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print $form; else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Подключиться к серверу MySQL и выбрать базу
+данных</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_connect(&quot;localhost&quot;, &quot;web&quot;, &quot;ffttss&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Could not
+connect to MySQL server!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_select_db(&quot;company&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Could not
+select company database!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Построить
+и выполнить запрос</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;SELECT
+cust_id. cust_name, cust_email</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">FROM customers WHERE
+$category = '$keyword'&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$result = mysql_query($query);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Если
+совпадения не найдены, вывести сообщение</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// и заново
+отобразить форму</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (mysql_num_rows($result)
+== 0) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Sorry, but
+no matches were found. Please try your search again:&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print $form;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Найдены
+совпадения. Отформатировать и вывести
+результаты, else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Отформатировать и вывести значения полей.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">list($id, $name, $email)
+= mysql_fetch_row($result);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;h3&gt;Customer
+Information:&lt;/h3&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;b&gt;Name:&lt;/b&gt;
+$name &lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;b&gt;Identification
+#:&lt;/b&gt; $id &lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;b&gt;Email:&lt;/b&gt;
+&lt;a href-\&quot;mailto:$email\&quot;&gt;$email&lt;/a&gt; &lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;h3&gt;Order
+History:&lt;/h3&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Построить
+и выполнить запрос к таблице 'orders'</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;SELECT
+order_id, prod_id, quantity</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">FROM orders WHERE
+cust_id = '$id'</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">ORDER BY quantity DESC&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$result = mysql_query($query):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;table
+border = 1&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;tr&gt;&lt;th&gt;0rder
+ID&lt;/th&gt;&lt;th&gt;Product ID&lt;/th&gt;&lt;th&gt;Quantity&lt;/th&gt;&lt;/tr&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Отформатировать и вывести найденные
+записи.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while (list($order_id,
+$prod_id, $quantity) = mysql_fetch_row($result));</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;tr&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;td&gt;$order_id&lt;/td&gt;&lt;td&gt;$prod_id&lt;/td&gt;&lt;td&gt;$quantity&lt;/td&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;/tr&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;/table&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если ввести
+ключевое слово Mi 1 апо и выбрать в
+раскрывающемся списке категорию Customer Name (Имя
+клиента), программа выводит следующую
+информацию:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Customer information:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"><b>Name:</b>Milano</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"><b>Identification#:</b>2000cu</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"><b>Email:</b>felix@milano.com</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Order History:</font></p>
+<table border="0" width="300" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="97"><font COLOR="#000000" size="3" face="Courier New">Order Id</font></td>
+    <td width="105"><font COLOR="#000000" size="3" face="Courier New"> Product Id</font></td>
+    <td width="92"><font COLOR="#000000" size="3" face="Courier New">Quantity</font></td>
+  </tr>
+  <tr>
+    <td width="97"><font COLOR="#000000" size="3" face="Courier New"> 100003</font></td>
+    <td width="105"><font color="#000000" size="3" face="Courier New">1000pr</font></td>
+    <td width="92"><font face="Courier New" size="3">12</font></td>
+  </tr>
+  <tr>
+    <td width="97"><font COLOR="#000000" size="3" face="Courier New"> 100005</font></td>
+    <td width="105"><font COLOR="#000000" size="3" face="Courier New">1002pr</font></td>
+    <td width="92"><font face="Courier New" size="3">11</font></td>
+  </tr>
+</table>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Конечно, мы
+рассмотрели простейшую реализацию
+поисковой системы. Существует немало
+дополнительных возможностей — поиск по
+нескольким ключевым словам, поиск по
+неполным ключевым словам или
+автоматическая выборка записей с похожими
+ключевыми словами. Попробуйте применить
+свою творческую фантазию и реализовать их
+самостоятельно.</font></p>
+<p><A NAME="i"></A>
+<font color="#000000" face="Times New Roman" size="4">Сортировка
+таблиц</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">При выводе
+данных из базы необходимо предусмотреть
+возможность их сортировки по различным
+критериям. В качестве примера рассмотрим
+результаты, выведенные нашей поисковой
+системой, — обратим особое внимание на
+следующие после заголовка Order History: (История
+заказов). Допустим, список получился очень
+длинным, и вы хотите отсортировать данные
+по идентификатору товара (или
+идентификатору заказа). Чтобы вы лучше
+поняли, о чем идет речь, рекомендую посетить
+один из моих любимых сайтов, http://download.cnet.com.
+Если в процессе просмотра программ
+конкретной категории щелкнуть на заголовке
+столбца (название, дата размещения,
+количество загрузок или размер файла), то
+список автоматически упорядочивается по
+содержимому указанного столбца. Далее
+показано, как реализовать подобную
+возможность.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В листинге
+11.6 мы производим выборку данных из таблицы
+orders. По умолчанию данные сортируются по
+убыванию объема заказа (поле quantity). Однако
+щелчок на любом заголовке таблицы приводит
+к тому, что страница загружается заново с
+упорядочением таблицы по указанному
+столбцу.</font></p>
+<b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+11.6. </font></font></b><font size="3" face="Times New Roman"><font COLOR="#000000">Сортировка
+таблиц (tablesorter.php)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Подключиться к серверу MySQL и выбрать базу
+данных</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_connect(&quot;localhost&quot;. &quot;web&quot;, &quot;ffttss&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Could not
+connect to MySQL server!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_select_db( &quot;company&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Could not
+select company database!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Если
+значение переменной $key не задано, по
+умолчанию</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// используется значение 'quantity' if (!
+isset($key)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$key = &quot;quantity&quot;;
+endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Создать и
+выполнить запрос.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Выбранные
+данные сортируются по убыванию столбца</font> <font COLOR="#000000" size="3" face="Courier New">$key</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;SELECT
+order_id, cust_id, prod_id, quantity FROM orders ORDER BY $key DESC&quot;
+$result = mysql_query($query);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Создать заголовок
+таблицы</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;table border = 1&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;tr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;th&gt;&lt;a href=\&quot;Listing11-6.php?key=order_id\&quot;&gt;Order
+ID&lt;/a&gt;&lt;/th&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;th&gt;&lt;a href=\&quot;Listing11-6.php?key=cust_id\&quot;&gt;Customer
+ID&lt;/a&gt;&lt;/th&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;th&gt;&lt;a href=\&quot;Listing11-6.php?key=prod_id\&quot;&gt;Product
+ID&lt;/a&gt;&lt;/th&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;th&gt;&lt;a href=\&quot;Listing11-6.php?key=quantity\&quot;&gt;Quantity&lt;/a&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/th&gt;&lt;/tr&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Отформатировать и вывести каждую строку
+таблицы</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while (list($order_id,$cust_id,$prod_id, $quantity)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">=
+mysql_fetch_row($result)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;tr&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;td&gt;$order_id&lt;/td&gt;&lt;td&gt;$cust_id&lt;/td&gt;&lt;td&gt;$prod_id&lt;/td&gt;&lt;td&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$quantity&lt;/td&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;/tr&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Завершить
+таблицу</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;/table&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Для базы
+данных company, изображенной на рис. 11.1,
+стандартные выходные данные листинга 11.6
+выглядят следующим образом:</font></p>
+<table border="0" width="450" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="25%"><font face="Courier New" size="3"><u>Order ID</u></font></td>
+    <td width="25%"><font face="Courier New" size="3"><u>Customer ID</u></font></td>
+    <td width="25%"><font face="Courier New" size="3"><u>Product ID</u></font></td>
+    <td width="25%"><font face="Courier New" size="3"><u>Quantity</u></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="22%" VALIGN="TOP" HEIGHT="14">
+      <p><font COLOR="#000000" size="3" face="Courier New">100003</font></p>
+    </td>
+    <td width="25%"><font COLOR="#000000" size="3" face="Courier New"> 2000cu</font></td>
+    <td width="25%"><font COLOR="#000000" size="3" face="Courier New">1000pr</font></td>
+    <td width="25%"><font face="Courier New" size="3">12</font></td>
+  </tr>
+  <tr>
+    <td WIDTH="22%" VALIGN="TOP" HEIGHT="12">
+      <p><font COLOR="#000000" size="3" face="Courier New">100005</font></p>
+    </td>
+    <td width="25%"><font COLOR="#000000" size="3" face="Courier New"> 2000cu</font></td>
+    <td width="25%"><font COLOR="#000000" size="3" face="Courier New">1002pr</font></td>
+    <td width="25%"><font face="Courier New" size="3">11</font></td>
+  </tr>
+  <tr>
+    <td WIDTH="22%" VALIGN="TOP" HEIGHT="13">
+      <p><font COLOR="#000000" size="3" face="Courier New">100004</font></p>
+    </td>
+    <td width="25%"><font COLOR="#000000" size="3" face="Courier New"> 2000cu</font></td>
+    <td width="25%"><font COLOR="#000000" size="3" face="Courier New">1000pr</font></td>
+    <td width="25%"><font face="Courier New" size="3">9</font></td>
+  </tr>
+  <tr>
+    <td WIDTH="22%" VALIGN="TOP" HEIGHT="12">
+      <p><font COLOR="#000000" size="3" face="Courier New">100002</font></p>
+    </td>
+    <td width="25%"><font COLOR="#000000" size="3" face="Courier New"> 2000cu</font></td>
+    <td width="25%"><font COLOR="#000000" size="3" face="Courier New">1001pr</font></td>
+    <td width="25%"><font face="Courier New" size="3">5</font></td>
+  </tr>
+  <tr>
+    <td WIDTH="22%" VALIGN="TOP" HEIGHT="13">
+      <p><font COLOR="#000000" size="3" face="Courier New">100001</font></p>
+    </td>
+    <td width="25%"><font COLOR="#000000" size="3" face="Courier New"> 2000cu</font></td>
+    <td width="25%"><font COLOR="#000000" size="3" face="Courier New">1002pr</font></td>
+    <td width="25%"><font face="Courier New" size="3">3</font></td>
+  </tr>
+</table>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Обратите
+внимание: заголовки таблицы представляют
+собой гиперссылки. Поскольку по умолчанию
+сортировка осуществляется по полю quantity,
+записи отсортированы по убыванию
+последнего столбца. Если щелкнуть на ссылке
+Order_ID, страница загружается заново, но на
+этот раз записи сортируются по убыванию
+идентификатора заказа. Таблица будет
+выглядеть так:</font></p>
+<table border="0" width="450" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="25%"><font face="Courier New" size="3"><u>Order ID</u></font></td>
+    <td width="25%"><font face="Courier New" size="3"><u>Customer ID</u></font></td>
+    <td width="25%"><font face="Courier New" size="3"><u>Product ID</u></font></td>
+    <td width="25%"><font face="Courier New" size="3"><u>Quantity</u></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="22%" VALIGN="TOP" HEIGHT="14">
+      <p><font COLOR="#000000" size="3" face="Courier New">100005</font></p>
+    </td>
+    <td width="25%"><font COLOR="#000000" size="3" face="Courier New"> 2000cu</font></td>
+    <td width="25%"><font COLOR="#000000" size="3" face="Courier New">1002pr</font></td>
+    <td width="25%"><font face="Courier New" size="3">11</font></td>
+  </tr>
+  <tr>
+    <td WIDTH="22%" VALIGN="TOP" HEIGHT="12">
+      <p><font COLOR="#000000" size="3" face="Courier New">100004</font></p>
+    </td>
+    <td width="25%"><font COLOR="#000000" size="3" face="Courier New"> 2000cu</font></td>
+    <td width="25%"><font COLOR="#000000" size="3" face="Courier New">1000pr</font></td>
+    <td width="25%"><font face="Courier New" size="3">9</font></td>
+  </tr>
+  <tr>
+    <td WIDTH="22%" VALIGN="TOP" HEIGHT="13">
+      <p><font COLOR="#000000" size="3" face="Courier New">100003</font></p>
+    </td>
+    <td width="25%"><font COLOR="#000000" size="3" face="Courier New"> 2000cu</font></td>
+    <td width="25%"><font COLOR="#000000" size="3" face="Courier New">1000pr</font></td>
+    <td width="25%"><font face="Courier New" size="3">12</font></td>
+  </tr>
+  <tr>
+    <td WIDTH="22%" VALIGN="TOP" HEIGHT="12">
+      <p><font COLOR="#000000" size="3" face="Courier New">100002</font></p>
+    </td>
+    <td width="25%"><font COLOR="#000000" size="3" face="Courier New"> 2000cu</font></td>
+    <td width="25%"><font COLOR="#000000" size="3" face="Courier New">1001pr</font></td>
+    <td width="25%"><font face="Courier New" size="3">5</font></td>
+  </tr>
+  <tr>
+    <td WIDTH="22%" VALIGN="TOP" HEIGHT="13">
+      <p><font COLOR="#000000" size="3" face="Courier New">100001</font></p>
+    </td>
+    <td width="25%"><font COLOR="#000000" size="3" face="Courier New"> 2000cu</font></td>
+    <td width="25%"><font COLOR="#000000" size="3" face="Courier New">1002pr</font></td>
+    <td width="25%"><font face="Courier New" size="3">3</font></td>
+  </tr>
+</table>
+<p><font size="3" face="Times New Roman">&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Сортировка
+выходных данных приносит огромную пользу
+при форматировании баз данных. Простая
+модификация запроса SELECT позволяет
+упорядочить данные по любому критерию — по
+возрастанию, по убыванию или с группировкой
+записей.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">На этом наше
+знакомство с MySQL подходит к концу. Учтите,
+что материал этой главы отнюдь не
+исчерпывает всего, что необходимо знать о
+MySQL. Полный список команд MySQL в РНР приведен
+в документации (<a href="http://www.php.net/manuat">http://www.php.net/manuat</a>).</font></p>
+<b>
+<p><A NAME="j"></A>
+<font color="#000000" face="Times New Roman" size="4">ODBC</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Специализированные
+функции хорошо подходят для работы с одним
+конкретным типом СУБД. Но что делать, если
+вам приходится подключаться к MySQL, Microsoft SQL
+Server и IBM DB2, притом в одном приложении?
+Аналогичная проблема возникает при
+разработке приложений, которые не должны
+зависеть от СУБД; такие приложения работают
+«над» существующей инфраструктурой
+клиентской базы данных. ODBC (сокращение от «Open
+Database Connectivity», то есть «открытая архитектура
+баз данных») представляет собой интерфейс
+прикладных программ (API), позволяющий
+использовать общий набор абстрактных
+функций для работы с разными типами баз
+данных. Преимущества подобного подхода
+очевидны — вам не придется многократно
+переписывать один и тот же фрагмент кода
+только для того, чтобы выполнять одинаковые
+операции с разнотипными базами данных.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Работа с
+сервером баз данных через ODBC возможна лишь
+в том случае, если этот сервер является ODBC-совместимым.
+Другими словами, для него должны
+существовать драйверы ODBC. За
+дополнительной информацией о драйверах ODBC
+обращайтесь к документации СУБД. Возможно,
+вам придется дополнительно загрузить их из
+Интернета и установить на своем компьютере.
+Хотя стандарт ODBC, разработанный компанией
+Microsoft, стал открытым стандартом, он в
+основном используется для работы с СУБД на
+платформе Windows; впрочем, драйверы ODBC также
+существуют и на платформе Linux. Ниже
+приведены ссылки на драйверы для некоторых
+популярных СУБД.</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Драйверы
+    баз данных для Windows 95/98/NT: <a href="http://www.microsoft.com/data/odbc">http://www.microsoft.com/data/odbc</a></font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Automation
+    Technologies: <a href="http://www.odbcsdk.com">http://www.odbcsdk.com</a></font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Easysoft: <a href="http://www.easysoft.com/products/oob/main.phtml">http://www.easysoft.com/products/oob/main.phtml</a></font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Драйверы
+    ODBC для MySQL (MyODBC): <a href="http://www.mysql.com">http://www.mysql.com</a></font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">OpenLinkSoftware: <a href="http://www.openlinksw.com">http://www.openlinksw.com</a></font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Драйверы ODBC
+различаются по целям, платформе и
+назначению. За информацией о различных
+аспектах работы с этими драйверами
+обращайтесь к документации по конкретным
+пакетам. Впрочем, невзирая на все различия,
+использование этих драйверов в РНР
+обходится без проблем.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Когда вы
+определите, какой комплект драйверов ODBC
+лучше подходит для ваших целей, загрузите
+его и выполните все инструкции по установке
+и настройке. После этого можно переходить к
+следующему разделу — «Поддержка ODBC в РНР».</font></p>
+<p><A NAME="k"></A>
+<font color="#000000" face="Times New Roman" size="4">Поддержка ODBC
+в РНР</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функции
+ODBC в РНР, обычно называемые </font><i><font COLOR="#000000">общими
+функциями ODBC, </font></i><font COLOR="#000000">не только
+обеспечивают типовую поддержку ODBC, но и
+позволяют работать с некоторыми СУБД,
+обладающими собственным API, через
+стандартный ODBC API. К числу последних
+относятся следующие СУБД:</font></font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Adabas D;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">IODBC;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">IBM DB2;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Solid;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Sybase SQL Anywhere.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Обратите
+внимание: при работе с перечисленными СУБД
+стандартный механизм ODBC на самом деле не
+используется. Просто поддерживаемые в РНР
+общие функции ODBC применяются для
+взаимодействия с базами данных. Это удобно,
+поскольку при переходе на другую ODBC-совместимую
+СУБД (или СУБД из приведенного выше списка)
+все ваши сценарии будут нормально работать.</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="prim.gif" align=left width="36" height="35">Поддержка
+ODBC встроена в комплект поставки РНР,
+поэтому вам за редкими исключе-ниями
+практически не придется заниматься
+специальной настройкой.</font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В настоящее
+время существует около 40 общих функций ODBC.
+Впрочем, для выборки информации из ODBC-совместимой
+базы данных вполне достаточно нескольких
+функций, описанных ниже. Полный список
+общих функций ODBC в РНР приведен в
+документации (http://www.php.net/manual).</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">odbc_connect( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Перед тем
+как обращаться к ODBC-совместимой базе данных
+с запросами, необходимо сначала установить
+с ней связь. Соединение создается функцией
+ocbc_connect( ). Синтаксис функции odbc_connect( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font><font size="3" face="Courier New"><font COLOR="#000000">odbc_connect
+(string источник_данных,
+string имя_пользователя, string пароль [, int тип_курсора])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Параметр
+источник_данных определяет ODBC-совместимую
+базу данных, с которой вы пытаетесь
+установить связь. В параметрах имя_пользователя
+и пароль, как нетрудно догадаться,
+передаются имя пользователя и пароль,
+необходимые для подключения к источнику
+данных. Необязательный параметр тип_курсора
+предназначе'н для устранения проблем,
+возникающих при работе с некоторыми
+драйверами ODBC. Он может принимать одно из
+четырех возможных значений:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">SQL_CUR_USE_IF_NEEDED;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">SQL_CURSOR_USE_ODBC;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">SQL_CUR_USE_DRIVER;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">SQL CUR DEFAULT.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Возможно,
+вам не придется использовать этот параметр,
+но все же о нем следует помнить на случай,
+если ваш пакет ODBC не справится с обработкой
+того или иного запроса.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Использовать
+odbc_connect( ) в программе несложно. Пример:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">obdc_connect(&quot;myAccessDB&quot;,
+&quot;user&quot;, &quot;secret&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die( &quot;Could not
+connect to ODBC database&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="sovet.gif" align=left width="36" height="35">Функция
+используется для открытия
+восстанавливаемых (persistent) соединений с
+базами данных. Она экономит системные
+ресурсы, поскольку odbc_pconnect( ) проверяет, не
+было ли данное соединение открыто ранее, и
+если было, использует предыдущее
+соединение.</font></p>
+</i><b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">odbc_close( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">После
+завершения работы с ODBC-совместимой базой
+данных соединение необходимо закрыть,
+чтобы освободить все ресурсы, используемые
+открытым соединением. Соединение
+закрывается функцией odbc_close( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">void odbc_close ([int
+</font></font><font size="3" face="Courier New"><font COLOR="#000000">идентификатор_соединения])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В параметре
+идентификатор_соединения передается
+идентификатор открытого соединения.
+Рассмотрим небольшой пример:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">obdc_connect(&quot;myAccessDB&quot;,
+&quot;user&quot;, &quot;secret&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Could not
+connect to ODBC database&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;Currently connected to ODBC
+database!&quot;; odbc_close($connect);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">odbc_prepare( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Перед
+непосредственной обработкой запрос
+необходимо «подготовить». Задача решается
+функцией odbc_prepare( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font><font COLOR="#000000" size="3" face="Times New Roman">odbc_prepare
+(int </font><font size="3" face="Courier New"><font COLOR="#000000">идентификатор_соединения
+, string запрос)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В параметре
+идентификатор_соединения передается
+идентификатор соединения, возвращаемый
+функцией odbc_connect( ). В параметре запрос
+передается текст запроса, который должен
+быть выполнен сервером. Если запрос не
+может быть выполнен, функция возвращает FALSE;
+в противном случае возвращается
+идентификатор результата, в дальнейшем
+используемый при вызове функции odbc_execute( ) (см.
+ниже).</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">odbc_execute( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Запрос,
+подготовленный функцией odbc_prepare( ),
+выполняется функцией</font> <font COLOR="#000000" size="3" face="Times New Roman">odbc_execute( ).
+Синтаксис функции odbc_execute( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font><font size="3" face="Times New Roman"><font COLOR="#000000">odbc_execute
+(int идентификатор
+результата [, array параметры])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В параметре
+идентификатор_результата передается
+идентификатор результата, возвращаемый при
+успешном вызове odbc_prepare( ). Необязательный
+параметр</font> <font COLOR="#000000" size="3" face="Times New Roman">передается
+лишь в том случае, если при вызове функции
+передаются дополнительные данные.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Рассмотрим
+следующий пример:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$connect =
+@obdc_connect(&quot;myAccessDB&quot;, &quot;user&quot;, &quot;secret&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Could not
+connect to ODBC database&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;UPDATE customers SET cust_id = \&quot;Milano,
+Inc.\&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">WHERE cust_id \&quot;2000cu\&quot;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$result = odbc_prepare($connect,
+$query) or die(&quot;Couldn't prepare query!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$result = odbc_execute($result)
+or die(&quot;Couldn't execute query!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">odbc_close($connect);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В
+приведенном примере продемонстрирована
+транзакция ODBC, при которой данные запроса
+не отображаются в браузере (как это обычно
+делается при использовании команды SELECT).
+Транзакция ODBC с использованием запроса QUERY
+описана ниже, в разделе «odbc_result_all( )».</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">odbc_exec( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+odbc_exec( ) объединяет odbc_prepare( ) и odbc_execute( ).
+Синтаксис функции odbc_exec( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font><font COLOR="#000000" size="3" face="Times New Roman">odbc_exec
+(int </font><font size="3" face="Courier New"><font COLOR="#000000">идентификатор_соединения
+, string запрос)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В параметре
+идентификатор_соединения передается
+идентификатор соединения, возвращаемый
+функцией odbc_connect( ). В параметре запрос
+передается текст запроса, который
+должен быть выполнен сервером. Если запрос
+не может быть выполнен, функция
+возвращает FALSE; в противном случае
+возвращается идентификатор</font> <font COLOR="#000000" size="3" face="Times New Roman">результата,
+используемый при последующих вызовах
+функций:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">obdc_connect(&quot;myAccessDB&quot;,
+&quot;user&quot;, &quot;secret&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Could not
+connect to ODBC database&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;SELECT * FROM customers&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$result = odbc_exec($connect,
+$query) or die(&quot;Couldn't execute query!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">odbc_close($connect) ;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В этом
+примере функция odbc_exec( ) пытается выполнить
+запрос, текст которого содержится в
+переменной $query. При успешном выполнении
+переменной $result присваивается
+идентификатор результата; в случае неудачи
+ей присваивается значение FALSE и выводится
+сообщение, передаваемое при вызове die( ).</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">odbc_result_all( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Очень
+удобная функция odbc_result_all( ) форматирует и
+отображает все записи для идентификатора
+результата, полученного при вызове odbc_exec( )
+или odbc_execute( ). Синтаксис функции odbc_result_all( ):</font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int </font></font><font size="3" face="Times New Roman"><font COLOR="#000000">odbc_result_all
+(int идентификатор_результата [, string формат_таблицы])</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В параметре
+идентификатор_результата передается
+идентификатор результата, возвращаемый при
+успешном вызове odbc_exec( ) или odbc_execute( ). В
+необязательном параметре формат_таблицы
+передаются характеристики таблицы HTML.
+Рассмотрим следующий пример:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">obdc_connect(&quot;myAccessDB&quot;,
+&quot;user&quot;, &quot;secret&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Could not
+connect to ODBC database&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;SELECT * FROM customers&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$result = odbc_exec($connect,
+$query) or die(&quot;Couldn't execute query!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">odbc_result_all($result,
+&quot;BGCOLOR='#c0c0c0' border='1' &quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">odbc_close($connect);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В результате
+выполнения этого примера содержимое
+таблицы customers будет выведено в таблице на
+светло-сером фоне с рамкой толщиной 1.
+Внешний вид таблицы для данных, приведенных
+на рис. 11.1, изображен на рис. 11.2.</font></p>
+<p><img border="0" src="11.2.jpg" width="214" height="109"></p>
+<b>
+<p><i><font size="3" face="Times New Roman"><font COLOR="#000000">Рис. 11.2. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Данные
+ODBC в браузере</font></font></i></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">odbc_free_result ( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Хороший
+стиль программирования требует
+освобождения всех ресурсов, связанных с
+завершенными операциями. При работе с
+запросами ODBC эта задача решается функцией
+odbc_free_result( ). Синтаксис функции odbc_free_result( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">int odbc_free_result
+(int </font></font><font size="3" face="Courier New"><font COLOR="#000000">идентификатор_результата)</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В параметре
+функции передается идентификатор
+результата, который больше не будет
+использоваться в программе. Следует
+помнить, что все ресурсы памяти
+автоматически освобождаются по завершении
+сценария; таким образом, вызов функции
+odbc_free_result( ) необходим лишь для очень больших
+запросов, расходующих очень большие объемы
+памяти. Ниже приведен пример,
+демонстрирующий применение odbc_free_result( ).
+Помните, что без этой функции обычно можно
+обойтись, если только вы не собираетесь
+выполнять несколько запросов в одном
+сценарии, поскольку с завершением сценария
+вся память будет автоматически освобождена.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">obdc_connect(&quot;myAccessDB&quot;,
+&quot;user&quot;, &quot;secret&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">or die(&quot;Could not
+connect to ODBC database&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;SELECT * FROM customers&quot;:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$result = odbc_exec($connect,
+$query) or die(&quot;Couldn't execute query!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">odbc_result_all($result,
+&quot;BGCOLOR='#c0c0c0' border='1' &quot;');</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">odbc_free_result($result);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">odbc_close($connect);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">После того
+как функция odbc_result_all( ) завершила
+использование идентификатора результата,
+память возвращается в систему при помощи
+odbc_free_result( ).</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">На этом
+завершается наше знакомство с функциями ODBC
+в РНР, незаменимыми при создании простых
+интерфейсов на базе ODBC для доступа через Web.
+В следующем разделе многие из этих функций
+будут использованы для демонстрации</font> <font COLOR="#000000" size="3" face="Times New Roman">того, как
+легко на базе РНР организуется
+взаимодействие с одной из самых популярных
+СУБД — Microsoft Access.</font></p>
+<p><A NAME="l"></A>
+<font color="#000000" face="Times New Roman" size="4">Microsoft Access и
+РНР</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Популярность
+СУБД Microsoft Access (<a href="http://www.microsoft.com/office/access">http://www.microsoft.com/office/access</a>)
+отчасти объясняется ее удобным графическим
+интерфейсом. Помимо использования Access в
+качестве самостоятельной СУБД, вы можете
+использовать ее графический интерфейс для
+организации работы с другими базами данных
+— например, MySQL или Microsoft SQL Server.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Чтобы
+продемонстрировать поддержку ODBC в РНР, я
+опишу процесс подключения к базам данных
+Microsoft Access на РНР. Делается это на удивление
+просто, но благодаря популярности Microsoft Access
+это станет полезным дополнением в вашем
+творческом арсенале. Я опишу этот процесс
+шаг за шагом:</font></p>
+<ol>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Создайте
+    базу данных Access. Предполагается, что вы
+    уже умеете это делать, а если не умеете, но
+    все равно хотите проследить за
+    выполнением этого примера, —
+    воспользуйтесь услугами программы-мастера.
+    Я создал стандартную базу данных для
+    хранения контактных данных при помощи
+    мастера. Обязательно создайте в таблице
+    несколько записей и запомните имя
+    таблицы, оно нам вскоре понадобится!</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Сохраните
+    базу данных на своем компьютере.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">На
+    следующем шаге мы организуем доступ к
+    базе Access средствами ODBC. Выполните команду
+    Пуск &gt; Настройка &gt; Панельуправления (Start
+    <i>&gt; </i>Settings <i>&gt; </i>Control Panel). Найдите на
+    панели управления значок Источники
+    данных ODBC (32) (ODBC Data Sources (32 bit)). При помощи
+    этого значка запускается Администратор
+    ODBC, предназначенный для настройки
+    различных драйверов и источников данных
+    в вашей системе. Запустите программу,
+    дважды щелкнув на этом значке. Окно
+    Администратора по умолчанию открывается
+    на вкладке Пользовательский DSN (User DSN). На
+    этой вкладке перечисляются источники
+    данных-, которые относятся к конкретному
+    пользователю и могут использоваться
+    только на этом компьютере. В данном
+    примере будет использоваться именно
+    такой источник данных.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Нажмите
+    кнопку Добавить... (Add...) в правой части
+    окна. Открывается новое окно для выбора
+    драйвера, предназначенного для работы с
+    новым источником. Выберите строку Microsoft
+    Access Driver (*.mdb) и нажмите кнопку Finish (Готово).</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">На экране
+    появляется новое окно Установка драйвера
+    ODBC для Microsoft Access (ODBC Microsoft Access Setup). Найдите
+    в форме текстовое поле Имя источника
+    данных (Data Source Name) и введите в нем имя
+    созданной вами базы данных Access. При
+    желании можете ввести описание в
+    текстовом поле, расположенном
+    непосредственно под полем Имя источника
+    данных.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Нажмите
+    кнопку Выбрать... (Select...) — появляется окно
+    в стиле Проводника Windows. В нем вам
+    предлагается найти базу данных, доступ к
+    которой будет осуществляться средствами
+    ODBC.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Найдите в
+    дереве каталогов свою базу данных и
+    дважды щелкните на ней. Вы снова
+    возвращаетесь к окну Установка драйвера
+    ODBC для Microsoft Access. Путь к выбранной базе
+    данных отображается над кнопкой Выбрать....
+    Нажмите кнопку ОК.</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">Готово!
+    Теперь вы можете работать с базой данных
+    Access средствами ODBC.</font></li>
+</ol>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Все, что вам
+остается сделать — создать сценарий, в
+котором вы будете работать с базой данных
+через ODBC. В приведенном ниже сценарии общие
+функции ODBC (см. выше) будут использоваться
+для вывода всей информации из таблицы
+контактов, созданной при помощи мастера Access.
+Однако перед рассмотрением сценария
+желательно знать, как таблица Contacts выглядит
+в Access (рис. 11.3).</font></p>
+<p><img border="0" src="11.3.jpg" width="515" height="124"></p>
+<b>
+<p><i><font size="3" face="Times New Roman"><font COLOR="#000000">Рис. 11.3. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Таблица
+Contacts в MS Access</font></font></i></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Теперь вы
+знаете, какая информация будет извлекаться
+из базы данных, и мы можем перейти к
+сценарию. Если вы забыли, что делает та или
+иная функция, обращайтесь к описанию в
+начале этой главы. Результаты работы
+листинга 11.7 представлены на рис. 11.4.</font></p>
+<b>
+<p><i><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+11.7. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Применение
+функций ODBC для работы с MS Access</font></font></i></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">&lt;?php</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">//
+Подключиться к источнику данных ODBC 'ContactDB' ;connect
+= odbc_connect(&quot;ContactDB&quot;, &quot;&quot;,&quot;&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">or die(&quot;Couldn't
+connect to datasource.&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">// Создать
+текст запроса</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">$query = &quot;SELECT
+First_Name, Last_Name, Cell_Phone, Email FROM Contacts&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">//
+Подготовить запрос</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">$result = odbc_prepare($connect,$query);</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">// Выполнить
+запрос и вывести результаты</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">odbc_execute($result);</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">odbc_result_all($result,
+&quot;BGCOLOR='#c0c0c0' border=1&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">// Обработка
+результатов закончена, освободить память
+odbc_free_result($result);</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">// Закрыть
+соединение odbc_close($connect);</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Не правда ли,
+все просто? А самое замечательное — то, что
+этот сценарий полностью совместим с любой
+другой СУБД с поддержкой ODBC. Для тренировки
+попробуйте повторить все описанные
+действия для другой СУБД, запустите
+сценарий — и вы получите те же результаты,
+которые изображены на рис. 11.4.</font></p>
+<p><img border="0" src="11.4.jpg" width="353" height="88"></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Рис. 11.4. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Содержимое
+таблицы Contacts в web-браузере</font></font></p>
+</i><b>
+<p><A NAME="m"></A>
+<font color="#000000" face="Times New Roman" size="4">Проект:
+каталог ссылок</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Самый
+простой способ наполнить ваш сайт реальным
+содержанием — дать пользователю
+возможность сделать это за вас. Конечно, для
+ввода данных удобнее всего воспользоваться
+формой HTML.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Введенную
+пользователем информацию необходимо
+обработать и сохранить. В проекте
+предыдущей главы было показано, как легко
+эта задача решается при помощи РНР и
+текстового файла. Бесспорно, текстовые
+файлы хорошо подходят для хранения
+относительно маленьких и простых
+фрагментов данных, но в полноценных web-приложениях
+информация обычно хранится в базах данных.
+В настоящем примере база данных MySQL
+используется для хранения информации о web-сайтах.
+Для упрощения навигации сайты разделены на
+несколько категорий. Пользователь может
+ввести информацию о сайте в форме HTML и
+отнести его к одной из стандартных
+категорий, определенных администратором
+сайта. Кроме того, пользователь может
+загрузить индексную страницу и просмотреть
+список всех сайтов той или иной категории,
+щелкнув на ее названии.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Прежде всего
+вы должны решить, какие сведения о сайтах
+будут храниться в базе данных SQL. Для
+простоты я ограничусь следующим набором
+атрибутов: название, URL, категория, дата
+включения и описание. Таким образом,
+определение таблицы в MySQL выглядит примерно
+так:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">mysql&gt;create table
+bookmarks ( category INT, site_name char(35), url char(50),</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">date_added date,
+description char(254) );</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">В
+определении таблицы bookmarks имеется пара
+моментов, заслуживающих внимания. Во-первых,
+информация о категории сайта почему-то
+хранится в виде целого числа </font><i><font COLOR="#000000">—
+</font></i><font COLOR="#000000">но разве не правильнее
+было бы сделать названия категорий более
+содержательными и понятными для
+пользователя? Не беспокойтесь, в ини-циализационном
+файле будет создан массив, связывающий
+целочисленные индексы с названиями
+категорий. В будущем администратор может
+изменять и даже удалять отдельные
+категории. Хранение информации о
+категориях заметно упрощает эту задачу.
+Кроме того, целочисленное поле
+обеспечивает экономию места на диске,
+поскольку название категории многократно
+сохраняется в таблице. Другое
+обстоятельство, относящееся к структуре
+таблицы, — ограничение длины описания 254
+символами. В зависимости от этого объема
+описаний вместо типа char( )</font></font> <font COLOR="#000000" size="3" face="Times New Roman">можно
+воспользоваться типом medium или text. За
+дополнительной информацией о типах полей
+обращайтесь к документации MySQL.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Следующим
+шагом в работе над этим приложением будет
+создание инициализа-ционного файла. Помимо
+глобальных переменных, в инициализационном
+файле определяются две функции: add_bookmark( ) и
+view_bookmark( ). Функция add_bookmark( ) получает
+пользовательский ввод из формы и включает
+его в базу. Функция view_bookmark( ) получает
+индекс категории, читает из базы данных все
+записи, относящиеся к указанной категории,
+и отображает их в браузере. Инициализацион-ный
+файл приложения init.inc с комментариями
+приведен в листинге 11.8.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+11.8. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Инициализационный
+файл каталога ссылок (init.inc)</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Файл: init.inc</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+глобальные переменные и функции.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+используемые в проекте</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Стандартный заголовок страницы $title = &quot;My
+Bookmark Repository&quot;:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Цвет фона
+$bg_color = &quot;white&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Дата</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$post_date = date(&quot;Ymd&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Категории
+$categories = array(</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&quot;computers&quot;,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&quot;entertainment&quot;,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&quot;dining&quot;,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&quot;lifestyle&quot;,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&quot;government&quot;,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&quot;travel&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Данные
+сервера MySQL $host = &quot;localhost&quot;; $user = &quot;root&quot;;
+$pswd = &quot;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Имя базы
+данных $database = &quot;book&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Имя
+таблицы $bookmark_table = &quot;bookmarks&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Цвет ячеек
+таблицы $cell_color = &quot;#c0c0c0&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Установить
+соединение с сервером MySQL</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_pconnect($host,
+$user, $pswd) or die(&quot;Couldn't connect to MySQL server!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Выбрать
+базу данных</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">@mysql_select_db($database)
+or die(&quot;Couldn't select Sdatabase database!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Функция:
+add_bookmark( )</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+включение новой ссылки в таблицу bookmark.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function add_bookmark (Scategory,
+Ssitejname. $url, $description) {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">GLOBAL $bookmark_table,
+$post_date;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;INSERT
+INTO $bookmark_table</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">VALUES(\&quot;$category\&quot;,
+\&quot;$site_name\&quot;, \&quot;$url\&quot;, \&quot;$post_date\&quot;, \&quot;$description\&quot;)&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$result = @mysql_query($query)
+or die(&quot;Couldn't insert bookmark information!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">} // add_bookmark
+&lt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Функция:
+view_bookmark( )</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Назначение:
+выборка из таблицы bookmark всех ссылок,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+относящихся к категории $category.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function view_bookmark ($category) {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">GLOBAL $bookmark_table,
+$cell_color, $categories;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$query = &quot;SELECT
+site_name, url, DATE_FORMAT(date_added,'%m-%d-%Y') AS date_added, description</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">FROM $bookmark table
+WHERE category = $category ORDER BY datejdded DESC&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$result = @mysql_query($query);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;div
+align=\&quot;center\&quot;&gt;&lt;table cellpadding=\&quot;2\&quot; cellspacing=\&quot;1\&quot;
+border = \&quot;0\&quot; width = \&quot;600\&quot;&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;tr&gt;&lt;td
+bgcolor-\&quot;$cell_color\&quot;&gt;&lt;b&gt;Category: $categories[$category]&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (mysql_numrows($result)
+&gt; 0) ;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while ($row =
+mysql_fetch_array($result)) ;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Posted: &quot;.$row[&quot;date
+added&quot;].&quot;&lt;br&gt;&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;tr&gt;&lt;td&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;b&gt;&quot;.$row[&quot;site_name&quot;].&quot;&lt;/b&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;/td&gt;&lt;/tr&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;tr&gt;&lt;td&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;a href
+= \&quot;http://&quot;.$row[&quot;url&quot;].&quot;\&quot;&gt;http://&quot;.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$row[&quot;url&quot;].&quot;&lt;/a&gt;&lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;/td&gt;&lt;/tr&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;tr&gt;&lt;td
+valign=\&quot;top\&quot;&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print $row[&quot;description&quot;].&quot;&lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;/td&gt;&lt;/tr&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;tr&gt;&lt;td&gt;&lt;hr&gt;&lt;/td&gt;&lt;/tr&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;tr&gt;&lt;td&gt;There
+are currently no bookmarks falling under this category. Why don't you &lt;a href=\&quot;add_bookmark.php\&quot;&gt;add
+one&lt;/a&gt;?&lt;/td&gt;&lt;/tr&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;/table&gt;&lt;a
+href=\&quot;Listing11-11.php\&quot;&gt;Return to index&lt;/a&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print
+&quot;&lt;a href=\&quot;add_bookmark.php\&quot;&gt;Add a bookmark&lt;/a&gt;&lt;/div&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// view bookmark</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Следующая
+страница, add_bookmark.php (листинг 11.9),
+предназначена для ввода информации о новой
+ссылке, включаемой в базу данных. Для
+обработки пользовательских данных
+вызывается функция add_bookmark( ).</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+11.9. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Программа
+add_bookmark.php</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font color="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">INCLUDE(&quot;init.inc&quot;);</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;&lt;?=$title:?&gt;&lt;/title&gt;
+&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=&quot;#ffffff&quot;
+text=&quot;#000000&quot; link=&quot;#808040&quot; vlink=&quot;#808040&quot;
+alink=&quot;#808040&quot;&gt; if (! $seenform) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;form action=&quot;add_bookmark.php&quot;
+method=&quot;post&quot;&gt; &lt;1nput type=&quot;hidden&quot; name=&quot;seenform&quot;
+value=&quot;y&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Category:&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;select name=&quot;category&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;option value=&quot;&quot;&gt;Choose
+a category:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while (list($key,
+$value) = each($categories)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;option
+value=\&quot;$key\&quot;&gt;$value&quot;; endwhile:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/select&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Site Name:&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=&quot;text&quot;
+name=&quot;site_name&quot; size=&quot;15&quot; maxlength=&quot;30&quot; value=&quot;&quot;&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">URL: (do &lt;i&gt;not&lt;/1&gt;
+include &quot;http://&quot;!)&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=&quot;text&quot;
+name=&quot;url&quot; size=&quot;35&quot; maxlength=&quot;50&quot; value=&quot;&quot;&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Description:&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;textarea name=&quot;description&quot;
+rows=&quot;4&quot; cols=&quot;30&quot;&gt;&lt;/textarea&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;input type=&quot;submit&quot;
+value=&quot;submit&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/form&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">add_bookmark($category,
+$site_name, $url, $description);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;h4&gt;Your
+bookmark has been added to the repository.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href=\&quot;Listing11-11.php\&quot;&gt;Click
+here&lt;/a&gt; to return to the index.&lt;/h4&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">При исходной
+загрузке страницы в браузере отображается
+форма (рис. 11.5).</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">После
+сохранения ссылки в базе программа выдает
+соответствующее сообщение и создает ссылку
+для перехода к домашней странице
+приложения index.php (листинг 11.11).</font></p>
+<p><img border="0" src="11.5.jpg" width="351" height="231"></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Рис. 11.5. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Форма,
+отображаемая страницей add_bookmark.php</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Следующая
+страница, view_bookmark.php, просто вызывает
+функцию view_bookmark( ). Код этой страницы
+приведен в листинге 11.10.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+11.10. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Программа
+view_bookmark.php</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">INCLUDE(&quot;Listing11-8.php&quot;);
+?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;&lt;?=$title:?&gt;&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=&quot;&lt;?=$bg_color;?&gt;&quot;
+text=&quot;#000000&quot; link=&quot;#808040&quot; vlink=&quot;#808040&quot;
+alink=&quot;#808040&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">view_bookmark($category)
+:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если занести
+в категорию dining информацию о нескольких
+сайтах, страница view_bookmark.php будет выглядеть
+примерно так, как показано на рис. 11.6.</font></p>
+<p><img border="0" src="11.6.jpg" width="463" height="175"></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Рис. 11.6. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Выполнение
+страницы view_bookmark.php для категории dining</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Остается
+лишь создать страницу, на которой
+пользователь выбирает ссылки из списка. Я
+назвал этот файл index.php (листинг 11.11).</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+11.11. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Программа
+index.php</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">INCLUDE(&quot;init.inc&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;titlex?-$title:?&gt;&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=&quot;&lt;?=$bg_color;?&gt;&quot;
+text=&quot;#000000&quot; link=&quot;#808040&quot; vlink=&quot;#808040&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">alink=&quot;#808040&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;h4&gt;Choose
+bookmark category to view:&lt;/h4&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Перебрать
+категории и создать соответствующие ссылки</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while (list($key,
+Svalue) = each(Scategories)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;&lt;a href
+= \&quot;view_bookmark.php?category=$key\&quot;&gt;$value&lt;/a&gt;&lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font color="#000000" size="3" face="Courier New">&lt;p&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;b&gt;&lt;a href=&quot;add_bookmark.php&quot;&gt;Add
+a new bookmark&lt;/a&gt;&lt;/b&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если
+оставить в массиве $categories значения,
+сохраненные в файле init.inc, в результате
+выполнения листинга 11.11 в браузер будет
+отправлен код HTML, приведенный в листинге
+11.12.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+11.12. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Выходные
+данные, сгенерированные при выполнении
+index.php</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;title&gt;&lt;/title&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/head&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;body bgcolor=&quot;white&quot;
+text=&quot;#000000&quot; link=&quot;#808040&quot; vlink=&quot;#808040&quot;
+alink=&quot;#808040&quot;&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;h4&gt;Choose
+bookmark category to view:&lt;/h4&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href = &quot;view_bookmark.php?category=0&quot;&gt;computers&lt;/a&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href = &quot;view_bookmark.php?category=1&quot;&gt;entertainment&lt;/a&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href = &quot;view_bookmark.php?category=2&quot;&gt;dining&lt;/axbr&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href - &quot;view_bookmark.php?category=3&quot;&gt;lifestyle&lt;/a&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href = &quot;view_bookmark.,php?category=4&quot;&gt;government&lt;/a&gt;&lt;br&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;a href = &quot;view_bookmark.php?category=5&quot;&gt;travel&lt;/a&gt;&lt;br&gt;</font></p>
+<p><font color="#000000" size="3" face="Courier New">&lt;p&gt;</font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">&lt;b&gt;&lt;a href=add_bookmark.php&quot;&gt;Add
+a new bookmark&lt;/a&gt;&lt;/b&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/body&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;/html&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если
+щелкнуть на любой ссылке из приведенного
+выше,фрагмента HTML, в браузере загружается
+файл view_bookmark.php, который вызывает функцию
+view_bookmark( ) и передает ей значение переменной
+$category.</font></p>
+<b>
+<p><A NAME="n"></A>
+<font color="#000000" face="Times New Roman" size="4">Итоги</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Эта глава
+получилась довольно большой, причем для
+некоторых читателей она может оказаться
+самой важной во всей книге. Бесспорно,
+работа с базами данных</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">относится к
+числу самых заметных возможностей языка
+РНР, поскольку базы данных заметно
+расширяют функциональные возможности web-сайтов.
+В частности, мы рассмотрели следующие темы:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">общие
+    сведения о SQL;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">стандартную
+    поддержку баз данных в РНР;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">вводную
+    информацию о сервере MySQL;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">стандартные
+    функции РНР для работы с MySQL;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">реализацию
+    простейшей поисковой системы;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">сортировку
+    таблиц;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">общие
+    сведения об ODBC;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">стандартные
+    функции РНР для работы с ODBC;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">взаимодействие
+    с Microsoft Access в РНР;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">хранение
+    пользовательских данных на web-сайте.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Читателю,
+занимающемуся разработкой больших,
+подлинно динамических web-сайтов на РНР,
+предстоит снова и снова возвращаться к теме
+баз данных. Я рекомендую тщательно изучить
+не только документацию РНР, но и другие
+ресурсы, посвященные технологиям баз
+данных. В этой области, как и во многих
+современных технологиях, даже эксперты не
+всегда успевают следить за всеми
+новшествами.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Следующая
+глава посвящена шаблонам — одной из
+нетривиальных тем web-программирования.
+Применение шаблонов при программировании
+на РНР обеспечивает заметную экономию
+времени и усилий при работе над
+крупномасштабными web-сайтами.</font></p>
+</BODY></HTML>

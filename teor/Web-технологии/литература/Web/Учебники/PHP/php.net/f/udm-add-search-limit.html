@@ -1,0 +1,40 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>udm_add_search_limit</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%"><A HREF="ref.mnogo.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="udm-alloc-agent.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.udm-add-search-limit">udm_add_search_limit</A></H1><A NAME="AEN49197"></A>
+<P>(PHP 4 &#62;= 4.0.5)</P><p>udm_add_search_limit - добавляет различные ограничения поиска.<A NAME="AEN49200"></A>
+</p><H2>Описание</H2><p>int <B>udm_add_search_limit</B> (int agent, int var, string val)</p>
+<P><B>udm_add_search_limit()</B> возвращает <TT><B>TRUE</B></TT> при успехе, 
+<TT><B>FALSE</B></TT> при ошибке. Добавляет ограничения поиска.</P><P><TT><I>agent</I></TT> - ссылка на Agent, полученный после вызова 
+<A HREF="udm-alloc-agent.html"><B>udm_alloc_agent()</B></A>.</P><P><TT><I>var</I></TT> - определяет параметр, обозначающий ограничение.</P>
+<P><TT><I>val</I></TT> - определяет значение текущего параметра.</P><P>Возможные значения <TT><I>var</I></TT>:</P>
+<UL><LI><P>UDM_LIMIT_URL - определяет ограничения URL документа для поиска в 
+подразделе БД. Поддерживает шаблоны/wildcards SQL % и _ ,
+где % совпадает с любым количеством символов, даже с нуль символов,
+а _ совпадает точно с одним символом. Например, http://my.domain.__/catalog 
+may stand for http://my.domain.ru/catalog и http://my.domain.ua/catalog.</P></LI>
+<LI><P>UDM_LIMIT_TAG - определяет TAG-ограничения сайта. В indexer-conf вы 
+можете присвоить специфические TAGs различным сайтам и частям сайта. Тэги в 
+mnoGoSearch 3.1.x это строчки, которые могут содержать метасимволы % и _. Метасимволы позволяют искать группы тэгов.
+Например, есть ссылки с тэгами ABCD и ABCE, а поиск ограничен ABC_ - поиск 
+будет выполнен в обоих тэгах.</P></LI><LI><P>UDM_LIMIT_LANG - определяет ограничения языка документа.</P></LI>
+<LI><P>UDM_LIMIT_CAT - определяет ограничения категории документа. Категории похожи на тэги, но вкладываются. Так что вы можете иметь одну категорию 
+внутри другой и так далее. Вы должны использовать два символа для каждого уровня. Используйте 16-ричное число, начиная с 0-F, или число с базой 36, 
+начиная с 0-Z. Таким образом, категория верхнего уровня, наподобие 'Auto', будет 01. Если 
+она имеет подкатегорию 'Ford', то будет 01 (родительская категория) и 'Ford', которому мы назначили 01. Совместив их, мы получим 0101. Если 'Auto'
+имеет другую подкатегорию 'VW', то её id будет 01, поскольку она принадлежит категории 'Auto', и 02, поскольку это следующая категория.
+Таким образом, её id будет 0102. Если VW имеет подкатегорию 'Engine', то её id будет начинаться вновь с 01 и получит 'VW' id 02 и 'Auto' id
+01, что даст 010201. Если вы хотите искать сайты под этой категорией, вы передаёте её cat=010201 в url.</P></LI>
+<LI><P>UDM_LIMIT_DATE - определяет ограничение по дате модификации документа.</P>
+<P>Формат значения параметра: строка с первым символом &#60; или &#62;, затем, без пробелов, дата в формате unixtime, например:</P>
+<P>Udm_Add_Search_Limit($udm,UDM_LIMIT_DATE,"&#60;908012006");</P>
+<P>Если используется символ &gt;, то поиск ограничен документами, имеющими дату модификации больше, чем введённая. Если &#60;, то меньше.</P></LI></UL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ref.mnogo.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="udm-alloc-agent.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Функции mnoGoSearch</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.mnogo.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">udm_alloc_agent</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

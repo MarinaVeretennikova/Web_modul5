@@ -1,0 +1,44 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Работа с Памятью</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="zend.layout.macros.html">Назад</A></TD><th WIDTH="80%">Глава 27. Строение Исходного Кода</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="zend.layout.dir-and-file.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="zend.layout.memory-management">Работа с памятью</a></H1>
+<P>Менеджмент ресурсов это ключевой вопрос, особенно в серверных программах. Одним 
+из самых значимых ресурсов является память, и работа с памятью должна 
+выполняться предельно внимательно. Менеджмент памяти частично абстрагирован в Zend, 
+и вы должны это учитывать по очевидным причинам: при абстрагировании, Zend 
+получает полный контроль над всеми участками памяти. Zend способна определять, используется ли блок,
+автоматически освобождать неиспользуемые блоки и блоки с 
+потерянными ссылками и таким образом предотвращать утечки памяти. Используемые функции перечислены в таблице:<A NAME="AEN85201"></A><TABLE BORDER="1"><TR><th WIDTH="38%">Функция</th><th WIDTH="62%">Описание</th></TR>
+<TR><TD WIDTH="38%"><B>emalloc()</B></TD><TD WIDTH="62%">Заменяет <B>malloc()</B>.</TD></TR>
+<TR><TD WIDTH="38%"><B>efree()</B></TD><TD WIDTH="62%">Заменяет <B>free()</B>.</TD></TR>
+<TR><TD WIDTH="38%"><B>estrdup()</B></TD><TD WIDTH="62%">Заменяет <B>strdup()</B>.</TD></TR>
+<TR><TD WIDTH="38%"><B>estrndup()</B></TD><TD WIDTH="62%">Заменяет <B>strndup()</B>. Быстрее, чем
+<B>estrdup()</B>, и безопасна в двоичном режиме/binary-safe. Это рекомендуемая функция, когда 
+вы знаете длину строки до её дублирования.</TD></TR><TR><TD WIDTH="38%"><B>ecalloc()</B></TD>
+<TD WIDTH="62%">Заменяет <B>calloc()</B>.</TD></TR><TR><TD WIDTH="38%"><B>erealloc()</B></TD>
+<TD WIDTH="62%">Заменяет <B>realloc()</B>.</TD></TR></TABLE>
+<p><B>emalloc()</B>, <B>estrdup()</B>, <B>estrndup()</B>, <B>ecalloc()</B> и <B>erealloc()</B> выделяют
+внутреннюю память; <B>efree()</B> освобождает эти ранее выделенные блоки. Память, обрабатываемая функциями
+<B>e*()</B>, считается локальной относительно текущего процесса и разрушается после 
+окончания работы скрипта, выполняемого этим процессом.</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th>Предупреждение!</th></TR><TR><TD>
+<P>Для выделения резидентной памяти, которая сохраняется после окончания работы 
+текущего скрипта, вы можете использовать <B>malloc()</B> и <B>free()</B>. Это нужно делать очень осторожно и только в сочетании запросом Zend API;
+иначе вы рискуете получить утечки памяти.</P></TD></TR></TABLE><p>Zend также предлагает thread-safe resource manager для улучшения встроенной 
+поддержки многопоточных Web-серверов. При этом требуется, чтобы вы выделяли 
+локальные структуры для всех ваших глобальных переменных, чтобы дать 
+возможность работать конкурирующим потокам.<br>
+Поскольку режим thread-safe Zend ещё не разработан окончательно, мы не можем 
+включить его рассмотрение в эту книгу.</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="zend.layout.macros.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="zend.layout.dir-and-file.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">Макросы</TD><th WIDTH="34%" VALIGN="top"><a href="zend.layout.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Функции работы с файлами и директориями</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

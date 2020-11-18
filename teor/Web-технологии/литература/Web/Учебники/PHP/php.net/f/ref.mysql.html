@@ -1,0 +1,164 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции MySQL</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="msql.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD  WIDTH="10%"  ALIGN="right"><A HREF="mysql-affected-rows.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.mysql"></A>LXIII. Функции MySQL</h1><A NAME="AEN50629"></A><P>Эти функции дают доступ к серверам БД MySQL.
+Информацию о MySQL см. на <A HREF="http://www.mysql.com/" TARGET="_top">http://www.mysql.com/</A></P>
+<P>Документация по MySQL находится на <A HREF="http://www.mysql.com/documentation/" TARGET="_top">http://www.mysql.com/documentation/</A></P>
+<H1><A NAME="mysql.requirements">Требования</A></H1><P>Чтобы иметь возможность работать с этими функциями, вы обязаны скомпилировать РНР с
+поддержкой MySQL.</P><H1><A NAME="mysql.installation">Установка</A></H1><P>С помощью опции конфигурации
+<TT>--with-mysql</TT> вы включаете доступ PHP к БД MySQL. Если вы используете эту опцию без 
+специфицирования пути к MySQL, PHP будет использовать встроенные клиентские 
+библиотеки MySQL. В PHP4 поддержка MySQL всегда включена; Если вы не 
+специфицируете эту опцию конфигурации, используются связанные библиотеки. 
+Пользователи, запускающие другие приложения, которые используют MySQL (например, 
+при запуске PHP 3 и PHP 4 как конкурирующих модулей Аpache, или auth-mysql), всегда должны специфицировать путь к MySQL:
+<TT>--with-mysql=/path/to/mysql</TT>. Это заставит PHP использовать клиентские библиотеки, установленные MySQL, исключая любые конфликты.</P>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>При загрузке этого расширения вместе с расширением recode могут возникать проблемы со стартом и обломом РНР.
+См. расширение <A HREF="ref.recode.html">recode</A>.</P></TD></TR></TABLE><H1><A NAME="mysql.configuration">Установка</A>
+</H1><P>Поведение функций MySQL определяется установками в глобальном
+<a href="../configuration.html#configuration.file">файле конфигурации</a> <TT>php.ini</TT>.<A NAME="AEN50651"></A>
+<h6>Таблица 1. Опции конфигурации MySQL</h6><TABLE BORDER="1"><TR><TH>Имя</TH><TH>По умолчанию</TH>
+<TH>Изменяемая</TH></TR><TBODY><TR><TD>mysql.allow_persistent</TD><TD>"On"</TD><TD>PHP_INI_SYSTEM</TD></TR>
+<TR><TD>mysql.max_persistent</TD><TD>"-1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>mysql.max_links</TD>
+<TD>"-1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>mysql.default_port</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>mysql.default_socket</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>mysql.default_host</TD>
+<TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>mysql.default_user</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>mysql.default_password</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR></TBODY></TABLE>
+<p>Дополнительные детали и определение констант PHP_INI_* см. в
+<A HREF="ini-set.html"><B>ini_set()</B></A>.</p><P>Вот краткое описание директив конфигурации.
+<DL><DT><A NAME="ini.mysql.allow-persistent"><TT><I>mysql.allow_persistent</I></TT>
+<A HREF="../types.boolean.html"><B>boolean</B></A></A></DT><DD>
+<P>Разрешается ли <a href="../persistent-connections.html">
+постоянное соединение</a> с MySQL.</P></DD><DT><A NAME="ini.mysql.max-persistent"><TT><I>mysql.max_persistent</I>
+</TT><A HREF="../types.integer.html"><B>integer</B></A></A></DT><DD>
+<P>Максимальное количество постоянных MySQL-соединений на процесс.</P></DD>
+<DT><A NAME="ini.mysql.max-links"><TT><I>mysql.max_links</I></TT>
+<A HREF="../types.integer.html"><B>integer</B></A></A></DT><DD>
+<P>Максимальное количество постоянных MySQL-соединений на процесс, включая постоянные соединения.</P></DD>
+<DT><A NAME="ini.mysql.default-port"><TT><I>mysql.default_port</I></TT>
+<A HREF="../types.string.html"><B>string</B></A></A></DT><DD>
+<P>Номер порта по умолчанию TCP для использования при соединении с сервером БД, если иной порт не специфицирован. Если порт по умолчанию не специфицирован, значение получается из переменной окружения <TT>MYSQL_TCP_PORT</TT>,
+вхождения <TT>mysql-tcp</TT> в <TT>/etc/services</TT> или константы времени компиляции
+<TT>MYSQL_PORT</TT>, в указанном порядке. Win32 используют только константу <TT>MYSQL_PORT</TT>.</P></DD>
+<DT><A NAME="ini.mysql.default-socket"><TT><I>mysql.default_socket</I></TT>
+<A HREF="../types.string.html"><B>string</B></A></A></DT><DD>
+<P>Имя сокета по умолчанию для использования при соединении с локальным 
+сервером БД, если иное имя сокета не специфицировано.</P></DD>
+<DT><A NAME="ini.mysql.default-host"><TT><I>mysql.default_host</I></TT>
+<A HREF="../types.string.html"><B>string</B></A></A></DT><DD><P>Хост сервера по умолчанию для использования при соединении с локальным 
+сервером БД, если другой хост не специфицирован. Не примеряется в режиме
+<A HREF="../configuration.html#ini.safe-mode">safe mode</A>.</P></DD>
+<DT><A NAME="ini.mysql.default-user"><TT><I>mysql.default_user</I></TT>
+<A HREF="../types.string.html"><B>string</B></A></A></DT><DD>
+<P>Имя пользователя по умолчанию для использования при соединении с 
+сервером БД, если иное имя не специфицировано. Не применяется в режиме
+<A HREF="../configuration.html#ini.safe-mode">safe mode</A>.</P></DD>
+<DT><A NAME="ini.mysql.default-password"><TT><I>mysql.default_password</I></TT>
+<A HREF="../types.string.html"><B>string</B></A></A></DT><DD>
+<P>Пароль по умолчанию для использования при соединении с сервером БД, 
+если иной пароль не специфицирован. Не применяется в режиме
+<A HREF="../configuration.html#ini.safe-mode">safe mode</A>.</P></DD></DL>
+<H1><A NAME="mysql.resources">Типы ресурсов</A></H1><P>Есть два типа ресурсов, используемых в MySQL-модуле. Первый это 
+идентификатор ссылки для соединения с БД, второй - ресурс, содержащий результат выполнения запроса.</P>
+<H1><A NAME="mysql.constants">Предопределённые константы</A></H1><P>Функция
+<A HREF="mysql-fetch-array.html"><B>mysql_fetch_array()</B></A> использует константу для различных типов результирующих массивов. Определены 
+следующие константы:<A NAME="AEN50759"></A><h6>Таблица 2. Константы извлечения MySQL</h6>
+<TABLE BORDER="1"><TR><TH>константа</TH><TH>значение</TH></TR><TBODY><TR><TD>MYSQL_ASSOC</TD>
+<TD>Столбцы возвращаются в массиве, содержащем имя поля как индекс массива.</TD></TR>
+<TR><TD>MYSQL_BOTH</TD><TD>Столбцы возвращаются в массиве, содержащем числовой индекс и имя поля как индекс массива.</TD></TR>
+<TR><TD>MYSQL_NUM</TD><TD>Столбцы возвращаются в массиве, содержащем числовой индекс полей. 
+Этот индекс начинается с 0, первого поля результата.</TD></TR><TR><TD>MYSQL_STORE_RESULT</TD>
+<TD>Специфицирует, что MySQL-результат должен буферизоваться.</TD></TR>
+<TR><TD>MYSQL_USE_RESULT</TD><TD>Специфицирует, что MySQL-результат не должен буферизоваться.</TD></TR></TBODY></TABLE>
+<H1><A NAME="mysql.examples">Примеры</A></H1><P>Данный пример показывает, как соединиться с БД, выполнить запрос/query, 
+напечатать результирующие ряды и отсоединиться от БД MySQL.<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN50785"></A><h5>Пример 1. Пример работы расширения MySQL</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+    /* Соединение, выбор БД */
+    $link = mysql_connect("mysql_host", "mysql_user", "mysql_password")
+        or die("Could not connect");
+    print "Connected successfully";
+    mysql_select_db("my_database") or die("Could not select database");
+
+    /* Выполнение SQL query */
+    $query = "SELECT * FROM my_table";
+    $result = mysql_query($query) or die("Query failed");
+
+    /* Печать результатов в HTML */
+    print "&#60;table&#62;\n";
+    while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
+        print "\t&#60;tr&#62;\n";
+        foreach ($line as $col_value) {
+  print "\t\t&#60;td&#62;$col_value&#60;/td&#62;\n";
+        }
+        print "\t&#60;/tr&#62;\n";
+    }
+    print "&#60;/table&#62;\n";
+
+    /* Освобождение resultset */
+    mysql_free_result($result);
+
+    /* Закрытие соединения */
+    mysql_close($link);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><DL><DT><B>Содержание</B></DT>
+<DT><A HREF="mysql-affected-rows.html">mysql_affected_rows</A> - получает количество рядов, задействованных в предыдущей операции MySQL</DT>
+<DT><A HREF="mysql-change-user.html">mysql_change_user</A> - изменяет вошедшего/logged пользователя в активном соединении</DT>
+<DT><A HREF="mysql-character-set-name.html">mysql_character_set_name</A> - возвращает имя набора символов/character set</DT>
+<DT><A HREF="mysql-close.html">mysql_close</A> - закрывает MySQL-соединение</DT>
+<DT><A HREF="mysql-connect.html">mysql_connect</A> - открывает соединение с MySQL-сервером</DT>
+<DT><A HREF="mysql-create-db.html">mysql_create_db</A> - создаёт БД MySQL</DT>
+<DT><A HREF="mysql-data-seek.html">mysql_data_seek</A> - перемещает внутренний результирующий указатель</DT>
+<DT><A HREF="mysql-db-name.html">mysql_db_name</A> - получает результирующие данные</DT>
+<DT><A HREF="mysql-db-query.html">mysql_db_query</A> - отправляет MySQL query</DT>
+<DT><A HREF="mysql-drop-db.html">mysql_drop_db</A> - удаляет БД MySQL</DT>
+<DT><A HREF="mysql-errno.html">mysql_errno</A> - возвращает числовое значение сообщения об ошибке из предыдущей MySQL-операции</DT>
+<DT><A HREF="mysql-error.html">mysql_error</A> - возвращает текст сообщения об ошибке из предыдущей MySQL-операции</DT>
+<DT><A HREF="mysql-escape-string.html">mysql_escape_string</A> - мнемонизирует/Escapes строку для использования в mysql_query</DT>
+<DT><A HREF="mysql-fetch-array.html">mysql_fetch_array</A> - извлекает результирующий ряд как ассоциативный массив, числовой массив или оба</DT>
+<DT><A HREF="mysql-fetch-assoc.html">mysql_fetch_assoc</A> - извлекает результирующий ряд как ассоциативный массив</DT>
+<DT><A HREF="mysql-fetch-field.html">mysql_fetch_field</A> - получает информацию столбца из результата и возвращает как объект</DT>
+<DT><A HREF="mysql-fetch-lengths.html">mysql_fetch_lengths</A> - получает длину каждого вывода в результате</DT>
+<DT><A HREF="mysql-fetch-object.html">mysql_fetch_object</A> - извлекает результирующий ряд как объект</DT>
+<DT><A HREF="mysql-fetch-row.html">mysql_fetch_row</A> - получает результирующий ряд в перечислимом массиве</DT>
+<DT><A HREF="mysql-field-flags.html">mysql_field_flags</A> - получает флаги, ассоциированные со специфицированным полем в результате</DT>
+<DT><A HREF="mysql-field-len.html">mysql_field_len</A> - возвращает длину специфицированного поля в результате</DT>
+<DT><A HREF="mysql-field-name.html">mysql_field_name</A> - получает имя специфицированного поля в результате</DT>
+<DT><A HREF="mysql-field-seek.html">mysql_field_seek</A> - устанавливает результирующий указатель на смещение специфицированного поля</DT>
+<DT><A HREF="mysql-field-table.html">mysql_field_table</A> - получает имя таблицы, в которой находится специфицированное поле</DT>
+<DT><A HREF="mysql-field-type.html">mysql_field_type</A> - получает тип специфицированного поля в результате</DT>
+<DT><A HREF="mysql-free-result.html">mysql_free_result</A> - освобождает результирующую память</DT>
+<DT><A HREF="mysql-get-client-info.html">mysql_get_client_info</A> - получает информацию о клиенте MySQL</DT>
+<DT><A HREF="mysql-get-host-info.html">mysql_get_host_info</A> - получает информацию о хосте MySQL</DT>
+<DT><A HREF="mysql-get-proto-info.html">mysql_get_proto_info</A> - получает информацию о MySQL-протоколе</DT>
+<DT><A HREF="mysql-get-server-info.html">mysql_get_server_info</A> - получает информацию о MySQL-сервере</DT>
+<DT><A HREF="mysql-info.html">mysql_info</A> - получает информацию о самом последнем запросе</DT>
+<DT><A HREF="mysql-insert-id.html">mysql_insert_id</A> - получает id, сгенерированный предыдущей операцией INSERT</DT>
+<DT><A HREF="mysql-list-dbs.html">mysql_list_dbs</A> - список БД, доступных на MySQL-сервере</DT>
+<DT><A HREF="mysql-list-fields.html">mysql_list_fields</A> - список результирующих полей MySQL</DT>
+<DT><A HREF="mysql-list-processes.html">mysql_list_processes</A> - список процессов MySQL</DT>
+<DT><A HREF="mysql-list-tables.html">mysql_list_tables</A> - список таблиц в БД MySQL</DT>
+<DT><A HREF="mysql-num-fields.html">mysql_num_fields</A> - получает количество полей в результате</DT>
+<DT><A HREF="mysql-num-rows.html">mysql_num_rows</A> - получает количество рядов в результате</DT>
+<DT><A HREF="mysql-pconnect.html">mysql_pconnect</A> - открывает постоянное соединение с MySQL-сервером</DT>
+<DT><A HREF="mysql-ping.html">mysql_ping</A> - устанавливает Ping-соединение с сервером или соединяется повторно, если соединения нет</DT>
+<DT><A HREF="mysql-query.html">mysql_query</A> - отправляет MySQL query</DT>
+<DT><A HREF="mysql-real-escape-string.html">mysql_real_escape_string</A> - мнемонизирует/Escapes специальные символы в строке для использования в SQL-операторе, 
+учитывая текущий charset соединения</DT>
+<DT><A HREF="mysql-result.html">mysql_result</A> - получает результирующие данные</DT>
+<DT><A HREF="mysql-select-db.html">mysql_select_db</A> - выбирает БД MySQL</DT>
+<DT><A HREF="mysql-stat.html">mysql_stat</A> - получает текущий системный статус</DT>
+<DT><A HREF="mysql-tablename.html">mysql_tablename</A> - получает имя таблицы поля</DT>
+<DT><A HREF="mysql-thread-id.html">mysql_thread_id</A> - возвращает id текущего потока</DT>
+<DT><A HREF="mysql-unbuffered-query.html">mysql_unbuffered_query</A> - отправляет SQL query в MySQL без извлечения и буферизации результирующих рядов</DT>
+</DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3">
+<TR><TD WIDTH="33%" VALIGN="top"><A HREF="msql.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="mysql-affected-rows.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">msql</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">mysql_affected_rows</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

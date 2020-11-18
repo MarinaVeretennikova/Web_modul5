@@ -1,0 +1,53 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>cybermut_testmac</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="cybermut-creerreponsecm.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="ref.cyrus.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="cybermut-testmac">cybermut_testmac</A></H1><A NAME="AEN14576"></A>
+<P>(PHP 4 &#62;= 4.0.5)</P><p>cybermut_testmac - убеждается, что не было &quot;левых&quot; данных в полученном сообщении
+подтверждения.<A NAME="AEN14579"></A></p><H2>Описание</H2><p>bool <B>cybermut_testmac</B> (string code_MAC, string version, string TPE, string cdate, string montant, string ref_commande, string texte_libre, string code-retour)</p>
+<P>Функция <B>cybermut_testmac()</B> используется для того, чтобы убедиться, что не было &quot;левых&quot; данных в 
+полученном сообщении подтверждения. Обратите внимание на параметры <TT><I>code-retour</I></TT> и
+<TT><I>texte-libre</I></TT>, которые не вычисляются как таковые из-за наличия дефиса. Вы обязаны 
+затребовать их так:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+  $code_retour = $_GET["code-retour"];
+  $texte_libre = $_GET["texte-libre"];
+?&#62;</PRE></TD></TR></TABLE><TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN14613"></A>
+  <h5>
+Пример 1. Последний этап платежа (equiv cgi2.c)</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0"CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+// Убедиться, что Enable Track Vars включено/ON.
+// Директория, где размещены ключи
+putenv("CMKEYDIR=/var/creditmut/cles");
+ 
+// Номер версии
+$VERSION="1.2";
+
+$texte_libre = $_GET["texte-libre"];
+$code_retour = $_GET["code-retour"];                                     
+
+<font size="1">$mac_ok = cybermut_testmac($MAC,$VERSION,$TPE,$date,$montant,$reference,$texte_libre,$code_retour);
+</font>
+if ($mac_ok) {
+
+  //
+  // здесь вставить обработку данных
+  //
+  //
+
+  $result=cybermut_creerreponsecm("OK");
+} else {
+  $result=cybermut_creerreponsecm("Document Falsifie");
+}
+ 
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также
+<A HREF="cybermut-creerformulairecm.html"><B>cybermut_creerformulairecm()</B></A> и
+<A HREF="cybermut-creerreponsecm.html"><B>cybermut_creerreponsecm()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="cybermut-creerreponsecm.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ref.cyrus.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">cybermut_creerreponsecm</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.cybermut.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Функции администрирования Cyrus IMAP</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

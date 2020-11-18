@@ -1,0 +1,58 @@
+<HTML>
+   <HEAD>
+       <TITLE>Рисунок-"штора"</TITLE> 
+       <STYLE type="text/cssM>
+          #photo {position:absolute; top:70; left:10%; 
+             clip:rect(0 100% 100% 0);
+           border:2pt green solid; width:200; 
+             background:white; cursor:hand}
+           DIV  {position:absolute; left:10%}
+           P   {margin-top:20pt} 
+       </STYLE>
+       <SCRIPT language="JavaScript" ID="WipeEffects"> 
+       //Функция-обработчик события onclick
+       function blind( ) { 
+       //Определение переменной объекта 
+       var elem=document.all.photo; 
+       /* Переменная, в которой хранится информация об элементе,
+        сгенерировавшем событие */ 
+		var into=arguments[0];
+      //Проверяется, является ли данный вызов функции blind() первым
+      if(null==elem.init) {
+       /*3адание флага elem.init и пошагового приращения
+       области вырезки elem.delta*/
+       elem.init=true;
+       elem.delta=10;
+       /*Определение генератора события, задание значений
+       свойства elem.clipBound, определяющего положение нижней
+       границы вырезки, а также изменение знака приращения
+       elem.delta
+       в случае скрытия элемента*/
+       if(into) elem.clipBound=0
+       else {
+           elem.clipBound=elem.offsetHeight;
+           elem.delta*=-l;
+           }
+       }
+       //Задание нижней границы
+       elem.сlipBound+=elem.delta;
+       //Определение области вырезки
+       elem.style.clip="rect(0 100% "+elem.clipBound+" 0)";
+       //Проверка условия повторного вызова функции blind()
+       if (((elem.clipBound<=elem.offsetHeight)&&(elem.delta>0))||((elem.clipBound>=0)&&(elem.delta<0)))
+       setTimeout("blind("+into+")",20) ;
+       else
+       //Сброс флага init 
+	   elem.init=null;
+       } 
+       </SCRIPT>
+   </HEAD> 
+<BODY>
+  <DIV>
+       <H2> Появление и исчезновение элемента </H2>
+       <P STYLE="cursor:hand" onclick="blind(true)"> 
+       Ferari 360 Spider 
+  </DIV>
+  <IMG SRC="Spider_7.jpg" ID=photo alt="Эффекты DHTML" onclick="blind(false)">
+</BODY> 
+</HTML>

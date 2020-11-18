@@ -1,0 +1,38 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>odbc_tables</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="odbc-tableprivileges.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="ref.oci8.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.odbc-tables">odbc_tables</A></H1><A NAME="AEN57741"></A><P>(PHP 3&#62;= 3.0.17, PHP 4)</P>
+<p>odbc_tables - получает список имён таблиц, хранимых в специфическом источнике данных.
+Возвращает результирующий идентификатор, содержащий эту информацию.<A NAME="AEN57744"></A></p><H2>Описание</H2>
+<p>int <B>odbc_tables</B> (resource connection_id [, string qualifier [, string owner [, string name [, string types]]]])</p>
+<P>Выдаёт список всех таблиц в запрошенном диапазоне.  Возвращает 
+результирующий идентификатор ODBC, <TT><B>FALSE</B></TT> при неудаче.</P>
+<P>Результирующий набор содержит следующие столбцы:
+<UL><LI><P>TABLE_QUALIFIER</P></LI><LI><P>TABLE_OWNER</P></LI><LI><P>TABLE_NAME</P></LI>
+<LI><P>TABLE_TYPE</P></LI><LI><P>REMARKS</P></LI></UL> 
+<P>Результирующий набор упорядочен по TABLE_TYPE, TABLE_QUALIFIER, TABLE_OWNER и TABLE_NAME.</P>
+<P>Аргументы <TT><I>owner</I></TT> и <TT><I>name</I></TT> принимаю патэрны поиска ('%' для совпадения с 0 или более символов, '_' для 
+совпадения с одиночным символом).</P>
+<P>Для поддержки квалификаторов/qualifiers, владельцев/owners и типов таблиц доступна следующая специальная семантика для
+<TT><I>qualifier</I></TT>, <TT><I>owner</I></TT>, <TT><I>name</I></TT> и <TT><I>table_type</I></TT>:
+<UL><LI><P>Если <TT><I>qualifier</I></TT> это один символ процентов (%) и <TT><I>owner</I></TT> и
+<TT><I>name</I></TT> это пустые строки, то результирующий набор содержит список правильных 
+квалификаторов источника данных. (Все столбцы, кроме столбца TABLE_QUALIFIER, содержат NULLs.)</P></LI>
+<LI><P>Если <TT><I>owner</I></TT> это один символ процентов	(%) и <TT><I>qualifier</I></TT> и
+<TT><I>name</I></TT> это пустые строки, то результирующий набор содержит список правильных 
+владельцев источника данных. (Все столбцы, кроме столбца TABLE_OWNER содержат NULLs.)</P></LI>
+<LI><P>Если <TT><I>table_type</I></TT> это один символ процентов (%) и <TT><I>qualifier</I></TT>,
+<TT><I>owner</I></TT> и <TT><I>name</I></TT> это пустые строки, то результирующий набор содержит список правильных типов 
+таблиц источника данных. (Все столбцы, кроме столбца TABLE_TYPE содержат NULLs.)</P></LI></UL></P>
+<P>Если <TT><I>table_type</I></TT> это не пустая строка, он обязан содержать список разделённых запятыми значений 
+интересующих типов; каждое значение может быть заключено в одинарные кавычки (') 
+или быть без кавычек. Например, "'TABLE','VIEW'" или "TABLE, VIEW". Если 
+источник данных не поддерживает специфицированный тип таблиц, <B>odbc_tables()</B> не возвращает никакого результата данного типа.</P>
+<P>См. также <A HREF="odbc-tableprivileges.html"><B>odbc_tableprivileges()</B></A> о запрашивании ассоциированных привилегий.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="odbc-tableprivileges.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ref.oci8.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">odbc_tableprivileges</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.odbc.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Функции Oracle 8</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,32 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>mysql_errno</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="mysql-drop-db.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="mysql-error.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.mysql-errno">mysql_errno</A></H1><A NAME="AEN51120"></A><P>(PHP 3, PHP 4)</P>
+<p>mysql_errno - возвращает числовое значение сообщения об ошибке предыдущей MySQL-операции.<A NAME="AEN51123"></A></p>
+<H2>Описание</H2><p>int <B>mysql_errno</B> ([resource link_identifier])</p>
+<P>Возвращает номер ошибки последней MySQL-функции или <TT>0</TT> (ноль), если ошибки не было.</P>
+<P>Ошибки, возвращаемые из БД MySQL, больше не выводят предупреждений. Используйте <B>mysql_errno()</B> для запрашивания кода ошибки. Обратите внимание, что эта функция возвращает 
+только error code самой последней выполненной MySQL-функции (не включая <A HREF="mysql-error.html"><B>mysql_error()</B></A> и
+<B>mysql_errno()</B>), поэтому, если вы хотите использовать её, проверяйте значение перед вызовом другой MySQL-функции.
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN51137"></A><h5>Пример 1. mysql_errno</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+    mysql_connect("localhost", "mysql_user", "mysql_password");
+
+    mysql_select_db("nonexistentdb");
+    echo mysql_errno() . ": " . mysql_error(). "\n";
+
+    mysql_select_db("kossu");
+    mysql_query("SELECT * FROM nonexistenttable");
+    echo mysql_errno() . ": " . mysql_error() . "\n";
+?&#62;</PRE></TD></TR></TABLE><P>На выходе будет:</P><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>1049: Unknown database 'nonexistentdb'
+1146: Table 'kossu.nonexistenttable' doesn't exist</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>См. также <A HREF="mysql-error.html"><B>mysql_error()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="mysql-drop-db.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="mysql-error.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">mysql_drop_db</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.mysql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">mysql_error</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

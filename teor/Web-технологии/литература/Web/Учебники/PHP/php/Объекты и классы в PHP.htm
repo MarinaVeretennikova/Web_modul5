@@ -1,0 +1,918 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.intuit.ru/department/pl/plphp/6/plphp_6.html -->
+<HTML><HEAD><TITLE>INTUIT.ru::Интернет-Университет Информационных Технологий</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251"><LINK 
+href="Объекты и классы в PHP.files/printable.css" type=text/css rel=stylesheet>
+<META content="MSHTML 6.00.2900.2180" name=GENERATOR></HEAD>
+<BODY leftMargin=0 topMargin=6 marginwidth="0" marginheight="6">
+<DIV align=left><SPAN style="FONT-WEIGHT: bold; COLOR: #000000">&nbsp;&nbsp; 
+<SPAN style="FONT-SIZE: 12pt">Интернет-Университет Информационных 
+Технологий</SPAN> </SPAN></DIV>&nbsp;&nbsp; <SPAN 
+style="COLOR: #330066; TEXT-DECORATION: underline" 
+align="rright">http://www.INTUIT.ru</SPAN> 
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD colSpan=3 height=8><IMG height=8 
+      src="Объекты и классы в PHP.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD class=orang colSpan=3 height=1><IMG height=1 
+      src="Объекты и классы в PHP.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD colSpan=3 height=8><IMG height=8 
+      src="Объекты и классы в PHP.files/empty.gif" width=1></TD></TR>
+  <TR vAlign=top>
+    <TD><IMG height=1 src="Объекты и классы в PHP.files/empty.gif" width=8></TD>
+    <TD><!-- content -->
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=head>Язык программирования PHP</TD></TR>
+        <TR>
+          <TD height=4><IMG height=4 
+            src="Объекты и классы в PHP.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD class=orang height=1><IMG height=1 
+            src="Объекты и классы в PHP.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Объекты и классы в PHP.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD><SPAN class=headsub>6. Лекция: Объекты и классы в PHP: версия 
+            для печати и PDA</SPAN> <BR><SPAN class=rtxt>Понятия класса и 
+            объекта. Определение и использование классов. Понятие расширения 
+            класса. Конструкторы. Оператор :: Базовый класс и функция parent. 
+            Пример – автоматическая генерация по желанию пользователя 
+            представителей классов статей или личностей, а также их отображения 
+            на странице браузера.</SPAN> </TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Объекты и классы в PHP.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD class=orang height=1><IMG height=1 
+            src="Объекты и классы в PHP.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Объекты и классы в PHP.files/empty.gif" width=1></TD></TR>
+        <TR>
+          <TD>
+            <H3></H3>
+            <P>В этой лекции мы рассмотрим объектную модель, предлагаемую языком 
+            PHP. Будут представлены понятия <SPAN class=keyword>класса</SPAN> и 
+            <SPAN class=keyword>объекта</SPAN>, способы их задания и 
+            использования, способы расширения <SPAN 
+            class=keyword>классов</SPAN>, <SPAN 
+            class=keyword>конструкторы</SPAN> <SPAN 
+            class=keyword>классов</SPAN>, механизмы <SPAN 
+            class=keyword>наследования</SPAN> и т.п. Кроме того, мы затронем 
+            некоторые нововведения, касающиеся объектной модели, появившиеся в 
+            PHP5.</P>
+            <P>В качестве примера решим задачу автоматической генерации по 
+            желанию пользователя представителей <SPAN 
+            class=keyword>классов</SPAN> статей или личностей, а также их 
+            отображения на странице браузера.</P>
+            <H4>Классы и объекты</H4>
+            <P>Начнем с основных понятий объектно-ориентированного 
+            программирования – <SPAN class=keyword>класса</SPAN> и <SPAN 
+            class=keyword>объекта</SPAN>. Существует множество определений этих 
+            понятий. Мы дадим следующее: <A name=keyword-context.1></A><SPAN 
+            class=keyword_def>объект</SPAN> – это структурированная переменная, 
+            содержащая всю информацию о некотором физическом предмете или 
+            реализуемом в программе понятии, <SPAN class=keyword>класс</SPAN> – 
+            это описание таких <SPAN class=keyword>объектов</SPAN> и действий, 
+            которые можно с ними выполнять. </P>
+            <P>В PHP <SPAN class=keyword>класс</SPAN> определяется с помощью 
+            следующего синтаксиса:</P>
+            <DIV class=example><PRE>class Имя_класса{
+  var $имя_свойства;
+    /*список свойств*/
+  function имя_метода( ){
+   /* определение метода */
+  }
+  /*список методов*/
+}
+</PRE></DIV>
+            <P>Имена <SPAN class=keyword>свойств</SPAN> <SPAN 
+            class=keyword>объектов</SPAN> <SPAN class=keyword>класса</SPAN> 
+            объявляются с помощью ключевого слова <SPAN 
+            class=texample>var</SPAN>, <SPAN class=keyword>методы</SPAN>, 
+            применимые к <SPAN class=keyword>объектами</SPAN> данного <SPAN 
+            class=keyword>класса</SPAN>, описываются функциями. Внутри 
+            определения <SPAN class=keyword>класса</SPAN> можно использовать 
+            ключевое слово <SPAN class=keyword>this</SPAN> для обращения к 
+            текущему представителю <SPAN class=keyword>класса</SPAN>.</P>
+            <P>Например, нам нужно создать <SPAN class=keyword>класс</SPAN>, 
+            описывающий категорию статей. У каждой статьи имеются такие <SPAN 
+            class=keyword>свойства</SPAN>, как название, автор и краткое 
+            содержание. Какие действия мы хотим совершать со статьями? Возможно, 
+            нам понадобится задавать значения перечисленным <SPAN 
+            class=keyword>свойствами</SPAN> статьи, отображать статью в 
+            браузере. Тогда определение этого <SPAN class=keyword>класса</SPAN> 
+            может выглядеть следующим образом:</P>
+            <DIV class=example><PRE>&lt;?
+class Articles { // Создаем класс Статей
+  var $title;
+  var $author;
+  var $description;
+// метод, который присваивает значения
+// атрибутам класса
+  function make_article($t, $a, $d){
+    $this-&gt;title = $t;
+    $this-&gt;author = $a;
+    $this-&gt;description = $d;
+  }
+//метод для отображения экземпляров класса
+  function show_article(){
+    $art = $this-&gt;title . "&lt;br&gt;" .
+           $this-&gt;description .
+      "&lt;br&gt;Автор: " . $this-&gt;author;
+    echo $art;
+  }
+}
+</PRE></DIV>
+            <P>Итак, для описания физических <SPAN class=keyword>объектов</SPAN> 
+            типа «статья» мы создали <SPAN class=keyword>класс</SPAN> с именем 
+            <SPAN class=texample>Articles</SPAN>, состоящий из трех переменных, 
+            содержащих характеристики статьи, и двух функций для создания 
+            конкретной статьи и для ее отображения.</P>
+            <P>Как известно, работая с PHP, можно периодически переключаться в 
+            режим HTML. В этом случае программа состоит из нескольких кусков 
+            (блоков) кода. Определение <SPAN class=keyword>класса</SPAN> нельзя 
+            разносить по разным блокам php-кода и тем более по разным файлам. То 
+            есть если написать:</P>
+            <DIV class=example><PRE>&lt;?php
+class Articles { // Начало описания класса
+  var $title;
+?&gt;
+&lt;?php
+// продолжение описания класса
+   function show_article(){
+   // содержание метода
+   }
+} // конец описания класса
+?&gt;
+</PRE></DIV>
+            <P>то программа не будет работать корректно.</P>
+            <P>Несколько замечаний по поводу имен <SPAN 
+            class=keyword>классов</SPAN>. Имя <SPAN class=keyword>класса</SPAN> 
+            должно удовлетворять правилам именования <SPAN 
+            class=keyword>объектов</SPAN> в языке PHP, но есть ряд имен, которые 
+            зарезервированы разработчиками для своих целей. В первую очередь это 
+            имена, начинающиеся с символа подчеркивания «_». Для создания <SPAN 
+            class=keyword>классов</SPAN> и функций нельзя использовать такие 
+            имена. Кроме того, зарезервировано имя <SPAN 
+            class=texample>stdClass</SPAN>, поскольку оно используется внутри 
+            движка PHP.</P>
+            <H5>Инициализация переменных</H5>
+            <P>Часто некоторым атрибутам <SPAN class=keyword>класса</SPAN> 
+            бывает необходимо присваивать значения сразу после создания 
+            представителя <SPAN class=keyword>класса</SPAN>. Когда мы создавали 
+            <SPAN class=keyword>класс</SPAN> статей, для присваивания значений 
+            атрибутам (<SPAN class=keyword>свойствам</SPAN>) <SPAN 
+            class=keyword>класса</SPAN> мы использовали специальную функцию 
+            <SPAN class=texample>make_article()</SPAN>. Вообще говоря, мы 
+            поступили не совсем верно, потому что занялись изобретением 
+            велосипеда. Специально для задания начальных значений атрибутам 
+            <SPAN class=keyword>класса</SPAN> существует два стандартных <SPAN 
+            class=keyword>метода</SPAN>. В PHP4 можно инициализировать значения 
+            с помощью оператора var или с помощью функции <SPAN 
+            class=keyword>конструктора</SPAN>. С помощью var можно 
+            инициализировать только константные значения. Для задания не 
+            константных значений используют функцию <SPAN 
+            class=keyword>конструктор</SPAN>, которая вызывается автоматически, 
+            когда <SPAN class=keyword>объект</SPAN> конструируется из <SPAN 
+            class=keyword>класса</SPAN>. Функция-<SPAN 
+            class=keyword>конструктор</SPAN> должна иметь имя, совпадающее с 
+            именем всего <SPAN class=keyword>класса</SPAN>, в котором она 
+            определена.</P>
+            <P>Приведем пример. Допустим, при создании <SPAN 
+            class=keyword>объекта</SPAN> «статья» мы хотим установить его <SPAN 
+            class=keyword>свойства</SPAN> следующим образом: автора – равным 
+            строке «Иванов», название и краткое содержание – соответствующим 
+            элементам глобального массива <SPAN class=texample>$_POST</SPAN>, а 
+            дату публикации статьи – текущей дате. Тогда следующее описание 
+            <SPAN class=keyword>класса</SPAN> не является корректным в PHP4:</P>
+            <DIV class=example><PRE>&lt;?
+class Articles { // Создаем класс Статей
+  var $title= $_POST["title"];
+  var $author = "Иванов";
+  var $description = $_POST["description"];
+  var $published = date("Y-m-d");
+// метод, который присваивает значения
+// атрибутам класса
+  }
+?&gt;
+</PRE></DIV>
+            <P>А вот такое <SPAN class=keyword>описание класса в PHP4</SPAN> 
+            будет работать так, как нужно:</P>
+            <DIV class=example><PRE>&lt;?
+class Articles { // Создаем класс Статей
+  var $title;
+  var $author = "Иванов";
+  var $description;
+  var $published;
+// метод, который присваивает значения
+// атрибутам класса
+ function Articles(){
+  $this-&gt;title = $_POST["title"];
+  $this-&gt;description = $_POST["description"];
+  $this -&gt;published = date("Y-m-d");
+ }
+}
+?&gt;
+</PRE></DIV>
+            <P>Отметим, что в PHP3 и PHP4 <SPAN 
+            class=keyword>конструкторы</SPAN> работают по-разному. В PHP3 
+            функция становилась <SPAN class=keyword>конструктором</SPAN>, если 
+            она имела то же имя, что и <SPAN class=keyword>класс</SPAN>, а в 
+            PHP4 – если она имеет то же имя, что и <SPAN 
+            class=keyword>класс</SPAN>, в котором она определена. Разница в 
+            подходах видна, когда один <SPAN class=keyword>класс</SPAN> 
+            расширяет другой и происходит <SPAN 
+            class=keyword>наследование</SPAN> <SPAN class=keyword>свойств</SPAN> 
+            и <SPAN class=keyword>методов</SPAN> <SPAN class=keyword>базового 
+            класса</SPAN>. Но об этом мы поговорим чуть позже. В PHP5 <SPAN 
+            class=keyword>конструктор</SPAN> <SPAN class=keyword>класса</SPAN> 
+            именуется <SPAN class=texample>_construct</SPAN>. Кроме того, в PHP5 
+            появились и деструкторы – функции, которые вызываются автоматически 
+            перед уничтожением <SPAN class=keyword>объекта</SPAN>. В PHP5 
+            функция-деструктор должна быть названа <SPAN 
+            class=texample>_destruct</SPAN>.</P>
+            <H5>Объекты</H5>
+            <P>В одной из первых лекций мы упоминали о существовании в PHP 
+            такого типа данных, как <SPAN class=keyword>объект</SPAN>. <A 
+            name=keyword-context.2></A><SPAN class=keyword_def>Класс</SPAN> – 
+            это описание данных одного типа, данных типа <SPAN 
+            class=keyword>объект</SPAN>. <SPAN class=keyword>Классы</SPAN> 
+            являются как бы шаблонами для реальных переменных. Переменная 
+            нужного типа создается из <SPAN class=keyword>класса</SPAN> с 
+            помощью оператора <SPAN class=texample>new</SPAN>. Создав <SPAN 
+            class=keyword>объект</SPAN>, мы можем применять к нему все <SPAN 
+            class=keyword>методы</SPAN> и получать все <SPAN 
+            class=keyword>свойства</SPAN>, определенные в описании <SPAN 
+            class=keyword>класса</SPAN>. Для этого используют такой синтаксис: 
+            <SPAN class=texample>$имя_объекта-&gt;название_</SPAN><SPAN 
+            class=keyword>свойства</SPAN> или <SPAN 
+            class=texample>$имя_объекта-&gt;название_метода(список 
+            аргументов)</SPAN>. Заметим, что перед названием <SPAN 
+            class=keyword>свойства</SPAN> или <SPAN class=keyword>метода</SPAN> 
+            знака $ не ставят.</P><A name=example.6.1></A>
+            <DIV class=example><PRE>&lt;?php
+$art = new Articles; 
+    // создаем объект $art
+echo ($art -&gt;title); 
+    // выводим название объекта $art
+$another_art = new Articles; 
+    // создаем объект $another_art
+$another_art-&gt;show_article(); 
+    // вызываем метод для
+    // отображения объекта в браузер
+?&gt;
+</PRE><SPAN class=objectName>Пример 6.1. Доступ к методам и 
+            свойствам объекта</SPAN></DIV>
+            <P>Каждый из <SPAN class=keyword>объектов</SPAN> <SPAN 
+            class=keyword>класса</SPAN> имеет одни и те же <SPAN 
+            class=keyword>свойства</SPAN> и <SPAN class=keyword>методы</SPAN>. 
+            Так, у <SPAN class=keyword>объекта</SPAN> <SPAN 
+            class=texample>$art</SPAN> и у <SPAN class=keyword>объекта</SPAN> 
+            <SPAN class=texample>$another_art</SPAN> есть <SPAN 
+            class=keyword>свойства</SPAN> <SPAN class=texample>title</SPAN>, 
+            <SPAN class=texample>description</SPAN>, <SPAN 
+            class=texample>author</SPAN> и <SPAN class=keyword>методы</SPAN> 
+            <SPAN class=texample>Articles()</SPAN>, <SPAN 
+            class=texample>show_article()</SPAN>. Но это два разных <SPAN 
+            class=keyword>объекта</SPAN>. Представим себе <SPAN 
+            class=keyword>объект</SPAN> как директорию в файловой системе, а его 
+            характеристики – как файлы в этой директории. Очевидно, что в каждой 
+            директории могут лежать одинаковые файлы, но тем не менее они 
+            считаются различными, поскольку хранятся в разных директориях. Точно 
+            так же <SPAN class=keyword>свойства</SPAN> и <SPAN 
+            class=keyword>методы</SPAN> считаются различными, если они 
+            применяются к разным <SPAN class=keyword>объектам</SPAN>. Чтобы 
+            получить нужный файл из директории верхнего уровня, мы пишем полный 
+            путь к этому файлу. При работе с <SPAN class=keyword>классами</SPAN> 
+            нужно указывать полное имя функции, которую мы хотим вызвать. 
+            Директорией верхнего уровня в PHP будет пространство глобальных 
+            переменных, а путь указывается с помощью разделителя <SPAN 
+            class=texample>-&gt;</SPAN>. Таким образом, имена <SPAN 
+            class=texample>$art-&gt;title</SPAN> и <SPAN 
+            class=texample>$another_art-&gt;title</SPAN> обозначают две разные 
+            переменные. Переменная в PHP имеет только один знак доллара перед 
+            именем, поэтому нельзя писать <SPAN 
+            class=texample>$art-&gt;$title</SPAN>. Эта конструкция будет 
+            рассмотрена не как обращение к <SPAN class=keyword>свойству</SPAN> 
+            <SPAN class=texample>title</SPAN> <SPAN class=keyword>объекта</SPAN> 
+            <SPAN class=texample>$art</SPAN>, а как обращение к <SPAN 
+            class=keyword>свойству</SPAN>, имя которого задано переменной <SPAN 
+            class=texample>$title</SPAN> (например, <SPAN 
+            class=texample>$art-&gt;""</SPAN>).</P><A name=example.6.2></A>
+            <DIV class=example><PRE>&lt;?php
+$art-&gt;title = "Введение в Internet"; 
+    // так можно установить
+    // значение свойства объекта
+$art-&gt;$title = "Введение в Internet"; 
+    // так нельзя установить
+    // значение свойства объекта
+$property = "title";
+$art-&gt;$property = "Введение в Internet"; 
+    // так можно установить значение 
+    // свойства объекта
+?&lt;
+</PRE><SPAN class=objectName>Пример 6.2. Установка значений 
+            свойств</SPAN></DIV>
+            <P>Создавая <SPAN class=keyword>класс</SPAN>, мы не можем знать, 
+            какое имя будет иметь <SPAN class=keyword>объект</SPAN> этого <SPAN 
+            class=keyword>класса</SPAN>, тем более что <SPAN 
+            class=keyword>объектов</SPAN> может быть много и все могут иметь 
+            разные имена. Соответственно мы не знаем, как обращаться к <SPAN 
+            class=keyword>объекту</SPAN> внутри определения <SPAN 
+            class=keyword>класса</SPAN>. Для того чтобы иметь доступ к функциям 
+            и переменным внутри определения <SPAN class=keyword>класса</SPAN>, 
+            нужно использовать псевдопеременную <SPAN 
+            class=texample>$this</SPAN>. Например, <SPAN 
+            class=texample>$this-&gt;title</SPAN> возвращает значение <SPAN 
+            class=keyword>свойства</SPAN> <SPAN class=texample>title</SPAN> у 
+            текущего <SPAN class=keyword>объекта</SPAN> данного <SPAN 
+            class=keyword>класса</SPAN>. Иногда эту переменную предлагают читать 
+            как «мое собственное» (к примеру, по отношению к <SPAN 
+            class=keyword>свойству</SPAN>).</P>
+            <H4>Наследование</H4>
+            <H5>extends</H5>
+            <P>Механизм <SPAN class=keyword>наследования</SPAN> – очень важная 
+            часть всего объектно-ориентированного подхода. Попытаемся объяснить 
+            его суть на примере. Допустим, мы создаем описание человека. 
+            Очевидно, что сделать это мы можем по-разному, в зависимости от 
+            того, для чего нужно это описание. Можно описать человека как 
+            программиста: он знает такие-то языки программирования, операционные 
+            системы, участвовал в стольких-то проектах. Однако если человек 
+            программист, то он не перестает быть человеком вообще, т.е. он имеет 
+            имя, фамилию, место жительства и т.п. Если перевести наши 
+            рассуждения в термины объектно-ориентированного программирования, то 
+            можно сказать, что мы описали два <SPAN class=keyword>класса</SPAN> 
+            – <SPAN class=keyword>класс</SPAN> людей и <SPAN 
+            class=keyword>класс</SPAN> программистов, каждый со своими <SPAN 
+            class=keyword>свойствами</SPAN> и <SPAN 
+            class=keyword>методами</SPAN>. Причем <SPAN 
+            class=keyword>класс</SPAN> программистов, очевидно, обладает всеми 
+            <SPAN class=keyword>свойствами</SPAN> <SPAN 
+            class=keyword>класса</SPAN> людей и при этом имеет свои 
+            специфические характеристики, т.е. <SPAN class=keyword>класс</SPAN> 
+            программистов является подклассом <SPAN class=keyword>класса</SPAN> 
+            людей. Так, если у человека вообще есть имя, то у программиста оно 
+            тоже должно быть, но не наоборот. Кроме программистов можно выделить 
+            еще множество <SPAN class=keyword>классов</SPAN> по профессиональной 
+            принадлежности людей. И все они будут подклассами <SPAN 
+            class=keyword>класса</SPAN> людей. Часто на практике удобно 
+            определять общий <SPAN class=keyword>класс</SPAN>, который может 
+            использоваться сразу в нескольких проектах (например, <SPAN 
+            class=keyword>класс</SPAN> людей или личностей), и адаптировать его 
+            для специфических нужд каждого проекта (например, как <SPAN 
+            class=keyword>класс</SPAN> программистов). Как это можно 
+            реализовать? С помощью механизма расширений. Любой <SPAN 
+            class=keyword>класс</SPAN> может быть расширением другого <SPAN 
+            class=keyword>класса</SPAN>. Расширяющий (или производный) <SPAN 
+            class=keyword>класс</SPAN>, кроме тех <SPAN 
+            class=keyword>свойств</SPAN> и <SPAN class=keyword>методов</SPAN>, 
+            которые описаны в его определении, имеет все функции и <SPAN 
+            class=keyword>свойства</SPAN> основного (<SPAN 
+            class=keyword>базового класса</SPAN>). В нашем примере <SPAN 
+            class=keyword>класс</SPAN> программистов – расширяющий, а <SPAN 
+            class=keyword>класс</SPAN> всех людей – базовый. Из <SPAN 
+            class=keyword>класса</SPAN> нельзя удалить никакие существующие 
+            <SPAN class=keyword>свойства</SPAN> и функции, <SPAN 
+            class=keyword>класс</SPAN> можно только расширить. <SPAN 
+            class=keyword>Расширяющий класс</SPAN> в PHP4 всегда зависит только 
+            от одного <SPAN class=keyword>базового класса</SPAN>, поскольку 
+            множественное <SPAN class=keyword>наследование</SPAN> в PHP не 
+            поддерживается. Расширяются <SPAN class=keyword>классы</SPAN> в PHP 
+            с помощью ключевого слова <SPAN class=keyword>extends</SPAN>.</P><A 
+            name=example.6.3></A>
+            <DIV class=example><PRE>&lt;?php
+class Person { // определяем класс Личности
+  var $first_name; // имя личности
+  var $last_name; // фамилия личности
+  function make_person($t,$a){ 
+  // метод устанавливает
+  // значения имени и фамилии объекта
+    $this-&gt;first_name = $t;
+    $this-&gt;last_name = $a;
+  }
+  function show_person(){ 
+  // метод отображает информацию о личности
+    echo ("&lt;h2&gt;" . $this-&gt;first_name . " " .
+      $this-&gt;last_name . "&lt;/h2&gt;");
+  }
+}
+class Programmer extends Person{ 
+    // определяем класс
+    // Programmer, расширяющий Person
+  var $langs = array ("Lisp"); 
+    // константным массивом
+    // задать переменную в var можно
+    function set_lang($new_lang){ 
+    // метод добавляет еще
+    // один язык к списку известных
+    $this-&gt;langs[] = $new_lang;
+  }
+}
+?&gt;
+</PRE><SPAN class=objectName>Пример 6.3. Использование механизма 
+            наследования</SPAN></DIV>
+            <P><SPAN class=keyword>Класс</SPAN> <SPAN 
+            class=texample>Programmer</SPAN> имеет те же переменные и функции, 
+            что и <SPAN class=keyword>класс</SPAN> <SPAN 
+            class=texample>Person</SPAN>, плюс переменную <SPAN 
+            class=texample>$langs</SPAN>, в которой содержится список изученных 
+            программистом языков, и функцию <SPAN class=texample>set_lang</SPAN> 
+            для добавления еще одного языка к списку изученных. Создать 
+            представителя <SPAN class=keyword>класса</SPAN> программистов можно 
+            обычным способом с помощью конструкции <SPAN 
+            class=texample>new</SPAN>. После этого можно устанавливать и 
+            получать список языков, которые знает программист, и в то же время 
+            можно использовать функции, заданные для <SPAN 
+            class=keyword>класса</SPAN> <SPAN class=texample>Person</SPAN>, т.е. 
+            устанавливать и получать имя и фамилию программиста и отображать 
+            сведения о нем в браузере:</P>
+            <DIV class=example><PRE>&lt;?php
+$progr = new Programmer;
+$progr -&gt; set_lang("PHP"); 
+    // методы, определенные для
+    // класса Programmer
+print_r ($progr-&gt;langs);
+// методы, определенные для класса Person
+$progr-&gt;make_person("Bill","Gates");
+$progr-&gt;show_person();
+?&lt;
+</PRE></DIV>
+            <P>Отношения, в которых состоят созданные нами <SPAN 
+            class=keyword>классы</SPAN> <SPAN class=texample>Person</SPAN> и 
+            <SPAN class=texample>Programmer</SPAN>, называют также <SPAN 
+            class=keyword>отношениями родитель–потомок</SPAN>. <SPAN 
+            class=keyword>Класс</SPAN> <SPAN class=texample>Person</SPAN> – 
+            родитель, а его потомки, такие как <SPAN class=keyword>класс</SPAN> 
+            <SPAN class=texample>Programmer</SPAN>, создаются, основываясь на 
+            нем, с помощью расширений. Любой <SPAN class=keyword>класс</SPAN> 
+            может стать родительским и соответственно породить потомков.</P>
+            <P>Порядок определения <SPAN class=keyword>классов</SPAN> имеет 
+            значение. Нельзя сначала определить <SPAN class=keyword>класс</SPAN> 
+            <SPAN class=texample>Programmer</SPAN>, <SPAN 
+            class=keyword>расширяющий класс</SPAN> <SPAN 
+            class=texample>Person</SPAN>, а уже потом сам <SPAN 
+            class=keyword>класс</SPAN> <SPAN class=texample>Person</SPAN>. <SPAN 
+            class=keyword>Класс</SPAN> должен быть определен перед тем, как он 
+            будет использоваться (расширяться).</P>
+            <H4>Конструкторы</H4>
+            <P>Теперь, после знакомства с механизмом <SPAN 
+            class=keyword>наследования</SPAN> в PHP, мы можем прокомментировать 
+            различие между <SPAN class=keyword>конструкторами</SPAN> PHP4 и PHP3 
+            и более подробно рассказать о <SPAN 
+            class=keyword>конструкторах</SPAN> вообще. Напомним, что <A 
+            name=keyword-context.3></A>в PHP3 <SPAN 
+            class=keyword_def>конструктор</SPAN> – это функция, имя которой 
+            совпадает с именем <SPAN class=keyword>класса</SPAN>. А в PHP4 – 
+            функция, имя которой совпадает с именем <SPAN 
+            class=keyword>класса</SPAN>, в котором она определена. </P><A 
+            name=example.6.4></A>
+            <DIV class=example><PRE>&lt;?php
+class Programmer extends Person{ 
+    // определяем класс
+    // Programmer, расширяющий Person
+  var $langs = array ("Lisp");
+  function Programmer(){ 
+    // этот конструктор будет
+    // работать и в PHP3, и в PHP4
+    $this-&gt;make_person("Иван","Петров");
+  }
+}
+?&gt;
+</PRE><SPAN class=objectName>Пример 6.4. Использование 
+            конструктора</SPAN></DIV>
+            <P>Здесь функция <SPAN class=texample>Programmer()</SPAN> является 
+            <SPAN class=keyword>конструктором</SPAN>, т.е. выполняется сразу 
+            после создания любого представителя <SPAN 
+            class=keyword>класса</SPAN> <SPAN class=texample>Programmer</SPAN>, 
+            задавая ему имя «Иван» и фамилию «Петров». <SPAN 
+            class=keyword>конструкторы</SPAN>, как и любые другие функции, могут 
+            иметь аргументы. В этом случае, создавая представителя <SPAN 
+            class=keyword>класса</SPAN>, нужно указать значения этих параметров. 
+            Аргументы <SPAN class=keyword>конструктора</SPAN> могут иметь и 
+            значения по умолчанию. Если все аргументы имеют значения по 
+            умолчанию, тогда можно создавать экземпляр <SPAN 
+            class=keyword>класса</SPAN> без параметров.</P><A 
+            name=example.6.5></A>
+            <DIV class=example><PRE>&lt;?php
+class Programmer extends Person{ 
+    // определяем класс
+    // Programmer, расширяющий Person
+  var $langs = array ("Lisp");
+  function Programmer($n = "Иван", 
+                      $f = "Петров"){
+    // это конструктор
+    $this-&gt;make_person($n,$f);
+  }
+}
+$default_progr = new Programmer(); 
+    // создаст программиста Ивана Петрова
+$new_progr = new Programmer("Вася",
+                            "Сидоров");
+    // создаст программиста Васю Сидорова
+print_r($new_progr); 
+/* выведет информацию о переменной 
+$new_progr, т.е. свойства объекта 
+и их значения */
+?&gt;
+</PRE><SPAN class=objectName>Пример 6.5. Использование 
+            конструктора</SPAN></DIV>
+            <P>Приведенные примеры будут работать и в PHP3, и в PHP4, конечно 
+            если дописать в них определение <SPAN class=keyword>базового 
+            класса</SPAN> <SPAN class=texample>Person</SPAN>. Допустим, ситуация 
+            немного другая: <SPAN class=keyword>конструктор</SPAN> имеется 
+            только у <SPAN class=keyword>базового класса</SPAN> <SPAN 
+            class=texample>Person</SPAN>:</P>
+            <DIV class=example><PRE>&lt;?php
+class Person { // определяем класс Личности
+  var $first_name;
+  var $last_name;
+  function Person($t,$a){ // конструктор
+    $this-&gt;first_name = $t;
+    $this-&gt;last_name = $a;
+  }
+        /* ...        */
+}
+class Programmer extends Person{ 
+    // определяем класс
+    // Programmer, расширяющий Person
+  var $langs = array ("Lisp");
+  function set_lang($new_lang){
+    $this-&gt;langs[] = $new_lang;
+  }
+}
+$new_progr = new Programmer("Вася",
+                            "Сидоров");
+?&gt;
+</PRE></DIV>
+            <P>Что произойдет в этом случае при создании <SPAN 
+            class=keyword>объекта</SPAN> <SPAN class=keyword>класса</SPAN> <SPAN 
+            class=texample>Programmer</SPAN>, будет ли автоматически вызвана 
+            какая-либо функция? В PHP3 ничего не произойдет, поскольку в этом 
+            <SPAN class=keyword>классе</SPAN> нет функции с именем <SPAN 
+            class=texample>Programmer()</SPAN> (здесь <SPAN 
+            class=keyword>конструктор</SPAN> – это функция, имя которой 
+            совпадает с именем <SPAN class=keyword>класса</SPAN>). В PHP4 будет 
+            вызван <SPAN class=keyword>конструктор</SPAN> <SPAN 
+            class=keyword>базового класса</SPAN>, если он существует, т.е. 
+            вызовется функция <SPAN class=texample>Person()</SPAN> из <SPAN 
+            class=keyword>класса</SPAN> <SPAN class=texample>Person</SPAN> 
+            (здесь <SPAN class=keyword>конструктор</SPAN> – функция, имя которой 
+            совпадает с именем <SPAN class=keyword>класса</SPAN>, в котором она 
+            определена).</P>
+            <P>Еще одна ситуация – в <SPAN class=keyword>базовом классе</SPAN> 
+            есть функция, имя которой совпадает с именем <SPAN 
+            class=keyword>расширяющего класса</SPAN>, а в <SPAN 
+            class=keyword>расширяющем классе</SPAN> нет <SPAN 
+            class=keyword>конструктора</SPAN>.</P>
+            <DIV class=example><PRE>&lt;?php
+class Person { // определяем класс Личности
+  var $first_name;
+  var $last_name;
+  function Person($t,$a){ // конструктор
+    $this-&gt;first_name = $t;
+    $this-&gt;last_name = $a;
+  }
+  function Programmer($new_lang){
+    echo "Я – программист";
+  }
+}
+class Programmer extends Person{ 
+    // определяем класс
+    // Programmer, расширяющий Person
+  var $langs = array ("Lisp");
+  function set_lang($new_lang){
+    $this-&gt;langs[] = $new_lang;
+  }
+}
+$new_progr = new Programmer("Вася",
+                            "Сидоров");
+?&gt;
+</PRE></DIV>
+            <P>В этом случае PHP3 вызовет в качестве <SPAN 
+            class=keyword>конструктора</SPAN> функцию <SPAN 
+            class=texample>Programmer()</SPAN> из описания <SPAN 
+            class=keyword>класса</SPAN> <SPAN class=texample>Person</SPAN>. 
+            Поскольку <SPAN class=keyword>конструктор</SPAN> – это функция, у 
+            которой то же имя, что и у <SPAN class=keyword>класса</SPAN>. И 
+            неважно, определена ли эта функция в самом <SPAN 
+            class=keyword>классе</SPAN> или она наследуется из <SPAN 
+            class=keyword>базового класса</SPAN>. В PHP4 <SPAN 
+            class=keyword>класс</SPAN> <SPAN class=texample>Programmer</SPAN> не 
+            будет иметь своего <SPAN class=keyword>конструктора</SPAN>, поэтому 
+            вызовется <SPAN class=keyword>конструктор</SPAN> <SPAN 
+            class=keyword>базового класса</SPAN>.</P>
+            <P>Ни в PHP 3, ни в PHP 4 <SPAN class=keyword>конструктор</SPAN> 
+            <SPAN class=keyword>базового класса</SPAN> не вызывается 
+            автоматически из <SPAN class=keyword>конструктора</SPAN> 
+            порожденного <SPAN class=keyword>класса</SPAN>.</P>
+            <H4>Оператор ::</H4>
+            <P>Иногда внутри описания <SPAN class=keyword>класса</SPAN> 
+            возникает необходимость сослаться на функции или переменные из <SPAN 
+            class=keyword>базового класса</SPAN>. Бывает, что нужно ссылаться на 
+            функции в <SPAN class=keyword>классе</SPAN>, ни один представитель 
+            которого еще не создан. Как быть в таком случае? В PHP4 для этого 
+            существует специальный оператор <SPAN class=texample>«::»</SPAN></P>
+            <P>Например, вот так можно вызвать в описании <SPAN 
+            class=keyword>класса</SPAN> <SPAN class=texample>Programmer</SPAN> 
+            функцию <SPAN class=texample>show_name()</SPAN> из <SPAN 
+            class=keyword>базового класса</SPAN> <SPAN 
+            class=texample>Person</SPAN> и функцию <SPAN 
+            class=texample>say_hello()</SPAN>, заданную в описании <SPAN 
+            class=keyword>класса</SPAN> <SPAN class=texample>Programmer</SPAN>, 
+            когда ни один <SPAN class=keyword>объект</SPAN> этого <SPAN 
+            class=keyword>класса</SPAN> еще не был создан:</P>
+            <DIV class=example><PRE>&lt;?php
+class Person { // определяем класс Личности
+  var $first_name;
+  var $last_name;
+  function Person($t,$a){ // конструктор
+    $this-&gt;first_name = $t;
+    $this-&gt;last_name = $a;
+  }
+function show_name(){ 
+  // метод отображает информацию о личности
+    echo ("Меня зовут, " . 
+          $this-&gt;first_name . " " .
+          $this-&gt;last_name . "!&lt;br&gt;");
+  }
+}
+class Programmer extends Person{ 
+    // определяем класс
+    // Programmer, расширяющий Person
+  function set_lang($new_lang){ 
+    // метод добавляет еще
+    // один язык к списку известных
+    $this-&gt;langs[] = $new_lang;
+    Person::show_name(); 
+    // вызываем функцию из базового класса
+    echo "И я знаю теперь еще и " . 
+          $new_lang;
+  }
+  function show_name(){
+  echo ("Я программист, " . 
+        $this-&gt;first_name . " " .
+        $this-&gt;last_name . "!&lt;br&gt;");
+  }
+  function say_hello(){
+    echo "Привет!&lt;br&gt;";
+  }
+}
+Programmer::say_hello(); 
+    // вызываем функцию, когда ни
+    // один объект ее класса еще не создан
+$new_progr = new Programmer("Вася","Сидоров");
+$new_progr-&gt;set_lang("PHP");
+?&gt;
+</PRE></DIV>
+            <P>В результате работы этой программы получим следующее:</P>
+            <DIV class=example><PRE>Привет!
+Меня зовут Вася Сидоров!
+И я знаю теперь еще и PHP
+</PRE></DIV>
+            <P>С помощью команды <SPAN 
+            class=texample>Programmer::say_hello();</SPAN> мы вызываем функцию 
+            <SPAN class=texample>say_hello</SPAN> <SPAN 
+            class=keyword>класса</SPAN> <SPAN class=texample>Programmer</SPAN> 
+            как таковую, а не как <SPAN class=keyword>метод</SPAN>, применяемый 
+            к <SPAN class=keyword>объекту</SPAN> данного <SPAN 
+            class=keyword>класса</SPAN>. В этот момент переменных <SPAN 
+            class=keyword>класса</SPAN> нет. Поэтому функции, вызываемые до 
+            создания <SPAN class=keyword>объекта</SPAN>, не могут пользоваться 
+            переменными <SPAN class=keyword>класса</SPAN> и конструкцией <SPAN 
+            class=keyword>this</SPAN>, но могут пользоваться локальными и 
+            глобальными переменными.</P>
+            <P>В определении <SPAN class=keyword>класса</SPAN> <SPAN 
+            class=texample>Programmer</SPAN> мы переопределили функцию <SPAN 
+            class=texample>show_name()</SPAN>, поэтому вызвать функцию <SPAN 
+            class=texample>show_name()</SPAN> из <SPAN class=keyword>базового 
+            класса</SPAN> <SPAN class=texample>Person</SPAN> можно только с 
+            помощью оператора <SPAN class=texample>«::»</SPAN> Вообще говоря, 
+            внутри определения <SPAN class=keyword>класса</SPAN> мы можем 
+            вызывать любые <SPAN class=keyword>методы</SPAN> и <SPAN 
+            class=keyword>свойства</SPAN>, заданные в его <SPAN 
+            class=keyword>базовом классе</SPAN> с помощью обычного <SPAN 
+            class=texample>$this</SPAN>, если только порожденный <SPAN 
+            class=keyword>класс</SPAN> не переопределяет эти <SPAN 
+            class=keyword>свойства</SPAN> и <SPAN class=keyword>методы</SPAN>, 
+            как в нашем примере.</P>
+            <H4>Оператор parent</H4>
+            <P>В приведенном выше примере, обращаясь в <SPAN 
+            class=keyword>базовому классу</SPAN>, мы использовали его имя (мы 
+            писали <SPAN class=texample>Person::show_name()</SPAN>). Это не 
+            совсем удобно, потому что имя <SPAN class=keyword>класса</SPAN> или 
+            иерархия <SPAN class=keyword>классов</SPAN> может измениться, и 
+            тогда придется переписывать код описаний всех <SPAN 
+            class=keyword>классов</SPAN> с тем, чтобы привести используемые в 
+            них имена в соответствие с новой иерархией. Чтобы избежать подобной 
+            ситуации, вместо имени <SPAN class=keyword>базового класса</SPAN> 
+            нужно использовать ключевое слово parent (например, <SPAN 
+            class=texample>parent::show_name()</SPAN>). <SPAN 
+            class=texample>Parent</SPAN> ссылается на <SPAN 
+            class=keyword>класс</SPAN>, прописанный после <SPAN 
+            class=keyword>extends</SPAN> в объявлении вашего <SPAN 
+            class=keyword>класса</SPAN>. Поэтому если вдруг иерархия <SPAN 
+            class=keyword>классов</SPAN> изменится, то достаточно будет внести 
+            изменения в имена, указанные после <SPAN 
+            class=keyword>extends</SPAN> в описаниях <SPAN 
+            class=keyword>классов</SPAN>.</P>
+            <H4>Объектная модель PHP5</H4>
+            <P>Кроме нового названия для <SPAN 
+            class=keyword>конструкторов</SPAN> и появления деструкторов в PHP5 
+            произошло еще достаточно много изменений. Мы не будем обсуждать их 
+            подробно, только опишем в общих чертах. Основное изменение – это 
+            передача значений параметров <SPAN class=keyword>класса</SPAN> по 
+            ссылке и присвоение <SPAN class=keyword>объектов</SPAN> по ссылке, а 
+            не по значению, как это было в PHP4. В PHP5 если создаются две 
+            равные переменные типа <SPAN class=keyword>объект</SPAN>, то они 
+            указывают на одно значение и изменяются одновременно (мы приводили 
+            похожий пример с переменными строкового типа). В связи с этим 
+            появился новый механизм для создания копий <SPAN 
+            class=keyword>объектов</SPAN> – так называемое клонирование. В PHP4 
+            все <SPAN class=keyword>методы</SPAN> и переменные <SPAN 
+            class=keyword>класса</SPAN> доступны извне, т.е. они всегда являются 
+            открытыми. В PHP5 переменные и <SPAN class=keyword>методы</SPAN> 
+            можно делать открытыми (доступными отовсюду), закрытыми (доступными 
+            только внутри <SPAN class=keyword>класса</SPAN>) и защищенными 
+            (доступными внутри <SPAN class=keyword>класса</SPAN> и в его 
+            производных <SPAN class=keyword>классах</SPAN>). Кроме того, 
+            появилась возможность создавать <SPAN 
+            class=keyword>интерфейсы</SPAN> и <SPAN class=keyword>абстрактные 
+            классы</SPAN> и многое другое. В целом <SPAN class=keyword>объектная 
+            модель в PHP5</SPAN> значительно усовершенствована для более точного 
+            соответствия объектно-ориентированной парадигме 
+программирования.</P>
+            <H4>Решение задачи</H4>
+            <P>Итак, мы хотели по выбору пользователя генерировать форму для 
+            ввода описания статьи или человека и отображать данные, введенные в 
+            эту форму. Попробуем решить эту задачу, используя 
+            объектно-ориентированный подход. Для начала создадим форму, где 
+            пользователь выбирает, что он хочет создать, – описание статьи или 
+            человека (точнее, это будут две формы):</P>
+            <DIV class=example><PRE>&lt;form action="task1.php"&gt;
+Создать описание статьи: &lt;input type=submit
+    name=art_create
+    value="Create Article"&gt;
+&lt;/form&gt;
+&lt;form action="task1.php"&gt;
+Создать описание личности: &lt;input 
+   type=submit name=pers_create 
+   value="Create Person"&gt;
+&lt;/form&gt;
+</PRE></DIV>
+            <P>Теперь напишем файл для обработки этих форм. В нем создадим два 
+            <SPAN class=keyword>класса</SPAN> – статьи и личности. У каждого 
+            <SPAN class=keyword>класса</SPAN> имеется <SPAN 
+            class=keyword>метод</SPAN> для инициализации его переменных и <SPAN 
+            class=keyword>метод</SPAN> для отображения <SPAN 
+            class=keyword>объектов</SPAN> данного <SPAN 
+            class=keyword>класса</SPAN>. При решении задачи будут использованы 
+            две функции, встроенные в PHP для работы с <SPAN 
+            class=keyword>классами</SPAN> и <SPAN 
+            class=keyword>объектами</SPAN>. Это функция <SPAN 
+            class=keyword>get_class</SPAN>(объект), возвращающая имя <SPAN 
+            class=keyword>класса</SPAN>, экземпляром которого является <SPAN 
+            class=keyword>объект</SPAN>, переданный ей в качестве параметра. И 
+            функция <SPAN class=keyword>get_class_vars</SPAN>(имя <SPAN 
+            class=keyword>класса</SPAN>), которая возвращает массив всех <SPAN 
+            class=keyword>свойств</SPAN> <SPAN class=keyword>класса</SPAN> и их 
+            значений по умолчанию. Аналогично можно получить массив имен всех 
+            <SPAN class=keyword>методов</SPAN> <SPAN 
+            class=keyword>класса</SPAN>: <SPAN 
+            class=keyword>get_class_methods</SPAN> (имя <SPAN 
+            class=keyword>класса</SPAN>)</P><A name=example.6.6></A>
+            <DIV class=example><PRE>&lt;?php
+// Создаем классы Статей и Личностей. 
+// Статья имеет заголовок, автора и 
+// описание. Личность имеет имя, фамилию
+// и e-mail
+class Article {
+  var $title;
+  var $author;
+  var $description;
+// метод, который присваивает значения
+// атрибутам класса
+  function Article($t="Название отсутствует",
+      $a="Автор отсутствует",
+      $d="Описание отсутствует"){
+    $this-&gt;title = $t;
+    $this-&gt;author = $a;
+    $this-&gt;description = $d;
+  }
+//метод для отображения экземпляров класса
+  function show(){
+   $art = "&lt;h2&gt;$this-&gt;title&lt;/h2&gt;&lt;font
+   size=-1&gt;$this-&gt;description&lt;/font&gt;&lt;p&gt;Автор:
+   $this-&gt;author&lt;/p&gt;";
+    echo $art;
+  }
+}
+// Определение класса Личностей
+class Person {
+  var $first_name;
+  var $last_name;
+  var $email;
+//метод, который присваивает значения атрибутам класса
+  function Person($t="Имя не введено",
+    $a="Фамилия не введена",$d="Email не указан"){
+    $this-&lt;first_name = $t;
+    $this-&lt;last_name = $a;
+    $this-&lt;email = $d;
+  }
+//метод для отображения экземпляров класса
+  function show(){
+    $art = "&lt;h2&gt;$this-&gt;first_name&lt;/h2&gt;&lt;font
+      size=-1&gt;$this-&gt;last_name&lt;/font&gt;&lt;p&gt;Автор:
+$this-&gt;email&lt;/p&gt;";
+    echo $art;
+  }
+}
+// Далее следует собственно создание и отображение
+// экземпляров выбранного класса
+if (isset($_GET["art_create"])){ //Если была выбрана статья
+  $art = new Article; // создаем представителя класса статей
+  $art_vars = get_class_vars(get_class($art)); //какие
+                      // аргументы этого класса нужно задать
+  Make_form($art,$art_vars,"art_create"); //вызов функции
+                      // создания формы
+  if (isset($_GET["create_real"])){ Show_($art_vars); }
+  // если данные этой формы отправлены, то вызываем
+  // функцию показа
+}
+//то же самое, если была выбрана личность
+if (isset($_GET["pers_create"])){
+  $art = new Person;
+  $art_vars = get_class_vars(get_class($art));
+  Make_form($art,$art_vars,"pers_create");
+  if (isset($_GET["create_real"])){ Show_($art_vars); }
+}
+// функция создания формы
+function Make_form($art,$art_vars,$glob){
+  $str = "&lt;form&gt;";   // html код формы записывается
+                     // в строку $str
+  //перебираем список переменных класса объекта $art
+  foreach ($art_vars as $var_name =&gt; $var_value){
+    $str .="$var_name&lt;input type=text name=$var_name&gt;&lt;br&gt;";
+    //создаем элемент формы с именем свойства класса
+  }
+  $str .= "&lt;input type=hidden name=$glob&gt;"; // чтобы не
+                                   // забыть, что мы создаем
+  $str .= "&lt;input type=submit name=create_real
+    value='Create and Show'&gt;&lt;/form&gt;";
+echo "$str";   // выводим форму
+}
+// функция показа объекта
+function Show_($art_vars){
+  global $art; //используется глобальное имя объекта
+  $k = count($art_vars); //число свойств класса
+                         // (переменных в форме)
+  $p=0; //вспомогательная переменная
+  foreach ($art_vars as $name =&gt; $value){
+    $p++;
+      if ($_GET["$name"]=="") $val= $art-&gt;$name;
+      else $val = $_GET["$name"];
+      if ($p&lt;&gt;$k) $par .='"'. $val.'",';
+      else $par .='"'. $val.'"';
+  }
+  $par = '$art-&gt;'.$const ."(" .$par.");";
+  // теперь $par представляет собой php-код для вызова
+  // метода класса $art, изначально
+  // записанного в $par
+  // например,
+  // $art-&gt;Person('Vasia','Petrov','vas@intuit.ru');
+  eval($par); // функция eval выполняет код,
+              // содержащийся в $par
+  $art-&gt;show();
+}
+?&gt;
+</PRE><SPAN class=objectName>Листинг 6.6. Использование 
+            объектно-ориентированного подхода</SPAN></DIV>
+            <H4>Заключение</H4>
+            <P>Итак, мы изучили основные понятия объектной модели, используемой 
+            в языке PHP. Были описаны правила создания <SPAN 
+            class=keyword>классов</SPAN> и их представителей-объектов, способы 
+            задания начальных значений переменным <SPAN 
+            class=keyword>класса</SPAN>, способы получения значений <SPAN 
+            class=keyword>свойств</SPAN> и вызов <SPAN 
+            class=keyword>методов</SPAN> <SPAN 
+          class=keyword>классов</SPAN>.</P></TD></TR>
+        <TR>
+          <TD height=8><IMG height=8 
+            src="Объекты и классы в PHP.files/empty.gif" 
+      width=1></TD></TR></TBODY></TABLE><!-- /content --></TD>
+    <TD><IMG height=1 src="Объекты и классы в PHP.files/empty.gif" 
+  width=8></TD></TR></TBODY></TABLE><!-- /bottom -->
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD class=orang height=1><IMG height=1 
+      src="Объекты и классы в PHP.files/empty.gif" width=1></TD></TR>
+  <TR>
+    <TD class=ltxt align=middle>© 2003-2005 INTUIT.ru. Все права 
+  защищены.</TD></TR></TBODY></TABLE><!-- /bottom --></BODY></HTML>

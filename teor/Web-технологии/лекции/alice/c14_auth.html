@@ -1,0 +1,452 @@
+<html>
+<title>Аутентификация, идентификация и несанкционированный доступ</title>
+<meta name=keywords content="">
+<meta name=description content="">
+
+<body>
+<table align=center width=90%>
+<tr><td>
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c14_file.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c14_file.html">Работа с файловой системой.</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c15.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c15.html">Разработка информационных систем</a>
+</table>
+
+
+<h3>Аутентификация, идентификация и несанкционированный доступ</h3>
+<p align="justify">
+Аутентификация - это процесс, в ходе которого на основании пароля, ключа или какой-либо иной информации, пользователь подтверждает, что 
+является именно тем, за кого себя выдает.<br>
+Идентификация - это процесс, в ходе которого выясняются права доступа,
+привилегии, свойства и характеристики
+пользователя на основании его имени, логина или какой-либо другой информации о нем.<br>
+При входе пользователя в систему первым делом происходит его аутентификация. Если введенные 
+логин и пароль совпадают с хранимыми в системе на сервере, то пользователь успешно входит в систему, иначе ему отказывается в
+доступе. Здесь уместно контролировать количество попыток, дабы избежать подбора паролей. В зависимости
+от сложности и надежности системы необходимо выбрать механизм работы с паролями. В самом простом
+случае можно разрешить пользователю самостоятельно вводить пароль. Но достаточно большое количество пользователей
+в качестве пароля вводит свой: логин, имя, номер телефона и т.п. Это можно разрешить  только в тех
+системах, где проблема защиты информации пользователя является его собственным делом и не нанесет вреда
+системе в целом. Например, сервер бесплатных бюджетов пользователей chat.ru разрешает устанавливать пароль
+самостоятельно. В серьезных системах необходимо генерировать пароль пользователю случайным образом.
+В библиотеке ITCGI есть функция GeneratePassword, которая генерирует уникальный пароль. Обратите
+внимание, что даже в случае, если запущены одновременно несколько копий CGI-скрипта эта функция
+генерирует уникальный пароль, т.к. генератор основывается не только на текущем времени, но и на идентификаторе
+процесса CGI-программы. Логин и пароль необходимо передавать исключительно методом POST. При
+ методе GET данные кэшируются прокси-серверами и броузерами, т.е. вероятность узнать ваш
+ пароль значительно выше. При методе POST кэширование не происходит.
+ <br>
+ Следующим важным вопросом аутентификации мы рассмотрим проблему аутентификации при вызове каждого
+нового скрипта. Проблема заключается в том, что пароль пользователь вводит только один раз при первом
+входе в систему, а аутентификацию надо производить каждый раз, когда он обращается к какому-либо
+CGI-скрипту. Есть несколько вариантов:
+<ol>
+<li> таскать логин и пароль через все скрипты
+<li> записать логин и пароль в cookie
+<li> сгенерировать ключ и таскать его
+</ol>
+<p align="justify">
+Первый способ неудобен тем, что в системе могут быть HTML-страницы, которым можно передать
+параметры только методом GET, например, http://inforg.ru/main.html?login=1&pwd=fssdf.
+И ваш логин и пароль будут закэшированы. Убрать все html-страницы в CGI-скрипты и работать
+только методом POST неразумно, т.к. вы искусственно затормаживаете работу сервера. Как правило,
+первый способ никогда не применяется. Наиболее распространены второй и третий способ.
+Во втором и третьем способе логин и пароль передаются только один раза, а cookie и ключ генерируются
+на определенное время. Cookie, как вы помните, это параметры с определенным сроком жизни,
+которые хранятся на стороне клиента. Ключ - это тоже самое, только на стороне сервера.
+Cookie имеют два принципиальных недостатка. Во-первых, они могут быть либо отключены, либо
+просто не поддерживаться броузером. Кстати, была информация, что в Европе какой-то суд вообще
+постановил, что данная технология незаконна, т.к. производит запись на компьютер пользователя
+без его согласия. Во-вторых, пользователь может работать на чужом компьютере или в интернет-салоне
+и тем самым есть риск, что после него кто-нибудь войдет в систему с этого компьютера. Cookie
+можно устанавливать только на персональный компьютер пользователя, при условии, что он точно уверен,
+что к компьютеру не имеют доступа злоумышленники.
+Третий вариант, самый правильный и распространенный. После ввода логина и пароля вы генерируете
+на сервере ключ с определенным сроком действия. И далее от скрипта к скрипту или HTML-документу
+у вас таскается строка типа url?key=H13282i3hsk839bkjbBYasd. Каждый скрипт, получая ключ,
+по ключу получает логин и пароль пользователя на сервере.
+Такая система аутентификации
+используется в нашей тестовой системе - <a href="javascript:if(confirm('http://test.itsoft.ru/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://test.itsoft.ru/'" tppabs="http://test.itsoft.ru/">http://test.itsoft.ru/</a>.
+<br>
+Для поддержки данного механизма в библиотеке имеется две функции:
+<pre>
+int GetLoginPwd(MYSQL* pDB, const char* key, 
+                LString *login, LString *pwd);
+                
+int GetKey(MYSQL* pDB, LString *key, 
+      const char *login, const char *pwd, int expires);
+</pre>
+<p align="justify">
+Функция GetLoginPwd возвращает логин и пароль по ключу. В случае, если ключу не найдено
+соответствие возвращается ноль, иначе 1.
+Функция GetKey генерирует ключ по логину и паролю. Эти функции работают с базой данных 
+MySQL, в которой хранится необходимая информация. Вам необходимо будет завести 
+следующую таблицу:
+
+<pre>
+CREATE TABLE auth (
+  login varchar(25) NOT NULL default '',
+  pwd varchar(25) NOT NULL default '',
+  it_key varchar(50) NOT NULL default '',
+  it_date datetime default NULL,
+  
+  //время жизни в секундах
+  expires int(10) unsigned NOT NULL default '0' 
+) 
+
+</pre>
+
+
+<p align="justify">
+При входе в систему вы заполняете следующую HTML-форму. Ниже приведены исходные коды
+HTML-формы и программы аутентификации, которая генерирует ключ по логину и паролю, а затем
+перебрасывает пользователя на указанный url.
+
+<form method=post action="http://alice.stup.ac.ru/cgi-bin/auth">
+<input type="hidden" name="path" value="student/auth">
+<input type="hidden" name="url" value="main.html">
+<table>
+<tr><td>
+Логин: </td><td><input type=text name=login></td></tr>
+<tr><td>
+Пароль: </td><td><input type=password name=password></td></tr>
+<tr><td align=center colspan=2>
+<input type=submit  value="Вход"></td></tr>
+</table>
+
+</form>
+
+
+<pre>
+&lt;form method=post action="/cgi-bin/auth"&gt;
+&lt;input type="hidden" name="path" value="student/auth"&gt;
+&lt;input type="hidden" name="url" value="main.html"&gt;
+&lt;table&gt;
+&lt;tr&gt;&lt;td&gt;
+Логин: &lt;/td&gt;&lt;td&gt;&lt;input type=text name=login&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;
+Пароль: &lt;/td&gt;&lt;td&gt;&lt;input type=password name=password&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td align=center colspan=2&gt;&lt;input type=submit  value="Вход"&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;/form&gt;
+
+
+
+/*
+ * (c) Copyright 1995-2000, Igor Tarasov
+ * http://itsoft.ru
+ * FidoNet: 2:5020/370.2 620.20 1103.5
+ * email: igor@itsoft.ru itarasov@rtuis.miem.edu.ru
+ * Phone: (095)916-89-51 916-89-63
+ */
+
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;mysql.h&gt;
+#include &lt;itcgi.h&gt;
+
+
+
+int main()
+{
+MYSQL* pDB;
+MYSQL_RES* res;
+
+
+//параметры соединения с базой
+LString* db = CreateString();
+LString* user = CreateString();
+LString* pwd = CreateString();
+
+
+LString* url = CreateString();
+LString* sql_query = CreateString();
+
+
+LString *key = CreateString();
+LString *login = CreateString();
+LString *password = CreateString();
+
+
+pDB = mysql_init(NULL);
+ 
+ if(!pDB)
+  {
+   printError("Ошибка!", mysql_error(pDB));
+   return -1;
+  }
+  
+//считываем CGI-параметры и формируем SQL-запрос
+//таблица student содержит данные о студентах,
+//в том числе их логины и пароли
+GetParamByName("url", url);
+GetParamByIndex(2, login);
+GetParamByIndex(3, password);
+LString_Format(sql_query, "SELECT * FROM student WHERE id=%s AND 
+pwd=password('%s')", *login, *password);
+
+
+GetRCParam(0, 0, "db", db);
+GetRCParam(0, 0, "user", user);
+GetRCParam(0, 0, "pwd", pwd);
+
+
+
+//соединяемся с базой
+if( !mysql_real_connect(pDB, NULL, *user, *pwd, *db, 0, NULL, 0) )
+ {
+  printError("Ошибка!", "mysql_real_connect: %s\n", mysql_error(pDB));
+  goto LABEL_END;
+ }
+
+//выполняем SQL-запрос 
+if( mysql_query(pDB, *sql_query) )
+ {
+  printError("Error!", "mysql_query: SQL=%s&lt;br&gt; %s\n", 
+  *sql_query,  mysql_error(pDB));
+  goto LABEL_END;
+ }
+
+
+//если логин и пароль правильные генерируем ключ 
+res = mysql_store_result(pDB);  
+if( res && res-&gt;row_count )
+ {
+  mysql_free_result(res);               
+
+ if(!GetKey(pDB, key, *login, *password, 3600))
+  {
+   printError("Error!", "mysql_query: %s\n",  mysql_error(pDB));
+   goto LABEL_END;      
+  }
+ }
+else
+ {
+  printError("Error!", "Password incorrect...");
+  goto LABEL_END;
+ } 
+
+
+//перенаправляем пользователя на 
+//http://test.itsoft.ru/main.html?key=key
+printf("Location: http://%s/%s?key=%s\n\n", 
+        getenv("SERVER_NAME"), *url, *key);
+LABEL_END:
+mysql_close(pDB);
+
+
+DeleteString(db);
+DeleteString(user);
+DeleteString(pwd);
+
+DeleteString(sql_query);
+
+DeleteString(url);
+
+
+DeleteString(key);
+DeleteString(login);
+DeleteString(password);
+return 0;
+}
+
+
+
+=====Makefile====
+#/*
+# * (c) Copyright 1995-2000, Igor Tarasov
+# * http://itsoft.ru
+# * FidoNet: 2:5020/370.2 620.20 1103.5
+# * email: igor@itsoft.ru itarasov@rtuis.miem.edu.ru
+# * Phone: (095)916-89-51 916-89-63
+# */
+
+
+all: auth 
+
+
+auth: auth.c itcgi.a
+      gcc auth.c -L/usr/local/lib/mysql -I/usr/local/include/mysql \
+-L/usr/local/lib -I/usr/local/include \
+-o auth -lmysqlclient /usr/lib/itcgi.a -Wall -O3 
+        strip auth 
+ 
+
+</pre>
+
+
+Далее, каждый CGI-скрипт считывает переменную key, производит аутентификацию. Ниже приведен
+пример программы демонстрирующей данную возможность.
+
+
+<pre>
+
+#include &lt;stdio.h&gt;
+#include &lt;mysql.h&gt;
+#include "itcgi.h"
+#include "lstring.h"
+
+
+int main()
+{
+MYSQL* pDB;
+
+LString* db = CreateString();
+LString* user = CreateString();
+LString* pwd = CreateString();
+LString* key = CreateString();
+LString* HTML = CreateString();
+
+char str[4096];
+
+
+pDB = mysql_init(NULL);
+  if(!pDB)
+  {
+   printError("Внимание! Ошибка!", mysql_error(pDB));
+   return -1;
+  }
+
+printf("Content-type: text/html; charset=windows-1251\n\n");
+ 
+GetRCParam(0, 0, "db", db);
+GetRCParam(0, 0, "user", user);
+GetRCParam(0, 0, "pwd", pwd);
+
+if( !mysql_real_connect(pDB, NULL, *user, *pwd, *db, 0, NULL, 0) )
+ {
+  printf("mysql_real_connect: %s\n", mysql_error(pDB)); 
+  goto LABEL_END;
+ }
+
+
+//получаем значение ключа
+//по которому определяем логин и пароль пользователя
+GetParamByName("key", key);
+if( !GetLoginPwd(pDB, *key, user, pwd) )
+{
+ printf("Внимание! Ошибка!", "Error password!");        
+ goto LABEL_END;
+}
+
+ 
+LString_SetString(HTML, "&lt;tr&gt;&lt;td&gt;&lt;a 
+href=\"/cgi-bin/st_testinfo?id=%%id%%&key=%%key%%\" 
+title=\"%%description%%\"&gt;%%name%%&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;%%questions%%&lt;/td&gt;&lt;/tr&gt;");
+
+sprintf(str, "select test.id, test.name, questions, description 
+FROM test, question WHERE test.id=question.test_id 
+GROUP BY test.id, test.name, questions HAVING questions&lt;=COUNT(*)");
+
+if( GetHTMLFromSQL(pDB, str, HTML, NULL) )
+{
+ LString_Replace(HTML, "%%key%%", *key);
+ printf("%s",*HTML); 
+}
+
+ 
+
+LABEL_END:
+mysql_close(pDB);
+
+
+DeleteString(db);
+DeleteString(user);
+DeleteString(pwd);
+
+
+DeleteString(key);
+DeleteString(HTML);
+
+
+return 0;
+}
+</pre>
+
+
+<p align="justify">
+Следующей важной задачей в многопользовательских информационных системах
+является задача разграничения доступа. Мало только убедится в том, что пользователь
+ввел верные логин и пароль, необходимо также удостоверится, а разрешено ли ему выполнять
+запрашиваемые операции. Злоумышленник, например, может зарегистрироваться в вашей системе
+и удалить или получить доступ к чужим данным, если вы не будете выполнять процесс
+идентификации пользователей. Поэтому обязательно проверяйте допустимость выполняемой операции
+тем или иным пользователем.
+
+
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?1351  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?1351'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?1351" target=_top>
+    <img src="itsoft-1351" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?1351" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?1351  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?1351'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?1351" target=_top>
+    <img src="itsoft-1351" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?1351" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="itsoft-1351-1" tppabs="http://rb1.rotabanner.com/cgi-bin/iframe/itsoft?1351"
+ width=468 height=60 marginwidth=0 marginheight=0 scrolling=no 
+ frameborder=0><a href="javascript:if(confirm('http://rb1.rotabanner.com/cgi-bin/href/itsoft?1351  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb1.rotabanner.com/cgi-bin/href/itsoft?1351'" tppabs="http://rb1.rotabanner.com/cgi-bin/href/itsoft?1351" 
+ target=_top><img src="itsoft-1351-2" tppabs="http://rb1.rotabanner.com/cgi-bin/banner/itsoft?1351" 
+ alt="RB1" width=468 height=60 border=0 ismap></a></iframe>
+
+</body>
+</html>

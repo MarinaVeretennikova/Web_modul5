@@ -1,0 +1,237 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Hyperwave</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="setcookie.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="hw-array2objrec.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.hyperwave"></A>XXXVIII. Функции Hyperwave</h1><A NAME="AEN27935"></A>
+<H1><A NAME="hw-intro">Введение</A></H1><P>Hyperwave был разработан  <A HREF="http://www.iicm.edu/" TARGET="_top">IICM</A> в Graz. Он начинался как
+Hyper-G и сменил название на Hyperwave при коммерциализации (насколько помню, это было в 1996).</P>
+<P>Hyperwave это не бесплатная программа. Текущая версия, 5.5, доступна на
+<A HREF="http://www.hyperwave.com/" TARGET="_top">www.hyperwave.com</A>.  
+Можно запросить оценочную версию с ограниченным временем использования (30 дней).</P>
+<P>Hyperwave это информационная система, аналогичная database (HIS, Hyperwave Information Server). Она сфокусирована на хранении и обслуживании
+документов. Документом может быть любой блок данных, которые могут 
+сохраняться в файле. Каждый документ сопровождается записью объекта. Запись 
+объекта/object record содержит метаданные документа. Метаданные это список 
+атрибутов, который может быть расширен пользователем. Некоторые атрибуты всегда 
+устанавливаются Hyperwave-сервером, другие могут модифицироваться пользователем.<br>
+Атрибут это пара name/value (имя/значение) в форме name=value.
+Полная запись объекта содержит столько пар, сколько необходимо пользователю. 
+Имя атрибута не обязано быть уникальным,
+например, заголовок/title может появляться несколько раз в записи объекта.
+Это имеет смысл, если вы хотите специфицировать title на различных языках.
+На этот случай имеется соглашение о том, что каждому значению title 
+предшествует аббревиатура языка из двух букв с последующим двоеточием,
+например, 'en:Title in English' или 'ge:Titel in deutsch'. Другие атрибуты 
+вроде описания или ключевых слов являются потенциальными кандидатами. Вы можете 
+также заменить аббревиатуру языка любой другой строкой, отделив её двоеточием от остальной части атрибута.</P>
+<P>Каждая запись объекта имеет строковое представление, где каждая пара
+name/value отделена символами новой строки. Расширение Hyperwave знает 
+также второе представление, которое является ассоциативным массивом с именем 
+атрибута в качестве ключа. Многоязычные значения атрибутов сами образуют 
+другой ассоциативный массив с ключом - аббревиатурой языка. Фактически любой 
+многоязычный атрибут образует ассоциативный массив со строкой, в качестве 
+значения ключа, слева от двоеточия в значении атрибута. (Это ещё не 
+полностью реализовано. Только Title, Description и Keyword атрибута считаются пока что его свойствами.)</P>
+<P>Помимо документов, все гиперссылки, содержащиеся в документе, также 
+хранятся как записи объекта. Гиперссылки в документе будут удалены из него и 
+сохранены в отдельных объектах, когда документ будет вставляться в БД.
+Запись объекта ссылки содержит информацию о том, где она стартует и где заканчивается.
+Чтобы получить оригинал документа, вам нужно будет запросить документ без 
+ссылок и список ссылок и вновь вставить их в него (функции
+<A HREF="hw-pipedocument.html"><B>hw_pipedocument()</B></A > и <A HREF="hw-gettext.html"><B>hw_gettext()</B></A> сделают это для вас. Преимущества отделения ссылок от объектов очевидны. Если
+объект, на который указывает ссылка, изменяет своё имя, ссылка легко может 
+быть модифицирована. Документ, содержащий ссылку, вообще не будет затронут. 
+Вы можете даже добавить ссылку в документ без его изменения.</P>
+<P>Сказать, что <A HREF="hw-pipedocument.html"><B>hw_pipedocument()</B></A> и
+<A HREF="hw-gettext.html"><B>hw_gettext()</B></A> автоматически делают вставку ссылки, было бы слишком просто. Вставка ссылок 
+предполагает определённую иерархию документов. На web-сервере это делается 
+файловой системой, но Hyperwave имеет свою собственную иерархию, и имена не 
+отражают позицию объекта в этой иерархии. Следовательно, создание ссылок 
+требует прежде всего отображения из иерархии и пространства имён Hyperwave в 
+соответствующее web-пространство имён web-иерархии.<br>
+Принципиальное отличие Hyperwave от web в том, что имеется ясное различие 
+именами и иерархией Hyperwave. Имя не содержит никакой информации о позиции объекта в иерархии.
+В web - имя содержит также и информацию о том, где объект размещён в 
+иерархии. Это даёт два различных способа отображения. Либо иерархия и имя Hyperwave Hyperwave-объекта 
+отражаются в URL, либо только имя.
+Для упрощения используется второй подход.
+Hyperwave-объект с именем 'my_object' отображается в
+'http://host/my_object', независимо от его положения в иерархии Hyperwave.
+объект с именем 'parent/my_object' может быть потомком объекта
+'my_object' в иерархии Hyperwave, хотя в пространстве имён web это выглядит 
+необычно, и пользователь может быть удивлён. 
+Предотвратить это можно только выбором осмысленных имён объектов.</P>
+<P>После принятия данного решения возникает вторая проблема. Как вызвать PHP? URL http://host/my_object не вызовет
+PHP-скрипт, если вы не сообщите вашему web-серверу, что нужно переписать URL 
+на, к примеру, 'http://host/php3_script/my_object', и скрипт 'php3_script'
+вычислит переменную $PATH_INFO и запросит объект с именем 'my_object' с Hyperwave-сервер. 
+Здесь есть только один недостаток, который можно легко устранить. Перезапись 
+любого URL не позволит получить доступ к любым другим документам на web-сервере. PHP-скрипт 
+для поиска на Hyperwave-сервере применить невозможно. Следовательно, вам 
+понадобится как минимум второе правило перезаписи для исключения определённых
+URL вроде, к примеру, начинающихся с http://host/Hyperwave. Это будет 
+разделением пространства имён между web и Hyperwave-сервером.</P>
+<P>Основываясь на вышеприведённом механизме, ссылки вставляются в документы.</P>
+<P>Это несколько усложняется, если PHP запущен не как серверный модуль или CGI-скрипт, 
+а как отдельное приложение, например, для дампа содержимого Hyperwave-сервера 
+на CD-ROM. В таком случае имеет смысл сохранить иерархию Hyperwave и 
+отобразить её в файловую систему. Это конфликтует с именами объектов, если они отражают свою собственную иерархию
+(например, избрав имена, включающие '/'). Следовательно, '/' должен быть заменён другим символом, например, '_'.</P>
+<P>Сетевой протокол для соединения с Hyperwave-сервером называется
+<A HREF="http://www.hyperwave.com/7.17-hg-prot" TARGET="_top">HG-CSP</A> (Hyper-G Client/Server Protocol). Он основан на сообщениях для инициации определённых действий, 
+например, получения записи объекта.  В ранних версиях Hyperwave Server 
+предоставлялись два клиента (Harmony, Amadeus) для соединения с сервером. 
+Они были убраны при коммерциализации Hyperwave.  В качестве замены был 
+предоставлен так называемый wavemaster. Это wavemaster является чем-то вроде 
+конвертера протоколов из HTTP в HG-CSP. Идея состоит в том, чтобы делать всё администрирование БД и визуализацию 
+документов через web-интерфейс. Wavemaster реализует набор заглушек/placeholders для определённых акций, чтобы 
+специализировать интерфейс. Этот набор заглушек называется PLACE Language.
+В PLACE отсутствуют многие возможности реального языка программирования, и любое 
+расширение его только расширяет список заглушек.
+Это привело к использованию JavaScript, IMO которого не делает жизнь легче.</P>
+<P>Добавление поддержки Hyperwave в PHP должно заполнить отсутствующий 
+интерфейс специализации.  Он реализует все сообщения, как определено HG-CSP,
+но предоставляет также и более мощные команды для, например, запрашивания полных документов.</P>
+<P>Hyperwave имеет свою собственную терминологию для именования определённых 
+блоков информации. Она была широко использована и расширена.
+Почти все функции оперируют с данными одного из следующих типов.
+<UL><LI><P>ID объекта: Уникальное целочисленное значение для каждого объекта в
+Hyperwave-сервере. Это также один из атрибутов записи объекта (ObjectID). ids 
+объектов часто используются как параметр ввода для специфицирования объекта.</P></LI>
+<LI><P>Запись объекта/object record: Строка с парами атрибут-значение в форме
+attribute=value. Пары разделены символами возврата каретки. Запись 
+объекта можно легко конвертировать в массив объекта функцией <B>hw_object2array()</B>.
+Несколько функций возвращают записи объектов. Имена таких функций заканчиваются на obj.</P></LI>
+<LI><P>массив объекта: Ассоциированный массив со всеми атрибутами объекта. 
+Ключом является имя атрибута. Если атрибут появляется более чем однократно 
+в записи объекта, это даст другой ассоциированный или индексированный 
+массив. Атрибуты, зависящие от языка (вроде title, keyword, description), 
+сформируют ассоциативный массив с ключами - аббревиатурами языков. Все 
+иные множественные атрибуты сформируют индексированный массив. Функции PHP никогда не возвращают массивы объектов.</P>
+</LI><LI><P>hw_document: Это совершенно новый тип данных, содержащий реальный 
+документ, например, HTML, PDF etc. Он оптимизирован для HTML-документов, но может использоваться для любого формата.</P>
+</LI></UL><P>Некоторые функции, возвращающие массив записей объекта, возвращают также 
+ассоциативный массив со статистической информацией о нём. Этот массив 
+является последним элементом массива записей объекта. Статистический массив 
+содержит следующие вхождения:<DL><DT>Hidden</DT><DD><P>Количество записей объектов с атрибутом PresentationHints,  установленным в Hidden.</P>
+</DD><DT>CollectionHead</DT><DD><P>Количество записей объектов с атрибутом
+PresentationHints, установленным в CollectionHead.</P></DD><DT>FullCollectionHead</DT>
+<DD><P>Количество записей объектов с атрибутом
+PresentationHints, установленным в FullCollectionHead.</P></DD>
+<DT>CollectionHeadNr</DT><DD><P>Индекс в массиве записей объекта с атрибутом PresentationHints, 
+установленным в CollectionHead.</P></DD><DT>FullCollectionHeadNr</DT><DD>
+<P>Индекс в массиве записей объекта с атрибутом PresentationHints, 
+установленным в FullCollectionHead.</P></DD><DT>Total</DT><DD><P>Всего: Количество записей объекта.</P></DD></DL>
+<H1><A NAME="hw-apache">Интеграция с Apache</A></H1><P>Расширение Hyperwave лучше всего использовать, когда PHP скомпилирован как
+Apache-модуль. В этом случае Hyperwave-сервер может быть скрыт от 
+пользователей почти полностью, если Apache использует свою машину перезаписи. 
+Следующие инструкции разъясняют это.</P><P>Поскольку PHP с поддержкой Hyperwave, встроенный в Apache, предполагается 
+заменить Hyperwave-решением на базе Wavemaster, я буду считать, что Apache-сервер будет работать только как Hyperwave
+web-интерфейс. Это не обязательно, но упрощает конфигурацию.<br>
+Концепция довольно проста. Прежде всего вам необходим PHP-скрипт, вычисляющий переменную
+<TT>PATH_INFO</TT> и рассматривающий её значение как имя Hyperwave-объекта. Назовём этот скрипт 'Hyperwave'.
+URL http://your.hostname/Hyperwave/name_of_object возвратит Hyperwave-объект с именем
+'name_of_object'. В зависимости от типа объекта, скрипт должен реагировать 
+соответственно. Если это collection/коллекция, он, вероятно, возвратит 
+список потомков. Если это&nbsp; документ, он возвратит
+mime-тип и content/содержимое. Можно добиться некоторого улучшения, если 
+использовать машину перезаписи Apache.  С точки зрения пользователя, лучше 
+будет, если URL http://your.hostname/name_of_object возвратит объект.
+<P>Правило перезаписи довольно лёгкое:<A NAME="AEN28008"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>RewriteRule ^/(.*) /usr/local/apache/htdocs/HyperWave/$1 [L]</PRE></TD></TR></TABLE>
+<p>Теперь каждый URL имеет отношение к объекту на Hyperwave-сервере. Это 
+облегчает решение проблемы. Нет иного способа выполнить скрипт, например, 
+для поиска, кроме 'Hyperwave'-скрипта.  Это можно решить с помощью другого 
+правила перезаписи, наподобие следующего:<A NAME="AEN28010"></A></p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>RewriteRule ^/hw/(.*) /usr/local/apache/htdocs/hw/$1 [L]</PRE></TD></TR></TABLE>
+<p>Это зарезервирует директорию <TT>/usr/local/apache/htdocs/hw</TT
+> для дополнительных скриптов и других файлов. Просто убедитесь, что это правило 
+вычисляется до вышеприведённого. Здесь есть один маленький недостаток:
+все Hyperwave-объекты, чьи имена начинаются с 'hw/', будут затемнены. Итак, 
+убедитесь, что вы не используете таких имён. Если вам нужны дополнительные 
+директории, например, для изображений, просто добавьте ещё правила или 
+поместите их все в одну директорию.  Наконец, не забудьте включить машину перезаписи:<A NAME="AEN28013"></A></p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>RewriteEngine on</PRE></TD></TR></TABLE>
+<p>Мой личный опыт показывает, что вам необходимы следующие скрипты:</p>
+<UL><LI><P>для возвращения самого объекта</P></LI><LI><P>для поиска</P></LI><LI><P>для вашей идентификации</P></LI>
+<LI><P>для установки вашего профиля/profile</P></LI><LI><P>по одному для каждой дополнительной функции вроде: функции показа 
+атрибутов объекта, для показа информации о пользователях, для показа статуса сервера и т.д.</P></LI></UL>
+<H1><A NAME="hw-todo">Todo</A>/<a name="hw-todo">необходимо сделать</a></H1>
+<P>Есть и ещё несколько вещей, которые необходимо сделать:<UL><LI><P>hw_InsertDocument нужно разделить по
+<A HREF="hw-insertobject.html"><B>hw_insertobject()</B></A> и <B>hw_putdocument()</B>.</P></LI>
+<LI><P>Имена некоторых функций пока ещё не исправлены.</P></LI><LI>
+<P>Большинство функций требуют текущего соединения в качестве первого параметра. 
+Это приводит в необходимости лишнего ввода с клавиатуры, что бывает весьма 
+нежелательно, если это всего лишь единственное соединение. Соединение по 
+умолчанию призвано улучшить эту ситуацию.</P></LI><LI>
+<P>Конвертация из записи объекта в массив объекта требует обработки многочисленных атрибутов.</P></LI></UL>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="hw-array2objrec.html">hw_Array2Objrec</A> - конвертирует атрибуты из массива объекта в запись объекта</DT>
+<DT><A HREF="hw-changeobject.html">hw_changeobject</A> - изменяет атрибуты объекта (устарела)</DT>
+<DT><A HREF="hw-children.html">hw_Children</A> - ids объектов потомков</DT>
+<DT><A HREF="hw-childrenobj.html">hw_ChildrenObj</A> - записи объектов потомков</DT>
+<DT><A HREF="hw-close.html">hw_Close</A> - закрывает Hyperwave-соединение</DT>
+<DT><A HREF="hw-connect.html">hw_Connect</A> - открывает соединение</DT>
+<DT><A HREF="hw-connection-info.html">hw_connection_info</A> -  печатает информацию о соединении с Hyperwave-сервером</DT>
+<DT><A HREF="hw-cp.html">hw_Cp</A> - копирует объекты</DT>
+<DT><A HREF="hw-deleteobject.html">hw_Deleteobject</A> - удаляет объект</DT>
+<DT><A HREF="hw-docbyanchor.html">hw_DocByAnchor</A> - object id объекта, принадлежащего якорю</DT>
+<DT><A HREF="hw-docbyanchorobj.html">hw_DocByAnchorObj</A> - object record объекта, принадлежащего якорю</DT>
+<DT><A HREF="hw-document-attributes.html">hw_Document_Attributes</A> - object record hw_document'а</DT>
+<DT><A HREF="hw-document-bodytag.html">hw_Document_BodyTag</A> - тэг body hw_document'а</DT>
+<DT><A HREF="hw-document-content.html">hw_Document_Content</A> - возвращает содержимое hw_document'а</DT>
+<DT><A HREF="hw-document-setcontent.html">hw_Document_SetContent</A> - устанавливает/заменяет содержимое hw_document'а</DT>
+<DT><A HREF="hw-document-size.html">hw_Document_Size</A> - размер hw_document'а</DT>
+<DT><A HREF="hw-dummy.html">hw_dummy</A> - функция-заглушка Hyperwave</DT>
+<DT><A HREF="hw-edittext.html">hw_EditText</A> - запрашивает текстовый документ</DT>
+<DT><A HREF="hw-error.html">hw_Error</A> - номер ошибки</DT>
+<DT><A HREF="hw-errormsg.html">hw_ErrorMsg</A> - возвращает сообщение об ошибке</DT>
+<DT><A HREF="hw-free-document.html">hw_Free_Document</A> - освобождает hw_document</DT>
+<DT><A HREF="hw-getanchors.html">hw_GetAnchors</A> - object ids якорей документа</DT>
+<DT><A HREF="hw-getanchorsobj.html">hw_GetAnchorsObj</A> - object records якорей документа</DT>
+<DT><A HREF="hw-getandlock.html">hw_GetAndLock</A> - возвращает запись объекта и блокирует объект</DT>
+<DT><A HREF="hw-getchildcoll.html">hw_GetChildColl</A> - object ids коллекций потомка</DT>
+<DT><A HREF="hw-getchildcollobj.html">hw_GetChildCollObj</A> - object records коллекций потомка</DT>
+<DT><A HREF="hw-getchilddoccoll.html">hw_GetChildDocColl</A> - object ids дочерних документов коллекции</DT>
+<DT><A HREF="hw-getchilddoccollobj.html">hw_GetChildDocCollObj</A> - object records дочерних документов коллекции</DT>
+<DT><A HREF="hw-getobject.html">hw_GetObject</A> - object record/запись объекта</DT>
+<DT><A HREF="hw-getobjectbyquery.html">hw_GetObjectByQuery</A> - ищет объект</DT>
+<DT><A HREF="hw-getobjectbyquerycoll.html">hw_GetObjectByQueryColl</A> - ищет объект в коллекции</DT>
+<DT><A HREF="hw-getobjectbyquerycollobj.html">hw_GetObjectByQueryCollObj</A> - ищет объект в коллекции</DT>
+<DT><A HREF="hw-getobjectbyqueryobj.html">hw_GetObjectByQueryObj</A> - ищет объект</DT>
+<DT><A HREF="hw-getparents.html">hw_GetParents</A> - object ids родителей</DT>
+<DT><A HREF="hw-getparentsobj.html">hw_GetParentsObj</A> - object records родителей</DT>
+<DT><A HREF="hw-getrellink.html">hw_getrellink</A> - получает ссылку из ресурса на цель относительно rootid</DT>
+<DT><A HREF="hw-getremote.html">hw_GetRemote</A> - получает удалённый документ</DT>
+<DT><A HREF="hw-getremotechildren.html">hw_GetRemoteChildren</A> - получает потомков удалённого/remote документа</DT>
+<DT><A HREF="hw-getsrcbydestobj.html">hw_GetSrcByDestObj</A> - возвращает якоря, указывающие на объект</DT>
+<DT><A HREF="hw-gettext.html">hw_GetText</A> - запрашивает текстовый документ</DT>
+<DT><A HREF="hw-getusername.html">hw_getusername</A> - имя текущего вошедшего/logged in пользователя</DT>
+<DT><A HREF="hw-identify.html">hw_Identify</A> - идентифицирует пользователя</DT>
+<DT><A HREF="hw-incollections.html">hw_InCollections</A> - проверяет, находятся ли ids объектов в коллекции</DT>
+<DT><A HREF="hw-info.html">hw_Info</A> - info о соединении</DT>
+<DT><A HREF="hw-inscoll.html">hw_InsColl</A> - вставляет коллекцию/collection</DT>
+<DT><A HREF="hw-insdoc.html">hw_InsDoc</A> - вставляет документ</DT>
+<DT><A HREF="hw-insertanchors.html">hw_insertanchors</A> - вставляет в текст только якоря</DT>
+<DT><A HREF="hw-insertdocument.html">hw_InsertDocument</A> - загружает любой документ</DT>
+<DT><A HREF="hw-insertobject.html">hw_InsertObject</A> - вставляет object record</DT>
+<DT><A HREF="hw-mapid.html">hw_mapid</A> - отображает глобальный id/идентификатор в виртуальный локальный id</DT>
+<DT><A HREF="hw-modifyobject.html">hw_Modifyobject</A> - модифицирует object record</DT>
+<DT><A HREF="hw-mv.html">hw_Mv</A> - перемещает объекты</DT>
+<DT><A HREF="hw-new-document.html">hw_New_Document</A> - создаёт новый документ</DT>
+<DT><A HREF="hw-objrec2array.html">hw_Objrec2Array</A> - конвертирует атрибуты из записи объекта в массив объекта</DT>
+<DT><A HREF="hw-output-document.html">hw_Output_Document</A> - печатает hw_document</DT>
+<DT><A HREF="hw-pconnect.html">hw_pConnect</A> - делает постоянное соединение с БД</DT>
+<DT><A HREF="hw-pipedocument.html">hw_PipeDocument</A> - запрашивает любой документ</DT>
+<DT><A HREF="hw-root.html">hw_Root</A> - id объекта root</DT>
+<DT><A HREF="hw-setlinkroot.html">hw_setlinkroot</A> - устанавливает id, на который вычисляются ссылки</DT>
+<DT><A HREF="hw-stat.html">hw_stat</A> - возвращает status-строку</DT>
+<DT><A HREF="hw-unlock.html">hw_Unlock</A> - разблокирует объект</DT>
+<DT><A HREF="hw-who.html">hw_Who</A> - список текущих вошедших/logged in пользователей</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366">
+<TD><IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR>
+<TD WIDTH="33%" VALIGN="top"><A HREF="setcookie.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="hw-array2objrec.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">setcookie</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">hw_Array2Objrec</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

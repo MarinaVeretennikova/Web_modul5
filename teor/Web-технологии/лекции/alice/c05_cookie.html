@@ -1,0 +1,617 @@
+<html>
+<title>Cookie</title>
+<meta name=keywords content="script language JavaScript Cookie">
+
+
+<body>
+
+<table align=center width=90%>
+<tr><td>
+
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c05_client.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c05_client.html">Информация о клиенте</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c06.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c06.html">Веб-сервер </a>
+</table>
+
+<h3>Cookie</h3>
+<p align="justify">
+Cookie - параметры, которые хранятся на стороне клиента.
+Перевода этого термина на русский язык пока нет. Дословный перевод - печенье.
+Произносится - куки.
+Параметр cookie представляют собой пару name=value.
+Всякий раз, когда ваш броузер запрашивает документ с веб-сервера,
+он передает ему Cookie. На основание этих параметров броузер может получить
+тот или иной HTML-документ. Как использовать Cookie на стороне веб-сервера,
+будет рассказано в следующих частях книги. Здесь пойдет речь о работе с Cookie в JavaScript.
+Пока вы должны понять, что такое Cookie, и что эти параметры доступны, как на стороне клиента, так и на
+стороне веб-сервера. Соответственно добавлять и удалять эти параметры может и сервер, и клиент.
+<br>
+Эти пары можно получить из переменной JavaScript document.cookie.
+Cookie часто используются для хранения логина и пароля на стороне клиента.
+Также вы можете хранить и любую другую информацию о клиенте. 
+Перед веб-сайтами с огромным количеством посещений, предоставляющих услуги
+массового потребления встает задача персонализации веб-сайта. Например, рассмотри
+поисковую систему типа aport.ru или rambler.ru. Веб-сайты такого рода предоставляют море 
+информации. Помимо поиска там вы можете посмотреть погоду, курс доллара, новости и т.д.
+Теперь представьте, что у вас подключение к Интернет через телефонную линию со скоростью
+1.5Кб в секунду и вам, совершенно, ни к чему все предоставляемые сервисы этой мощной поисковой системы. 
+С помощью Cookie в вашем обозревателе Интернет, можно сохранить настройки, которые позволят
+сразу загрузить текстовую версию сайта вместо графической, не загружать вам новости и другую информацию, которая вам
+не нужна.
+<br>
+На основе Cookie
+построены многие Интернет-магазины, где пользователь сначала складывает товары в корзину,
+а потом выбирает, что именно он купит, и расплачивается. Информация о товарах в корзине хранится в 
+Cookie. Например, чтобы просмотреть установленные Cookie в Internet Explorer выберите
+"Свойство обозревателя" в меню "Сервис", затем в разделе "Временные файлы Internet" нажмите кнопку
+"Настройка" и в появившемся диалоговом окне "Настройка" нажмите кнопку "Просмотр файлов".
+<br>
+Для того чтобы устанавливать, читать и удалять Cookie, я написал ряд функций на языке JavaScript.
+
+
+<pre>
+&lt;script language="javascript"&gt; 
+&lt;!--
+
+//возвращает количество параметров
+function GetCookieCount()
+{
+var len = document.cookie.length;
+var n=0;
+
+ for(var i=0;i&lt;len;i++)
+ {
+  if(document.cookie.charAt(i) == '=')
+   n++;
+ }
+ 
+return n; 
+}
+
+//возвращает значение параметра на основании его имени 
+function GetCookieValueByName(name)
+{
+ var beg = document.cookie.indexOf(name+"=");
+ if(beg==-1)
+  return false;
+  
+ var end = document.cookie.indexOf(";", beg + name.length);
+ if(end==-1)
+  end = document.cookie.length;
+  
+return unescape(document.cookie.substring(beg + name.length + 1, end));
+}
+
+
+//возвращает значение i-го параметра
+function GetCookieValueByIndex(index)
+{
+var len = document.cookie.length;
+var i,n=-1;
+
+ for(i=0;i&lt;len && n!=index;i++)
+ {
+  if(document.cookie.charAt(i) == '=')
+   n++;
+ }
+
+var end = document.cookie.indexOf(";", i);
+ if(end==-1)
+  end = document.cookie.length;
+  
+return unescape(document.cookie.substring(i, end));
+}
+
+//возвращает имя i-го параметра
+function GetCookieNameByIndex(index)
+{
+var len = document.cookie.length;
+var i, n=-1;
+
+ for(i=0;i&lt;len && n!=index-1;i++)
+ {
+  if(document.cookie.charAt(i) == ';')
+   n++;
+ }
+
+var end = document.cookie.indexOf("=", i);
+  
+return unescape(document.cookie.substring(i, end));
+}
+
+//Устанавливает значение параметра.
+//name и value обязательные параметры этой функции, остальные
+//могут быть опущены.
+//Время жизни задается в переменной expires
+//expires задается в следующем виде Thu, 01-Jan-70 00:00:01 GMT
+//т.е. День недели, число-месяц-год часы:минуты:секунды
+//path задет префикс пути HTML-документов, в которых будет доступно
+//значение параметра name
+//domain задет доменное имя HTML-документов, в которых будет доступно
+//значение параметра name
+//secure - если этот параметр указан, то Cookie будут передаваться 
+//только по защищенному протоколу HTTPS
+function SetCookie(name, value, expires, path, domain, secure)
+{
+ document.cookie = name + "=" + escape(value) +
+                ((expires) ? "; expires=" + expires.toGMTString() : "") +
+                ((path) ? "; path=" + path : "") +
+                ((domain) ? "; domain=" + domain : "") +
+                ((secure) ? "; secure" : "");
+}
+
+
+//все тоже самое, только время жизни параметра
+//задается не как абсолютная величина, а как относительная
+//в неделях относительно текущей даты
+function SetCookieForNWeeks(name, value, weeks, path, domain, secure)
+{
+var today = new Date();
+expires = new Date(today.getTime() + weeks*7*24*60*60*1000);
+ document.cookie = name + "=" + escape(value) +
+                "; expires=" + expires.toGMTString() +
+                ((path) ? "; path=" + path : "") +
+                ((domain) ? "; domain=" + domain : "") +
+                ((secure) ? "; secure" : "");
+}
+
+
+//соответственно в днях
+function SetCookieForNDays(name, value, days, path, domain, secure)
+{
+var today = new Date();
+expires = new Date(today.getTime() + days*24*60*60*1000);
+ document.cookie = name + "=" + escape(value) +
+                "; expires=" + expires.toGMTString() +
+                ((path) ? "; path=" + path : "") +
+                ((domain) ? "; domain=" + domain : "") +
+                ((secure) ? "; secure" : "");
+}
+
+
+
+//соответственно в часах
+function SetCookieForNHours(name, value, hours, path, domain, secure)
+{
+var today = new Date();
+expires = new Date(today.getTime() + hours*60*60*1000);
+ document.cookie = name + "=" + escape(value) +
+                "; expires=" + expires.toGMTString() +
+                ((path) ? "; path=" + path : "") +
+                ((domain) ? "; domain=" + domain : "") +
+                ((secure) ? "; secure" : "");
+}
+
+
+//в минутах
+function SetCookieForNMinuts(name, value, minuts, path, domain, secure)
+{
+var today = new Date();
+expires = new Date(today.getTime() + minuts*60*1000);
+ document.cookie = name + "=" + escape(value) +
+                "; expires=" + expires.toGMTString() +
+                ((path) ? "; path=" + path : "") +
+                ((domain) ? "; domain=" + domain : "") +
+                ((secure) ? "; secure" : "");
+}
+
+//и, наконец, в секундах
+function SetCookieForNSeconds(name, value, seconds, path, domain, secure)
+{
+var today = new Date();
+expires = new Date(today.getTime() + seconds*1000);
+ document.cookie = name + "=" + escape(value) +
+                "; expires=" + expires.toGMTString() +
+                ((path) ? "; path=" + path : "") +
+                ((domain) ? "; domain=" + domain : "") +
+                ((secure) ? "; secure" : "");
+}
+
+
+//удаляет параметр Cookie,
+//установив ему время жизни 1 Января 1970 года
+function DeleteCookie(name, path, domain)
+{
+ if(GetCookieByName(name))
+  document.cookie = name + "=" + 
+                ((path) ? "; path=" + path : "") +
+                ((domain) ? "; domain=" + domain : "") +
+                "; expires=Thu, 01-Jan-70 00:00:01 GMT";
+  
+}
+//--&gt;
+&lt;/script&gt;
+
+</pre>
+<p align="justify">
+Если параметр expires не указан, то cookie хранится в течение одного 
+сеанса, до закрытия броузера. 
+Параметр domain определяет доменное имя веб-сервера, для документов которого
+будут доступны Cookie. Например, если указано itsoft.ru, то значит всякий раз при запросе
+документа с сайта itsoft.ru броузер будет передавать на сервер соответствующий параметр
+Cookie.
+Если этот параметр не задан, то по умолчанию используется 
+доменное имя сервера, с которого был загружен HTML-документ. 
+Параметр path определяет путь на веб-сервере для HTML-документов, дл которых будут
+посылаться параметры Cookie. Например, если указано "/guest", то соответствующий параметр будет передан
+для всех HTML-документов, путь к которым подпадает под маску /guest*, т.е.
+для /guestbook/index.html, /guestbook/post.html, /guestbook/old/index.html,
+/guests.html и т.д.
+Если этот параметр не указан, то значение cookie распространяется только на 
+документы в той же директории, что и документ, в котором было установлено значение cookie. 
+<br>
+<br>
+Далее приведена таблица с параметрами Cookie, которые доступны
+в данный момент и форма для установки новых параметров параметров.
+
+
+<script language="javascript"> 
+<!--
+
+function GetCookieCount()
+{
+var len = document.cookie.length;
+var n=0;
+
+ for(var i=0;i<len;i++)
+ {
+  if(document.cookie.charAt(i) == '=')
+   n++;
+ }
+ 
+return n; 
+}
+ 
+function GetCookieValueByName(name)
+{
+ var beg = document.cookie.indexOf(name+"=");
+ if(beg==-1)
+  return false;
+  
+ var end = document.cookie.indexOf(";", beg + name.length);
+ if(end==-1)
+  end = document.cookie.length;
+  
+return unescape(document.cookie.substring(beg + name.length + 1, end));
+}
+
+
+
+function GetCookieValueByIndex(index)
+{
+var len = document.cookie.length;
+var i,n=-1;
+
+ for(i=0;i<len && n!=index;i++)
+ {
+  if(document.cookie.charAt(i) == '=')
+   n++;
+ }
+
+var end = document.cookie.indexOf(";", i);
+ if(end==-1)
+  end = document.cookie.length;
+  
+return unescape(document.cookie.substring(i, end));
+}
+
+
+function GetCookieNameByIndex(index)
+{
+var len = document.cookie.length;
+var i, n=-1;
+
+ for(i=0;i<len && n!=index-1;i++)
+ {
+  if(document.cookie.charAt(i) == ';')
+   n++;
+ }
+
+var end = document.cookie.indexOf("=", i);
+  
+return unescape(document.cookie.substring(i, end));
+}
+
+
+function SetCookie(name, value, expires, path, domain, secure)
+{
+ document.cookie = name + "=" + escape(value) +
+                ((expires) ? "; expires=" + expires.toGMTString() : "") +
+                ((path) ? "; path=" + path : "") +
+                ((domain) ? "; domain=" + domain : "") +
+                ((secure) ? "; secure" : "");
+}
+
+
+function SetCookieForNWeeks(name, value, weeks, path, domain, secure)
+{
+var today = new Date();
+expires = new Date(today.getTime() + weeks*7*24*60*60*1000);
+ document.cookie = name + "=" + escape(value) +
+                "; expires=" + expires.toGMTString() +
+                ((path) ? "; path=" + path : "") +
+                ((domain) ? "; domain=" + domain : "") +
+                ((secure) ? "; secure" : "");
+}
+
+
+function SetCookieForNDays(name, value, days, path, domain, secure)
+{
+var today = new Date();
+expires = new Date(today.getTime() + days*24*60*60*1000);
+ document.cookie = name + "=" + escape(value) +
+                "; expires=" + expires.toGMTString() +
+                ((path) ? "; path=" + path : "") +
+                ((domain) ? "; domain=" + domain : "") +
+                ((secure) ? "; secure" : "");
+}
+
+
+function SetCookieForNHours(name, value, hours, path, domain, secure)
+{
+var today = new Date();
+expires = new Date(today.getTime() + hours*60*60*1000);
+ document.cookie = name + "=" + escape(value) +
+                "; expires=" + expires.toGMTString() +
+                ((path) ? "; path=" + path : "") +
+                ((domain) ? "; domain=" + domain : "") +
+                ((secure) ? "; secure" : "");
+}
+
+
+
+function SetCookieForNMinuts(name, value, minuts, path, domain, secure)
+{
+var today = new Date();
+expires = new Date(today.getTime() + minuts*60*1000);
+ document.cookie = name + "=" + escape(value) +
+                "; expires=" + expires.toGMTString() +
+                ((path) ? "; path=" + path : "") +
+                ((domain) ? "; domain=" + domain : "") +
+                ((secure) ? "; secure" : "");
+}
+
+
+function SetCookieForNSeconds(name, value, seconds, path, domain, secure)
+{
+var today = new Date();
+expires = new Date(today.getTime() + seconds*1000);
+ document.cookie = name + "=" + escape(value) +
+                "; expires=" + expires.toGMTString() +
+                ((path) ? "; path=" + path : "") +
+                ((domain) ? "; domain=" + domain : "") +
+                ((secure) ? "; secure" : "");
+}
+
+function DeleteCookie(name, path, domain)
+{
+ if(GetCookieByName(name))
+  document.cookie = name + "=" + 
+                ((path) ? "; path=" + path : "") +
+                ((domain) ? "; domain=" + domain : "") +
+                "; expires=Thu, 01-Jan-70 00:00:01 GMT";
+  
+}
+//-->
+</script>
+
+
+После установки нового параметра Cookie, HTML-документ перегружается,
+чтобы обновилось содержание таблицы.
+<br><br>
+<table align="center"  width="300"  border="0"
+                cellspacing="1" cellpadding="0"
+                bgcolor="#000000">
+        <tr bgcolor="#CCCCFF" align="center"> <td> Параметр<td> Значение
+        
+<script language="javascript"> 
+<!--
+function MakeArray(n)
+{
+for(var i=0;i<n;i++)
+ this[i] = 0;
+ 
+return this; 
+}
+
+var i,n=GetCookieCount();
+c = new MakeArray(2);
+c[0]="\"#EEEEEE\"";
+c[1]="\"#CCCCCC\"";
+
+
+for(i=0;i<n;i++)
+ document.writeln(
+        "<tr bgcolor=" + c[i%2] + "> <td>" + GetCookieNameByIndex(i)
+        + "<td>" + GetCookieValueByIndex(i)
+                  );
+-->     
+</script>       
+</table>
+
+
+
+<form name="SetCookieForm">
+<table border=0>
+<tr><td>
+name<td> <input type="text" name="name" size=40>
+<tr><td>
+value<td> <input type="text" name="value" size=40>
+<tr><td>
+life time in<td> <input type="text" name="days" size=5> days OR in
+<input type="text" name="seconds" size=5> seconds
+<tr><td>
+path<td> <input type="text" name="path" value="/docs/web" size=40>
+<tr><td>
+domain<td> <input type="text" name="domain" value="itsoft.ru" size=40>
+</table>
+<input type="button" value="Установить Cookie на энное кол-во дней"
+onClick="SetCookieForNDays( SetCookieForm.name.value, 
+                    SetCookieForm.value.value, 
+                    SetCookieForm.days.value,
+                    SetCookieForm.path.value,
+                    SetCookieForm.domain.value);
+        window.location.href=window.location.href;">
+<br><br>
+<input type="button" value="Установить Cookie на энное кол-во секунд"
+onClick="SetCookieForNSeconds( SetCookieForm.name.value, 
+                    SetCookieForm.value.value, 
+                    SetCookieForm.seconds.value,
+                    SetCookieForm.path.value,
+                    SetCookieForm.domain.value);
+        window.location.href=window.location.href;">
+        
+</form>
+
+Введите имя и значение какого-нибудь параметра и установите его сроком на 30 секунд, после нажатия
+кнопки "Установить Cookie на энное кол-во секунд" страница перезагрузится, и в таблице вы
+увидите свой параметр.
+Через 30 секунд перезагрузите эту страницу, и вы увидите, что параметр исчез.
+<br>
+Ниже приведен код таблицы и HTML-формы для установки параметров Cookie.
+
+<pre>
+&lt;table align="center"  width="300"  border="0"
+                cellspacing="1" cellpadding="0"
+                bgcolor="#000000"&gt;
+        &lt;tr bgcolor="#CCCCFF" align="center"&gt; &lt;td&gt; Параметр&lt;td&gt; Значение
+        
+&lt;script language="javascript"&gt; 
+&lt;!--
+function MakeArray(n)
+{
+for(var i=0;i&lt;n;i++)
+ this[i] = 0;
+ 
+return this; 
+}
+
+var i,n=GetCookieCount();
+c = new MakeArray(2);
+c[0]="\"#EEEEEE\"";
+c[1]="\"#CCCCCC\"";
+
+
+for(i=0;i&lt;n;i++)
+ document.writeln(
+        "&lt;tr bgcolor=" + c[i%2] + "&gt; &lt;td&gt;" + GetCookieNameByIndex(i)
+        + "&lt;td&gt;" + GetCookieValueByIndex(i)
+                  );
+-->     
+&lt;/script&gt; 
+&lt;/table&gt;
+
+
+
+&lt;form name="SetCookieForm"&gt;
+&lt;table border=0&gt;
+&lt;tr&gt;&lt;td&gt;
+name&lt;td&gt; &lt;input type="text" name="name" size=40&gt;
+&lt;tr&gt;&lt;td&gt;
+value&lt;td&gt; &lt;input type="text" name="value" size=40&gt;
+&lt;tr&gt;&lt;td&gt;
+life time in&lt;td&gt; &lt;input type="text" name="days" size=5&gt; days OR in
+&lt;input type="text" name="seconds" size=5&gt; seconds
+&lt;tr&gt;&lt;td&gt;
+path&lt;td&gt; &lt;input type="text" name="path" value="/docs/web" size=40&gt;
+&lt;tr&gt;&lt;td&gt;
+domain&lt;td&gt; &lt;input type="text" name="domain" value="itsoft.ru" size=40&gt;
+&lt;/table&gt;
+&lt;input type="button" value="Установить Cookie на энное кол-во дней"
+onClick="SetCookieForNDays( SetCookieForm.name.value, 
+                    SetCookieForm.value.value, 
+                    SetCookieForm.days.value,
+                    SetCookieForm.path.value,
+                    SetCookieForm.domain.value);
+        window.location.href=window.location.href;"&gt;
+&lt;br&gt;&lt;br&gt;
+&lt;input type="button" value="Установить Cookie на энное кол-во секунд"
+onClick="SetCookieForNSeconds( SetCookieForm.name.value, 
+                    SetCookieForm.value.value, 
+                    SetCookieForm.seconds.value,
+                    SetCookieForm.path.value,
+                    SetCookieForm.domain.value);
+        window.location.href=window.location.href;"&gt;
+        
+&lt;/form&gt;
+</pre>
+
+<h3>Упражнение</h3>
+Доработайте этот код, чтобы можно было редактировать и удалять параметры Cookie.
+
+</td></tr>
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?1975  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?1975'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?1975" target=_top>
+    <img src="itsoft-1975" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?1975" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?1975  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?1975'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?1975" target=_top>
+    <img src="itsoft-1975" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?1975" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="itsoft-1975-1" tppabs="http://rb1.rotabanner.com/cgi-bin/iframe/itsoft?1975"
+ width=468 height=60 marginwidth=0 marginheight=0 scrolling=no 
+ frameborder=0><a href="javascript:if(confirm('http://rb1.rotabanner.com/cgi-bin/href/itsoft?1975  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb1.rotabanner.com/cgi-bin/href/itsoft?1975'" tppabs="http://rb1.rotabanner.com/cgi-bin/href/itsoft?1975" 
+ target=_top><img src="itsoft-1975-2" tppabs="http://rb1.rotabanner.com/cgi-bin/banner/itsoft?1975" 
+ alt="RB1" width=468 height=60 border=0 ismap></a></iframe>
+
+</body>
+</html>

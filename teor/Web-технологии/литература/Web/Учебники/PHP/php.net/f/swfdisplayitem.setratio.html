@@ -1,0 +1,77 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>SWFDisplayItem-&#62;setRatio</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="swfdisplayitem.setname.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="swfdisplayitem.skewx.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.swfdisplayitem.setratio">SWFDisplayItem-&#62;setRatio</A></H1><A NAME="AEN46928"></A>
+<P>(unknown)</P><p>SWFDisplayItem-&#62;setRatio - устанавливает пропорцию объекта.<A NAME="AEN46931"></A></p>
+<H2>Описание</H2><p>void <B>swfdisplayitem-&#62;setratio</B> (float ratio)</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD><P>Эта функция - ЭКСПЕРИМЕНТАЛЬНАЯ. Поведение, имя и всё остальное, что задокументировано для данной функции может быть изменено в будущих релизах РНР без предупреждения. Вы можете использовать эту функцию только на свой страх и риск.
+</P></TD></TR></TABLE><P><B>swfdisplayitem-&#62;setratio()</B> устанавливает пропорцию <TT><I>ratio</I></TT> объекта. Очевидно, используется только для morphs.</P>
+<P>Объектом может быть <B><A HREF="swfshape.html">swfshape()</A>-</B>, <B><A HREF="swfbutton.html">swfbutton()</A>-</B>,
+<B><A HREF="swftext.html">swftext()</A>-</B> или <A HREF="swfsprite.html"><B>swfsprite()</B></A>-объект. Он обязан быть добавлен с использованием
+<B>swfmovie-&#62;add()</B>.</P><P>В этом простом примере morph три концентрических окружности.
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN46952"></A><h5>Пример 1. swfdisplayitem-&#62;setname()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+  $p = new SWFMorph();
+
+  $g = new SWFGradient();
+  $g-&#62;addEntry(0.0, 0, 0, 0);
+  $g-&#62;addEntry(0.16, 0xff, 0xff, 0xff);
+  $g-&#62;addEntry(0.32, 0, 0, 0);
+  $g-&#62;addEntry(0.48, 0xff, 0xff, 0xff);
+  $g-&#62;addEntry(0.64, 0, 0, 0);
+  $g-&#62;addEntry(0.80, 0xff, 0xff, 0xff);
+  $g-&#62;addEntry(1.00, 0, 0, 0);
+
+  $s = $p-&#62;getShape1();
+  $f = $s-&#62;addFill($g, SWFFILL_RADIAL_GRADIENT);
+  $f-&#62;scaleTo(0.05);
+  $s-&#62;setLeftFill($f);
+  $s-&#62;movePenTo(-160, -120);
+  $s-&#62;drawLine(320, 0);
+  $s-&#62;drawLine(0, 240);
+  $s-&#62;drawLine(-320, 0);
+  $s-&#62;drawLine(0, -240);
+
+  $g = new SWFGradient();
+  $g-&#62;addEntry(0.0, 0, 0, 0);
+  $g-&#62;addEntry(0.16, 0xff, 0, 0);
+  $g-&#62;addEntry(0.32, 0, 0, 0);
+  $g-&#62;addEntry(0.48, 0, 0xff, 0);
+  $g-&#62;addEntry(0.64, 0, 0, 0);
+  $g-&#62;addEntry(0.80, 0, 0, 0xff);
+  $g-&#62;addEntry(1.00, 0, 0, 0);
+
+  $s = $p-&#62;getShape2();
+  $f = $s-&#62;addFill($g, SWFFILL_RADIAL_GRADIENT);
+  $f-&#62;scaleTo(0.05);
+  $f-&#62;skewXTo(1.0);
+  $s-&#62;setLeftFill($f);
+  $s-&#62;movePenTo(-160, -120);
+  $s-&#62;drawLine(320, 0);
+  $s-&#62;drawLine(0, 240);
+  $s-&#62;drawLine(-320, 0);
+  $s-&#62;drawLine(0, -240);
+
+  $m = new SWFMovie();
+  $m-&#62;setDimension(320, 240);
+  $i = $m-&#62;add($p);
+  $i-&#62;moveTo(160, 120);
+
+  for($n=0; $n&#60;=1.001; $n+=0.01)
+  {
+    $i-&#62;setRatio($n);
+    $m-&#62;nextFrame();
+  }
+
+  header('Content-type: application/x-shockwave-flash');
+  $m-&#62;output();
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="swfdisplayitem.setname.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="swfdisplayitem.skewx.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">SWFDisplayItem-&#62;setName</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.ming.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">SWFDisplayItem-&#62;skewX</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

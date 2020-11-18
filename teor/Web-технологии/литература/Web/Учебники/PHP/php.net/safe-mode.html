@@ -1,0 +1,152 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Безопасный Режим/Safe Mode</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="persistent-connections.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="commandline.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="features.safe-mode">Глава 23. Безопасный режим/Safe Mode</A></H1>
+<DL><DT><B>Содержание</B></DT><DT><A>Функции, ограниченные/отключённые режимом safe mode</A>.</DT></DL><P>Безопасный режим PHP это попытка разрешения проблемы безопасности совместно 
+используемого сервера. Архитектурно некорректно пытаться решить эту проблему 
+на уровне PHP, но, поскольку альтернативы уровня web-сервера и ОС не слишком реалистичны, многие,
+особенно ISP, используют safe mode.</P><A NAME="AEN6093"></A>
+<h6>Таблица 23-1. Директивы конфигурации, управляющие режимом safe mode</h6><TABLE BORDER="1"><TR>
+<TH>Директива</TH><TH>Значение по умолчанию </TH></TR><TR><TD><A HREF="configuration.html#ini.safe-mode">safe_mode</A>
+</TD><TD><TT>Off</TT></TD></TR><TR><TD><A HREF="configuration.html#ini.safe-mode-gid">safe_mode_gid</A></TD>
+<TD><TT>0</TT></TD></TR><TR><TD><A HREF="configuration.html#ini.safe-mode-include-dir">safe_mode_include_dir</A>
+</TD><TD><TT>""</TT></TD></TR><TR><TD><A HREF="configuration.html#ini.safe-mode-exec-dir">safe_mode_exec_dir</A>
+</TD><TD><TT>1</TT></TD></TR><TR><TD><A HREF="configuration.html#ini.open-basedir">open_basedir</A></TD>
+<TD><TT>""</TT></TD></TR><TR><TD><TT>safe_mode_allowed_env_vars</TT></TD><TD><TT>PHP_</TT></TD></TR>
+<TR><TD><TT>safe_mode_protected_env_vars</TT></TD><TD><TT>LD_LIBRARY_PATH</TT></TD></TR><TR><TD>
+<TT>disable_functions</TT></TD><TD><TT>""</TT></TD></TR></TABLE>
+<P>Когда <A HREF="configuration.html#ini.safe-mode">safe_mode</A> включён/on, PHP проверяет, совпадает ли owner/владелец текущего скрипта с owner 
+файла, которым оперирует функция работы с файлами. Например:</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>-rw-rw-r--    1 rasmus   rasmus       33 Jul  1 19:20 script.php 
+-rw-r--r--    1 root     root       1116 May 26 18:01 /etc/passwd</PRE></TD></TR></TABLE>
+<p>Запуск на выполнение этого script.php</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;?php
+ readfile('/etc/passwd'); 
+?&#62;</PRE></TD></TR></TABLE><p>приводит к такой ошибке, если safe mode активен:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>Warning!: SAFE MODE Restriction in effect. The script whose uid is 500 is not 
+allowed to access /etc/passwd owned by uid 0 in /docroot/script.php on line 2</PRE></TD></TR></TABLE></P>
+<P>Однако может быть такое окружение, когда строгая проверка <TT>UID</TT> не подходит, а достаточно менее строгой проверки
+<TT>GID</TT>. Это поддерживается посредством переключателя
+<A HREF="configuration.html#ini.safe-mode-gid">safe_mode_gid</A>. Установка его в <TT>On</TT>
+выполняет проверку <TT>GID</TT>, а установка <TT>Off</TT> (по умолчанию) выполняет проверку <TT>UID</TT>.</P>
+<P>Если вместо <A HREF="configuration.html#ini.safe-mode">safe_mode</A> вы установите директорию
+<A HREF="configuration.html#ini.open-basedir">open_basedir</A>, то все операции с файлами будут проводиться только с файлами в пределах этой 
+директории. Например (пример Apache httpd.conf):</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;Directory /docroot&#62;
+  php_admin_value open_basedir /docroot 
+&#60;/Directory&#62;</PRE></TD></TR></TABLE>
+<p>Если вы запустите тот же самый скрипт script.php с установкой
+<A HREF="configuration.html#ini.open-basedir">open_basedir</A>, то результат будет таким:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>Warning!: open_basedir restriction in effect. File is in wrong directory in 
+/docroot/script.php on line 2</PRE></TD></TR></TABLE>
+<P>Вы можете также отключить отдельные функции. Обратите внимание, что директива disable_functions 
+не может использоваться вне файла <TT>php.ini</TT>, то есть вы не можете отключать функции на уровне директории или на уровне 
+виртуального хоста в вашем файле httpd.conf.<br>Если добавить в файл <TT>php.ini</TT>:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>disable_functions readfile,system</PRE></TD></TR></TABLE><p>то мы получим на выводе:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>Warning!: readfile() has been disabled for security reasons in 
+/docroot/script.php on line 2</PRE></TD></TR></TABLE>
+<H1><A NAME="features.safe-mode.functions">Функции, ограниченные/отключённые режимом safe mode</A></H1>
+<P>Это, скорее всего, неполный и, возможно, не вполне корректный листинг 
+функций, ограниченных режимом <A HREF="safe-mode.html">safe mode</A>.<A NAME="AEN6169"></A><h6>Таблица 23-2. Функции, ограниченные безопасным режимом/Safe mode</h6>
+<TABLE BORDER="1" width="100%"><TR><TH width="10%">Функция</TH><TH width="90%">Ограничения</TH></TR>
+<TR><TD><A HREF="f/dbmopen.html"><B>dbmopen()</B></A></TD><TD>Проверяет, имеют ли файл(ы)/директории, с которыми вы работаете, тот же самый 
+UID, что и исполняемый скрипт.</TD></TR><TR><TD><A HREF="f/dbase-open.html"><B>dbase_open()</B></A>
+</TD><TD>Проверяет, имеют ли файл(ы)/директории, с которыми вы работаете, тот же самый 
+UID, что и исполняемый скрипт.</TD></TR><TR><TD><A HREF="f/filepro.html"><B>filepro()</B></A></TD>
+<TD>Проверяет, имеют ли файл(ы)/директории, с которыми вы работаете, тот же самый 
+UID, что и исполняемый скрипт.</TD></TR><TR>
+<TD><A HREF="f/filepro-rowcount.html"><B>filepro_rowcount()</B></A></TD>
+<TD>Проверяет, имеют ли файл(ы)/директории, с которыми вы работаете, тот же самый UID, что и исполняемый скрипт.</TD>
+</TR><TR><TD><A HREF="f/filepro-retrieve.html"><B>filepro_retrieve()</B></A></TD>
+<TD>Проверяет, имеют ли файл(ы)/директории, с которыми вы работаете, тот же самый 
+UID, что и исполняемый скрипт.</TD></TR><TR><TD><B>ifx_*()</B></TD><TD>ограничения sql_safe_mode, (!= safe mode)</TD>
+</TR><TR><TD><B>ingres_*()</B></TD><TD>ограничения sql_safe_mode, (!= safe mode)</TD></TR>
+<TR><TD><B>mysql_*()</B></TD><TD>ограничения sql_safe_mode, (!= safe mode)</TD></TR><TR><TD>
+<B>pg_loimport()</B></TD><TD>Проверяет, имеют ли файл(ы)/директории, с которыми вы работаете, тот же самый 
+UID, что и исполняемый скрипт.</TD></TR><TR><TD><A HREF="f/posix-mkfifo.html">
+<B>posix_mkfifo()</B></A></TD><TD>Проверяет, имеет ли директория, в которой вы работаете, тот же самый UID, что и 
+исполняемый скрипт.</TD></TR><TR><TD><A HREF="f/putenv.html"><B>putenv()</B></A></TD>
+<TD>Подчиняется ini-директивам safe_mode_protected_env_vars и 
+safe_mode_allowed_env_vars. См. также документацию <B> <A HREF="f/putenv.html">putenv()</A></B>.
+</TD></TR><TR><TD><A HREF="f/move-uploaded-file.html"><B>move_uploaded_file()</B></A></TD>
+<TD>Проверяет, имеют ли файл(ы)/директории, с которыми вы работаете, тот же самый 
+UID, что и исполняемый скрипт. </TD></TR><TR><TD><A HREF="f/chdir.html"><B>chdir()</B></A></TD>
+<TD>Проверяет, имеет ли директория, в которой вы работаете, тот же самый UID, что и исполняемый скрипт.</TD></TR>
+<TR><TD><A HREF="f/dl.html"><B>dl()</B></A></TD><TD>Эта функция отключена в режиме
+<A HREF="safe-mode.html">safe mode</A>.</TD></TR><TR><TD><A HREF="operators.execution.html">
+    Операция backtick</A></TD><TD>Эта функция отключена в режиме <A HREF="safe-mode.html">safe mode</A>.</TD>
+</TR><TR><TD><A HREF="f/shell-exec.html"><B>shell_exec()</B></A> (функциональный эквивалент backtick'ов)</TD>
+<TD>Эта функция отключена в режиме <A HREF="safe-mode.html">safe mode</A>.</TD></TR>
+<TR><TD><A HREF="f/exec.html"><B>exec()</B></A></TD><TD>Вы можете выполнять исполняемые файлы только внутри
+<A HREF="configuration.html#ini.safe-mode-exec-dir">safe_mode_exec_dir</A>.
+Из практических соображений вам в настоящее время не разрешается иметь компоненты <TT>..</TT> в пути к исполняемому файлу.</TD>
+</TR><TR><TD><A HREF="f/system.html"><B>system()</B></A></TD><TD>Вы можете выполнять исполняемые файлы только внутри
+<A HREF="configuration.html#ini.safe-mode-exec-dir">safe_mode_exec_dir</A>.
+Из практических соображений вам в настоящее время не разрешается иметь компоненты <TT>..</TT> в пути к
+исполняемому файлу.</TD></TR><TR><TD><A HREF="f/passthru.html"><B>passthru()</B></A></TD>
+<TD>Вы можете выполнять исполняемые файлы только внутри <A HREF="configuration.html#ini.safe-mode-exec-dir">safe_mode_exec_dir</A>.
+Из практических соображений вам в настоящее время не разрешается иметь компоненты <TT>..</TT> в пути к
+исполняемому файлу.</TD></TR><TR><TD><A HREF="f/popen.html"><B>popen()</B></A></TD>
+<TD>Вы можете выполнять исполняемые файлы только внутри <A HREF="configuration.html#ini.safe-mode-exec-dir">safe_mode_exec_dir</A>.
+Из практических соображений вам в настоящее время не разрешается иметь компоненты <TT>..</TT> в пути к
+исполняемому файлу.</TD></TR><TR><TD><A HREF="f/mkdir.html"><B>mkdir()</B></A></TD>
+<TD>Проверяет, имеет ли директория, в которой вы работаете, тот же самый UID, что и 
+исполняемый скрипт.</TD></TR><TR><TD><A HREF="f/rmdir.html"><B>rmdir()</B></A></TD>
+<TD>Проверяет, имеют ли файл(ы)/директории, с которыми вы работаете, тот же самый 
+UID, что и исполняемый скрипт.</TD></TR><TR><TD><A HREF="f/rename.html"><B>rename()</B></A></TD>
+<TD>Проверяет, имеют ли файл(ы)/директории, с которыми вы работаете, тот же самый 
+UID, что и исполняемый скрипт. Проверяет, имеет ли директория, в 
+которой вы работаете, тот же самый UID, что и исполняемый скрипт.</TD></TR><TR><TD>
+<A HREF="f/unlink.html"><B>unlink()</B></A></TD><TD>Проверяет, имеют ли файл(ы)/директории, с которыми вы работаете, тот же самый 
+UID, что и исполняемый скрипт. Проверяет, имеет ли директория, в 
+которой вы работаете, тот же самый UID, что и исполняемый скрипт.</TD></TR><TR><TD>
+<A HREF="f/copy.html"><B>copy()</B></A></TD><TD>Проверяет, имеют ли файл(ы)/директории, с которыми вы работаете, тот же самый 
+UID, что и исполняемый скрипт. Проверяет, имеет ли директория, в 
+которой вы работаете, тот же самый UID, что и исполняемый скрипт. (on <TT><I>source</I></TT> and <TT><I>target</I>
+</TT>) </TD></TR><TR><TD><A HREF="f/chgrp.html"><B>chgrp()</B></A></TD><TD>Проверяет, имеют ли файл(ы)/директории, с которыми вы работаете, тот же самый 
+UID, что и исполняемый скрипт.</TD></TR><TR><TD><A HREF="f/chown.html"><B>chown()</B></A></TD>
+<TD>Проверяет, имеют ли файл(ы)/директории, с которыми вы работаете, тот же самый 
+UID, что и исполняемый скрипт.</TD></TR><TR><TD><A HREF="f/chmod.html"><B>chmod()</B></A></TD>
+<TD>Проверяет, имеют ли файл(ы)/директории, с которыми вы работаете, тот же самый 
+UID, что и исполняемый скрипт. Кроме того, вы не можете установить SUID, SGID и sticky-биты.</TD></TR><TR>
+<TD><A HREF="f/touch.html"><B>touch()</B></A></TD><TD>Проверяет, имеют ли файл(ы)/директории, с которыми вы работаете, тот же самый 
+UID, что и исполняемый скрипт. Проверяет, имеет ли директория, в 
+которой вы работаете, тот же самый UID, что и исполняемый скрипт.</TD></TR><TR><TD>
+<A HREF="f/symlink.html"><B>symlink()</B></A></TD><TD>Проверяет, имеют ли файл(ы)/директории, с которыми вы работаете, тот же самый 
+UID, что и исполняемый скрипт. Проверяет, имеет ли директория, в 
+которой вы работаете, тот же самый UID, что и исполняемый скрипт. (Примечание: проверяется только target/цель)</TD>
+</TR><TR><TD><A HREF="f/link.html"><B>link()</B></A></TD><TD>Проверяет, имеют ли файл(ы)/директории, с которыми вы работаете, тот же самый 
+UID, что и исполняемый скрипт. Проверяет, имеет ли директория, в 
+которой вы работаете, тот же самый UID, что и исполняемый скрипт. (Примечание: 
+проверяется только target/цель)</TD></TR><TR><TD><A HREF="f/getallheaders.html"><B>getallheaders()</B>
+</A></TD><TD>В безопасном режиме header'ы, начинающиеся с 'authorization' 
+(нечувствительно к регистру), не будут возвращаться. Предупреждение: это 
+нарушено реализацией aol-сервером функции <A HREF="f/getallheaders.html"><B>getallheaders()</B>
+</A>!</TD></TR><TR><TD><A HREF="f/header.html"><B>header()</B></A></TD>
+<TD>В безопасном режиме uid скрипта добавляется в часть <TT>realm</TT> шапки <TT>WWW-Authenticate</TT>,
+если вы устанавливаете эту шапку/header (используемую для HTTP Authentication).</TD></TR><TR><TD>
+<A HREF="f/highlight-file.html"><B>highlight_file()</B></A>,
+<A HREF="f/show-source.html"><B>show_source()</B></A></TD>
+<TD>Проверяет, имеют ли файл(ы)/директории, с которыми вы работаете, тот 
+же самый UID, что и исполняемый скрипт. Проверяет, имеет ли 
+директория, в которой вы работаете, тот же самый UID, что и исполняемый 
+скрипт. (Примечание: работает, только начиная с PHP 4.2.1)</TD></TR><TR><TD>
+<A HREF="f/parse-ini-file.html"><B>parse_ini_file()</B></A></TD>
+<TD>Проверяет, имеют ли файл(ы)/директории, с которыми вы работаете, тот 
+же самый UID, что и исполняемый скрипт. Проверяет, имеет ли директория, в которой вы работаете, тот же самый UID, что и исполняемый 
+скрипт. (Примечание: работает, только начиная с PHP 4.2.1)</TD></TR><TR><TD>Любая функция, использующая 
+<TT>php4/main/fopen_wrappers.c</TT></TD><TD>??</TD></TR></TABLE></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="persistent-connections.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="commandline.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Постоянные соединения с БД</TD>
+<th WIDTH="34%" VALIGN="top"><a href="features.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Использование РНР<br>из командной строки</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

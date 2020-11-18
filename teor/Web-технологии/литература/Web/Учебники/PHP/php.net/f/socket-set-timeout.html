@@ -1,0 +1,30 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>socket_set_timeout</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="socket-set-blocking.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="syslog.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.socket-set-timeout">socket_set_timeout</A></H1><A NAME="AEN53240"></A><P>(PHP 4)</P>
+<p>socket_set_timeout - установить период таймаута для сокета.<A NAME="AEN53243"></A></p><H2>Описание</H2><p>bool <B>socket_set_timeout</B> (int socket descriptor, int seconds, int microseconds)</p>
+<P>Устанавливает значение таймаута на <TT><I>socket descriptor</I></TT>, выраженное суммой <TT><I>seconds</I></TT> и
+<TT><I>microseconds</I></TT>.<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN53261"></A><h5>Пример 1. socket_set_timeout()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$fp = fsockopen("www.example.com", 80);
+if(!$fp) {
+    echo "Unable to open\n";
+} else {
+    fputs($fp,"GET / HTTP/1.0\n\n");
+    $start = time();
+    socket_set_timeout($fp, 2);
+    $res = fread($fp, 2000);
+    var_dump(socket_get_status($fp));
+    fclose($fp);
+    print $res;
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Эта функция вызывалась раньше <tt>set_socket_timeout()</tt>, но это теперь не рекомендуется.</P>
+<P>См. также <A HREF="fsockopen.html"><B>fsockopen()</B></A> и <A HREF="fopen.html"><B>fopen()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="socket-set-blocking.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="syslog.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">socket_set_blocking</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.network.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">syslog</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

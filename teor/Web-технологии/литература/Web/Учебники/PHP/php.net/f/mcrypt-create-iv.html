@@ -1,0 +1,31 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>mcrypt_create_iv</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="mcrypt-cfb.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="mcrypt-decrypt.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.mcrypt-create-iv">mcrypt_create_iv</A></H1><A NAME="AEN44326"></A><P>(PHP 3&#62;= 3.0.8, PHP 4)</P>
+<p>mcrypt_create_iv - создаёт вектор инициализации/initialization vector (IV) из произвольного 
+источника.<A NAME="AEN44329"></A></p><H2>Описание</H2><p>string <B>mcrypt_create_iv</B> (int size, int source)</p><P><B>mcrypt_create_iv()</B> используется для создания IV.</P>
+<P><B>mcrypt_create_iv()</B> принимает два аргумента: <TT><I>size</I></TT> определяет размер IV,
+<TT><I>source</I></TT> специфицирует источник IV.</P>
+<P>Источником может быть MCRYPT_RAND (системный генератор случайных чисел),MCRYPT_DEV_RANDOM (читает данные из /dev/random) и
+MCRYPT_DEV_URANDOM (читает данные из /dev/urandom). Если вы используете
+MCRYPT_RAND, не забудьте вызывать srand() до инициализации генератора случайных чисел.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN44348"></A><h5>Пример 1. mcrypt_create_iv()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+    $size = mcrypt_get_iv_size (MCRYPT_CAST_256, MCRYPT_MODE_CFB);
+    $iv = mcrypt_create_iv ($size, MCRYPT_DEV_RANDOM);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>IV имеет смысл только как альтернативный источник для утилит шифровки. 
+Этот IV вообще не должен быть секретным, хотя это может быть и желательно. 
+Вы можете даже высылать его вместе с вашим шифрованным текстом без потери секретности.</P>
+<P>Дополнительная информация находится на <A HREF="http://www.ciphersbyritter.com/GLOSSARY.HTM#IV" TARGET="_top">
+http://www.ciphersbyritter.com/GLOSSARY.HTM#IV</A>,
+<A HREF="http://fn2.freenet.edmonton.ab.ca/~jsavard/crypto/co0409.htm" TARGET="_top">http://fn2.freenet.edmonton.ab.ca/~jsavard/crypto/co0409.htm</A>
+и в главе 9.3 в Applied Cryptography by Schneier (ISBN 0-471-11709-9).</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="mcrypt-cfb.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="mcrypt-decrypt.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">mcrypt_cfb</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.mcrypt.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">mcrypt_decrypt</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

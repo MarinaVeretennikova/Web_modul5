@@ -1,0 +1,139 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>SWFbutton</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="swfbutton.setup.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="swfdisplayitem.addcolor.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="swfbutton">SWFbutton</A></H1><A NAME="AEN46578"></A><P>(PHP 4 &#62;= 4.0.5)</P>SWFbutton - создаёт новую кнопку/Button.
+<A NAME="AEN46581"></A><H2>Описание</H2><p>new <B>swfbutton</B> (void)</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD><P>Эта функция - ЭКСПЕРИМЕНТАЛЬНАЯ. Поведение, имя и всё остальное, что задокументировано для данной функции может быть изменено в будущих релизах РНР без предупреждения. Вы можете использовать эту функцию только на свой страх и риск.
+</P></TD></TR></TABLE><P><B>swfbutton()</B> создаёт новую Button. 
+Перекатывает её, щёлкает, смотрит её код акции. Шикарно.</P><P>SWFButton имеет следующие методы: <B>swfbutton-&#62;addshape()</B>,
+<B>swfbutton-&#62;setup()</B>, <B>swfbutton-&#62;setover()</B>, <B>swfbutton-&#62;setdown()</B>, <B>swfbutton-&#62;sethit()</B>,
+<B>swfbutton-&#62;setaction()</B> и  <B>swfbutton-&#62;addaction()</B>.</P><P>В примере показано ваше обычное взаимодействие с кнопками:
+rollover, rollon, mouseup, mousedown, noaction.<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN46601"></A>
+<h5>Пример 1. swfbutton()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+  $f = new SWFFont("_serif");
+
+  $p = new SWFSprite();
+
+  function label($string)
+  {
+    global $f;
+
+    $t = new SWFTextField();
+    $t-&#62;setFont($f);
+    $t-&#62;addString($string);
+    $t-&#62;setHeight(200);
+    $t-&#62;setBounds(3200,200);
+    return $t;
+  }
+  function addLabel($string)
+  {
+    global $p;
+
+    $i = $p-&#62;add(label($string));
+    $p-&#62;nextFrame();
+    $p-&#62;remove($i);
+  }
+
+  $p-&#62;add(new SWFAction("stop();"));
+  addLabel("NO ACTION");
+  addLabel("SWFBUTTON_MOUSEUP");
+  addLabel("SWFBUTTON_MOUSEDOWN");
+  addLabel("SWFBUTTON_MOUSEOVER");
+  addLabel("SWFBUTTON_MOUSEOUT");
+  addLabel("SWFBUTTON_MOUSEUPOUTSIDE");
+  addLabel("SWFBUTTON_DRAGOVER");
+  addLabel("SWFBUTTON_DRAGOUT");
+
+  function rect($r, $g, $b)
+  {
+    $s = new SWFShape();
+    $s-&#62;setRightFill($s-&#62;addFill($r, $g, $b));
+    $s-&#62;drawLine(600,0);
+    $s-&#62;drawLine(0,600);
+    $s-&#62;drawLine(-600,0);
+    $s-&#62;drawLine(0,-600);
+
+    return $s;
+  }
+
+  $b = new SWFButton();
+  $b-&#62;addShape(rect(0xff, 0, 0), SWFBUTTON_UP | SWFBUTTON_HIT);
+  $b-&#62;addShape(rect(0, 0xff, 0), SWFBUTTON_OVER);
+  $b-&#62;addShape(rect(0, 0, 0xff), SWFBUTTON_DOWN);
+
+  $b-&#62;addAction(new SWFAction("setTarget('/label'); gotoFrame(1);"),
+            SWFBUTTON_MOUSEUP);
+
+  $b-&#62;addAction(new SWFAction("setTarget('/label'); gotoFrame(2);"),
+        SWFBUTTON_MOUSEDOWN);
+
+  $b-&#62;addAction(new SWFAction("setTarget('/label'); gotoFrame(3);"),
+        SWFBUTTON_MOUSEOVER);
+
+  $b-&#62;addAction(new SWFAction("setTarget('/label'); gotoFrame(4);"),
+        SWFBUTTON_MOUSEOUT);
+
+  $b-&#62;addAction(new SWFAction("setTarget('/label'); gotoFrame(5);"),
+        SWFBUTTON_MOUSEUPOUTSIDE);
+
+  $b-&#62;addAction(new SWFAction("setTarget('/label'); gotoFrame(6);"),
+        SWFBUTTON_DRAGOVER);
+
+  $b-&#62;addAction(new SWFAction("setTarget('/label'); gotoFrame(7);"),
+        SWFBUTTON_DRAGOUT);
+
+  $m = new SWFMovie();
+  $m-&#62;setDimension(4000,3000);
+
+  $i = $m-&#62;add($p);
+  $i-&#62;setName("label");
+  $i-&#62;moveTo(400,1900);
+
+  $i = $m-&#62;add($b);
+  $i-&#62;moveTo(400,900);
+
+  header('Content-type: application/x-shockwave-flash');
+  $m-&#62;output();
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Следующий простой пример даёт возможность рисовать большую красную кнопку в windows. Никакого drag-and-drop, просто перемещение.
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN46606"></A><h5>Пример 2. swfbutton-&#62;addaction()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+  $s = new SWFShape();
+  $s-&#62;setRightFill($s-&#62;addFill(0xff, 0, 0));
+  $s-&#62;drawLine(1000,0);
+  $s-&#62;drawLine(0,1000);
+  $s-&#62;drawLine(-1000,0);
+  $s-&#62;drawLine(0,-1000);
+
+  $b = new SWFButton();
+  $b-&#62;addShape($s, SWFBUTTON_HIT | SWFBUTTON_UP | SWFBUTTON_DOWN | SWFBUTTON_OVER);
+
+  $b-&#62;addAction(new SWFAction("startDrag('/test', 0);"), // '0' означает
+							// не блокировать мышь
+        SWFBUTTON_MOUSEDOWN);
+
+  $b-&#62;addAction(new SWFAction("stopDrag();"),
+        SWFBUTTON_MOUSEUP | SWFBUTTON_MOUSEUPOUTSIDE);
+
+  $p = new SWFSprite();
+  $p-&#62;add($b);
+  $p-&#62;nextFrame();
+
+  $m = new SWFMovie();
+  $i = $m-&#62;add($p);
+  $i-&#62;setName('test');
+  $i-&#62;moveTo(1000,1000);
+
+  header('Content-type: application/x-shockwave-flash');
+  $m-&#62;output();
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="swfbutton.setup.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="swfdisplayitem.addcolor.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">SWFbutton-&#62;setUp</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.ming.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">SWFDisplayItem-&#62;addColor</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,1239 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="ru">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Windows-1251">
+<title>Объекты, изображения и апплеты в документах в формате HTML</title>
+<LINK rel="previous" href="links.html" tppabs="http://www.citforum.ru/internet/html40/struct/links.html">
+<LINK rel="next" href="styles.html" tppabs="http://www.citforum.ru/internet/html40/present/styles.html">
+<LINK rel="contents" href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">
+<LINK rel="STYLESHEET" href="tppmsgs/msgs0.htm#18" tppabs="http://www.citforum.ru/internet/html40/style/default.css" type="text/css">
+</head>
+<body>
+<div class="navbar">
+<center>&nbsp;<a href="links.html" tppabs="http://www.citforum.ru/internet/html40/struct/links.html">назад</a> &nbsp; <a href="styles.html" tppabs="http://www.citforum.ru/internet/html40/present/styles.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center><hr>
+</div>
+
+<H1 align="center"><a name="h-13">13</a> Объекты, изображения и апплеты</H1>
+<div class="subtoc"><p><strong>Содержание</strong>
+<ol>
+<li><a href="#h-13.1">Введение в объекты, изображения и апплеты</a>
+<li><a href="#h-13.2">Включение изображения: элемент <samp class="einst2">IMG</samp></a>
+<li><a href="#h-13.3">Общее включение: элемент <samp class="einst2">OBJECT</samp></a>
+<ol>
+<li><a href="#h-13.3.1">
+<span class="index-inst" title="object::fallback rendering
+of|object::rules for embedded"> Правила представления объектов</span></a>
+<li><a href="#h-13.3.2">
+<span class="index-inst" title="object::initialization">
+Инициализация объекта:</span> элемент <samp class="einst2">PARAM</samp></a>
+<li><a href="#h-13.3.3">
+<span class="index-inst" title="object::naming schemes for">
+Глобальные схемы именования объектов</span></a>
+<li><a href="#h-13.3.4">
+<span class="index-inst" title="object::statically declared">
+Объявление и инициализация объекта</span></a>
+</ol>
+<li><a href="#h-13.4">Включение апплета: элемент <samp class="einst2">APPLET</samp></a>
+<li><a href="#h-13.5">Замечания о внедренных документах</a>
+<li><a href="#h-13.6">
+<span class="index-def" title="image map">Навигационные карты</span></a>
+<ol>
+<li><a href="#h-13.6.1">Клиентские навигационные карты: элементы <samp class="einst2">MAP</samp> и <samp class="einst2">AREA</samp></a>
+<ul>
+<li><a href="#h-13.6.1.1">Примеры клиентских навигационных карт</a>
+</ul>
+<li><a href="#h-13.6.2">
+<span class="index-inst" title="image map::server side|server-side
+image map">Серверные навигационные карты</span></a>
+</ol>
+<li><a href="#h-13.7">
+<span class="index-inst" title="image::visual rendering of|object::visual rendering of">Визуальное представление изображений, объектов и апплетов</span></a>
+<ol>
+<li><a href="#h-13.7.1">
+<span class="index-inst" title="image::width and height
+of|object::width and height of">Ширина и высота</span></a>
+<li><a href="#h-13.7.2">
+<span class="index-inst" title="white space::around images and objects|image::white space around|object::white space around">Пространство вокруг изображений и объектов</span></a>
+<li><a href="#h-13.7.3">
+<span class="index-inst" title="border::around image|border::around object|image::border around|object::border around">Границы</span></a>
+<li><a href="#h-13.7.4">
+<span class="index-inst" title="alignment::of images|alignment::of
+objects|object::alignment of|image::alignment of"> Выравнивание</span></a>
+</ol>
+<li><a href="#h-13.8">
+<span class="index-inst" title="alternate text::specifying|accessibility::alternate text"> Как указать альтернативный текст</span></a>
+</ol>
+</div>
+<H2><a name="h-13.1">13.1</a> Введение в объекты, изображения и апплеты</H2>
+
+<P>Функции мультимедиа языка HTML позволяют авторам включать в свои страницы изображения, апплеты (программы, которые автоматически загружаются и выполняются на машине пользователя), видеоклипы и другие документы в формате HTML.
+
+<div class="example"><P>
+Например, чтобы включить в документ изображение в формате PNG, авторы могут использовать следующий код:
+
+<pre>
+&lt;BODY&gt;
+&lt;P&gt;Около Большого Каньона:
+&lt;OBJECT data="canyon.png" type="image/png"&gt;
+&lt;EM&gt;Около&lt;/EM&gt; Большого Каньона.
+&lt;/OBJECT&gt;
+&lt;/BODY&gt;
+</pre>
+</div>
+
+<P>В предыдущих версиях HTML авторы могли включать изображения (с помощью
+<a href="objects.html#edef-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-IMG" class="noxref"><samp class="einst">IMG</samp></a>) и апплеты (с помощью <a href="objects.html#edef-APPLET" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-APPLET" class="noxref"><samp
+class="einst">APPLET</samp></a>). Эти элементы имеют несколько ограничений:
+
+<ul>
+
+<li>Они не могут решить более общей проблемы - включение новых и возможных в будущем типов устройств.
+
+<li>Элемент <a href="objects.html#edef-APPLET" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-APPLET" class="noxref"><samp class="einst">APPLET</samp></a> работает только с апплетами языка Java. Этот элемент теперь <a href="conform.html#deprecated" tppabs="http://www.citforum.ru/internet/html40/conform.html#deprecated">нежелателен</a>, вместо него используется элемент <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp
+class="einst">OBJECT</samp></a>.
+
+<li>Они вызывают проблемы доступности.
+
+</ul>
+
+<P>Для решения всех этих вопросов в HTML 4.0 вводится элемент <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>, обеспечивающий всестороннее решение для включения объектов. Элемент <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> позволяет авторам документов в формате HTML указывать всю информацию, необходимую для представления объекта агентом пользователя: исходный код, начальные значения и рабочие данные.  В данной спецификации термин "объект" используется для описания всех объектов, которые Вы захотите включить в HTML-документы; другие термины: апплеты, подключаемые модули (plug-ins), дескрипторы устройств и т.д.
+
+<P>Новый элемент <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>, таким образом, subsumes некоторые задачи, выполняемые существующими элементами. Рассмотрим следующую классификацию функций:</P>
+
+<table border>
+<THEAD>
+<TR><TH><strong>Тип включения</strong>
+    <TH><strong>Конкретный элемент</strong>
+    <TH><strong>Общий элемент</strong></TR>
+<TBODY>
+<TR><TD>Изображение
+    <TD><a href="objects.html#edef-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-IMG" class="noxref"><samp class="einst">IMG</samp></a>
+    <TD><a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>
+<TR><TD>Апплет
+    <TD><a href="objects.html#edef-APPLET" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-APPLET" class="noxref"><samp class="einst">APPLET</samp></a> <strong>(<a href="conform.html#deprecated" tppabs="http://www.citforum.ru/internet/html40/conform.html#deprecated">Нежелателен</a>.)</strong>
+    <TD><a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>
+<TR><TD>Другой документ HTML
+    <TD><a href="frames.html#edef-IFRAME" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-IFRAME" class="noxref"><samp class="einst">IFRAME</samp></a>
+    <TD><a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>
+</table>
+
+<P>Из таблицы видно, что каждый тип включения имеет конкретное и общее решение. Общий элемент <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> служит решением для использования возможных в будущем типов устройств.
+
+<p><span class="index-inst" title="image::ways to include"><a name="idx-image"> Для включения изображений</a></span> авторы могут использовать элемент <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>
+или элемент <a href="objects.html#edef-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-IMG" class="noxref"><samp class="einst">IMG</samp></a>.
+
+<P><span class="index-inst" title="applet::ways to include"><a name="idx-applet">
+Для включения апплетов </a></span> авторам следует использовать элемент <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>, поскольку использование элемента <a href="objects.html#edef-APPLET" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-APPLET" class="noxref"><samp class="einst">APPLET</samp></a><a href="conform.html#deprecated" tppabs="http://www.citforum.ru/internet/html40/conform.html#deprecated">нежелательно</a>.
+
+<P><span class="index-inst" title="document::ways to include"><a name="idx-document"> Для включения одного документа HTML в другой</a></span> авторы могут использовать новый элемент <a href="frames.html#edef-IFRAME" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-IFRAME" class="noxref"><samp class="einst">IFRAME</samp></a> или элемент <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>. В обоих случаях внедренный документ не зависит от основного документа. Визуальные агенты пользователей могут представлять внедренный документ в виде отдельного окна в основном документе. Для сравнения элементов <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp
+class="einst">OBJECT</samp></a> и <a href="frames.html#edef-IFRAME" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-IFRAME" class="noxref"><samp class="einst">IFRAME</samp></a> обратитесь к <a href="#embedded-documents">замечаниям о внедряемых документов</a>.
+
+<P>С изображениями и другими включаемыми объектами могут быть связаны ссылки, с помощью стандартных <a href="links.html" tppabs="http://www.citforum.ru/internet/html40/struct/links.html">механизмов ссылок</a>, а также и с помощью <a href="#include-maps"> <em>навигационных карт (image maps)</em></a>. На навигационной карте задаются геометрические области включаемого объекта, и каждой из них назначается ссылка. При активизации эти ссылки могут вызывать загрузку документа, запускать программу на сервере и т.д.
+
+<P>В следующих разделах мы обсудим различные механизмы, которые авторы могут использовать для включения мультимедиа и создания навигационных карт для этих объектов.
+
+<H2><a name="h-13.2">13.2</a> <a name="include-images">Включение изображения:</a> элемент <a name="edef-IMG"><samp class="edef">IMG</samp></a></h2>
+
+<div class="dtd-fragment">
+<pre class="dtd-fragment">
+&lt;!-Во избежание проблем с текстовыми агентами пользователей, 
+   а также для того, чтобы включение изображений было понятно
+   пользователям невизуальных агентов и могло использоваться ими, 
+   Вы должны указывать описания в элементе ALT и избегать использования 
+   Серверных навигационных карт--&gt;
+&lt;!ELEMENT <a href="objects.html#edef-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-IMG" class="noxref"><samp class="einst">IMG</samp></a> - O EMPTY                -- Внедренное изображение --&gt;
+&lt;!ATTLIST IMG
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  <a href="objects.html#adef-src-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-src-IMG" class="noxref"><samp class="ainst-IMG">src</samp></a>         <a href="dtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#URI">%URI;</a>          #REQUIRED -- URI внедряемого изображения --
+  <a href="objects.html#adef-alt" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-alt" class="noxref"><samp class="ainst-IMG">alt</samp></a>         <a href="dtd.html#Text" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Text">%Text;</a>         #REQUIRED -- краткое описание --
+  <a href="objects.html#adef-longdesc-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-longdesc-IMG" class="noxref"><samp class="ainst-IMG">longdesc</samp></a>    <a href="dtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#URI">%URI;</a>          #IMPLIED  -- ссылка на длинное описание 
+                                          (дополняет alt) --
+  <a href="objects.html#adef-height-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-height-IMG" class="noxref"><samp class="ainst-IMG">height</samp></a>      <a href="dtd.html#Length" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Length">%Length;</a>       #IMPLIED  -- переопределение высоты --
+  <a href="objects.html#adef-width-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-width-IMG" class="noxref"><samp class="ainst-IMG">width</samp></a>       <a href="dtd.html#Length" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Length">%Length;</a>       #IMPLIED  -- переопределение ширины --
+  <a href="objects.html#adef-usemap" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-usemap" class="noxref"><samp class="ainst-IMG">usemap</samp></a>      <a href="dtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#URI">%URI;</a>          #IMPLIED  -- использовать клиентскую 
+                                          навигационную карту --
+  <a href="objects.html#adef-ismap" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-ismap" class="noxref"><samp class="ainst-IMG">ismap</samp></a>       (ismap)        #IMPLIED  -- использовать серверную 
+                                          навигационную карту --
+  &gt;
+</pre>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>запрещен</strong></em></p>
+
+<div class="adef-list"><P>
+<em>Определения атрибутов</em><dl>
+
+<dt><a name="adef-src-IMG"><samp class="adef">src</samp></a>  = <a
+href="types.html#type-uri" tppabs="http://www.citforum.ru/internet/html40/types.html#type-uri"><em>uri</em></a>
+ <a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+<dd>Этот атрибут задает местоположение изображения. Примерами широко распознаваемых форматов являются GIF, JPEG и PNG.
+
+<DT><A name="adef-longdesc-IMG"><SAMP class="adef">longdesc</SAMP></A> = <A
+href="types.html#type-uri" tppabs="http://www.citforum.ru/internet/html40/types.html#type-uri"><EM>uri</EM></A><a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+</DT>
+
+<DD>Этот атрибут определяет ссылку на длинное описание изображения. Это описание должно дополнять краткое описание, задаваемое атрибутом <a href="objects.html#adef-alt" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-alt" class="noxref"><samp class="ainst">alt</samp></a>.  Если с изображением связана <a href="#include-maps">навигационная карта</a>, в этом атрибуте должна приводиться информация о ее содержимом. Это особенно важно для серверных навигационных карт.</DD>
+</dl>
+</div>
+
+<div class="aref-list"><P>
+<em>Атрибуты, определенные в другом месте</em> 
+<ul>
+<li><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><samp class="ainst">class</samp></a> (<a href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</a>) 
+<li><a href="objects.html#adef-alt" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-alt" class="noxref"><samp class="ainst">alt</samp></a> (<a href="#alternate-text">альтернативный текст</a>)
+<li><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a> (<a href="dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">информация о языке</a>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> (<a href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</a>)
+<li><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a> (<a href="global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</a>) 
+<li><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><samp class="ainst">style</samp></a> (<a href="styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</a>) 
+<li><a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><samp class="ainst">onclick</samp></a>, <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><samp class="ainst">ondblclick</samp></a>, <a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><samp class="ainst">onmousedown</samp></a>, <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><samp class="ainst">onmouseup</samp></a>, <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><samp class="ainst">onmouseover</samp></a>, <a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><samp class="ainst">onmousemove</samp></a>, <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><samp class="ainst">onmouseout</samp></a>, <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><samp class="ainst">onkeypress</samp></a>, <a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><samp class="ainst">onkeydown</samp></a>, <a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><samp class="ainst">onkeyup</samp></a> (<a href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</a>)
+<li><a href="objects.html#adef-ismap" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-ismap" class="noxref"><samp class="ainst">ismap</samp></a>, <a href="objects.html#adef-usemap" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-usemap" class="noxref"><samp
+class="ainst">usemap</samp></a> (<a href="#client-side-maps">клиентская навигационная карта</a>)
+
+<li><a href="objects.html#adef-align-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-align-IMG" class="noxref"><samp class="ainst-IMG">align</samp></a>, <a href="objects.html#adef-width-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-width-IMG" class="noxref"><samp
+class="ainst-IMG">width</samp></a>, <a href="objects.html#adef-height-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-height-IMG" class="noxref"><samp class="ainst-IMG">height</samp></a>, <a href="objects.html#adef-border-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-border-IMG" class="noxref"><samp class="ainst-IMG">border</samp></a>, <a href="objects.html#adef-hspace" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-hspace" class="noxref"><samp class="ainst">hspace</samp></a>, <a href="objects.html#adef-vspace" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-vspace" class="noxref"><samp class="ainst">vspace</samp></a> (<a href="#visual">визуальное представление объектов, изображений и апплетов</a>)
+</ul>
+</div>
+
+<P>Элемент <a href="objects.html#edef-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-IMG" class="noxref"><samp class="einst">IMG</samp></a> внедряет изображение в текущий документ по адресу из определения элемента. Элемент <a href="objects.html#edef-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-IMG" class="noxref"><samp class="einst">IMG</samp></a> не имеет содержимого; обычно он замещается изображением, назначаемым атрибутом <a href="objects.html#adef-src-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-src-IMG" class="noxref"><samp
+class="ainst-IMG">src</samp></a>, исключение при этом составляют выровненные влево или вправо изображения, которые <a href="graphics.html#floating" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html#floating">"floated"</a> out of line.
+
+<div class="example"><P>
+В приведенном ранее примере мы определили ссылку на семейную фотографию. Здесь мы вставим фотографию непосредственно в текущий документ:
+
+<pre>
+&lt;BODY&gt;
+&lt;P&gt;Я только что вернулся из отпуска! Вот фотография моей семьи на озере:
+&lt;IMG src="http://www.somecompany.com/People/Ian/vacation/family.png"
+     alt="Фотография моей семьи на озере."&gt;
+&lt;/BODY&gt;
+</pre>
+
+<P>Этого же эффекта можно достичь с помощью элемента <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> следующим образом:
+
+<pre>
+&lt;BODY&gt;
+&lt;P&gt;Я только что вернулся из отпуска! Вот фотография моей семьи на озере:
+&lt;OBJECT data="http://www.somecompany.com/People/Ian/vacation/family.png"
+        type="image/png"&gt;
+Фотография моей семьи на озере.
+&lt;/OBJECT&gt;
+&lt;/BODY&gt;
+</pre>
+</div>
+
+<P>Атрибут <a href="objects.html#adef-alt" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-alt" class="noxref"><samp class="ainst">alt</samp></a> задает альтернативный текст, который генерируется, если изображение невозможно отобразить (информацию о том, <a href="#alternate-text">как указать альтернативный текст</a>, см. ниже ). Агенты пользователей должны генерировать альтернативный текст, если они не поддерживают изображение, если они не поддерживают определенный тип изображений или если они сконфигурированы так, чтобы не выводить изображений.
+
+<div class="example"><P>
+В следующем примере показано, как можно использовать атрибут <samp class="ainst">longdesc</samp> для ссылки на более подробное описание:
+
+<pre>
+&lt;BODY&gt;
+&lt;P&gt;
+&lt;IMG src="sitemap.gif"
+     alt="Карта узла лабораторий HP"
+     longdesc="sitemap.html"&gt;
+&lt;/BODY&gt;
+</pre>
+
+<P>Атрибут <a href="objects.html#adef-alt" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-alt" class="noxref"><samp class="ainst">alt</samp></a> задает краткое описание изображения. Его должно быть достаточно для того, чтобы пользователи могли решить, хотят ли они следовать по ссылке, определяемой атрибутом <span class="index-inst" title="long image description::relation to alt text|image::long description of|accessibility::long image description"><a name="idx-long_image_description"><samp class="ainst">longdesc</samp></a></span> для более получения подробного описания, здесь это ссылка "sitemap.html".
+</div>
+
+<P>Информацию о размере изображения, выравнивании и границах см. в разделе о <a href="#visual">визуальном представлении объектов, изображений и апплетов</a>.
+
+<h2><a name="h-13.3">13.3</a> <a name="include-objects">Общее включение:</a> элемент <a
+name="edef-OBJECT"><samp class="edef">OBJECT</samp></a></h2>
+
+<div class="dtd-fragment">
+<pre class="dtd-fragment">
+&lt;!ELEMENT <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> - - (PARAM | <a href="dtd.html#flow" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#flow">%flow;</a>)*
+ -- общий внедренный объект --&gt;
+&lt;!ATTLIST OBJECT
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  <a href="objects.html#adef-declare" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-declare" class="noxref"><samp class="ainst-OBJECT">declare</samp></a>     (declare)      #IMPLIED  -- объявить, но не instantiate флаг --
+  <a href="objects.html#adef-classid" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-classid" class="noxref"><samp class="ainst-OBJECT">classid</samp></a>     <a href="dtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#URI">%URI;</a>          #IMPLIED  -- определяет применение --
+  <a href="objects.html#adef-codebase-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-codebase-OBJECT" class="noxref"><samp class="ainst-OBJECT">codebase</samp></a>    <a href="dtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#URI">%URI;</a>          #IMPLIED  -- базовый URI для classid, data, archive--
+  <a href="objects.html#adef-data" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-data" class="noxref"><samp class="ainst-OBJECT">data</samp></a>        <a href="dtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#URI">%URI;</a>          #IMPLIED  -- ссылка на данные объекта --
+  <a href="objects.html#adef-type-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-type-OBJECT" class="noxref"><samp class="ainst-OBJECT">type</samp></a>        <a href="dtd.html#ContentType" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#ContentType">%ContentType;</a>  #IMPLIED  -- тип содержимого для данных --
+  <a href="objects.html#adef-codetype" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-codetype" class="noxref"><samp class="ainst-OBJECT">codetype</samp></a>    <a href="dtd.html#ContentType" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#ContentType">%ContentType;</a>  #IMPLIED  -- тип содержимого для кода --
+  <a href="objects.html#adef-archive-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-archive-OBJECT" class="noxref"><samp class="ainst-OBJECT">archive</samp></a>     <a href="dtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#URI">%URI;</a>          #IMPLIED  -- разделенный пробелами список архивов --
+  <a href="objects.html#adef-standby" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-standby" class="noxref"><samp class="ainst-OBJECT">standby</samp></a>     <a href="dtd.html#Text" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Text">%Text;</a>         #IMPLIED  -- сообщение, отображаемое при загрузке --
+  <a href="objects.html#adef-height-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-height-IMG" class="noxref"><samp class="ainst-IMG">height</samp></a>      <a href="dtd.html#Length" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Length">%Length;</a>       #IMPLIED  -- переопределение высоты --
+  <a href="objects.html#adef-width-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-width-IMG" class="noxref"><samp class="ainst-IMG">width</samp></a>       <a href="dtd.html#Length" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Length">%Length;</a>       #IMPLIED  -- переопределение ширины --
+  <a href="objects.html#adef-usemap" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-usemap" class="noxref"><samp class="ainst-OBJECT">usemap</samp></a>      <a href="dtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#URI">%URI;</a>          #IMPLIED  -- использовать клиентскую навигационную карту --
+  <a href="forms.html#adef-name-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-name-INPUT" class="noxref"><samp class="ainst-INPUT">name</samp></a>        <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata">CDATA</a>          #IMPLIED  -- представить в качестве части формы --
+  <a href="forms.html#adef-tabindex" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-tabindex" class="noxref"><samp class="ainst-OBJECT">tabindex</samp></a>    <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number">NUMBER</a>         #IMPLIED  -- положение в последовательности перехода --
+  &gt;
+</pre>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>обязателен</strong></em></p>
+
+<div class="adef-list"><P>
+<em>Определения атрибутов</em><dl>
+
+<dt><a name="adef-classid"><samp class="adef">classid</samp></a>  = <a
+href="types.html#type-uri" tppabs="http://www.citforum.ru/internet/html40/types.html#type-uri"><em>uri</em></a>
+ <a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+<dd> Этот атрибут может использоваться для указания местоположения объекта с помощью URI. Он может использоваться вместе с атрибутом <a href="objects.html#adef-data" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-data" class="noxref"><samp class="ainst">data</samp></a> или как альтернатива ему, в зависимости от типа объекта.
+
+<dt><a name="adef-codebase-OBJECT"><samp class="adef">codebase</samp></a>  =
+<a href="types.html#type-uri" tppabs="http://www.citforum.ru/internet/html40/types.html#type-uri"><em>uri</em></a>
+ <a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+<dd>Этот атрибут определяет базовый путь, используемый для разрешения относительных адресов URI, задаваемых в атрибутах <a href="objects.html#adef-classid" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-classid" class="noxref"><samp class="ainst">classid</samp></a>, <a href="objects.html#adef-data" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-data" class="noxref"><samp class="ainst">data</samp></a> и <a href="objects.html#adef-archive-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-archive-OBJECT" class="noxref"><samp class="ainst-OBJECT">archive</samp></a>. Если этот атрибут отсутствует, значением по умолчанию является базовый адрес URI текущего документа.
+
+<dt><a name="adef-codetype"><samp class="adef">codetype</samp></a> =
+<a href="types.html#type-content-type" tppabs="http://www.citforum.ru/internet/html40/types.html#type-content-type"><em>content-type</em></a> <a
+href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd> Этот атрибут определяет тип содержимого данных, получения которых следует ожидать при загрузке объекта, задаваемого атрибутом <a href="objects.html#adef-classid" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-classid" class="noxref"><samp class="ainst">classid</samp></a>. Этот атрибут не является обязательным, но рекомендуется, если используется атрибут <a href="objects.html#adef-classid" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-classid" class="noxref"><samp class="ainst">classid</samp></a>, поскольку он позволяет агенту пользователя избежать загрузки информации для типа содержимого, который он не поддерживает. Если этот атрибут отсутствует, по умолчанию используется значение атрибута <samp class="ainst">type</samp>.
+
+<dt><a name="adef-data"><samp class="adef">data</samp></a> = <a
+href="types.html#type-uri" tppabs="http://www.citforum.ru/internet/html40/types.html#type-uri"><em>uri</em></a>
+ <a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+<dd>Этот атрибут может использоваться для указания местоположения данных объекта, например, данных изображения для объектов, определяющих изображения, или в более общем случае - serialized формы объекта, который может использоваться для повторного его создания. Если дается относительный адрес URI, он должен интерпретироваться относительно атрибута <samp class="ainst">codebase</samp>.
+
+<dt><a name="adef-type-OBJECT"><samp class="adef">type</samp></a> = 
+<a href="types.html#type-content-type" tppabs="http://www.citforum.ru/internet/html40/types.html#type-content-type"><em>content-type</em></a> <a
+href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd> Этот атрибут определяет тип содержимого для данных, задаваемых атрибутом <a href="objects.html#adef-data" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-data" class="noxref"><samp class="ainst">data</samp></a>. Этот атрибут не является обязательным, но рекомендуется, если используется атрибут <a href="objects.html#adef-data" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-data" class="noxref"><samp class="ainst">data</samp></a>, 
+поскольку он позволяет агенту пользователя избежать загрузки информации для типа содержимого, который они не поддерживают. 
+
+<dt><a name="adef-archive-OBJECT"><samp class="adef">archive</samp></a>  =
+<a href="types.html#type-uri" tppabs="http://www.citforum.ru/internet/html40/types.html#type-uri"><em>uri list</em></a> 
+<a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+<dd>Этот атрибут может использоваться для определения разделенного пробелами списка адресов URI архивов, содержащих относящиеся к объекту ресурсы, который может включать ресурсы, задаваемые атрибутами <a href="objects.html#adef-classid" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-classid" class="noxref"><samp class="ainst">classid</samp></a> и <a href="objects.html#adef-data" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-data" class="noxref"><samp class="ainst">data</samp></a>. Предварительная загрузка архивов приведет к уменьшению времени загрузки объекта. Архивы, указанные в виде относительных адресов URI, должны интерпретироваться относительно атрибута <samp
+class="ainst">codebase</samp>.
+
+<dt><a name="adef-declare"><samp class="adef">declare</samp></a> 
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd>Если этот логический атрибут указан, он делает текущее определение <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>
+только объявлением. Объект должен быть instantiated последующим определением <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>, ссылающимся на это объявление. 
+
+<dt><a name="adef-standby"><samp class="adef">standby</samp></a> = <a
+href="types.html#type-text" tppabs="http://www.citforum.ru/internet/html40/types.html#type-text"><em>text</em></a> 
+<a href="types.html#case-sensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-sensitive">[CS]</a>
+<dd>Этот атрибут определяет сообщение, которое агент пользователя может генерировать при загрузке implementation и данных объекта. 
+
+</dl>
+</div>
+<div class="aref-list"><P>
+<em>Атрибуты, определенные в другом месте</em> 
+<ul>
+<li><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><samp class="ainst">class</samp></a> (<a href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</a>) 
+<li><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a> (<a href="dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">информация о языке</a>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> (<a href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</a>)
+<li><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a> (<a href="global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</a>) 
+<li><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><samp class="ainst">style</samp></a> (<a href="styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</a>) 
+<li><a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><samp class="ainst">onclick</samp></a>, <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><samp class="ainst">ondblclick</samp></a>, <a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><samp class="ainst">onmousedown</samp></a>, <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><samp class="ainst">onmouseup</samp></a>, <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><samp class="ainst">onmouseover</samp></a>, <a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><samp class="ainst">onmousemove</samp></a>, <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><samp class="ainst">onmouseout</samp></a>, <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><samp class="ainst">onkeypress</samp></a>, <a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><samp class="ainst">onkeydown</samp></a>, <a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><samp class="ainst">onkeyup</samp></a> (<a
+href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</a>)
+<li><a href="forms.html#adef-tabindex" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-tabindex" class="noxref"><samp class="ainst">tabindex</samp></a> (<a href="forms.html#tabbing-navigation" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#tabbing-navigation">переход по клавише tab</a>) 
+<li><a href="objects.html#adef-usemap" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-usemap" class="noxref"><samp class="ainst">usemap</samp></a> (<a href="#client-side-maps">клиентские навигационные карты</a>)
+<li><a href="forms.html#adef-name-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-name-INPUT" class="noxref"><samp class="ainst-INPUT">name</samp></a> (<a href="forms.html#submit-format" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#submit-format">предоставление формы</a>)
+<li><a href="objects.html#adef-align-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-align-IMG" class="noxref"><samp class="ainst-IMG">align</samp></a>, <a href="objects.html#adef-width-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-width-IMG" class="noxref"><samp
+class="ainst-IMG">width</samp></a>, <a href="objects.html#adef-height-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-height-IMG" class="noxref"><samp class="ainst-IMG">height</samp></a>, <a href="objects.html#adef-border-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-border-IMG" class="noxref"><samp class="ainst-IMG">border</samp></a>, <a href="objects.html#adef-hspace" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-hspace" class="noxref"><samp class="ainst">hspace</samp></a>, <a href="objects.html#adef-vspace" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-vspace" class="noxref"><samp class="ainst">vspace</samp></a> (<a href="#visual">визуальное представление объектов, изображений и апплетов</a>)
+</ul>
+</div>
+
+<P>
+<span class="index-inst" title="object::generic inclusion|including an
+object"><a name="idx-object">В большинстве агентов пользователей имеются встроенные механизмы</a></span> для генерации основных типов данных, таких как текст, изображения в формате GIF, цвета, шрифты и ряд графических элементов. Для генерации типов данных типов данных, которые агенты пользователей не поддерживают по умолчанию, они обычно запускают внешние приложения. Элемент <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> позволяет авторам ууправлять генерацией данных - задавать внешнюю генерацию или использование некоторой определяемой автором программы, генерирующей данные в агенте пользователя.
+
+<P>В более общем случае автор должен будет определить три типа информации:
+
+<ul>
+<li>Реализация включенного объекта. Например, если включенный объект - апплет, автор должен указать местоположение исполняемого кода апплета.
+
+<li>Генерируемые данные. Например, если включенный объект является программой, генерирующей данные шрифта, автор должен указать местоположение этих данных.
+
+<li>Дополнительные значения, необходимые объекту. Например, некоторым апплетам могут быть нужны исходные значения для их параметров.
+					
+</ul>
+
+<P>Элемент <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> позволяет авторам указать все три типа данных объекта, но авторы не обязательно должны указывать их все.  Например, некоторым объектам не требуются данные (например, апплет, выполняющий анимацию). Другим может быть не нужна инициализация. Другим же может не понадобиться дополнительная информация о реализации, то есть сам агент пользователя может уже знать, как генерировать этот тип данных (например, изображения в формате GIF).
+
+<P>
+<span class="index-inst" title="object::locating implementation and data"><a name="idx-object-1">Авторы задают реализацию объекта</a></span> и местоположение данных, генерируемых с помощью элемента <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>. Однако для указания рабочих значений авторы используют элемент <a href="objects.html#edef-PARAM" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-PARAM" class="noxref"><samp
+class="einst">PARAM</samp></a>, обсуждаемый в разделе об <a href="#object-init">инициализации объекта.</a>
+
+<P>
+<span class="index-inst" title="object::in HEAD">Элемент <a name="idx-object-2" href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> может также присутствовать внутри</span> элемента <a href="global.html#edef-HEAD" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HEAD" class="noxref"><samp class="einst">HEAD</samp></a>.  Поскольку агенты пользователей обычно не генерируют элементы в <a href="global.html#edef-HEAD" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HEAD" class="noxref"><samp
+class="einst">HEAD</samp></a>, авторам следует убедиться, что во всех элементах <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> в <a href="global.html#edef-HEAD" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HEAD" class="noxref"><samp class="einst">HEAD</samp></a> нет содержимого, которое можно генерировать. Пример включения элемента <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> в элемент <a href="global.html#edef-HEAD" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HEAD" class="noxref"><samp
+class="einst">HEAD</samp></a> см. в разделе о <a
+href="frames.html#sharing-frame-data" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#sharing-frame-data">совместном использовании данных кадра</a>.
+
+<P>Информацию об элементе <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> в формах см. в разделе об <a
+href="forms.html#form-controls" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#form-controls">управлении формами</a>.
+
+<H3><a name="h-13.3.1">13.3.1</a> 
+<span class="index-inst" title="object::fallback rendering
+of|object::rules for embedded"><a name="idx-object-3"> Правила генерации объектов</a></span></H3>
+
+<P>Агент пользователя должен интерпретировать элемент <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> в соответствии со следующими правилами старшинства:
+
+<ol>
+
+<li>Сначала агент пользователя должен попытаться сгенерировать объект. Он не должен генерировать содержимое элемента, но должен проверить его на случай, если элемент содержит дополнительные дочерние элементы <a href="objects.html#edef-PARAM" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-PARAM" class="noxref"><samp class="einst">PARAM</samp></a> (см. <a href="#object-init">инициализация объекта</a>) или элементы <a href="objects.html#edef-MAP" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-MAP" class="noxref"><samp class="einst">MAP</samp></a> (см. <a href="#client-side-maps">
+клиентские навигационные карты</a>).
+
+<li>Если агент пользователя по какой-либо причине не может сгенерировать объект (не сконфигурирован для этого, недостаточно ресурсов, ошибочная архитектура и т.д.), он должен попытаться сгенерировать его содержимое.
+</ol>
+
+<P>
+<span class="index-inst" title="object::in HEAD"><a name="idx-object-5">
+Авторам не следует включать</a></span> содержимое в элементы <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>, расположенные в элементе <a href="global.html#edef-HEAD" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-HEAD" class="noxref"><samp
+class="einst">HEAD</samp></a>.
+
+<div class="example"><P>В следующем примере мы вставляем в документ апплет, представляющий часы, с помощью элемента <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>. Апплету, написанный на языке Python, не нужны дополнительные и рабочие значения. Атрибут <a href="objects.html#adef-classid" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-classid" class="noxref"><samp class="ainst">classid</samp></a> определяет местоположение апплета:
+
+<PRE>    
+&lt;P&gt;&lt;OBJECT classid="http://www.miamachina.it/analogclock.py"&gt;
+&lt;/OBJECT&gt;
+</pre>
+
+<P>Обратите внимание на то, что часы будут генерироваться, как только агент пользователя интерпретирует это объявление <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>. Можно отложить генерацию объекта, начав с <em>объявления</em> объекта (описывается ниже).
+
+<P>Авторы должны выполнять объявление, включая альтернативный текст в качестве содержимого элемента <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> в случае, если агент пользователя не может сгенерировать часы.
+
+<PRE>    
+&lt;P&gt;&lt;OBJECT classid="http://www.miamachina.it/analogclock.py"&gt;
+Часы с анимацией.
+&lt;/OBJECT&gt;
+</pre>
+
+</div>
+
+<P>
+<span class="index-inst" title="accessibility::alternate object
+content"><a name="idx-accessibility-1">Одним важным последствием</a></span> создания элемента <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp
+class="einst">OBJECT</samp></a> является то, что он предлагает механизм задания альтернативной генерации объектов; в каждом внедренном объявлении <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> могут задаваться альтернативные типы содержимого. Если агент пользователя не может сгенерировать outermost <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp
+class="einst">OBJECT</samp></a>, он пытается сгенерировать содержимое, которое может юыть другим элементом <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> и т.д.
+
+<div class="example"><P>
+В следующем примере мы внедряем несколько объявлений <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> для того, чтобы показать работу альтернативной генерации. Агент пользователя попытается сгенерировать первый элемент <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>, который он может, в следующем порядке:
+(1) апплет Earth, написанный на языке Python, (2) клип Земли в формате MPEG, (3) изображение Земли в формате GIF, (4) альтернативный текст.
+
+<pre>
+&lt;P&gt;                 &lt;!- Сначала попробовать апплет на языке Python --&gt;
+&lt;OBJECT title="Вид Земли из космоса" 
+        classid="http://www.observer.mars/TheEarth.py"&gt;
+                    &lt;!- Затем попробовать воспроизвести видеоклип 
+                           в формате MPEG --&gt;
+  &lt;OBJECT data="TheEarth.mpeg" type="application/mpeg"&gt;
+                    &lt;!- Затем попробовать изображение в формате GIF --&gt;
+    &lt;OBJECT data="TheEarth.gif" type="image/gif"&gt;
+                    &lt;!- Затем сгенерировать текст --&gt;
+     Вид &lt;STRONG&gt;Земли&lt;/STRONG&gt; из космоса.
+    &lt;/OBJECT&gt;
+  &lt;/OBJECT&gt;
+&lt;/OBJECT&gt;
+</pre>
+
+<P>Внешнее объявление определяет апплет, которому не нужны данные или начальные значения. Второе объявление определяет клип в формате MPEG и, поскольку местоположение обработчика формата MPEG не указано, предполагается, что клип будет обрабатываться агентом пользователя.  Мы также установили атрибут <samp class="ainst">type</samp>, так что агент пользователя, который знает, что он не может сгенерировать клип в формате MPEG, не будет загружать файл "TheEarth.mpeg" из сети. В третьем объявлении задается местоположение файла в формате GIF и определяется альтернативный текст на случай, если все прочие механизмы не сработают.
+</div>
+
+<div class="note"><P>
+<em><strong>Встроенные и внешние данные.</strong> Данные, которые должны генерироваться, могут указываться двумя способами: в виде встроенного или внешнего ресурса. Последний метод обычно обеспечивает более быструю генерацию, но неудобен при генерации большого объема данных.</em>
+
+<P><em>Ниже приводится пример, показывающий, как встроенные данные могут be fed to an <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>:</em>
+
+<PRE>
+&lt;P&gt;
+&lt;OBJECT id="clock1"
+        classid="clsid:663C8FEF-1EF9-11CF-A3DB-080036F12502"
+        data="data:application/x-oleobject;base64, <em>...данные base64...</em>"&gt;
+    Часы.
+&lt;/OBJECT&gt;
+</PRE>
+</div>
+
+<P>Информацию о размере, выравнивании и границах объекта см. в разделе <a href="#visual">визуальное представление объектов, изображений и апплетов</a>.
+
+<h3><a name="h-13.3.2">13.3.2</a> 
+<span class="index-inst" title="object::initialization">
+<a name="object-init">Инициализация объекта:</a></span> элемент <a
+name="edef-PARAM"><samp class="edef">PARAM</samp></a></h3>
+
+<div class="dtd-fragment">
+<pre class="dtd-fragment">
+&lt;!ELEMENT <a href="objects.html#edef-PARAM" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-PARAM" class="noxref"><samp class="einst">PARAM</samp></a> - O EMPTY              -- значение именованного свойства --&gt;
+&lt;!ATTLIST PARAM
+  <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>          <a href="types.html#type-id" tppabs="http://www.citforum.ru/internet/html40/types.html#type-id">ID</a>             #IMPLIED  -- идентификатор в пределах 
+                                          документа --
+  <a href="objects.html#adef-name-PARAM" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-name-PARAM" class="noxref"><samp class="ainst-PARAM">name</samp></a>        <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata">CDATA</a>          #REQUIRED -- имя свойства --
+  <a href="objects.html#adef-value-PARAM" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-value-PARAM" class="noxref"><samp class="ainst-PARAM">value</samp></a>       <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata">CDATA</a>          #IMPLIED  -- значение свойства --
+  <a href="objects.html#adef-valuetype" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-valuetype" class="noxref"><samp class="ainst-PARAM">valuetype</samp></a>   (DATA|REF|OBJECT) DATA   -- Как интерпретировать значение --
+  <a href="objects.html#adef-type-PARAM" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-type-PARAM" class="noxref"><samp class="ainst-PARAM">type</samp></a>        <a href="dtd.html#ContentType" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#ContentType">%ContentType;</a>  #IMPLIED  -- тип содержимого для значения,
+                                          если valuetype=ref --
+  &gt;
+</pre>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>запрещен</strong></em></p>
+
+<div class="adef-list"><P>
+<em>Определения атрибутов</em><dl>
+
+<dt><a name="adef-name-PARAM"><samp class="adef">name</samp></a> = <a
+href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata"><em>cdata</em></a> 
+<dd>Этот атрибут определяет имя рабочего параметра, которое должно быть понятно вставляемому объекту. Учитывает ли имя свойства регистр, зависит от конкретной реализации объекта.
+
+<dt><a name="adef-value-PARAM"><samp class="adef">value</samp></a> = <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata"><em>cdata</em></a>
+<dd>Этот атрибут определяет значение рабочего параметра, задаваемого атрибутом <a href="objects.html#adef-name-PARAM" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-name-PARAM" class="noxref"><samp class="ainst-PARAM">name</samp></a>. Значения свойств не имеют значения в HTML; их значение определяется объектом. 
+
+<dt><a name="adef-valuetype"><samp class="adef">valuetype</samp></a> =
+<samp>data|ref|object</samp> 
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd>Этот атрибут определяет тип атрибута <samp>value</samp>. Возможные значения:
+<ul>
+
+<li><samp>data:</samp> Это значение используется по умолчанию.  Оно означает, что значение, задаваемое атрибутом <samp class="ainst">value</samp>, будет определяться и передаваться в объект в виде строки.
+
+<li><samp>ref:</samp> Значение, задаваемое атрибутом <samp class="ainst">value</samp>, является адресом URI ресурса, где хранятся рабочие значения. Это позволяет средствам поддержки идентифицировать адреса URI, данные в качестве параметров. Адрес URI должен передаваться в объект <strong>как есть</strong>, то есть неразрешенным.  
+
+<li><samp>object:</samp> Значение, задаваемое атрибутом <samp class="ainst">value</samp>, является идентификатором, ссылающимся на объявление <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> в этом же документе. Идентификатором должно быть значение атрибута <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a> для объявленного элемента <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>.
+</ul>
+
+<dt><a name="adef-type-PARAM"><samp class="adef">type</samp></a>  = <a
+href="types.html#type-content-type" tppabs="http://www.citforum.ru/internet/html40/types.html#type-content-type"><em>content-type</em></a> <a
+href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd> Этот атрибут задает тип содержимого ресурса, назначаемого атрибутом <samp class="ainst">value</samp> <strong>только</strong> в случае, если значением атрибута <a href="objects.html#adef-valuetype" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-valuetype" class="noxref"><samp class="ainst">valuetype</samp></a> является "ref". Таким образом, этот атрибут определяет для агента пользователя тип значений, которые будут находиться по адресу URI, назначенному атрибутом <samp class="ainst">value</samp>. 
+</dl>
+</div>
+
+<div class="aref-list"><P>
+<em>Атрибуты, определенные в другом месте</em> 
+<ul>
+<li><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>
+    (<a href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</a>) 
+</ul>
+</div>
+
+<P>Элементы <a href="objects.html#edef-PARAM" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-PARAM" class="noxref"><samp class="einst">PARAM</samp></a> определяют набор значений, которые могут понадобиться объекту во время работы. В элементах <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> или <a href="objects.html#edef-APPLET" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-APPLET" class="noxref"><samp class="einst">APPLET</samp></a> может присутствовать любое число атрибутов <a href="objects.html#edef-PARAM" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-PARAM" class="noxref"><samp
+class="einst">PARAM</samp></a> в любом порядке, но они должны помещаться в начале тела включающего элемента <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp
+class="einst">OBJECT</samp></a> или <a href="objects.html#edef-APPLET" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-APPLET" class="noxref"><samp class="einst">APPLET</samp></a>.
+
+<p>Синтаксис имен и значений считается понятным обработчику объекта. Данный документ не указывает, как агенты пользователей должны загружать пары имя/значение, а также того, как они должны интерпретировать повторяющиеся имена параметров.
+
+<div class="example"><P>
+Вернемся к примеру с часами и покажем использование элемента <a href="objects.html#edef-PARAM" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-PARAM" class="noxref"><samp class="einst">PARAM</samp></a>: предположим, что апплет может принимать два рабочих параметра, определяющих его начальную высоту и ширину. Мы можем установить исходные размеры 40x40 пикселов с помощью двух элементов <a href="objects.html#edef-PARAM" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-PARAM" class="noxref"><samp
+class="einst">PARAM</samp></a>.
+
+<PRE>    
+&lt;P&gt;&lt;OBJECT classid="http://www.miamachina.it/analogclock.py"&gt;
+&lt;PARAM name="height" value="40" valuetype="data"&gt;
+&lt;PARAM name="width" value="40" valuetype="data"&gt;
+Этот агент пользователя не может сгенерировать приложение на языке Python.
+&lt;/OBJECT&gt;
+</pre>
+</div>
+
+<div class="example"><P>
+В следующем примере рабочие данные для параметра "Init_values" объекта задаются в виде внешнего ресурса (файл GIF). Таким образом для атрибута <a href="objects.html#adef-valuetype" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-valuetype" class="noxref"><samp class="ainst">valuetype</samp></a> устанавливается значение "ref", а атрибутом <samp class="ainst">value</samp> является адрес URI  ресурса.
+
+<pre>
+&lt;P&gt;&lt;OBJECT classid="http://www.gifstuff.com/gifappli"
+       standby="Загрузка Элвиса..."&gt;
+&lt;PARAM name="Init_values"
+       value="./images/elvis.gif"&gt;
+       valuetype="ref"&gt;
+&lt;/OBJECT&gt;
+</pre>
+
+<P>Обратите внимание, что мы также установили атрибут <a href="objects.html#adef-standby" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-standby" class="noxref"><samp class="ainst-OBJECT">standby</samp></a>, так что агент пользователя может отобразить сообщение во время загрузки генерирующего механизма.
+</div>
+
+<P>Когда элемент <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> сгенерирован, агенты пользователя должны выполнить поиск содержимого только для тех элементов <a href="objects.html#edef-PARAM" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-PARAM" class="noxref"><samp class="einst">PARAM</samp></a>, которые являются их прямыми дочерними элементами и "feed" их to the <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>.
+
+<div class="example"><P>
+
+<P>Таким образом, в следующем примере, если сгенерирован "obj1", "param1"
+применяется к "obj1" (и не применяется к "obj2"). Если "obj1" не сгенерирован, а "obj2" сгенерирован, "param1" игнорируется, а "param2" применяется к "obj2".  Если ни один <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> не сгенерирован, ни один <a href="objects.html#edef-PARAM" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-PARAM" class="noxref"><samp
+class="einst">PARAM</samp></a> не применяется.
+
+<PRE>
+&lt;P&gt;
+&lt;OBJECT id="obj1"&gt;
+   &lt;PARAM name="param1"&gt;
+   &lt;OBJECT id="obj2"&gt;
+      &lt;PARAM name="param2"&gt;
+   &lt;/OBJECT&gt;
+&lt;/OBJECT&gt;
+</PRE>
+</div>
+
+
+<h3><a name="h-13.3.3">13.3.3</a> 
+<span class="index-inst" title="object::naming schemes for"><a name="idx-object-7">
+Глобальные схемы именования объектов</a></span></h3>
+
+<P>Местоположение обработчика объекта задается адресом URI. Как было сказано во <a href="intro.html#intro-uris" tppabs="http://www.citforum.ru/internet/html40/intro/intro.html#intro-uris">введении в URI</a>, первый сегмент абсолютного адреса URI задает схему именования, используемую для передачи данных, назначаемых адресом URI. Для документов в формате HTML этой схемой часто является "http". Некоторые апплеты могут использовать внешние схемы именования. Например, при указании апплета Java авторы могут использовать адреса URI, начинающиеся с "java", я для аппелтов ActiveX авторы могут использовать "clsid".
+
+<div class="example"><P>
+В следующем примере мы вставляем апплет на языке Java в документ в формате HTML. 
+
+<pre>
+&lt;P&gt;&lt;OBJECT classid="java:program.start"&gt;
+&lt;/OBJECT&gt;
+</pre>
+</div>
+
+<P>Установив атрибут <a href="objects.html#adef-codetype" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-codetype" class="noxref"><samp class="ainst">codetype</samp></a>, агент пользователя может определить, нужно ли загружать ли приложение Java, в зависимости от своих возможностей. 
+
+<pre>
+&lt;OBJECT codetype="application/java-archive"
+        classid="java:program.start"&gt;
+&lt;/OBJECT&gt;
+</pre>
+
+<P>Некоторым схемам генерации для определения обработки необходима дополнительная информация, поэтому им необходимо указать, где находится эта информация. Авторы могут указать путь к обработчику объекта с помощью атрибута <a href="objects.html#adef-codebase-APPLET" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-codebase-APPLET" class="noxref"><samp class="ainst-APPLET">codebase</samp></a>.
+
+<pre>
+&lt;OBJECT codetype="application/java-archive"
+        classid="java:program.start"&gt;
+        codebase="http://foooo.bar.com/java/myimplementation/"
+&lt;/OBJECT&gt;
+</pre>
+
+<div class="example"><P>
+В следующем примере (с помощью атрибута <a href="objects.html#adef-classid" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-classid" class="noxref"><samp class="ainst">classid</samp></a>) задается объект ActiveX в виде адреса URI, начинающегося со схемы именования "clsid". Атрибут <a href="objects.html#adef-data" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-data" class="noxref"><samp class="ainst-OBJECT">data</samp></a> определяет местоположение генерируемых данных (еще одни часы).
+
+<pre>
+&lt;P&gt;&lt;OBJECT classid="clsid:663C8FEF-1EF9-11CF-A3DB-080036F12502"
+        data="http://www.acme.com/ole/clock.stm"&gt;
+Это приложение не поддерживается.
+&lt;/OBJECT&gt;
+</pre>
+</div>
+
+<H3><a name="h-13.3.4">13.3.4</a> 
+<span class="index-inst" title="object::statically declared">
+<a name="object-declare">Объявление и инициализация объекта</a></span></h3>
+
+В приведенных выше примерах были показаны отдельные определения объектов. Если в документе должно содержаться несколько экземпляров одного и того же объекта, объявление и инициализацию объекта можно разделить. Такой способ имеет несколько преимуществ:
+
+<ul>
+<li>Данные могут загружаться агентом пользователя из сети <em>один раз</em> (во время объявления) и повторно использоваться в каждой инициализации.
+<li>Инициализировать объект можно из местоположения, отличного от того, в котором объект объявлялся, например, из ссылки.
+<li>Объекты можно определять в качестве рабочих данных для других объектов. 
+</ul>
+
+<P>Чтобы объявить объект так, чтобы он не обрабатывался агентом пользователя при чтении, установите логический атрибут <a href="objects.html#adef-declare" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-declare" class="noxref"><samp class="ainst">declare</samp></a> элемента <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>. В то же время авторы должны идентифицировать объявление, установив уникальное значение для атрибута <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a> в элементе <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>. Инициализация объекта позже будет ссылаться на этот идентификатор.
+
+<P>Объявленный <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> должен присутствовать в документе до первого экземпляра <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>.
+
+<P>Объект, определенный с атрибутом <a href="objects.html#adef-declare" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-declare" class="noxref"><samp class="ainst">declare</samp></a>, инициализируется каждый раз, когда необходима генерация элемента, ссылающегося на этот объект (например, активизируется ссылка на него, активизируется объект, ссылающийся на него и т.д.).
+
+<div class="example"><P>
+В следующем примере мы объявляем <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> и вызываем его инициализацию, указав его в ссылке. Таким образом объект можно активизировать, щелкнув, например, на выделенном тексте. 
+
+<pre>
+&lt;P&gt;&lt;OBJECT declare
+        id="earth.declaration" 
+        data="TheEarth.mpeg" 
+        type="application/mpeg"&gt;
+   Вид &lt;STRONG&gt;Земли&lt;/STRONG&gt; из космоса.
+&lt;/OBJECT&gt;
+<em>...далее в документе...</em>
+&lt;P&gt;Красивое&lt;A href="#earth.declaration"&gt; анимационное изображение Земли!&lt;/A&gt;
+</pre>
+</div>
+
+<div class="example"><P>
+В следующем примере показано, как указать рабочие значения, являющиеся другими объектами. В этом примере мы отправляем текст (стихотворение) гипотетическому механизму для просмотра стихотворений. Объект распознает рабочий параметр с именем "font" (скажем, для генерации текста стихотворения с использованием определенного шрифта). Значение этого параметра само является объектом, вставляющим (но не генерирующим) объект шрифта. Отношение между объектом шрифта и объектом механизма просмотра стихотворений достигается с помощью (1) назначения атрибута <a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a> в объявлении объекта шрифта и (2) ссылки на него в элементе <a href="objects.html#edef-PARAM" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-PARAM" class="noxref"><samp class="einst">PARAM</samp></a> объекта механизма просмотра стихотворений (с помощью <a href="objects.html#adef-valuetype" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-valuetype" class="noxref"><samp class="ainst">valuetype</samp></a> и <samp class="ainst">value</samp>).
+
+<pre>
+&lt;P&gt;&lt;OBJECT declare
+     id="tribune"
+     type="application/x-webfont"
+     data="tribune.gif"&gt;
+&lt;/OBJECT&gt;
+<em>...просмотр стихотворения из файла KublaKhan.txt...</em>
+&lt;P&gt;&lt;OBJECT classid="http://foo.bar.com/poem_viewer" 
+           data="KublaKhan.txt"&gt;
+&lt;PARAM name="font" valuetype="object" value="#tribune"&gt;
+&lt;P&gt;У вас нет такой классной программы просмотра стихотворений...
+&lt;/OBJECT&gt;
+</pre>
+</div>
+
+<p>Агенты пользователей, не поддерживающие атрибут <a href="objects.html#adef-declare" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-declare" class="noxref"><samp class="ainst">declare</samp></a>, должны генерировать содержимое объявления <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>.
+
+<h2><a name="h-13.4">13.4</a> <a name="include-applets">Включение апплета</a>: элемент <a name="edef-APPLET"><samp class="edef">APPLET</samp></a></h2>
+<strong>Элемент APPLET является <a href="conform.html#deprecated" tppabs="http://www.citforum.ru/internet/html40/conform.html#deprecated">нежелательным (как и все атрибуты этого элемента)</a>, вместо него следует использовать элемент <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>.</strong>
+
+<p>Формальное определение см. в <a href="loosedtd.html#applet" tppabs="http://www.citforum.ru/internet/html40/sgml/loosedtd.html#applet">Transitional DTD</a>.
+
+<div class="adef-list"><P>
+<em>Определения атрибутов</em><dl>
+
+<dt><a name="adef-codebase-APPLET"><samp class="adef">codebase</samp></a> =
+  <a href="types.html#type-uri" tppabs="http://www.citforum.ru/internet/html40/types.html#type-uri"><em>uri</em></a>
+  <a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+<dd>Этот атрибут определяет базовый адрес URI апплета. Если этот атрибут не указан, по умолчанию используется базовый адрес URI, используемый для всего документа. Значениями этого атрибута могут быть только подкаталоги каталога, в котором расположен текущий документ. 
+
+<dt><a name="adef-code"><samp class="adef">code</samp></a> =
+  <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata"><em>cdata</em></a>
+  <a href="types.html#case-sensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-sensitive">[CS]</a>
+<dd>Этот атрибут определяет имя файла класса, содержащего скомпилированный подкласс апплета или путь, по которому можно получить класс, включая сам файл класса. Он интерпретируется с учетом кода апплета. Для этого должен быть указан один из атрибутов <a href="objects.html#adef-code" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-code" class="noxref"><samp class="ainst">code</samp></a> или <a href="objects.html#adef-object" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-object" class="noxref"><samp class="ainst">object</samp></a>.
+
+<dt><a name="adef-name-APPLET"><samp class="adef">name</samp></a> =
+  <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata"><em>cdata</em></a>
+  <a href="types.html#case-sensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-sensitive">[CS]</a>
+<dd>Этот атрибут определяет имя экземпляра апплета, что дает возможность апплетам на одной странице находить друг друга и взаимодействовать друг с другом.
+
+<dt><a name="adef-archive-APPLET"><samp class="adef">archive</samp></a> =
+  <a href="types.html#type-uri" tppabs="http://www.citforum.ru/internet/html40/types.html#type-uri"><em>uri-list</em></a>
+  <a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+<dd>Этот атрибут определяет разделенный запятыми список адресов URI архивов, содержащих классы и другие ресурсы, которые будут "предварительно загружаться". Классы загружаются с помощью экземпляра AppletClassLoader с заданным <a href="objects.html#adef-codebase-APPLET" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-codebase-APPLET" class="noxref"><samp class="ainst-APPLET">codebase</samp></a>. Относительные адреса URI архивов интерпретируются относительно codebase апплета. Предварительная загрузка ресурсов может существенно увеличить производительность апплетов.
+
+<dt><a name="adef-object"><samp class="adef">object</samp></a> =
+  <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata"><em>cdata</em></a>
+  <a href="types.html#case-sensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-sensitive">[CS]</a>
+<dd>Этот атрибут определяет имя ресурса, содержащего serialized представление состояния апплета. Он интерпретируется относительно codebase апплета. serialized данные содержат имя класса апплета, но не обработчика. Имя класса используется для загрузки обработчика из файла класса или архива.
+
+<p>Если апплет "deserialized", метод <samp>start()</samp> вызывается вместо метода <samp>init()</samp>. Атрибуты, допустимые при serialized исходного объекта, <strong>не</strong> восстанавливаются.  Атрибуты, переданные в этот экземпляр <a href="objects.html#edef-APPLET" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-APPLET" class="noxref"><samp class="einst">APPLET</samp></a>, будут доступны апплету. Авторам следует очень осторожно использовать это свойство. Перед serialized вапплет должен быть остановлен.</p>
+
+<P>Должен присутствовать один из атрибутов <a href="objects.html#adef-code" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-code" class="noxref"><samp class="ainst">code</samp></a> или <a href="objects.html#adef-object" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-object" class="noxref"><samp class="ainst">object</samp></a>.  Если даны оба атрибута <a href="objects.html#adef-code" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-code" class="noxref"><samp class="ainst">code</samp></a> и <a href="objects.html#adef-object" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-object" class="noxref"><samp class="ainst">object</samp></a>, и в них указаны разные имена классов, это является ошибкой.
+</p>
+
+<dt><a name="adef-width-APPLET"><samp class="adef">width</samp></a> 
+= <a href="types.html#type-length" tppabs="http://www.citforum.ru/internet/html40/types.html#type-length"><em>длина</em></a>
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd>Этот атрибут определяет начальную ширину области отображения апплета (не включая окна и диалоги, создаваемые апплетом).
+
+<dt><a name="adef-height-APPLET"><samp class="adef">height</samp></a> = 
+<a href="types.html#type-length" tppabs="http://www.citforum.ru/internet/html40/types.html#type-length"><em>длина</em></a>
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd>Этот атрибут определяет начальную высоту области отображения апплета (не включая окна и диалоги, создаваемые апплетом).
+</dl>
+</div>
+
+<div class="aref-list"><P>
+<em>Атрибуты, определенные в другом месте</em> 
+<ul>
+<li><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><samp class="ainst">class</samp></a> (<a href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</a>) 
+<li><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a> (<a href="global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</a>) 
+<li><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><samp class="ainst">style</samp></a> (<a href="styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</a>) 
+<li><a href="objects.html#adef-alt" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-alt" class="noxref"><samp class="ainst">alt</samp></a> (<a href="#alternate-text">альтернативный текст</a>)
+<li><a href="objects.html#adef-align-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-align-IMG" class="noxref"><samp class="ainst-IMG">align</samp></a>, <a href="objects.html#adef-hspace" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-hspace" class="noxref"><samp class="ainst">hspace</samp></a>, <a href="objects.html#adef-vspace" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-vspace" class="noxref"><samp class="ainst">vspace</samp></a> (<a href="#visual">визуальное представление объектов, изображений и апплетов</a>)
+</ul>
+</div>
+
+<p>Этот элемент, поддерживаемый всеми программами просмотра с поддержкой Java, позволяет дизайнерам внедрять апплеты Java в документы HTML. Он является <a
+href="conform.html#deprecated" tppabs="http://www.citforum.ru/internet/html40/conform.html#deprecated">нежелательным</a>, и вместо него следует использовать элемент <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>.
+
+<P>Содержимое элемента <a href="objects.html#edef-APPLET" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-APPLET" class="noxref"><samp class="einst">APPLET</samp></a> служит альтернативной информацией для агентов пользователей, не поддерживающих этот элемент или не сконфигурированных для поддержки апплетов. В противном случае агенты пользователей должны игнорировать содержимое.
+
+<div class="deprecated-example">
+<P><span class="example-title">ПРИМЕР НЕЖЕЛАТЕЛЬНОГО ИСПОЛЬЗОВАНИЯ:</span><br>
+В следующем примере элемент <a href="objects.html#edef-APPLET" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-APPLET" class="noxref"><samp class="einst">APPLET</samp></a> включает в документ апплет на языке Java. Поскольку атрибут <a href="objects.html#adef-codebase-APPLET" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-codebase-APPLET" class="noxref"><samp class="ainst-APPLET">codebase</samp></a> не установлен, предполагается, что апплет находится в том же каталоге, что и сам документ.
+
+<pre>
+&lt;APPLET code="Bubbles.class" width="500" height="500"&gt;
+Java-апплет, рисующий движущиеся пузыри.
+&lt;/APPLET&gt;
+</PRE>
+</div>
+
+<div class="example">
+<P>Этот пример можно переписать с использованием элемента <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> следующим образом:
+
+<PRE>
+&lt;P&gt;&lt;OBJECT codetype="application/java"
+        classid="java:Bubbles.class"
+        width="500" height="500"&gt;
+Java-апплет, рисующий движущиеся пузыри.
+&lt;/OBJECT&gt;
+</pre>
+</div>
+
+<P>Задать для апплета исходные значения можно с помощью элемента <a href="objects.html#edef-PARAM" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-PARAM" class="noxref"><samp class="einst">PARAM</samp></a>.
+
+<div class="deprecated-example">
+<P><span class="example-title">ПРИМЕР НЕЖЕЛАТЕЛЬНОГО ИСПОЛЬЗОВАНИЯ:</span><br>
+Следующий апплет на языке Java:
+<pre>
+&lt;APPLET code="AudioItem" width="15" height="15"&gt;
+&lt;PARAM name="snd" value="Hello.au|Welcome.au"&gt;
+Java-апплет, воспроизводящий звуковой файл приветствия.
+&lt;/APPLET&gt;
+</pre>
+
+<P>можно определить с использованием элемента <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> следующим образом:
+
+<pre>
+&lt;OBJECT codetype="application/java"
+        classid="AudioItem" 
+        width="15" height="15"&gt;
+&lt;PARAM name="snd" value="Hello.au|Welcome.au"&gt;
+Java-апплет, воспроизводящий звуковой файл приветствия.
+&lt;/OBJECT&gt;
+</pre>
+</div>
+
+
+<h2><a name="h-13.5">13.5</a> <a name="embedded-documents">Замечания о внедренных документах</a></h2> 
+
+Иногда вместо <a href="links.html" tppabs="http://www.citforum.ru/internet/html40/struct/links.html">ссылки</a> на документ автору нужно внедрить его непосредственно в первичный документ HTML. Авторы могут использовать для этого элемент <a href="frames.html#edef-IFRAME" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-IFRAME" class="noxref"><samp class="einst">IFRAME</samp></a> или <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>, но эти элементы несколько различны.  Эти два элемента не только имеют различные модели содержимого, но также элемент <a href="frames.html#edef-IFRAME" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#edef-IFRAME" class="noxref"><samp
+class="einst">IFRAME</samp></a> может быть целевым кадром (подробнее см. раздел об <a href="frames.html#target-info" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#target-info">указании информации о целевом кадре</a>) и может быть "выделен" агентом пользователя для печати, просмотра кода HTML и т.д. Агенты пользователя могут генерировать выделенные кадры способом, отличным от генерации невыделенных кадров (например, отображать границу вокруг выделенного кадра).
+
+<P>
+<span class="index-inst" title="document::ways to embed"><a name="idx-document-1"> Внедренный документ</a></span> полностью независим от документа, в который он внедрен. Например, относительные адреса URI во внедренном документе <a href="links.html#resolving-relative-uris" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#resolving-relative-uris">разрешаются</a> в соответствии с базовым адресом URI, указанным во внедренном документе, а не в основном документе. Внедренный документ только генерируется в другом документе (например, во вложенном окне); it во всех остальных отношениях он остается независимым.
+
+<div class="example"><P>
+Например, следующая строка внедряет содержимое файла <tt>embed_me.html</tt> в то место документа, в котором встречено определение <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>.
+<pre>
+<em>...предшествующий текст...</em>
+&lt;OBJECT data="embed_me.html"&gt;
+Внимание: невозможно внедрить файл embed_me.html.
+&lt;/OBJECT&gt;
+<em>...последующий текст...</em>
+</pre>
+
+<P>Вспомните, что содержимое элемента <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> должно генерироваться, только если файл, задаваемый атрибутом <a href="objects.html#adef-data" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-data" class="noxref"><samp class="ainst">data</samp></a>, невозможно загрузить.
+</div>
+
+<P>Поведение агента пользователя в случаях, когда файл включает сам себя, не определено.
+
+<h2><a name="h-13.6">13.6</a> 
+<span class="index-def" title="image map">
+<a name="include-maps">Навигационные карты</a></span></h2>
+
+Навигационные карты позволяют авторам определять области изображения или объекта и назначать каждой области определенное действие (например, загрузку документа, запуск программы и т.д.) Когда область активизируется пользователем, выполняется действие.
+
+<P>Навигационная карта создается путем назначения объекта с указанием соответствующих геометрических областей.
+
+<P>Имеется два типа навигационных карт:
+
+<ul>
+
+<li>
+<span class="index-def" title="client-side image map|image
+map::client-side"><a name="didx-client-side_image_map"><dfn><em>Клиентская.</em></dfn></a></span>
+Когда пользователь активизирует область клиентской навигационной карты с помощью мыши, координаты точки интерпретируются агентом пользователя. Агент пользователя выбирает ссылку, указанную для активизированной области, и выполняет ее.
+
+<li>
+<span class="index-def" title="server-side image map|image
+map::server-side"><a name="didx-server-side_image_map"><dfn><em>Серверная.</em></dfn></a></span>
+Когда пользователь активизирует область серверной навигационной карты с помощью мыши, координаты точки щелчка передаются агенту на сервере, определенному с помощью атрибута <a href="links.html#adef-href" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-href" class="noxref"><samp class="ainst">href</samp></a> элемента <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp
+class="einst">A</samp></a>. Агент на сервере интерпретирует координаты и выполняет соответствующие действия.  
+</ul>
+
+<P>
+<span class="index-inst" title="accessibility::of image maps"><a name="idx-accessibility-2">
+Клиентские навигационные карты являются предпочтительными</a></span> по отношению к серверным по крайней мере по двум причинам: они доступны пользователям неграфических агентов и позволяют незамедлительно определить, находится ли указатель в активной области.</P>
+
+<h3><a name="h-13.6.1">13.6.1</a> <a name="client-side-maps">Клиентские навигационные карты:</a> элементы <a name="edef-MAP"><samp class="edef">MAP</samp></a> и <a name="edef-AREA"><samp class="edef">AREA</samp></a></H3>
+
+<div class="dtd-fragment">
+<pre class="dtd-fragment">
+&lt;!ELEMENT <a href="objects.html#edef-MAP" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-MAP" class="noxref"><samp class="einst">MAP</samp></a> - - ((<a href="dtd.html#block" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#block">%block;</a>)+ | AREA+) - клиентская навигационная карта --&gt;
+&lt;!ATTLIST MAP
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  <a href="objects.html#adef-name-MAP" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-name-MAP" class="noxref"><samp class="ainst-MAP">name</samp></a>        <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata">CDATA</a>          #REQUIRED - для ссылки usemap --
+  &gt;
+</pre>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>обязателен</strong></em></p>
+<div class="dtd-fragment">
+<pre class="dtd-fragment">
+&lt;!ELEMENT <a href="objects.html#edef-AREA" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-AREA" class="noxref"><samp class="einst">AREA</samp></a> - O EMPTY               -- область клиентской навигационной 
+                                          карты --&gt;
+&lt;!ATTLIST AREA
+  <a href="dtd.html#attrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#attrs">%attrs;</a>                              -- <a href="dtd.html#coreattrs" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#coreattrs">%coreattrs</a>, <a href="dtd.html#i18n" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#i18n">%i18n</a>, <a href="dtd.html#events" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#events">%events</a> --
+  <a href="objects.html#adef-shape" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-shape" class="noxref"><samp class="ainst-AREA">shape</samp></a>       <a href="dtd.html#Shape" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Shape">%Shape;</a>        rect      -- управляет интерпретацией координат --
+  <a href="objects.html#adef-coords" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-coords" class="noxref"><samp class="ainst-AREA">coords</samp></a>      <a href="dtd.html#Coords" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Coords">%Coords;</a>       #IMPLIED  -- разделенный запятыми список длин --
+  <a href="links.html#adef-href" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-href" class="noxref"><samp class="ainst-AREA">href</samp></a>        <a href="dtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#URI">%URI;</a>          #IMPLIED  -- адрес URI связанного ресурса --
+  <a href="objects.html#adef-nohref" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-nohref" class="noxref"><samp class="ainst-AREA">nohref</samp></a>      (nohref)       #IMPLIED  -- для этого региона действие 
+                                          не назначено --
+  <a href="objects.html#adef-alt" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-alt" class="noxref"><samp class="ainst-AREA">alt</samp></a>         <a href="dtd.html#Text" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Text">%Text;</a>         #REQUIRED -- краткое описание --
+  <a href="forms.html#adef-tabindex" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-tabindex" class="noxref"><samp class="ainst-AREA">tabindex</samp></a>    <a href="types.html#type-number" tppabs="http://www.citforum.ru/internet/html40/types.html#type-number">NUMBER</a>         #IMPLIED  -- положение в последовательности 
+                                          перехода --
+  <a href="forms.html#adef-accesskey" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-accesskey" class="noxref"><samp class="ainst-AREA">accesskey</samp></a>   <a href="dtd.html#Character" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Character">%Character;</a>    #IMPLIED  -- символ доступа --
+  <a href="scripts.html#adef-onfocus" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onfocus" class="noxref"><samp class="ainst-AREA">onfocus</samp></a>     <a href="dtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Script">%Script;</a>       #IMPLIED  -- элемент получил фокус --
+  <a href="scripts.html#adef-onblur" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onblur" class="noxref"><samp class="ainst-AREA">onblur</samp></a>      <a href="dtd.html#Script" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#Script">%Script;</a>       #IMPLIED  -- элемент потерял фокус --
+  &gt;
+</pre>
+</div>
+<p><em>Начальный тег: <strong>обязателен</strong>, Конечный тег: <strong>запрещен</strong></em></p>
+
+<div class="adef-list"><P>
+<em>Определения атрибутов элемента MAP</em><dl>
+
+<dt><a name="adef-name-MAP"><samp class="adef">name</samp></a> 
+ = <a href="types.html#type-cdata" tppabs="http://www.citforum.ru/internet/html40/types.html#type-cdata"><em>cdata</em></a>
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd>Этот атрибут назначает имя навигационной карты, определяемой элементом <a href="objects.html#edef-MAP" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-MAP" class="noxref"><samp class="einst">MAP</samp></a>.
+</dl>
+</div>
+
+<div class="adef-list"><P>
+<em>Определения атрибутов элемента AREA</em><dl>
+
+<dt><a name="adef-shape"><samp class="adef">shape</samp></a> =
+<samp>default|rect|circle|poly</samp> 
+<a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd>Этот атрибут определяет форму области. Возможные значения:
+<ul>
+<li><samp>default:</samp> Задает всю область.
+<li><samp>rect:</samp> Определяет прямоугольную область.
+<li><samp>circle:</samp> Определяет круглую область.
+<li><samp>poly:</samp> Определяет многоугольную область.
+</ul>
+
+<dt><a name="adef-coords"><samp class="adef">coords</samp></a> =
+<em>координаты</em> <a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+<dd>Этот атрибут определяет положение формы на экране. Число и порядок значений зависят от определенной формы. Возможные комбинации:
+<ul>
+<li><samp>rect:</samp> x левой границы, y верхней границы, x правой границы, y нижней границы.
+<li><samp>circle:</samp> x центра, y центра, радиус. <strong>Примечание.</strong> Если радиус указан в процентах, агенты пользователя должны вычислять окончательное значение радиуса в зависимости от назначенных объекту ширины и высоты. Радиус должен быть наименьшим из этих двух значений.
+<li><samp>poly:</samp> x1, y1, x2, y2, ..., xN, yN.
+</ul>
+
+<P>Координаты задаются относительно верхнего левого угла объекта. Все значения являются <a href="types.html#type-length" tppabs="http://www.citforum.ru/internet/html40/types.html#type-length">длинами</a>. Все значения отделяются друг от друга запятыми.
+
+<dt><a name="adef-nohref"><samp class="adef">nohref</samp></a>
+ <a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>
+<dd>Если этот логический атрибут установлен, он указывает, что с этой областью ссылка не связана. 
+</dl>
+</div>
+
+<div class="adef-list"><P>
+<em>Атрибут для установления связи навигационной карты с элементом</em><dl>
+
+<dt><a name="adef-usemap"><samp class="adef">usemap</samp></a> = <a
+href="types.html#type-uri" tppabs="http://www.citforum.ru/internet/html40/types.html#type-uri"><em>uri</em></a>
+ <a href="types.html#see-type-for-case" tppabs="http://www.citforum.ru/internet/html40/types.html#see-type-for-case">[CT]</a>
+
+<dd>Этот атрибут связывает навигационную карту с элементом.  Навигационная карта определяется с помощью элемента <a href="objects.html#edef-MAP" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-MAP" class="noxref"><samp class="einst">MAP</samp></a>. Значение атрибута <samp>usemap</samp> должно совпадать со значением атрибута <a href="objects.html#adef-name-MAP" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-name-MAP" class="noxref"><samp class="ainst-MAP">name</samp></a> связанного элемента <a href="objects.html#edef-MAP" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-MAP" class="noxref"><samp class="einst">MAP</samp></a>.
+</dl>
+</div>
+
+<div class="aref-list"><P>
+<em>Атрибуты, определенные в другом месте</em> 
+<ul>
+<li><a href="global.html#adef-id" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-id" class="noxref"><samp class="ainst">id</samp></a>, <a href="global.html#adef-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-class" class="noxref"><samp class="ainst">class</samp></a> (<a href="global.html#id-and-class" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#id-and-class">идентификаторы в пределах документа</a>) 
+<li><a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a> (<a href="dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">информация о языке</a>), <a href="dirlang.html#adef-dir" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-dir" class="noxref"><samp class="ainst">dir</samp></a> (<a href="dirlang.html#bidirection" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#bidirection">направление текста</a>)
+<li><a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a> (<a href="global.html#title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#title">заголовок элемента</a>) 
+<li><a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><samp class="ainst">style</samp></a> (<a href="styles.html#style-element" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#style-element">встроенная информация о стиле</a>) 
+<li><a href="forms.html#adef-name-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-name-INPUT" class="noxref"><samp class="ainst-INPUT">name</samp></a> (<a href="forms.html#submit-format" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#submit-format">предоставление агентов с помощью форм</a>)
+<li><a href="objects.html#adef-alt" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-alt" class="noxref"><samp class="ainst">alt</samp></a> (<a href="#alternate-text">альтернативный текст</a>)
+<li><a href="links.html#adef-href" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-href" class="noxref"><samp class="ainst">href</samp></a> (<a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A">ссылка anchor</a>) <a href="frames.html#adef-target" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#adef-target" class="noxref"><samp class="ainst">target</samp></a> (<a href="frames.html#target-info" tppabs="http://www.citforum.ru/internet/html40/present/frames.html#target-info">информация о целевом кадре</a>)
+<li><a href="forms.html#adef-tabindex" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-tabindex" class="noxref"><samp class="ainst">tabindex</samp></a> (<a href="forms.html#tabbing-navigation" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#tabbing-navigation">переход по клавише Tab</a>)
+<li><a href="forms.html#adef-accesskey" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-accesskey" class="noxref"><samp class="ainst">accesskey</samp></a> (<a href="forms.html#access-keys" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#access-keys">клавиши доступа</a>)
+<li><a href="objects.html#adef-shape" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-shape" class="noxref"><samp class="ainst">shape</samp></a> (<a href="#include-maps">навигационные карты</a>)
+<li><a href="scripts.html#adef-onclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onclick" class="noxref"><samp class="ainst">onclick</samp></a>,
+ <a href="scripts.html#adef-ondblclick" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-ondblclick" class="noxref"><samp class="ainst">ondblclick</samp></a>,
+ <a href="scripts.html#adef-onmousedown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousedown" class="noxref"><samp class="ainst">onmousedown</samp></a>,
+ <a href="scripts.html#adef-onmouseup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseup" class="noxref"><samp class="ainst">onmouseup</samp></a>,
+ <a href="scripts.html#adef-onmouseover" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseover" class="noxref"><samp class="ainst">onmouseover</samp></a>,
+ <a href="scripts.html#adef-onmousemove" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmousemove" class="noxref"><samp class="ainst">onmousemove</samp></a>,
+ <a href="scripts.html#adef-onmouseout" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onmouseout" class="noxref"><samp class="ainst">onmouseout</samp></a>,
+ <a href="scripts.html#adef-onkeypress" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeypress" class="noxref"><samp class="ainst">onkeypress</samp></a>,
+ <a href="scripts.html#adef-onkeydown" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeydown" class="noxref"><samp class="ainst">onkeydown</samp></a>,
+ <a href="scripts.html#adef-onkeyup" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onkeyup" class="noxref"><samp class="ainst">onkeyup</samp></a>,
+ <a href="scripts.html#adef-onfocus" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onfocus" class="noxref"><samp class="ainst">onfocus</samp></a>,
+ <a href="scripts.html#adef-onblur" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#adef-onblur" class="noxref"><samp class="ainst">onblur</samp></a>
+ (<a href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутренние события</a>)
+</ul>
+</div>
+
+<P>
+Элемент <a href="objects.html#edef-MAP" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-MAP" class="noxref"><samp class="einst">MAP</samp></a> определяет клиентскую навигационную карту, которая может быть связана с одним или несколькими элементами (<a href="objects.html#edef-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-IMG" class="noxref"><samp class="einst">IMG</samp></a>, <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> или <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a>). Навигационная карта связывается с элементом с помощью атрибута <a href="objects.html#adef-usemap" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-usemap" class="noxref"><samp class="ainst">usemap</samp></a> этого элемента.
+
+<P>Наличие атрибута <a href="objects.html#adef-usemap" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-usemap" class="noxref"><samp class="ainst">usemap</samp></a> в элементе <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> подразумевает, что объект включается в виде изображения.  <span class="index-inst" title="image map::with
+OBJECT|user agent::handling image maps"><a name="idx-image_map-3">Более того</a></span>, если с элементом <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> связана клиентская навигационная карта, агенты пользователей могут интерпретировать взаимодействие пользователя с элементом <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> исключительно в терминах клиентской навигационной карты. Это позволяет агентам пользователей (например, звуковым браузерам или роботам) взаимодействовать с элементом <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp
+class="einst">OBJECT</samp></a>, не обрабатывая его; агент пользователя может даже не загружать (или не обрабатывать) объект. Если с элементом <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> связана навигационная карта, авторы не могут быть уверены, что этот объект будет загружаться и обрабатываться всеми агентами пользователей.
+
+<P>
+<span class="index-inst" title="client-side image map::creation of">
+Каждый элемент <a name="idx-client-side_image_map-1" href="objects.html#edef-MAP" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-MAP" class="noxref"><samp class="einst">MAP</samp></a> может содержать следующее:</span>
+
+<ol>
+<li>Один или несколько элементов <a href="objects.html#edef-AREA" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-AREA" class="noxref"><samp class="einst">AREA</samp></a>. Эти элементы не имеют содержимого, но определяют геометрические области навигационной карты и ссылки, связанные с каждой областью. Обратите внимание, что при использовании этого метода элемент <a href="objects.html#edef-MAP" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-MAP" class="noxref"><samp class="einst">MAP</samp></a> не имеет генерируемого содержимого. Таким образом, авторы должны изменять текст для каждого элемента <a href="objects.html#edef-AREA" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-AREA" class="noxref"><samp class="einst">AREA</samp></a> с помощью атрибута <a href="objects.html#adef-alt" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-alt" class="noxref"><samp class="ainst">alt</samp></a> (см. далее информацию о том, <a
+href="#alternate-text">как указать альтернативный текст</a>). 
+
+<li>Содержимое уровня блока. Сюда должны включаться элементы <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a>, определяющие геометрические области навигационной карты, и ссылки, связанные с каждой областью. Обратите внимание, что при использовании этого метода содержимое элемента <a href="objects.html#edef-MAP" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-MAP" class="noxref"><samp class="einst">MAP</samp></a> может генерироваться агентом пользователя. Для создания более доступных документов авторам следует использовать этот способ. 
+</ol>
+
+<P>
+<span class="index-inst" title="image map::overlapping regions of"><a name="idx-image_map-4">
+Если несколько определенных регионов перекрываются,</a></span> приоритет имеет элемент, указанный в документе первым (т.е. на ввод пользователя отвечает именно этот элемент).
+
+<p>
+<span class="index-inst" title="accessibility::of image maps|image
+map::accessibility of"><a name="idx-accessibility-3">Агенты пользователей и авторы должны обеспечивать текстовые альтернативы</a></span> графических навигационных карт на случай, если графика недоступна или пользователь не может получить к ней доступ. Например, агенты пользователей могут использовать текст атрибута <a href="objects.html#adef-alt" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-alt" class="noxref"><samp class="ainst">alt</samp></a> для создания текстовых ссылок вместо графической навигационной карты.  Такие ссылки могут активизироваться различными способами (клавиатура, голос и т.д.).
+
+<div class="note"><P>
+<em><strong>Примечание.</strong>
+Элемент <a href="objects.html#edef-MAP" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-MAP" class="noxref"><samp class="einst">MAP</samp></a> не совместим с агентами пользователей для языка HTML версии 2.0.</em>
+</div>
+
+<H4>Примеры клиентских навигационных карт<a name="h-13.6.1.1">&nbsp;</a></h4>
+
+<div class="example"><P>
+В следующем примере мы создаем клиентскую навигационную карту для элемента <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>. Сы не хотим генерировать содержимое карты при генерации элемента <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>, поэтому мы "скроем" элемент <a href="objects.html#edef-MAP" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-MAP" class="noxref"><samp class="einst">MAP</samp></a> в содержимом элемента <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>. Затем содержимое элемента <a href="objects.html#edef-MAP" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-MAP" class="noxref"><samp class="einst">MAP</samp></a> будет генерироваться, только если нельзя сегенировать содержимое элемента <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>. 
+
+<PRE>
+&lt;HTML&gt;
+   &lt;HEAD&gt;
+      &lt;TITLE&gt;Крутая страница!&lt;/TITLE&gt;
+   &lt;/HEAD&gt;
+   &lt;BODY&gt;
+     &lt;P&gt;&lt;OBJECT data="navbar1.gif" type="image/gif" usemap="#map1"&gt;
+     &lt;MAP name="map1"&gt;
+       &lt;P&gt;Перемещение по узлу:
+       &lt;A href="guide.html" shape="rect" coords="0,0,118,28"&gt;Руководство по доступу&lt;/a&gt; |
+       &lt;A href="shortcut.html" shape="rect" coords="118,0,184,28"&gt;Переход&lt;/A&gt; |
+       &lt;A href="search.html" shape="circle" coords="184,200,60"&gt;Поиск&lt;/A&gt; |
+       &lt;A href="top10.html" shape="poly" coords="276,0,373,28,50,50,276,0"&gt;Первые десять&lt;/A&gt;&lt
+     &lt;/MAP&gt;
+     &lt;/OBJECT&gt;
+   &lt;/BODY&gt;
+&lt;/HTML&gt;
+</PRE>
+
+<P>Нам может понадобиться генерация содержимого карты, даже если агент пользователя может сгенерировать элемент <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>. Например, мы хотим связать навигационную карту с элементом <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp
+class="einst">OBJECT</samp></a> <em>и</em> включить текстовую навигационную панель внизу страницы.  Чтобы это сделать, определим элемент <a href="objects.html#edef-MAP" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-MAP" class="noxref"><samp class="einst">MAP</samp></a> вне элемента <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>:
+
+<PRE>
+&lt;HTML&gt;
+   &lt;HEAD&gt;
+      &lt;TITLE&gt;Крутая страница!&lt;/TITLE&gt;
+   &lt;/HEAD&gt;
+   &lt;BODY&gt;
+     &lt;P&gt;&lt;OBJECT data="navbar1.gif" type="image/gif" usemap="#map1"&gt;
+     &lt;/OBJECT&gt;
+
+     <em>...продолжение страницы...</em>
+
+     &lt;MAP name="map1"&gt;
+       &lt;P&gt;Перемещение по узлу:
+       &lt;A href="guide.html" shape="rect" coords="0,0,118,28"&gt;Руководство по доступу&lt;/a&gt; |
+       &lt;A href="shortcut.html" shape="rect" coords="118,0,184,28"&gt;Переход&lt;/A&gt; |
+       &lt;A href="search.html" shape="circle" coords="184,200,60"&gt;Поиск&lt;/A&gt; |
+       &lt;A href="top10.html" shape="poly" coords="276,0,373,28,50,50,276,0"&gt;Первые десять&lt;/A&gt;
+     &lt;/MAP&gt;
+   &lt;/BODY&gt;
+&lt;/HTML&gt;
+</PRE>
+</div>
+
+<div class="example"><P>
+В следующем примере мы создаем сходную навигационную карту, на этот раз используя элемент <a href="objects.html#edef-AREA" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-AREA" class="noxref"><samp class="einst">AREA</samp></a>. Обратите внимание на использование текста <a href="objects.html#adef-alt" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-alt" class="noxref"><samp class="ainst">alt</samp></a>:
+
+<pre>
+&lt;P&gt;&lt;OBJECT data="navbar1.gif" type="image/gif" usemap="#map1"&gt;
+   &lt;P&gt;Это навигационная панель.
+   &lt;/OBJECT&gt;
+
+&lt;MAP name="map1"&gt;
+ &lt;AREA href="guide.html" 
+          alt="Руководство по доступу" 
+          shape="rect" 
+          coords="0,0,118,28"&gt;
+ &lt;AREA href="search.html" 
+          alt="Поиск" 
+          shape="rect" 
+          coords="184,0,276,28"&gt;
+ &lt;AREA href="shortcut.html" 
+          alt="Переход" 
+          shape="circle"
+          coords="184,200,60"&gt;
+ &lt;AREA href="top10.html" 
+          alt="Первые десять" 
+          shape="poly" 
+          coords="276,0,373,28,50,50,276,0"&gt;
+&lt;/MAP&gt;
+</pre>
+
+<P>Вот версия с использованием элемента <a href="objects.html#edef-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-IMG" class="noxref"><samp class="einst">IMG</samp></a> вместо элемента <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> (с тем же самым объявлением <a href="objects.html#edef-MAP" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-MAP" class="noxref"><samp class="einst">MAP</samp></a>):
+
+<pre>
+&lt;P&gt;&lt;IMG src="navbar1.gif" usemap="#map1" alt="навигационная панель"&gt;
+</pre>
+</div>
+
+<div class="example">
+<p>В следующем примере показано, как элементы могут совместно использовать навигационные карты. 
+
+<P>Вложенные элементы <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> полезны для обеспечения fallbacks в случае, если агент пользователя не поддерживает определенные форматы. Например:</P>
+
+<pre>
+&lt;P&gt;
+&lt;OBJECT data="navbar.png" type="image/png"&gt;
+  &lt;OBJECT data="navbar.gif" type="image/gif"&gt;
+    <em>текст с описанием изображения...</em>
+  &lt;/OBJECT&gt;
+&lt;/OBJECT&gt;
+</pre>
+
+<p>Если агент пользователя не поддерживает формат PNG, он пытается сгенерировать изображение в формате GIF. Если он не поддерживает GIF (например, это речевой агент пользователя), он воспроизводит текстовое описание, указанное в содержимсом внутреннего элемента <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>. Если элементы <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> вложены таким образом, авторы могут обеспечивать совместное использование этими элементами навигационных карт:
+
+<pre>
+&lt;P&gt;
+&lt;OBJECT data="navbar.png" type="image/png" usemap="#map1"&gt;
+  &lt;OBJECT data="navbar.gif" type="image/gif" usemap="#map1"&gt;
+     &lt;MAP name="map1"&gt;
+     &lt;P&gt;Перемещение по узлу:
+      &lt;A href="guide.html" shape="rect" coords="0,0,118,28"&gt;Руководство по доступу&lt;/a&gt; |
+      &lt;A href="shortcut.html" shape="rect" coords="118,0,184,28"&gt;Переход&lt;/A&gt; |
+      &lt;A href="search.html" shape="circle" coords="184,200,60"&gt;Поиск&lt;/A&gt; |
+      &lt;A href="top10.html" shape="poly" coords="276,0,373,28,50,50,276,0"&gt;Первые десять&lt;/A&gt;
+     &lt;/MAP&gt;
+  &lt;/OBJECT&gt;
+&lt;/OBJECT&gt;
+</pre>
+</div>
+
+<div class="example">
+<p>В следующем примере показано, как можно указать anchors для создания неактивных зон в навигационной карте.  Первый anchor определяет небольшую круглую область, с которой не связана ссылка. Второй anchor определяет круглую область большего размера с той же координатой центра. Обе они вместе образуют кольцо, центр которого неактивен, а внешняя часть активна. Порядок определения anchor важен, поскольку меньший круг должен иметь приоритет над большим.
+
+<PRE>
+&lt;MAP name="map1"&gt;
+&lt;P&gt;
+&lt;A shape="circle" coords="100,200,50"&gt;Я неактивная.&lt;/A&gt;
+&lt;A href="outer-ring-link.html" shape="circle" coords="100,200,250"&gt;Я активная.&lt;/A&gt;
+&lt;/MAP&gt;
+</PRE>
+</div>
+
+<P>Точно так же атрибут <a href="objects.html#adef-nohref" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-nohref" class="noxref"><samp class="ainst-AREA">nohref</samp></a> элемента <a href="objects.html#edef-AREA" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-AREA" class="noxref"><samp class="einst">AREA</samp></a> объявляет, что с геометрической областью не связана ссылка.
+
+<h3><a name="h-13.6.2">13.6.2</a> 
+<span class="index-inst" title="image map::server side|server-side
+image map"><a name="idx-image_map-6">Серверные навигационные карты</a></span></h3>
+
+<P>Серверные навигационные карты представляют интерес в случаях, когда карта слишком сложна.
+
+<P>Определить серверную навигационную карту можно только для элементов <a href="objects.html#edef-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-IMG" class="noxref"><samp class="einst">IMG</samp></a> и <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a>.  В случае элемента <a href="objects.html#edef-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-IMG" class="noxref"><samp class="einst">IMG</samp></a> этот элемент должен быть включен в элемент <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a>.  В случае элемента <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a> он должен иметь тип "image". В обоих случаях для элемента должен быть установлен логический атрибут <a name="adef-ismap"><samp class="adef">ismap</samp></a> <a href="types.html#case-insensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-insensitive">[CI]</a>.
+
+<P>Когда пользователь активизирует ссылку, щелкнув на изображении, экранные координаты отправляются непосредственно на сервер, на котором располагается документ. Экранные координаты выражаются в виде пикселов относительно изображения. Нормативную информацию об определении пикселов и об их масштабировании см. в <a rel="biblioentry"
+href="references.html#ref-CSS1" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-CSS1" class="normref">[CSS1]</a>.
+
+<div class="example"><P> 
+В следующем примере активная область определяет серверную ссылку. Таким образом щелчок в любой точке изображения вызовет передачу координат на сервер.
+<pre>
+&lt;P&gt;&lt;A href="http://www.acme.com/cgi-bin/competition"&gt;
+        &lt;IMG src="game.gif" ismap alt="target"&gt;&lt;/A&gt;
+</pre>
+</div>
+
+<P>
+<span class="index-inst" title="coordinates::of server-side image map|
+image map|server-side image map::click coordinates"><a name="idx-coordinates">Координаты области, в которой произошел щелчок,</a></span> передаются на сервер следующим образом. Агент пользователя получает новый адрес URI из адреса URI, указанного в атрибуте <a href="links.html#adef-href" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-href" class="noxref"><samp
+class="ainst">href</samp></a> элемента <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp
+class="einst">A</samp></a>, добавляя `?', за которым следуют координаты x и y, разделенные запятой. Затем происходит переход по ссылке с использованием нового адреса URI. Например, в данном примере, если пользователь щелкает в точке с координатами x=10, y=27, то новый адрес URI - "http://www.acme.com/cgi-bin/competition?10,27".
+
+<p>Агенты пользователей, не предлагающие пользователям средств выбора определенных координат (например, неграфические агенты пользователей, зависящие от ввода с клавиатуры, речевые агенты пользователей и т.д.) должны при активизации ссылки передавать на сервер координаты "0,0".
+
+<h2><a name="h-13.7">13.7</a> 
+<span class="index-inst" title="image::visual rendering of|object::visual rendering of"><a name="visual">Визуальное представление изображений, объектов и апплетов</a></span></h2>
+
+<em>Все атрибуты элементов <a href="objects.html#edef-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-IMG" class="noxref"><samp class="einst">IMG</samp></a> и <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>, относящиеся к визуальному выравниванию и представлению, являются <a href="conform.html#deprecated" tppabs="http://www.citforum.ru/internet/html40/conform.html#deprecated">устаревшими</a>, вместо них следует использовать таблицы стилей.</em>
+
+<H3><a name="h-13.7.1">13.7.1</a> 
+<span class="index-inst" title="image::width and height
+of|object::width and height of"><a name="img-wh">Ширина и высота</a></span></H3>
+
+<div class="adef-list"><P>
+<em>Определения атрибутов</em><dl>
+
+<dt><a name="adef-width-IMG"><samp class="adef">width</samp></a> = 
+<a href="types.html#type-length" tppabs="http://www.citforum.ru/internet/html40/types.html#type-length"><em>длина</em></a>
+<a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+<dd>Переопределение ширины изображения и объекта.
+
+<dt><a name="adef-height-IMG"><samp class="adef">height</samp></a> = 
+<a href="types.html#type-length" tppabs="http://www.citforum.ru/internet/html40/types.html#type-length"><em>длина</em></a>
+<a href="types.html#case-neutral" tppabs="http://www.citforum.ru/internet/html40/types.html#case-neutral">[CN]</a>
+<dd>Переопределение для изображения и объекта.
+</dl>
+</div>
+
+<P>Если указаны атрибуты <a href="objects.html#adef-width-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-width-IMG" class="noxref"><samp class="ainst-IMG">width</samp></a> и <a href="objects.html#adef-height-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-height-IMG" class="noxref"><samp class="ainst-IMG">height</samp></a>, они сообщают агентам пользователя о необходимости переопределения исходного размера изображения или объекта этими значениями. 
+
+<p>Если объектом является изображение, оно масштабируется. Агенты пользователей должны наилучшим образом масштабировать объект или изображение, чтобы они соответствовали ширине и высоте, определенным автором. Обратите внимание, что длины, выраженные в процентах, зависят от доступного горизонтального или вертикального пространства, а не от исходного размера изображения, объекта или апплета.
+
+<P>Атрибуты <a href="objects.html#adef-height-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-height-IMG" class="noxref"><samp class="ainst-IMG">height</samp></a> и <a href="objects.html#adef-width-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-width-IMG" class="noxref"><samp class="ainst-IMG">width</samp></a> дают агентам пользователей представление о размере изображения или объекта, чтобы они могли зарезервировать соответствующее пространство и продолжать генерацию документа, ожидая данных об изображении.
+
+<H3><a name="h-13.7.2">13.7.2</a> 
+<span class="index-inst" title="white space::around images and objects|image::white space around|object::white space around"><a name="idx-white_space">
+Пространство вокруг изображений и объектов</a></span></H3>
+
+<p>Атрибуты <a name="adef-vspace"><samp class="adef">vspace</samp></a> и <a name="adef-hspace"><samp class="adef">hspace</samp></a> определяют свободное пространство слева и справа (hspace) и над и под (vspace) <a href="objects.html#edef-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-IMG" class="noxref"><samp class="einst">IMG</samp></a>, <a href="objects.html#edef-APPLET" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-APPLET" class="noxref"><samp class="einst">APPLET</samp></a>, <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a>.  По умолчанию значение этого атрибута не определено, но обычно это небольшое ненулевое значение. Оба атрибута имеют значение типа <a href="types.html#type-length" tppabs="http://www.citforum.ru/internet/html40/types.html#type-length"><em>длина</em></a>.
+
+<H3><a name="h-13.7.3">13.7.3</a> 
+<span class="index-inst" title="border::around image|border::around object|image::border around|object::border around"><a name="idx-border">
+Границы</a></span></H3>
+
+<P>Изображение или объект может окружать граница (например, если она указана пользователем или изображение имеет содержимое элемента <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a>). 
+
+<div class="adef-list"><P>
+<em>Определения атрибутов</em><dl>
+
+<dt><a name="adef-border-IMG"><samp class="adef">border</samp></a> = <a href="types.html#type-pixels" tppabs="http://www.citforum.ru/internet/html40/types.html#type-pixels"><em>пикселы</em></a>
+
+<dd><a href="conform.html#deprecated" tppabs="http://www.citforum.ru/internet/html40/conform.html#deprecated"><strong>Нежелателен.</strong></a> Атрибут <a name="adef-border"><samp class="adef">border</samp></a> определяет ширину границы в пикселах. Значение этого атрибута, используемое по умолчанию, зависит от агента пользователя.
+</dl>
+</div>
+
+<h3><a name="h-13.7.4">13.7.4</a> 
+<span class="index-inst" title="alignment::of images|alignment::of objects|object::alignment of|image::alignment of"> <a name="alignment">Выравнивание</a></span></h3>
+
+<P>Атрибут <a name="adef-align-IMG"><samp class="adef">align</samp></a> определяет положение <a href="objects.html#edef-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-IMG" class="noxref"><samp class="einst">IMG</samp></a>, <a href="objects.html#edef-OBJECT" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-OBJECT" class="noxref"><samp class="einst">OBJECT</samp></a> или <a href="objects.html#edef-APPLET" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-APPLET" class="noxref"><samp class="einst">APPLET</samp></a> относительно его содержимого.
+
+<P>Следующие значения атрибута <a href="objects.html#adef-align-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-align-IMG" class="noxref"><samp class="ainst-IMG">align</samp></a> относятся к положению объекта относительно окружающего текста:
+
+<ul>
+<li><samp>bottom:</samp> означает, что окно объекта должно быть вертикально выровнено относительно текущей базовой линии. Это значение используется по умолчанию. 
+<li><samp>middle:</samp> означает, что центр объекта должен быть выровнен вертикально относительно текущей базовой линии.
+<li><samp>top:</samp> означает, что верх объекта должен быть вертикально выровнен относительно верха текущей текстовой строки.
+</ul>
+
+<P>Два других значения, <samp>left</samp> и <samp>right</samp>, приводят к перемещению изображения к текущему левому или правому полю. Они обсуждаются в разделе о <a
+href="graphics.html#floating" tppabs="http://www.citforum.ru/internet/html40/present/graphics.html#floating">плавающих объектах</a>.
+
+<div class="note"><P>
+<em><strong>Различие интерпретаций атрибута align.</strong>
+Агенты пользователей по-разному интерпретируют атрибут <a href="objects.html#adef-align-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-align-IMG" class="noxref"><samp class="ainst-IMG">align</samp></a>. Некоторые принимают в расчет только текстовую строку, находящуюся перед элементом, некоторые учитывают текст по обеим сторонам элемента.</em>
+</div>
+
+<h2><a name="h-13.8">13.8</a> 
+<span class="index-inst" title="alternate text::specifying|accessibility::alternate text"> <a name="alternate-text">Как указать альтернативный текст</a></span></h2>
+
+<div class="adef-list"><P>
+<em>Определения атрибутов</em><dl>
+
+<dt><a name="adef-alt"><samp class="adef">alt</samp></a>  =
+ <a href="types.html#type-text" tppabs="http://www.citforum.ru/internet/html40/types.html#type-text"><em>текст</em></a>
+<a href="types.html#case-sensitive" tppabs="http://www.citforum.ru/internet/html40/types.html#case-sensitive">[CS]</a>
+<dd>Для агентов пользователей, не имеющих возможности вывести изображения, формы или апплеты, этот атрибут определяет альтернативный текст. Язык альтернативного текста определяется атрибутом <a href="dirlang.html#adef-lang" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#adef-lang" class="noxref"><samp class="ainst">lang</samp></a>.
+</dl>
+</div>
+
+<P>Для некоторых нетекстовых элементов (<a href="objects.html#edef-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-IMG" class="noxref"><samp class="einst">IMG</samp></a>, <a href="objects.html#edef-AREA" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-AREA" class="noxref"><samp class="einst">AREA</samp></a>, <a href="objects.html#edef-APPLET" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-APPLET" class="noxref"><samp class="einst">APPLET</samp></a> и <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a>) авторы должны указывать альтернативный текст, служащий содержимым, если элемент нельзя нормально сгенерировать. Задание альтернативного текста помогает пользователям, не имеющих графических дисплеев, пользователям, браузеры которых не поддерживают формы, visually impaired users, пользователям синтезаторов речи, пользователям, графический агент которых сконфигурирован так, чтобы не выводить изображения и т.д.
+
+<P>Атрибут <a href="objects.html#adef-alt" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-alt" class="noxref"><samp class="ainst">alt</samp></a> должен быть указан для элементов <a href="objects.html#edef-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-IMG" class="noxref"><samp class="einst">IMG</samp></a> и <a href="objects.html#edef-AREA" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-AREA" class="noxref"><samp class="einst">AREA</samp></a>. Он не является обязательным для элементов <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a> и <a href="objects.html#edef-APPLET" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-APPLET" class="noxref"><samp class="einst">APPLET</samp></a>.
+
+<P>В то время как альтернативный текст может быть очень полезным, использовать его нужно осторожно. Авторы должны иметь в виду следующее:
+
+<ul>
+<li>Не указывайте несоответствующий альтернативный текст, включая изображения, предназначенные для <em>форматирования</em> страницы, например, <samp>alt="red
+ball"</samp> не соответствует изображению, определяющему красный круг для отметки заголовка абзаца. В этих случаях в качестве альтернативного текста следует указать пустую строку (""). Авторам в любом случае рекомендуется не использовать изображения для форматирования страниц; вместо этого следует использовать таблицы стилей.
+
+<li>Не указывайте бессмысленный альтернативный текст (например, "dummy
+text"). Он не только будет frustrate пользователей, но также будет замедлять агенты пользователей, преобразующие текст в речь или текст Бройля.
+</ul>
+
+<P>Информацию об обработке случаев, когда альтернативный текст отсутствует, разработчики могут найти в разделе о <a href="notes.html#altgen" tppabs="http://www.citforum.ru/internet/html40/appendix/notes.html#altgen">генерации альтернативного текста</a>.
+
+<div class="note"><P>
+<em><strong>Примечание.</strong>
+Подробнее о создании доступных документов HTML см. <a rel="biblioentry"
+href="references.html#ref-WAIGUIDE" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-WAIGUIDE" class="informref">[WAIGUIDE]</a>.
+</em>
+</div>
+
+<div class="navbar">
+<hr><center><a href="links.html" tppabs="http://www.citforum.ru/internet/html40/struct/links.html">назад</a> &nbsp; <a href="styles.html" tppabs="http://www.citforum.ru/internet/html40/present/styles.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center></div>
+</body>
+</html>
+

@@ -1,0 +1,43 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>split</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="eregi.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="spliti.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="split">split</A></H1><A NAME="AEN71628"></A><P>(PHP 3, PHP 4)</P>
+<p>split - делает из строки массив с помощью регулярного выражения.<A NAME="AEN71631"></A></p><H2>Описание</H2>
+<p>array <B>split</B> (string pattern, string string [, int limit])</p>
+<BLOCKQUOTE><P><B>Примечание: </B><A HREF="preg-split.html"><B>preg_split()</B></A>, использующая Perl-совместимый синтаксис регулярных выражений, работает часто 
+быстрее <B>split()</B>.</P></BLOCKQUOTE><P>Возвращает массив строк, каждая из которых является подстрокой строки
+<TT><I>string</I></TT> и образована путём разделения строки по границам, образованным патэрном
+<TT><I>pattern</I></TT> регулярного выражения. Если <TT><I>limit</I></TT> установлен, возвращённый массив будет содержать максимум
+<TT><I>limit</I></TT> элементов с последним элементом, содержащим остаток строки <TT><I>string</I></TT>. Если
+возникла ошибка, <B>split()</B> возвращает <TT><B>FALSE</B></TT>.</P><P>Для того чтобы разделить первые четыре поля строчки
+<TT>/etc/passwd</TT>:<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN71659"></A><h5>Пример 1. split()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>list($user,$pass,$uid,$gid,$extra)= split (":", $passwd_line, 5);</PRE>
+</TD></TR></TABLE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>если имеются <TT><I>n</I></TT> вхождений патэрна
+<TT><I>pattern</I></TT>, возвращённый массив будет содержать <TT><I>n</I>+1</TT> элементов. Например, если вхождений
+<TT><I>pattern</I></TT> нет, будет возвращён массив из одного элемента. Конечно, это также верно и в 
+том случае, когда <TT><I>string</I></TT> пустая.</P></BLOCKQUOTE><P>Для разбора данных, которые могут быть разграничены слэшами, точками или 
+дефисами:<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN71672"></A><h5>Пример 2. split()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$date = "04/30/1973";  // разграничителями могут быть slash, dot или hyphen
+list ($month, $day, $year) = split ('[/.-]', $date);
+echo "Month: $month; Day: $day; Year: $year&#60;br&#62;\n";</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Заметьте, что <TT><I>pattern</I></TT> чувствителен к регистру.</P><P>Если вам не нужна мощь регулярных выражений, быстрее 
+сработает <A HREF="explode.html"><B>explode()</B></A>, которая не вызывает перегрузки машины регулярных выражений.</P>
+<P>Для тех, кто ищет способ эмулировать Perl'овское поведение <B>@chars = split('', $str)</B>, рекомендуем посмотреть примеры для
+<A HREF="preg-split.html"><B>preg_split()</B></A>.</P><P>Обратите, пожалуйста, внимание, что <TT><I>pattern</I></TT> это регулярное выражение. Если вы хотите разделить на любом из символов, 
+имеющих в регулярных выражениях специальное значение, вам нужно сначала 
+мнемонизировать/escape эти символы. Если вам кажется, что <B>split()</B> (или любая другая regex-функция) делает нечто странное, прочтите файл
+<TT>regex.7</TT>, включённый в поддиректорию <TT>regex/</TT> дистрибутива
+PHP. Он имеет формат manpage, поэтому вам понадобится что-нибудь сделать со строками <B>man
+/usr/local/src/regex/regex.7</B>, чтобы прочесть его.</P><P>См. также <A HREF="preg-split.html"><B>preg_split()</B></A>,
+<A HREF="spliti.html"><B>spliti()</B></A>, <A HREF="explode.html"><B>explode()</B></A>, 
+<A HREF="implode.html"><B>implode()</B></A>, <A HREF="chunk-split.html"><B>chunk_split()</B></A> и 
+<A HREF="wordwrap.html"><B>wordwrap()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="eregi.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="spliti.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">eregi</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.regex.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">spliti</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

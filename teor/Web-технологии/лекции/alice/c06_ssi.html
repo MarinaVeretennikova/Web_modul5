@@ -1,0 +1,640 @@
+<html>
+<title>Server Side Includes</title>
+<meta name=keywords content="Apache httpd httpd.conf SSI регистрация доменов">
+<style>
+pre {background:#E5E5E5}
+</style>
+<body>
+<table align=center width=90%>
+<tr><td>
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c06_apache.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c06_apache.html">Конфигурирование веб-сервера Apache</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c08.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c08.html">Основы CGI </a>
+</table>
+
+
+<h3>Server Side Includes</h3>
+<p align=justify>
+Server Side Includes - включения на стороне сервера. SSI представляет механизм
+включения одних документов внутрь других. Чем-то это схоже с фреймами по функциональному назначению,
+но есть существенные отличия.
+Во-первых, включать в один HTML-документ можно любой файл с HTML-кодом, совершенно не обязательно, чтобы
+он(HTML-код) представлял собой законченный HTML-документ. Например, у вас часть таблицы может быть в одном
+файле, часть в другом, а еще часть в третьем. Во-вторых, включать можно программы, которые, в свою очередь, могут связываться с 
+базами данных, вызывать внутри себя другие программы и выдавать какие-либо отчеты и таблицы.
+Естественно, что эти программы выдают на STDOUT( поток стандартного вывода, для не 
+программистов это экран монитора с командной строкой ) HTML-код, который затем и включается
+внутрь нашего исходного HTML-документа. И в третьих, SSI поддерживают
+переменные и элементарные инструкции
+языка программирования: if, elif и else. Server Side Includes работают следующим образом.
+У вас на сервере находится html-файл с командами SSI.
+<pre>
+&lt;!--#include virtual="/cgi-bin/head.pl?name=О нас" --&gt;
+ &lt;p align=justify&gt;
+Веб-студия ITSoft состоит из молодых специалистов, работающих в области
+информационных технологий более пяти лет. Мы занимаемся веб-дизайном, разработкой 
+программного обеспечения, предоставляем услуги хостинга и создания локальных 
+сетей.
+&lt;!--#include virtual="/include/footer.inc"--&gt;
+</pre>
+Когда броузер клиента запрашивает у веб-сервера этот документ, то веб-сервер, прежде чем отдать
+его броузеру проверяет его на наличие SSI-команд. Когда веб-сервер встретит
+&lt;!--#include virtual="/cgi-bin/head.pl?name=О нас" --&gt; он запустит программу /cgi-bin/head.pl и передаст
+ей параметр name=О нас. Программа head.pl выдаст HTML-код с заголовком для нашего HTML-документа, 
+в котором будет содержаться меню и название раздела. О том, как писать такие программы вы узнаете
+в третей части книги. Когда веб-сервер натолкнется на 
+&lt;!--#include virtual="/include/footer.inc"--&gt;, то он просто включит HTML-код из файла
+/include/footer.inc в наш HTML-документ. Там, собственно, хранится код завершающий любую HTML-страницу
+нашего веб-сайта. Таким образом, SSI позволяет избежать избыточности. Общий код для всех HTML-страниц
+нашего сайта хранится в одном месте. Теперь, если нам захочется добавить пункт меню или поменять что-либо еще, то 
+нам не придется бегать по всему сайту и изменять каждый файл отдельно. Достаточно будет внести изменения
+в один файл. 
+Для того чтобы начать экспериментировать с SSI-командами надо внести изменения в файл httpd.conf
+и перезапустить веб-сервер Apache.
+Найдите и раскомментируйте следующие две строчки в файле httpd.conf. Они указывают веб-серверу,
+что файлы с расширением shtml надо обрабатывать прежде, чем выдавать пользователю.
+<pre>
+AddType text/html .shtml
+AddHandler server-parsed .shtml 
+</pre>
+Если вы собираетесь повсеместно использовать SSI, то добавьте еще и такую строчку. У нас SSI-команды присутствуют
+в большинстве HTML-документов, поэтому на нашем веб-сервере такая строчка присутствует в
+файле httpd.conf
+<pre>
+AddHandler server-parsed .html
+</pre>
+HTML-код для включения в HTML-документы обычно хранится в файлах с расширением inc.
+Включите и для этих файлов обработку SSI-директив. Это позволит
+делать рекурсивную обработку SSI-директив.
+Если в файле footer.inc будет SSI-директива, то она будет обработана.
+<pre>
+AddHandler server-parsed .inc
+</pre>
+Еще может потребоваться добавить опцию Includes в следующий раздел.
+<pre>
+&lt;Directory /&gt;
+    Options FollowSymLinks Indexes MultiViews Includes
+    AllowOverride All
+&lt;/Directory&gt;
+</pre>
+На нашем сервере под управлением FreeBSD такая опция стоит. У меня дома на Windows98
+ее нет и SSI работают. Возможно тут дело в различных версиях Apache.
+
+Теперь перезапустите веб-сервер. Давайте рассмотрим SSI еще на одном примере, заодно разберем 
+одну из самых распространенных структур организации HTML-документов. На большинстве сайтов, документы
+состоят из трех частей: заголовок, тело и завершающая часть. Для эксперимента
+создайте директорию на вашем веб-сайте и назовите ее ssi.
+В этой директории создайте head.inc со следующим содержанием:
+<pre>
+&lt;html&gt;
+&lt;body&gt;
+
+&lt;table bgcolor=#0000FF width=600 height=100&gt;
+&lt;tr&gt;&lt;td&gt; Здесь будет заголовок и главное меню нашего вебсайта
+&lt;/table&gt;
+
+&lt;table width=600 height=200&gt;
+&lt;tr&gt;&lt;td width=120 bgcolor=#CCCCCC&gt;
+Левое меню&lt;br&gt;
+пункт1&lt;br&gt;
+пункт2&lt;br&gt;
+пункт3&lt;br&gt;
+пункт4&lt;br&gt;
+пункт5&lt;br&gt;
+&lt;td&gt;
+</pre>
+
+Все SSI-директивы имеют следующую семантику 
+&lt;!--#команда параметр="значение" параметр="значение"--&gt;
+Создайте index.html:
+<pre>
+&lt;!--#include virtual="head.inc"--&gt;
+ Основное содержание HTML-документа.
+&lt;!--#include virtual="footer.inc"--&gt;
+</pre>
+И footer.inc:
+<pre>
+&lt;/table&gt;
+
+
+&lt;table bgcolor=#0000FF width=600&gt;
+&lt;tr&gt;&lt;td&gt; Здесь будет завершающая часть HTML-документа, 
+      обычно это реклама
+&lt;/table&gt;
+
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+В результате, при запросе этого документа, веб-сервер выдаст:
+<pre>
+&lt;html&gt;
+&lt;body&gt;
+
+&lt;table bgcolor=#0000FF width=600 height=100&gt;
+&lt;tr&gt;&lt;td&gt; Здесь будет заголовок и главное меню нашего вебсайта
+&lt;/table&gt;
+
+&lt;table width=600 height=200&gt;
+&lt;tr&gt;&lt;td width=120 bgcolor=#CCCCCC&gt;
+Левое меню&lt;br&gt;
+пункт1&lt;br&gt;
+пункт2&lt;br&gt;
+пункт3&lt;br&gt;
+пункт4&lt;br&gt;
+пункт5&lt;br&gt;
+&lt;td&gt;
+
+ Основное содержание HTML-документа.
+&lt;/table&gt;
+
+
+&lt;table bgcolor=#0000FF width=600&gt;
+&lt;tr&gt;&lt;td&gt; Здесь будет завершающая часть HTML-документа,
+ обычно это реклама
+&lt;/table&gt;
+
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+Это одно из самых основных применений SSI. Теперь давайте рассмотрим использование
+переменных и условных операторов. Команда &lt;!--#printenv --&gt; выводит все переменные 
+окружения, которые доступны по умолчанию. Ниже приведен результат действия этой команды 
+на моем домашнем компьютере.
+<pre>
+COMSPEC=C:\WINDOWS\COMMAND.COM
+DOCUMENT_ROOT=c:/projects/www/web-tehnolog
+HTTP_ACCEPT=*/*
+HTTP_ACCEPT_ENCODING=gzip, deflate
+HTTP_ACCEPT_LANGUAGE=ru
+HTTP_CONNECTION=Keep-Alive
+HTTP_COOKIE=testparam=testvalue
+HTTP_HOST=web.ru
+HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 5.0; Windows 98; DigExt)
+PATH=C:\Program Files\Apache Group\Apache;C:\WINDOWS;C:\WINDOWS\COMMAND;
+C:\ARCH;C:\JDK12\BIN;C:\PROGRA~1\ULTRAE~1
+REMOTE_ADDR=127.0.0.1
+REMOTE_PORT=1546
+SCRIPT_FILENAME=c:/projects/www/web-tehnolog/chapter6.html
+SERVER_ADDR=127.0.0.1
+SERVER_ADMIN=igor@itsoft.ru
+SERVER_NAME=web.ru
+SERVER_PORT=80
+SERVER_SIGNATURE=<ADDRESS>Apache/1.3.12 Server at web.ru Port 80</ADDRESS>
+
+SERVER_SOFTWARE=Apache/1.3.12 (Win32)
+WINDIR=C:\WINDOWS
+GATEWAY_INTERFACE=CGI/1.1
+SERVER_PROTOCOL=HTTP/1.1
+REQUEST_METHOD=GET
+QUERY_STRING=
+REQUEST_URI=/chapter6.html
+SCRIPT_NAME=/chapter6.html
+DATE_LOCAL=Monday, 26-Feb-2001 19:26:02 Московское время (зима)
+DATE_GMT=Monday, 26-Feb-2001 16:26:02 GMT
+LAST_MODIFIED=Monday, 26-Feb-2001 19:25:58 Московское время (зима)
+DOCUMENT_URI=/chapter6.html
+DOCUMENT_PATH_INFO=
+DOCUMENT_NAME=chapter6.html
+</pre>
+
+Для того чтобы вывести значение отдельной переменной
+дайте команду &lt;!--#echo var="var_name" --&gt;. Например,
+&lt;!--#echo var="LAST_MODIFIED" --&gt; выдаст Monday, 26-Feb-2001 19:25:58 Московское время (зима).
+<br>
+ Также вы можете определять и использовать свои собственные переменные.
+В файл index.html, который мы рассматривали выше, вставьте самой первой строкой
+&lt;!--#set var="title" value="Заголовок нашего веб-сайта." --&gt;. В head.inc добавьте
+следующую строчку &lt;title&gt;&lt;!--#echo var="title" --&gt;&lt;/title&gt; после команды
+&lt;html&gt; и где идут слова "здесь будет заголовок" вставьте &lt;h1&gt;&lt;!--#echo var="title" --&gt;&lt;/h1&gt;
+
+В результате у вас должно получится для
+index.html
+<pre>
+&lt;!--#set var="title" value="Заголовок нашего веб-сайта." --&gt;
+&lt;!--#include virtual="head.inc"--&gt;
+ Основное содержание HTML-документа.
+&lt;!--#include virtual="footer.inc"--&gt;
+</pre>
+и 
+<pre>
+&lt;html&gt;
+&lt;title&gt;&lt;!--#echo var="title" --&gt;&lt;/title&gt;
+&lt;body&gt;
+
+&lt;table bgcolor=#0000FF width=600 height=100&gt;
+&lt;tr&gt;&lt;td&gt;&lt;h1&gt;&lt;!--#echo var="title" --&gt;&lt;/h1&gt;
+  главное меню нашего веб-сайта
+&lt;/table&gt;
+
+&lt;table width=600 height=200&gt;
+&lt;tr&gt;&lt;td width=120 bgcolor=#CCCCCC&gt;
+Левое меню&lt;br&gt;
+пункт1&lt;br&gt;
+пункт2&lt;br&gt;
+пункт3&lt;br&gt;
+пункт4&lt;br&gt;
+пункт5&lt;br&gt;
+&lt;td&gt;
+</pre>
+
+Таким образом можно передавать параметры во включаемые куски HTML-кода.
+
+<p align=justify>Дурным стилем сайтостроительства 
+считается наличие в документе гиперссылок на этот же документ.
+Ссылаться на самого себя неразумно - пользователь от нажатия на гиперссылку
+ожидает, что загрузится другая страница, а также такого рода ссылки
+доставляют большие неудобства пользователям каналов с низкой пропускной
+ способностью.
+Такие ссылки на себя часто получаются при включении колонтитулов.
+Для того чтобы избежать таких ссылок, оформляйте каждый пункт меню
+в колонтитулах следующим образом:
+
+<pre>
+Пример для графического меню с подсветкой:
+
+&lt;!--#if expr="$DOCUMENT_URI!=/\/about.html/" --&gt;&lt;a 
+href=/about.html onMouseOut="MM_swapImgRestore()" 
+onMouseOver="MM_swapImage('about','','/images/about2.gif',0)"
+&gt;&lt;!--#endif --&gt;&lt;img src=/images/about1.gif width=212 height=38 
+border=0 name=about
+&gt;&lt;!--#if expr="$DOCUMENT_URI!=/\/about.html/" --&gt;&lt;/a
+&gt;&lt;!--#endif --&gt;
+
+</pre>
+
+Данный SSI-код используется на сайте <a href="javascript:if(confirm('http://my-elecon.ru/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://my-elecon.ru/'" tppabs="http://my-elecon.ru/">http://my-elecon.ru</a>.
+
+<p align=justify>
+Другой не менее важный SSI-код применяется для организации версии страниц для
+печати. Версия страницы сайта для печати отличается от обычной страницы 
+отсутствием колонститулов, навигации, баннеров и прочей лишней информации.
+Рассмотрим, как организована версия для печати на примере сайта 
+<a href="javascript:if(confirm('http://alavus.ru/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://alavus.ru/'" tppabs="http://alavus.ru/">http://alavus.ru</a>.
+
+
+<pre>
+===Файл /include/head.inc ===
+&lt;html&gt; 
+&lt;head&gt;
+&lt;title&gt;&lt;!--#echo var="title"--&gt;&lt;/title&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; 
+charset=windows-1251"&gt;
+&lt;link rel=stylesheet href=/styles.css&gt;
+&lt;/head&gt;
+
+&lt;body bgcolor=FFFFFF text=474C54 link=566A89 vlink=96A7C1 
+leftmargin=0 topmargin=0 marginwidth=0 marginheight=0&gt;
+&lt;basefont face=Arial&gt;
+
+&lt;!--#if expr="$QUERY_STRING!=/for_printing/" --&gt;
+...здесь навигационный блок, графика, Flash-анимация и т.д. ...
+
+&lt;p align=right&gt;
+&lt;a href=?for_printing=1&&lt;!--#echo var="QUERY_STRING"--&gt;&gt;
+Версия для печати
+&lt;/a&gt;&lt;/p&gt;
+&lt;!--#endif --&gt;
+</pre>
+
+<p align=justify>
+При нажатии на гиперссылку "версия для печати" страница, на которой находится пользователь,
+перегружается. Но поскольку в строке запроса присутствует
+параметр for_printing, то лишний HTML-код не включается на страницу.
+Обратите внимание &lt;!--#echo var="QUERY_STRING"--&gt;. Это строка запроса
+CGI-параметров. В обычном случае, у вас никаких параметров, кроме
+for_printing нет, но когда появляются на сайте CGI-модули, то появляются
+и дополнительные параметры. Забегая вперед расскажу, как делать "Версию 
+для печати" В CGI-программе. Пока веб-сервер Apache 
+не может обрабатывать на SSI-директивы вывод CGI-программ. Такую возможность 
+обещают в новых версиях Apache. У CGI-программистов есть два пути либо
+самим разобрать SSI-директивы в файле head.inc либо, что значительно проще,
+создать ручками файл phead.inc и подключать его в CGI-программах.
+
+
+
+<p align=justify>
+Условные операторы записываются следующим образом:
+<pre>
+&lt;!--#if expr="условие1" --&gt;
+  &lt;!-- Здесь HTML-код1 --&gt;
+&lt;!--#elif expr="условие2" --&gt;
+  &lt;!-- Здесь HTML-код2 --&gt;
+&lt;!--#else --&gt;
+  &lt;!-- Здесь HTML-код3 --&gt;
+&lt;!--#endif --&gt;
+</pre>
+
+Для примера приведу SSI-код для вывода времени последней модификации документа 
+в приемлемом виде. Как вы уже видели, команда &lt;!--#echo var="LAST_MODIFIED" --&gt;
+выдает совершенно не приемлемую строчку - Monday, 26-Feb-2001 19:25:58 Московское время (зима),
+для размещения ее на солидном веб-сайте. Нам бы хотелось получить что-нибудь, вроде
+26 Февраля 2001 года. Для этого существует команда config с параметром timefmt, которая задает
+формат вывода даты. Например, в нашем случае нам требуется следующий вариант
+&lt;!--#config timefmt="%e %B %Y"--&gt;, тогда результат &lt;!--#echo var="LAST_MODIFIED" --&gt; 
+будет 26 February 2001. Но это пока все равно не то, что бы нам хотелось. Для определения
+месяца мы воспользуемся условными операторами. Вот, как будет выглядеть этот код:
+<pre>
+&lt;!--#config timefmt="%m" --&gt; 
+&lt;!--#set var="NUM_MONTH" value="$LAST_MODIFIED"--&gt; 
+&lt;!--#if expr="$NUM_MONTH=01" --&gt; 
+&lt;!--#set var="month" value="Января" --&gt; 
+&lt;!--#elif expr="$NUM_MONTH=02" --&gt; 
+&lt;!--#set var="month" value="Февраля" --&gt; 
+&lt;!--#elif expr="$NUM_MONTH=03" --&gt; 
+&lt;!--#set var="month" value="Марта" --&gt; 
+&lt;!--#elif expr="$NUM_MONTH=04" --&gt; 
+&lt;!--#set var="month" value="Апреля" --&gt; 
+&lt;!--#elif expr="$NUM_MONTH=05" --&gt; 
+&lt;!--#set var="month" value="Мая" --&gt; 
+&lt;!--#elif expr="$NUM_MONTH=06" --&gt; 
+&lt;!--#set var="month" value="Июня" --&gt; 
+&lt;!--#elif expr="$NUM_MONTH=07" --&gt; 
+&lt;!--#set var="month" value="Июля" --&gt; 
+&lt;!--#elif expr="$NUM_MONTH=08" --&gt; 
+&lt;!--#set var="month" value="Августа" --&gt; 
+&lt;!--#elif expr="$NUM_MONTH=09" --&gt; 
+&lt;!--#set var="month" value="Сентября" --&gt; 
+&lt;!--#elif expr="$NUM_MONTH=10" --&gt; 
+&lt;!--#set var="month" value="Октября" --&gt; 
+&lt;!--#elif expr="$NUM_MONTH=11" --&gt; 
+&lt;!--#set var="month" value="Ноября" --&gt; 
+&lt;!--#else --&gt; 
+&lt;!--#set var="month" value="Декабря" --&gt; 
+&lt;!--#endif --&gt;
+</pre> 
+
+Соответственно, чтобы получить дату в формате 26 Февраля 2001.
+<pre>
+&lt;!--#config timefmt="%e"--&gt;&lt;!--#echo var="LAST_MODIFIED" --&gt;
+&lt;!--#echo var="month" --&gt; 
+&lt;!--#config timefmt="%Y"--&gt;&lt;!--#echo var="LAST_MODIFIED" --&gt;
+</pre>
+<br>
+
+Вот полный список значение параметра timefmt:
+<table align="center"  width="300"  border="0"
+                cellspacing="1" cellpadding="2"
+                bgcolor="#000000">
+
+<tr bgcolor="#CCCCFF" align="center">
+<td><center><b>Формат</b></center></td>
+<td><center><b>Описание</b></center></td>
+<td><center><b>Пример</b></center></td>
+</tr>
+
+
+<tr bgcolor="#EEEEEE">
+<td>%a</td>
+<td>Аббревиатура названия дня недели</td>
+<td>Sun</td>
+</tr>
+
+
+<tr bgcolor="#CCCCCC">
+<td>%A</td>
+<td>Полное название дня недели</td>
+<td>Sunday</td>
+</tr>
+
+
+<tr bgcolor="#EEEEEE">
+<td>%b</td>
+<td>Аббревиатура названия месяца</td>
+<td>Jan</td>
+</tr>
+
+
+<tr bgcolor="#CCCCCC">
+<td>%B</td>
+<td>Полное название месяца</td>
+<td>January</td>
+</tr>
+
+
+<tr bgcolor="#EEEEEE">
+<td>%d</td>
+<td>День месяца</td>
+<td>01 (не 1)</td>
+</tr>
+
+
+<tr bgcolor="#CCCCCC">
+<td>%D</td>
+<td>Дата в формате "%m/%d/%y"</td>
+<td>01/31/90</td>
+</tr>
+
+
+<tr bgcolor="#EEEEEE">
+<td>%e</td>
+<td>День месяца</td>
+<td>1</td>
+</tr>
+
+
+<tr bgcolor="#CCCCCC">
+<td>%H</td>
+<td>Часы в 24-часовом формате</td>
+<td>13</td>
+</tr>
+
+
+<tr bgcolor="#EEEEEE">
+<td>%I</td>
+<td>Часы в 12-часовом формате</td>
+<td>01</td>
+</tr>
+<tr bgcolor="#CCCCCC">
+<td>%j</td>
+<td>День года</td>
+<td>235</td>
+</tr>
+<tr bgcolor="#EEEEEE">
+<td>%m</td>
+<td>Номер месяца</td>
+<td>01</td>
+</tr>
+<tr bgcolor="#CCCCCC">
+<td>%M</td>
+<td>Минуты</td>
+<td>03</td>
+</tr>
+<tr bgcolor="#EEEEEE">
+<td>%p</td>
+<td>AM|PM</td>
+<td>AM</td>
+</tr>
+<tr bgcolor="#CCCCCC">
+<td>%r</td>
+<td>Время в формате "%I:%M:%S %p"</td>
+<td>11:35:46 PM</td>
+</tr>
+<tr bgcolor="#EEEEEE">
+<td>%S</td>
+<td>Секунды</td>
+<td>34</td>
+</tr>
+<tr bgcolor="#CCCCCC">
+<td>%s</td>
+<td>Время в секундах с 01.01.1970</td>
+<td>957228726</td>
+</tr>
+<tr bgcolor="#EEEEEE">
+<td>%T</td>
+
+<td>Время в формате "%H:%M:%S"</td>
+<td>14:05:34</td>
+</tr>
+<tr bgcolor="#CCCCCC">
+<td>%U</td>
+<td>Неделя года</td>
+<td>49</td>
+</tr>
+<tr bgcolor="#EEEEEE">
+<td>%w</td>
+<td>Номер дня недели</td>
+<td>5</td>
+</tr>
+<tr bgcolor="#CCCCCC">
+<td>%y</td>
+<td>Год в формате ГГ</td>
+<td>95</td>
+</tr>
+<tr bgcolor="#EEEEEE">
+<td>%Y</td>
+<td>Год в формате ГГГГ</td>
+<td>1995</td>
+</tr>
+<tr bgcolor="#CCCCCC">
+<td>%Z</td>
+<td>Временная зона</td>
+<td>MSK</td>
+</tr>
+</table>
+
+
+Далее приведены несколько полезных SSI-директив. Допустим, вы распространяете какие-либо утилиты
+и выкладываете
+ссылки на файлы для скачивания. Например, такие ссылки вы найдете на сайте
+<a href="javascript:if(confirm('http://www.oxygensoftware.com/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.oxygensoftware.com/'" tppabs="http://www.oxygensoftware.com/" target="_blank">http://www.oxygensoftware.com</a>.
+Для удобства пользователей неплохо было бы указать размер файла и иногда, дату его последней
+модификации. Каждый раз после выкладывания на сервер новых версий файла, модифицировать самому ручками
+все размеры и даты долго и мучительно. Server Side Includes приходят на помощь.
+
+<pre>
+&lt;a href=0.gif&gt;Прозрачный gif-файл&lt;/a&gt;&lt;br&gt;
+Дата модификации:&lt;!--#config timefmt="%d %B %Y" --&gt;  &lt;!--#flastmod file="0.gif" --&gt;&lt;br&gt;
+Размер:&lt;!--#config sizefmt="bytes"--&gt; &lt;!--#fsize file="0.gif" --&gt; байта&lt;br&gt;
+</pre>
+
+<br><br>
+<a href="0.gif" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/0.gif">Прозрачный gif-файл</a><br>
+Дата модификации:  12 February 2002<br>
+Размер: 43 байта<br>
+
+Если у вас файлы больших размеров, то информацию лучше выводить в килобайтах.
+Для этого установите формат вывода размера файла следующим образом.
+<pre>
+&lt;!--#config sizefmt="abbrev"--&gt;
+</pre>
+<br>
+
+
+При возникновение какой-либо ошибки, например, при попытки включить в HTML-документ файл, которого не существует
+веб-сервер выдаст следующее сообщение:  <br>
+[an error occurred while processing this directive]<br>
+Сообщение не слишком информативно и пугает пользователя, не так ли? Давайте изменим
+сообщение об ошибке следующей SSI-директивой<br>
+<pre>
+&lt;!--#config errmsg="&lt;b&gt;На сервере произошла ошибка связанная с SSI,
+ пожалуйста, напишите &lt;/b&gt;
+&lt;a href=mailto:igor@itsoft.ru&gt;администратору&lt;/a&gt;."--&gt;
+</pre>
+Теперь сообщение об ошибке вылядит так:
+<br>
+
+<b>На сервере произошла ошибка связанная с SSI, 
+пожалуйста, напишите</b> <a href=mailto:igor@itsoft.ru>администратору</a>.<br>
+
+
+
+</td></tr>
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?5077  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?5077'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?5077" target=_top>
+    <img src="itsoft-5077" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?5077" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?5077  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?5077'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?5077" target=_top>
+    <img src="itsoft-5077" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?5077" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="itsoft-5077-1" tppabs="http://rb1.rotabanner.com/cgi-bin/iframe/itsoft?5077"
+ width=468 height=60 marginwidth=0 marginheight=0 scrolling=no 
+ frameborder=0><a href="javascript:if(confirm('http://rb1.rotabanner.com/cgi-bin/href/itsoft?5077  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb1.rotabanner.com/cgi-bin/href/itsoft?5077'" tppabs="http://rb1.rotabanner.com/cgi-bin/href/itsoft?5077" 
+ target=_top><img src="itsoft-5077-2" tppabs="http://rb1.rotabanner.com/cgi-bin/banner/itsoft?5077" 
+ alt="RB1" width=468 height=60 border=0 ismap></a></iframe>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>openssl_seal</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="openssl-public-encrypt.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="openssl-sign.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.openssl-seal">openssl_seal</A></H1><A NAME="AEN59499"></A><P>(PHP 4 &#62;= 4.0.4)</P>
+<p>openssl_seal - пломбирует (шифрует) данные.<A NAME="AEN59502"></A></p><H2>Описание</H2><p>int <B>openssl_seal</B> (string data, string sealed_data, array env_keys, array pub_key_ids)</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD><P>Эта функция - ЭКСПЕРИМЕНТАЛЬНАЯ. Поведение, имя и всё остальное, что задокументировано для данной функции может быть изменено в будущих релизах РНР без предупреждения. Вы можете использовать эту функцию только на свой страх и риск.
+</P></TD></TR></TABLE><P>Возвращает длину пломбированных данных при успехе, <TT><B>FALSE</B></TT> при ошибке.
+При успехе возвращаются пломбированные данные в параметре <TT><I>sealed_data</I></TT>, и envelope-ключи - в
+<TT><I>env_keys</I></TT>.</P><P><B>openssl_seal()</B> пломбирует (шифрует)
+<TT><I>data</I></TT> с помощью RC4 случайно генерируемым секретным ключом. Этот ключ шифруется с 
+каждым public ключом, ассоциированным с идентификатором в <TT><I>pub_key_ids</I></TT>, и каждый шифрованный ключ возвращается в
+<TT><I>env_keys</I></TT>. Это значит, что можно пломбировать данные для нескольких принимающих (в 
+предположении, что пломбировщик имеет их public ключи). Каждый принимающий обязан получить пломбированные данные и envelope 
+ключ, который был зашифрован с public ключом принимающего.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN59532"></A><h5>Пример 1. openssl_seal()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>// принимаем, что $data содержит пломбируемые данные
+
+// извлекаем public ключи для наших получателей и читаем их
+$fp = fopen("/src/openssl-0.9.6/demos/maurice/cert.pem", "r");
+$cert = fread($fp, 8192);
+fclose($fp);
+$pk1 = openssl_get_publickey($cert);
+// повторяем для второго получателя
+$fp = fopen("/src/openssl-0.9.6/demos/sign/cert.pem", "r");
+$cert = fread($fp, 8192);
+fclose($fp);
+$pk2 = openssl_get_publickey($cert);
+
+// пломбируем сообщение, только владельцы $pk1 и $pk2 могут дешифровать $sealed ключами
+// $ekeys[0] и $ekeys[1], соответственно.
+openssl_seal($data, $sealed, $ekeys, array($pk1,$pk2));
+
+// освобождает ключи из памяти
+openssl_free_key($pk1);
+openssl_free_key($pk2);</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>См. также <A HREF="openssl-open.html"><B>openssl_open()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="openssl-public-encrypt.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="openssl-sign.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">openssl_public_encrypt</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.openssl.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">openssl_sign</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

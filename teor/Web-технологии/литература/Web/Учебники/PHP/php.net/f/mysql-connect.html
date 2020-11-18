@@ -1,0 +1,36 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>mysql_connect</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="mysql-close.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="mysql-create-db.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="mysql-connect">mysql_connect</A></H1><A NAME="AEN50910"></A><P>(PHP 3, PHP 4)</P>
+<p>mysql_connect - открывает соединение с MySQL-сервером.<A NAME="AEN50913"></A></p><H2>Описание</H2><p>resource <B>mysql_connect</B> ([string server [, string username [, string password [, bool new_link]]]])</p>
+<P>Возвращает идентификатор ссылки MySQL при успехе, <TT><B>FALSE</B></TT> при неудаче.</P>
+<P><B>mysql_connect()</B> устанавливает соединение с MySQL-сервером. Следующие значения по умолчанию 
+принимаются для для отсутствующих необязательных параметров: <TT><I>server</I></TT> = 'localhost:3306',
+<TT><I>username</I></TT> = имя пользователя - владельца серверного процесса,
+<TT><I>password</I></TT> = пустой пароль.</P><P>Параметр <TT><I>server</I></TT> может содержать также номер порта, например, &quot;hostname:port", или путь к 
+сокету, например, ":/path/to/socket" для localhost.<BLOCKQUOTE><P><B>Примечание: </B>
+поддержка ":port" была введена в PHP 3.0B4.</P><P>Поддержка ":/path/to/socket" была введена в
+PHP 3.0.10.</P><P>Вы можете подавить вывод сообщения при неудаче, введя префикс
+<A HREF="../operators.errorcontrol.html">@</A> для имени функции.</P></BLOCKQUOTE>
+<P>Если второй вызов <B>mysql_connect()</B> делается с теми же аргументами, новая ссылка не устанавливается и возвращается 
+идентификатор уже открытой ссылки. Параметр <TT><I>new_link</I></TT> модифицирует это поведение и заставляет <B>mysql_connect()</B> всегда открывать новую ссылку, даже если
+<B>mysql_connect()</B> была вызвана до этого с теми же параметрами.</P><BLOCKQUOTE><P><B>Примечание: </B>
+параметр <TT><I>new_link</I></TT> стал доступен, начиная с PHP 4.2.0.</P></BLOCKQUOTE>
+<P>Ссылка на сервер будет закрыта сразу по окончании работы скрипта, если не будет закрыта до этого явным вызовом
+<A HREF="mysql-close.html"><B>mysql_close()</B></A>.</P><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN50954"></A><h5>Пример 1. MySQL_connect</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>&#60;?php
+    $link = mysql_connect("localhost", "mysql_user", "mysql_password")
+        or die("Could not connect");
+    print ("Connected successfully");
+    mysql_close($link);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="mysql-pconnect.html"><B>mysql_pconnect()</B></A> и
+<A HREF="mysql-close.html"><B>mysql_close()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="mysql-close.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="mysql-create-db.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">mysql_close</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.mysql.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">mysql_create_db</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

@@ -1,0 +1,65 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>echo</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="crypt.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="explode.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.echo">echo</A></H1><A NAME="AEN77197"></A><P>(unknown)</P><p>echo - выводит одну или более строк.<A NAME="AEN77200"></A></p><H2>Описание</H2><p><B>echo</B> (string arg1 [, string argn...])</p>
+<P>Выводит все параметры.</P><P><B>echo()</B> это в действительности не функция (это конструкция языка), так что вам не 
+обязательно использовать здесь скобки. На практике, если вы хотите передать 
+более одного параметра в echo, вы обязаны не заключать параметры в скобки.
+Нельзя использовать <B>echo()</B> в контексте <a href="variable-functions.html">функции переменной</a>, 
+вместо этого вы можете использовать <A HREF="print.html"><B>print()</B></A>.<TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN77216"></A><h5>Пример 1. echo()</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>&#60;?php
+echo "Hello World";
+
+echo "Этот текст занимает
+несколько строчек. Символы новой строки
+также выводятся.";
+
+echo "Этот текст занимает\nнесколько строчек. Символы новой строки\nтакже выводятся.";
+
+echo "Escap-ирование символов проведено \"Вроде этого\".";
+
+//Вы можете использовать внутри операции echo переменные.
+$foo = "foobar";
+$bar = "barbaz";
+
+echo "foo is $foo"; // foo это foobar
+
+// При использовании одинарных кавычек будет печататься имя переменной, а не значение
+echo 'foo is $foo'; // foo это $foo
+
+// Если вы не используете никакие иные символы, вы можете просто echo переменные
+echo $foo;          // foobar
+echo $foo,$bar;     // foobarbarbaz
+
+echo &#60;&#60;&#60;END
+Здесь использован синтаксис "here document" для вывода
+нескольких строк с интерполяцией $variable. Заметьте, что
+терминатор here document обязан появляться в строке
+с символом &quot;точка с запятой&quot; без пробела!
+END;
+
+// Поскольку echo это не функция, следующий код - неправильный.
+($some_var) ? echo('true'): echo('false');
+
+// Однако следующий пример будет работать:
+($some_var) ? print('true'): print('false'); // print это функция
+echo $some_var ? 'true': 'false'; // изменение оператора
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P><B>echo()</B> также имеет сокращённый синтаксис, где сразу после открывающего тэга идёт знак 
+&quot;равно&quot;.<A NAME="AEN77222"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>I have &#60;?=$foo?&#62; foo.</PRE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+  этот сокращённый синтаксис работает только при включённой установке конфигурации
+<A HREF="../configuration.html#ini.short-open-tag">short_open_tag</A>.</P></BLOCKQUOTE><P>
+См. также
+<A HREF="print.html"><B>print()</B></A>,
+<A HREF="printf.html"><B>printf()</B></A> и
+<A HREF="flush.html"><B>flush()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="crypt.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="explode.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">crypt</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.strings.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">explode</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

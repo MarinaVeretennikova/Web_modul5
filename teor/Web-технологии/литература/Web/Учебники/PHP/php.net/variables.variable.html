@@ -1,0 +1,46 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>Переменные Переменные</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3">
+<TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="variables.scope.html">Назад</A></TD><th WIDTH="80%">Глава 7. Переменные</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="variables.external.html">Вперёд</A></TD>
+</TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="language.variables.variable">Переменные переменные</a></H1>
+<P>Иногда удобно иметь переменные как имена переменных. То есть имена переменных, 
+которые могут устанавливаться и использоваться динамически. Нормальная 
+переменная устанавливается примерно таким оператором:</P>
+<A NAME="AEN4203"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$a = "hello";</PRE></TD></TR></TABLE>
+<P>Переменная переменная/variable variable принимает значение переменной и 
+рассматривает его как имя переменной.  В предыдущем примере, <I>hello</I> может использоваться как
+имя переменной с помощью двух знаков dollar. То есть:</P>
+<A NAME="AEN4207"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>$$a = "world";</PRE></TD></TR></TABLE>
+<P>После этого в дереве символов РНР определены две переменные: <TT>$a</TT> с содержимым "hello" и
+<TT>$hello</TT> с содержимым "world".  Следовательно, оператор</P>
+<A NAME="AEN4212"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>echo "$a ${$a}";</PRE></TD></TR></TABLE><P>даст тот же вывод, что и</P>
+<A NAME="AEN4215"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>echo "$a $hello";</PRE></TD></TR></TABLE><P>то есть оба они дадут на выходе: <TT>hello world</TT></P>
+<P>Чтобы использовать переменные переменные с массивами, вы должны разрешить 
+проблему неоднозначности.  То есть, если вы записываете <TT>$$a[1]</TT>, то разборщику необходимо знать,
+будете ли вы использовать <TT>$a[1]</TT> как переменную, или вы хотите использовать <TT>$$a</TT>
+как переменную, а затем как индекс [1] из этой переменной.  Синтаксис для разрешения
+этой неоднозначности таков: <TT>${$a[1]}</TT> для первого случая и <TT>${$a}[1]</TT> - для второго.</P>
+<P>Пожалуйста отметьте, что переменные переменные не могут использоваться с новыми суперглобалами РНР.
+Это значит, что вы не можете делать что-либо вроде <TT>${$_GET}</TT>. Если вы ищете способ
+работать с superglobals и старыми HTTP_*_VARS, вы можете попытаться <a href="references.html">
+ссылаться</a> на них.</P></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR>
+<TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="variables.scope.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="variables.external.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Область видимости переменной</TD>
+<th WIDTH="34%" VALIGN="top"><a href="variables.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Переменные вне PHP</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

@@ -1,0 +1,1147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE></TITLE>
+<META content="TEXT/HTML; CHARSET=WINDOWS-1251" http-equiv=CONTENT-TYPE>
+<META content="Microsoft FrontPage 4.0" name=GENERATOR>
+<STYLE></STYLE>
+</HEAD>
+<body background=../fon.jpg>
+<ul>
+
+  <li><a href="#a"><font face="Times New Roman" size=3>Глава 6.
+    Объектно-ориентированные возможности PHP</font></a> </li>
+  <ul>
+    <li><a href="#b"><font face="Times New Roman" size="3">PHP и ООП</font></a>
+    </li>
+    <li><a href="#c"><font face="Times New Roman" size="3">Классы,
+      объекты и объявления методов</font></a>
+      <ul>
+        <li><a href="#d"><font face="Times New Roman" size="3">Создание
+          объектов и работа с ними</font></a></li>
+        <li><a href="#e"><font face="Times New Roman" size="3">Нарушение
+          инкапсуляции</font></a></li>
+        <li><a href="#f"><font face="Times New Roman" size="3">Конструкторы</font></a></li>
+        <li><a href="#g"><font face="Times New Roman" size="3">Деструкторы</font></a></li>
+        <li><a href="#h"><font face="Times New Roman" size="3">Простое и
+          иерархическое наследование</font></a></li>
+        <li><a href="#i"><font face="Times New Roman" size="3">Абстрактные
+          классы</font></a></li>
+        <li><a href="#j"><font face="Times New Roman" size="3">Перегрузка
+          методов</font></a></li>
+      </ul>
+    </li>
+    <li><a href="#k"><font face="Times New Roman" size="3">Функции для
+      работы с классами и объектами</font></a>
+    </li>
+    <li><a href="#l"><font face="Times New Roman" size="3">Итоги</font></a>
+    </li>
+  </ul>
+</ul>
+<A NAME="a"></A>
+<p>&nbsp;</p>
+<p><font color="#000000" face="Times New Roman" size="5">ГЛАВА 6</font></p>
+<p><font color="#000000" face="Times New Roman" size="5">Объектно-ориентированные возможности РНР</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Если вы
+ориентируетесь в современных технологиях
+программирования, объектно-ориентированное
+программирование (ООП) наверняка является
+частью вашей повседневной работы. Если же
+вы принадлежите к числу новичков в области
+ООП, после чтения этой главы и рассмотрения
+нескольких примеров программирование
+предстанет перед вами совсем в новом свете.
+Эта глава посвящена технологии ООП и ее
+реализации в РНР. В ней описан весь
+необходимый синтаксис и приводятся примеры,
+которые позволят вам заняться созданием
+объектно-ориентированных приложений.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Стратегию
+ООП лучше всего описать как смещение
+приоритетов в процессе программирования от
+функциональности приложения к структурам
+данных. Это позволяет программисту
+моделировать в создаваемых приложениях
+реальные объекты и ситуации. Технология ООП
+обладает тремя главными преимуществами:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">она проста
+    для понимания — ООП позволяет мыслить
+    категориями повседневных объектов;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">повышенно
+    надежна и проста для сопровождения —
+    правильное проектирование обеспечивает
+    простоту расширения и модификации
+    объектно-ориентированных программ.
+    Модульная структура позволяет вносить
+    независимые изменения в разные части
+    программы, сводя к минимуму риск ошибок
+    программирования;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">ускоряет
+    цикл разработки — модульность и здесь
+    играет важную роль, поскольку различные
+    компоненты ОО-программ можно легко
+    использовать в других программах, что
+    уменьшает избыточность,кода и снижает
+    риск внесения ошибок при копировании.</font></li>
+</ul>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Специфика
+ООП заметно повышает эффективность труда
+программистов и позволяет им создавать
+более мощные, масштабируемые и эффективные
+приложения. Многие преимущества ООП
+обусловлены одним из его фундаментальных
+принципов — </font><i><font COLOR="#000000">инкапсуляцией.
+</font></i><font COLOR="#000000">Инкапсуляцией называется
+включение различных мелких элементов в
+более крупный объект, в результате чего
+программист работает непосредственно с
+этим объектом. Это приводит к упрощению
+программы, поскольку из нее исключаются
+второстепенные детали.</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Инкапсуляцию
+можно сравнить с работой автомобиля с точки
+зрения типичного водителя. Многие водители
+не разбираются в подробностях внутреннего
+устройства машины, но при этом управляют ею
+именно так, как было задумано. Пусть они не
+знают, как устроен двигатель, тормоз или
+рулевое управление, — существует
+специальный интерфейс, который
+автоматизирует и упрощает эти сложные
+операции. Сказанное также относится к
+инкапсуляции и ООП — многие подробности «внутреннего
+устройства» скрываются от пользователя,
+что позволяет ему сосредоточиться на
+решении конкретных задач. В ООП эта
+возможность обеспечивается классами,
+объектами и различными средствами
+выражения иерархических связей между ними (классы
+и объекты рассматриваются ниже).</font></p>
+<b>
+<p><A NAME="b"></A><font color="#000000" face="Times New Roman" size="4">РНР и ООП</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Хотя РНР
+обладает общими объектно-ориентированными
+возможностями, он не является полноценным
+ОО-языком (например, таким, как C++ или Java). В
+частности, в РНР не поддерживаются
+следующие объектно-ориентированные
+возможности:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">множественное
+    наследование;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">автоматический
+    вызов конструкторов (если вы хотите,
+    чтобы при конструировании объекта
+    производного класса вызывался
+    конструктор базового класса, вам
+    придется вызвать его явно);</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">абстрактные
+    классы;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">перегрузка
+    методов;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">перегрузка
+    операторов (это связано с тем, что РНР
+    является языком со свободной типизацией,
+    — за дополнительной информацией
+    обращайтесь к главе 2);</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">закрытый и
+    открытый доступ, виртуальные функции;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">деструкторы;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">полиморфизм.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Но и без
+всего перечисленного вы все равно сможете
+извлечь пользу из объектно-ориентированных
+возможностей, поддерживаемых РНР.
+Реализация ООП в РНР оказывает
+колоссальную помощь в модульном оформлении
+функциональности вашей программы.</font></p>
+<b>
+<p><A NAME="c"></A><font color="#000000" face="Times New Roman" size="4">Классы,
+объекты и объявления методов</font></p>
+</b><i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Классы </font></i><font size="3" face="Times New Roman"><font COLOR="#000000">образуют
+синтаксическую базу объектно-ориентированного
+программирования. Их можно рассматривать
+как своего рода «контейнеры» для логически
+связанных данных и функций (обычно
+называемых </font><i><font COLOR="#000000">методами — </font></i><font COLOR="#000000">см.
+ниже). Класс представляет собой шаблон, по
+которому создаются конкретные экземпляры,
+используемые в программе. Экземпляры
+классов называются </font></font><i><font COLOR="#000000" size="3" face="Times New Roman">объектами.</font></p>
+</i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Чтобы
+лучше понять связь между классами и
+объектами, можно представить класс как «чертеж»
+для создания объектов. По чертежу «изготавливаются»
+разные объекты</font></font><font COLOR="#000000" size="3" face="Times New Roman">,
+обладающие одними и теми же базовыми
+характеристиками (например, при
+строительстве дома — одна дверь, два окна и
+определенная толщина стены). Тем не менее,
+каждый объект существует независимо от
+других — изменение его характеристик никак
+не влияет на характеристики других
+объектов; например, в уже построенном доме
+можно прорубить дополнительное окно. Важно
+помнить, что у объектов все равно остается
+общая характеристика — количество окон.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Класс также
+можно рассматривать как тип данных (см.
+главу 2), а объект — как переменную (по
+аналогии с тем, как переменная $counter
+относится к целому, а переменная $last_name — к
+строковому типу). Программа может
+одновременно работать с несколькими
+объектами одного класса как с несколькими
+переменными целого типа. Общий формат
+классов РНР приведен в листинге 6.1.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman"><i><b>Листинг
+6.1</b>. Объявление классов в РНР</i></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Class_name {&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> var
+$attribute_1;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">var $attribute_N;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function function1() {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function functionN() {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">} // end Class_name</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Подведем
+итоги: объявление класса должно начинаться
+с ключевого слова class (подобно тому, как
+объявление функции начинается с ключевого
+слова function). Каждому объявлению атрибута,
+содержащегося в классе, должно
+предшествовать ключевое слово van. Атрибуты
+могут относиться к любому типу данных,
+поддерживаемых в РНР; их можно
+рассматривать как переменные с небольшими
+различиями, о которых вы узнаете в этой
+главе. После объявлений атрибутов следуют
+объявления методов, очень похожие на
+типичные объявления функций.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman"><i><img border="0" src="prim.gif" align=left width="36" height="35">По
+общепринятым правилам имена классов ООП
+начинаются с прописной буквы, а все слова в
+именах методов, кроме первого, начинаются с
+прописных букв (первое слово начинается со
+строчной буквы). Разумеется, вы можете
+использовать любые обозначения, которые
+сочтете удобными; главное — выберите
+стандарт и придерживайтесь его.</i></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Методы часто
+используются для работы с атрибутами
+классов. При ссылках на атрибуты внутри
+методов используется специальная
+переменная $this. Синтаксис методов
+продемонстрирован в следующем примере:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Webpage {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">van $bgcolor;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function setBgColor($color)
+{</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$this-&gt;bgcolor = $color;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function getBgColor() {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">return $this-&gt;bgcolor;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Переменная
+$this ссылается на экземпляр объекта, для
+которого вызывается метод. Поскольку в
+любом классе может существовать несколько
+экземпляров объектов, уточнение $this
+необходимо для ссылок на атрибуты,
+принадлежащие текущему объекту. При
+использовании этого синтаксиса обратите
+внимание на два обстоятельства:</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">атрибут,
+на который вы ссылаетесь в методе, </font><i><font COLOR="#000000">не
+нужно </font></i><font COLOR="#000000">передавать в виде
+параметра функции;</font></font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">знак
+доллара ($) ставится перед переменной $this, но </font><i><font COLOR="#000000">не
+</font></i><font COLOR="#000000">перед именем атрибута (как
+у обычной переменной).</font></font></p>
+<p><A NAME="d"></A><font color="#000000" face="Times New Roman" size="4">Создание
+объектов и работа с ними</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Объекты
+создаются оператором new. Например, объект
+класса Webpage создается следующей командой:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$home_page = new Webpage;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Новый объект
+с именем $some_page обладает собственным
+набором атрибутов и методов, перечисленных
+в классе Webpage. Для изменения значения
+атрибута $bgcolor, принадлежащего этому
+конкретному объекту, можно воспользоваться
+определенным в классе методом setBgColor( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$some_page-&gt;setBgColor(&quot;black&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Следует
+помнить, что РНР также позволяет явно
+получить значение атрибута указанием имен
+объекта и атрибута:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$some_page-&gt;bgcolor;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Однако
+второй способ противоречит принципу
+инкапсуляции, и при работе с ООП поступать
+так не следует. Чтобы понять, почему это так,
+прочитайте следующий раздел.</font></p>
+<p><A NAME="e"></A><font color="#000000" face="Times New Roman" size="4">Нарушение
+инкапсуляции</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Допустим, вы
+создали класс, один из атрибутов которого
+представляет собой массив. Но вместо того
+чтобы работать с массивом через
+промежуточные методы (например,
+предназначенные для создания, удаления,
+модификации элементов и т. д.), вы в случае
+необходимости напрямую обращаетесь к
+массиву. В течение месяца вы уверенно
+программируете большое «объектно-ориентированное»
+приложение и благосклонно принимаете хвалу
+коллег-программистов. Будущее сулит много
+радостей — премии, оплачиваемый отпуск и
+даже отдельный кабинет.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Но вот через
+месяц после успешного запуска вашего web-приложения
+ваш начальник вдруг решает, что массивы в
+данном случае не годятся и работать с
+информацией нужно только через базу данных.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Какая
+неприятность! Поскольку вы решили работать
+с атрибутами напрямую, вам теперь придется
+просматривать всю программу и везде, где
+происходят обращения к данным, вносить
+исправления в соответствии с новым
+интерфейсом. Задача весьма хлопотная, к
+тому же чревата риском внесения новых
+ошибок.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">А теперь
+давайте посмотрим, что произошло бы при
+работе с данными с использованием методов.
+Все, что вам пришлось бы сделать при
+переходе от массива к базе данных —
+перепрограммировать методы. Модификация
+автоматически распространяется на все
+точки программы, в которых присутствуют
+вызовы методов.</font></p>
+<p><A NAME="f"></A><font color="#000000" face="Times New Roman" size="4">Конструкторы</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Довольно
+часто при создании объекта требуется
+задать значения некоторых атрибутов. К
+счастью, разработчики технологии ООП учли
+это обстоятельство и реализовали его в
+концепции </font><i><font COLOR="#000000">конструкторов. </font></i><font COLOR="#000000">Конструктор
+представляет собой метод, который задает
+значения некоторых атрибутов (а также может
+вызывать другие методы). Конструкторы
+вызываются автоматически при создании
+новых объектов. Чтобы это стало возможным,
+имя метода-конструктора должно совпадать с
+именем класса, в котором он содержится.
+Пример конструктора приведен в листинге 6.2.</font></font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+6.2. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Использование
+конструктора</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Webpage {&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> var
+$bgcolor;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function Webpage($color)
+{</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$this-&gt;bgcolor = $color;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Вызвать
+конструктор класса Webpage</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$page = new Webpage(&quot;brown&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Раньше
+создание объекта и инициализация атрибутов
+выполнялись раздельно. Конструкторы
+позволяют выполнить эти действия за один
+этап.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Интересная
+подробность: в зависимости от количества
+передаваемых параметров могут вызываться
+разные конструкторы. Например, в листинге 6.2
+объекты класса Webpage могут создаваться двумя
+способами. Во-первых, вы можете вызвать
+конструктор, который просто создает объект,
+но не инициализирует его атрибуты:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$page = new Webpage;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Во-вторых,
+объект можно создать при помощи
+конструктора, определенного в классе, — в
+этом случае вы создаете объект класса Webpage и
+присваиваете значение его атрибуту bgcolor:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$page = new Webpage(&quot;brown&quot;);</font></p>
+<p><A NAME="g"></A><font color="#000000" face="Times New Roman" size="4">Деструкторы</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как
+упоминалось ранее, в РНР отсутствует
+непосредственная поддержка деструкторов.
+Тем не менее, вы можете легко имитировать
+работу деструктора, вызывая функцию РНР unset(
+). Эта функция уничтожает содержимое
+переменной и возвращает занимаемые ею
+ресурсы системе. С объектами unset( ) работает
+так же, как и с переменными. Допустим, вы
+работаете с объектом $Webpage. После завершения
+работы с этим конкретным объектом
+вызывается функция</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">unset($Webpage);</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Эта команда
+удаляет из памяти все содержимое $Webpage.
+Действуя в духе инкапсуляции, можно
+поместить вызов unset( ) в метод с именем destroy( ) и
+затем вызвать его:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$Website-&gt;destroy( );</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Помните:
+необходимость в вызове деструкторов
+возникает лишь при работе с объектами,
+использующими большой объем ресурсов,
+поскольку все переменные и объекты
+автоматически уничтожаются по завершении
+сценария.</font></p>
+<p><A NAME="h"></A><font color="#000000" face="Times New Roman" size="4">Простое и
+иерархическое наследование</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Как
+говорилось выше, класс является шаблоном,
+по которому создаются реальные объекты с
+определенными характеристиками и
+функциями. Нетрудно представить себе
+ситуацию, при которой такой объект является
+частью другого объекта. Например,
+автомобиль можно считать частным случаем
+категории «транспортное средство», к
+которой относятся и самолеты. Хотя разные
+типы транспортных средств сильно
+отличаются друг от друга, все они
+характеризуются атрибутами из общего
+набора (количество колес, мощность,
+максимальная скорость, модель и т. д.). Пусть
+конкретные значения этих атрибутов сильно
+различаются — атрибуты все равно присущи
+всем транспортным средствам. Таким образом,
+</font><i><font COLOR="#000000">субклассы </font></i><font COLOR="#000000">«автомобиль»
+и «самолет» наследуют общий набор базовых
+характеристик от <i>суперкласса</i></font><i><font COLOR="#000000">
+</font></i><font COLOR="#000000">«транспортное средство».
+Концепция получения классом характеристик
+от другого, более общего класса называется </font></font><i><font COLOR="#000000" size="3" face="Times New Roman">наследованием.</font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Наследование
+является исключительно полезным средством
+программирования, поскольку его применение
+предотвращает копирование кода, совместно
+используемого структурами данных, —
+например, общих характеристик различных
+типов транспортных средств, упоминавшихся
+в предыдущем абзаце. В общем случае
+синтаксис наследования характеристик
+другого класса в РНР выглядит так:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Class_name2
+extends Class_name1 {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">объявления
+атрибутов;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">объявления
+методов;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Ключевое
+слово extends говорит о том, что класс Class_name2
+наследует все характеристики класса Class_name1.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Помимо
+возможности многократного использования
+кода, наследование обладает еще одним
+важным преимуществом — снижается
+вероятность ошибок при</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">модификации
+программы. Например, в иерархии,
+изображенной на рис. 6.1, изменения в классе «автомобиль»
+никак не отразятся на коде (и данных) класса
+«самолет», и наоборот.</font></p>
+<p><img border="0" src="prim.gif" align=left width="36" height="35"><i><font COLOR="#000000" size="3" face="Times New Roman">Вызов
+конструктора производного класса не
+приводит к автоматическому вызову конструктора
+базового класса.</font>
+</i>
+</p>
+<p><i><img border="0" src="6.1.jpg" width="372" height="133"></p>
+<b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Рис. 6.1. </font></font></b><font size="3" face="Times New Roman"><font COLOR="#000000">Иерархия
+транспортных средств</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В листинге 6.3
+приведены классы, моделирующие иерархию,
+изображенную на рис. 6.1.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+6.3. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Представление
+различных типов транспортных средств при
+помощи наследования</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+Транспортное средство&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> class Vehicle {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">var $model;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">var $current_speed;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function setSpeed($mph)
+{</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$this-&gt;current_speed
+= $mph;</font></p>
+<p><font color="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function getSpeed() {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">return $this-&gt;current_speed;</font></p>
+<p><font color="#000000" size="3" face="Courier New">}</font></p>
+<p><font color="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Автомобиль</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Auto extends
+Vehicle {&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> var $fue1_type;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function setFuelType($fuel)
+{</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$this-&gt;fuel_type = $fuel;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function getFuelType()
+{</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">return $this-&gt;fuel_type;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Самолет</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Airplane extends
+Vehicle {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">var $wingspan;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function setWingSpan($wingspan)
+{</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$this-&gt;wingspan = $wingspan;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function getWingSpan()
+{</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">return $this-&gt;wingspan;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Объекты этих
+классов создаются следующим образом:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$tractor = new Vehicle;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$gulfstream = new Airplane;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Приведенные
+команды создают два объекта. Первый объект,
+$tractor, относится к классу Vehicle. Второй объект,
+$gulfstream, относится к классу Airplane и потому
+обладает как общими характеристиками
+класса Vehicle, так и уточненными
+характеристиками класса Airplаne.</font></p>
+<p><img border="0" src="prim.gif" align=left width="36" height="35"><i><font COLOR="#000000" size="3" face="Times New Roman">Ситуация,
+при которой класс наследует свойства
+нескольких родительских классов,
+называется множественным наследованием. К
+сожалению, в РНР множественное
+наследование не поддерживается. Например,
+следующая конструкция невозможна в РНР:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Airplane extends
+Vehicle extends Building...</font></p>
+</i><b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Многоуровневое
+наследование</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">С
+увеличением размеров и сложности программ
+может возникнуть необходимость в
+многоуровневом наследовании. Иначе говоря,
+класс будет наследовать свои свойства от
+других классов, которые, в свою очередь,
+будут наследовать от третьих классов и т. д.
+Многоуровневое наследование развивает
+модульную структуру программы, обеспечивая
+простоту сопровождения и более четкую
+логическую структуру. Скажем, при
+использовании примера с транспортными
+средствами в большой программе может
+появиться необходимость в дополнительном
+разбиении на субклассы суперкласса Vehicle,
+продолжающем логическое развитие иерархии.
+Например, транспортные средства можно
+дополнительно разделить на наземные,
+морские и воздушные, чтобы суперкласс
+специализированных субклассов выбирался в
+зависимости от среды, в которой
+перемещается данное транспортное средство.
+Новый вариант иерархии показан на рис. 6.2.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Краткий
+пример, приведенный в листинге 6.4,
+подчеркивает некоторые важные аспекты
+многоуровневого наследования в РНР.</font></p>
+<b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000"><i>Листинг
+6.4. </i> </font></font></b><i><font COLOR="#000000">Многоуровневое
+наследование</font></i></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Vehicle {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Объявления
+атрибутов...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Объявления
+методов...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Land extends
+Vehicle {</font></p>
+<p><font color="#000000" size="3" face="Courier New">&nbsp; Объявления атрибутов...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&nbsp; Объявления
+методов...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Саr extends
+Land {</font></p>
+<p><font color="#000000" size="3" face="Courier New">&nbsp; Объявления атрибутов...</font></p>
+<p><font color="#000000" size="3" face="Courier New">&nbsp; Объявления
+методов...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$nissan = new Car;</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Объект $nissan
+содержит все атрибуты и методы классов Саr,
+Land и Vehicle. Как видите, программа получается
+исключительно модульной. Допустим, когда-то
+в будущем вы захотите добавить в класс Land
+новый атрибут. Нет проблем: внесите
+соответствующие изменения в класс Land, и
+этот атрибут немедленно становится
+доступным для классов Land и Саr, не влияя на
+функциональность других классов. Таким
+образом, модульность кода и гибкость
+относятся к числу основных преимуществ ООП.</font></p>
+<p><font size="3" face="Times New Roman">&nbsp;<img border="0" src="6.2.jpg" width="500" height="284"></font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Рис. 6.2. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Многоуровневое
+наследование в иерархии Vehicle</font></font></p>
+</i>
+<p><i><font COLOR="#000000" size="3" face="Times New Roman"><img border="0" src="prim.gif" align=left width="36" height="35">Хотя
+масс наследует свои характеристики от
+цепочки родителей, конструкторы родительских
+классов не вызываются автоматически при
+создании объектов класса-наследника. Эти
+конструкторы могут вызываться классом-наследником
+в виде методов.</font></p>
+</i>
+<p><A NAME="i"></A><font color="#000000" face="Times New Roman" size="4">Абстрактные
+классы</font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">В
+некоторых ситуациях бывает удобно создать
+класс, объекты которого никогда не
+создаются (данный класс нужен всего лишь
+как базовый для создания производных
+классов). Такие классы называются </font><i><font COLOR="#000000">абстрактными.
+</font></i><font COLOR="#000000">Абстрактные классы</font></font>
+<font COLOR="#000000" size="3" face="Times New Roman">обычно
+применяются в тех случаях, когда
+разработчик программы хочет обеспечить
+обязательную поддержку некоторых
+функциональных возможностей всеми
+классами, производными от абстрактного
+базового класса.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В РНР
+отсутствует прямая поддержка абстрактных
+классов, однако существует простое
+обходное решение — достаточно определить в
+«абстрактном» классе конструктор и
+включить в него вызов die( ). Вернемся к
+классам из листинга 6.4. Скорее всего, вам
+никогда не придется создавать экземпляры
+классов Land и Vehicle, поскольку они не могут
+представлять физические объекты. Для
+представления реальных объектов (например,
+автомобилей) следует создать класс,
+производный от этих классов. Следовательно,
+чтобы предотвратить возможное создание
+объектов классов Land и Vehicle, необходимо
+включить в их конструкторы вызовы die( ), как
+показано в листинге 6.5.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+6.5. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Создание
+абстрактных классов</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Vehicle {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Объявления
+атрибутов...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function Vehicle() }</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">die (&quot;Cannot
+create Abstract Vehicle class!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Объявления
+других методов...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Land extends
+Vehicle {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Объявления
+атрибутов...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function Land() }</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">die (&quot;Cannot
+create Abstract Land class!&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Объявления
+других методов. } class Car extends Land {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Объявления
+атрибутов...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">Объявления
+методов...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Попытка
+создания экземпляра этих абстрактных
+классов приведет к выдаче сообщения об
+ошибке и завершению программы.</font></p>
+<p><A NAME="j"></A><font color="#000000" face="Times New Roman" size="4">Перегрузка
+методов</font></p>
+<i>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Перегрузкой
+методов </font></i><font COLOR="#000000" size="3" face="Times New Roman">называется
+определение нескольких методов с
+одинаковыми именами, но разным количеством
+или типом параметров. Как и в случае с
+абстрактными классами, в РНР эта
+возможность не поддерживается, но
+существует простое обходное решение,
+приведенное в листинге 6.6.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+6.6. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Перегрузка
+методов</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Page {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">var $bgcolor;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">var $textcolor;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">&nbsp;function Page() {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Определить
+количество переданных аргументов</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// и вызвать
+метод с нужным именем</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$name = &quot;Page&quot;.func_num_args();</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Call $name with
+correct number of arguments passed in</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if ( func_num_args() ==
+0 ) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$this-&gt;$name();</font></p>
+<p><font color="#000000" size="3" face="Courier New">else
+:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$this-&gt;$name(func_get_arg(0));</font></p>
+<p><font color="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function Page0() {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$this-&gt;bgcolor =
+&quot;white&quot;;</font></p>
+<p><font color="#000000" size="3" face="Courier New">$this-&gt;textcolor = &quot;black&quot;;</font></p>
+<p><font color="#000000" size="3" face="Courier New">print &quot;Created
+default page&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function Page1($bgcolor)
+{</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$this-&gt;bgcolor =
+$bgcolor;</font></p>
+<p><font color="#000000" size="3" face="Courier New">$this-&gt;textcolor = &quot;black&quot;;</font></p>
+<p><font color="#000000" size="3" face="Courier New">print &quot;Created custom
+page&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$html_page - new Page(&quot;red&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В этом
+примере при создании нового объекта с
+именем $html_page передается один аргумент.
+Поскольку в классе был определен
+конструктор по умолчанию (Раgе( )),
+вызывается именно он. Однако конструктор по
+умолчанию всего лишь выбирает, какому из
+конструкторов (Page0( ) или Page1( )) следует
+передать управление. При выборе
+конструктора используются функции func_num_args(
+)
+и func_get_arg( ), которые, соответственно,
+определяют количество аргументов и читают
+эти аргументы.</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Конечно,
+такое решение вряд ли можно назвать
+полноценной перегрузкой, но оно подойдет
+для тех, кто не может жить без этого важного
+аспекта ООП.</font></p>
+<b>
+<p><A NAME="k"></A><font color="#000000" face="Times New Roman" size="4">Функции для
+работы с классами и объектами</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В РНР
+существует несколько стандартных функций
+для работы с классами и объектами; эти
+функции рассматриваются в следующих
+разделах. Все они часто используются на
+практике, особенно в процессе разработки
+интерфейса, администрирования кода и
+диагностики ошибок.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">get_class_methods( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+get_class_methods( ) возвращает массив имен методов
+класса с заданным именем. Синтаксис функции
+get_class_methods( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">array get_class_methods
+(string </font> </font><font COLOR="#000000">имя_класса)</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Простой
+пример использования get_class_methods( ) приведен в
+листинге 6.7.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+6.7. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Получение
+списка методов класса</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Airplane extends
+Vehicle {&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> var $wingspan;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function setWingSpan($wingspan)
+{&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> $this-&gt;wingspan = $wingspan;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function getWingSpan()
+{&nbsp;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New"> return $this-&gt;wingspan;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$cls_methods =
+get_class_methods(Airplane);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Массив
+$cls_methods содержит имена всех методов,</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">//
+объявленных в классах &quot;Airplane&quot; и &quot;Vehicle&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как видно из
+листинга 6.7, функция get_class_methods( ) позволяет
+легко получить информацию обо всех методах,
+поддерживаемых классом.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">get_class_vars( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+get_class_vars( ) возвращает массив имен атрибутов
+класса с заданным именем. Синтаксис функции
+get_class_vars( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">array get_class_vars
+(string </font> </font><font COLOR="#000000">имя_класса)</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Пример
+использования get_class_vars( ) приведен в листинге
+6.8.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+6.8. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Получение
+списка атрибутов класса функцией get_class_vars( )</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Vehicle {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">var $model;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">var $current_speed; }</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Airplane extends
+Vehicle {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">var Swingspan; }
+$a_class = &quot;Airplane&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$attribs = get_class_vars($a_class);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $attribs = array (
+&quot;wingspan&quot;, &quot;model&quot;, &quot;current_speed&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Массив $attribs
+заполняется именами всех атрибутов класса
+Airplane.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">get_object_vars( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+get_object_vars( ) возвращает ассоциативный массив
+с информацией обо всех атрибутах объекта с
+заданным именем. Синтаксис функции get_object_vars(
+):</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">array get_object_vars (object
+имя_обьекта)</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Пример
+использования функции get_object_vars( ) приведен в
+листинге 6.9.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+6.9. </font></font></i></b><font size="3" face="Times New Roman"><i><font COLOR="#000000">Получение
+информации о переменных объекта&nbsp; </font></i></font></p>
+<p><font COLOR="#000000" face="Courier New" size="3">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Vehicle {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">var Swheels;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Land extends
+Vehicle {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">var Sengine;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class car extends Land
+{</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">var $doors:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function car($doors,
+$eng, $wheels) {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$this-&gt;doors = $doors;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$this-&gt;engine = $eng;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$this-&gt;wheels
+= $wheels;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">function get_wheels() {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">return $this-&gt;wheels;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$toyota = new car(2,400,4);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$vars = get_object_vars($toyota);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">while (list($key, $value) =
+each($vars)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;$key ==&gt; $value &lt;br&gt;&quot;;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">endwhile;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Выходные
+данные:</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// doors ==&gt; 2</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// engine ==&gt; 400</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// wheels ==&gt; 2</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+get_object_vars( ) позволяет быстро получить всю
+информацию об атрибутах конкретного
+объекта и их значениях в виде
+ассоциативного массива.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">method_exists( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+method_exists( ) проверяет, поддерживается ли
+объектом метод с заданным именем. Если
+метод поддерживается, функция возвращает
+TRUE, в противном случае возвращается FALSE.
+Синтаксис функции method_exists( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">bool method_exi sts (object </font> </font><font COLOR="#000000" size="3" face="Courier New">имя_обьекта.
+string имя_метода)</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Пример
+использования метода method_exists( ) приведён в
+листинге 6.10.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+6.10. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Проверка
+поддержки метода объектом при помощи
+функции method_exists()</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Vehicle {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Land extends
+Vehicle {</font></p>
+<p><font color="#000000" size="3" face="Courier New">var $fourWheel;</font></p>
+<p><font color="#000000" size="3" face="Courier New">function setFourWheel Drive() {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$this-&gt;fourWeel = 1;</font></p>
+<p><font color="#000000" size="3" face="Courier New">}</font></p>
+<p><font color="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Создать
+объект с именем $саr</font></p>
+<p><font color="#000000" size="3" face="Courier New">$car = new Land;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Если метод
+&quot;fourWheelDrive&quot; поддерживается классом &quot;Land&quot;</font></p>
+<p><font color="#000000" size="3" face="Courier New">// или &quot;Vehicle&quot;, вызов method_exists возвращает
+TRUE;</font></p>
+<p><font color="#000000" size="3" face="Courier New">// в противном случае возвращается
+FALSE.</font></p>
+<p><font color="#000000" size="3" face="Courier New">//
+В данном примере method_exists() возвращает TRUE.</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">if (method_exists($car,
+&quot;setfourWheelDrive&quot;)) :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;This car is
+equipped with 4-wheel drive&quot;;</font></p>
+<p><font color="#000000" size="3" face="Courier New">else :</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">print &quot;This car is
+not equipped with 4-wheel drive&quot;;</font></p>
+<p><font color="#000000" size="3" face="Courier New">endif;</font></p>
+<p><font color="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В листинге
+6.10 функция method_exists ( ) проверяет,
+поддерживается ли объектом $car метод с
+именем setFourWheelDrive( ). Если метод
+поддерживается, функция возвращает
+логическую истину и фрагмент выводит
+соответствующее сообщение. В противном
+случае возвращается FALSE и выводится другое
+сообщение.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">get_class( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+get_class( ) возвращает имя класса, к которому
+относится объект с заданным именем.
+Синтаксис функции get_class( ): </font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string get_class(object </font></font><font size="3" face="Courier New"><font COLOR="#000000">имя_объекта);</font></font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Пример
+использования get_class( ) приведен в листинге
+6.11.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+6.11.</font></font></i></b><font COLOR="#000000" size="3" face="Times New Roman"><i>
+</i></font><i><font size="3" face="Times New Roman"><font COLOR="#000000">Получение
+имени класса функцией get_class( )</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Vehicle {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Land extends
+Vehicle {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Создать
+объект с именем $саr $car = new Land;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Переменной
+$class_a присваивается строка &quot;Land&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$class_a = get_class($car);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В результате
+переменной $class_a присваивается имя класса,
+на основе которого был создан объект $саr.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">get_parent_class( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+get_parent_class( ) возвращает имя родительского
+класса (если он есть) для объекта с заданным
+именем. Синтаксис функции get_parent_dass( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">string get_parent_class
+(object </font></font><font size="3" face="Courier New"><font COLOR="#000000">имя_обьекта);</font></font></p>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+6.12 демонстрирует использование get_parent_class( ).</font></font></p>
+<p><font size="3" face="Times New Roman"><b><i><font COLOR="#000000">Листинг
+6.12. </font></i></b></font><i><font size="3" face="Times New Roman"><font COLOR="#000000">Получение
+имени родительского класса функцией
+get_parent_class( )</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Vehicle {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Land extends
+Vehicle {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font size="3" face="Courier New"><font COLOR="#000000">// Создать
+объект </font><i><font COLOR="#000000">с </font></i><font COLOR="#000000">именем
+$саr $саr = new Land;</font></font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Переменной
+$parent присваивается строка &quot;Vehicle&quot;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$parent = get_parent_dass($car);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Как и
+следовало ожидать, при вызове get_parent_class( )
+переменной $parent будет присвоена строка &quot;Vehicle&quot;.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">is_subclass_of( )</font></p>
+</b>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Функция
+is_subclass_of( ) проверяет, был ли объект создан на
+базе класса, имеющего родительский класс с
+заданным именем. Функция возвращает TRUE,
+если проверка дает положительный результат,
+и FALSE в противном случае. Синтаксис функции
+is_subclass_of( ):</font></font></p>
+<p><font face="Courier New"><font COLOR="#000000" size="3">bool is_subclass_of (object </font> </font><font COLOR="#000000" size="3" face="Courier New">объект,
+string имя_класса)</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Использование
+is_subclass_of( ) продемонстрировано в листинге 6.13.</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+6.13.</font></font></i></b><font COLOR="#000000" size="3" face="Times New Roman"><i>
+</i></font><i><font size="3" face="Times New Roman"><font COLOR="#000000">Использование
+функции is_subdass_of( )</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Vehicle {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Land extends
+Vehicle {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$auto = new Land;</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// Переменной
+$is_subclass присваивается TRUE</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$is_subclass =
+is_subclass_of($auto, &quot;Vehicle&quot;);</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В листинге
+6.13 переменной $is_subclass( ) присваивается
+признак того, принадлежит ли объект $auto к
+субклассу родительского класса Vehicle. В
+приведенном фрагменте $auto относится к
+классу Vehicle; следовательно, переменной $is_subclass(
+) будет присвоено значение TRUE.</font></p>
+<b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">get_declared_classes( )</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Функция
+get_declared_classes( ) возвращает массив с именами
+всех определенных классов (листинг 6.14).
+Синтаксис функции get_declared_classes( ):</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">array get_declared_classes(
+)</font></p>
+<b><i>
+<p><font size="3" face="Times New Roman"><font COLOR="#000000">Листинг
+6.14. </font></font></i></b><i><font size="3" face="Times New Roman"><font COLOR="#000000">Получение
+списка классов функцией get_declared_classes( )</font></font></p>
+</i>
+<p><font COLOR="#000000" size="3" face="Courier New">&lt;?</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Vehicle {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">class Land extends
+Vehicle {</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">...</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">}</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">$declared_classes =
+get_declared_classes();</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">// $declared_classes = array(&quot;Vehicle&quot;, &quot;Land&quot;)</font></p>
+<p><font COLOR="#000000" size="3" face="Courier New">?&gt;</font></p>
+<b>
+<p><A NAME="l"></A><font color="#000000" face="Times New Roman" size="4">Итоги</font></p>
+</b>
+<p><font COLOR="#000000" size="3" face="Times New Roman">В этой главе
+были представлены некоторые концепции
+объектно-ориентированного
+программирования, при этом особое внимание
+уделялось их реализации в языке РНР. В
+частности, были рассмотрены следующие темы:</font></p>
+<ul>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">общие
+    принципы объектно-ориентированного
+    программирования;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">классы,
+    объекты и методы;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">простое и
+    иерархическое наследование;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">абстрактные
+    классы;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">перегрузка
+    методов;</font></li>
+  <li><font COLOR="#000000" size="3" face="Times New Roman">функции
+    для работы с классами и объектами в РНР.</font></li>
+</ul>
+<p><font COLOR="#000000" size="3" face="Times New Roman">Технология
+объектно-ориентированного
+программирования не очень сложна, но полное
+усвоение всех концепций обычно требует
+некоторого времени. Однако я гарантирую,
+что затраченное время полностью окупится —
+ООП поднимет эффективность вашей работы на
+принципиально новый уровень.</font></p>
+
+</BODY></HTML>

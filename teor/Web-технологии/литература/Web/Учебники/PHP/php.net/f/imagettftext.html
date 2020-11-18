@@ -1,0 +1,43 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>imagettftext</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="imagettfbbox.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="imagetypes.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.imagettftext">imagettftext</A></H1><A NAME="AEN33555"></A><P>(PHP 3, PHP 4)</P>
+<p>imagettftext - записывает текст на изображение с использованием шрифтов TrueType.<A NAME="AEN33558"></A></p>
+<H2>Описание</H2><p>array <B>imagettftext</B> (resource image, int size, int angle, int x, int y, int col, string fontfile, string text)</p>
+<P><B>imagettftext()</B> рисует строку <TT><I>text</I></TT> на изображении <TT><I>image</I></TT>, начиная с координат
+<TT><I>x</I></TT>, <TT><I>y</I></TT> (верхний левый угол обозначается 0, 0), на угол <TT><I>angle</I></TT> цветом
+<TT><I>col</I></TT>, с использованием файла шрифта TrueType <TT><I>fontfile</I></TT>. В зависимости от используемой в РНР версии библиотеки GD, если
+<TT><I>fontfile</I></TT> не начинается с ведущего '/',  '.ttf' будет присоединено к имени файла, а 
+библиотека будет пытаться искать файл с таким именем по всему пути шрифтов, 
+определённому для библиотеки.</P><P>Координаты <TT><I>x</I></TT>, <TT><I>y</I></TT> будут определять базовую точку/basepoint первого символа (ориентировочно - 
+левый верхний угол первого символа). Это отличается от <A HREF="imagestring.html"><B>imagestring()</B></A>, где x,
+y определяют верхний правый угол первого символа.</P><P><TT><I>Angle</I></TT> дан в градусах, где 0 градусов это чтение текста слева направо (направление 3 
+часа), а более высокие значения представляют ротацию против часовой стрелки (т.е. значение 90 должно дать чтение текста снизу вверх).</P>
+<P><TT><I>Fontfile</I></TT> это путь к используемому вами TrueType-шрифту.</P><P><TT><I>Text</I></TT> это текстовая строка, которая может включать символьные последовательности
+UTF-8 (в форме &#38;#123;) для доступа к символам за пределами первых 255.</P>
+<P><TT><I>Col</I></TT> это индекс цвета.  Использование отрицательных значений даёт эффект отключения
+antialiasing.</P><P><B>imagettftext()</B> возвращает массив из 8 элементов, представляющих 4 точки, образующих бокс 
+текста. Порядок точек таков: нижняя левая, нижняя правая, верхняя правая, 
+верхняя левая. Эти точки относительно текста, вне зависимости от угла, так что "верхний 
+левый" означает верхний левый угол, когда вы смотрите на текст горизонтально.</P>
+<P>Вот пример скрипта, производящего чёрный GIF 400x30 пикселов со словами "Testing..."  
+белым шрифтом Arial.<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN33612"></A>
+  <h5>Пример 1. imagettftext
+</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+header ("Content-type: image/gif");
+$im = imagecreate (400, 30);
+$black = imagecolorallocate ($im, 0, 0, 0);
+$white = imagecolorallocate ($im, 255, 255, 255);
+imagettftext ($im, 20, 0, 10, 20, $white, "/path/arial.ttf", "Testing...Omega: &#38;#937;");
+imagegif ($im);
+imagedestroy ($im);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><P>Эта функция требует библиотек GD и
+<A HREF="http://www.freetype.org/" TARGET="_top">FreeType</A>.</P><P>
+См. также <A HREF="imagettfbbox.html"><B>imagettfbbox()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="imagettfbbox.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="imagetypes.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">imagettfbbox</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.image.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">imagetypes</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

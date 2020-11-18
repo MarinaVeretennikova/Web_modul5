@@ -1,0 +1,175 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>ini_set</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ini-restore.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="php-logo-guid.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.ini-set">ini_set</A></H1><A NAME="AEN64318"></A><P>(PHP 4)</P>
+<p>ini_set - устанавливает значение опции конфигурации.<A NAME="AEN64321"></A></p><H2>Описание</H2>
+<p>string <B>ini_set</B> (string varname, string newvalue)</p>
+<P>Устанавливает значение данной опции конфигурации. Возвращает старое значение при успехе, <TT><B>FALSE</B></TT> при неудаче. Опция конфигурации будет сохранять это новое значение в процессе 
+выполнения скрипта и восстановится по окончании работы скрипта.</P>
+<P>Не все доступные опции могут быть изменены с помощью <B>ini_set()</B>. Ниже приведена таблица со списком всех опций
+PHP (как в PHP 4.2.0) и с указанием, какие могут быть изменены/установлены и на каком уровне.<A NAME="AEN64337"></A></P>
+<h6>Таблица 1. Опции конфигурации</h6><TABLE BORDER="1"><TR><TH>Имя</TH><TH>По умолчанию</TH><TH>Изменяемая</TH></TR></THEAD>
+<TBODY><TR><TD>com.allow_dcom</TD><TD>"0"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>com.autoregister_typelib</TD>
+<TD>"0"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>com.autoregister_verbose</TD><TD>"0"</TD><TD>PHP_INI_SYSTEM</TD>
+</TR><TR><TD>com.autoregister_casesensitive</TD><TD>"1"</TD><TD>PHP_INI_SYSTEM</TD></TR>
+<TR><TD>com.typelib_file</TD><TD>""</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>crack.default_dictionary</TD>
+<TD>NULL</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>exif.encode_unicode</TD><TD>"ISO-8859-15"</TD>
+<TD>PHP_INI_ALL</TD></TR><TR><TD>exif.decode_unicode_motorola</TD><TD>"UCS-2BE"</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>exif.decode_unicode_intel</TD><TD>"UCS-2LE"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>exif.encode_jis</TD>
+<TD>""</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>exif.decode_jis_motorola</TD><TD>"JIS"</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>exif.decode_jis_intel</TD><TD>"JIS"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>fbsql.allow_persistent</TD>
+<TD>"1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>fbsql.generate_warnings</TD><TD>"0"</TD><TD>PHP_INI_SYSTEM</TD></TR>
+<TR><TD>fbsql.autocommit</TD><TD>"1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>fbsql.max_persistent</TD><TD>"-1"</TD>
+<TD>PHP_INI_SYSTEM</TD></TR><TR><TD>fbsql.max_links</TD><TD>"128"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>fbsql.max_connections</TD>
+<TD>"128"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>fbsql.max_results</TD><TD>"128"</TD><TD>PHP_INI_SYSTEM</TD></TR>
+<TR><TD>fbsql.batchSize</TD><TD>"1000"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>fbsql.default_host</TD><TD>NULL</TD>
+<TD>PHP_INI_SYSTEM</TD></TR><TR><TD>fbsql.default_user</TD><TD>"_SYSTEM"</TD><TD>PHP_INI_SYSTEM</TD></TR>
+<TR><TD>fbsql.default_password</TD><TD>""</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>fbsql.default_database</TD>
+<TD>""</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>fbsql.default_database_password</TD><TD>""</TD><TD>PHP_INI_SYSTEM</TD>
+</TR><TR><TD>hwapi.allow_persistent</TD><TD>"0"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>hyerwave.allow_persistent</TD>
+<TD>"0"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>hyperwave.default_port</TD><TD>"418"</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>iconv.input_encoding</TD><TD>ICONV_INPUT_ENCODING</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>iconv.output_encoding</TD>
+<TD>ICONV_OUTPUT_ENCODING</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>iconv.internal_encoding</TD><TD>ICONV_INTERNAL_ENCODING</TD>
+<TD>PHP_INI_ALL</TD></TR><TR><TD>ifx.allow_persistent</TD><TD>"1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>ifx.max_persistent</TD>
+<TD>"-1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>ifx.max_links</TD><TD>"-1"</TD><TD>PHP_INI_SYSTEM</TD></TR>
+<TR><TD>ifx.default_host</TD><TD>NULL</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>ifx.default_user</TD><TD>NULL</TD>
+<TD>PHP_INI_SYSTEM</TD></TR><TR><TD>ifx.default_password</TD><TD>NULL</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>ifx.blobinfile</TD>
+<TD>"1"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>ifx.textasvarchar</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>ifx.byteasvarchar</TD>
+<TD>"0"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>ifx.charasvarchar</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>ifx.nullformat</TD>
+<TD>"0"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>ingres.allow_persistent</TD><TD>"1"</TD><TD>PHP_INI_SYSTEM</TD></TR>
+<TR><TD>ingres.max_persistent</TD><TD>"-1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>ingres.max_links</TD><TD>"-1"</TD>
+<TD>PHP_INI_SYSTEM</TD></TR><TR><TD>ingres.default_database</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>ingres.default_user</TD>
+<TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>ingres.default_password</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>ibase.allow_persistent</TD><TD>"1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>ibase.max_persistent</TD><TD>"-1"</TD>
+<TD>PHP_INI_SYSTEM</TD></TR><TR><TD>ibase.max_links</TD><TD>"-1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>ibase.default_user</TD>
+<TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>ibase.default_password</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>ibase.timestampformat</TD><TD>"%m/%d/%Y%H:%M:%S"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>ibase.dateformat</TD>
+<TD>"%m/%d/%Y"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>ibase.timeformat</TD><TD>"%H:%M:%S"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>java.class.path</TD>
+<TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>java.home</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>java.library.path</TD>
+<TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>java.library</TD><TD>JAVALIB</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>java.library</TD>
+<TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>ldap.max_links</TD><TD>"-1"</TD><TD>PHP_INI_SYSTEM</TD></TR>
+<TR><TD>mbstring.detect_order</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>mbstring.http_input</TD>
+<TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>mbstring.http_output</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>mbstring.internal_encoding</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>mbstring.substitute_character</TD>
+<TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>mbstring.func_overload</TD><TD>"0"</TD><TD>PHP_INI_SYSTEM</TD></TR>
+<TR><TD>mcrypt.algorithms_dir</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>mcrypt.modes_dir</TD>
+<TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>mime_magic.magicfile</TD><TD>"/usr/share/misc/magic.mime"</TD>
+<TD>PHP_INI_SYSTEM</TD></TR><TR><TD>mssql.allow_persistent</TD><TD>"1"</TD><TD>PHP_INI_SYSTEM</TD></TR>
+<TR><TD>mssql.max_persistent</TD><TD>"-1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>mssql.max_links</TD>
+<TD>"-1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>mssql.max_procs</TD><TD>"25"</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>mssql.min_error_severity</TD><TD>"10"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>mssql.min_message_severity</TD>
+<TD>"10"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>mssql.compatability_mode</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>mssql.connect_timeout</TD><TD>"5"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>mssql.timeout</TD><TD>"60"</TD><TD>PHP_INI_ALL</TD>
+</TR><TR><TD>mssql.textsize</TD><TD>"-1"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>mssql.textlimit</TD><TD>"-1"</TD>
+<TD>PHP_INI_ALL</TD></TR><TR><TD>mssql.batchsize</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>mssql.datetimeconvert</TD>
+<TD>"1"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>mysql.allow_persistent</TD><TD>"1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR>
+<TD>mysql.max_persistent</TD><TD>"-1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>mysql.max_links</TD>
+<TD>"-1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>mysql.default_host</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>mysql.default_user</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>mysql.default_password</TD>
+<TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>mysql.default_port</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>mysql.default_socket</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>ncurses.value</TD><TD>"42"</TD>
+<TD>PHP_INI_ALL</TD></TR><TR><TD>ncurses.string</TD><TD>"foobar"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>odbc.allow_persistent</TD>
+<TD>"1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>odbc.max_persistent</TD><TD>"-1"</TD><TD>PHP_INI_SYSTEM</TD></TR>
+<TR><TD>odbc.max_links</TD><TD>"-1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>odbc.default_db</TD>
+<TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>odbc.default_user</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>odbc.default_pw</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>odbc.defaultlrl</TD><TD>"4096"</TD>
+<TD>PHP_INI_ALL</TD></TR><TR><TD>odbc.defaultbinmode</TD><TD>"1"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>odbc.check_persistent</TD>
+<TD>"1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>pfpro.defaulthost</TD><TD>"test.signio.com"</TD><TD>&nbsp;</TD>
+</TR><TR><TD>pfpro.defaulthost</TD><TD>"test-payflow.verisign.com"</TD><TD>&nbsp;</TD></TR><TR><TD>pfpro.defaultport</TD>
+<TD>"443"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>pfpro.defaulttimeout</TD><TD>"30"</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>pfpro.proxyaddress</TD><TD>""</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>pfpro.proxyport</TD><TD>""</TD>
+<TD>PHP_INI_ALL</TD></TR><TR><TD>pfpro.proxylogon</TD><TD>""</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>pfpro.proxypassword</TD>
+<TD>""</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>pgsql.allow_persistent</TD><TD>"1"</TD><TD>PHP_INI_SYSTEM</TD></TR>
+<TR><TD>pgsql.max_persistent</TD><TD>"-1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>pgsql.max_links</TD><TD>"-1"</TD>
+<TD>PHP_INI_SYSTEM</TD></TR><TR><TD>pgsql.auto_reset_persistent</TD><TD>"0"</TD><TD>PHP_INI_SYSTEM</TD></TR>
+<TR><TD>pgsql.ignore_notice</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>pgsql.log_notice</TD>
+<TD>"0"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>session.save_path</TD><TD>"/tmp"</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>session.name</TD><TD>"PHPSESSID"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>session.save_handler</TD>
+<TD>"files"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>session.auto_start</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>session.gc_probability</TD><TD>"1"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>session.gc_maxlifetime</TD>
+<TD>"1440"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>session.serialize_handler</TD><TD>"php"</TD>
+<TD>PHP_INI_ALL</TD></TR><TR><TD>session.cookie_lifetime</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>session.cookie_path</TD>
+<TD>"/"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>session.cookie_domain</TD><TD>""</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>session.cookie_secure</TD><TD>""</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>session.use_cookies</TD><TD>"1"</TD>
+<TD>PHP_INI_ALL</TD></TR><TR><TD>session.use_only_cookies</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>session.referer_check</TD>
+<TD>""</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>session.entropy_file</TD><TD>""</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>session.entropy_length</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>session.cache_limiter</TD>
+<TD>"nocache"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>session.cache_expire</TD><TD>"180"</TD><TD>PHP_INI_ALL</TD>
+</TR><TR><TD>session.use_trans_sid</TD><TD>"1"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>session.encode_sources</TD>
+<TD>"globals</TD><TD>track"</TD></TR><TR><TD>extname.global_value</TD><TD>"42"</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>extname.global_string</TD><TD>"foobar"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>assert.active</TD><TD>"1"</TD>
+<TD>PHP_INI_ALL</TD></TR><TR><TD>assert.bail</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>assert.warning</TD>
+<TD>"1"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>assert.callback</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>assert.quiet_eval</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>safe_mode_protected_env_vars</TD>
+<TD>SAFE_MODE_PROTECTED_ENV_VARS</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>safe_mode_allowed_env_vars</TD>
+<TD>SAFE_MODE_ALLOWED_ENV_VARS</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>url_rewriter.tags</TD><TD>"a=href</TD>
+<TD>area=href</TD></TR><TR><TD>url_rewriter.tags</TD><TD>"a=href</TD><TD>area=href</TD></TR><TR><TD>sybct.allow_persistent</TD>
+<TD>"1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>sybct.max_persistent</TD><TD>"-1"</TD><TD>PHP_INI_SYSTEM</TD></TR>
+<TR><TD>sybct.max_links</TD><TD>"-1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>sybct.min_server_severity</TD>
+<TD>"10"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>sybct.min_client_severity</TD><TD>"10"</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>sybct.hostname</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>tokenizer.global_value</TD><TD>"42"</TD>
+<TD>PHP_INI_ALL</TD></TR><TR><TD>tokenizer.global_string</TD><TD>"foobar"</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>vpopmail.directory</TD><TD>""</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>zlib.output_compression</TD>
+<TD>"0"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>zlib.output_compression_level</TD><TD>"-1"</TD><TD>PHP_INI_ALL</TD>
+</TR><TR><TD>define_syslog_variables</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>highlight.bg</TD>
+<TD>HL_BG_COLOR</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>highlight.comment</TD><TD>HL_COMMENT_COLOR</TD>
+<TD>PHP_INI_ALL</TD></TR><TR><TD>highlight.default</TD><TD>HL_DEFAULT_COLOR</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>highlight.html</TD><TD>HL_HTML_COLOR</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>highlight.keyword</TD>
+<TD>HL_KEYWORD_COLOR</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>highlight.string</TD><TD>HL_STRING_COLOR</TD>
+<TD>PHP_INI_ALL</TD></TR><TR><TD>allow_call_time_pass_reference</TD><TD>"1"</TD><TD>PHP_INI_SYSTEM|PHP_INI_PERDIR</TD>
+</TR><TR><TD>asp_tags</TD><TD>"0"</TD><TD>PHP_INI_SYSTEM|PHP_INI_PERDIR</TD></TR><TR><TD>display_errors</TD>
+<TD>"1"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>display_startup_errors</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>enable_dl</TD><TD>"1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>expose_php</TD><TD>"1"</TD>
+<TD>PHP_INI_SYSTEM</TD></TR><TR><TD>html_errors</TD><TD>"1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>xmlrpc_errors</TD>
+<TD>"0"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>xmlrpc_error_number</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>ignore_user_abort</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>implicit_flush</TD><TD>"0"</TD>
+<TD>PHP_INI_PERDIR|PHP_INI_SYSTEM</TD></TR><TR><TD>log_errors</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>log_errors_max_len</TD><TD>"1024"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>ignore_repeated_errors</TD>
+<TD>"0"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>ignore_repeated_source</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>magic_quotes_gpc</TD><TD>"1"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>magic_quotes_runtime</TD><TD>"0"</TD>
+<TD>PHP_INI_ALL</TD></TR><TR><TD>magic_quotes_sybase</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>output_buffering</TD>
+<TD>"0"</TD><TD>PHP_INI_PERDIR|PHP_INI_SYSTEM</TD></TR><TR><TD>output_handler</TD><TD>NULL</TD><TD>PHP_INI_PERDIR|PHP_INI_SYSTEM</TD>
+</TR><TR><TD>register_argc_argv</TD><TD>"1"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>register_globals</TD>
+<TD>"0"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>safe_mode</TD><TD>"1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>safe_mode</TD>
+<TD>"0"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>safe_mode_include_dir</TD><TD>NULL</TD><TD>PHP_INI_SYSTEM</TD>
+</TR><TR><TD>safe_mode_gid</TD><TD>"0"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>short_open_tag</TD><TD>DEFAULT_SHORT_OPEN_TAG</TD>
+<TD>PHP_INI_SYSTEM|PHP_INI_PERDIR</TD></TR><TR><TD>sql.safe_mode</TD><TD>"0"</TD><TD>PHP_INI_SYSTEM</TD></TR>
+<TR><TD>track_errors</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>y2k_compliance</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD>
+</TR><TR><TD>unserialize_callback_func</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>arg_separator.output</TD>
+<TD>"&#38;"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>arg_separator.input</TD><TD>"&#38;"</TD><TD>PHP_INI_SYSTEM|PHP_INI_PERDIR</TD></TR>
+<TR><TD>auto_append_file</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>auto_prepend_file</TD>
+<TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>doc_root</TD><TD>NULL</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>default_charset</TD>
+<TD>SAPI_DEFAULT_CHARSET</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>default_mimetype</TD><TD>SAPI_DEFAULT_MIMETYPE</TD>
+<TD>PHP_INI_ALL</TD></TR><TR><TD>error_log</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>extension_dir</TD>
+<TD>PHP_EXTENSION_DIR</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>gpc_order</TD><TD>"GPC"</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>include_path</TD><TD>PHP_INCLUDE_PATH</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>max_execution_time</TD>
+<TD>"30"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>open_basedir</TD><TD>NULL</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>safe_mode_exec_dir</TD>
+<TD>"1"</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>upload_max_filesize</TD><TD>"2M"</TD><TD>PHP_INI_SYSTEM</TD></TR>
+<TR><TD>file_uploads</TD><TD>"1"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>post_max_size</TD><TD>"8M"</TD><TD>PHP_INI_SYSTEM</TD>
+</TR><TR><TD>upload_tmp_dir</TD><TD>NULL</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>user_dir</TD><TD>NULL</TD><TD>PHP_INI_SYSTEM</TD></TR>
+<TR><TD>variables_order</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>error_append_string</TD><TD>NULL</TD>
+<TD>PHP_INI_ALL</TD></TR><TR><TD>error_prepend_string</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>SMTP</TD>
+<TD>"localhost"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>smtp_port</TD><TD>25</TD><TD>PHP_INI_ALL</TD></TR><TR>
+<TD>browscap</TD><TD>NULL</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>error_reporting</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD>
+</TR><TR><TD>memory_limit</TD><TD>"8M"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>precision</TD><TD>"14"</TD><TD>PHP_INI_ALL</TD>
+</TR><TR><TD>sendmail_from</TD><TD>NULL</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>sendmail_path</TD><TD>DEFAULT_SENDMAIL_PATH</TD>
+<TD>PHP_INI_SYSTEM</TD></TR><TR><TD>disable_functions</TD><TD>""</TD><TD>PHP_INI_SYSTEM</TD></TR><TR><TD>allow_url_fopen</TD>
+<TD>"1"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>always_populate_raw_post_data</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>xbithack</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>engine</TD><TD>"1"</TD><TD>PHP_INI_ALL</TD></TR>
+<TR><TD>last_modified</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD></TR><TR><TD>child_terminate</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD>
+</TR><TR><TD>async_send</TD><TD>"0"</TD><TD>PHP_INI_ALL</TD></TR></TBODY></TABLE>
+<h6><A NAME="AEN65287"></A>Таблица 2. Определение констант PHP_INI_*</h6>
+<TABLE BORDER="1"><TR><TH>Константа</TH><TH>Значение</TH><TH>Означает</TH></TR><TBODY><TR><TD>PHP_INI_USER</TD>
+<TD>1</TD><TD>Вхождение может быть установлено в пользовательских скриптах</TD></TR><TR><TD>PHP_INI_PERDIR</TD>
+<TD>2</TD><TD>Вхождение может быть установлено в <TT>.htaccess</TT></TD></TR><TR><TD>PHP_INI_SYSTEM</TD>
+<TD>4</TD><TD>Вхождение может быть установлено в <TT>php.ini</TT> или в <TT>httpd.conf</TT></TD></TR>
+<TR><TD>PHP_INI_ALL</TD><TD>7</TD><TD>Вхождение может быть установлено в любом месте</TD></TR></TBODY></TABLE>
+<P>См. также: <A HREF="ini-alter.html"><B>ini_alter()</B></A>, <A HREF="ini-get.html"><B>ini_get()</B></A> и
+<A HREF="ini-restore.html"><B>ini_restore()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ini-restore.html">Назад</A>
+</TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="php-logo-guid.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ini_restore</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../ref.info.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">php_logo_guid</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

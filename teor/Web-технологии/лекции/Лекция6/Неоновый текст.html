@@ -1,0 +1,58 @@
+<HTML>
+<HEAD>
+     <TITLE>Неоновый текст</TITLE> 
+     <SCRIPT language="JavaScript1.2">
+            //Определение функции, управляющей цветом букв
+            function lighting(){
+                //"Гашение" строки перед "зажиганием" 
+                if (n==0){
+                for (m=0;m<neontext.length;m++) 
+                liter[m].style.color=darkcolor;
+            }
+            //Изменение цвета буквы с темного на светлый
+            liter[n].style.color=lightcolor;
+            if (n<liter.length-1)
+            //Увеличение счетчика n для перехода к следующей букве
+            n++
+             //Обнуление счетчика после "освещения" всей строки
+             //и сброс таймера blink, после чего запуск таймера,
+             //вызывающего функцию start()
+			 else {n=0;
+             clearInterval(blink); 
+             setTimeout("start()",1500);
+             }
+         }
+         //Определение функции-генератора событий
+         function start() { 
+            if (document.all) 
+            blink=setInterval("lighting()",flashinterval);
+         }
+    </SCRIPT> 
+</HEAD> 
+<BODY> 
+<H1>
+    <SCRIPT language="JavaScript1.2">
+          //Определение параметров текста 
+          var darkcolor="#606060"; 
+          var lightcolor="#ff00ff" ; 
+          var neontext='Почти "неоновая" реклама'; 
+          var flashinterval=200; 
+          //Запуск счетчика зажигающейся буквы 
+          var n=0;
+          //Побуквенный вывод "темной" строки с помощью метода charAt()
+             if(document.all){
+                 document.write('<font color="'+darkcolor+'">'); 
+                  for (m=0;m<neontext.length;m++){ 
+                  document.write('<span id="neontextliter">'+neontext.charAt(m)+'</span>') 
+				  }
+                  document.write('</font>'); 
+                  //Формирование массива букв 
+                 var liter=document.all.neontextliter;
+             } 
+             else
+                  document.write (neontext) ; 
+             start(); 
+     </SCRIPT> 
+</Hl> 
+</BODY> 
+</HTML>

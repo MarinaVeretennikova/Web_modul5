@@ -1,0 +1,57 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>unserialize</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="strval.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="unset.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="unserialize">unserialize</A></H1><A NAME="AEN80897"></A><P>(PHP 3&#62;= 3.0.5, PHP 4)</P>
+<p>unserialize - создаёт PHP-значение из хранимого представления.<A NAME="AEN80900"></A></p><H2>Описание</H2>
+<p>mixed <B>unserialize</B> (string str)</p><P><B>unserialize()</B> принимает одну сериализованную переменную (см.
+<A HREF="serialize.html"><B>serialize()</B></A>) и конвертирует её обратно в РНР-значение. Возвращается конвертированное 
+значение, которое может быть <A HREF="../types.integer.html"><B>integer</B></A>,
+<A HREF="../types.float.html"><B>float</B></A>, <A HREF="../types.string.html"><B>string</B></A>,
+<A HREF="../types.array.html"><B>array</B></A> или <A HREF="../types.object.html"><B>object</B></A>.</P>
+<BLOCKQUOTE><P><B>Примечание: </B>можно установить callback-функцийю, которая будет вызываться,
+если неопределённый/undefined класс должен быть инстанциирован в процессе десериализации
+(для предотвращения получения неполного <A HREF="../types.object.html"><B>object</B></A> "__PHP_Incomplete_Class"). Используйте ваш
+<TT>php.ini</TT>, <A HREF="ini-set.html"><B>ini_set()</B></A> или .htaccess-файл для определения 'unserialize_callback_func'. 
+Каждый раз, когда undefined класс должен быть инстанциирован, вызывается эта установка. 
+Для отключения этого просто сделайте эту установку пустой.</P></BLOCKQUOTE><TABLE WIDTH="100%" BORDER="0">
+<TR><TD><A NAME="AEN80922"></A><h5 >Пример 1. unserialize_callback_func</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>$serialized_object='O:1:"a":1:{s:5:"value";s:3:"100";}';
+
+ini_set('unserialize_callback_func','mycallback'); // установить вашу callback_function
+
+function mycallback($classname) {
+    // просто включите/include файл, содержащий ваше classdefinition
+    // вы получите $classname для показа того, какое classdefinition необходимо
+}</PRE></TD></TR></TABLE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+в PHP 3 методы не сохраняются при десериализации сериализованного объекта. 
+В PHP 4 это ограничение устранено, и восстанавливаются как свойства, так и 
+методы. См. дополнительно раздел <a href="../serialization.html">
+Сериализация объектов</a> в главе <a href="../oop.html">Классы и объекты</a>.</P></BLOCKQUOTE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN80930"></A><h5>Пример 2. unserialize()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>// Здесь мы используем unserialize() для загрузки данных сессии в
+// массив $session_data из строки, выбранной из БД.
+// Этот пример использует одну из строк, описанных с помощью serialize().
+
+$conn = odbc_connect ("webdb", "php", "chicken");
+$stmt = odbc_prepare ($conn, "SELECT data FROM sessions WHERE id = ?");
+$sqldata = array ($PHP_AUTH_USER);
+if (!odbc_execute ($stmt, &#38;$sqldata) || !odbc_fetch_into ($stmt, &#38;$tmp)) {
+    // если выполнение или извлечение не прошло, инициализируется пустой массив
+    $session_data = array();
+} else {
+    // мы не должны иметь сериализованных данных в $tmp[0].
+    $session_data = unserialize ($tmp[0]);
+    if (!is_array ($session_data)) {
+        // если что-то прошло не так, инициализировать пустой массив
+        $session_data = array();
+    }
+}</PRE></TD></TR></TABLE></TD></TR></TABLE><P>См. также <A HREF="serialize.html"><B>serialize()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="strval.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="unset.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">strval</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.variables.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">unset</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

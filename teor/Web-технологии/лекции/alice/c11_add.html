@@ -1,0 +1,259 @@
+<html>
+<title>Добавляем сообщения в базу</title>
+<meta name=keywords content="ODBC MS Access SQL Visual C C++ MFC CDatabase CRecordset CGI">
+
+<body>
+<table align=center width=90%>
+<tr><td>
+
+
+<table align=center width=100%>
+<tr>
+<td width=33%><a href="c11_access.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c11_access.html">Взаимодействие через ODBC c MS Access</a>
+<td width=33% align=center><a href="index.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/index.html">Оглавление</a>
+<td width=33% align=right><a href="c11_show.html" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/c11_show.html">Отображаем сообщения из базы</a>
+</table>
+
+
+<h3>Добавление сообщения в базу</h3>
+<p align=justify>
+ Минимальный набор программ, который необходим, чтобы 
+пользователи сайта могли работать с гостевой книгой - это программа добавления сообщений и программа, которая 
+будет выводить сообщения из нашей базы данных. На первом этапе администрирование гостевой книги
+можно вести через оболочку MS Access. Но это не всегда возможно, например, если ваш веб-сайт находится
+на другом континенте. Поэтому, в качестве самостоятельного упражнения вы будете разрабатывать
+программы для администрирования гостевой книги через Internet. Это программы просмотра, редактирования и удаления
+сообщений. Ну а пока приступим к рассмотрению первой CGI-программы - программы добавления сообщений
+в гостевую книгу.  
+Запустите Microsoft Visual Studio и в меню File подменю New.
+
+<center>
+<img src="c12vs.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/c12vs.jpg">
+</center>
+
+В появившемся диалоговом окне синим маркером выберите Win32 Console Application.
+Имя проекту дайте gbadd. Нажмите ОК и в следующем окне выберите тип приложения 
+"An application that supports MFC".
+
+
+<center>
+<img src="c12step.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/c12step.jpg">
+</center>
+
+<p align=justify>
+Нажмите Finish и в следующем окне ОК. Первым делом выберите в меню Build подменю
+Set Active Configuration. И установите gbadd - Win32 Release. По умолчанию проект 
+создается в отладочном режиме. Как правило, отладкой Visual Studio приходится не так уж часто пользоваться.
+Для отладки CGI-программ наиболее эффективно использовать отладочную печать. Но об отладке CGI-приложений
+мы поговорим отдельно, в одной из последующих глав данной книги. 
+
+<center>
+<img src="c12acfg.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/c12acfg.jpg">
+</center>
+
+В меню Projects выберите подменю Setting... и перейдите на вкладку Link.
+В поле Object/library modules добавте библиотеки: itcgi.lib и Ws2_32.lib, как показано на рисунке ниже.
+<center>
+<img src="c12set.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/c12set.jpg">
+</center>
+
+В файл StdAfx.h после строки
+<pre>
+#include &lt;afxdtctl.h&gt;             // MFC support for Internet Explorer 4 Common Controls
+</pre>
+добавьте строчку
+<pre>
+#include &lt;afxdb.h&gt;                        // MFC ODBC database classes
+</pre>
+
+Теперь переходим к редактированию функции _tmain. Слева на панели проекта разверните 
+содержимое папки Globals и дважды щелкните на функцию _tmain.
+<center>
+<img src="c12tmain.jpg" tppabs="http://alice.stup.ac.ru/~dvn/uproc/books/site_tarasov/images/c12tmain.jpg">
+</center>
+
+Подключите библиотеку itcgi.h и отредактируйте функцию _tmain следующим образом.
+
+<pre>
+/////////////////////////////////////////////////////////////////////////////
+// The one and only application object
+
+#include &lt;itcgi.h&gt;
+CWinApp theApp;
+
+using namespace std;
+
+int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
+{
+//Если не удается подключить библиотеку MFC, то завершаем работу
+ if (!AfxWinInit(::GetModuleHandle(NULL), NULL, ::GetCommandLine(), 0))
+ return -1;
+
+
+CDatabase  db;        //объект db для связи с базой данных
+CString dsn, query;   // dsn нашей базы данных и SQL-запрос
+
+
+
+//dsn получаем из HTML-формы, см. выше 
+// HTML-код -  &lt;input type="hidden" name="dsn" value="gb"&gt;
+GetParamByName("dsn", dsn);
+
+//формируем строку SQL-запроса
+query="INSERT INTO message(name,email,http,subj,it_text,smile,it_date,ip)\
+           VALUES ('%s', '%s', '%s', '%s', '%s','%s', NOW(), '##ip##')";
+
+
+//Заменяем %s на значения соответствующих параметров, полученных 
+//из HTML-формы.
+//Обратите внимание, что поля в SQL-запросе и 
+//параметры в HTML-форме
+//следуют в одинаковом порядке.
+//Единичка означает, что заменять поля надо, начиная 
+//со второго параметра 
+//HTML-формы. Если бы вместо 1 стоял бы 0, то первый %s 
+//заменился бы не на 
+//значение параметра name, а на значение параметра dsn. 
+//Параметры у нас нумеруются
+//с нуля, как это принято в языке Си.
+GetFullSQLQuery(query, 1);
+
+
+//Последним параметром у нас идет IP адрес, с которого
+//пользователь зашел на наш сайт. Этот параметр мы получаем во время
+//выполнения нашего CGI-скрипта. Обратите внимание на прием, которым
+//мы воспользовались для вставки одной строки в другую, далее этот
+//прием будет очень часто применяться при работе со строками.
+query.Replace("##ip##", getenv("REMOTE_ADDR"));
+
+
+
+//соединяемся с базой данных
+//в случае ошибки переходим на метку LABEL_END см. ниже
+try
+{
+ db.OpenEx("DSN="+dsn, CDatabase::noOdbcDialog);
+}
+catch(CDBException* e) 
+{
+ //Если не удалось соединится с базой, выдаем сообщение
+ //об ошибке и выходим.
+ printError("Внимание! Ошибка!!!", "Error: %s\nState: %s\n", 
+                 e-&gt;m_strError, e-&gt;m_strStateNativeOrigin);
+ goto LABEL_END;
+}
+
+
+
+//выполняем SQL-запрос
+try
+{
+ db.ExecuteSQL(query);
+}
+catch(CDBException* e)
+{
+ //Если не удалось выполнить SQL-запрос, выдаем сообщение
+ //об ошибке и выходим.
+ printError("Внимание! Ошибка!!!", "%s\n%s\nquery=%s", 
+                 e-&gt;m_strError, e-&gt;m_strStateNativeOrigin, query);
+ goto LABEL_END;
+}
+
+
+//Выдаем HTTP-заголовок и возвращаем пользователя обратно
+//в гостевую книгу.
+printf("Location: %s\n\n",getenv("HTTP_REFERER"));
+
+
+//Если во время выполнения скрипта произойдет ошибка,
+//то будет напечатано сообщение при помощи функции printError
+//и программа завершит свою работу.
+LABEL_END:
+if (db.IsOpen())
+         db.Close();
+return 0;
+}
+</pre>
+
+<p align=justify>
+Соберите этот проект, кнопка F7. Затем скопируйте файл gbadd.exe из директории
+Release данного проекта в директорию /cgi-bin вашего веб-сайта. Вышеприведенную 
+HTML-форму, как вы помните, мы сохранили в файле index.html в директории gb вашего 
+веб-сайта. В броузере откройте страницу гостевой книги http://yoursite.ru/gb/index.html. 
+Заполните поля ввода и нажмите кнопку "Опубликовать". Сообщение будет добавлено в базу
+данных. Можете открыть в MS Access созданную вами базу данных и убедится, что сообщения добавляются.
+
+
+
+</table>
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+  <tr> 
+    <td align="left" rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?7829  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?7829'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?7829" target=_top>
+    <img src="itsoft-7829" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?7829" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    <td align="center">
+
+<script language="JavaScript">js=10;</script><script language="JavaScript1.1">
+js=11;</script><script language="JavaScript1.2">js=12</script>
+<script language="JavaScript1.3">js=13;</script>
+
+<script language="JavaScript">
+d=document;n=navigator;s=screen;d.cookie="testparam=testvalue";
+d.write('<img width=1 height=1 src="http://itsoft.ru/common/counter?id=1' +
+'&r='+escape(d.referrer)+
+'&n='+escape(n.appName)+
+'&v='+escape(navigator.appVersion)+
+'&c='+(d.cookie?"1":"0")+
+'&f='+((self!=top)?"1":"0")+
+'&j='+(n.javaEnabled()?"1":"0")+
+'&x='+s.width+
+'&y='+s.height+
+'&d='+(s.colorDepth?s.colorDepth:s.pixelDepth)+
+'&js='+js+
+'&o='+n.platform+'&'+Math.random()+'">');
+</script>
+
+
+<!--TopList COUNTER--> 
+      <script language="JavaScript" type="text/javascript"><!--
+d=document;js=10;a='';a+=';r='+escape(d.referrer)
+//--></script>
+      <script language="JavaScript1.1" type="text/javascript"><!--
+js=11;a+=';j='+navigator.javaEnabled()
+//--></script>
+      <script language="JavaScript1.2" type="text/javascript"><!--
+js=12;s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+//--></script>
+      <script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script>
+      <script language="JavaScript" type="text/javascript"><!--
+d.write('<img src="http://top.list.ru/counter'+
+'?id=50234;js='+js+a+'" alt="" height=1 width=1>')
+if(js>11)d.write('<'+'!-- ')//--></script>
+      <noscript><img
+src="counter-js=na;id=50234" tppabs="http://top.list.ru/counter?js=na;id=50234"
+height=1 width=1 alt=""></noscript> 
+      <script language="JavaScript" type="text/javascript"><!--
+if(js>11)d.write('--'+'>')
+//--></script>
+      <!--TopList COUNTER-->
+
+</td>
+<td align="right"  rowspan="2" valign=bottom>
+    <a href="javascript:if(confirm('http://rb2.design.ru/cgi-bin/href/itsoft?7829  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb2.design.ru/cgi-bin/href/itsoft?7829'" tppabs="http://rb2.design.ru/cgi-bin/href/itsoft?7829" target=_top>
+    <img src="itsoft-7829" tppabs="http://rb2.design.ru/cgi-bin/banner/itsoft?7829" width=100 height=100 border=0 alt="RB2 Network.">
+    </a>
+    
+</td>
+  </tr>
+<tr><td align="center" style="font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif;">
+<iframe src="itsoft-7829-1" tppabs="http://rb1.rotabanner.com/cgi-bin/iframe/itsoft?7829"
+ width=468 height=60 marginwidth=0 marginheight=0 scrolling=no 
+ frameborder=0><a href="javascript:if(confirm('http://rb1.rotabanner.com/cgi-bin/href/itsoft?7829  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://rb1.rotabanner.com/cgi-bin/href/itsoft?7829'" tppabs="http://rb1.rotabanner.com/cgi-bin/href/itsoft?7829" 
+ target=_top><img src="itsoft-7829-2" tppabs="http://rb1.rotabanner.com/cgi-bin/banner/itsoft?7829" 
+ alt="RB1" width=468 height=60 border=0 ismap></a></iframe>
+
+</body>
+</html>

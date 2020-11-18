@@ -1,0 +1,140 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Shockwave Flash</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="shmop-write.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="swf-actiongeturl.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.swf"></A>XCIV. Функции Shockwave Flash</h1><A NAME="AEN74144"></A>
+<P>PHP предлагает возможность создания файлов Shockwave Flash с помощью модуля libswf, 
+автор Paul Haeberli.  Вы можете загрузить libswf с <A HREF="ftp://ftp.sgi.com/sgi/graphics/grafica/flash" TARGET="_top">ftp://ftp.sgi.com/sgi/graphics/grafica/flash</A>.
+Если у вас есть libswf, то всё, что вам нужно, это сконфигурировать <TT>--with-swf[=DIR]</TT>, где DIR это местонахождение include и lib-директорий. Директория include 
+должна содержать файл swf.h, а директория lib должна содержать файл libswf.a. Если 
+вы распаковали дистрибутив libswf, эти два файла должны находиться в одной 
+директории. Соответственно, вы должны скопировать их вручную в соответствующие места.</P>
+<P>После того как вы успешно установили PHP с поддержкой Shockwave Flash, вы 
+можете создавать Shockwave-файлы из PHP.
+Вы будете удивлены, но для этого понадобится сделать всего лишь:<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN74149"></A><h5>Пример 1. SWF</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;?php
+swf_openfile ("test.swf", 256, 256, 30, 1, 1, 1);
+swf_ortho2 (-100, 100, -100, 100);
+swf_defineline (1, -70, 0, 70, 0, .2);
+swf_definerect (4, 60, -10, 70, 0, 0);
+swf_definerect (5, -60, 0, -70, 10, 0);
+swf_addcolor (0, 0, 0, 0);
+
+swf_definefont (10, "Mod");
+swf_fontsize (5);
+swf_fontslant (10);
+swf_definetext (11, "Это Flash в PHP!", 1);
+
+swf_pushmatrix ();
+swf_translate (-50, 80, 0);
+swf_placeobject (11, 60);
+swf_popmatrix ();
+
+for ($i = 0; $i &#60; 30; $i++) {
+    $p = $i/(30-1);
+    swf_pushmatrix ();
+    swf_scale (1-($p*.9), 1, 1);
+    swf_rotate (60*$p,  'z');
+    swf_translate (20+20*$p, $p/1.5, 0);
+    swf_rotate (270*$p,  'z');
+    swf_addcolor ($p, 0, $p/1.2, -$p);
+    swf_placeobject (1, 50);
+    swf_placeobject (4, 50);
+    swf_placeobject (5, 50);
+    swf_popmatrix ();
+    swf_showframe ();
+}
+
+for ($i = 0; $i &#60; 30; $i++) {
+    swf_removeobject (50);
+    if (($i%4) == 0) {
+        swf_showframe ();
+    }
+}
+
+swf_startdoaction ();
+swf_actionstop ();
+swf_enddoaction ();
+
+swf_closefile ();
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+  поддержка SWF была введена в PHP 4 RC2.</P><P>libswf не поддерживает Windows. Разработка этой библиотеки остановлена, и
+исходный код недоступен для переноса на другие системы.</P>
+<P>Более современная поддержка SWF дана в функциях
+<A HREF="ref.ming.html">MING</A>.</P></BLOCKQUOTE><DL><DT><B>Содержание</B></DT>
+<DT><A HREF="swf-actiongeturl.html">swf_actiongeturl</A> - получает URL из Shockwave Flash-клипа</DT>
+<DT><A HREF="swf-actiongotoframe.html">swf_actiongotoframe</A> - проигрывает кадр и останавливается</DT>
+<DT><A HREF="swf-actiongotolabel.html">swf_actiongotolabel</A> - отображает кадр со специфицированной меткой</DT>
+<DT><A HREF="swf-actionnextframe.html">swf_actionnextframe</A> - переходит на один кадр вперёд</DT>
+<DT><A HREF="swf-actionplay.html">swf_actionplay</A> - стартует проигрывание flash-клипа, начиная с текущего кадра</DT>
+<DT><A HREF="swf-actionprevframe.html">swf_actionprevframe</A> - переходит на один кадр назад</DT>
+<DT><A HREF="swf-actionsettarget.html">swf_actionsettarget</A> - устанавливает контекст акций</DT>
+<DT><A HREF="swf-actionstop.html">swf_actionstop</A> - останавливает проигрывание flash-клипа, начиная с текущего кадра</DT>
+<DT><A HREF="swf-actiontogglequality.html">swf_actiontogglequality</A> - переключает высокое/низкое качество</DT>
+<DT><A HREF="swf-actionwaitforframe.html">swf_actionwaitforframe</A> - пропускает акции, если кадр не загружен</DT>
+<DT><A HREF="swf-addbuttonrecord.html">swf_addbuttonrecord</A> - управляет размещением , видом и активной областью текущей кнопки</DT>
+<DT><A HREF="swf-addcolor.html">swf_addcolor</A> - устанавливает специфицированное rgba-значение глобального цвета дополнения</DT>
+<DT><A HREF="swf-closefile.html">swf_closefile</A> - закрывает текущий Shockwave Flash-файл</DT>
+<DT><A HREF="swf-definebitmap.html">swf_definebitmap</A> - определяет растр</DT>
+<DT><A HREF="swf-definefont.html">swf_definefont</A> - определяет шрифт</DT>
+<DT><A HREF="swf-defineline.html">swf_defineline</A> - определяет линию</DT>
+<DT><A HREF="swf-definepoly.html">swf_definepoly</A> - определяет многоугольник</DT>
+<DT><A HREF="swf-definerect.html">swf_definerect</A> - определяет прямоугольник</DT>
+<DT><A HREF="swf-definetext.html">swf_definetext</A> - определяет текстовую строку</DT>
+<DT><A HREF="swf-endbutton.html">swf_endbutton</A> - заканчивает определение текущей кнопки</DT>
+<DT><A HREF="swf-enddoaction.html">swf_enddoaction</A> - заканчивает ткущую акцию</DT>
+<DT><A HREF="swf-endshape.html">swf_endshape</A> - завершает определение текущей фигуры</DT>
+<DT><A HREF="swf-endsymbol.html">swf_endsymbol</A> - заканчивает определение символа</DT>
+<DT><A HREF="swf-fontsize.html">swf_fontsize</A> - изменяет размер шрифта</DT>
+<DT><A HREF="swf-fontslant.html">swf_fontslant</A> - устанавливает наклон шрифта</DT>
+<DT><A HREF="swf-fonttracking.html">swf_fonttracking</A> - устанавливает трэкинг текущего шрифта</DT>
+<DT><A HREF="swf-getbitmapinfo.html">swf_getbitmapinfo</A> - получает информацию о растре</DT>
+<DT><A HREF="swf-getfontinfo.html">swf_getfontinfo</A> - высота в пикселах заглавной А и х в нижнем регистре</DT>
+<DT><A HREF="swf-getframe.html">swf_getframe</A> - получает номер текущего кадра</DT>
+<DT><A HREF="swf-labelframe.html">swf_labelframe</A> - помечает текущий кадр</DT>
+<DT><A HREF="swf-lookat.html">swf_lookat</A> - определяет визуальную трансформацию</DT>
+<DT><A HREF="swf-modifyobject.html">swf_modifyobject</A> - модифицирует объект</DT>
+<DT><A HREF="swf-mulcolor.html">swf_mulcolor</A> - устанавливает специфицированное rgba-значение глобального цвета умножения</DT>
+<DT><A HREF="swf-nextid.html">swf_nextid</A> - возвращает id следующего свободного объекта</DT>
+<DT><A HREF="swf-oncondition.html">swf_oncondition</A> - описывает переход, используемый для переключения списка акций</DT>
+<DT><A HREF="swf-openfile.html">swf_openfile</A> - открывает новый Shockwave Flash-файл</DT>
+<DT><A HREF="swf-ortho2.html">swf_ortho2</A> - определяет 2D орфографическое отображение координат пользователя в текущий порт просмотра</DT>
+<DT><A HREF="swf-ortho.html">swf_ortho</A> - определяет орфографическое отображение координат пользователя в текущий порт просмотра</DT>
+<DT><A HREF="swf-perspective.html">swf_perspective</A> - определяет трансформацию проекции перспективы</DT>
+<DT><A HREF="swf-placeobject.html">swf_placeobject</A> - помещает объект на экран</DT>
+<DT><A HREF="swf-polarview.html">swf_polarview</A> - определяет позицию зрителя полярными координатами</DT>
+<DT><A HREF="swf-popmatrix.html">swf_popmatrix</A> - восстанавливает матрицу предыдущей трансформации</DT>
+<DT><A HREF="swf-posround.html">swf_posround</A> - включает или отключает округление трансляции, когда объекты перемещаются или размещаются</DT>
+<DT><A HREF="swf-pushmatrix.html">swf_pushmatrix</A> - проталкивает матрицу текущей трансформации обратно в стэк</DT>
+<DT><A HREF="swf-removeobject.html">swf_removeobject</A> - удаляет объект</DT>
+<DT><A HREF="swf-rotate.html">swf_rotate</A> - поворачивает текущую трансформацию</DT>
+<DT><A HREF="swf-scale.html">swf_scale</A> - масштабирует текущую трансформацию</DT>
+<DT><A HREF="swf-setfont.html">swf_setfont</A> - изменяет текущий шрифт</DT>
+<DT><A HREF="swf-setframe.html">swf_setframe</A> - переключает на специфицированный кадр</DT>
+<DT><A HREF="swf-shapearc.html">swf_shapearc</A> - рисует дугу окружности</DT>
+<DT><A HREF="swf-shapecurveto3.html">swf_shapecurveto3</A> - рисует кубическую кривую Безье <i>(извиняйте, если что не так ... Прим. перев.)</i></DT>
+<DT><A HREF="swf-shapecurveto.html">swf_shapecurveto</A> - рисует квадратную кривую Безье между двумя точками</DT>
+<DT><A HREF="swf-shapefillbitmapclip.html">swf_shapefillbitmapclip</A> - устанавливает текущий режим заполнения - clipped bitmap</DT>
+<DT><A HREF="swf-shapefillbitmaptile.html">swf_shapefillbitmaptile</A> - устанавливает текущий режим заполнения - tiled bitmap</DT>
+<DT><A HREF="swf-shapefilloff.html">swf_shapefilloff</A> - отключает заполнение</DT>
+<DT><A HREF="swf-shapefillsolid.html">swf_shapefillsolid</A> - устанавливает текущий стиль заполнения специфицированным цветом</DT>
+<DT><A HREF="swf-shapelinesolid.html">swf_shapelinesolid</A> - устанавливает стиль текущей линии</DT>
+<DT><A HREF="swf-shapelineto.html">swf_shapelineto</A> - рисует линию</DT>
+<DT><A HREF="swf-shapemoveto.html">swf_shapemoveto</A> - перемещает текущую позицию</DT>
+<DT><A HREF="swf-showframe.html">swf_showframe</A> - отображает текущий кадр</DT>
+<DT><A HREF="swf-startbutton.html">swf_startbutton</A> - стартует определение кнопки</DT>
+<DT><A HREF="swf-startdoaction.html">swf_startdoaction</A> - стартует описание списка акций текущего кадра</DT>
+<DT><A HREF="swf-startshape.html">swf_startshape</A> - стартует сложную фигуру</DT>
+<DT><A HREF="swf-startsymbol.html">swf_startsymbol</A> - определяет символ</DT>
+<DT><A HREF="swf-textwidth.html">swf_textwidth</A> - получает ширину строки</DT>
+<DT><A HREF="swf-translate.html">swf_translate</A> - транслирует текущие трансформации</DT>
+<DT><A HREF="swf-viewport.html">swf_viewport</A> - выбирает область для последующего рисования</DT>
+</DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD><IMG SRC="../imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="shmop-write.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="swf-actiongeturl.html">Вперёд</A></TD></TR>
+<TR><TD WIDTH="33%" VALIGN="top">shmop_write</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">swf_actiongeturl</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

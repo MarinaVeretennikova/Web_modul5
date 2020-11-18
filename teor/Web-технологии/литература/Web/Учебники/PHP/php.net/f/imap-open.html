@@ -1,0 +1,66 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>imap_open</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="imap-num-recent.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="imap-ping.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.imap-open">imap_open</A></H1><A NAME="AEN35287"></A><P>(PHP 3, PHP 4)</P>
+<p>imap_open - открывает IMAP-поток в mailbox.<A NAME="AEN35290"></A></p><H2>Описание</H2><p>int <B>imap_open</B> (string mailbox, string username, string password [, int flags])</p>
+<P>Возвращает IMAP-поток при успехе и <TT><B>FALSE</B></TT> при ошибке. Эта функция может использоваться также для открытия потоков к POP3
+и NNTP серверам, но некоторые функции и их возможности доступны только на IMAP-серверах.</P>
+<P>Имя mailbox'а состоит из серверной части и пути mailbox'а на этом сервере. Специальное имя INBOX предназначено для персонального mailbox'а текущего 
+пользователя. Серверная часть, заключённая в '{' и '}', состоит из имени сервера или ip-адреса, необязательного номера порта
+(с префиксом ':') и необязательной спецификации протокола (с префиксом '/'). Серверная часть является обязательной во всех параметрах mailbox'а. Имена 
+почтовых ящиков, содержащие интернациональные символы за пределами печатаемых ASCII, должны быть кодированы с помощью
+<A HREF="imap-utf7-encode.html"><B>imap_utf7_encode()</B></A>.</P><P>Опции это битовая маска с одним или более значений:
+<UL><LI><P>OP_READONLY - открывть mailbox только для чтения</P></LI>
+<LI><P>OP_ANONYMOUS - не использовать или не обновлять <TT>.newsrc</TT> на новый (только в NNTP)</P></LI>
+<LI><P>OP_HALFOPEN - для имён IMAP и NNTP, открывает соединение, но не открывает mailbox</P></LI>
+<LI><P>CL_EXPUNGE - очищает mailbox автоматически после его закрытия</P></LI></UL>
+<P>Для соединения с IMAP-сервером, запущенным на порту 143 на локальной машине, сделайте так:
+<A NAME="AEN35323"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$mbox = imap_open ("{localhost:143}INBOX", "user_id", "password");</PRE></TD></TR></TABLE>
+<p>Для соединения с POP3-сервером на порту 110 а локальном сервере используйте:<A NAME="AEN35325"></A></p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$mbox = imap_open ("{localhost:110/pop3}INBOX", "user_id", "password");</PRE></TD></TR>
+</TABLE><p>Для соединения с SSL IMAP или POP3-сервером добавьте /ssl после спецификации протокола:
+<A NAME="AEN35327"></A></p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$mbox = imap_open ("{localhost:993/imap/ssl}INBOX", "user_id", "password");</PRE></TD></TR></TABLE>
+<p>Для соединения с SSL IMAP или POP3-сервером с self-signed сертификатом добавьте<br>
+/ssl/novalidate-cert после спецификации протокола:<A NAME="AEN35329"></A></p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$mbox = imap_open ("{localhost:995/pop3/ssl/novalidate-cert}", "user_id", "password");</PRE></TD></TR></TABLE>
+<p>Для соединения с NNTP-сервером на порту 119 на локальном сервере используйте:<A NAME="AEN35331"></A></p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$nntp = imap_open ("{localhost:119/nntp}comp.test", "", "");</PRE></TD></TR></TABLE>
+<p>Для соединения с удалённым сервером замените "localhost" на имя или IP-адрес сервера, с которым вы хотите соединиться.</p>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN35334"></A><h5>Пример 1. imap_open()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>$mbox = imap_open ("{your.imap.host:143}", "username", "password");
+
+echo "&#60;p&#62;&#60;h1&#62;Mailboxes&#60;/h1&#62;\n";
+$folders = imap_listmailbox ($mbox, "{your.imap.host:143}", "*");
+
+if ($folders == false) {
+    echo "Call failed&#60;br&#62;\n";
+} else {
+    while (list ($key, $val) = each ($folders)) {
+        echo $val."&#60;br&#62;\n";
+    }
+}
+
+echo "&#60;p&#62;&#60;h1&#62;Headers in INBOX&#60;/h1&#62;\n";
+$headers = imap_headers ($mbox);
+
+if ($headers == false) {
+    echo "Call failed&#60;br&#62;\n";
+} else {
+    while (list ($key,$val) = each ($headers)) {
+        echo $val."&#60;br&#62;\n";
+    }
+}
+
+imap_close($mbox);</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="imap-num-recent.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="imap-ping.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">imap_num_recent</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.imap.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">imap_ping</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

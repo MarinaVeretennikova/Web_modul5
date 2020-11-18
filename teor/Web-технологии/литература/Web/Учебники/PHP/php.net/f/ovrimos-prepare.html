@@ -1,0 +1,38 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>ovrimos_prepare</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="ovrimos-num-rows.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="ovrimos-result-all.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.ovrimos-prepare">ovrimos_prepare</A></H1><A NAME="AEN60668"></A><P>(PHP 4 &#62;= 4.0.3)</P>
+<p>ovrimos_prepare - готовит оператор SQL.<A NAME="AEN60671"></A></p><H2>Описание</H2><p>int <B>ovrimos_prepare</B> (int connection_id, string query)</p>
+<P><B>ovrimos_prepare()</B> подготавливает оператор SQL и возвращает result_id (или <TT><B>FALSE</B></TT> при неудаче).</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN60688"></A><h5>Пример 1. Соединение с Ovrimos SQL Server и подготовка оператора</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+$conn=ovrimos_connect ("db_host", "8001", "admin", "password");
+if ($conn!=0) {
+    echo "Connection ok!";
+    $res=ovrimos_prepare ($conn, "select table_id, table_name 
+                                  from sys.tables where table_id=1");
+    if ($res != 0) {
+        echo "Prepare ok!";
+        if (ovrimos_execute ($res)) {
+            echo "Execute ok!\n";
+            ovrimos_result_all ($res);
+        } else {
+            echo "Execute not ok!";
+        }
+        ovrimos_free_result ($res);
+    } else {
+        echo "Prepare not ok!\n";
+    }
+    ovrimos_close($conn);
+}
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<p>Этот пример соединяется с Ovrimos SQL Server, готовит оператор и 
+выполняет его.</TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="ovrimos-num-rows.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="ovrimos-result-all.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ovrimos_num_rows</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.ovrimos.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">ovrimos_result_all</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

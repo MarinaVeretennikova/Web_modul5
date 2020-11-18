@@ -1,0 +1,40 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>pcntl_waitpid</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="pcntl-signal.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="pcntl-wexitstatus.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="pcntl-waitpid">pcntl_waitpid</A></H1><A NAME="AEN68164"></A><P>(PHP 4 &#62;= 4.1.0)</P>
+<p>pcntl_waitpid - ожидает или возвращает статус разветвлённого потомка.<A NAME="AEN68167"></A></p>
+<H2>Описание</H2><p>int <B>pcntl_waitpid</B> (int pid, int status, int options)</p>
+<P>Функция <B>pcntl_waitpid()</B> задерживает выполнение текущего процесса, пока потомок
+<TT><I>pid</I></TT> не выполнит выход или пока не будет получен сигнал, акцией которого является 
+окончание текущего процесса или вызов обработки сигнала. Если потомок как запрошенный
+<TT><I>pid</I></TT> уже выполнил выход в момент вызова (так называемый "zombie"-процесс), функция возвращает
+немедленно. Любые системные ресурсы, используемые потомком, освобождаются. См. в вашей системной man-странице waitpid(2) специфические детали о работе waitpid 
+в вашей системе.</P><P><B>pcntl_waitpid()</B> возвращает process ID вышедшего потомка, -1 при ошибке или нуль, если была 
+использована WNOHANG и нет доступного потомка.</P><P>Значением <TT><I>pid</I></TT> может быть:<A NAME="AEN68189"></A>
+<h6>Таблица 1. Возможные значения <TT><I>pid</I></TT></h6><TABLE BORDER="1"><TBODY><TR><TD><TT>&#60; -1</TT></TD>
+<TD>ожидать любой дочерний процесс, чей process group ID равен абсолютному значению <TT><I>pid</I></TT>.</TD></TR>
+<TR><TD><TT>-1</TT></TD><TD>ожидать любой дочерний процесс; то же поведение, что и у функции wait.</TD></TR>
+<TR><TD><TT>0</TT></TD><TD>ожидать любой дочерний процесс, чей process group ID равен аналогичному ID 
+вызывающего процесса.</TD></TR><TR><TD><TT>&#62; 0</TT></TD><TD>ожидать любой дочерний процесс, чей process ID равен значению
+<TT><I>pid</I></TT>.</TD></TR></TBODY></TABLE><P><B>pcntl_waitpid()</B> сохранит информацию статуса в параметре
+<TT><I>status</I></TT>, который может быть вычислен с использование следующих функций:
+<A HREF="pcntl-wifexited.html"><B>pcntl_wifexited()</B></A>, <A HREF="pcntl-wifstopped.html"><B>pcntl_wifstopped()</B></A>,
+<A HREF="pcntl-wifsignaled.html"><B>pcntl_wifsignaled()</B></A>, <A HREF="pcntl-wexitstatus.html"><B>pcntl_wexitstatus()</B></A>,
+<A HREF="pcntl-wtermsig.html"><B>pcntl_wtermsig()</B></A> и <A HREF="pcntl-wstopsig.html"><B>pcntl_wstopsig()</B></A>.</P>
+<P>Значением <TT><I>options</I></TT> является значение нуль или более следующих двух глобальных констант, которые
+<TT>OR</TT> друг с другом:<A NAME="AEN68224"></A><h6>Таблица 2. Возможные значения <TT><I>options</I></TT></h6>
+<TABLE BORDER="1"><TBODY><TR><TD><TT>WNOHANG</TT></TD><TD>возвращает немедленно, если ни один потомок не выполнил выход.</TD>
+</TR><TR><TD><TT>WUNTRACED</TT></TD><TD>возвращает для остановленных потомков, чей статус не сообщён.</TD></TR>
+</TBODY></TABLE><P>См. также <A HREF="pcntl-fork.html"><B>pcntl_fork()</B></A>,
+<A HREF="pcntl-signal.html"><B>pcntl_signal()</B></A>, <A HREF="pcntl-wifexited.html"><B>pcntl_wifexited()</B></A>,
+<A HREF="pcntl-wifstopped.html"><B>pcntl_wifstopped()</B></A>, <A HREF="pcntl-wifsignaled.html"><B>pcntl_wifsignaled()</B></A>,
+<A HREF="pcntl-wexitstatus.html"><B>pcntl_wexitstatus()</B></A>, <A HREF="pcntl-wtermsig.html"><B>pcntl_wtermsig()</B></A> и
+<A HREF="pcntl-wstopsig.html"><B>pcntl_wstopsig()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="pcntl-signal.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="pcntl-wexitstatus.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">pcntl_signal</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.pcntl.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">pcntl_wexitstatus</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

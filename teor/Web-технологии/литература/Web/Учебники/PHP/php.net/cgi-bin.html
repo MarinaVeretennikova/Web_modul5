@@ -1,0 +1,109 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>CGI-Двоичный</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3">
+<TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="security.html">Назад</A></TD><th WIDTH="80%">Глава 4. Безопасность</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="apache.module.html">Вперёд</A></TD></TR></TABLE>
+</TD></TR><TR BGCOLOR="#333366"><TD><IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR>
+</TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD>
+<TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%"><H1><A NAME="security.cgi-bin">CGI-двоичный</A></H1>
+<H2><a name="security.cgi-bin.attacks">Возможные атаки</a></H2>
+<P>Использование PHP как двоичного CGI это опция установки, когда, по некоторым соображениям, нет желания 
+интегрировать PHP как модуль в программу-сервер (такую как Apache) или когда PHP 
+будет использоваться с различными видами CGI-оболочек для создания для 
+скриптов безопасной среды chroot и setuid.  Такая инсталяция обычно  заключается в установке исполняемого файла PHP в директорию cgi-bin web-сервера.  CERT advisory
+<A HREF="http://www.cert.org/advisories/CA-96.11.interpreters_in_cgi_bin_dir.html" TARGET="_top">CA-96.11</A>
+рекомендует не помещать никакие интерпретаторы в директорию cgi-bin. Даже если исполняемый файл PHP
+используется как самостоятельный интерпретатор, PHP разработан таким 
+образом, чтобы предотвратить атаки при таком варианте установки:</P>
+<UL><LI><P>Доступ к системным файлам: <TT>http://my.host/cgi-bin/php?/etc/passwd</TT></P>
+<P>Информация запроса в url после знака вопроса (?)  передаётся 
+интерпретатору как аргументы командной строки CGI-интерфейсом.  Обычно 
+интерпретаторы открывают и выполняют файл, специфицированный как первый аргумент командной строки.</P>
+<P>При вызове как исполняемый CGI, PHP не выполняет аргументы командной строки.</P></LI>
+<LI><P>Доступ к любому web-документу на сервере: <TT>http://my.host/cgi-bin/php/secret/doc.html</TT></P>
+<P>Информация пути/path в url после имени PHP-экзешника, <TT>/secret/doc.html</TT>, используется по
+соглашению для специфицирования имени файла, открываемого и исполняемого  CGI
+-программой. Обычно некоторые директивы конфигурации web-сервера (Apache: Action) используются для перенаправления запросов  документа, например, <TT>http://my.host/secret/script.php</TT>,
+интерпретатору PHP.  При такой установке web-сервер сначала проверяет права доступа к директории
+<TT>/secret</TT>, а затем создаёт перенаправленный запрос <TT>http://my.host/cgi-bin/php/secret/script.php</TT>.<br>
+К сожалению, если запрос в оригинале задан в этой форме, проверка доступа  к файлу
+<TT>/secret/script.php</TT> web-сервером не выполняется, и он делает её только для файла
+<TT>/cgi-bin/php</TT>. Этим способом любой пользователь может получить доступ к <TT>/cgi-bin/php</TT>
+и к любому защищённому документу на web-сервере.</P>
+<P>В PHP опция конфигурации времени компиляции <A HREF="configure.html#install.configure.enable-force-cgi-redirect">--enable-force-cgi-redirect</A>
+и директивы времени выполнения <A HREF="configuration.html#ini.doc-root">doc_root</A>
+и <A HREF="configuration.html#ini.user-dir">user_dir</A> могут использоваться для предотвращения таких нападений, если дерево 
+документов сервера содержит директории с ограниченным доступом.  См. далее рассмотрение различных комбинаций.</P></LI></UL>
+<H2><a name="security.cgi-bin.default">Вариант 1: обслуживаются только public-файлы</a></H2>
+<P>Если на вашем сервере нет содержимого, доступ к которому ограничен паролем 
+или ip, то нет необходимости в применении этих опций конфигурации.<br>
+Если ваш web-сервер не разрешает выполнять перенаправление или если он не 
+имеет способа такого взаимодействия с исполняемым PHP, чтобы запрос был 
+безопасным, вы можете специфицировать опцию
+<A HREF="configure.html#install.configure.enable-force-cgi-redirect">--enable-force-cgi-redirect</A>
+для конфигурирования скрипта.  Вы также должны гарантировать, что ваши PHP-скрипты 
+не основываются на каком-либо другом способе вызова скриптов: ни на прямом
+<TT>http://my.host/cgi-bin/php/dir/script.php</TT>, ни на перенаправлении <TT>http://my.host/dir/script.php</TT>.</P>
+<P>Перенаправление может быть сконфигурировано в Apache через использование директив AddHandler и
+Action (см. ниже).</P><H2><a name="security.cgi-bin.force-redirect">Вариант 2: использование --enable-force-cgi-redirect</a></H2>
+<P>Эта опция времени компиляции предотвращает вызов PHP кем бы то ни было прямо в url, например,
+<TT>http://my.host/cgi-bin/php/secretdir/script.php</TT>.
+Вместо этого PHP будет  разбирать в этом режиме только в том случае, если пройдено правило перенаправления web-сервера.</P>
+<P>Обычно перенаправление в конфигурации Apache выполняется следующими директивами:</P>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>Action php-script /cgi-bin/php
+AddHandler php-script .php</PRE></TD></TR></TABLE>
+<P>Эта опция была проверена только на сервере Apache и основывается на 
+установке Apache нестандартной переменной окружения CGI <TT>REDIRECT_STATUS</TT> для перенаправленных запросов.
+Если ваш web-сервер не поддерживает способ сообщения того, является ли запрос 
+перенаправляемым или прямым, вы не можете использовать эту опцию и обязаны 
+использовать один из других вариантов запуска CGI-версии из указанных здесь.</P>
+<H2><a name="security.cgi-bin.doc-root">Вариант 3: установка doc_root или user_dir</a></H2>
+<P>Включение активного содержимого, такого как скрипты и исполняемые файлы, в директорию документов
+web-сервера считается небезопасным.  Если они, из-за какой-нибудь ошибки 
+конфигурации, не исполняются, а выводятся как обычные HTML-документы, это 
+может привести к потере интеллектуальной собственности или закрытой 
+информации вроде паролей.  Поэтому многие sysadmins предпочитают 
+устанавливать другую структуру директорий для скриптов, когда они доступны 
+только для PHP CGI и, следовательно, всегда интерпретируются и не выводятся как текст.</P>
+<P>Также, если невозможно гарантировать, что запросы не 
+перенаправляются, как указано в предыдущем разделе, необходимо установить doc_root 
+скриптов, которая отличается от web document root.</P>
+<P>Вы можете установить корневую директорию скриптов PHP директивой конфигурации
+<A HREF="configuration.html#ini.doc-root">doc_root</A> в <a href="configuration.html#configuration.file">файле конфигурации</a>
+или можете установить переменную окружения <TT>PHP_DOCUMENT_ROOT</TT>. Если она установлена, CGI-версия PHP всегда будет конструировать имя 
+открываемого файла с применением <TT><I>doc_root</I></TT> и информации пути к файлу из запроса, поэтому вы можете быть уверены, что 
+никакие скрипты не будут исполняться вне этой директории (за исключением <TT><I>user_dir</I></TT> ниже её).</P>
+<P>Другая используемая здесь опция - <A HREF="configuration.html#ini.user-dir">user_dir</A>.
+Когда user_dir не установлена/unset, единственное, что контролирует имя открываемого файла, это
+<TT><I>doc_root</I></TT>. Открытие url вроде<TT> http://my.host/~user/doc.php</TT> приводит к открытию не файла под home-директорией пользователя, а файла, 
+вызываемого <TT>~user/doc.php</TT> под doc_root (да, директории с именем, начинающимся с тильды [<TT>~</TT>]).</P>
+<P>Если user_dir установлена для, например, <TT>public_php</TT>, запрос вроде
+<TT>http://my.host/~user/doc.php</TT> откроет файл <TT>doc.php</TT> под директорией <TT>public_php</TT>
+ниже home-директории пользователя.  Если home пользователя это <TT>/home/user</TT>, выполняется файл
+<TT>/home/user/public_php/doc.php</TT>.</P>
+<P>Расширение <TT><I>user_dir</I></TT> происходит независимо от установки <TT><I>doc_root</I></TT>, поэтому
+вы можете контролировать доступ к директории document root и пользовательской директории независимо друг от друга.</P>
+<H2><a name="security.cgi-bin.shell">Вариант 4: разборщик PHP вне дерева web</a></H2>
+<P>Очень надёжной опцией является помещение исполняемого файла разборщика PHP 
+где-нибудь вне дерева файлов web. В <TT>/usr/local/bin</TT>, например. Единственным недостатком этой опции является то, что вы теперь 
+должны помещать строку вроде следующей:</p><A NAME="AEN3119"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>#!/usr/local/bin/php</PRE></TD></TR></TABLE>
+<p>как первую строку любого файла, содержащего тэги PHP.  Вы также должны 
+сделать файл исполняемым.  То есть рассматривать его так же, как любой 
+другой CGI-скрипт, написанный на Perl или sh или любом другом языке 
+скриптинга, который использует механизм замены <TT>#!</TT> оболочки для запуска самого себя.</p>
+<P>Чтобы PHP корректно обрабатывал информацию <TT>PATH_INFO</TT> и <TT>PATH_TRANSLATED</TT> при такой установке, разборщик РНР должен быть скомпилирован с опцией 
+конфигурации <A HREF="configure.html#install.configure.enable-discard-path">--enable-discard-path</A>.</P>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="security.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="apache.module.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">Безопасность</TD><th WIDTH="34%" VALIGN="top">
+<a href="security.html">Вверх</a></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">Apache-модуль</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

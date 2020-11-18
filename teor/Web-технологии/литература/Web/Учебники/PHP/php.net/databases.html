@@ -1,0 +1,124 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>Вопросы о БД</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="obtaining.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="installation.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="faq.databases">Глава 47. Вопросы о базах данных</A></H1>
+<P>В этом разделе рассматриваются общие вопросы взаимодействия
+PHP и БД. Да, PHP может получать доступ фактически к любой БД, известной на данный момент.</P><DL>
+<DT>1. <A HREF="#faq.databases.mssql">Я слышал, что можно получать доступ к Microsoft SQL Server из PHP. Как?</A>
+</DT><DT>2. <A HREF="#faq.databases.access">Можно ли получать доступ к БД Microsoft Access?</A></DT>
+<DT>3. <A HREF="#faq.databases.upgraded">Я обновил до PHP 4, а как теперь mysql будет сообщать мне
+&quot;Warning!: MySQL: Unable to save result set in ...&quot; ?</A></DT>
+<DT>4. <A HREF="#faq.databases.shared-mysql">После установки совместной/shared поддержки MySQL, Apache
+передаёт ядро в дамп, как только загружается libphp4.so. Можно ли это исправить?</A></DT>
+<DT>5. <A HREF="#faq.databases.mysqlresource">Почему я получаю ошибку, которая выглядит примерно так: &quot;Warning!: 0 is 
+not a MySQL result index in &lt;file&gt; on line &lt;x&gt;&quot; или &quot;Warning!: Supplied 
+argument is not a valid MySQL result resource in &lt;file&gt; on line &lt;x&gt;&quot;?</A></DT></DL>
+<B><P><A NAME="faq.databases.mssql"></A><B>1. </B>Я слышал, что можно получать доступ к Microsoft
+SQL Server из PHP. Как?</P></B><P>На машинах с Windows вы можете просто использовать имеющуюся
+поддержку ODBC и корректный ODBC-драйвер.</P>
+<P>На машинах Unix вы можете использовать драйвер Sybase-CT для доступа к Microsoft SQL-серверам, 
+поскольку они протокольно совместимы (во всяком случае - большей частью). Sybase создал 
+<A HREF="http://www.php.net/extra/ctlib-linux-elf.tar.gz" TARGET="_top">свободную версию необходимых
+библиотек для систем Linux</A>. Для других ОС Unix вы должны запросить у Sybase корректные библиотеки.
+См. также ответ на следующий вопрос.</P><B><P><A NAME="faq.databases.access"></A>
+<B>2. </B>Можно ли получать доступ к БД Microsoft Access?</P></B>
+<P>Да. У вас уже имеются все необходимые утилиты, если вы работаете под Windows 9x/Me 
+или NT/2000, где можно использовать ODBC и Microsoft ODBC драйверы для БД Microsoft Access.</P>
+<P>Если вы запускаете PHP в Unix-боксе и хотите сообщить MS Access в Windows-боксе, 
+вам понадобятся ODBC-драйверы для Unix. <A HREF="http://www.openlinksw.com/" TARGET="_top">OpenLink Software</A>
+имеет ODBC-драйверы для Unix, которые делают эту работу. Имеется свободная 
+пилотная программа, где вы можете загрузить пробную копию, которая не имеет 
+срока годности, а цены начинаются от $675 для коммерческой поддерживаемой версии.</P>
+<P>Другой вариант - использовать SQL-сервер, имеющий
+Windows ODBC-драйверы, для хранения данных, к которым вы можете получить 
+затем доступ из Microsoft Access (используя ODBC) и из PHP (с помощью встроенных 
+драйверов), или можно использовать промежуточный формат, который понимается и Access, 
+и PHP, такой как flat-файлы или БД dBase. Tim Hayes из OpenLink software пишет об этом:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>Использование другой БД в качестве посредника - плохая идея, если можно использовать
+      ODBC из PHP напрямую с вашей БД - т.е. через OpenLink-драйверы. Если вам
+      не нужно использовать файлы промежуточного формата, у OpenLink имеется
+      Virtuoso (машина виртуальных БД) для NT, Linux и других unix-платформ.
+      Посетите наш <A HREF="http://www.openlinksw.com/" TARGET="_top">website</A>, где можно бесплатно это загрузить.</PRE>
+</TD></TR></TABLE><P>Опцией, которая была успешно опробована, является использование MySQL и 
+его MyODBC-драйверов под Windows и синхронизация баз данных. Steve Lawrence пишет:</P>
+<ol><li>Установите MySQL на вашей платформе в соответствии с инструкциями к MySQL, 
+которые находятся на <A HREF="http://www.mysql.com/" TARGET="_top">www.mysql.com</A>. Никакого специального
+конфигурирования не требуется, за исключением случая, 
+когда вы устанавливаете БД и конфигурируете бюджет пользователя - тогда вы должны поместить % в поле host или имя хоста
+Windows-копьютера, доступ к которому вы хотите выполнять из MySQL. Запомните имя вашего сервера, username и password.</li>
+<li>Загрузите драйвер MyODBC для Windows с сайта MySQL. Последний релиз это myodbc-2_50_19-win95.zip (для NT 
+также имеется, как и исходный код). Установите его на вашей Windows-машине. Вы 
+можете протестировать эту операцию с помощью прилагаемой утилиты.</li>
+<li>Создайте пользовательский или системный dsn в ODBC administrator, 
+размещённом в control panel. Введите dsn-имя, имя вашего хоста, user name, password,
+port, etc для вашей БД MySQL, сконфигурированной на шаге 1.</li>
+<li>Произведите полную установку Access, это гарантирует, что у вас будут все необходимые
+add-ins ... как минимум, вам необходима поддержка ODBC и менеджер связанных таблиц/linked table manager.</li>
+<li>Создайте новую access-БД. В окне таблицы щёлкните правой кнопкой мыши и 
+выберите Link Tables, либо в меню file выберите Get External Data, а затем - Link Tables.
+Когда появится бокс поиска файлов, выберите тип файлов: ODBC.
+Выберите System dsn и имя вашего dsn, созданного на шаге 3.
+Выберите таблицу для привязки, нажмите OK. Теперь вы можете открыть 
+таблицу и добавлять/удалят/редактировать данные на вашем MySQL-сервере!
+Вы можете также создавать запросы/queries, таблицы импорта/экспорта в MySQL,<span lang="en-us">
+</span>создавать формы и отчёты etc.</li></ol>
+<P>Подсказки и замечания:<UL><LI><P>Вы можете создавать в Аccess таблицы и экспортировать их в MySQL, 
+затем привязать их обратно. Это ускорит создание таблиц.</P></LI>
+<LI><P>При создании таблиц в Аccess вы обязаны иметь определённый первичный ключ/primary
+key, чтобы иметь право доступа для записи в таблицы Аccess. Убедитесь, 
+что вы создали primary key в MySQL, прежде чем выполнять привязку к Аccess.</P></LI>
+<LI><P>Если вы изменяете таблицу в MySQL, вы должны повторно связать её с Access. 
+Перейдите в tools&#62;add-ins&#62;linked table manager,
+найдите ваше ODBC DSN и выберите таблицу для повторного связывания. Вы 
+можете также перемещать здесь исходник вашего dsn,
+просто щёлкните промпт always в переключателе new location, прежде чем нажать OK.</P></LI></UL>
+<B><P><A NAME="faq.databases.upgraded"></A><B>3. </B>Я обновил до PHP 4, а как теперь mysql будет сообщать мне &quot;Warning!: MySQL: 
+Unable to save result set in ...&quot; ?</P></B>
+<P>Вероятнее всего PHP 4 был скомпилирован с опцией '--with-mysql'
+без специфицирования пути к MySQL. Это означает, что PHP использует свою 
+встроенную клиентскую библиотеку MySQL. Если в вашей системе работают приложения,
+такие как PHP 3, конкурирующий Apache-модуль или auth-mysql, которые 
+используют другие версии MySQL-клиентов, тогда налицо конфликт между разными версиями этих клиентов.</P>
+<P>Рекомпиляция PHP 4 и добавление пути к MySQL
+'<A HREF="configure.html#install.configure.with-mysql">--with-mysql=/your/path/to/mysql</A>' 
+обычно решает эту проблему.</P><B><P><A NAME="faq.databases.shared-mysql"></A>
+<B>4. </B>После установки совместной/shared поддержки MySQL, Apache передаёт ядро в 
+дамп, как только загружается libphp4.so. Можно ли это исправить?</P></B>
+<P>Это может произойти, если ваши MySQL libs подключены относительно pthreads. 
+Проверьте использование ldd. Если это так, скачайте MySQL tar и скомпилируйте из исходника,
+либо рекомпилируйте из rpm и удалите в spec-файле переключатель, который 
+включает поточный клиентский код. Одно их этих должно помочь. Затем рекомпилируйте PHP с новыми MySQL libs.</P>
+<B><P><A NAME="faq.databases.mysqlresource"></A><B>5. </B>
+Почему я получаю ошибку, которая выглядит примерно так: &quot;Warning!: 0 is not 
+a MySQL result index in &lt;file&gt; on line &lt;x&gt;&quot; или &quot;Warning!: Supplied argument is 
+not a valid MySQL result resource in &lt;file&gt; on line &lt;x&gt;&quot;?</P></B>
+<P>Вы пытаетесь использовать result-идентификатор 0.<br>
+0 указывает, что ваш запрос не выполнен по каким-то причинам. Необходимо 
+проверить наличие ошибок после отправки запроса/query и перед попыткой 
+использования возвращённого result identifier.  Подходящий способ - сделать это кодом наподобие следующего:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>$result = mysql_query("SELECT * FROM tables_priv");
+if (!$result) {
+    echo mysql_error();
+    exit;
+}</PRE></TD></TR></TABLE><p>или</p><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>$result = mysql_query("SELECT * FROM tables_priv")
+    or die("Bad query: ".mysql_error());</PRE></TD></TR></TABLE>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="obtaining.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="installation.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">Получение PHP</TD><th WIDTH="34%" VALIGN="top"><a href="faq.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Инсталяция</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

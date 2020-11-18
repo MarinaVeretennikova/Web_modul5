@@ -1,0 +1,81 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Перегрузка Свойств Объектов и Вызовов Методов</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="f/ob-start.html">Назад</A></TD><TD WIDTH="80%">
+</TD><TD WIDTH="10%" ALIGN="right"><A HREF="f/overload.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.overload"></A>LXXV. Перегрузка/overloading свойств и вызовов методов 
+объектов</h1>
+<A NAME="overload.partintro"></A><TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>Это расширение является ЭКСПЕРИМЕНТАЛЬНЫМ. Поведение этого расширения, имена его функций и всё, что задокументировано, может измениться в последующих релизах РНР без предупреждения. Вы предупреждены и можете использовать это расширение только под вашу ответственность.</P>
+</TD></TR></TABLE><P>Это расширение предназначено для перегрузки доступа к свойствам объекта и 
+вызовов методов. В этом расширении определена только одна функция, <A HREF="f/overload.html">
+<B>overload()</B></A>, принимающая имя класса, в котором эта функциональность должна быть включена. 
+Указанный класс должен определять соответствующие методы, если &quot;хочет&quot; иметь 
+данную функциональность: <TT>__get()</TT>, <TT>__set()</TT> и <TT>__call()</TT>, соответственно, для получения /установки свойства или вызова метода.
+Этот способ перегрузки может быть избирательным. Внутри этих функций 
+обработчика перегрузка отключена, поэтому вы можете нормально получать доступ к свойствам объекта.</P>
+<P>Вот простые примеры использования функции <A HREF="f/overload.html"><B>overload()</B></A>:<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN61026"></A>
+  <h5>Пример 1. Перегрузка PHP-класса</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+class OO
+{
+    var $a = 111;
+    var $elem = array('b' =&#62; 9, 'c' =&#62; 42);
+
+    // Callback-метод для получения свойства
+    function __get($prop_name, &#38;$prop_value)
+    {
+        if (isset($this-&#62;elem[$prop_name])) {
+            $prop_value = $this-&#62;elem[$prop_name];
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // Callback-метод для установки свойства
+    function __set($prop_name, $prop_value)
+    {
+        $this-&#62;elem[$prop_name] = $prop_value;
+        return true;
+    }
+}
+
+// Здесь перегружаем объект OO
+overload('OO');
+
+$o = new OO;
+print "\$o-&#62;a: $o-&#62;a\n"; // print: $o-&#62;a:
+print "\$o-&#62;b: $o-&#62;b\n"; // print: $o-&#62;b: 9
+print "\$o-&#62;c: $o-&#62;c\n"; // print: $o-&#62;c: 42
+print "\$o-&#62;d: $o-&#62;d\n"; // print: $o-&#62;d:
+
+// добавляем новый элемент в массив $elem в OO
+$o-&#62;x = 56; 
+
+// инстанциируем stdclass (он встроен в PHP 4)
+// $val не перегружается!
+$val = new stdclass;
+$val-&#62;prop = 555;
+
+// Устанавливает "a" как массив с объектом $val в нём
+// но __set() поместит это в массив $elem
+$o-&#62;a = array($val);
+var_dump($o-&#62;a[0]-&#62;prop);
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE><br><TABLE CLASS="warning" BORDER="1" WIDTH="100%">
+<TR><th><B>Предупреждение!</B></th></TR><TR><TD>
+<P>Поскольку это экспериментальное расширение, не всё работает. Пока нет поддержки <TT>__call()</TT>, вы можете только перегружать get и set операции для свойств. Вы не можете 
+вызывать оригинальные обработчики перегрузки класса, и <TT>__set()</TT> работает только на один уровень доступа к свойствам.</P>
+</TD></TR></TABLE><DL><DT><B>Содержание</B></DT><DT><A HREF="f/overload.html">overload</A> - включает перегрузку свойств и вызовов методов класса</DT>
+</DL></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE  WIDTH="100%" CELLPADDING="3" BORDER="0"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="f/ob-start.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="f/overload.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">ob_start</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="f/funcref.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">overload</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

@@ -1,0 +1,48 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Загрузка Нескольких Файлов</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%">
+<TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="file-upload.common-pitfalls.html">Назад</A></TD>
+<th WIDTH="80%">Глава 19. Обработка загрузки файлов</th><TD WIDTH="10%" ALIGN="right">
+<A HREF="file-upload.put-method.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366">
+<TD><IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR>
+<TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="features.file-upload.multiple">Загрузка нескольких файлов</a></H1>
+<P>Несколько файлов можно загружать при использовании разных <TT>name</TT> в <TT>input</TT>.</P>
+<P>Можно также загружать одновременно несколько файлов и получать 
+автоматически упорядоченную в массивы информацию. Для этого вам необходимо использовать тот же самый синтаксис отправки массива в
+HTML-форме, как и с несколькими элементами select и checkbox:</P>
+<BLOCKQUOTE><P><B>Примечание: </B>поддержка загрузки нескольких файлов была введена в версии 3.0.10.</P></BLOCKQUOTE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+  <h5><A NAME="AEN5952"></A>
+  Пример 19-3. Загрузка нескольких файлов</h5>
+  <TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>&#60;form action="file-upload.php" method="post" enctype="multipart/form-data"&#62;
+  Send these files:&#60;br&#62;
+  &#60;input name="userfile[]" type="file"&#62;&#60;br&#62;
+  &#60;input name="userfile[]" type="file"&#62;&#60;br&#62;
+  &#60;input type="submit" value="Send files"&#62;
+&#60;/form&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Если такая форма отправлена, массивы <TT>$_FILES['userfile']</TT>, <TT>$_FILES['userfile']['name']</TT>
+и <TT>$_FILES['userfile']['size']</TT> будут инициализированы (так же как с $HTTP_POST_FILES для версий PHP ранее 4.1.0).
+Когда <TT>register_globals</TT> включена, инициализируются также глобалы для загружаемых файлов). Каждый из 
+них будет являться численно индексированным массивом соответствующих значений для отправляемых файлов.</P>
+<P>К примеру, предположим, что отправлены файлы с именами <TT>/home/test/review.html</TT> и
+<TT>/home/test/xwp.out</TT>. В этом случае <TT>$_FILES['userfile']['name'][0]</TT> будет содержать значение
+<TT>review.html</TT>, а <TT>$_FILES['userfile']['name'][1]</TT> - значение <TT>xwp.out</TT>.<br>
+Аналогично, <TT>$_FILES['userfile']['size'][0]</TT> будет содержать значение размера файла <TT>review.html</TT>,
+и так далее.</P><P><TT>$_FILES['userfile']['name'][0]</TT>, <TT>$_FILES['userfile']['tmp_name'][0]</TT>,
+<TT>$_FILES['userfile']['size'][0]</TT> и <TT>$_FILES['userfile']['type'][0]</TT> также устанавливаются.</P>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="101%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="file-upload.common-pitfalls.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th>
+  <td WIDTH="35%" VALIGN="top" ALIGN="right">
+<A HREF="file-upload.put-method.html">Вперёд</A></th></TR><TR><TD WIDTH="33%" VALIGN="top">
+Обычные ловушки</TD><th WIDTH="34%" VALIGN="top"><a href="file-upload.html">Вверх</a></th>
+<TD WIDTH="34%" ALIGN="right" VALIGN="top">Поддержка метода PUT</TD>
+<td VALIGN="top">&nbsp;</TD></TR></TABLE>
+</TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

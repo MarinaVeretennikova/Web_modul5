@@ -1,0 +1,776 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="ru">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Windows-1251">
+<title>Замечания о работе, реализации и разработке</title>
+<LINK rel="previous" href="changes.html" tppabs="http://www.citforum.ru/internet/html40/appendix/changes.html">
+<LINK rel="next" href="references.html" tppabs="http://www.citforum.ru/internet/html40/references.html">
+<LINK rel="contents" href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">
+<LINK rel="STYLESHEET" href="tppmsgs/msgs0.htm#18" tppabs="http://www.citforum.ru/internet/html40/style/default.css" type="text/css">
+</head>
+<body>
+<div class="navbar">
+<center>&nbsp;<a href="changes.html" tppabs="http://www.citforum.ru/internet/html40/appendix/changes.html">назад</a> &nbsp; <a href="references.html" tppabs="http://www.citforum.ru/internet/html40/references.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center><hr>
+</div>
+
+<H1 align="center"><a name="h-B">Приложение Б:</a> Замечания о работе, реализации и разработке</H1>
+<div class="subtoc"><p><strong>Содержание</strong>
+<ol>
+<li><a href="#h-B.1">Замечания о недопустимых документах</a>
+<li><a href="#h-B.2">Специальные символы в значениях атрибутов URI</a>
+<ol>
+<li><a href="#h-B.2.1">
+<span class="index-inst" title="URI::non-ASCII characters in attribute values">Символы, не входящие в набор ASCII, в значениях атрибутов URI</span></a>
+<li><a href="#h-B.2.2">Амперсанды в значениях атрибутов URI</a>
+</ol>
+<li><a href="#h-B.3">
+<span class="index-inst" title="SGML::implementation notes">
+Замечания по реализации SGML</span></a>
+<ol>
+<li><a href="#h-B.3.1"><span class="index-inst" title="SGML::treatment of line breaks">
+Разрывы строк</span></a>
+<li><a href="#h-B.3.2">
+<span class="index-inst" title="HTML::specifying data external to">Указание данных не в формате HTML</span></a>
+<ul>
+<li><a href="#h-B.3.2.1">Содержимое элемента</a>
+<li><a href="#h-B.3.2.2">Значения атрибутов</a>
+</ul>
+<li><a href="#h-B.3.3"><span class="index-inst" title="SGML::features with limited
+support">Возможности SGML с ограниченной поддержкой</span></a>
+<li><a href="#h-B.3.4">
+<span class="index-inst" title="boolean attribute|notes about
+minimized">Логические атрибуты</span></a>
+<li><a href="#h-B.3.5">Отмеченные разделы</a>
+<li><a href="#h-B.3.6">Инструкции по обработке</a>
+<li><a href="#h-B.3.7">Сокращенная разметка</a>
+</ol>
+<li><a href="#h-B.4">
+<span class="index-inst" title="search engine::helping">
+Замечания о содействии поисковым машинам в индексировании
+веб-сайта</span></a>
+<ol>
+<li><a href="#h-B.4.1">
+<span class="index-inst" title="search robot::helping">
+Поисковые роботы</span></a>
+<ul>
+<li><a href="#h-B.4.1.1">Файл robots.txt</a>
+<li><a href="#h-B.4.1.2">Роботы и элемент META</a>
+</ul>
+</ol>
+<li><a href="#h-B.5">Замечания о таблицах</a>
+<ol>
+<li><a href="#h-B.5.1">Логическое обоснование дизайна</a>
+<ul>
+<li><a href="#h-B.5.1.1">Динамическое переформатирование</a>
+<li><a href="#h-B.5.1.2">
+<span class="index-inst" title="table::incremental display notes">
+Последовательное представление</span></a>
+<li><a href="#h-B.5.1.3">Структура и представление</a>
+<li><a href="#h-B.5.1.4">Группы строк и столбцов</a>
+<li><a href="#h-B.5.1.5">Доступность</a>
+</ul>
+<li><a href="#h-B.5.2">
+<span class="index-inst" title="table::layout algorithms for">
+Алгоритмы рекомендуемой компоновки</span></a>
+<ul>
+<li><a href="#h-B.5.2.1">Алгоритм фиксированной компоновки</a>
+<li><a href="#h-B.5.2.2">Алгоритм автоматической компоновки</a>
+</ul>
+</ol>
+<li><a href="#h-B.6">
+<span class="index-inst" title="form::display notes">
+Замечания о формах</span></a>
+<ol>
+<li><a href="#h-B.6.1">Последовательное отображение</a>
+<li><a href="#h-B.6.2">Будущие проекты</a>
+</ol>
+<li><a href="#h-B.7">
+<span class="index-inst" title="script::implementation notes">
+Замечания о скриптах</span></a>
+<ol>
+<li><a href="#h-B.7.1">
+<span class="index-inst" title="script::reserved syntax for">
+Зарезервированный синтаксис для будущих макросов скриптов</span></a>
+<ul>
+<li><a href="#h-B.7.1.1">Практики макросов скриптов в настоящее время</a>
+</ul>
+</ol>
+<li><a href="#h-B.8">Замечания о фреймах</a>
+<li><a href="#h-B.9">Замечания о доступности</a>
+<li><a href="#h-B.10">
+<span class="index-inst" title="security::notes on|">
+Замечания о защите</span></a>
+<ol>
+<li><a href="#h-B.10.1">Вопросы защиты для форм</a>
+</ol>
+</ol>
+</div>
+<p>Следующие замечания являются информацтивными, а не нормативными. Несмотря на использование таких слов как "необходимо" и "следует", все требования данного раздела указаны в других частях спецификации.
+
+<h2><a name="h-B.1">B.1</a> <a name="notes-invalid-docs">Замечания о недопустимых документах</a></h2>
+
+<P>В данной спецификации не определяется, как соответствующие агенты пользователей должна обрабатывать общие <span class="index-def" title="error::handling by user agents|user agent::and error conditions"><a name="didx-error">ошибочные состояния,</a></span>
+включая поведение агентов пользователей в случае, когда они встречают элементы, атрибуты, значения атрибутов или объекты, не указанные в данном документе.
+
+<P>Однако с целью содействия экспериментам и совместимости между реализациями различных версий HTML рекомендуется следующее поведение:</P>
+
+<ul>
+<li>Если агент пользователя встречает неизвестный элемент, он должен попытаться представить его содержимое.
+<li>Если агент пользователя встречает неизвестный атрибут, он должен проигнорировать всю спецификацию атрибута (т.е. атрибут и его значение).
+<li>Если агент пользователя стречает неизвестное значение атрибута,
+он должен использовать значение по умолчанию.
+<li>Если агент пользователя встречает необъявленный объект, этот объект должен обрабатываться как символьные данные.
+</ul>
+
+<P>кроме того, агентам пользователей рекомендуется уведомлять пользователей о таких ошибках.
+
+<P>Поскольку агенты пользователей могут по-разному обрабатывать ошибочные состояния, авторы и пользователи не должны полагаться на определенное поведение в случае возникновения ошибки.
+
+<P>В спецификации HTML 2.0 (<a rel="biblioentry" href="references.html#ref-RFC1866" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC1866" class="informref">[RFC1866]</a>) замечено, что многие агенты пользователей HTML 2.0 предполагают, что документ, которые не начинается с объявления типа документа, относится к спецификации HTML 2.0.  Как показывает опыт, это некорректное предположение, данная спецификация не рекомендует такое поведение.
+
+<p>Из соображений совместимости авторы не должны "дополнять" HTML имеющимися механизмами SGML (например, расширяя DTD, добавляя новый набор определений комбинаций и т.д.).
+
+<h2><a name="h-B.2">B.2</a> Специальные символы в значениях атрибутов URI</h2>
+
+<h3><a name="h-B.2.1">B.2.1</a> 
+<span class="index-inst" title="URI::non-ASCII characters in attribute
+		    values"> <a name="non-ascii-chars">Символы, не входящие в набор ASCII, в значениях атрибутов URI</a></span></h3>
+
+<P>Хотя URI и не включают символы, не входящие в набор ASCII, (см. <a
+rel="biblioentry" href="references.html#ref-URI" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-URI"
+class="normref">[URI]</a>, раздел 2.1) авторы иногда указывают их в значениях атрибутоах, в которых должны указываться URI (например, в атрибуты, определенные как <a href="dtd.html#URI" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html#URI">%URI;</a> в <a href="dtd.html" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html">DTD</a>). Например, следующее значение атрибута <a href="links.html#adef-href" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-href" class="noxref"><samp class="ainst">href</samp></a> <strong>недопустимо</strong>:
+
+<PRE>
+&lt;A href="http://foo.org/H&aring;kon"&gt;...&lt;/A&gt;
+</PRE>
+
+<P>Для обработки символов, не входящих в набор ASCII, в таких случаях агентам пользователей рекомендуется:
+
+<ol>
+<li>Представлять каждый символ UTF-8 (см. <a rel="biblioentry" href="references.html#ref-RFC2044" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC2044" class="normref">[RFC2044]</a>) как один или несколько байт.
+<li>Выделять эти байты с помощью механизма выделения URI (т.е. путем преобразования каждого байта в %HH, где HH - шестнадцатеричная запись значения байта).
+</ol>
+ 
+<P>Эта процедура приводит к созданию синтаксически допустимого URI (в соответствии с <a rel="biblioentry" href="references.html#ref-RFC1738" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC1738" class="normref">[RFC1738]</a>, раздел 2.2 или <a rel="biblioentry" href="references.html#ref-RFC2141" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC2141" class="normref">[RFC2141]</a>, раздел 2), не зависящему от <a
+href="charset.html#doc-char-set" tppabs="http://www.citforum.ru/internet/html40/charset.html#doc-char-set">кодировки символов</a>, с использованием которой может быть закодирован документ HTML, в котором указан этот URI.
+
+<div class="note"><P> 
+<em><strong>Примечание.</strong> Более старые агенты пользователей обрабатывают URI в HTML тривиальным способом, исопльзуя байты <a
+href="charset.html#doc-char-set" tppabs="http://www.citforum.ru/internet/html40/charset.html#doc-char-set">кодировки символов</a>, в которой получен документ. Некоторые более старые документы HTML используют эту практику и при транскодировании поверждаются. Агенты пользователей, которым необходимо обрабатывать такие документа, при получении URI, содержащего не входящие в допустимый набор символы, должны сначала использовать приеобразование на базе UTF-8. Только если резултирующий URI не определяется, они должны пытатья построить URI на базе байтов <a href="charset.html#doc-char-set" tppabs="http://www.citforum.ru/internet/html40/charset.html#doc-char-set">кодировки символов</a>, в которой получен документ.
+</em>
+</div>
+ 
+<div class="note"><P> 
+<em>
+<span class="index-inst" title="anchor::non-ASCII characters in
+name"><a name="idx-anchor"><strong>Примечание.</strong></a></span> Такое жп преобразование на базе UTF-8 должно применяться и к значениям атрибута <a href="links.html#adef-name-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-name-A" class="noxref"><samp class="ainst-A">name</samp></a>
+элемента <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a>.
+</em>
+</div>
+
+<h3><a name="h-B.2.2">B.2.2</a> <a name="ampersands-in-uris">Амперсанды в значениях атрибутов URI</a></h3>
+
+<P>URI, построенный при <a href="forms.html#submit-format" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#submit-format">передаче формы</a>, может использоваться как ссылка типа якоря (например, атрибут <a href="links.html#adef-href" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#adef-href" class="noxref"><samp class="ainst">href</samp></a> для элемента <a href="links.html#edef-A" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-A" class="noxref"><samp class="einst">A</samp></a>).  К сожалению, использование символа "&amp;" для разделения полей формы влияет на его использование в значениях атрибутов SGML для разделения <a href="sgmltut.html#character-entities" tppabs="http://www.citforum.ru/internet/html40/intro/sgmltut.html#character-entities">ссылок на символы</a>. Например, чтобы использовать URI "http://host/?x=1&amp;y=2" как ссылку, его необходимо записать &lt;A
+href="http://host/?x=1&amp;#38;y=2"&gt; или &lt;A
+href="http://host/?x=1&amp;amp;y=2"&gt;.
+
+<P>Мы рекомендуем разработчикам серверов HTTP, и особенно разработчикам CGI, обеспечивать поддержку использования ";" вместо "&amp;", чтобы решить для атворов проблему выделения символов "&amp;" в такой манере.
+
+<h2><a name="h-B.3">B.3</a> 
+<span class="index-inst" title="SGML::implementation notes">
+<a name="sgml">Замечания по реализации SGML</a></span></h2>
+
+<h3><a name="h-B.3.1">B.3.1</a> <span class="index-inst" title="SGML::treatment of line breaks">
+<a name="notes-line-breaks">Разрывы строк</a></span></h3>
+
+<P>В SGML (см. <a rel="biblioentry" href="references.html#ref-ISO8879" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-ISO8879" class="normref">[ISO8879]</a>, раздел 7.6.1) указано, что разрыв строки, непосредственно следующий за начальным тегом, должен игнорироваться, как и разрыв строки непосредственно перед конечным тегом.  Это применяется ко всем элементам HTML без исключения.
+
+<P>Следующие два примера кода HTML должны представляться одинаково:
+
+<DIV class="example">
+<PRE>
+&lt;P&gt;Паша смотрит телевизор.&lt;/P&gt;
+</PRE>
+
+<PRE>
+&lt;P&gt;
+Паша смотрит телевизор.
+&lt;/P&gt;
+</PRE>
+</DIV>
+
+<p>Также одинаково должны представляться следующие два примера:
+
+<DIV class="example">
+<PRE>
+&lt;A&gt;Мой любимый сайт&lt;/A&gt;
+</PRE>
+
+<PRE>
+&lt;A&gt;
+Мой любимый сайт
+&lt;/A&gt;
+</PRE>
+</DIV>
+
+<h3><a name="h-B.3.2">B.3.2</a> 
+<span class="index-inst" title="HTML::specifying data external to"> <a name="notes-specifying-data">Указание данных не в формате HTML</a></span></h3>
+
+<P>Данные <a href="scripts.html" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html">скрипта</a> и <a
+href="styles.html" tppabs="http://www.citforum.ru/internet/html40/present/styles.html">стиля</a> могут присутствовать как содержимео элемента или значение атрибута.  В следующих разделах описано разграничение между разметкой HTML и другими данными.
+
+<div class="note"><P> <em><strong>Примечание.</strong> В <a
+href="dtd.html" tppabs="http://www.citforum.ru/internet/html40/sgml/dtd.html">DTD</a> данные скрипта и стиля определяются как CDATA и для содержимого элемента, и для значений атрибутов.  Парвила SGML не допускают <a href="charset.html#entities" tppabs="http://www.citforum.ru/internet/html40/charset.html#entities">ссылок на символы</a> в содержимом элементов CDATA, но допускают их в значениях атрибутов CDATA. Авторам следует обращать особенное внимание при вырезании и вставке данных скриптов и стилей из содержимого элемента в значения атрибутов.</em></P>
+
+<P><em>Такая ассимметрия, кроме того, означает, что при транскодировании из более обширной кодировки символов в менее обширную транскодер не может просто заменить непреобразуемые символы в данных скрипта или стиля на соответствующие числовые ссылки на символы; он должен провести синтаксический анализ документа HTML и иметь инфомрацию о синтакисисе каждого языка скриптов и стилей для корректной обработки данных.</em></P>
+</div>
+
+
+<h4>Содержимое элемента<a name="h-B.3.2.1">&nbsp;</a></h4>
+<P>Если данные скрипта или стиля являются содержимым элемента (<a href="scripts.html#edef-SCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#edef-SCRIPT" class="noxref"><samp
+class="einst">SCRIPT</samp></a> и <a href="styles.html#edef-STYLE" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#edef-STYLE" class="noxref"><samp class="einst">STYLE</samp></a>), данные начинаются непосредственно за начальным тегом элемента и заканчиваются первым разделителем ETAGO ("&lt;/"), за которым следует буква ([a-zA-Z]); обратите внимание, что это не обязательно конечный тег элемента.  Поэтому авторам следует выделять последовательности "&lt;/" в содержимом. Механизмы такого выделения специфичны для каждого языка скриптов или таблиц чтилей.</P>
+
+<DIV CLASS="illegal-example">
+<P><SPAN CLASS="example-title">ПРИМЕР НЕДОПУСТИМОГО ИСПОЛЬЗОВАНИЯ:</SPAN><BR> Следующие данные скрипта некорректно содержат последовательность "&lt;/" (как часть "&lt;/EM&gt;") перед конечным тегом <a href="scripts.html#edef-SCRIPT" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#edef-SCRIPT" class="noxref"><samp class="einst">SCRIPT</samp></a>:
+
+<PRE>
+    &lt;SCRIPT type="text/javascript"&gt;
+      document.write ("&lt;EM&gt;Так работать не будет&lt;/EM&gt;")
+    &lt;/SCRIPT&gt;
+</PRE>
+</DIV>
+
+<DIV CLASS="example">
+<P>В JavaScript этот код можно представить допустимым образом, скрыв разделитель ETAGO перед начальной буквой SGML:</P>
+
+<PRE>
+    &lt;SCRIPT type="text/javascript"&gt;
+      document.write ("&lt;EM&gt;Так работать будет&lt;\/EM&gt;")
+    &lt;/SCRIPT&gt;
+</PRE>
+
+<P>В Tcl этого можно достичь следующим образом:</P>
+
+<PRE>
+    &lt;SCRIPT type="text/tcl"&gt;
+      document write "&lt;EM&gt;Это будет работать&lt;\/EM&gt;"
+    &lt;/SCRIPT&gt;
+</PRE>
+
+<P>В VBScript проблемы можно избежать с помощью функции <TT>Chr()</TT>:</P>
+
+<PRE>
+    "&lt;EM&gt;Это будет работать&lt;" &amp; Chr(47) &amp; "EM&gt;"
+</PRE>
+
+</DIV>
+
+
+<h4>Значения атрибутов<a name="h-B.3.2.2">&nbsp;</a></h4> <P>Если данные скрипта или стиля являются значением атрибута (<a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><samp class="ainst">style</samp></a> или атрибутам <a href="scripts.html#events" tppabs="http://www.citforum.ru/internet/html40/interact/scripts.html#events">внутреннего события</a>),
+авторам следует выделять разделители-одинарные или двойные кавычки в значениях в соответствии с соглашениями языка скрипта или стиля.  Вторам также следует выделять экземпляры "&amp;", если этот "&amp;" не обозначает начало <a
+href="charset.html#entities" tppabs="http://www.citforum.ru/internet/html40/charset.html#entities">ссылки на символ</a>.
+
+<ul>
+<li> '"'  должно записываться как "&amp;quot;" или "&amp;#34;"
+<li> '&amp;'  должно записываться как "&amp;amp;" или "&amp;#38;"
+</ul>
+
+
+<DIV CLASS="example">
+<P>Таким образом, например, можно записать:</P>
+
+<PRE>
+ &lt;INPUT name="num" value="0"
+ onchange="if (compare(this.value, &amp;quot;Справка&amp;quot;)) {gethelp()}"&gt;
+</PRE>
+</DIV>
+
+
+<h3><a name="h-B.3.3">B.3.3</a> <span class="index-inst" title="SGML::features with limited
+support"><a name="sgmlfeatures">Возможности SGML с ограниченной поддержкой</a></span></h3> 
+
+<p>Системы SGML, соответствующие <a rel="biblioentry"
+href="references.html#ref-ISO8879" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-ISO8879" class="normref">[ISO8879]</a>,
+должны распознавать <span class="index-inst"
+title="SGML::features with limited support"><a name="idx-SGML-3">ряд возможностей</a></span>, не поддерживаемых всеми агентами пользователей HTML. Авторам рекомендуется избегать исопльзования этих функций.
+
+
+<H3><a name="h-B.3.4">B.3.4</a> 
+<span class="index-inst" title="boolean attribute|notes about
+minimized"><a name="sgml-boolean">Логические атрибуты</a></span></h3>
+
+<P>Авторам следует знать, что многие агенты пользователей распознают только минимизированную форму логических атрибутов, но не полную.
+
+<div class="example"><P>
+Например, авторам можно указать:
+
+<pre>
+&lt;OPTION selected&gt;
+</pre>
+
+<p><em>вместо</em>
+
+<pre>
+&lt;OPTION selected="selected"&gt;
+</pre>
+</div>
+
+<h3><a name="h-B.3.5">B.3.5</a> Отмеченные разделы</h3>
+
+<p>Отмеченные выбранные варианты играют роль, подобную конструкции #ifdef, распознаваемой препроцессором языка C.
+
+<div class="example">
+<pre>
+&lt;![INCLUDE[
+ &lt;!-- это будет включено --&gt;
+]]&gt;
+
+&lt;![IGNORE[
+ &lt;!-- это будет игнорироваться --&gt;
+]]&gt;
+</pre>
+</div>
+
+<p>В SGML также определяется использование размеченных разделов для содержимого CDATA, в котором "&lt;" обрабатывается не как начало тега, например,
+
+<div class="example">
+<pre>
+&lt;![CDATA[
+ &lt;an&gt; пример разметки &lt;sgml&gt;, не вызывающий
+ &lt;проблем&gt; при записи &lt; и т.д.
+]]&gt;
+</pre>
+</div>
+<p>Сигнальным символом того, что агент пользвоателя не распознает размеченный раздел, является представление "]]&gt;", когда агент пользователя по ошибке использует первый символ "&gt;" как конец тега, начинающегося с "&lt;![".
+
+<h3><a name="h-B.3.6">B.3.6</a> Инструкции по обработке</h3>
+
+<p>Инструкции по обработке - это механизм захвата платформозависимых идиот\м. Инструкция начинается с &lt;? И заканчивается символом &gt; 
+
+<pre>&lt;?<em>инструкция</em> &gt;</pre>
+
+<div class="example">
+<p>Например:
+
+<pre>
+&lt;?&gt;
+&lt;?style tt = font courier&gt;
+&lt;?page break&gt;
+&lt;?experiment&gt; ... &lt;?/experiment&gt;
+</pre>
+</div>
+
+<p>Авторам следует знать, что многие агенты пользвоателей представляют инструкции по обработке как часть текста документа.
+
+<h3><a name="h-B.3.7">B.3.7</a> Сокращенная разметка</h3>
+
+<p>Некоторые конструкции SGML SHORTTAG позволяют сэкономить время на набор, но не добавляют выразительных способностей в приложение SGML. Хотя такие конструкции технически не вносят двусмысленности, они снижают надежность документов, особенно если язык расширен и включает новые элементы. Таким образом, в то время как конструкции SHORTTAG SGML, относящиеся к атрибутам, широко используются и реализуются, те же конструкции, относящиеся к элементам, не распространены. Использующие их докменты являются соответствующими документами SGML, но вряд ли будут работать со многими существующими средствами HTML. 
+
+<P>конструкции SHORTTAG:
+
+<div class="example">
+<ul>
+<li>теги NET:
+<pre>&lt;имя/.../</pre>
+
+<li>Закрытый начальный тег:
+<pre>&lt;имя1&lt;имя2&gt;</pre>
+
+<li>Пустой начальный тег:
+<pre>&lt;&gt;</pre>
+
+<li>Пустой конечный тег:
+<pre>&lt;/&gt;</pre>
+</ul>
+</div>
+
+<h2><a name="h-B.4">B.4</a> 
+<span class="index-inst" title="search engine::helping">
+<a name="recs">Замечания о содейтсвии поисковым машинам в индексировании веб-сайта</a></span></h2> 
+
+<p>В этом разделе приводятся некоторые простые предложения, которые сделают документы более доступными для поисковых машин.
+
+<dl>
+<dt><strong>Определите язык документа</strong>
+<dd>В глобальном контексте Web важно знать, на каком языке создается страница. Это обсуждается в разделе о <a href="dirlang.html#language-info" tppabs="http://www.citforum.ru/internet/html40/struct/dirlang.html#language-info">языковой информации</a>.
+
+<dt><strong>Укажите языковые варианты документа</strong>
+<dd>Если Вы подготовили переводы документа на другие языки, используйте элемент <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a> для ссылки на них. Это позволит индексным машинам предлагать пользователям результаты поиска на предпочитаемом пользователем языке, независимо от построения запроса. Например, следующие ссылки предлагают поисковой машине французскую и немецкую версии:
+
+<pre class="example">
+&lt;LINK rel="alternate" 
+         type="text/html"
+         href="mydoc-fr.html" hreflang="fr"
+         lang="fr" title="La vie souterraine"&gt;
+&lt;LINK rel="alternate" 
+         type="text/html"
+         href="mydoc-de.html" hreflang="de"
+         lang="de" title="Das Leben im Untergrund"&gt;
+</pre>
+
+<dt><strong>Задавайте ключевые слова и описания</strong>
+<dd>Некоторые индексирующие машины проводят поиск элементов <a href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><samp class="einst">META</samp></a>, в которых определяется разделенный запятыми списо ключевых слов/фраз или дается краткое описание. Поисковые машины могут представлять эти ключевые слова как результат поиска. Значение атрибута <a href="global.html#adef-name-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-name-META" class="noxref"><samp class="ainst-META">name</samp></a>, найденное атрибутом поиска, не определяется в данной специфиации. Рассмотрим следующие примеры,
+
+<pre class="example">
+&lt;META name="keywords" content="отпуск,Греция,солнце"&gt;
+&lt;META name="description" content="Идиллический отпуск в Европе"&gt;
+</pre>
+
+<dt><strong>Укажите начало набора</strong>
+<dd>Наборы документов или представлений систем обработки текстов часто переводятся в наборы документов HTML.  Для поисковых машин полезно указать ссылку на начало набора в дополнение к попаданию страницы в результаты поиска. Вы можете помочь поисковым машинам с помощью элемента <a href="links.html#edef-LINK" tppabs="http://www.citforum.ru/internet/html40/struct/links.html#edef-LINK" class="noxref"><samp class="einst">LINK</samp></a> с атрибутом <b>rel="begin"</b> и <a href="global.html#edef-TITLE" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-TITLE" class="noxref"><samp class="einst">TITLE</samp></a>, как показано в следующем примере:
+
+<pre class="example"> 
+&lt;LINK rel="begin" 
+         type="text/html"
+         href="page1.html" 
+         title="Общая теория относительности"&gt;
+</PRE>
+
+<dt><strong>Предоставьте роботам инструкции по индексированию</strong>
+<dd>Люди могут удивиться, узнав, что их сайт проиндексирован роботом, и не получил доступа к значительной части сайта. Многие Web-роботы предлагают администраторам Web-сайтов возможности ограничения действий роботов. Это достигается с помощью двух механизмов: файла "robots.txt" и элемента the <a href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><samp class="einst">META</samp></a> в документах HTML, описанного далее.
+</dl>
+
+<h3><a name="h-B.4.1">B.4.1</a> 
+<span class="index-inst" title="search robot::helping"><a name="idx-search_robot">
+Поисковые роботы</a></span></h3>
+
+<h4>Файл robots.txt<a name="h-B.4.1.1">&nbsp;</a></h4>
+ 
+<p>Когда робот просматривает Web-сайт, например, http://www.foobar.com/, сначала он проверяет файл http://www.foobar.com/robots.txt. Если этот документ обнаружен, он анализирует его содержимое и смотрет, позволено ли загрузить документ. Вы можете настроить файл robots.txt только для конкретных роботов и запретить доступ к определенным каталогам или файлам.
+
+<p>Вот пример файла robots.txt, запрещающего доступ ко всему сайт всем роботам</p>
+
+
+<pre>
+        User-agent: *    # применяется ко всем роботам
+        Disallow: /      # запретить индексацию всех страниц
+</pre>
+
+<p>Робот просто найдет файл "/robots.txt" URI на Вашем сайте, где сайт - это сервер HTTP, работающий на определенной машине и порте. Вот некоторые примеры расположения файла <tt>robots.txt</tt>: 
+
+<div class="example"><P>
+<table align="center" border="0" 
+       bgcolor="#F8F0F0" 
+       cellpadding="10" cellspacing="0">
+<tr bgcolor="#F0E0E0"><th>URI сайта<th>URI файла <tt>robots.txt</tt>
+<tr><td>http://www.w3.org/
+<td>http://www.w3.org/robots.txt
+<tr><td>http://www.w3.org:80/
+<td>http://www.w3.org:80/robots.txt
+<tr><td>http://www.w3.org:1234/
+<td>http://www.w3.org:1234/robots.txt
+<tr><td>http://w3.org/
+<td>http://w3.org/robots.txt
+</table>
+</div>
+
+
+<p>На одном сайте может быть один файл "/robots.txt".  Точнее, не следует помещать файлы "robots.txt" в каталоги пользователей, поскольку робот их не найдет. Если Вы хотите, чтобы пользователи могли создавать свои собственные файлы "robots.txt", нужно будет объединить их все в один файл "/robots.txt". Если Вы не сделаете так, пользователи могут использовать вместо этого тег Robots META.
+
+<p>Некоторые советы: URI учитывают регистр, и строка "/robots.txt" должна всегда быть в нижнем регистре. Пустые строки запрещены.
+
+<p>В каждой записи должно быть ровно одно поле "User-agent". Робот должен свободно интерпретировать это поле. Рекомендуется строка без учета регистра, совпадающая с именем и не включающая информацию о версии.
+
+<p>Если указано значение "*", запись описывает политику доступа по умолчанию для любого робота, не соответствующего другим записям. В файле "/robots.txt" не может быть несколько таких записей.
+
+<p>В поле "Disallow" задается частичный URI, который посещать запрещено.  Это может быть полный или частичный путь; любой URI, начинающийся с этого значения, нельзя будет загрузить. Например,
+
+<pre>
+    <b>Disallow: /help</b> запрещает доступ к /help.html и /help/index.html, в то время как 
+    <b>Disallow: /help/</b> запретит доступ к /help/index.html, но разрешит доступ /help.html. 
+</pre>
+      
+<p>Пустое значение параметра "Disallow" означает, что все URI могут загружаться.  В файле robots.txt должно быть по крайней мере одно поле "Disallow" .
+
+<h4>Роботы и элемент META<a name="h-B.4.1.2">&nbsp;</a></h4>
+
+<p>Элемент <a href="global.html#edef-META" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#edef-META" class="noxref"><samp class="einst">META</samp></a> позволяет авторам документов HTML сообщать роботам о том, может ли документ быть проиндексирован или может ли он использоваться для получения дополнительных ссылок. Для этого не требуется вмешательство администратора сервера.
+
+<div class="example"><P>
+В следующем примере робот не будет ни индексировать сайт, ни анализировать ссылки.
+<pre>
+&lt;META name="ROBOTS" content="NOINDEX, NOFOLLOW"&gt;
+</pre>
+
+<p>В атрибуте content могут содержаться следующие слова: <tt>ALL</tt>, <tt>INDEX</tt>, <tt>NOFOLLOW</tt>, <tt>NOINDEX</tt>. Значения атрибутов name и the учитывают регистр.
+</div>
+
+<div class="note"><P>
+<em><strong>Примечание.</strong>
+В начале 1997 года это использовалось только несколькими роботами, но в этой области ожидается изменение с повышением интереса к управлению работой роботов.</em>
+</div>
+
+<h2><a name="h-B.5">B.5</a> <a name="notes-tables">Замечания о таблицах</a></h2>
+
+<h3><a name="h-B.5.1">B.5.1</a> Логическое обоснование дизайна</h3>
+
+<p>Модель таблиц HTML явилась результатом изучения существующих моделей таблиц SGML, обработки таблиц в широко распространенных пакетах обработки текстов и широкого диапазона техник компоновки таблиц в журналах, книгах и других печатных документах. Эта модель выбрана так, чтобы позволить проще выражать таблицы с возможной дополнительной сложностью. Это позволяет производить разметку таблиц HTML с помощью текстовых редакторов и сокращает расходы на изучение и подготовку к работе. Это свойство очень важно для HTML.
+
+<p>Все чаще и чаще люди создают таблицы путем преобразования из документов других форматов или создавая их непосредственно в редакторах WYSIWYG. Очень важно, что модель таблиц HTML может использоваться в этих средствах разработки. Это влияет на представление ячеек, занимающих несколько строк или столбцов, и на выравнивание и другие свойства представления, связанные с группами ячеек.
+
+
+<h4>Динамическое переформатирование<a name="h-B.5.1.1">&nbsp;</a></h4>
+<p>Главным принципом модели таблиц HTML является то, что автор не управляет изменением размера таблицы пользователем, используемыми шрифтами и т.д. Это приводит к тому, что задавать ширину столбца в пикселах становится рискованно. Вместо этого таблицы должны поддерживать динамическое изменение размера и соответствовать текущему размеру окна и шрифтам. Авторы могут определять рекомендуемые параметры типа относительной ширины столбцов, но агенты пользователей должны проверять, достаточна ли ширина столбца для представления самого широкого элемента содержимого ячейки. Если спецификацию автора можно заменить, относительные ширины отдельных столбцов не должны слишком изменяться.
+
+<h4>
+<span class="index-inst" title="table::incremental display notes"><a name="idx-table">
+Последовательное представление</a></span><a name="h-B.5.1.2">&nbsp;</a></h4> 
+<p>Для больших таблиц или медленных сетевых содинений очень важно последовательное представление таблиц. Агенты пользователей должны иметь возможность начинать отображение таблицы до получения всех данных. Ширина окна по умолчанию для большинства агентов пользователей составляет около 80 символов, а рисунки для большинства страниц HTML состаются с учетом этого числа. Указывая число столбцов и включая условия управления шириной таблицы и шириной различных столбцов, авторы могут дават агентам пользователей подсказки, обеспечивающие последовательное представление содержимого таблицы.
+
+<p>Для последовательного представления браузеру необходимо число столбцов и их ширина. Шириной таблицы по умолчанию считается текущий размер окна (<tt>width="100%"</tt>). Это можно изменить, установив атрибут <a href="tables.html#adef-width-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-width-TABLE" class="noxref"><samp class="ainst">width-TABLE</samp></a> элемента <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><samp class="einst">TABLE</samp></a>. По умолчанию все столбцы имеют одинаковую ширину, но можно определить ширину стольбца с помощью элементов <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a> до начала таблицы.
+
+<p>Остается еще проблема числа столбцов. Некоторые предлагают дождаться получения первой строки таблицы, но на это может потребоваться продолжительное время, если в ячейках содержится много информации. В целом при последовательном представлении авторм имеет смысл явно указывать число столбцов в элементе <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><samp class="einst">TABLE</samp></a>.
+
+<p>Авторам по-прежнему необходима возможность уведомелния агентов пользователей о том, следует ли использовать последовательное представление или определять размер таблицы автоматически для соответствия содержимому ячейки. В двухпроходном режиме автоматического определения рзмера число столбцов определяется на первом проходе. В последовательном режиме число столбцов должно устанавливаться с начала. Имеет смысл установить для атрибута <samp class="ainst-TABLE">cols</samp> значение, равное числу столбцов, а не использовать атрибуты "layout" (например, layout="fixed" или layout="auto").
+
+<h4>Структура и представление<a name="h-B.5.1.3">&nbsp;</a></h4>
+
+<p>В HTML различается структурная разметка, такая как абзацы и цитаты, и средства предствления, такие как поля, шрифты, цвета и т.д. Как это различие влияет на таблицы? С точки зрения пуриста выравнивание текста в ячейках таблицы и границы между ячейками являются вопросом отображения, а не структуры.  На практике, однако, их имеет смысл группировать со структурной информацией, поскольку эти свойства легко переносятся из одного приложения в другое. Модель таблиц HTML перекладывает большую часть информации о представлении на связанные таблицы стилей. Модель, представленная в данной спецификации, разработана так, чтобы использовать преимущества таких таблиц стилей, но таблицы стилей не являются обязательными.
+
+<p>Используемые в настоящее время издательские пакеты предоставляют очень богатые возможности по представлению таблиц, и было бы непрактично воспроизводить эти возможности в HTML без превращения HTML в сложный текстовый формат типа RTF или MIF.  Однако, в данной спецификации авторам предлагается возможность выбора из ряда широко использумых классов или типов границы. Атрибут <a href="tables.html#adef-frame" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-frame" class="noxref"><samp class="ainst-TABLE">frame</samp></a> управляет внешним видом рамки вокруг таблицы, в то время как атрибут <a href="tables.html#adef-rules" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-rules" class="noxref"><samp class="ainst-TABLE">rules</samp></a> определяет выбор rulings в таблице. Более богатый уровень управления будет поддерживаться с помощью аннотаций по представлению. Атрибут <a href="styles.html#adef-style" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#adef-style" class="noxref"><samp class="ainst-TABLE">style</samp></a> может использоваться для определения информации о представлении отдельных элементов. Дальнейшая инфомрация о представлении может задаваться с помощью элемента <a href="styles.html#edef-STYLE" tppabs="http://www.citforum.ru/internet/html40/present/styles.html#edef-STYLE" class="noxref"><samp class="einst">STYLE</samp></a> в заголовке документа или с помощью связанных таблиц стилей.
+
+<p>В процессе разработки данной спецификации был изучен ряд вопросов по заданию шаблонов обрамления для таблиц. Один из вопросов относится к видам возможных выражений. Включение поддержки вычитания и сложения краев приводит к довольно сложным алгоритмам.  Например, работа по обеспечению поддержки атрибутов <a href="tables.html#adef-frame" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-frame" class="noxref"><samp class="ainst-TABLE">frame</samp></a> и <a href="tables.html#adef-rules" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-rules" class="noxref"><samp class="ainst-TABLE">rules</samp></a> всеми элементами для представления таблиц привела к алгоритму определения того, отображается ли определенная часть рамки таблицы, или нет, из 24 шагов. Даже такая сложность не обеспечивает достаточного управления представлением, отвечающего всем нуждам предсатвления таблиц. Текущая спецификация умышленно придерживается простой интуитивной модели, достаточной в большинстве случаев.  Для стандартизации более сложного подхода необходима дальнейшая экспериментальная работа.
+
+
+<h4>Группы строк и столбцов<a name="h-B.5.1.4">&nbsp;</a></h4>
+<p>в данной спецификации определяется надмножество более простой модели, представленной в более ранней работе по HTML+. Считается, что таблицы формируются из необязатеьлного заголовка и последовательности строк, которая, в свою очередь, состоит из последовательности ячеек. Затем эта модель различает ячейки заголовка и данных и позволяет ячейкам занимать несколько строк или столбцов.
+
+<p>Следуя модели таблиц CALS (см. <a rel="biblioentry" href="references.html#ref-CALS" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-CALS" class="informref">[CALS]</a>), данная спецификация позволяет группировать строки таблицы в разделы заголовка, тела и нижнего заголовка. Это упрощает представление информации об отображении и может использоваться для повторения заголовков таблицы при переносе таблиц или для обеспечения постоянных заголовков при прокручиваемой панели тела таблицы. В разметке раздел нижнего заголовка помещается перед разделом тела таблицы. Такая оптимизация используется в CALS для работы с длинными таблицами. Это позволяет генерировать нижний заголовок, не дожидаясь обработки всей таблицы.
+
+<h4>Доступность<a name="h-B.5.1.5">&nbsp;</a></h4>
+
+<p>Для людей с плохим зрением HTML предлагает упрощение использования графического интерфейса пользоваетля на базе окон. Модель таблиц HTML включает атрибуты отметки каждой ячейки для поддержки высококачественного преобразования текста в речь. Те же атрибуты могут использоваться для поддержки автоматизированного импорта и экспорта данных таблицы в базы данных и электронные таблицы.
+
+<h3><a name="h-B.5.2">B.5.2</a> 
+<span class="index-inst" title="table::layout algorithms for">
+<a name="layout">Алгоритмы рекомендуемой компоновки</a></span></h3>
+
+<p>Если в атрибуте <samp class="ainst-TABLE">cols</samp> элемента <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><samp class="einst">TABLE</samp></a> определяется число столбцов, таблица может представляться с использованием фиксирвоанного расположения, в противном случае должен использоваться описанный ниже алгоритм автоматической компоновки.
+
+<P>Если атрибут <samp>width</samp> не указан, визуальные агенты пользователей должны использовать при форматировании значение по умочланию - <tt>100%</tt>.
+
+<P>Агентам пользователей рекомендуется расширять таблицы за пределы значения, указанного в атрибуте <samp>width</samp>, в случаях, когда содержимое ячейки не входит в нее. Агенты пользователей, изменяющие указанную ширину, должны делать это не без причины. Агенты пользователей могут разбивать слова на строки во избежание использования горизонтальной прокрутки.
+
+<P>Для компоновки агенты пользователей должны полагать, что заголовки таблиц (задавемые элементом <a href="tables.html#edef-CAPTION" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-CAPTION" class="noxref"><samp class="einst">CAPTION</samp></a>) подобны ячейкам. Каждый заголовок является ячейкой, занимающей все столбцы таблицы, если он располагается внизу или вверху таблицы, и захватывающей все строки таблицы, если он располагается слева или справа.
+
+<h4>Алгоритм фиксированной компоновки<a name="h-B.5.2.1">&nbsp;</a></h4>
+
+<p>В этом алгоритме считается, что число столбцов известно. Ширина столбцов по умолчанию должна быть одинаковая. Авторы могут переопределять это путем указания относительной или абсолютной ширины столбцов с помощью элементов <a href="tables.html#edef-COLGROUP" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COLGROUP" class="noxref"><samp class="einst">COLGROUP</samp></a> или <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a>. Ширина таблицы по умолчанию - все пространство между левым и правым полями, но ее можно переобпределить с помощью атрибута <a href="tables.html#adef-width-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-width-TABLE" class="noxref"><samp class="ainst-TABLE">width</samp></a> элемента <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><samp class="einst">TABLE</samp></a> или определить из абсолютной ширины столбцов. При использовании как абсолютных, так и относительных ширин столбцов, первым шагом является распределение пространства под столбцы с фиксированной шириной. После этого оставшееся пространство делится для столбцов с относительной шириной.
+
+<p>Одного только синтакисиса таблицы недостаточно для гарантии соответствия значений атрибутов. Например, число столбцов, определяемое атрибутом <samp class="ainst-TABLE">cols</samp>, может не совпадать с числом столбцов, определяемым элементами <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a>. В свою очередь, это может не соответствовать числу столбцов, определяемому из ячеек таблицы. Затем проблемы возникают, если столбцы чересчур узкие, и содержимое не входит в ячейку. Ширина таблицы, указанная в элементе <a href="tables.html#edef-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-TABLE" class="noxref"><samp class="einst">TABLE</samp></a> element или <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a>, может привести к переполнению ячейки. Агентам пользователей рекомендуется корректно выходить и таких ситуаций, например, путем <a href="text.html#hyphenation" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#hyphenation">переноса слов</a> и пересортировки и разбивки слов, если места переноса неизвестны.
+
+<p>В случае, если переполнение ячейки вызывает неделимый элемент, агент пользователя может отрегулировать ширины столбцов и по-новому представить таблицу. В худшем случае, если настройка ширины стоолбца и прокрутка невозможны, можно обрезать содержимое. В любом случае, если содержимое ячейки образается или разбивается, об этом соответсвующим образом должно быть сообщено пользователю.
+
+<h4>Алгоритм автоматической компоновки<a name="h-B.5.2.2">&nbsp;</a></h4>
+
+<p>Если атрибут <samp class="einst">COLS</samp> а начальном теге таблицы отсутствует, агент пользователя должен использовать следующий алгоритм автоматической компоновки. В нем используется два прохода данных таблицы и линейное масштабирование размера таблицы.
+
+<p>На первом проходе перенос строк отключен, а агент пользователя контролирует минимальную и максимальную ширину каждой ячейки. Максимальная ширина определяется самой широкой строкой. Поскольку разбивка строк отключена, абзацы обрабатываются ка кдлинные строки, если только они не разбиты с помощью элементов <a href="text.html#edef-BR" tppabs="http://www.citforum.ru/internet/html40/struct/text.html#edef-BR" class="noxref"><samp class="einst">BR</samp></a>. Минимальная ширина определяется самым широким элементом текста (словом, изображением и т.д.) с учетом начальных отсутпов, маркеров и т.д. Другими словами, необходимо определить минимальную ширину, которая понадобится ячейке в отдльеном окне без переполнения. Разрешение агентам пользователей разбивать слова уменьшит необходимость в горизонтальной прокрутке и обрезание содержимого ячейки.
+
+<p>Этот процесс также применяется к вложенным в ячейки таблицам. Минимальная и максимальная ширина ячеек во вложенных таблицах используются для определения минимальной и максимальной ширины этих таблиц и, следовательно, для внешней таблицы. Алгоритм линейный с совокупным содержимым ячейки, и, широко говоря, не зависит от уровня вложенности.
+
+<P>Для выравнивания символов содержимого ячейки этот алгоритм хранит три значения минимума/максимума для каждой ячейки: Left of align char, right of align char и unaligned. Минимальная ширина столбца: <tt>max(min_left + min_right, min_non-aligned)</tt>.
+
+<P>Минимальная и максимальная ширина ячейки используются для определения соответствующей минимальной и максимальной ширины столбцов. В свою очередь, они используются для нахождения минимальной и максимальной ширины таблицы. Обратите внимание, что ячейки могут содержать вложенные таблицы, но это не усложняет код. Следующим шагом являетс яназначение ширины столбцов в соответствии со свободным пространством (т.е. пространством между левым и правым полями).
+
+<P>Для ячеек, занимающих несколько столбцов, простой подход состоит в распределении 
+минимальной/максимальной ширины равномерно меду всеми столбцами. Чуть более сложный подход - использовать минимальную/максимальную ширину ячеек, не занимающих несколько строк или столбцов, для взвешивания того, как распределяются ширины ячеек, занимающих несколько строк или столбцов. По результатам экспериментов можно сказать, что наилучшие результаты для широкого спектра таблиц дает сочетание этих двух подходов.
+
+<P>Граничы таблицы и поля между ячейками должны включаться в назначенную ширину столбцов. Имеется три случая:
+
+<OL>
+<LI><B>Минимаьлная ширина таблицы равна или превышает доступное пространство.</B> В данном случае назначьте минимальную ширину и дайте пользователям возможность горизонтальной прокрутки. Для преобразования в азбуку Бройля нужно будет заменить ячейки ссылками на полное содержимое. По соглашению это производится перед таблицей.
+
+<LI><B>Максимальная ширина таблицы входит в доступное пространство.</B> В данном случае установите максимальную ширину столбцов.
+
+<LI><B>Максимальная ширина таблицы превышает доступное пространство, но минимальная ширина таблица его не превышает.</B> В данном случае найдите разницу между доступным пространством и минимальной шириной таблицы, назовет ее <b>W</b>. Назовем <b>D</b> разницу между максимальной и минимальной шириной таблицы.
+
+<P>Для каждого столбца сделайте <b>d</b> равным разнице между максимальной и минимальнйо шириной этого столбца. Затем установите ширину столбца равной минимальной ширине плюс <b>d</b> раз по <b>W</b> свыше <b>D</b>. Это позволит сделать столбцы с большей разницей между минимальной и максимальной шириной шире колонок с мнеьшей разницей.
+</OL>
+
+<P>Затем этот шаг повторяется для вложенных таблиц с использованием минимальной и максимальной ширины, полученных для всех таких таблиц в первом проходе. В данном случае ширина ячейки родительской таблицы играет роль размера текущего кона в приведенном выше описании. Этот процесс повторяется рекурсивно для всех вложенных таблиц. Самая верхняя таблицы затем представляется с исопльзованием назначенных ширин. Вложенные таблицы последовательно представляются как часть содержимого ячейки родительской таблицы.
+
+<P>Если ширина таблицы указана с использованием атрибута <a href="tables.html#adef-width-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-width-TABLE" class="noxref"><samp class="ainst-TABLE">width</samp></a>, агент пользователя пытается установить соответсвующую ширину столбцов. Атрибут <a href="tables.html#adef-width-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-width-TABLE" class="noxref"><samp class="ainst-TABLE">width</samp></a> не является ограничением, если результаты в столбцах имеют ширину меньше минимальной (т.е. неделимые).
+
+<P>Если относительная ширина определяется с помощью элемента <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a>, алгоритм изменяется, и ширина столбцов увеличивается по сравнению с минимальной для соответствия ограничениеям относительной ширины. Элементы <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a> должны учитываться только как подсказки, поэтому ширина столбцов не должна устанавливаться меньше минимальной. Аналогично, ширина столбцов не должна быть такой, чтобы таблица растягивалась за пределы окна. Если элемент <a href="tables.html#edef-COL" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#edef-COL" class="noxref"><samp class="einst">COL</samp></a> задает относительную ширину, равную нулю, столбец всегда должен иметь минимальную ширину.
+
+<p>При использовании двухпроходного алгоритма компоновки положение выравнивания по умолчанию в отсутствие явного или унаследованного атрибута <a href="tables.html#adef-charoff" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-charoff" class="noxref"><samp class="ainst-TABLE">charoff</samp></a> может определяться путем выбора позиции, которая была бы центром строки, для которой ширина до и после выравнивающего символа являлись бы максимальными значениями для любой из строк в столбце, для которого <tt>align="этот символ"</tt>. Для последовательной компоновки таблиц по умолчанию используется <tt>charoff="50%"</tt>. Если несколько ячеек в разных строках одного столбца используют выравнивание, такие ячейки должны выстраиваться по умолчанию, независимо от того, какой символ используется для выравнивания. Правила обработки объектов, слишком больших для столбца, применяются, если явное или наследуемое выравнивание приводит к ситуации, когда данные превышают назначенную ширину столбца.
+
+<div class="note"><P>
+<em><strong>Выбор имен атрибутов.</strong> 
+Предпочтительным является выбор значений атрибута <a href="tables.html#adef-frame" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-frame" class="noxref"><samp class="ainst-TABLE">frame</samp></a>, соответствующих атрибуту <a href="tables.html#adef-rules" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-rules" class="noxref"><samp class="ainst-TABLE">rules</samp></a> и значениям, используемым для выравнивания. Например: <tt>none,
+top, bottom, topbot, left, right, leftright, all</tt>. К сожалению, в SGML необходимо, чтобы нумерованные значения атрибутов были уникальными для каждого элемента, независимо от имени атрибута. Это сразу же вызывает проблемы со значениями "none", "left", "right" и "all". Значения атрибута <a href="tables.html#adef-frame" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-frame" class="noxref"><samp class="ainst-TABLE">frame</samp></a> выбраны так, чтобы избежать конфликтов имен с атрибутами <a href="tables.html#adef-rules" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-rules" class="noxref"><samp class="ainst-TABLE">rules</samp></a>, <a href="tables.html#adef-align-TABLE" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-align-TABLE" class="noxref"><samp class="ainst-TABLE">align</samp></a> и <samp class="ainst-TABLE">valign-COLGROUP</samp>. Это обеспечивает будущую гарантию, поскольку ожидается, что атрибуты <a href="tables.html#adef-frame" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-frame" class="noxref"><samp class="ainst">frame</samp></a> и <a href="tables.html#adef-rules" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-rules" class="noxref"><samp
+class="ainst">rules</samp></a> будут добавлены в другие элементы таблицы в будущих версиях данной спецификации. Альтернативой является способ сделать атрибут <a href="tables.html#adef-frame" tppabs="http://www.citforum.ru/internet/html40/struct/tables.html#adef-frame" class="noxref"><samp class="ainst-TABLE">frame</samp></a> CDATA. Решением Рабочей группы HTML W3C явилось то, что преимущества возможности использования средств проверки корректности SGML для првоерки атрибутов на базе нумерованных значений превосходит необходимость соответствия имен.</em>
+</div>
+
+<h2><a name="h-B.6">B.6</a> 
+<span class="index-inst" title="form::display notes">
+<a name="notes-forms">Замечания о формах</a></span></h2>
+
+<h3><a name="h-B.6.1">B.6.1</a> Последовательное отображение</h3> 
+<p>Последовательное отображение документов, полученных по сети, представляет некоторые проблемы с формами. Агенты пользователей должны не позволять передачу форм до получения всех элементов формы. 
+
+<P>Последовательно отображение документов приводит к некоторым проблемам относительно перемещения по клавише Tab. Эвристика перехода фокуса на <a href="forms.html#adef-tabindex" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-tabindex" class="noxref"><samp class="ainst">tabindex</samp></a> с самым низким значением в документе на первый взгляд кажетя весьма логичной. Однако это подразумевает необходимость ожидания получения текста всего документа, поскольку до этого <a href="forms.html#adef-tabindex" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-tabindex" class="noxref"><samp class="ainst">tabindex</samp></a> с самым низким значением может измениться. Если пользоваетль нажимает клвишу tab до этого, агентам пользоателя имеет смысл переместить фокус на низший доступный <a href="forms.html#adef-tabindex" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-tabindex" class="noxref"><samp class="ainst">tabindex</samp></a>.
+
+
+<P>Если формы связаны с клиентскими скриптами, могут возникнуть дополнительные проблемы. Например, обработчик скрипта для данного поля может обращаться к полю, которого еще не существует.
+
+<h3><a name="h-B.6.2">B.6.2</a> Будущие проекты</h3>
+<p>В данной спецификации определяется набор элементов и атрибутов, достаточно мощный для представления основных форм. Однако возможности улучшения еще имеются. Например, в будущем можно попытаться решить следующие проблемы:
+
+<ul>
+<li>Диапазон типов полей форм слишком ограничен по сравнению с современными пользовательскими интерфейсами. Например, не предусмотрен элемент для ввода таблиц, бегунки или многостраницные варианты.
+
+<li>Серверы не могут обновлять поля в отправленных формах и вместо этого должны отправлять полный документ HTML, что вызывает мерцание экрана.
+
+<li>Кроме того, возникают проблемы с речевыми браузерами, что затрудняет работу с формами для людей с плохим зрением.
+</ul>
+
+<p>Другим возможным расширением будет добавление атрибута <a href="objects.html#adef-usemap" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-usemap" class="noxref"><samp class="ainst">usemap</samp></a> для элемента <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a> для использования в клиентских навигационных картах, если "<a href="forms.html#adef-type-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-type-INPUT" class="noxref"><samp class="ainst-INPUT">type</samp></a>=image".  Элемент <a href="objects.html#edef-AREA" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-AREA" class="noxref"><samp class="einst">AREA</samp></a>, соответствующий местоположению щелчка, определяет передаваемое на сервер значение. Во избежание необходимости изменения серверных скриптов он может использоваться для расширения элемента <a href="objects.html#edef-AREA" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-AREA" class="noxref"><samp class="einst">AREA</samp></a> и указания значений x и y для использования в элементе <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a>.
+
+<h2><a name="h-B.7">B.7</a> 
+<span class="index-inst" title="script::implementation notes">
+<a name="notes-scripting">Замечания о скриптах</a></span></h2>
+
+<h3><a name="h-B.7.1">B.7.1</a> 
+<span class="index-inst" title="script::reserved syntax for"><a name="idx-script-1">
+Зарезервированный синтаксис для будущих макросов скриптов</a></span></h3>
+
+<p>В данной спецификации резервируется синтаксис для поддержки мкросов скриптов в атрибутах HTML CDATA. Это предназначено для того, чтобы сделать возможной установку атрибутов в зависимости от свойств объектов, находящихся на странице выше. Синтаксис:
+
+<pre>   attribute = "... &amp;{ <i>тело макроса</i> }; ... "</pre>
+
+<h4>Практики макросов скриптов в настоящее время<a name="h-B.7.1.1">&nbsp;</a></h4>
+<p>Тело макроса состоит из одного или нескольких выражений в языке скрипта по умолчанию (как в атрибутах для внутренних событий). Точка с запятой, следующая за правой скобкой, всегда обязательна, в противном случае символ скобки "}" считается частью тела макроса. Не нужно и говорить, что кавычки для атрибутов, содержащих макросы скриптов, обязательны.
+
+<p>Обработка атрибутов CDATA происходит следующим образом:
+
+<ol>
+<li>Синтаксический анализатор SGML оценивает все объекты SGML (например, "&amp;gt;").
+<li>Затем ядро скриптов оценивает макросы скриптов.
+<li>Наконец, результирующая строка символов передается в приложение для последующей обработки.
+</ol>
+
+<p>Обработка макросов происходит при загрузке документа (или при перезагрузке), но не происходит при изменении размера документа, перерисовке и т.д.
+
+<div class="deprecated-example">
+<P><span class="example-title">ПРИМЕР НЕЖЕЛАТЕЛЬНОГО ИСПОЛЬЗОВАНИЯ:</span><br>
+Вот несколько примеров использования JavaScript. Первый устанавливает в документе случайный цвет фона:
+
+<pre>    
+&lt;BODY bgcolor='&{randomrbg};'&gt;
+</pre>
+
+<p>Вы можете установить более светлый фон в вечернее время:
+
+<pre>    
+&lt;BODY bgcolor='&{if(Date.getHours &gt; 18)...};'&gt;
+</pre>
+
+<p>В следующем примере JavaScript используется для устанвоки координат клиентской навигационной карты:
+
+<pre>    
+&lt;MAP NAME=foo&gt;
+   &lt;AREA shape="rect" coords="&{myrect(imageuri)};" href="&{myuri};" alt=""&gt;
+ &lt;/MAP&gt;
+</pre>
+
+<p>В этом примере устанавливается размер изображения в зависимости от свойств документа:
+
+<pre>    
+&lt;IMG src="bar.gif" width='&{document.banner.width/2};' height='50%' alt="баннер"&gt;
+</pre>
+
+<p>С помощью скрипта можно устанавливать URI ссылки или изображения:
+
+<pre>
+ &lt;SCRIPT type="text/javascript"&gt;
+   function manufacturer(widget) {
+       ...
+   }
+   function location(manufacturer) {
+       ...
+   }
+   function logo(manufacturer) {
+       ...
+   }
+ &lt;/SCRIPT&gt;
+  &lt;A href='&{location(manufacturer("widget"))};'&gt;widget&lt;/A&gt;
+  &lt;IMG src='&{logo(manufacturer("widget"))};' alt="logo"&gt;
+</pre>
+
+<p>В последнем примере показано, как атрибуты SGML CDATA могут заключаться в кавычки с использованием двойных или одинарных кавычек. Если Вы заключаете строку атрибута в одинарные кавычки, в строку атрибута следует включить двойные. Другой подход - использвоание &amp;quot; в качестве двойных кавычек:
+
+<pre>   
+&lt;IMG src="&{logo(manufacturer(&amp;quot;widget&amp;quot;))};" alt="logo"&gt;
+</pre>
+</div>
+
+<h2><a name="h-B.8">B.8</a> <a name="notes-frames">Замечания о фреймах</a></h2>
+
+<P>Поскольку униальность имени целевого фрейма не гарантирована, оно подходит для описания текущей практики поиска <span class="index-inst" title="frame::target algorithm|target
+frame::algorithm"><a name="idx-frame">фрейма с данным целевым именем</a></span>:
+
+<ol>
+<li>Если целевое имя является зарезервированным словом, как описано в нормативном тексте, используйте его соответственно описанию.
+<li>В противном случае выполните поиск на первом уровне иерархии фреймов в окне, содержащем ссылку. Используйте первый фрейм с таким именем.
+<li>Если такой фрейм на шаге (2) не найден, повторите шаг 2 с каждым окном в порядке от первого до последнего.  Прекратите поиск как только встретится фрейм с таким именем.
+<li>Если на шаге (3) фрейм не найден, создайте новое окно и назначьте ему это целевое имя.
+</ol>
+
+<H2><a name="h-B.9">B.9</a> Замечания о доступности</H2>
+
+<div class="note"><P> <em><strong>Примечание.</strong> Следующий алгоритм для генерации альтернативного текста может заменяться по рекомендации Инициативной группы по доступности Web W3C (W3C Web Accessibility Initiative Group). Подробнее см. <a rel="biblioentry" href="references.html#ref-WAIGUIDE" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-WAIGUIDE" class="informref">[WAIGUIDE]</a>.
+</em>
+</div>
+
+<P>Если автор не установил атрибут <a href="objects.html#adef-alt" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-alt" class="noxref"><samp class="ainst">alt</samp></a> для элемента <a href="objects.html#edef-IMG" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-IMG" class="noxref"><samp class="einst">IMG</samp></a> или <a href="objects.html#edef-APPLET" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#edef-APPLET" class="noxref"><samp class="einst">APPLET</samp></a>, агенты пользователя должны сами задавать альтернативный текст, <span class="index-inst" title="accessibility::notes on generating alternate text"><a name="altgen">вычисляемый в следующем порядке:</a></span>
+
+<ol>
+<li>Если указан <a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a>, в качестве альтернативного текста должно использоваться значение этого атрибута.
+
+<li>В противном случае, если информация о заголовке дается в заголовках HTTP при загрузке включенного объекта, в качестве альтернативного текста должна использоваться эта информация.
+
+<li>В противном случае, если во включенном объекте имеются текстовые поля (например, изображения GIF имеют тектсовые поля), информация, извлеченная из текстовых полей, должна использоваться в качестве альтернативного текста. Поскольку агентам пользователей для извлечения текстовой инфомрации может понадобиться загрузка всего объекта, они могут использовать более экономичные подходы (например, обсуждение содержимого).
+	    
+<li>В противном случае, если отсутствует всякая другая информация, агент пользователя должен использовать в качестве альтернативного текста имя файла (без расширения).
+</ol>
+
+<P>Если автор не установил атрибут <a href="objects.html#adef-alt" tppabs="http://www.citforum.ru/internet/html40/struct/objects.html#adef-alt" class="noxref"><samp class="ainst">alt</samp></a> для элемента <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a>, агенты пользователяей должны вычислять альтернативный текст в следующем порядке:
+
+<ol>
+<li>Если указан <a href="global.html#adef-title" tppabs="http://www.citforum.ru/internet/html40/struct/global.html#adef-title" class="noxref"><samp class="ainst">title</samp></a>,  в качестве альтернативного текста должно использоваться его значение.
+
+<li>В противном случае, если указан атрибут <a href="forms.html#adef-name-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-name-INPUT" class="noxref"><samp class="ainst-INPUT">name</samp></a>, в качестве альтернативного текста должно использоваться его значение.
+
+<li>В противном случае (кнопки отправки и сброса) в качестве альтернативного текста должно использоваться значение атрибута <samp class="ainst">type</samp>.
+</ol>
+
+<h2><a name="h-B.10">B.10</a> 
+<span class="index-inst" title="security::notes on|">
+<a name="notes-security">Замечания о защите</a></span></H2>
+
+
+
+<P>Якоря, внедренные изображения и все прочие элементы, содержащие <a href="types.html#type-uri" tppabs="http://www.citforum.ru/internet/html40/types.html#type-uri">URI</a> в качестве параметров, могут привести к разыменовыванию URI в ответ на ввод пользователя. В данном случае следует рассмотреть вопросы, описанные в <a rel="biblioentry" href="references.html#ref-RFC1738" tppabs="http://www.citforum.ru/internet/html40/references.html#ref-RFC1738" class="normref">[RFC1738]</a>, раздел 6.
+
+Широко используемые методы отправки запросов формы -- HTTP и SMTP - обеспечивают невысокую степень конфиденциальности. Провайдеры информации, запрашивающие через формы важную информацию - особенно с помощью элементов <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a>, <a href="forms.html#adef-type-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-type-INPUT" class="noxref"><samp class="ainst-INPUT">type</samp></a>="password" - должны предупреждать своих пользователей о невыосокй степени защиты.
+
+<h3><a name="h-B.10.1">B.10.1</a> <a name="forms-security">Вопросы защиты для форм</a></h3>
+
+<P>Агент пользователя не должен отправлять файлы, отправку которых пользователь не запросил явно. Таким образом, агенты пользователей HTML должны подтверждать все имена файлов, используемые по умочланию, которые могут быть указаны в атрибуте <a href="forms.html#adef-value-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#adef-value-INPUT" class="noxref"><samp class="ainst-INPUT">value</samp></a> элемента <a href="forms.html#edef-INPUT" tppabs="http://www.citforum.ru/internet/html40/interact/forms.html#edef-INPUT" class="noxref"><samp class="einst">INPUT</samp></a>.  В скриытых управляющих элементах имена файлов указываться не должны.
+
+<P>В данной спецификации не содержится механизма шифрования данных; оно должно проводиться любыми другими механизмами защищенной передачи данных.
+
+<P>После загрузки файла обрабатывающий агент должен соответствующим образом обработать и сохранить файл.
+
+<div class="navbar">
+<hr><center><a href="changes.html" tppabs="http://www.citforum.ru/internet/html40/appendix/changes.html">назад</a> &nbsp; <a href="references.html" tppabs="http://www.citforum.ru/internet/html40/references.html">далее</a> &nbsp; <a href="cover.html#toc" tppabs="http://www.citforum.ru/internet/html40/cover.html#toc">содержание</a> &nbsp; <a href="elements.html" tppabs="http://www.citforum.ru/internet/html40/index/elements.html">элементы</a> &nbsp; <a href="attributes.html" tppabs="http://www.citforum.ru/internet/html40/index/attributes.html">атрибуты</a> &nbsp; <a href="list.html" tppabs="http://www.citforum.ru/internet/html40/index/list.html">указатель</a>
+</center></div>
+</body>
+</html>
+
+
+

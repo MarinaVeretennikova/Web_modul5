@@ -1,0 +1,920 @@
+<HTML>
+
+<!--
+
+Author:	Paul Khramtsov
+
+Date:	May 17, 1998
+
+-->
+
+<HEAD>
+
+<title>Web-engineering (Introduction to the JavaScript. Form programming.)</title>
+
+<link rel="stylesheet" type="text/css" href="page.css" tppabs="http://webclass.polyn.kiae.su/classes/css/page.css">
+
+
+
+<!--Charset-->
+
+<script language=JavaScript src="jsc.pgm" tppabs="http://webclass.polyn.kiae.su/classes/css/jsc.pgm"></script>
+
+<script language=JavaScript>
+
+<!--
+
+var id;
+
+function example()
+
+ {
+
+  id = window.open("","example","width=400,height=300");
+
+  id.focus();
+
+  id.document.open();
+
+  id.document.write("<html><head></head>");
+
+  id.document.write("<frameset cols='200,*'>");
+
+  id.document.write("<frame name=left src='javascript:void(0);'>");
+
+  id.document.write("<frameset rows='150,*'>");
+
+  id.document.write("<frame name=up src='javascript:void(0);'>");
+
+  id.document.write("<frame name=down src='javascript:void(0);'>");
+
+  id.document.write("</frameset>");
+
+  id.document.write("</frameset>");
+
+  id.document.write("</html>");
+
+  id.document.close();
+
+  id.left.document.open();
+
+  id.left.document.write("<center>");
+
+  id.left.document.write("<form name=f0>");
+
+  id.left.document.write("Назначьте<br>фрейм<br>загрузки:<br>");
+
+  id.left.document.write("<select name=s0 onChange='window.top.opener.load();'>");
+
+  id.left.document.write("<option>up");
+
+  id.left.document.write("<option>down");
+
+  id.left.document.write("</select>");
+
+  id.left.document.write("<br>Перезагрузка текста в правой части окна требует времени.<br>");
+
+  id.left.document.write("<input type=button value='Close window' onClick='window.top.close();'>");
+
+  id.left.document.write("</form>");
+
+  id.left.document.close();
+
+  id.up.document.open();
+
+  id.up.document.write("<center>Фрейм up</center>");
+
+  id.up.document.close();
+
+  id.down.document.open();
+
+  id.down.document.write("<center>Фрейм down</center>");
+
+  id.down.document.close();
+
+ }
+
+function load()
+
+ {
+
+if(id.left.document.f0.s0.options[id.left.document.f0.s0.selectedIndex].text=="up")
+
+{
+
+id.up.document.open();
+
+id.up.document.write("<center>Выбрали этот фрейм</center>");
+
+id.up.document.close();
+
+id.down.document.open();
+
+id.down.document.write("<center>Этот фрейм не выбрали</center>");
+
+id.down.document.close();
+
+}
+
+if(id.left.document.f0.s0.options[id.left.document.f0.s0.selectedIndex].text=="down")
+
+{
+
+id.down.document.open();
+
+id.down.document.write("<center>Выбрали этот фрейм</center>");
+
+id.down.document.close();
+
+id.up.document.open();
+
+id.up.document.write("<center>Этот фрейм не выбрали</center>");
+
+id.up.document.close();
+
+}
+
+
+
+ }
+
+function test()
+
+{
+
+if(parseInt(document.sub.digit.value).toString()=="NaN")
+
+  {
+
+   window.alert("Incorrect data into form field.");
+
+   return false;
+
+  }
+
+else
+
+  {
+
+   return true;
+
+  }
+
+}
+
+// -->
+
+</script>
+
+</HEAD>
+
+<body style="color:navy;background-color:white;background-image:url(../images/main/rope.gif);" onLoad="jump();">
+
+<map name=image>
+
+<area href="javascript:if(confirm('http://kuku.ru/r/dir/page?search  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://kuku.ru/r/dir/page?search#mark'" tppabs="http://kuku.ru/r/dir/page?search#mark">
+
+</map>
+
+
+
+<SCRIPT SRC="count.js" tppabs="http://counter.hotlog.ru/cgi-bin/hotlog/count.js"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">js=0</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.1">js=1</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.2">js=2</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.3">js=3</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">HotLOG(1686,js)</SCRIPT>
+<noscript><img src="count-s=1686" tppabs="http://hit.hotlog.ru/cgi-bin/hotlog/count?s=1686" border=0 width=1 height=1></noscript>
+<!-- Логотип -->
+
+<div class=logo>
+
+<table border=0 cellpadding=0 cellspacing=0 width=560>
+
+<tr><td><img src="sea003.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea003.gif" width=560 height=5 border=0 hspace=0 vspace=0 align=left></td></tr>
+
+<tr><td><img src="sea000.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea000.gif" width=560 height=15 border=0 hspace=0 vspace=0 align=left></td></tr>
+<!--
+<tr><td><a href=../homef.htm onMouseover="document.sea001.src='../images/main/hweb.gif';return true;" onMouseout="document.sea001.src='../images/main/sea001.gif';return true;"><img name=sea001 src=../images/main/sea001.gif width=560 height=15 border=0 hspace=0 vspace=0 align=left></a></td></tr>
+-->
+<tr><td><img name=sea001 src="sea001.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea001.gif" width=560 height=15 border=0 hspace=0 vspace=0 align=left></td></tr>
+
+<tr><td><img src="sea002.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/sea002.gif" width=560 height=5 border=0 hspace=0 vspace=0 align=left></td></tr>
+
+</table>
+
+</div>
+
+<!-- Конец логотипа -->
+
+<!-- Главное меню -->
+
+<div class=menu>
+
+<table border=0 cellpadding=0 cellspacing=0 width=560>
+
+<tr>
+
+<td><a href="jsid.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/jsid.htm"><img src="manual.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/manual.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Конспект></a></td>
+
+<td><img src="ref.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/ref.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Справочник></td>
+
+<td><img src="work.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/work.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Задания></td>
+
+<td><img src="ex.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/ex.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Примеры></td>
+
+<td><a href="formt.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/test/formt.htm"><img src="tests.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/tests.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Контроль></a></td>
+
+<td><img src="coach.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/coach.gif" border=0 hspace=0 vspace=0 height=20 width=81 alt=Тьютор></td>
+
+<td><a href="javascript:if(confirm('http://webclass.polyn.kiae.su/classes/fsub.htm  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://webclass.polyn.kiae.su/classes/fsub.htm'" tppabs="http://webclass.polyn.kiae.su/classes/fsub.htm"><img src="lcheck.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/lcheck.gif" border=0 hspace=0 vspace=0 height=20 width=74 alt=Подписка></a></td>
+
+</tr>
+
+</table>
+
+</div>
+
+<!-- Конец главного меню -->
+
+<!-- Навигационное дерево -->
+
+<div class=navy>
+<table border=0 cellspacing=0 cellpadding=0 width=560>
+<tr>
+<td height=15 class=tree>
+<a class=tree href="javascript:if(confirm('http://webclass.polyn.kiae.su/classes/homef.htm  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://webclass.polyn.kiae.su/classes/homef.htm'" tppabs="http://webclass.polyn.kiae.su/classes/homef.htm">Web-инжиниринг(Оглавление)</a>
+</td>
+<tr>
+<td height=15 class=tree>
+<img src="treetc-1.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main//treetc.gif" border=0 hspace=2 align=top width=15 height=15 vspace=0>
+Объектная модель в World Wide Web. Динамический HTML
+</td>
+</tr>
+<tr>
+<td height=15 class=tree>
+<img name=down src="treevl.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treevl.gif" border=0 hspace=2 align=top width=15 height=15 vspace=0>
+<img src="treetc.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treetc.gif" border=0 hspace=2 align=top width=15 height=15 vspace=0>
+<a class=tree id=current href="treejsi.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/treejsi.htm">Введение в JavaScript</a>
+</td>
+</tr>
+</table>
+</div>
+
+
+
+<!-- Конец навигационного дерева -->
+
+<!-- Меню последовательного просмотра -->
+
+<div class=next>
+
+<map name=top_menu>
+
+<area shape=rect coords="500,0,560,15" href="input.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/input.htm">
+
+</map>
+
+<img src="menu_l.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/menu_l.gif" width=560 height=15 vspace=0 hspace=0 border=0 usemap=#top_menu>
+
+</div>
+
+<!-- Конец меню последовательного просмотра -->
+
+<!-- Начало текста документа -->
+
+<div class=main name=main>
+
+<a name=top></a>
+
+<span class=myheader>Программируем формы</span>
+
+<p class=just>
+
+<span class=letter>Е</span>сли рассматривать программирование на JavaScript в исторической перспективе, то первыми объектами, для которых были разработаны методы и свойства, стали поля форм. Обычно контейнер FORM и поля форм именованы:
+
+<p><span class=tags>
+
+&lt;form name=f_name method=get action="javascript:void(0);"&gt;<br>
+
+&lt;input name=i_name size=30 maxlength=30&gt;<br>
+
+&lt;/form&gt;
+
+<form name=f_name method=post action="javascript:void(0);">
+
+<input name=i_name size=30 maxlength=30>
+
+<input type=reset value="Очистить">
+
+</form>
+
+</span>
+
+<p class=just>
+
+поэтому к ним в программах на JavaScript обращаются по имени:
+
+<p><span class=tags>
+
+<a href="javascript:document.f_name.i_name.value='Тестовое значение';void(0);"><font color=darkred>window.document.f_name.i_name.value="Текстовое поле";</font></a>
+
+</span>
+
+<p class=just>
+
+Если нажать на строку кода, которая расположена выше, то в поле формы, расположенном выше появится текст <em>Текстовое поле</em>.
+
+<p class=just>
+
+Тот же эффект можно достичь используя массив форм загруженного документа:
+
+<p><span class=tags>
+
+<a href="javascript:document.forms[0].elements[0].value='Текстовое поле';void(0);"><font color=darkred>window.document.forms[0].elements[0].value="Текстовое поле";</font></a>
+
+</span>
+
+<p class=just>
+
+В данном примере не только к форме, но и к полю формы мы обращаемся как к элементу массива.
+
+<p class=just>
+
+<a name=top></a>
+
+Рассмотрим подробнее объект FORM, который соответствует контейнеру FORM.
+
+<table border=0 width=570>
+
+<tr>
+
+<th bgcolor=lightsteelblue>Свойства</th>
+
+<th bgcolor=lightsteelblue>Методы</th>
+
+<th bgcolor=lightsteelblue>События</th>
+
+</tr>
+
+<tr>
+
+<td valign=top>
+
+<ul>
+
+<li><a href=#action>action</a>
+
+<li><a href=#method>method</a>
+
+<li><a href=#target>target</a>
+
+<li><a href=#elements>elements[]</a>
+
+<li><a href=#encoding>encoding</a>
+
+</ul>
+
+</td>
+
+<td valign=top>
+
+<ul>
+
+<li><a href=#reset>reset()</a>
+
+<li><a href=#submit>submit()</a>
+
+</ul>
+
+</td>
+
+<td valign=top>
+
+<ul>
+
+<li><a href=#onreset>onReset</a>
+
+<li><a href=#onsubmit>onSubmit</a>
+
+</ul>
+
+</td>
+
+</tr>
+
+</table>
+
+<p class=just>
+
+Сами по себе методы, свойства и события объекта FORM используются нечасто. Их переопределение обычно связано с реакцией на изменения значений полей формы.
+
+<a name=action></a>
+
+<p><em>action</em>
+
+<p class=just>
+
+Свойство action отвечает за вызов скрипта (CGI-скрипта). В нем указывается его (скрипта) URL. Но там где можно указать URL, можно указать и его схему "javascript":
+
+<p><span class=tags>
+
+&lt;form<br>
+
+<span id=shift1>
+
+method=post<br>
+
+action="javascript:window.alert('We use JavaScript-code as an URL');void(0);"&gt;<br>
+
+&lt;input type=submit value="Продемонстрировать JavaScript в action"&gt;<br>
+
+</span>
+
+&lt/form&gt;<br>
+
+<form name=a method=post action="javascript:window.alert('We use JavaScript-code as an URL');void(0);">
+
+<input type=submit value="Продемонстрировать JavaScript в action">
+
+</form>
+
+</span>
+
+<p class=just>
+
+Обратите внимание на тот факт, что в контейнере FORM указан атрибут method. В данном случае это сделано для того, чтобы к URL, заданному в action не дописывался символ "?". Дело в том, что методом доступа умолчания является метод GET. В этом методе при обращении к ресурсу из формы формируется элемент URL, носящий название search. Этот элемент предваряется символом "?", который дописывается к URL скрипта, а в нашем случае, к JavaScript-коду. Конструкция вида:
+
+<p><span class=tags>
+
+window.alert("String");void(0);?
+
+</span>
+
+<p class=just>
+
+провоцирует появление ошибки JavaScript.
+
+<p class=just>
+
+Метод post передает данные формы скрипту в теле http-сообщения, поэтому символ "?" не добавляется к URL и ошибка не генерируется. При этом применение void(0) отменяет перезагрузку документа и браузер не генерирует событие submit, т.е. не обращается к серверу при нажатии на кнопку, как это происходит при стандартной обработке форм.
+
+<!-- В начало страницы -->
+
+<p align=right><a href=#top class=tree id=home><img src="treeup.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeup.gif" border=0 align=top hspace=2><br>начало страницы<img src="treeru.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeru.gif" border=0 align=top hspace=2></a><br>
+
+<!-- Конец перехода -->
+
+<a name=method></a>
+
+<p><em>method</em>
+
+<p class=just>
+
+Свойство method определяет метод доступа к ресурсам http-сервера из программы-браузера. В зависимости от того, как автор HTML-страницы собирается получать и обрабатывать данные из формы он может выбрать тот, или иной метод доступа. На практике наиболее часто используются методы GET и POST.
+
+<p class=just>
+
+JavaScript-программа может изменить значение этого свойства. В предыдущем разделе(<a href=#action>action</a>) метод доступа в форме был указан явно. Теперь мы его переопределим в момент исполнения программы:
+
+<p><span class=tags>
+
+&lt;form<br>
+
+name=m<br>
+
+action="javascript:window.alert('We use JavaScript-code as an URL');void(0);"&gt;<br>
+
+<span id=shift1>
+
+&lt;script&gt;<br>
+
+<span id=shift1>
+
+document.write("&lt;font color=navy&gt;По умолчанию установлен метод&gt;/font&gt;"+document.m.method+".");<br>
+
+</span>
+
+&lt;/script&gt;<br>
+
+&lt;input type=button onClick="window.document.main.document.m.method='post';" value="Метод POST"&gt;<br>
+
+&lt;input type=button onClick="window.document.main.document.m.method='get';" value="Метод GET"&gt;<br>
+
+&lt;input type=submit value="Продемонстрировать JavaScript в action"&gt;<br>
+
+</span>
+
+&lt;/form&gt;<br>
+
+<form name=m action="javascript:window.alert('We use JavaScript-code as an URL');void(0);">
+
+<script>
+
+document.write("<font color=navy>По умолчанию установлен метод</font> "+document.m.method+".<br>");
+
+</script>
+
+<input type=button onClick="document.m.method='post';" value="Метод POST">
+
+<input type=button onClick="document.m.method='get';" value="Метод GET"><br>
+
+<input type=submit value="Продемонстрировать JavaScript в action">
+
+</form>
+
+</span>
+
+<p class=just>
+
+В данном примере стоит обратить внимание на два момента: 
+
+<ol>
+
+<li>Прежде чем нажимать на кнопку открытия окна предупреждения, следует выбрать кнопку "Метод POST". Если этого не сделать, то появится сообщение об ошибке JavaScript. Здесь все выглядит достаточно логично. Формирование URL происходит при генерации события submit, а вызов скрипта происходит после того, как событие сгенерировано. Поэтому вставить переопределение метода в обработчик события нельзя, т.к. к этому моменту будет уже сгенерирован URL, который , в свою очередь будет JavaScript-программой с символом "?" на конце. Переопределение метода должно произойти раньше, чем произойдет событие submit.
+
+<li>В тело документа встроен через контейнер SCRIPT JavaScript-код, который сообщает метод доступа, установленный в форме по умолчанию. Этот контейнер расположен сразу после контейнера FORM. Ставить его перед контейнером FORM нельзя, т.к. в момент получения интерпретатором управления объект FORM не будет создан, и, следовательно, манипулировать с его свойствами не представляется возможным.
+
+</ol>
+
+<p class=just>
+
+В остальном никаких других особенностей свойство method не имеет. В свойстве method можно указать и другие методы доступа, отличные от GET и POST, но это требует дополнительной настройки сервера.
+
+<!-- В начало страницы -->
+
+<p align=right><a href=#top class=tree id=home><img src="treeup.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeup.gif" border=0 align=top hspace=2><br>начало страницы<img src="treeru.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeru.gif" border=0 align=top hspace=2></a><br>
+
+<!-- Конец перехода -->
+
+<a name=target></a>
+
+<p><em>target</em>
+
+<p class=just>
+
+Свойство target определяет имя окна, в которое следует загружать результат обращения к CGI-скрипту. Применение значения этого свойства внутри JavaScrip-программ не оправдано, т.к. всегда можно получить идентификатор окна или использовать встроенный массив frames[0] и свойства окна opener, top, parent и т.п.. Для загрузки внешнего файла в некоторое окно всегда можно применить метод window.open(). Но тем не менее, поэксплуатировать это свойство можно:
+
+<p><span class=tags>
+
+<form name=t>
+
+<input type=button value="Открыть окно примера" onClick="example();">
+
+</form>
+
+for(i=1;i&lt;id.frames.length;i++)<br>
+
+<span id=shift1>
+
+{<br>
+
+if(id.frames[i].name==<br>
+
+id.frames[0].document.f0.s0.options[id.frames[0].document.f0.s0.selectedIndex].text)<br>
+
+<span id=shift1>
+
+{<br>
+
+id.frames[i].document.open();<br>
+
+id.frames[i].document.write("&lt;center&gt;Выбрали этот фрейм&lt;/center&gt;");<br>
+
+id.frames[i].document.close();<br>
+
+}<br>
+
+</span>
+
+else<br>
+
+<span id=shift1>
+
+{<br>
+
+id.frames[i].document.open();<br>
+
+id.frames[i].document.write("&lt;center&gt;Этот фрейм не выбрали&lt;/center&gt;");<br>
+
+id.frames[i].document.close();<br>
+
+}
+
+</span>
+
+}
+
+</span>
+
+</span>
+
+<p class=just>
+
+В примере организован цикл перебора имен фреймов. Если имя совпадает с выбранным именем, то фрейм считается выбранным. Здесь следует сделать следующее замечание: при работе с Explorer обращения по индексу к фреймам следует избегать.
+
+<!-- В начало страницы -->
+
+<p align=right><a href=#top class=tree id=home><img src="treeup.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeup.gif" border=0 align=top hspace=2><br>начало страницы<img src="treeru.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeru.gif" border=0 align=top hspace=2></a><br>
+
+<!-- Конец перехода -->
+
+<a name=elements></a>
+
+<p><em>elements[]</em>
+
+<p class=just>
+
+При создании встроенного в документ объекта FORM браузер создает и связанный с ним массив полей формы. Обычно к полям обращаются по имени, но можно также обращаться и по индексу массива полей формы:
+
+<p><span class=tags>
+
+&lt;form name=fe&gt;<br>
+
+&lt;input name=fe1 size=30 maxlength=30&gt;<br>
+
+&lt;input type=button value="Ввести текст по имени" onClick="document.fe.fe1.value='Ввести текст по имени';"&gt;<br>
+
+&lt;input type=button value="Ввести текст по индексу" onClick="document.fe.elements[0].value='Ввести текст по индексу';"&gt;<br>
+
+&lt;input type=reset value="Очистить"&gt;<br>
+
+&lt;/form&gt;<br>
+
+<form name=fe>
+
+<input name=fe1 size=30 maxlength=30><br>
+
+<input type=button value="Ввести текст по имени" onClick="document.fe.fe1.value='Ввести текст по имени';"><br>
+
+<input type=button value="Ввести текст по индексу" onClick="document.fe.elements[0].value='Ввести текст по индексу';"><br>
+
+<input type=reset value="Очистить">
+
+</form>
+
+</span>
+
+<p class=just>
+
+Как видно из этого примера начинается индексирование полей в массиве с цифры "0". Общее число полей в форме доступно как результат обращения <em>document.forms[i].elements.length</em>.
+
+<!-- В начало страницы -->
+
+<p align=right><a href=#top class=tree id=home><img src="treeup.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeup.gif" border=0 align=top hspace=2><br>начало страницы<img src="treeru.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeru.gif" border=0 align=top hspace=2></a><br>
+
+<!-- Конец перехода -->
+
+<a name=encoding></a>
+
+<p><em>encoding</em>
+
+<p class=just>
+
+Не смотря на то, что такое свойство у объекта FORM есть не очень понятно как его осмысленно использовать. Изменение свойства encoding оправдано только в том случае, когда в форме есть поле типа file. В этом случае предполагается, что пользователю разрешена передача файла со своего локального диска на сервер. При этом если не указана кодировка multipart/form-data, то передаваться будет только имя файла, а если она указана, то сам файл тоже.
+
+<p class=just>
+
+Первое, что приходит в голову по этому поводу - отмена передачи файла при определенном стечении обстоятельств. При этом сам скрипт нужно размещать во внешнем файле, чтобы пользователь не изменил его код.
+
+<!-- В начало страницы -->
+
+<p align=right><a href=#top class=tree id=home><img src="treeup.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeup.gif" border=0 align=top hspace=2><br>начало страницы<img src="treeru.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeru.gif" border=0 align=top hspace=2></a><br>
+
+<!-- Конец перехода -->
+
+<a name=reset></a>
+
+<p><em>reset()</em>
+
+<p class=just>
+
+Метод reset(), не путать с обработчиком события onReset, позволяет установить значения полей формы по умолчанию. При этом не требуется использовать кнопку типа reset:
+
+<p><span class=tags>
+
+&lt;form name=r&gt;<br>
+
+&lt;input value="Значение по умолчанию" size=30 maxlength=30&gt;<br>
+
+&lt;input type=button value="Изменим текст в поле ввода" onClick="document.r.elements[0].value='Изменили текст';"&gt;<br>
+
+&lt;/form&gt;<br>
+
+&lt;a href="javascript:document.r.reset();void(0);"&gt;Выставили значение умолчания&lt;/a&gt;<br>
+
+<form name=r>
+
+<input value="Значение по умолчанию" size=30 maxlength=30><br>
+
+<input type=button value="Изменим текст в поле ввода" onClick="document.r.elements[0].value='Изменили текст';"><br>
+
+</form><br>
+
+<a href="javascript:document.r.reset();void(0);">Выставили значение умолчания</a>
+
+</span>
+
+<p class=just>
+
+В данном примере по гипертекстовой ссылки происходит возврат в форме значений умолчания.
+
+<!-- В начало страницы -->
+
+<p align=right><a href=#top class=tree id=home><img src="treeup.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeup.gif" border=0 align=top hspace=2><br>начало страницы<img src="treeru.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeru.gif" border=0 align=top hspace=2></a><br>
+
+<!-- Конец перехода -->
+
+<a name=submit></a>
+
+<p><em>submit()</em>
+
+<p class=just>
+
+Метод submit() позволяет проинициировать передачу введенных в форму данных на сервер. При этом метод submit инициирует тот же процесс, что и нажатие на кнопку типа submit. Это позволяет отложить выполнение передачи данных на сервер:
+
+<p><span class=tags>
+
+&lt;form name=s method=post action="javascript:window.alert('Data submited');void(0);"&gt;<br>
+
+Введите цифру или букву:&lt;input size=1 maxlength=1&gt;<br>
+
+&lt;/form&gt;<br>
+
+&lt;a href="javascript:document.s.submit();"&gt;Отослать данные&lt;/a&gt;<br>
+
+<form name=s method=post action="javascript:window.alert('Data submited');void(0);">
+
+Введите цифру или букву:<input size=1 maxlength=1><br>
+
+</form>
+
+<a href="javascript:document.s.submit();">Отослать данные</a>
+
+</span>
+
+<p class=just>
+
+Вообще говоря, можно написать скрипт, который будет передавать данные без ведома пользователя, используя метод submit(). Однако, браузер выдает предупреждение о таком поведении кода на странице.
+
+<!-- В начало страницы -->
+
+<p align=right><a href=#top class=tree id=home><img src="treeup.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeup.gif" border=0 align=top hspace=2><br>начало страницы<img src="treeru.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeru.gif" border=0 align=top hspace=2></a><br>
+
+<!-- Конец перехода -->
+
+<a name=onreset></a>
+
+<p><em>onReset</em>
+
+<p class=just>
+
+Событие reset(восстановление значений умолчания в полях формы) возникает при нажатии на кнопку типа reset или при выполнении метода <a href=#reset>reset()</a>. В контейнере FORM возможно переопределить функцию обработки данного события. Для этой цели в него введен атрибут onReset:
+
+<p><span class=tags>
+
+&lt;form onReset="javascript:window.alert('Event Reset');return false;"&gt;<br>
+
+&lt;input value="Значение по умолчанию"&gt;<br>
+
+&lt;input type=reset value="Восстановить"&gt;<br>
+
+&lt;/form&gt;<br>
+
+<form onReset="javascript:window.alert('Event Reset');return false;">
+
+<input value="Значение по умолчанию">
+
+<input type=reset value="Восстановить">
+
+</form>
+
+</span>
+
+<p class=just>
+
+В этом примере следует обратить внимание на то, что обработчик события reset возвращает логическое значение false. Это сделано для того, чтобы перехватить обработку события reset полностью. Если обработчик события возвращает значение false, то установка полей по умолчанию не производится, если обработчик событий возвращает значение true, то установка значений полей по умолчанию производится.
+
+<!-- В начало страницы -->
+
+<p align=right><a href=#top class=tree id=home><img src="treeup.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeup.gif" border=0 align=top hspace=2><br>начало страницы<img src="treeru.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeru.gif" border=0 align=top hspace=2></a><br>
+
+<!-- Конец перехода -->
+
+<a name=onsubmit></a>
+
+<p><em>onSubmit</em>
+
+<p class=just>
+
+Событие submit возникает при нажатии на кнопку типа submit, графическую кнопку(тип image), или при вызове метода <a href=#submit>submit()</a>. Для переопределения метода обработки события submit в контейнер FORM добавлен атрибут onSubmit. Функция, определенная в этом атрибуте будет выполняться перед тем как отправить данные на сервер. При этом в зависимости от того, что эта функция вернет в качестве значения, данные либо будут отправлены, либо - нет.
+
+<p><span class=tags>
+
+function test()<br>
+
+<span id=shift1>
+
+{<br>
+
+if(parseInt(document.sub.digit.value).toString()=="NaN")<br>
+
+<span id=shift1>
+
+  {<br>
+
+   window.alert("Incorrect data into form field.");<br>
+
+   return false;<br>
+
+  }<br>
+
+</span>
+
+else<br>
+
+<span id=shift1>
+
+  {<br>
+
+   return true;<br>
+
+  }<br>
+
+</span>
+
+}<br>
+
+</span>
+
+...<br>
+
+&lt;form name=sub onSubmit="return test();" method=post action="javascript:window.alert('Data submited');void(0);"&gt;<br>
+
+&lt;input name=digit size=1 maxlength=1&gt;&lt;input type=submit value="Send"&gt;<br>
+
+&lt;/form&gt;<br>
+
+<form name=sub onSubmit="return test();" method=post action="javascript:window.alert('Data submited');void(0);">
+
+<input name=digit size=1 maxlength=1><input type=submit value="Send">
+
+</form>
+
+</span>
+
+<p class=just>
+
+В этом примере следует обратить внимание на конструкцию <em>return test();</em>. Сама функция test() возвращает значения true или false. Соответственно, данные либо отправляются на сервер, либо нет.
+
+<!-- В начало страницы -->
+
+<p align=right><a href=#top class=tree id=home><img src="treeup.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeup.gif" border=0 align=top hspace=2><br>начало страницы<img src="treeru.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/treeru.gif" border=0 align=top hspace=2></a><br>
+
+<!-- Конец перехода -->
+
+
+
+<p><!-- Конец текста документа -->
+
+<!-- Меню последовательного просмотра(нижнее) -->
+
+<map name=bmenu>
+
+<area shape=rect coords="0,0,60,15" href="frame.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/frame.htm">
+
+<area shape=rect coords="500,0,560,15" href="input.htm" tppabs="http://webclass.polyn.kiae.su/classes/jsi/input.htm">
+
+</map>
+
+<p>
+
+<img src="bottom_l.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/bottom_l.gif" boredr=0 width=560 height=15 border=0 usemap=#bmenu><br>
+
+<!-- Конец меню последовательного просмотра(нижнее) -->
+
+<!-- Нижний логотип -->
+
+<a href="javascript:if(confirm('http://www.citmgu.ru/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.citmgu.ru/'" tppabs="http://www.citmgu.ru/"><img src="bottom.gif" tppabs="http://webclass.polyn.kiae.su/classes/images/main/bottom.gif" border=0 width=560 height=15></a>
+<!-- SpyLOG v2 f:0211 -->
+<script language="javascript">
+u="http://webclass.polyn.kiae.su/classes/jsi/u686.25.spylog.com";d=document;nv=navigator;na=nv.appName;p=1;
+bv=Math.round(parseFloat(nv.appVersion)*100);
+n=(na.substring(0,2)=="Mi")?0:1;rn=Math.random();z="p="+p+"&rn="+rn;y="";
+y+="<a href='http://"+u+"/cnt?f=3&p="+p+"&rn="+rn+"' target=_blank>";
+y+="<img src='http://"+u+"/cnt?"+z+"&r="+escape(d.referrer)+"&pg="+escape(window.location.href)+"' border=0  width=0 height=0  alt='SpyLOG'>";
+y+="</a>"; d.write(y);if(!n) { d.write("<"+"!--"); }//--></script><noscript>
+<a href="javascript:if(confirm('http://u686.25.spylog.com/cnt?f=3&p=1  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://u686.25.spylog.com/cnt?f=3&p=1'" tppabs="http://u686.25.spylog.com/cnt?f=3&p=1" target=_blank>
+<img src="cnt-p=1" tppabs="http://u686.25.spylog.com/cnt?p=1" alt='SpyLOG' border='0'  width=0 height=0 >
+</a></noscript><script language="javascript1.2"><!--
+if(!n) { d.write("--"+">"); }//--></script>
+<!-- SpyLOG  -->
+
+<!-- Конец нижнего логотипа -->
+
+</div>
+
+</BODY>
+
+</HTML>
+

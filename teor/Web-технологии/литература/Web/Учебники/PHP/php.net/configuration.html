@@ -1,0 +1,502 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>Конфигурирование</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="configure.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="security.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="configuration">Глава 3. Конфигурирование</A></H1><DL><DT><B>Содержание</B></DT>
+<DT><a href="#configuration.file">Файл конфигурации</a></DT></DL>
+<H1><a name="configuration.file">Файл конфигурации</a></H1><P>Файл конфигурации (<TT>php3.ini</TT> в
+PHP 3.0 и просто <TT>php.ini</TT> в PHP 4.0) читается при старте PHP. Для версий серверных модулей PHP это 
+происходит один раз при старте web-сервера. Для CGI и CLI-версий это происходит при каждом вызове.</P>
+<P>По умолчанию <TT>php.ini</TT> размещается как опция времени компиляции (см.
+<A HREF="installation.html#faq.installation.phpini">FAQ</A>), но местоположение может
+быть изменено для CGI и CLI-версий ключом командной строки <TT>-c</TT> (см. главу об использовании<TT> PHP</TT>
+из <a href="commandline.html">командной строки</a>. Вы можете использовать также переменную
+окружения <TT>PHPRC</TT> для добавления пути поиска <TT>php.ini</TT>.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN2216"></A><P><B>Пример 3-1. <TT>php.ini</TT></B></P>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>; любой текст в строке после незакавыченного символа ; игнорируется
+[php] ; маркёры раздела (текст в квадратных скобках) также игнорируются
+; Boolean-значения могут быть установлены в true, on, yes
+; или в false, off, no, none
+register_globals = off
+magic_quotes_gpc = yes
+
+; вы можете заключать строки в двойные кавычки
+include_path = ".:/usr/local/lib/php"
+
+; обратные слэши (\) рассматриваются так же, как любой другой символ
+include_path = ".;c:\php\lib"</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>При использовании PHP как Apache-модуля вы можете также изменить установки 
+конфигурации, используя директивы файлов конфигурации Apache и файлы .htaccess. 
+Вам для этого необходимы привилегии &quot;AllowOverride Options&quot; или &quot;AllowOverride All&quot;).</P>
+<P>Для PHP 3.0 имеются директивы Apache, которые соответствуют каждому имени установки конфигурации в
+<TT>php3.ini</TT>, исключая имена с префиксом &quot;php3_&quot;.</P>
+<P>Для PHP 4.0 имеются несколько директив Apache, которые позволяют изменять 
+конфигурацию PHP и в самом файле конфигурации Apache.<DL><DT>php_value <TT><I>name</I></TT> <TT><I>value</I></TT>
+</DT><DD><P>Устанавливает значение специфицированной переменной.</P></DD><DT>
+php_flag <TT><I>name</I></TT> <TT><I>on|off</I></TT></DT><DD><P>Используется для установки булевой
+опции конфигурации.</P></DD><DT>php_admin_value <TT><I>name</I></TT> <TT><I>value</I></TT></DT>
+<DD><P>Устанавливает значение специфицированной переменной. Установки конфигурации &quot;Admin&quot; 
+могут устанавливаться только в главных файлах конфигурации Apache, но не в .htaccess-файлах.</P></DD>
+<DT>php_admin_flag <TT><I>name</I></TT> <TT><I>on|off</I></TT></DT><DD><P>Используется для
+установки булевой опции конфигурации.</P></DD></DL><TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN2254"></A><h5>Пример 3-2. Пример конфигурации Apache</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;IfModule mod_php4.c&#62;
+php_value include_path ".:/usr/local/lib/php"
+php_flag safe_mode on
+&#60;/IfModule&#62;
+&#60;IfModule mod_php3.c&#62;
+php3_include_path ".:/usr/local/lib/php"
+php3_safe_mode on
+&#60;/IfModule&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>Вы можете увидеть значения конфигурации на выводе <A HREF="f/phpinfo.html"><B>phpinfo()</B></A>.
+Можно также получить доступ к значениям отдельных установок конфигурации с помощью
+<A HREF="f/get-cfg-var.html"><B>get_cfg_var()</B></A>.</P>
+<H2><a name="ini.sect.general">Главные директивы конфигурации</a></H2><DL>
+<DT><A NAME="ini.allow-url-fopen"><TT><I>allow_url_fopen</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD>
+<P>Эта опция включает знающие об URL fopen-оболочки, которые делают возможным 
+доступ к URL-объектам наподобие файлов. Оболочки по умолчанию предоставляются для доступа к
+<a href="remote-files.html">удалённым файлам</a> через 
+использование протокола ftp или http, некоторые расширения наподобие 
+zlib могут регистрировать дополнительные оболочки.</P><BLOCKQUOTE><P><B>Примечание: </B>
+  эта опция была введена сразу после появления версии 4.0.3. Для 
+версий до 4.0.3 включительно вы можете только отключать эту 
+возможность на этапе компиляции, используя ключ конфигурации 
+<A HREF="configure.html#install.configure.disable-url-fopen-wrapper"><TT><I>--disable-url-fopen-wrapper</I></TT></A>.</P></BLOCKQUOTE></DD></dl>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th>Предупреждение!</th></TR><TR>
+<TD><P> В Windows следующие функции не поддерживают доступ к удалённым файлам:
+<A HREF="include.html"><B>include()</B></A>, <A HREF="include-once.html">
+<B>include_once()</B></A>, <A HREF="f/require.html"><B>require()</B></A> и
+<A HREF="f/require-once.html"><B>require_once()</B></A>.</P></TD></TR></TABLE><DT>
+<A NAME="ini.asp-tags"><TT><I>asp_tags</I></TT><A HREF="types.boolean.html"> <B>boolean</B></A></A>
+</DT><DD><P>Делает возможным использование ASP-подобных тэгов &lt;% %&gt; в дополнение к обычным 
+тэгам &lt;?php ?&gt;. Сюда входит также аббревиатура для печати значения 
+переменной &lt;%= $value %&gt;. дополнительно см. <A HREF="basic-syntax.html#language.basic-syntax.phpmode">
+Выход из HTML</A>.</P><BLOCKQUOTE><P><B>Примечание: </B>поддержка тэгов в стиле ASP была
+введена в версии 4.0.3.</P></BLOCKQUOTE></DD><DT><A NAME="ini.auto-append-file"><TT><I>auto_append_file</I>
+</TT><A HREF="types.string.html"> <B>string</B></A></A></DT><DD>
+<P>Специфицирует имя файла, автоматически разбираемого после главного/main файла. 
+Этот файл подключается так, как если бы он был вызван функцией <A HREF="include.html">
+<B>include()</B></A>, так что используется <A HREF="#ini.include-path">include_path</A>.</P>
+<P>Специальное значение none отключает автоподключение.<BLOCKQUOTE><P><B>Примечание: </B>
+  если скрипт завершается с помощью <A HREF="f/exit.html"><B>exit()</B></A>,
+автоподключения <i>не будет</i>.</P></BLOCKQUOTE></DD><DT><A NAME="ini.auto-prepend-file"><TT>
+<I>auto_prepend_file</I></TT><A HREF="types.string.html"> <B>string</B></A></A></DT><DD>
+<P>Специфицирует имя файла, автоматически разбираемого до главного/main файла. 
+Этот файл подключается так, как если бы он был вызван функцией <A HREF="include.html">
+<B>include()</B></A>, так что используется <A HREF="#ini.include-path">include_path</A>.</P>
+<P>Специальное значение none отключает автоподключение.</DD><DT><A NAME="ini.cgi-ext"><TT><I>cgi_ext</I></TT><A HREF="types.string.html"> <B>string</B></A></A></DT><P></P></DD>
+<DT><A NAME="ini.display-errors"><TT><I>display_errors</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD>
+<P>Определяет, печатаются ли ошибки на экране как часть HTML-вывода, или нет.</P></DD><DT>
+<A NAME="ini.doc-root"><TT><I>doc_root</I></TT><A HREF="types.string.html">
+<B>string</B></A></A></DT><DD><P>
+&quot;Корневая директория&quot; PHP на сервере. Используется,  если не пустая. 
+Если PHP сконфигурирован с <A HREF="#ini.safe-mode">safe mode</A>, никакие файлы вне этой
+директории не обслуживаются.</P></DD><DT><A NAME="ini.engine"><TT><I>engine</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD>
+<P>Реально эта директива используется только в версии Apache-модуля PHP. Она 
+используется сайтами, которым необходимо включать и выключать 
+PHP-разбор на уровне директорий и на уровне виртуальных серверов. Поместив <TT><B>engine off</B></TT>
+в соответствующие места в файле <TT>httpd.conf</TT>, можно отключать (и подключать) PHP.</P></DD><DT>
+<A NAME="ini.error-log"><TT><I>error_log</I></TT><A HREF="types.string.html">
+<B>string</B></A></A></DT><DD><P>Имя файла для записи ошибок скриптов. Если используется
+специальное значение <TT>syslog</TT>, ошибки посылаются в системный logger. В UNIX это syslog(3),
+а в Windows NT это event log. Системный logger не поддерживается в Windows 95.</P></DD><DT>
+<A NAME="ini.error-reporting"><TT><I>error_reporting</I></TT>
+<A HREF="types.integer.html"><B>integer</B></A></A></DT><DD>
+<P>Установить уровень сообщения ошибок. Это целочисленный параметр - битовое 
+поле. Добавьте необходимое значение уровня ошибок.<A NAME="AEN2354"></A><h6>Таблица 3-1. Уровни
+сообщения об ошибках</h6><TABLE BORDER="1"><TR><TH >битовое поле</TH>
+<TH >включает сообщение о</TH></TR><TR><TD>1</TD>
+<TD>нормальных ошибках</TD></TR><TR><TD>2</TD>
+<TD>нормальных предупреждениях</TD></TR><TR><TD>4</TD>
+<TD>ошибка разборщика</TD></TR><TR><TD>8</TD>
+<TD>некритичные стилевые предупреждения</TD></TR></TABLE>
+<p>Эта директива имеет по умолчанию значение 7 (выводятся нормальные 
+ошибки, нормальные предупреждения и ошибки разборщика).</p></P></DD><DT><A NAME="ini.html-errors">
+<TT><I>html_errors</I></TT></a><B> <A HREF="types.boolean.html">boolean</A></B></A></DT><DD>
+<P>Отключает тэги HTML в сообщениях об ошибках.</P></DD><DT><TT>
+<A NAME="ini.open-basedir">
+<I>open_basedir</I></a><I> </I></TT><A HREF="types.string.html"><B>string</B></A></A></DT><DD>
+<P>Ограничивает файлы, которые могут быть открыты в PHP специфицированным деревом директорий.</P>
+<P>Когда скрипт пытается открыть файл с помощью, например, fopen или gzopen, 
+проверяется расположение файла. Если файл находится вне специфицированного дерева директорий, PHP его не откроет. Все 
+символические ссылки разрешаются, поэтому это ограничение невозможно обойти с помощью symlink.</P>
+<P>Специальное значение . указывает, что директория, в которой хранится скрипт, будет использоваться как 
+базовая директория/base-directory.</P><P>В Windows разделяйте директории точкой с запятой. На всех других системах - 
+двоеточием. При использовании в качестве Apache-модуля, автоматически 
+наследуются пути open_basedir из родительских директорий.</P>
+<P>Ограничение, специфицируемое с помощью open_basedir, это в действительности 
+префикс, а не имя директории. Это означает, что &quot;open_basedir = 
+/dir/incl&quot; даёт также доступ к &quot;/dir/include&quot; и &quot;/dir/incls&quot;, если 
+таковые существуют. Если вы хотите ограничить доступ только для одной 
+конкретной директории, завершайте его слэшем. Например: &quot;open_basedir = /dir/incl/&quot;</P>
+<BLOCKQUOTE><P><B>Примечание: </B>поддержка нескольких директорий была введена в 3.0.7.</P></BLOCKQUOTE>
+<P>По умолчанию разрешено открывать все файлы.</P></DD><DT><A NAME="ini.gpc-order"><TT><I>gpc_order</I></TT>
+<A HREF="types.string.html"><B>string</B></A></A></DT><DD>
+<P>Устанавливает порядок разбора переменных GET/POST/COOKIE. Значение по 
+умолчанию этой директивы: &quot;GPC&quot;. Установка &quot;GP&quot;, например, заставит 
+PHP полностью игнорировать куки и перезаписывать любые переменные 
+метода GET на переменные метода POST с теми же именами.</P>
+<P>Обратите внимание, что эта опция отсутствует в PHP 4. Вместо неё используйте
+<A HREF="#ini.variables-order">variables_order</A>.</P></DD><DT><A NAME="ini.variables-order"><TT>
+<I>variables_order</I></TT></a><B> <A HREF="types.string.html">string</A></B></A></DT><DD>
+<P>Устанавливает порядок EGPCS (Environment, GET, POST, Cookie, Server) для 
+разбора переменных. Значение по умолчанию: &quot;EGPCS&quot;. Установка &quot;GP&quot;, 
+например, заставит РНР полностью игнорировать переменные окружения, 
+куки и серверные переменные и перезаписывать любые переменные метода GET на переменные метода POST с теми же именами.</P>
+<P>См. также <A HREF="#ini.register-globals">register_globals</A></P></DD><DT>
+<A NAME="ini.ignore-user-abort"><TT><I>ignore_user_abort</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD><P> <TT><B>TRUE</B></TT>
+по умолчанию. Если изменить на <TT><B>FALSE</B></TT>, скрипты будут прерываться, как только они попытаются вывести что-нибудь 
+после того как клиент разорвал соединение.</P><P> См. также <A HREF="f/ignore-user-abort.html">
+<B>ignore_user_abort()</B></A>.</P></DD><DT><A NAME="ini.implicit-flush"><TT><I>implicit_flush</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD><P> <TT><B>FALSE</B></TT>
+по умолчанию. Изменение на <TT><B>TRUE</B></TT> заставляет PHP сообщить слою вывода, что он должен очищаться автоматически 
+после каждого блока вывода. Это равносильно вызову <TT>PHP</TT>-функции <A HREF="f/flush.html">
+<B>flush()</B></A> после каждого вызова <A HREF="f/print.html"><B>print()</B></A>
+или <A HREF="f/echo.html"><B>echo()</B></A> и после каждого <TT>HTML</TT>-блока.</P>
+<P>При использовании <TT>PHP</TT> внутри web-среды, включение этой опции значительно снижает производительность 
+и обычно рекомендуется только при отладке. Это значение по умолчанию устанавливается в <TT><B>TRUE</B></TT>,
+если работа идёт под <TT>CLI SAPI</TT>.</P></DD><DT><A NAME="ini.include-path"><TT><I>include_path</I></TT>
+<A HREF="types.string.html"><B>string</B></A></A></DT><DD>
+<P>Специфицирует список директорий, где функции <A HREF="f/require.html"><B>require()</B></A>,
+<A HREF="include.html"><B>include()</B></A> и <B>fopen_with_path()</B> ищут файлы. Формат
+напоминает системную переменную окружения <TT>PATH</TT>: список директорий, разделённых
+двоеточием в UNIX или точкой запятой - в Windows.<TABLE WIDTH="100%" BORDER="0"><TR><TD>
+<A NAME="AEN2447"></A><h5>Пример 3-3. UNIX include_path</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5">
+<TR><TD><PRE>include_path=.:/home/httpd/php-lib</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN2450"></A><h5>Пример 3-4. Windows include_path</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>include_path=".;c:\www\phplib"</PRE></TD>
+</TR></TABLE></TD></TR></TABLE><p>Значение по умолчанию:&nbsp; <TT>.</TT> (только текущая директория).</DD>
+<DT><A NAME="ini.isapi-ext"><TT><I>isapi_ext</I></TT><A HREF="types.string.html">
+<B>string</B></A></A></DT><DT><A NAME="ini.log-errors"><TT><I>log_errors</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD>
+<P>Должны ли сообщения об ошибках скриптов записываться в error log сервера. Таким образом, эта
+опция специфична для сервера.</P></DD><DT><A NAME="ini.magic-quotes-gpc"><TT><I>magic_quotes_gpc</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD>
+<P>Устанавливает статус magic_quotes для GPC-операций (Get/Post/Cookie). Когда 
+magic_quotes включены, все ' (одинарные кавычки), &quot; (двойные кавычки), 
+\ (обратные слэши) и NUL мнемонизируются обратными слэшами 
+автоматически. Если magic_quotes_sybase также включена, одинарные 
+кавычки escape-ируются одинарной кавычкой вместо backslash.</P></DD><DT>
+<A NAME="ini.magic-quotes-runtime"><TT><I>magic_quotes_runtime</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD><P> Если <TT>
+<I>magic_quotes_runtime</I></TT> включена, большинство функций, возвращающих 
+данные из внешнего источника любого рода, включая БД и текстовые файлы, будут 
+иметь кавычки, мнемонизированные с помощью обратных слэшей. Если <TT><I>magic_quotes_sybase</I></TT> также включена,
+одинарные кавычки escape-ируются одинарной кавычкой вместо backslash.</P></DD><DT>
+<A NAME="ini.magic-quotes-sybase"><TT><I>magic_quotes_sybase</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD><P> Если <TT>
+<I>magic_quotes_sybase</I></TT> также включена, одинарные кавычки мнемонизируются одинарной кавычкой вместо backslash, если <TT><I>magic_quotes_gpc</I></TT> или <TT><I>magic_quotes_runtime</I></TT> включена.</P></DD>
+<DT><A NAME="ini.max-execution-time"><TT><I>max_execution_time</I></TT>
+<A HREF="types.integer.html"><B>integer</B></A></A></DT><DD>
+<P>Устанавливает максимальное время работы скрипта в секундах, до того как он 
+будет остановлен разборщиком. Это предотвращает перегрузку сервера плохо написанными скриптами. Значение по
+умолчанию <TT>30</TT>.</P><P> На максимальное время выполнения не влияют системные вызовы, функция
+<A HREF="f/sleep.html"><B>sleep()</B></A> etc. Пожалуйста, см. детали в описании функции
+<A HREF="f/set-time-limit.html"><B>set_time_limit()</B></A>.</P></DD><DT>
+<A NAME="ini.memory-limit"><TT><I>memory_limit</I></TT><A HREF="types.integer.html">
+<B>integer</B></A></A></DT><DD><P>Устанавливает максимальное количество памяти в байтах, которое скрипт может 
+занимать. Это предотвращает поглощение неправильно написанными скриптами всей доступной памяти сервера.</P>
+</DD><DT><A NAME="ini.nsapi-ext"><TT><I>nsapi_ext</I></TT><A HREF="types.string.html">
+<B>string</B></A></A></DT><DT><A NAME="ini.precision"><TT><I>precision</I></TT>
+<A HREF="types.integer.html"><B>integer</B></A></A></DT><DD>
+<P>Количество значащих цифр, выводимых в числах с плавающей точкой.</P></DD><DT>
+<A NAME="ini.register-argc-argv"><TT><I>register_argc_argv</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD><P> Говорит PHP, объявлять
+ли переменные argv и argc (которые будут содержать GET-информацию).</P>
+<P>См. также <a href="commandline.html">&quot;командная строка&quot;</a>. 
+Эта директива стала доступна в PHP 4.0.0, а до этого была всегда &quot;on&quot;.</P></DD><DT>
+<A NAME="ini.post-max-size"><TT><I>post_max_size</I></TT>
+<A HREF="types.integer.html"><B>integer</B></A></A></DT><DD>
+<P>Устанавливает максимальный допустимый размер post-данных. Эта установка влияет 
+также на загрузку файлов. Для загрузки больших файлов this это значение должно быть выше, чем
+<A HREF="#ini.upload-max-filesize">upload_max_filesize</A>.</P><P> Если лимит памяти включён
+в скрипте конфигурации, <A HREF="#ini.memory-limit">memory_limit</A> также влияет на загрузку файлов.
+В общем, <A HREF="#ini.memory-limit">memory_limit</A> должен быть больше, чем
+<A HREF="#ini.post-max-size">post_max_size</A>.</P></DD><DT><TT>
+<A NAME="ini.register-globals">
+<I>register_globals</I></a><I> </I></TT><A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD>
+<P>Говорит, регистрировать ли EGPCS-переменные (Environment, GET, POST, Cookie, 
+Server) как глобальные переменные. Вам может понадобиться выключить 
+эту возможность, если вы не хотите смешивать глобальную область 
+видимости вашего скрипта с пользовательскими данными. Это заметнее, если используется
+<A HREF="#ini.track-vars">track_vars</A> - в этом случае вы можете иметь доступ ко всем EGPCS-переменным через массивы
+<TT>$_ENV</TT>, <TT>$_GET</TT>, <TT>$_POST</TT>, <TT>$_COOKIE</TT> и <TT>$_SERVER</TT> в глобальной области видимости/scope.</P>
+<P>Обратите внимание, что вы должны установить AllowOveride All в вашем блоке 
+Directory файла конфигурации Аpache, чтобы эта опция работала.</P></DD><DT>
+<A NAME="ini.short-open-tag"><TT><I>short_open_tag</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD>
+<P>Разрешает/запрещает использование сокращённой формы открывающих тэгов РНР (<TT><B>&#60;? ?&#62;</B></TT>).
+Если вы хотите использовать PHP в сочетании с XML, вы должны отключить эту 
+опцию. Тогда вам необходимо будет использовать длинную форму открывающего тэга (<TT><B>&#60;?php ?&#62;</B>
+</TT>).</P></DD><DT><A NAME="ini.sql.safe-mode"><TT><I>sql.safe_mode</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DT>
+<A NAME="ini.track-errors"><TT><I>track_errors</I></TT><A HREF="types.boolean.html">
+<B>boolean</B></A></A></DT><DD><P> Если включена, последнее сообщение об ошибке всегда будет находиться в 
+глобальной переменной <TT>$php_errormsg</TT>.</P></DD><DT><A NAME="ini.track-vars"><TT><I>track_vars</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD>
+<P>Если включена, то переменные Environment, GET, POST, Cookie и Server в глобальных ассоциативных массивах
+<TT>$_ENV</TT>, <TT>$_GET</TT>, <TT>$_POST</TT>, <TT>$_COOKIE</TT> и <TT>$_SERVER</TT>.</P>
+<P>Обратите внимание, что в PHP 4.0.3 track_vars всегда on.</P></DD><DT>
+<A NAME="ini.upload-tmp-dir"><TT><I>upload_tmp_dir</I></TT>
+<A HREF="types.string.html"><B>string</B></A></A></DT><DD>
+<P>Временная директория, используемая для хранения файлов при их загрузке. Обязана иметь право
+на запись для любого пользователя, запускающего PHP.</P></DD><DT>
+<A NAME="ini.upload-max-filesize"><TT><I>upload_max_filesize</I></TT>
+<A HREF="types.integer.html"><B>integer</B></A></A>,</DT><DD><P>Максимальный размер загружаемого
+файла. Значение в байтах.</P></DD><DT><A NAME="ini.user-dir"><TT><I>user_dir</I></TT>
+<A HREF="types.string.html"><B>string</B></A></A></DT><DD>
+<P>Базовое имя директории, используемой как пользовательская home-директория для PHP-файлов, например,
+<TT>public_html</TT>.</P></DD><DT><A NAME="ini.warn-plus-overloading"><TT><I>warn_plus_overloading</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD>
+<P>Если включена, заставляет PHP выводить предупреждения, когда операция &quot;плюс&quot; (<TT>+</TT>)
+используется со строками. Это облегчает поиск скриптов, которые нужно переписать для использования конкатенатора строк (<TT>
+.</TT>).</P></DD></DL><H2><A NAME="ini.sect.safe-mode">Директивы конфигурации Безопасного Режима/Safe Mode</A>
+</H2><DL><DT><A NAME="ini.safe-mode"><TT><I>safe_mode</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD>
+<P>Включает/отключает безопасный режим PHP. Дополнительно см. главы
+<a href="security.html">Безопасность</a> и
+<a href="safe-mode.html">Безопасный Режим</a>.</P></DD><DT><A NAME="ini.safe-mode-gid">
+<TT><I>safe_mode_gid</I></TT> <A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD>
+<P>Использовать ли проверку <TT>UID</TT> (<TT><B>FALSE</B></TT>) или<TT> GID</TT> (<TT><B>TRUE</B></TT>)
+после доступа к файлам. См. <a href="safe-mode.html">Безопасный Режим</a>.</P></DD>
+<DT><A NAME="ini.safe-mode-exec-dir"><TT><I>safe_mode_exec_dir</I></TT>
+<A HREF="types.string.html"><B>string</B></A></A></DT><DD>
+<P>Если PHP используется в безопасном режиме, <A HREF="f/system.html"><B>system()</B></A>
+и другие функции, выполняющие системные программы, не стартуют программы, которые находятся
+вне данной директории.</P></DD><DT><A NAME="ini.safe-mode-include-dir"><TT><I>safe_mode_include_dir</I></TT>
+<A HREF="types.string.html"><B>string</B></A></A></DT><DD><P>Проверки <TT>UID</TT>/<TT>GID</TT>
+пропускаются, когда файлы подключаются из данной директории и её поддиректорий (директория также обязана находиться в
+<A HREF="#ini.include-path">include_path</A>, или должен вводиться полный путь).</P></DD></DL>
+<H2><a name="ini.sect.debugger">Директивы конфигурации отладчика</a></H2><DL><DT>
+<A NAME="ini.debugger.host"><TT><I>debugger.host</I></TT>
+<A HREF="types.string.html"><B>string</B></A></A></DT><DD><P>DNS-имя или IP-адрес
+хоста, используемого отладчиком.</P></DD><DT><A NAME="ini.debugger.port"><TT><I>debugger.port</I></TT>
+<A HREF="types.string.html"><B>string</B></A></A></DT><DD>
+<P>Номер порта, используемого отладчиком.</P></DD><DT><A NAME="ini.debugger.enabled"><TT>
+<I>debugger.enabled</I></TT> <A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD>
+<P>Включён ли отладчик.</P></DD></DL><H2><a name="ini.sect.extension">Директивы загрузки расширений</a></H2>
+<DL><DT><A NAME="ini.enable-dl"><TT><I>enable_dl</I></TT><A HREF="types.boolean.html">
+<B>boolean</B></A></A></DT><DD><P>Данная директива реально используется только в версии Apache-модуля PHP. Вы 
+можете включать/выключать динамическую загрузку расширений PHP с помощью <A HREF="f/dl.html">
+<B>dl()</B></A> на уровне виртуального сервера или директории.</P><P>Главной причиной выключения
+динамической загрузки является безопасность. При 
+динамической загрузке имеется возможность игнорировать все ограничения safe_mode и open_basedir.</P>
+<P>По умолчанию динамическая загрузка разрешена, исключая использование 
+safe-mode. В safe-mode всегда отсутствует возможность использования <A HREF="f/dl.html">
+<B>dl()</B></A>.</P></DD><DT><A NAME="ini.extension-dir"><TT><I>extension_dir</I></TT>
+<A HREF="types.string.html"><B>string</B></A></A></DT><DD>
+<P>В какой директории PHP должен искать динамически загружаемые расширения.</P></DD><DT>
+<A NAME="ini.extension"><TT><I>extension</I></TT> <A HREF="types.string.html">
+<B>string</B></A></A></DT><DD><P>Какие динамически загружаемые расширения загружать при старте PHP.</P>
+</DD></DL><H2><A NAME="ini.sect.msql">Директивы конфигурации mSQL</A></H2><DL><DT>
+<A NAME="ini.msql.allow-persistent"><TT><I>msql.allow_persistent</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD><P>Разрешены ли
+постоянные mSQL-соединения.</P></DD><DT><A NAME="ini.msql.max-persistent"><TT><I>msql.max_persistent</I></TT>
+<A HREF="types.integer.html"><B>integer</B></A></A></DT><DD>
+<P>Максимальное количество постоянных mSQL-соединений на процесс.</P></DD><DT>
+<A NAME="ini.msql.max-links"><TT><I>msql.max_links</I></TT>
+<A HREF="types.integer.html"><B>integer</B></A></A></DT><DD>
+<P>Максимальное количество mSQL-соединений на процесс, включая постоянные соединения.</P></DD></DL>
+<H2><A NAME="ini.sect.pgsql">Директивы конфигурации Postgres</A></H2><DL><DT>
+<A NAME="ini.pgsql.allow-persistent"><TT><I>pgsql.allow_persistent</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD>
+<P>Разрешены ли постоянные Postgres-соединения.</P></DD><DT><A NAME="ini.pgsql.max-persistent"><TT>
+<I>pgsql.max_persistent</I></TT> <A HREF="types.integer.html"><B>integer</B></A></A></DT>
+<DD><P>Максимальное количество постоянных Postgres-соединений на процесс.</P></DD><DT>
+<A NAME="ini.pgsql.max-links"><TT><I>pgsql.max_links</I></TT>
+<A HREF="types.integer.html"><B>integer</B></A></A></DT><DD>
+<P>Максимальное количество Postgres-соединений на процесс, включая постоянные соединения.</P></DD></DL>
+<H2><A NAME="ini.sect.sesam">Директивы конфигурации SESAM</A></H2><DL><DT><A NAME="ini.sesam-oml"><TT>
+<I>sesam_oml</I></TT> <A HREF="types.string.html"><B>string</B></A></A></DT><DD>
+<P>Имя BS2000 PLAM-библиотеки, содержащей загружаемые модули драйвера SESAM. 
+Необходимо для использования функций SESAM. Библиотека BS2000 PLAM 
+обязана быть установлена ACCESS=READ,SHARE=YES, поскольку она обязана 
+читаться user id идентификатором Аpache-сервера.</P></DD><DT><A NAME="ini.sesam-configfile"><TT>
+<I>sesam_configfile</I></TT> <A HREF="types.string.html"><B>string</B></A></A></DT><DD>
+<P>Имя файла конфигурации приложения SESAM. Необходимо для использования 
+SESAM-функций. Файл BS2000 обязан читаться user id идентификатором Аpache-сервера.</P>
+<P>Файл конфигурации приложения обычно содержит конфигурацию наподобие (см. учебник-справочник SESAM):<A NAME="AEN2752"></A><P></P><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>CNF=B
+NAM=K
+NOTYPE</PRE></TD></TR></TABLE></DD><DT><A NAME="ini.sesam-messagecatalog"><TT>
+<I>sesam_messagecatalog</I></TT> <A HREF="types.string.html"><B>string</B></A></A></DT><DD>
+<P>Имя файла каталога сообщений SESAM. В большинстве случаев эта директива не 
+нужна. Только если файл сообщений SESAM не установлен в таблице 
+системного файла сообщений BS2000, оно может быть установлено этой директивой.</P>
+<P>Каталог сообщений обязан иметь установки ACCESS=READ,SHARE=YES, поскольку он 
+обязан читаться user id идентификатором Аpache-сервера.</P></DD></DL>
+<H2><A NAME="ini.sect.sybase">Директивы конфигурации Sybase</A></H2><DL><DT>
+<A NAME="ini.sybase.allow-persistent"><TT><I>sybase.allow_persistent</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD>
+<P>Разрешены ли постоянные Sybase-соединения.</P></DD><DT><A NAME="ini.sybase.max-persistent"><TT>
+<I>sybase.max_persistent</I></TT> <A HREF="types.integer.html"><B>integer</B></A></A></DT><DD>
+<P>Максимальное количество постоянных Sybase-соединений на процесс.</P></DD><DT>
+<A NAME="ini.sybase.max-links"><TT><I>sybase.max_links</I></TT>
+<A HREF="types.integer.html"><B>integer</B></A></A></DT><DD>
+<P>Максимальное количество Sybase-соединений на процесс, включая постоянные соединения.</P></DD></DL>
+<H2><A NAME="ini.sect.sybct">Директивы конфигурации Sybase-CT</A></H2><DL><DT>
+<A NAME="ini.sybct.allow-persistent"><TT><I>sybct.allow_persistent</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD>
+<P>Разрешены ли постоянные Sybase-CT-соединения. По умолчанию on.</P></DD><DT>
+<A NAME="ini.sybct.max-persistent"><TT><I>sybct.max_persistent</I></TT>
+<A HREF="types.integer.html"><B>integer</B></A></A></DT><DD>
+<P>Максимальное количество постоянных Sybase-СТ-соединений на процесс. По 
+умолчанию -1, что означает &quot;без ограничений&quot;.</P></DD><DT><A NAME="ini.sybct.max-links">
+<TT><I>sybct.max_links</I></TT> <A HREF="types.integer.html"><B>integer</B></A></A></DT><DD>
+<P>Максимальное количество Sybase-СТ-соединений на процесс, включая постоянные 
+соединения. По умолчанию -1, что означает &quot;без ограничений&quot;.</P></DD><DT>
+<A NAME="ini.sybct.min-server-severity"><TT><I>sybct.min_server_severity</I></TT>
+<A HREF="types.integer.html"><B>integer</B></A></A></DT><DD>
+<P>Сообщения сервера с уровнем серьёзности более или равном 
+sybct.min_server_severity будут выводиться как 
+предупреждения/warnings. Это значение может также быть установлено из скрипта через вызов
+<A HREF="f/sybase-min-server-severity.html"><B>sybase_min_server_severity()</B></A>. По
+умолчанию 10, что сообщает об ошибках уровня information или выше.</P></DD><DT>
+<A NAME="ini.sybct.min-client-severity"><TT><I>sybct.min_client_severity</I></TT>
+<A HREF="types.integer.html"><B>integer</B></A></A></DT><DD>
+<P>Сообщения клиентской библиотеки с уровнем серьёзности равным или больше 
+sybct.min_client_severity будут выводиться как предупреждения. Это значение может также быть установлено из скрипта через вызов
+<A HREF="f/sybase-min-server-severity.html"><B>sybase_min_server_severity()</B></A>. По умолчанию
+10, что отключает сообщения.</P></DD><DT><A NAME="ini.sybct.login-timeout"><TT><I>sybct.login_timeout</I>
+</TT> <A HREF="types.integer.html"><B>integer</B></A></A></DT><DD>
+<P>Максимальный период в секундах ожидания успешного соединения, до того как 
+возвратить failure/неудачное выполнение. Обратите внимание, что, если 
+max_execution_time истёк при попытке таймаута соединения, выполнение 
+вашего скрипта будет прервано до того как он предпримет действия при 
+неудачной попытке соединения. По умолчанию - одна минута.</P></DD><DT><A NAME="ini.sybct.timeout">
+<TT><I>sybct.timeout</I></TT>  <A HREF="types.integer.html"><B>integer</B></A></A></DT><DD>
+<P>Максимальный период в секундах ожидания успешного выполнения select_db или 
+операции запроса/query, до того как возвратить failure/неудачное 
+выполнение. Обратите внимание, что, если max_execution_time истёк, 
+когда операция взяла таймаут, выполнение вашего скрипта будет прервано 
+до того как он предпримет действия при неудачной попытке соединения. По умолчанию ограничения нет.</P>
+</DD><DT><A NAME="ini.sybct.hostname"><TT><I>sybct.hostname</I></TT>
+<A HREF="types.string.html"><B>string</B></A></A></DT><DD><P>Имя хоста, соединения
+с которым вы требуете, для вывода в sp_who. По умолчанию  none.</P></DD></DL>
+<H2><A NAME="ini.sect.informix">Директивы конфигурации Informix</A></H2><DL><DT>
+<A NAME="ini.ifx.allow-persistent"><TT><I>ifx.allow_persistent</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD>
+<P>Разрешены ли постоянные Informix-соединения.</P></DD><DT><A NAME="ini.ifx.max-persistent"><TT>
+<I>ifx.max_persistent</I></TT> <A HREF="types.integer.html"><B>integer</B></A></A></DT><DD>
+<P>Максимальное количество постоянных Informix-соединений на процесс.</P></DD><DT>
+<A NAME="ini.ifx.max-links"><TT><I>ifx.max_links</I></TT> <A HREF="types.integer.html">
+<B>integer</B></A></A></DT><DD><P>Максимальное количество Informix-соединений на процесс, включая постоянные 
+соединения.</P></DD><DT><A NAME="ini.ifx.default-host"><TT><I>ifx.default_host</I></TT>
+<A HREF="types.string.html"><B>string</B></A></A></DT><DD><P>Хост по умолчанию
+для соединения, если никакой хост не специфицирован в <A HREF="f/ifx-connect.html">
+<B>ifx_connect()</B></A> или в <A HREF="f/ifx-pconnect.html"><B>ifx_pconnect()</B></A>.</P></DD>
+<DT><A NAME="ini.ifx.default-user"><TT><I>ifx.default_user</I></TT>
+<A HREF="types.string.html"><B>string</B></A></A></DT><DD>
+<P>Идентификатор user id по умолчанию, если none специфицирован в <A HREF="f/ifx-connect.html">
+<B>ifx_connect()</B></A> или в <A HREF="f/ifx-pconnect.html"><B>ifx_pconnect()</B></A>.</P>
+</DD><DT><A NAME="ini.ifx.default-password"><TT><I>ifx.default_password</I></TT>
+<A HREF="types.string.html"><B>string</B></A></A></DT><DD>
+<P>Пароль/password для использования по умолчанию, если none специфицирован в
+<A HREF="f/ifx-connect.html"><B>ifx_connect()</B></A> или в <A HREF="f/ifx-pconnect.html">
+<B>ifx_pconnect()</B></A>.</P></DD><DT><A NAME="ini.ifx.blobinfile"><TT><I>ifx.blobinfile</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD><P>Установите <TT><B>TRUE</B></TT>,
+если хотите возвратить blob-столбцы в файле, и <TT><B>FALSE</B></TT>, если возвратить в памяти.
+Вы можете переопределять эту установку на этапе прогона с помощью
+<A HREF="f/ifx-blobinfile-mode.html"><B>ifx_blobinfile_mode()</B></A>.</P></DD><DT>
+<A NAME="ini.ifx.textasvarchar"><TT><I>ifx.textasvarchar</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD><P>Установите <TT><B>TRUE</B></TT>,
+если хотите возвратить TEXT-столбцы как нормальные строки в выбранных операторах, и <TT><B>FALSE</B></TT>,
+если хотите использовать blob id параметры. Вы можете переопределять эту установку на этапе прогона с помощью
+<A HREF="f/ifx-textasvarchar.html"><B>ifx_textasvarchar()</B></A>.</P></DD><DT>
+<A NAME="ini.ifx.byteasvarchar"><TT><I>ifx.byteasvarchar</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD><P>Установите <TT><B>TRUE</B></TT>,
+если хотите возвратить BYTE-столбцы как нормальные строки в выбранных запросах/queries, и <TT><B>FALSE</B></TT>,
+если хотите использовать blob id параметры. Вы можете переопределять эту установку на этапе прогона с помощью
+<A HREF="f/ifx-textasvarchar.html"><B>ifx_textasvarchar()</B></A>.</P></DD><DT>
+<A NAME="ini.ifx.charasvarchar"><TT><I>ifx.charasvarchar</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD>
+<P>Установите <TT><B>TRUE</B></TT>, если хотите удалить ведомые пробелы из CHAR-столбцов при их получении.</P>
+</DD><DT><A NAME="ini.ifx.nullformat"><TT><I>ifx.nullformat</I></TT>
+<A HREF="types.boolean.html"><B>boolean</B></A></A></DT><DD><P>Установите <TT><B>TRUE</B></TT>,
+если хотите возвратить <TT><B>NULL</B></TT>-столбцы как литеральные строки &quot;<TT><B>NULL</B></TT>&quot;, и
+<TT><B>FALSE</B></TT>, если хотите возвратить их как пустую строку &quot;&quot;. Вы можете
+переопределять эту установку на этапе прогона с помощью <A HREF="f/ifx-nullformat.html">
+<B>ifx_nullformat()</B></A>.</P></DD></DL><H2><A NAME="ini.sect.bcmath">Директивы конфигурации BC Math</A></H2>
+<DL><DT><A NAME="ini.bcmath.scale"><TT><I>bcmath.scale</I></TT>
+<A HREF="types.integer.html"><B>integer</B></A></A></DT><DD><P>Количество десятичных
+цифр для всех bcmath-функций.</P></DD></DL><H2><A NAME="ini.sect.browscap">Директивы конфигурации Browser Capability</A>
+</H2><DL><DT><A NAME="ini.browscap"><TT><I>browscap</I></TT> <A HREF="types.string.html">
+<B>string</B></A></A></DT><DD><P>Имя browser capabilities-файла. См. также
+<A HREF="f/get-browser.html"><B>get_browser()</B></A>.</P></DD></DL>
+<H2><A NAME="ini.sect.mbstring">Директивы конфигурации Multi-Byte String</A></H2><DL><DT>
+<A NAME="ini.mbstring.internal-encoding"><TT><I>mbstring.internal_encoding</I></TT>
+<A HREF="types.string.html"><B>string</B></A></A></DT><DD><P>
+<TT>mbstring.internal_encoding</TT> - определяет внутреннюю кодировку символов по умолчанию.</P></DD>
+<DT><A NAME="ini.mbstring.http-input"><TT><I>mbstring.http_input</I></TT>
+<A HREF="types.string.html"><B>string</B></A></A></DT><DD><P><TT>mbstring.http_input</TT>
+- определяет кодировку символов по умолчанию для <TT>HTTP</TT>-ввода.</P></DD><DT>
+<A NAME="ini.mbstring.http-output"><TT><I>mbstring.http_output</I></TT>
+<A HREF="types.string.html"><B>string</B></A></A></DT><DD>
+<P><TT>mbstring.http_output</TT> - определяет кодировку символов по умолчанию для<TT> HTTP</TT>-вывода.</P>
+</DD><DT><A NAME="ini.mbstring.detect-order"><TT><I>mbstring.detect_order</I></TT>
+<A HREF="types.string.html"><B>string</B></A></A></DT><DD><P>
+<TT>mbstring.detect_order</TT> - определяет порядок определения кодировки символов по умолчанию.</P></DD>
+<DT><A NAME="ini.mbstring.substitute-character"><TT><I>mbstring.substitute_character</I></TT>
+<A HREF="types.string.html"><B>string</B></A></A></DT><DD><P>
+<TT>mbstring.substitute_character</TT> - определяет символ для замещения неверных кодов символов.</P></DD></DL>
+<H2><A NAME="ini.sect.exif">Директивы конфигурации Exif</A></H2>
+<P>Exif поддерживает автоматическую конвертацию кодировок символов Unicode и JIS 
+пользовательских комментариев, когда модуль mbstring доступен. При этом 
+комментарий сначала декодируется с использованием специфицированного 
+набора символов. Затем результат кодируется в другом наборе символов, который должен совпадать с вашим
+<TT>HTTP</TT>-выводом.<P></P><DL><DT><A NAME="ini.exif.encode_unicode"><TT><I>exif.encode_unicode</I></TT>
+<A HREF="types.string.html"><B>string</B></A></A></DT><DD><P><TT>exif.encode_unicode</TT>
+- определяет набор символов UNICODE при обработке пользовательских 
+комментариев. По умолчанию это ISO-8859-15, который должен работать в 
+большинстве не-азиатских стран. Эта установка может быть пустой или 
+обязана быть кодировкой, поддерживаемой mbstring. Если она пустая, 
+используется текущая внутренняя кодировка mbstring.</P></DD><DT>
+<A NAME="ini.exif.decode_unicode_motorola"><TT><I>exif.decode_unicode_motorola</I></TT>
+<A HREF="types.string.html"><B>string</B></A></A></DT><DD><P>
+<TT>exif.decode_unicode_motorola</TT> - определяет внутреннюю кодировку символов изображения для 
+Unicode-кодированных пользовательских комментариев, если 
+изображение/image имеет байтовый порядок motorola (big-endian). Эта 
+установка не может быть пустой, но вы можете специфицировать список кодировок, поддерживаемых
+mbstring. По умолчанию UCS-2BE.</P></DD><DT><A NAME="ini.exif.decode_unicode_intel">
+<TT><I>exif.decode_unicode_intel</I></TT> <A HREF="types.string.html">
+<B>string</B></A></A></DT><DD><P><TT>exif.decode_unicode_intel</TT> - определяет внутреннюю кодировку символов изображения для 
+Unicode-кодированных пользовательских комментариев, если изображение 
+имеет байтовый порядок intel (little-endian). Эта установка не может 
+быть пустой, но вы можете специфицировать список кодировок, 
+поддерживаемых mbstring. По умолчанию UCS-2BE. UCS-2LE.</P></DD><DT>
+<A NAME="ini.exif.encode_jis"><TT><I>exif.encode_jis</I></TT>
+<A HREF="types.string.html"><B>string</B></A></A></DT><DD><P><TT>exif.encode_jis</TT> -
+определяет набор символов JIS для обработки пользовательских комментариев. 
+По умолчанию - пустое значение, которое форсирует использование 
+функцией текущей внутренней кодировки mbstring.</P></DD><DT><A NAME="ini.exif.decode_jis_motorola">
+<TT><I>exif.decode_jis_motorola</I></TT> <A HREF="types.string.html"><B>string</B></A></A></DT>
+<DD><P><TT>exif.decode_jis_motorola</TT> - определяет внутреннюю кодировку символов изображения для JIS-кодированных 
+пользовательских комментариев, если изображение имеет байтовый порядок 
+motorola (big-endian). Эта установка не может быть пустой, но вы 
+можете специфицировать список кодировок, поддерживаемых mbstring. По умолчанию JIS.</P></DD>
+<DT><A NAME="ini.exif.decode_jis_intel"><TT><I>exif.decode_jis_intel</I></TT>
+<A HREF="types.string.html"><B>string</B></A></A></DT><DD><P><TT>exif.decode_jis_intel</TT>
+- определяет внутреннюю кодировку символов изображения для JIS-кодированных 
+пользовательских комментариев, если изображение имеет байтовый порядок 
+intel (little-endian). Эта установка не может быть пустой, но вы 
+можете специфицировать список кодировок, поддерживаемых mbstring. По умолчанию JIS.</P></DD></DL>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="configure.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="security.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Полный
+список опций конфигурации</TD><th WIDTH="34%" VALIGN="top"><a href="getting-started.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Безопасность</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

@@ -1,0 +1,191 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Ресурсы</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="zend.variables.object.html">Назад</A></TD><th WIDTH="80%">Глава 34. Создание Переменных</th>
+<TD WIDTH="10%" ALIGN="right"><A HREF="zend.variables.global.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="zend.variables.resource">Ресурсы</a></H1>
+<P>Ресурсы это особый вид данных в PHP. Термин <I>resources\ресурсы</I> означает не к какой-то определённый вид данных, а абстрактный метод 
+обслуживания любого вида информации. Ресурсы хранятся в особом списке ресурсов внутри
+Zend. Каждое вхождение этого списка имеет соответствующее определение, 
+которое указывает вид ресурса, на который оно ссылается. Zend внутренне 
+обслуживает все ссылки на этот ресурс. Прямой доступ к ресурсу невозможен - 
+это делается только через предоставляемый API. Когда все ссылки на 
+специфический ресурс потеряны, вызывается соответствующая shutdown-функция.</P>
+<P>Например, ресурсы используются для хранения ссылок БД и дескрипторов 
+файлов. Стандартная реализация <I>de facto</I> находится в модуле MySQL, но другие модули, такие как Oracle, также используют ресурсы.
+<BLOCKQUOTE><P><B>Примечание: </B>фактически ресурсом может быть указатель на что-либо, что вам 
+необходимо обработать в функции (например, указатель на структуру), и 
+пользователь должен лишь передать единственную переменную ресурса в вашу функцию.</P></BLOCKQUOTE>
+<P>Чтобы создать новый ресурс, вам необходимо зарегистрировать обработчик 
+уничтожения ресурса. Поскольку вы можете хранить как ресурс любой вид данных, Zend 
+должна знать, как освободить этот ресурс, когда он больше не нужен. Это 
+делается путём регистрации в Zend вашего собственного обработчика 
+уничтожения ресурса/destruction, который, в свою очередь, вызывается Zend-машиной, 
+когда ваш ресурс должен быть освобождён (вручную или автоматически).  
+Регистрация вашего обработчика ресурса в Zend возвращает вам <I>resource type handle\дескриптор типа (этого) ресурса</I>.
+Этот дескриптор нужен в дальнейшем для обеспечения вашего доступа к ресурсу 
+этого типа и хранится в большинстве случаев в глобальной статической переменной в вашем расширении.
+Нет необходимости беспокоиться здесь о безопасности потока, поскольку вы 
+регистрируете ваш обработчик ресурса только один раз при инициализации модуля.</P>
+<P>Zend-функция для регистрации вашего обработчика ресурса определяется так:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>ZEND_API int zend_register_list_destructors_ex(rsrc_dtor_func_t ld, rsrc_dtor_func_t pld,
+    	char *type_name, int module_number);</PRE>
+</TD></TR></TABLE>
+<P>Есть две разновидности обработчиков уничтожения ресурса, которые вы 
+можете передавать этой функции: обработчик нормальных ресурсов и обработчик 
+постоянных ресурсов. Постоянные ресурсы используются, например, для 
+соединений с базами данных (БД). При регистрации ресурса обязан иметься один 
+из этих обработчиков. Для другого обработчика просто передайте <TT>NULL</TT>.</P>
+<P><B>zend_register_list_destructors_ex()</B> принимает следующие параметры:<A NAME="AEN86617"></A
+><TABLE BORDER="1"><TR><TD WIDTH="17%"><TT>ld</TT></TD><TD>Вызов обработчика уничтожения нормального ресурса</TD>
+</TR><TR><TD WIDTH="17%"><TT>pld</TT></TD><TD>Вызов обработчика уничтожения постоянного ресурса</TD>
+</TR><TR><TD WIDTH="17%"><TT>type_name</TT></TD><TD>Строка, специфицирующая имя вашего ресурса. Хорошо бы всегда специфицировать 
+уникальное имя типа ресурса РНР, чтобы, если пользователь, например, вызовет<TT> var_dump($resource);</TT>,
+он получил также имя ресурса.</TD></TR><TR><TD WIDTH="17%"><TT>module_number</TT></TD>
+<TD><TT>module_number</TT> является доступным автоматически в вашей функции
+<TT>PHP_MINIT_FUNCTION</TT>, и, следовательно, вы просто передаёте его.</TD></TR></TABLE>
+<p>return-значение это уникальный целочисленный ID (идентификатор) вашего <i>типа ресурса</i>.</p>
+<P>Обработчик уничтожения ресурса (нормального или постоянного) имеет следующий прототип:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>void resource_destruction_handler(zend_rsrc_list_entry *rsrc TSRMLS_DC);</PRE></TD></TR></TABLE>
+<p>Передаваемый <TT>rsrc</TT> это указатель но следующую структуру:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>typedef struct _zend_rsrc_list_entry {
+
+    void *ptr;
+    int type;
+    int refcount;
+
+} zend_rsrc_list_entry;</PRE></TD></TR></TABLE>
+<p>Член <TT>void *ptr</TT> это фактический указатель на ваш ресурс.</p>
+<P>Теперь мы знаем, как начать: мы определяем наш собственный ресурс, 
+который хотим зарегистрировать в Zend. Это простая структура с двумя 
+целочисленными членами:<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>typedef struct {
+
+    int resource_link;
+    int resource_type;
+
+} my_resource;</PRE></TD></TR></TABLE>
+<p>Наш обработчик уничтожения ресурса будет, вероятно, выглядеть так:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>void my_destruction_handler(zend_rsrc_list_entry *rsrc TSRMLS_DC) {
+
+    // Скорее всего вам придётся привести/cast void-указатель к типу вашей структуры
+
+    my_resource *my_rsrc = (my_resource *) rsrc-&#62;ptr;
+
+    // Теперь делайте с вашим ресурсом всё необходимое. Закрывайте
+    // Файлы, Сокеты, освобождайте память etc.
+    // Также не забудьте реально освободить память вашего ресурса!
+
+    do_whatever_needs_to_be_done_with_the_resource(my_rsrc);
+}</PRE></TD></TR></TABLE>
+<BLOCKQUOTE><P><B>Примечание: </B>важно подчеркнуть: Если ваш ресурс это более сложная структура, которая к тому 
+же содержит указатели на память, выделенную в процессе работы, вы должны освободить их перед освобождением самого ресурса!</P></BLOCKQUOTE>
+<P>Теперь, когда мы определили<OL TYPE="1"><LI><P>что такое наш ресурс и</P></LI>
+<LI><P>обработчик уничтожения ресурса,</P></LI></OL>
+мы можем выполнить остальные шаги:<OL TYPE="1"><LI><P>создать глобальную переменную с расширение, содержащую ID ресурса, чтобы можно 
+было получить к нему доступ из любой функции</P></LI><LI><P>определить имя ресурса</P></LI>
+<LI><P>написать обработчик уничтожения ресурса</P></LI><LI><P>и, наконец, зарегистрировать обработчик</P></LI></OL>
+<TABLE BORDER="0"  BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>//Где-либо в вашем расширении определите переменную для ваших зарегистрированных ресурсов.
+    // Как вам нравится 'le': это просто означает 'list entry/вхождение в списке'.
+    static int le_myresource;
+
+    // Определите имя вашего ресурса
+    #define le_myresource_name  "My type of resource"
+
+    [...]
+
+    // Теперь определите обработчик уничтожения вашего ресурса
+    void my_destruction_handler(zend_rsrc_list_entry *rsrc TSRMLS_DC) {
+
+        my_resource *my_rsrc = (my_resource *) rsrc-&#62;ptr;
+        do_whatever_needs_to_be_done_with_the_resource(my_rsrc);
+    }
+
+    [...]
+
+    PHP_MINIT_FUNCTION(my_extension) {
+
+        // Заметьте, что 'module_number' уже предоставлен посредством
+        // определения функции PHP_MINIT_FUNCTION().
+
+<font size="1">le_myresource = zend_register_resource_destructors_ex(my_destruction_handler, NULL, le_myresource_name, module_number);
+</font>
+        // Вы можете регистрировать дополнительные ресурсы, инициализировать ваши
+        // глобальные переменные, константы ...
+    }</PRE></TD></TR></TABLE>
+<P>Для регистрации нового ресурса вы можете использовать либо функцию <B>zend_register_resource()</B>,
+либо макрос <B>ZEND_REGISTER_RESOURE()</B>, определённые в zend_list.h. хотя аргументы для них обоих соответствуют
+1:1, лучше всегда использовать макросы для обеспечения совместимости в будущем:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>int ZEND_REGISTER_RESOURCE(zval *rsrc_result, void *rsrc_pointer, int rsrc_type);</PRE></TD></TR></TABLE><br>
+<A NAME="AEN86673"></A><TABLE BORDER="1"><TR><TD WIDTH="17%"><TT>rsrc_result</TT></TD>
+<TD>Это уже инициализированный <TT>zval *</TT> -контейнер.</TD></TR><TR>
+<TD WIDTH="17%"><TT>rsrc_pointer</TT></TD><TD>Указатель на ваш ресурс.</TD></TR><TR>
+<TD WIDTH="17%"><TT>rsrc_type</TT></TD><TD>Тип, который вы получили, когда регистрировали обработчик уничтожения ресурса. 
+Если вы следуете схеме именования, это может быть <TT>le_myresource</TT>.</TD></TR></TABLE>
+<p>return-значение это уникальный целочисленный идентификатор данного ресурса.</p>
+<P>Когда вы регистрируете новый ресурс, он вставляется во внутренний список Zend, 
+а результат просто хранится в данном <TT>zval *</TT> -контейнере:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>rsrc_id = zend_list_insert(rsrc_pointer, rsrc_type);
+
+    if (rsrc_result) {
+        rsrc_result-&#62;value.lval = rsrc_id;
+        rsrc_result-&#62;type = IS_RESOURCE;
+    }
+
+    return rsrc_id;</PRE></TD></TR></TABLE>
+<p>Возвращаемый <TT>rsrc_id</TT> уникально идентифицирует вновь зарегистрированный ресурс. Вы можете 
+использовать макрос	<TT>RETURN_RESOURE</TT> для возвращения его пользователю:</p>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>RETURN_RESOURCE(rsrc_id)</PRE></TD></TR></TABLE>
+<BLOCKQUOTE><P><B>Примечание: </B>обычно, если вы хотите немедленно возвратить ресурс пользователю, вы 
+специфицируете <TT>return_value</TT> как <TT>zval *</TT> -контейнер.</P></BLOCKQUOTE>
+<P>Теперь Zend отслеживает все обращения к данному ресурсу. Как только 
+все ссылки на данный ресурс будут утеряны, вызывается обработчик уничтожения 
+ресурса, зарегистрированный ранее для данного ресурса.<br>
+Удобно здесь то, что вам не нужно заботиться об утечках памяти, появляющихся 
+при выделении памяти в вашем модуле - просто зарегистрируйте все выделения 
+памяти для вашего вызывающего скрипта как ресурсы. Если скрипт определяет, 
+что эти участки памяти - ресурсы больше ему не нужны, Zend выявит это и сообщит вам.</P>
+<P>Получив тот ресурс в некоторой точке, пользователь передаёт его обратно 
+в одну из ваших функций. Контейнер <TT>value.lval</TT> внутри контейнера <TT>zval *</TT> содержит ключ/key к вашему ресурсу и, таким образом, может быть использован 
+для получения этого ресурса с помощью макроса <TT>ZEND_FETCH_RESOURCE</TT>:
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE><font size="1">ZEND_FETCH_RESOURCE(rsrc, rsrc_type, rsrc_id, default_rsrc_id, resource_type_name, resource_type)</font></PRE>
+</TD></TR></TABLE><br><A NAME="AEN86708"></A><TABLE BORDER="1"><TR><TD WIDTH="17%">
+<TT>rsrc</TT></TD><TD>Это ваш указатель, указывающий на ваш ранее зарегистрированный ресурс.</TD></TR>
+<TR><TD WIDTH="17%"><TT>rsrc_type</TT></TD><TD>Это аргумент приведения типа/typecast для вашего указателя,<br>
+например, <TT>myresource *</TT>.</TD></TR><TR><TD WIDTH="17%"><TT>rsrc_id</TT></TD><TD>Это адрес
+<TT>zval * </TT>-контейнера, переданный пользователем в вашу функцию, например, g. <TT>&#38;z_resource</TT>, если дан
+<TT>zval *z_resource</TT>.</TD></TR><TR><TD WIDTH="17%"><TT>default_rsrc_id</TT></TD>
+<TD>Это целое число специфицирует <TT>ID</TT> ресурса по умолчанию, если ресурс не может быть получен, или -1.</TD>
+</TR><TR><TD WIDTH="17%"><TT>resource_type_name</TT></TD><TD>Это имя запрошенного ресурса.
+Это строка, которая используется, когда ресурс не может 
+быть найден или неверен, для создания сообщения об ошибке.</TD></TR><TR><TD WIDTH="17%"><TT>resource_type</TT>
+</TD><TD><TT>resource_type</TT>, который вы получили, когда регистрировали обработчик уничтожения ресурса.
+В нашем примере это был <TT>le_myresource</TT>.</TD></TR></TABLE>
+<p>Этот макрос не имеет return-значения.
+Это сделано для удобства разработчиков. Он заботится о передаче TSRMLS-аргументов, 
+а также проверяет, может ли ресурс быть получен.
+Он вызывает появление сообщения-предупреждения и возвращает текущую PHP-функцию 
+с <TT>NULL</TT>, если была проблема с получением ресурса.</p>
+<P>Чтобы форсировать удаление ресурса из списка, используйте функцию <B>zend_list_delete()</B>.<br>
+Вы можете также форсировать увеличение счётчика ссылок, если знаете, что 
+создаёте другую ссылку на ранее размещённое значение (например, если вы 
+автоматически повторно используете ссылку БД). В этом случае используйте 
+функцию <B>zend_list_addref()</B>.<br>Для поиска ранее выделенных вхождений ресурсов используйте
+<B>zend_list_find()</B>. Полный API можно найти в <TT>zend_list.h</TT>.</P></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="zend.variables.object.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="zend.variables.global.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Объекты</TD>
+<th WIDTH="34%" VALIGN="top"><a href="zend.variables.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Макрос для создания автоматической глобальной переменной</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

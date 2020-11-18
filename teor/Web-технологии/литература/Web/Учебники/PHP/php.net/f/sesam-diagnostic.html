@@ -1,0 +1,89 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>sesam_diagnostic</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="sesam-connect.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="sesam-disconnect.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>    
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.sesam-diagnostic">sesam_diagnostic</A></H1><A NAME="AEN72592"></A><P>(только PHP 3 CVS)</P>
+<p>sesam_diagnostic - возвращает информацию статуса последнего вызова SESAM.<A NAME="AEN72595"></A></p><H2>Описание</H2>
+<p>array <B>sesam_diagnostic</B> (void)</p><P>Возвращает ассоциативный массив статуса и return-кодов последнего SQL query/statement/command.  
+Элементами массива являются:<A NAME="AEN72602"></A><h6>Таблица 1. Информация статуса, возвращаемая функцией <B>sesam_diagnostic()</B></h6>
+<TABLE BORDER="1"><TR><TH>элемент</TH><TH>содержимое</TH></TR><TBODY><TR><TD>$array["sqlstate"]</TD>
+<TD>SQL return-код из 5 цифр (см. в учебнике SESAM описание возможных значений SQLSTATE)</TD></TR>
+<TR><TD>$array["rowcount"]</TD><TD>количество рядов, задействованных в последней операции update/insert/delete (устанавливается 
+только после "immediate" операторов)</TD></TR><TR><TD>$array["errmsg"]</TD>
+<TD>"человекочитабельная" строка сообщения об ошибке (устанавливается только после ошибок)</TD></TR>
+<TR><TD>$array["errcol"]</TD><TD>Номер столбца с предыдущей ошибкой (с базой 0; или -1, если
+undefined. Устанавливается только после ошибок)</TD></TR><TR><TD>$array["errlin"]</TD>
+<TD>номер строчки с предыдущей ошибкой (с базой 0; или -1, еслиundefined. Устанавливается только после ошибок)</TD></TR></TBODY></TABLE>
+<P>В следующем примере синтаксическая ошибка (E SEW42AE ILLEGAL CHARACTER) выводится путём включения бесконечного SQL-оператора и указания 
+на местонахождение ошибки:<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN72627"></A><h5>Пример 1. Отображение сообщений об ошибках SESAM с позицией ошибки</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+// Функция печатает отформатированное сообщение об ошибке и
+// отображает указатель на синтаксическую ошибку в SQL-операторе
+function PrintReturncode ($exec_str) {
+    $err = Sesam_Diagnostic();
+    $colspan=4; // 4 cols for: sqlstate, errlin, errcol, rowcount
+    if ($err["errlin"] == -1)
+        --$colspan;
+    if ($err["errcol"] == -1)
+        --$colspan;
+    if ($err["rowcount"] == 0)
+        --$colspan;
+    echo "&#60;TABLE BORDER&#62;\n";
+    echo "&#60;TR&#62;&#60;TH COLSPAN=".$colspan."&#62;&#60;FONT COLOR=red&#62;ERROR:&#60;/FONT&#62; ".
+	  	htmlspecialchars($err["errmsg"])."&#60;/TH&#62;&#60;/TR&#62;\n";
+    if ($err["errcol"] &#62;= 0) {
+        echo "&#60;TR&#62;&#60;TD COLSPAN=".$colspan."&#62;&#60;PRE&#62;\n";
+        $errstmt = $exec_str."\n";
+        for ($lin=0; $errstmt != ""; ++$lin) {
+            if ($lin != $err["errlin"]) { // $lin меньше или больше errlin
+                if (!($i = strchr ($errstmt, "\n")))
+                    $i = "";
+                $line = substr ($errstmt, 0, strlen($errstmt)-strlen($i)+1);
+                $errstmt = substr($i, 1);
+                if ($line != "\n")
+                    print htmlspecialchars ($line);
+            } else {
+                if (! ($i = strchr ($errstmt, "\n")))
+                    $i = "";
+                $line = substr ($errstmt, 0, strlen ($errstmt)-strlen($i)+1);
+                $errstmt = substr($i, 1);
+                for ($col=0; $col &#60; $err["errcol"]; ++$col)
+                    echo (substr($line, $col, 1) == "\t") ? "\t" : ".";
+                echo "&#60;FONT COLOR=RED&#62;&#60;BLINK&#62;\\&#60;/BLINK&#62;&#60;/FONT&#62;\n";
+                print "&#60;FONT COLOR=\"#880000\"&#62;".htmlspecialchars($line)."&#60;/FONT&#62;";
+                for ($col=0; $col &#60; $err["errcol"]; ++$col)
+                    echo (substr ($line, $col, 1) == "\t") ? "\t" : ".";
+                echo "&#60;FONT COLOR=RED&#62;&#60;BLINK&#62;/&#60;/BLINK&#62;&#60;/FONT&#62;\n";
+            }
+        }
+        echo "&#60;/PRE&#62;&#60;/TD&#62;&#60;/TR&#62;\n";
+    }
+    echo "&#60;TR&#62;\n";
+    echo " &#60;TD&#62;sqlstate=" . $err["sqlstate"] . "&#60;/TD&#62;\n";
+    if ($err["errlin"] != -1)
+        echo " &#60;TD&#62;errlin=" . $err["errlin"] . "&#60;/TD&#62;\n";
+    if ($err["errcol"] != -1)
+        echo " &#60;TD&#62;errcol=" . $err["errcol"] . "&#60;/TD&#62;\n";
+    if ($err["rowcount"] != 0)
+         echo " &#60;TD&#62;rowcount=" . $err["rowcount"] . "&#60;/TD&#62;\n";
+    echo "&#60;/TR&#62;\n";
+    echo "&#60;/TABLE&#62;\n";
+}
+
+if (!sesam_connect ("mycatalog", "phoneno", "otto"))
+  die ("cannot connect");
+
+$stmt = "SELECT * FROM phone\n".
+        " WHERE@ LASTNAME='KRAEMER'\n".
+        " ORDER BY FIRSTNAME";
+if (!($result = sesam_query ($stmt)))
+    PrintReturncode ($stmt);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>См. также в <A HREF="sesam-errormsg.html"><B>sesam_errormsg()</B></A> о простом доступе только к строке ошибки.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="sesam-connect.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="sesam-disconnect.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">sesam_connect</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.sesam.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">sesam_disconnect</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

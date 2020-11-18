@@ -1,0 +1,51 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>Операции Управления Ошибками</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="operators.comparison.html">Назад</A></TD>
+<th WIDTH="80%">Глава 10. Операции</th><TD WIDTH="10%" ALIGN="right">
+<A HREF="operators.execution.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="language.operators.errorcontrol">Операции управления ошибками</a></H1>
+<P>PHP поддерживает одну операцию управления ошибками: знак (@). Если он 
+вставлен как префикс выражения PHP, любые ошибки, которые могут генерироваться этим выражением, подавляются.</P>
+<P>Если включено <A HREF="configuration.html#ini.track-errors">track_errors</A>, любые сообщения
+об ошибках, генерируемые этим выражением, будут сохраняться в 
+глобальной переменной $php_errormsg. Эта переменная будет перезаписываться при 
+возникновении каждой новой ошибки, поэтому проверяйте её сразу, если необходимо.</P>
+<A NAME="AEN4628"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+/* Предполагается файловая ошибка */
+$my_file = @file ('non_existent_file') or
+    die ("Failed opening file: error was '$php_errormsg'");
+
+// работает для всех выражений, а не только в функциях:
+$value = @$cache[$key];
+// уведомления не будет, если индекс $key не существует.
+
+?&#62;</PRE></TD></TR></TABLE><BLOCKQUOTE><P><B>Примечание: </B>
+@-операция работает только в выражениях. Основное правило: если вы можете 
+получить значение чего-нибудь, вы можете поставить в качестве префикса 
+операцию @. Например, вы можете поставить её к переменным,
+функциям и вызовам <A HREF="include.html"><B>include()</B></A>, константам и т.д.
+Вы не можете подставить её к определению функции или класса или структурам управления, таким как
+<TT>if</TT> и <TT>foreach</TT>, и т.д.</P></BLOCKQUOTE><P>См. также
+<A HREF="f/error-reporting.html"><B>error_reporting()</B></A>.</P>
+<TABLE CLASS="warning" BORDER="1" IDTH="100%"><TR><th>Предупреждение!</th></TR><TR><TD>
+<P>В настоящее время операция-префикс управления ошибками "@" отключает даже 
+сообщения о критичных ошибках, которые прерывают выполнение скрипта. 
+Помимо всего прочего, это означает, что, если вы используете "@" для 
+подавления ошибок из определённой функции, даже если она недоступна или 
+неправильно записана, скрипт будет остановлен без всякого уведомления о причине.</P></TD></TR></TABLE>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" WIDTH="1" HEIGHT="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="operators.comparison.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="operators.execution.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Операции сравнения</TD>
+<th WIDTH="34%" VALIGN="top"><a href="operators.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Операции выполнения</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

@@ -1,0 +1,65 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Обработка Соединений</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR>
+<TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="remote-files.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="persistent-connections.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366">
+<TD><IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR>
+<TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="features.connection-handling">Глава 21. Обслуживание соединений</A></H1>
+<BLOCKQUOTE><P><B>Примечание:</B> последующая информация применяется к версиям 3.0.7 и новее.</P></BLOCKQUOTE>
+<P>Статус соединения обслуживается  в PHP внутренне.  Есть три возможных состояния:
+<UL><LI><P>0 - NORMAL</P></LI><LI><P>1 - ABORTED</P></LI><LI><P>2 - TIMEOUT</P></LI></UL>
+<P>Когда PHP-скрипт запущен нормально, активен статус NORMAL.
+Если удалённый клиент отсоединяется, включён флаг ABORTED. Отсоединение 
+удалённого клиента происходит чаще всего тогда, когда пользователь нажимает 
+кнопку STOP браузера. Если действует ограничение времени, установленное PHP (см.
+<A HREF="f/set-time-limit.html"><B>set_time_limit()</B></A>), включён флаг TIMEOUT.</P>
+<P>Вы можете решить, вызывает ли отключение клиента прерывание работы вашего 
+скрипта.  Иногда бывает удобно выполнять ваши скрипты до конца, даже если 
+отсутствует удалённый браузер, принимающий вывод.  По умолчанию, однако, ваш 
+скрипт прерывает работу, когда удалённый клиент отсоединяется.  Это поведение 
+может быть установлено директивой ignore_user_abort в файле <TT>php.ini</TT>, а также через соответствующую "php_value ignore_user_abort" Apache .conf-директиву 
+или функцией <A HREF="f/ignore-user-abort.html"><B>ignore_user_abort()</B></A>.
+Если вы не указали PHP игнорировать прерывание работы пользователем и 
+пользователь это сделал, ваш скрипт прекращает работу. Единственное 
+исключение, когда вы зарегистрировали shutdown-функцию с использованием
+<A HREF="f/register-shutdown-function.html"><B>register_shutdown_function()</B></A>.
+Когда при этом удалённый пользователь нажимает кнопку STOP, ваш скрипт в 
+следующий момент пытается вывести что-нибудь, PHP обнаруживает, что соединение 
+было разорвано, и вызывается shutdown-функция.
+Эта shutdown-функция будет также вызвана в конце нормального завершения 
+работы вашего скрипта, поэтому, для того чтобы сделать что-нибудь другое в 
+случае отсоединения клиента, вы можете использовать функцию <A HREF="f/connection-aborted.html">
+<B>connection_aborted()</B></A>. Эта функция возвратит <TT><B>TRUE</B></TT>, если соединение было разорвано.</P>
+<P>Выполнение вашего скрипта может быть также прервано встроенным таймером скрипта.
+Таймаут по умолчанию составляет 30 секунд.  Он может быть изменён путём 
+использования директивы max_execution_time в <TT>php.ini</TT> или соответствующей
+"php_value max_execution_time" Apache .conf-директивой, а также функцией <A HREF="f/set-time-limit.html">
+<B>set_time_limit()</B></A>. Когда таймаут заканчивается, работа скрипта прервётся, и, как 
+и в случае с отсоединением клиента, если shutdown-функция была зарегистрирована, она 
+вызывается. В этой shutdown-функции вы можете проверить, вызвал ли таймаут 
+данную shutdown-функцию, с помощью функции <A HREF="f/connection-timeout.html">
+<B>connection_timeout()</B></A>. Эта функция возвращает <TT><B>TRUE</B></TT>, если таймаут вызывал эту shutdown-функцию.</P>
+<P>Единственное, что необходимо отметить, это что статусы ABORTED и TIMEOUT 
+могут быть активны одновременно.  Это возможно, если вы укажете
+PHP игнорировать пользовательские прерывания соединения.  PHP будет отмечать 
+тот факт, что пользователь может разорвать соединение, но скрипт продолжит 
+работу.  Если затем истечёт таймаут, скрипт будет прерван, а ваша shutdown-функция, 
+если имеется, будет вызвана.  В этой точке вы можете увидеть, что функции
+<A HREF="f/connection-timeout.html"><B>connection_timeout()</B></A> и
+<A HREF="f/connection-aborted.html"><B>connection_aborted()</B></A> возвращают
+<TT><B>TRUE</B></TT>. Вы также можете проверить оба статуса в одном вызове
+<A HREF="f/connection-status.html"><B>connection_status()</B></A>. Эта функция возвращает битовое поле активных статусов.  Поэтому, если оба 
+статуса активны, она, к примеру, возвратит 3.</P></TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1">
+</TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="remote-files.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="persistent-connections.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Использование удалённых файлов</TD>
+<th WIDTH="34%" VALIGN="top"><a href="features.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Постоянные соединения с БД</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

@@ -1,0 +1,38 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>import_request_variables</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="gettype.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="intval.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.import-request-variables">import_request_variables</A></H1><A NAME="AEN80315"></A>
+<P>(PHP 4 &#62;= 4.1.0)</P><p>import_request_variables - импортирует переменные GET/POST/Cookie в 
+глобальную область видимости.<A NAME="AEN80318"></A></p><H2>Описание</H2><p>bool <B>import_request_variables</B> (string types [, string prefix])</p>
+<P>Импортирует GET/POST/Cookie переменные в глобальную область видимости. Это применяется, если вы отключили
+<A HREF="../configuration.html#ini.register-globals">register_globals</A>, но хотели бы увидеть некоторые переменные в глобальной области.</P>
+<P>Используя параметр <TT><I>types</I></TT>, вы можете специфицировать, какие переменные запроса импортировать. Вы можете 
+использовать символы 'G', 'P' и 'C' для GET, POST и Cookie, соответственно. Эти символы нечувствительны к регистру, поэтому 
+можно использовать комбинации 'g', 'p' и 'c'.<br>
+POST содержит информацию файла, загруженного методом POST. Обратите внимание, 
+что порядок букв имеет значение, так как, если использовать "gp", POST-переменные 
+перезапишут GET-переменные с тем же именем. Любые другие буквы, кроме GPC, отбрасываются.</P>
+<P>Параметр <TT><I>prefix</I></TT> используется как префикс имени переменной, присоединяемый перед именами всех 
+переменных, импортируемых в глобальную область видимости. Так, если вы имеете GET-переменную "userid&quot; 
+и предоставляете префикс "pref_", вы получите глобальную переменную $pref_userid.</P>
+<P>Если вас интересует импортирование других переменных в глобальную область видимости, таких как SERVER, рассмотрите использование 
+<A HREF="extract.html"><B>extract()</B></A>.</P><BLOCKQUOTE><P><B>Примечание: </B>хотя параметр <TT><I>prefix</I></TT> является необязательным, вы получите ошибку уровня 
+<A HREF="../phpdevel-errors.html#internal.e-notice">E_NOTICE</A>, если не специфицируете префикс или специфицируете пустую строку в качестве 
+префикса. Это может нарушить безопасность. Ошибки уровня Notice/уведомление не выводятся при использовании уровня
+<a href="../configuration.html#ini.error-reporting">сообщения об ошибках</a> по умолчанию.</P></BLOCKQUOTE>
+<A NAME="AEN80342"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>// Это импортирует GET и POST vars
+// с префиксом "rvar_"
+
+import_request_variables("gP", "rvar_");
+
+print $rvar_foo;</PRE></TD></TR></TABLE><P>См. также <A HREF="../configuration.html#ini.register-globals">register_globals</A>, <a href="../variables.predefined.html">Предопределённые переменные</a> и
+<A HREF="extract.html"><B>extract()</B></A>.</P></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="gettype.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="intval.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">gettype</TD><th WIDTH="34%" VALIGN="top">
+<A HREF="ref.variables.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">intval</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

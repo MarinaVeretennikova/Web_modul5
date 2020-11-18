@@ -1,0 +1,31 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>imap_rfc822_parse_adrlist</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="imap-reopen.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="imap-rfc822-parse-headers.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="function.imap-rfc822-parse-adrlist">imap_rfc822_parse_adrlist</A></H1><A NAME="AEN35461"></A>
+<P>(PHP 3&#62;= 3.0.2, PHP 4)</P><p>imap_rfc822_parse_adrlist - разбирает строку с адресом.<A></A>
+</p><H2>Описание</H2><p>array <B>imap_rfc822_parse_adrlist</B> (string address, string default_host)</p>
+<P>Эта функция разбирает строку адреса, как определено в 
+<A HREF="http://www.faqs.org/rfcs/rfc2822.html" TARGET="_top">RFC2822</A>, и для каждого адреса возвращает массив объектов. Свойствами объекта являются:</P>
+<UL><LI><P>mailbox - имя mailboxа (username)</P></LI><LI><P> host - имя хоста</P></LI>
+<LI><P>personal - персональное имя</P></LI><LI><P>adl - от исходного маршрута домена</P></LI></UL>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN35488"></A><h5>Пример 1. imap_rfc822_parse_adrlist()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE><font size="1">$address_string = "Hartmut Holzgraefe &#60;hartmut@cvs.php.net&#62;, postmaster@somedomain.net, root";</font>
+$address_array  = imap_rfc822_parse_adrlist($address_string,"somedomain.net");
+if(! is_array($address_array)) die("somethings wrong\n");
+ 
+reset($address_array);
+while(list($key,$val)=each($address_array)){
+  print "mailbox : ".$val-&#62;mailbox."&#60;br&#62;\n";
+  print "host    : ".$val-&#62;host."&#60;br&#62;\n";
+  print "personal: ".$val-&#62;personal."&#60;br&#62;\n";
+  print "adl     : ".$val-&#62;adl."&#60;p&#62;\n";
+}</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="imap-reopen.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="imap-rfc822-parse-headers.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">imap_reopen</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.imap.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">imap_rfc822_parse_headers</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

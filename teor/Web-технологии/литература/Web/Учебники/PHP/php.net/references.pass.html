@@ -1,0 +1,53 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<TITLE>Передача по Ссылке</TITLE>
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3">
+<TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="references.arent.html">Назад</A></TD>
+<th WIDTH="80%">Глава 14. Ссылки. Разъяснения.</th>
+<TD WIDTH="10%" ALIGN="right">
+<A HREF="references.return.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD>
+<IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><a name="language.references.pass">Передача по ссылке</a></H1>
+<P>Вы можете передать переменную в функцию по ссылке, и функция сможет 
+модифицировать свои аргументы. Синтаксис таков:</p><A NAME="AEN5610"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>function foo (&#38;$var)
+{
+    $var++;
+}
+
+$a=5;
+foo ($a);
+// $a здесь равно 6</PRE></TD></TR></TABLE>
+<p>Заметьте, что в функции отсутствует знак ссылки - он есть только в 
+определении функции. Одного определения функции достаточно для корректной передачи аргументов по ссылке.</p>
+<P>По ссылке можно передавать:<UL><LI><P>переменные, например, <TT>foo($a)</TT></P></LI>
+<LI><P>оператор new, например, <TT>foo(new foobar())</TT></P></LI>
+<LI><P>ссылку, возвращённую из функции, например:</p><A NAME="AEN5622"></A>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>function &#38;bar()
+{
+    $a = 5;
+    return $a;
+}
+foo(bar());</PRE></TD></TR></TABLE>
+<p>См. также разъяснения <a href="references.return.html">возвращения по ссылке</a>.</LI></UL>
+<P>Любое другое выражение не должно передаваться по ссылке, так как результат не определён/undefined. Например, следующий передача по ссылке является неправильной:</p><A NAME="AEN5626"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>function bar() // отсутствует &#38;
+{
+    $a = 5;
+    return $a;
+}
+foo(bar());
+
+foo($a = 5) // выражение, не переменная
+foo(5) // константа, не переменная</PRE></TD></TR></TABLE>
+<p>Это требования для PHP 4.0.4 и позднее.</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1">
+</TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="references.arent.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="references.return.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Чем ссылки не являются</TD>
+<th WIDTH="34%" VALIGN="top"><a href="references.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Возвращение по ссылке</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

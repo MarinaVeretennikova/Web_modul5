@@ -1,0 +1,62 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>SWFMorph</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR><TD WIDTH="10%">
+<A HREF="swfmorph.getshape2.html">Назад</A></TD><TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right"><A HREF="swfmovie.add.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="swfmorph">SWFMorph</A></H1><A NAME="AEN47359"></A><P>(PHP 4 &#62;= 4.0.5)</P>
+<p>SWFMorph - создаёт новый SWFMorph-объект.<A NAME="AEN47362"></A></p><H2>Описание</H2><p>new <B>swfmorph</B> (void)</p>
+<TABLE CLASS="warning" BORDER="1" WIDTH="100%"><TR><th><B>Предупреждение!</B></th></TR><TR><TD><P>Эта функция - ЭКСПЕРИМЕНТАЛЬНАЯ. Поведение, имя и всё остальное, что задокументировано для данной функции может быть изменено в будущих релизах РНР без предупреждения. Вы можете использовать эту функцию только на свой страх и риск.
+</P></TD></TR></TABLE><P><B>swfmorph()</B> создаёт новый SWFMorph-объект.</P><P>Методы здесь довольно странные. Было бы лучше иметь просто newSWFMorph(shape1, shape2);, 
+но, поскольку имеем то, что имеем, shape2 должна знать, что это вторая часть morph. (Потому 
+что она начинает записывать свой вывод сразу после команд рисования - если бы 
+она сохранила своё описание своих фигур и записала его, завершение этого и некоторых других действий было бы существенно проще.)</P>
+<P>SWFMorph имеет методы <B>swfmorph-&#62;getshape1()</B> и <B>swfmorph-&#62;getshape1()</B>.</P>
+<P>В этом простом примере morph большой красный квадрат в маленький голубой квадрат с чёрной рамкой.
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN47379"></A><h5>Пример 1. swfmorph()</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+  $p = new SWFMorph();
+
+  $s = $p-&#62;getShape1();
+  $s-&#62;setLine(0,0,0,0);
+
+  /* Это противоположно нормальным фигурам(left вместо right).
+     Я не знаю, почему, но, кажется это работает ... */
+
+  $s-&#62;setLeftFill($s-&#62;addFill(0xff, 0, 0));
+  $s-&#62;movePenTo(-1000,-1000);
+  $s-&#62;drawLine(2000,0);
+  $s-&#62;drawLine(0,2000);
+  $s-&#62;drawLine(-2000,0);
+  $s-&#62;drawLine(0,-2000);
+
+  $s = $p-&#62;getShape2();
+  $s-&#62;setLine(60,0,0,0);
+  $s-&#62;setLeftFill($s-&#62;addFill(0, 0, 0xff));
+  $s-&#62;movePenTo(0,-1000);
+  $s-&#62;drawLine(1000,1000);
+  $s-&#62;drawLine(-1000,1000);
+  $s-&#62;drawLine(-1000,-1000);
+  $s-&#62;drawLine(1000,-1000);
+
+  $m = new SWFMovie();
+  $m-&#62;setDimension(3000,2000);
+  $m-&#62;setBackground(0xff, 0xff, 0xff);
+
+  $i = $m-&#62;add($p);
+  $i-&#62;moveTo(1500,1000);
+
+  for($r=0.0; $r&#60;=1.0; $r+=0.1)
+  {
+    $i-&#62;setRatio($r);
+    $m-&#62;nextFrame();
+  }
+
+  header('Content-type: application/x-shockwave-flash');
+  $m-&#62;output();
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top"><A HREF="swfmorph.getshape2.html">Назад</A></TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="swfmovie.add.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">SWFMorph-&#62;getshape2</TD>
+<th WIDTH="34%" VALIGN="top"><A HREF="ref.ming.html">Вверх</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">SWFMovie-&#62;add</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>

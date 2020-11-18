@@ -1,0 +1,50 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Поддержка Метода PUT</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%">
+<TR><TD><TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR>
+<TR><TD WIDTH="10%"><A HREF="file-upload.multiple.html">Назад</A></TD>
+<th WIDTH="80%">Глава 19. Обработка загрузки файлов</th><TD WIDTH="10%" ALIGN="right">
+<A HREF="remote-files.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1>Поддержка метода <A NAME="features.file-upload.put-method">PUT</A></H1>
+<P>PHP поддерживает HTTP-метод PUT, используемый такими клиентами, как Netscape Composer 
+и W3C Amaya.  PUT-запросы намного проще, чем загрузка файлов и выглядят примерно так:</p><A NAME="AEN5977"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>PUT /path/filename.html HTTP/1.1</PRE></TD></TR></TABLE>
+<P>Нормально это должно означать, что удалённый клиент хотел бы сохранить 
+содержимое /path/filename.html в вашем web-дереве.
+Для Apache или PHP, очевидно, не очень-то здорово разрешить любому 
+автоматически перезаписывать любые файлы в вашем web-дереве. Поэтому, чтобы 
+обрабатывать такие запросы, вы должны сначала указать вашему web-серверу, что 
+вы хотите, чтобы определённый PHP-скрипт обрабатывал запрос. В Apache вы делаете это директивой
+<I>Script</I>. Она может быть размещена почти в любом месте файла конфигурации вашего Apache.  
+Обычно это в блоке &#60;Directory&#62; или, возможно, в блоке &#60;Virtualhost&#62;.  
+Строка типа этой выполняет трюк:</p><A NAME="AEN5981"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR>
+<TD><PRE>Script PUT /put.php</PRE></TD></TR></TABLE>
+<P>Это указывает серверу Apache, что нужно отправить все PUT-запросы по URI, 
+которые совпадают с контекстом, в котором вы поместили эту строку в скрипт put.php.  
+Это предполагает, разумеется, что PHP включён для расширений .php и что PHP активен.</P>
+<P>В файле put.php вы можете тогда записать что-нибудь такое:</P>
+<A NAME="AEN5986"></A><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD>
+<PRE>&#60;?php copy($PHP_UPLOADED_FILE_NAME,$DOCUMENT_ROOT.$REQUEST_URI); ?&#62;</PRE></TD></TR></TABLE>
+<P>Это скопирует файл в место, запрошенное удалённым клиентом.  Вы, возможно, 
+захотите выполнить какую-нибудь проверку и/или аутентифицировать 
+пользователя, прежде чем выполнить копирование файла.  Трюк состоит в том, 
+что, когда PHP видит запрос методом PUT, он сохраняет загруженный файл во 
+временной директории, как и при работе методом
+<A HREF="file-upload.html#features.file-upload.post-method">POST</A>.
+Когда запрос завершается, этот временный файл удаляется.  Поэтому ваш РНР-скрипт обработки
+PUT должен скопировать файл куда-нибудь.  Имя этого временного файла 
+находится в переменной $PHP_PUT_FILENAME, а предполагаемое имя файла 
+назначения можно найти в $REQUEST_URI (может называться иначе на не-Apache web-серверах).  
+Это имя файла, специфицированное удалённым клиентом.
+Вам не нужно прослушивать этот клиент.  Вы можете, например, скопировать все загруженные файлы в специальную директорию.</P>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="file-upload.multiple.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="remote-files.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">Загрузка нескольких файлов</TD>
+<th WIDTH="34%" VALIGN="top"><a href="file-upload.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Использование удалённых файлов</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

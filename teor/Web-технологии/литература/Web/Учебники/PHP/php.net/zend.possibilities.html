@@ -1,0 +1,47 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><TITLE>Возможность Расширения</TITLE>
+<meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<LINK REL="stylesheet" HREF="style.css"></HEAD>
+<body><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR><TR>
+<TD WIDTH="10%"><A HREF="zend.overview.html">Назад</A></TD><TD WIDTH="80%"></TD>
+<TD WIDTH="10%" ALIGN="right"><A HREF="zend.possibilities.builtin.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<H1><A NAME="zend.possibilities">Глава 26. Возможность расширения</A></H1>
+<DL><DT><B>Содержание</B></DT><DT><a href="#zend.possibilities.external">Внешние модули</a></DT>
+<DT><a href="zend.possibilities.builtin.html">Встроенные модули</a></DT>
+<DT><A HREF="zend.possibilities.engine.html">Zend-машина</A></DT></DL>
+<P>Как показано на Рисунке 9.1 ранее, PHP может быть расширен прежде всего за счёт 
+трёх позиций: внешних модулей, встроенных модулей и Zend-машиной. В следующих разделах 
+мы рассмотрим эти опции.</P>
+<H1><a name="zend.possibilities.external">Внешние модули</a></H1>
+<P>Внешние модули можно загружать в ходе работы скрипта через использование функции
+<A HREF="f/dl.html"><B>dl()</B></A>. Эта функция загружает совместно используемый/shared объект с диска и делает 
+его функциональность доступной скрипту, с которым она связывается.
+После завершения работы скрипта внешний модуль выгружается из памяти.
+Этот метод имеет как преимущества, так и недостатки, как показано в таблице:<A NAME="AEN85088"></A><TABLE BORDER="1"><TR><th WIDTH="50%">Преимущества</th>
+<th WIDTH="50%">Недостатки</th></TR><TR><TD WIDTH="50%">Внешние модули не требуют перекомпиляции PHP.</TD>
+<TD WIDTH="50%">Совместно используемые объекты должны загружаться всякий раз при выполнении 
+скрипта (при каждом его запуске), что очень медленно.</TD></TR><TR>
+<TD WIDTH="50%">Размер PHP остаётся небольшим за счёт вынесения вовне определённой функциональности.</TD>
+<TD WIDTH="50%">Внешние файлы занимают дисковое пространство.</TD></TR><TR>
+<TD WIDTH="50%">&nbsp;</TD><TD WIDTH="50%">Каждый скрипт, который хочет использовать функциональность внешнего модуля, 
+должен специально включать вызов <A HREF="f/dl.html"><B>dl()</B></A>, либо тэг <TT>extension</TT> в
+<TT>php.ini</TT> должен быть изменён (что не всегда является подходящим решением).</TD></TR></TABLE>
+<p>Суммируя сказанное: внешние модули подходят для создания продуктов 
+сторонних производителей, небольших редко используемых дополнений к PHP или 
+для целей тестирования. При быстрой разработке внешней функциональности 
+внешние модули дают наилучшие результаты. При частом использовании, больших 
+реализациях и сложном коде недостатки перевешивают достоинства.</p>
+<P>Можно использовать тэг <TT>extension</TT> в <TT>php.ini</TT> для создания дополнительных внешних модулей для PHP. Эти внешние модули 
+полностью отделены от основного пакета, что очень удобно при разработке 
+коммерческих приложений. Коммерческие дистрибьюторы могут распространять 
+диски или архивы, содержащие только их дополнительные модули без 
+необходимости создавать фиксированные и объёмные исполняемые файлы PHP, не позволяющие подключать другие модули.</P>
+</TD><TD><IMG SRC="imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="zend.overview.html">Назад</A></TD><th WIDTH="34%" VALIGN="top"><A HREF="index.html">Оглавление</A>
+</th><TD WIDTH="33%" ALIGN="right" VALIGN="top"><A HREF="zend.possibilities.builtin.html">Вперёд</A></TD></TR><TR>
+<TD WIDTH="33%" VALIGN="top">Обзор</TD><th WIDTH="34%" VALIGN="top"><a href="zend.html">Вверх</a></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">Встроенные модули</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>
+</BODY></HTML>

@@ -1,0 +1,124 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><meta http-equiv="Content-Language" content="ru"><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><TITLE>Функции Абстрактного Слоя БД (dbm-стиль)</TITLE>
+<LINK REL="stylesheet" HREF="../style.css"></HEAD>
+<BODY><TABLE BORDER="0" WIDTH="100%" HEIGHT="100%"><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TH COLSPAN="3">Учебник РНР</TH></TR>
+<TR><TD WIDTH="10%"><A HREF="ctype-xdigit.html">Назад</A></TD>
+<TD WIDTH="80%"></TD><TD WIDTH="10%" ALIGN="right">
+<A HREF="dba-close.html">Вперёд</A></TD></TR></TABLE></TD></TR><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR></TABLE></TD></TR><TR><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD><TD HEIGHT="100%" VALIGN="TOP" WIDTH="100%">
+<h1><A NAME="ref.dba"></A>XVII. Функции абстрактного слоя баз данных<br>
+(в dbm-стиле)</h1>
+<A NAME="AEN15022"></A><H1><A NAME="dba.intro">Введение</A></H1><P>Эти функции являются фундаментом для доступа к БД в стиле Berkeley DB.</P>
+<P>Имеется общий абстрактный слой для различных БД на основе файлов.
+Сама по себе функциональность ограничена обычным поднабором возможностей, 
+поддерживаемых современными БД, такими как <A HREF="http://www.sleepycat.com/" TARGET="_top">Sleepycat Software's DB2</A>.
+(Это не конфликтует с программой DB2 IBM, которая поддерживается с помощью
+<A HREF="ref.odbc.html">ODBC-функций</A>.)</P><H1><A NAME="dba.requirements">Требования</A></H1>
+<P>Поведение различных аспектов зависит от реализации конкретной БД. Такие 
+функции как <A HREF="dba-optimize.html"><B>dba_optimize()</B></A> и
+<A HREF="dba-sync.html"><B>dba_sync()</B></A> могут выполнять свои действия с одной БД и не выполнять - с другими. 
+вы должны 
+загрузить и установить поддерживаемые dba-обработчики.<A NAME="AEN15034"></A>
+<h6>Таблица 1. Список обработчиков DBA</h6><TABLE BORDER="1"><TR><TH>Обработчик</TH>
+<TH>Примечания</TH></TR><TBODY><TR><TD><TT>dbm</TT></TD><TD>Dbm это самый старый (оригинальный) тип БД в стиле Berkeley DB. Вы
+должны исключить его использование, если это возможно. Мы не 
+поддерживаем функции совместимости, встроенные в DB2 и gdbm, поскольку 
+они совместимы только на уровне исходного кода, но не могут обрабатывать оригинальный dbm-формат.</TD>
+</TR><TR><TD><TT>ndbm</TT></TD><TD>Ndbm это тип более новый и гибкий, нежели dbm. Но в нём ещё имеются 
+некоторые ограничения dbm (поэтому он не рекомендуется).</TD></TR><TR><TD><TT>gdbm</TT>
+</TD><TD>Gdbm это <A HREF="ftp://ftp.gnu.org/pub/gnu/gdbm/" TARGET="_top">GNU менеджер БД</A>.</TD>
+</TR><TR><TD><TT>db2</TT></TD><TD>DB2 это <A HREF="http://www.sleepycat.com/" TARGET="_top">Sleepycat Software'sDB2</A>.
+Он описан как "программный набор утилит, предоставляющий встроенную 
+высокопроизводительную поддержку БД для самостоятельных и 
+клиент/серверных приложений".</TD></TR><TR><TD><TT>db3</TT></TD><TD>DB3 это
+<A HREF="http://www.sleepycat.com/" TARGET="_top">Sleepycat Software's DB3</A>.</TD></TR>
+<TR><TD><TT>cdb</TT></TD><TD>Cdb это "быстрый, надёжный, небольшой пакет для создания и чтения 
+константных БД." Этот - от автора qmail и находится
+<a href="http://cr.yp.to/cdb.html">здесь</a>. Поскольку это константа, 
+мы поддерживаем только операции чтения.</TD></TR></TBODY></TABLE><P>При использовании функции
+<A HREF="dba-open.html"><B>dba_open()</B></A> или
+<A HREF="dba-popen.html"><B>dba_popen()</B></A> имя одного из обработчиков должно быть предоставлено в качестве аргумента. 
+Действующий список обработчиков выводится вызовом функции
+<A HREF="phpinfo.html"><B>phpinfo()</B></A>.</P><H1><A NAME="dba.installation">Установка</A></H1>
+<P>Используя опцию конфигурации <TT>--enable-dba=shared</TT>, вы можете построить динамически загружаемый модуль, чтобы сделать возможной 
+поддержку в РНР баз данных dbm-стиля. Вы должны также добавить поддержку для 
+как минимум одного из следующих обработчиков, специфицировав переключатель 
+конфигурации <TT>--with-XXXX</TT> в строке конфигурации вашего PHP.<A NAME="AEN15079"></A>
+<h6>Таблица 2. Поддерживаемые обработчики DBA</h6><TABLE BORDER="1"><TR><TH>Обработчик</TH><TH>Переключатель конфигурации</TH>
+</TR><TBODY><TR><TD><TT>dbm</TT></TD><TD>для включения поддержки dbm добавьте
+<TT>--with-dbm[=DIR]</TT>.</TD></TR><TR><TD><TT>ndbm</TT></TD><TD>для включения поддержки ndbm добавьте
+<TT>--with-ndbm[=DIR]</TT>.</TD></TR><TR><TD><TT>gdbm</TT></TD><TD>для включения поддержки gdbm добавьте
+<TT>--with-gdbm[=DIR]</TT>.</TD></TR><TR><TD><TT>db2</TT></TD><TD>для включения поддержки db2 добавьте
+<TT>--with-db2[=DIR]</TT>.</TD></TR><TR><TD><TT>db3</TT></TD><TD>для включения поддержки db3 добавьте
+<TT>--with-db3[=DIR]</TT>.</TD></TR><TR><TD><TT>cdb</TT></TD><TD>для включения поддержки cdb добавьте
+<TT>--with-cdb[=DIR]</TT>.</TD></TR></TBODY></TABLE><H1><a name="dba.runtime">
+Конфигурация</a></H1><P>Это расширение не определяет никаких директив конфигурации.</P>
+<H1><A NAME="dba.resources">Типы ресурсов</A></H1><P>Функции <A HREF="dba-open.html">
+<B>dba_open()</B></A> и <A HREF="dba-popen.html"><B>dba_popen()</B></A> возвращают дескриптор специфицированного файла БД, который используется при 
+вызовах всех других функций dba.</P><H1><A NAME="dba.constants">Предопределённые константы</A></H1>
+<P>Это расширение не определяет никаких констант.</P><H1><A NAME="dba.examples">Примеры</A></H1>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN15131"></A><h5>
+Пример 1. DBA</h5><TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+$id = dba_open ("/tmp/test.db", "n", "db2");
+
+if (!$id) {
+    echo "dba_open failed\n";
+    exit;
+}
+
+dba_replace ("key", "This is an example!", $id);
+
+if (dba_exists ("key", $id)) {
+    echo dba_fetch ("key", $id);
+    dba_delete ("key", $id);
+}
+
+dba_close ($id);
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<P>DBA является binary safe (безопасным в бинарном режиме) и не имеет каких-либо ограничений.
+Однако он наследует все ограничения, установленные реализацией БД.</P>
+<P>БД на основе файлов обязаны предоставлять способ установки режима файла 
+для вновь создаваемой БД, если это вообще возможно. Режим файла/file mode 
+обычно передаётся как четвёртый аргумент в функцию
+<A HREF="dba-open.html"><B>dba_open()</B></A> или <A HREF="dba-popen.html">
+<B>dba_popen()</B></A>.</P><P>Вы можете получить доступ ко всем вхождениям БД линеарным способом,
+используя функции <A HREF="dba-firstkey.html"><B>dba_firstkey()</B></A> и
+<A HREF="dba-nextkey.html"><B>dba_nextkey()</B></A>. Вы не можете изменять БД, проходя по ней.</P>
+<TABLE WIDTH="100%" BORDER="0"><TR><TD><A NAME="AEN15142"></A><h5>Пример 2. Проход по БД</h5>
+<TABLE BORDER="0" BGCOLOR="#E0E0E0" CELLPADDING="5"><TR><TD><PRE>&#60;?php
+
+// ...открыть БД...
+
+$key = dba_firstkey ($id);
+
+while ($key != false) {
+    if (...) {          // запомнить key для выполнения в дальнейшем некоторой акции
+        $handle_later[] = $key;
+    }
+    $key = dba_nextkey ($id);
+}
+
+for ($i = 0; $i &#60; count($handle_later); $i++)
+    dba_delete ($handle_later[$i], $id);
+
+?&#62;</PRE></TD></TR></TABLE></TD></TR></TABLE>
+<DL><DT><B>Содержание</B></DT><DT><A HREF="dba-close.html">dba_close</A> - закрывает БД</DT>
+<DT><A HREF="dba-delete.html">dba_delete</A> - удаляет вхождение, специфицированное ключом/key</DT>
+<DT><A HREF="dba-exists.html">dba_exists</A> - проверяет существование ключа</DT>
+<DT><A HREF="dba-fetch.html">dba_fetch</A> - извлекает данные, специфицированные ключом</DT>
+<DT><A HREF="dba-firstkey.html">dba_firstkey</A> - извлекает первый ключ</DT>
+<DT><A HREF="dba-insert.html">dba_insert</A> - вставляет вхождение</DT>
+<DT><A HREF="dba-nextkey.html">dba_nextkey</A> - извлекает следующий ключ</DT>
+<DT><A HREF="dba-open.html">dba_open</A> - открывает БД</DT>
+<DT><A HREF="dba-optimize.html">dba_optimize</A> - оптимизирует БД</DT>
+<DT><A HREF="dba-popen.html">dba_popen</A> - открывает БД постоянно</DT>
+<DT><A HREF="dba-replace.html">dba_replace</A> - заменяет или вставляет вхождение</DT>
+<DT><A HREF="dba-sync.html">dba_sync</A> - синхронизирует БД</DT></DL></TD><TD><IMG SRC="../imag/spacer.gif" WIDTH="10" HEIGHT="1"></TD></TR><TR><TD COLSPAN="3"><TABLE BGCOLOR="#CCCCFF" BORDER="0" WIDTH="100%"><TR BGCOLOR="#333366"><TD>
+<IMG SRC="../imag/spacer.gif" BORDER="0" width="1" height="1"><BR></TD></TR><TR><TD>
+<TABLE WIDTH="100%" BORDER="0" CELLPADDING="3"><TR><TD WIDTH="33%" VALIGN="top">
+<A HREF="ctype-xdigit.html">Назад</A></TD><th WIDTH="34%" VALIGN="top">
+<A HREF="../index.html">Оглавление</A></th><TD WIDTH="33%" ALIGN="right" VALIGN="top">
+<A HREF="dba-close.html">Вперёд</A></TD></TR><TR><TD WIDTH="33%" VALIGN="top">
+ctype_xdigit</TD><th WIDTH="34%" VALIGN="top"><A HREF="funcref.html">Вверх</A></th>
+<TD WIDTH="33%" ALIGN="right" VALIGN="top">dba_close</TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE></BODY></HTML>
