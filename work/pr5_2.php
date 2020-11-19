@@ -1,25 +1,29 @@
 
-<?php
-echo "Hello, let's calculate";
 
+
+<?php
+
+echo "Давайте вычислим: ";
 
 $a = $_GET[a];
 $b = $_GET[b];
 $type = $_GET[type];
 
-$rezult = 0;
 
-echo $type;		
+
+
+echo "$rezult";	
+
 switch ($type)
 {
-	case "*":
+	case "умножение":
 		$rezult = $a * $b;
 		break;
 	case "деление":	
 		$rezult = $a / $b;
 		break;
-	case "сложение":	
-		$rezult = $a + $b;
+	case "сложение":
+		$rezult = $a + $b;		
 		break;		
 	case "вычитание":	
 		$rezult = $a - $b;
@@ -28,18 +32,34 @@ switch ($type)
 
 // вывести в поле результата
 
-echo $result;
+echo "$result";
 
 ?>
 
 <html>
 <head>
+	<meta charset="utf-8">
 <body>
+	
 
-	<p>Число1: <input type="text" class="a"> </p>
-	<p>Число2: <input type="text" class="b"> </p>
+	<form action="pr5_2.php" method="get">
+		<p>Число1: <input type="text" name="a" value="<?php echo $_GET['a']; ?>"> </p>
+		<p>Число2: <input type="text" name="b" value="<?php echo $_GET['b']; ?>"> </p>
+		<p>	Действие:	
+		<select name="type">
+		  <option <?php echo ($_GET['type'] == "сложение" ? 'selected' : ''); ?>>сложение</option>
+		  <option <?php echo ($_GET['type'] == "вычитание" ? 'selected' : ''); ?>>вычитание</option>
+		  <option <?php echo ($_GET['type'] == "умножение" ? 'selected' : ''); ?>>умножение</option>
+		  <option <?php echo ($_GET['type'] == "деление" ? 'selected' : ''); ?>>деление</option>
+		</select>
+		</p>
 
-	<button class="btn-add">Добавить</button>
+
+		<button>Вычислить</button>
+
+		<input value ="<?php echo "$rezult"; ?>">
+
+	</form>	
 
 </body>
 </head>
